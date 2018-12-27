@@ -301,7 +301,7 @@
         }, null);
 
 
-        
+
 
         $browse.find('.add-query').on('click', function cloneRow() {
             let newRow = jQuery(this).closest('.queryrow').clone();

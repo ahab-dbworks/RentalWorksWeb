@@ -638,7 +638,7 @@ namespace FwStandard.BusinessLogic
                         bool considerBlanks = (bool)rule[8];
                         string[] fields = rule[5].ToString().Split(',').ToArray();
                         string[] datatypes = rule[6].ToString().Split(',').ToArray();
-                      
+
                         BrowseRequest browseRequest2 = new BrowseRequest();
                         browseRequest2.module = this.BusinessLogicModuleName;
 
@@ -724,7 +724,7 @@ namespace FwStandard.BusinessLogic
                                             searchFieldVals.Add(value.ToString());
                                             searchOperators.Add("=");
                                             int datatypeIndex = Array.IndexOf(fields, fieldName);
-                                            searchFieldTypes.Add(datatypes[datatypeIndex]);
+                                            searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
                                         }
                                         else
                                         {

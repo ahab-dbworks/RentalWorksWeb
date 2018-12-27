@@ -558,6 +558,7 @@ namespace FwStandard.DataLayer
                                 searchFieldOperator = "=";
                             }
                         }
+
                         if (doUpper)
                         {
                             searchField = "upper(" + searchField + ")";
