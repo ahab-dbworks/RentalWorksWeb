@@ -50,17 +50,20 @@
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    openForm(mode: string, uniqueids) {
-        var $form, controller, $calendar;
+    openForm(mode: string, uniqueids?) {
+        var $form, controller, $calendar, inventoryId;
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
         let self = this;
         let warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;   //justin 11/11/2018 fixing build error
-        let inventoryId = uniqueids.InventoryId;
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
+
+        if (typeof uniqueids !== 'undefined') {
+            inventoryId = uniqueids.InventoryId;
+        }
 
         self.calculateYearly();
         $calendar = $form.find('.calendar');
