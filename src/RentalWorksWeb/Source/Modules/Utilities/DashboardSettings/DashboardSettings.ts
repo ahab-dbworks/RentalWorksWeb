@@ -47,7 +47,15 @@ class DashboardSettings {
             { value: 'pie', text: 'Pie' }
         ], true);
 
-       
+        $form.data('beforesave', request => {
+            for (var i = 0; i < request.UserWidgets.length; i++) {
+                if (request.UserWidgets[i].UserWidgetId !== undefined) {
+                    FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request.UserWidgets[i], FwServices.defaultTimeout, null, function onError(response) {
+                        FwFunc.showError(response);
+                    }, null);
+                }
+            }
+        });
 
         return $form;
     }
@@ -59,9 +67,9 @@ class DashboardSettings {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         $form.find('.settings').on('click', function () {
-            let widgetId = jQuery(this).closest('li').data('value');
-            let userWidgetId = jQuery(this).closest('li').data('userwidgetid');
-            let self = this;
+            let li = jQuery(this).closest('li');
+            let widgetId = li.data('value');
+            let userWidgetId = li.data('userwidgetid');
             try {
 
                 let $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
@@ -165,7 +173,7 @@ class DashboardSettings {
                         //let dateField = $confirmation.find('.date-field');
                         let fromDate = $confirmation.find('.fromdate');
                         let toDate = $confirmation.find('.todate');
-                        let fromDateField = $confirmation.find('div[data-datafield="FromDate"] > .fwformfield-caption')
+                        let fromDateField = $confirmation.find('div[data-datafield="FromDate"] > .fwformfield-caption');
 
                         if (selected === 'NONE') {
                             //dateField.hide();
@@ -187,22 +195,41 @@ class DashboardSettings {
                             toDate.show();
                         }
                     });
+                    if (li.data('request') !== undefined) {
+                        let request = li.data('request');
+                        if (request.FromDate !== '') {
+                            $confirmation.find('.fromdate').show();
+                        }
+                        if (request.ToDate !== '') {
+                            $confirmation.find('.todate').show();
+                        }
+                        FwFormField.setValue2($confirmation.find('.defaultpoints'), request.DataPoints);
+                        FwFormField.setValue2($confirmation.find('.axisformat'), request.AxisNumberFormatId, request.AxisNumberFormat);
+                        FwFormField.setValue2($confirmation.find('.dataformat'), request.DataNumberFormatId, request.DataNumberFormat);
+                        FwFormField.setValue2($confirmation.find('.widgettype'), request.WidgetType);
+                        FwFormField.setValue2($confirmation.find('.fromdate'), request.FromDate);
+                        FwFormField.setValue2($confirmation.find('.todate'), request.ToDate);
+                        FwFormField.setValue2($confirmation.find('div[data-datafield="DateBehavior"]'), request.DateBehavior);
+                    }
 
                 }, null, null);
 
                 $select.on('click', function () {
                     try {
                         var request: any = {};
-                        let label = jQuery(self).closest('li').find('label');
+                        let label = li.find('label');
                         request.UserWidgetId = userWidgetId;
                         request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
                         request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
                         request.AxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
                         request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
+                        request.AxisNumberFormat = FwFormField.getText($confirmation, '.axisformat');
+                        request.DataNumberFormat = FwFormField.getText($confirmation, '.dataformat');
+                        request.DateBehavior = FwFormField.getValue($confirmation, '.datebehavior');
                         request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                         request.ToDate = FwFormField.getValue($confirmation, '.todate');
 
-                        jQuery(self).closest('li').data('request', request);
+                        li.data('request', request);
                         if (label.text().charAt(label.text().length - 1) !== '*') {
                             label.append('*');
                         }
