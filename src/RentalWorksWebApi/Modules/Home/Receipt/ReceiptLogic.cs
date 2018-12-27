@@ -217,6 +217,7 @@ namespace WebApi.Modules.Home.Receipt
                         if (!irPrev.Amount.Equals(riNew.Amount))
                         {
                             irPrev.Amount = riNew.Amount;
+                            irPrev.SetDependencies(AppConfig, UserSession);
                             int saveCount = irPrev.SaveAsync(null).Result;
                         }
                     }
@@ -232,6 +233,8 @@ namespace WebApi.Modules.Home.Receipt
                     irNew.SetDependencies(AppConfig, UserSession);
                     irNew.ReceiptId = ReceiptId;
                     irNew.InvoiceId = ri.InvoiceId;
+                    irNew.Amount = ri.Amount;
+                    irNew.SetDependencies(AppConfig, UserSession);
                     int saveCount = irNew.SaveAsync(null).Result;
                 }
             }
