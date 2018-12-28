@@ -218,7 +218,7 @@ html.theme-material .fwformfield[data-type="money"].focused .fwformfield-control
 /*#endregion*/
 
 /*#region data-type="multiselectvalidation" */
-html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff; position:relative;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control {height:auto; border:1px solid #E0E0E0;background-color: #ffffff; position:relative;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control input.fwformfield-text {flex:1 1 0;width:100%;background-color: transparent;border:0;outline:0;}
@@ -229,10 +229,11 @@ html.theme-material .fwformfield[data-type="multiselectvalidation"][data-enabled
 html.theme-material .fwformfield[data-type="multiselectvalidation"].focused .fwformfield-caption {color:#03a9f4;transition:all linear .5s;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .3s;}
 
-html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems {width:100%; height:100%; overflow:auto; direction:rtl; padding-right:20px;}
-html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem {border:1px solid #DCDCDC; background-color:#EFEFEF; float:left; margin:2px 3px 0px 3px; border-radius:5px; height:1.5em;}
-html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem i {cursor:pointer; padding:4px; position:relative; top:1px; font-size:1em; font-weight:bolder;}
-html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem span {font-size:.9em; padding-left:3px; position:relative; top:-2px;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems {display:flex;width:100%; line-height:2em; flex-wrap:wrap;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems span {height:auto;line-height:2em; font-size:.9em; margin:0px 5px;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem {border:1px solid #DCDCDC; background-color:#EFEFEF; margin:2px 3px; border-radius:5px; height:1.5em;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem i {cursor:pointer; padding:0px 2px; font-size:1em; font-weight:bolder; white-space:nowrap;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem span {font-size:.9em; padding-left:3px; position:relative; top:-4px;}
 /*#endregion*/
 
 /*#region data-type="number" */

@@ -1,4 +1,4 @@
-﻿class FwMultiSelectValidationClass {
+class FwMultiSelectValidationClass {
     //---------------------------------------------------------------------------------
     init($control: JQuery, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery): void {
         var $browse, $popup, $form, controller, formbeforevalidate, control_boundfields, boundfields, hasselectall;
@@ -215,14 +215,47 @@
                         .join(',');
                     $valuefield.val(value);
                     $item.remove();
+                    if ($item.attr('data-customvalue') != "true") {
                     let $selectedRows = $browse.data('selectedrows');
                     if (typeof $selectedRows[itemvalue] !== 'undefined') {
                         delete $selectedRows[itemvalue];
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            });
+            })
+            .on('keydown', 'div[contenteditable="true"]', e => {
+                let code = e.keyCode || e.which;
+                try {
+                    if (code === 13) { //Enter Key
+                        e.preventDefault();
+                        let $container = $control.find('div.multiselectitems');
+                        let $input = $container.find('span.addItem');
+                        let value = $input.text();
+                        jQuery(`
+                            <div contenteditable="false" class="multiitem" data-multivalue="${value}" data-customvalue="true">
+                                <span>${value}</span>
+                                <i class="material-icons">clear</i>
+                            </div>`)
+                            .insertBefore($input);
+                        $input.text('');
+
+                        let formFieldValue = $valuefield.val();
+                        formFieldValue == "" ? formFieldValue += value : formFieldValue += `,${value}`;
+                        $valuefield.val(formFieldValue).change();
+                    }
+                    else if (code === 8) { //Backspace
+                        let length = $control.find('span.addItem').text().length;
+                        if (length === 0) {
+                        e.preventDefault();
+                            $control.find('.multiitem:last').remove();
+                        }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
 
         //$control.find('.fwformfield.value').on('change', function () {
             
@@ -282,7 +315,7 @@
         var $validationUniqueIdField, uniqueid, $validationSearchField, text, $keyfields, $displayfields;
         uniqueid = [];
         text = [];
-        let multiselectfield = jQuery($valuefield).siblings('.multiselectitems');
+        let multiselectfield = $control.find('.multiselectitems');
         let fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
 
         multiselectfield.empty();
@@ -301,15 +334,15 @@
             //});
             let textValue = $tr.find(`[data-browsedatafield="${fieldToDisplay}"]`).attr('data-originalvalue');
             multiselectfield.append(`
-                <div class="multiitem" data-multivalue="${uniqueIdValue}">
-                    <i class="material-icons">clear</i>
+                <div contenteditable="false" class="multiitem" data-multivalue="${uniqueIdValue}">
                     <span>${textValue}</span>
+                    <i class="material-icons">clear</i>
                 </div>`);
         }
+        multiselectfield.append(`<span class="addItem"></span>`);
         $validationUniqueIdField = $tr.find('.field[data-browsedatatype="key"]');
         uniqueid = uniqueid.join(',');
         $valuefield.val(uniqueid).change();
-
 
         $validationSearchField = $tr.find('.field[data-validationdisplayfield="true"]');
         text = text.join(',');
