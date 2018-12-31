@@ -1,5 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+
 namespace WebApi.Modules.Administrator.CustomFormUser
 {
     [FwLogic(Id: "TmTQgoMDJ69p")]
@@ -12,6 +14,8 @@ namespace WebApi.Modules.Administrator.CustomFormUser
         {
             dataRecords.Add(webFormUser);
             dataLoader = webFormUserLoader;
+
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "Jp3PumFGkmWt", IsPrimaryKey: true)]
@@ -22,17 +26,20 @@ namespace WebApi.Modules.Administrator.CustomFormUser
         public string CustomFormDescription { get; set; }
         [FwLogicProperty(Id: "O6jgQSSNeNfco")]
         public string WebUserId { get { return webFormUser.WebUserId; } set { webFormUser.WebUserId = value; } }
+        [FwLogicProperty(Id: "GghtWW1kGvAch", IsReadOnly: true)]
+        public string UserId { get; set; }
         [FwLogicProperty(Id: "hppO7YlvA6ni", IsReadOnly: true)]
         public string UserName { get; set; }
         [FwLogicProperty(Id: "tn2JDiAgkQFp")]
         public string DateStamp { get { return webFormUser.DateStamp; } set { webFormUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
-        //------------------------------------------------------------------------------------ 
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if ((string.IsNullOrEmpty(WebUserId)) && (!string.IsNullOrEmpty(UserId)))
+            {
+                WebUserId = AppFunc.GetStringDataAsync(AppConfig, "webusers", "usersid", UserId, "webusersid").Result;
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

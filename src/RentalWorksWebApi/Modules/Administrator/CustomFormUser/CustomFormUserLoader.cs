@@ -21,6 +21,9 @@ namespace WebApi.Modules.Administrator.CustomFormUser
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
         public string WebUserId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text)]
+        public string UserId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -37,6 +40,7 @@ namespace WebApi.Modules.Administrator.CustomFormUser
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("CustomFormId", "webformid", select, request); 
             addFilterToSelect("WebUserId", "webusersid", select, request); 
+            addFilterToSelect("UserId", "usersid", select, request); 
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
