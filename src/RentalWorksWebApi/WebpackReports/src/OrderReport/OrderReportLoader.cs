@@ -55,9 +55,9 @@ namespace WebApi.Modules.Reports.OrderReport
                 }
                 //--------------------------------------------------------------------------------- 
             }
-            //string[] totalFields = new string[] { "PeriodExtended" };
-            //dt.InsertSubTotalRows("RecTypeDisplay", "RecTypeDisplay", totalFields);
-            //dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            string[] totalFields = new string[] { "PeriodExtended" };
+            dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
+            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             return dt;
         }
         //------------------------------------------------------------------------------------ 
