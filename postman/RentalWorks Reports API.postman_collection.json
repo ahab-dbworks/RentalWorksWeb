@@ -202,6 +202,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Credits On Account Report: Export Excel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"OnlyRemaining\": true\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/creditsonaccountreport/exportexcelxlsx/a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"creditsonaccountreport",
+								"exportexcelxlsx",
+								"a"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -366,6 +402,46 @@
 			]
 		},
 		{
+			"name": "Invoice Report",
+			"item": [
+				{
+					"name": "Invoice Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"InvoiceId\": \"I00007MV\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicereport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicereport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Invoice Summary Report",
 			"item": [
 				{
@@ -486,6 +562,46 @@
 			]
 		},
 		{
+			"name": "Parts Inventory Attributes Report",
+			"item": [
+				{
+					"name": "Parts Inventory Attributes Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"SortBy\": \"\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\",\n    \t\t\"AttributeId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/partsinventoryattributesreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"partsinventoryattributesreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Parts Inventory Reorder Report",
 			"item": [
 				{
@@ -517,6 +633,46 @@
 								"api",
 								"v1",
 								"partsinventoryreorderreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Parts Inventory Purchase History Report",
+			"item": [
+				{
+					"name": "Parts Inventory Purchase History Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"PurchasedFromDate\": \"01/01/2015\",\n    \t\t\"PurchasedToDate\": \"06/30/2017\",\n    \t\t\"ReceivedFromDate\": null,\n    \t\t\"ReceivedToDate\": null,\n    \t\t\"TrackedBys\": [\n    \t\t\t{\"value\": \"BARCODE\"},\n    \t\t\t{\"value\": \"QUANTITY\"}\n    \t\t],\n    \t\t\"Ranks\": [\n    \t\t\t{\"value\": \"A\"},\n    \t\t\t{\"value\": \"B\"},\n    \t\t\t{\"value\": \"C\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/partsinventorypurchasehistoryreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"partsinventorypurchasehistoryreport",
 								"runreport"
 							]
 						}
@@ -726,86 +882,6 @@
 			]
 		},
 		{
-			"name": "Sales Inventory Purchase History Report",
-			"item": [
-				{
-					"name": "Sales Inventory Purchase History Report: Run Report",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \t\t\"PurchasedFromDate\": \"01/01/2000\",\n    \t\t\"PurchasedToDate\": \"06/30/2017\",\n    \t\t\"ReceivedFromDate\": null,\n    \t\t\"ReceivedToDate\": null,\n    \t\t\"TrackedBys\": [\n    \t\t\t{\"value\": \"BARCODE\"},\n    \t\t\t{\"value\": \"QUANTITY\"}\n    \t\t],\n    \t\t\"Ranks\": [\n    \t\t\t{\"value\": \"A\"},\n    \t\t\t{\"value\": \"B\"},\n    \t\t\t{\"value\": \"C\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/salesinventorypurchasehistoryreport/runreport",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"salesinventorypurchasehistoryreport",
-								"runreport"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Parts Inventory Purchase History Report",
-			"item": [
-				{
-					"name": "Parts Inventory Purchase History Report: Run Report",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \t\t\"PurchasedFromDate\": \"01/01/2015\",\n    \t\t\"PurchasedToDate\": \"06/30/2017\",\n    \t\t\"ReceivedFromDate\": null,\n    \t\t\"ReceivedToDate\": null,\n    \t\t\"TrackedBys\": [\n    \t\t\t{\"value\": \"BARCODE\"},\n    \t\t\t{\"value\": \"QUANTITY\"}\n    \t\t],\n    \t\t\"Ranks\": [\n    \t\t\t{\"value\": \"A\"},\n    \t\t\t{\"value\": \"B\"},\n    \t\t\t{\"value\": \"C\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/partsinventorypurchasehistoryreport/runreport",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"partsinventorypurchasehistoryreport",
-								"runreport"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Rental Inventory Value Report",
 			"item": [
 				{
@@ -837,6 +913,126 @@
 								"api",
 								"v1",
 								"rentalinventoryvaluereport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Retired Rental Inventory Report",
+			"item": [
+				{
+					"name": "Retired Rental Inventory Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"03/15/2018\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\",\n    \t\t\"RetiredReasonId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/retiredrentalinventoryreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"retiredrentalinventoryreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Inventory Attributes Report",
+			"item": [
+				{
+					"name": "Sales Inventory Attributes Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"SortBy\": \"\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\",\n    \t\t\"AttributeId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/salesinventoryattributesreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"salesinventoryattributesreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sales Inventory Purchase History Report",
+			"item": [
+				{
+					"name": "Sales Inventory Purchase History Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"PurchasedFromDate\": \"01/01/2000\",\n    \t\t\"PurchasedToDate\": \"06/30/2017\",\n    \t\t\"ReceivedFromDate\": null,\n    \t\t\"ReceivedToDate\": null,\n    \t\t\"TrackedBys\": [\n    \t\t\t{\"value\": \"BARCODE\"},\n    \t\t\t{\"value\": \"QUANTITY\"}\n    \t\t],\n    \t\t\"Ranks\": [\n    \t\t\t{\"value\": \"A\"},\n    \t\t\t{\"value\": \"B\"},\n    \t\t\t{\"value\": \"C\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/salesinventorypurchasehistoryreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"salesinventorypurchasehistoryreport",
 								"runreport"
 							]
 						}
