@@ -1,0 +1,116 @@
+﻿<!--Retired Rental Inventory Report-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">Retired From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow items" style="margin-top:40px;">
+  <table>
+    <thead class="mainHeader">
+      <tr class="columnheadings">
+        <th class="ICode">I-Code</th>
+        <th class="Description">Description</th>
+        <th class="Qty">Qty</th>
+        <th class="BarCodeNumber">Bar Code No.</th>
+        <th class="PurchDate">Purch. Date</th>
+        <th class="ReceiveDate">Receive Date</th>
+        <th class="PONo">PO No.</th>
+        <th class="PurchPrice">Purch. Price</th>
+        <th class="RetireUnRetireDate"><div>Retire Date</div><div>Un-Retire Date</div></th>
+        <th class="By"><div>By</div><div>By</div></th>
+        <th class="Reason"><div>Reason</div><div>Reason</div></th>
+      </tr>
+    </thead>
+    {{#with Items}}
+    {{#each this}}
+    {{#ifEquals RowType "Warehouseheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="WarehouseHeader" colspan="4">Warehouse: {{Warehouse}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "InventoryTypeheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="InventoryTypeHeader" colspan="4">Inventory Type: {{InventoryType}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td class="ICode">{{ICode}}</td>
+        <td class="Description">{{Description}}</td>
+        <td class="Qty">{{Quantity}}</td>
+        <td class="BarCodeNumber">{{BarCode}}</td>
+        <td class="PurchDate">{{PurchaseDate}}</td>
+        <td class="ReceiveDate">{{ReceiveDate}}</td>
+        <td class="PONo">{{PurchasePurchaseOrderNumber}}</td>
+        <td class="PurchPrice">{{PurchaseAmount}}</td>
+        <td class="RetireUnRetireDate"><div>{{RetireDate}}</div><div>{{UnretireDate}}</div></td>
+        <td class="By"><div>{{RetiredBy}}</div><div>{{UnretiredBy}}</div></td>
+        <td class="Reason"><div>{{RetiredReason}}</div><div>{{UnretiredReason}}</div></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td class="RetireNote">Retire Note: {{RetiredNotes}}</td>
+        <td colspan="9"></td>
+      </tr>
+      <tr>
+        <th></th>
+        <th class="subHeaders">Sold To Customer</th>
+        <th class="subHeaders">Deal</th>
+        <th class="subHeaders">Order No.</th>
+        <th class="subHeaders">L&D Order No.</th>
+        <th class="subHeaders">Invoice No.</th>
+        <th class="subHeaders">Price</th>
+        <th colspan="4"></th>
+      </tr>
+      <tr class="subValues">
+        <td></td>
+        <td>{{SoldToCustomer}}</td>
+        <td>{{SoldToDeal}}</td>
+        <td>{{SoldToOrderNumber}}</td>
+        <td></td>
+        <td>{{BilledToInvoiceNumber}}</td>
+        <td>{{BilledAmount}}</td>
+        <td colspan="4"></td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "InventoryTypefooter"}}
+    <tfoot data-rowtype="{{RowType}}">
+      <tr>
+        <td></td>
+        <td>{{InventoryType}} : {{Quantity}}</td>
+      </tr>
+    </tfoot>
+    {{/ifEquals}}
+    {{#ifEquals RowType "Warehousefooter"}}
+    <tfoot data-rowtype="{{RowType}}">
+      <tr>
+        <td></td>
+        <td>{{Warehouse}} : {{Quantity}}</td>
+      </tr>
+    </tfoot>
+    {{/ifEquals}}
+    {{#ifEquals RowType "grandtotal"}}
+    <tfoot data-rowtype="{{RowType}}">
+      <tr>
+        <td></td>
+        <td>Grand Total : {{Quantity}}</td>
+      </tr>
+    </tfoot>
+    {{/ifEquals}}
+    {{/each}}
+    {{/with}}
+  </table>
+</div>
