@@ -15,7 +15,6 @@ export class RetiredRentalInventoryReportRequest {
     WarehouseId: string;
     InventoryTypeId: string;
     CategoryId: string;
-    SubCategoryId: string;
     InventoryId: string;
     CustomerId: string;
     DealId: string;
@@ -34,7 +33,6 @@ export class RetiredRentalInventoryReport extends WebpackReport {
             request.WarehouseId = parameters.WarehouseId;
             request.InventoryTypeId = parameters.InventoryTypeId;
             request.CategoryId = parameters.CategoryId;
-            request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.InventoryId;
             request.CustomerId = parameters.CustomerId;
             request.DealId = parameters.DealId;
@@ -50,8 +48,8 @@ export class RetiredRentalInventoryReport extends WebpackReport {
                     retiredRentalInventory.Report = 'Retired Rental Inventory Report';
                     retiredRentalInventory.System = 'RENTALWORKS';
                     retiredRentalInventory.Company = '4WALL ENTERTAINMENT';
+                    retiredRentalInventory.ShowSellInformation = parameters.ShowSellInformation;
 
-                    console.log(retiredRentalInventory.Items);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

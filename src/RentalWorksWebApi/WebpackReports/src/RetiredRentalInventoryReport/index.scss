@@ -109,7 +109,22 @@ html.pdf {
 
         tbody tr.subValues {
             text-align: left;
-            padding-bottom:2px;
+            padding-bottom: 2px;
+        }
+
+        tbody td.RetireNote {
+            font-weight: bold;
+        }
+
+        tbody tr td.Qty,
+        tbody tr td.PurchPrice, 
+        tbody tr td.RetireUnRetireDate {
+            text-align: right;
+        }
+
+        tfoot td {
+            text-align: right;
+            font-weight: bold;
         }
 
         thead[data-rowtype="Warehouseheader"] {

@@ -59,11 +59,14 @@
         <td class="By"><div>{{RetiredBy}}</div><div>{{UnretiredBy}}</div></td>
         <td class="Reason"><div>{{RetiredReason}}</div><div>{{UnretiredReason}}</div></td>
       </tr>
+      {{#if RetiredNotes}}
       <tr>
         <td></td>
         <td class="RetireNote">Retire Note: {{RetiredNotes}}</td>
         <td colspan="9"></td>
       </tr>
+      {{/if}}
+      {{#ifEquals ../../ShowSellInformation true}}
       <tr>
         <th></th>
         <th class="subHeaders">Sold To Customer</th>
@@ -84,13 +87,15 @@
         <td>{{BilledAmount}}</td>
         <td colspan="4"></td>
       </tr>
+      {{/ifEquals}}
     </tbody>
     {{/ifEquals}}
     {{#ifEquals RowType "InventoryTypefooter"}}
     <tfoot data-rowtype="{{RowType}}">
       <tr>
         <td></td>
-        <td>{{InventoryType}} : {{Quantity}}</td>
+        <td>{{InventoryType}} :</td>
+        <td>{{Quantity}}</td>
       </tr>
     </tfoot>
     {{/ifEquals}}
@@ -98,7 +103,8 @@
     <tfoot data-rowtype="{{RowType}}">
       <tr>
         <td></td>
-        <td>{{Warehouse}} : {{Quantity}}</td>
+        <td>{{Warehouse}} :</td>
+        <td>{{Quantity}}</td>
       </tr>
     </tfoot>
     {{/ifEquals}}
@@ -106,7 +112,8 @@
     <tfoot data-rowtype="{{RowType}}">
       <tr>
         <td></td>
-        <td>Grand Total : {{Quantity}}</td>
+        <td>Grand Total :</td>
+        <td>{{Quantity}}</td>
       </tr>
     </tfoot>
     {{/ifEquals}}
