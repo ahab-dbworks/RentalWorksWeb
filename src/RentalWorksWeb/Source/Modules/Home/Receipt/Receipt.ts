@@ -213,7 +213,7 @@ class Receipt {
                 let htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
-                        htmlRows.push(`<tr class="row"><td class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}</td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td class="text">${rows[i][res.ColumnIndex.OrderNumber]}</td>
+                        htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}"class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td>
                                        <td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td>
                                        <td class="decimal invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`
                                       );
@@ -231,6 +231,16 @@ class Receipt {
                         $tab.find('.modified').html('*');
                         $form.attr('data-modified', 'true');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+                    });
+                    // btnpeek
+                    $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
+                        try {
+                            let $td = jQuery(this).parent();
+                            FwValidation.validationPeek($form, $td.attr('data-validationname'), $td.attr('data-datafield'), $td.attr('data-datafield'), $form, $td.attr('data-displayfield'));
+                        } catch (ex) {
+                            FwFunc.showError(ex)
+                        }
+                        e.stopPropagation();
                     });
 
                     $form.data('formtable', true);
@@ -251,8 +261,8 @@ class Receipt {
             let amount: any = $amountFields.eq(i).val();
             amount = amount.replace(/,/g, '');
            
-            fields.InvoiceId = invoiceId;
             fields.InvoiceReceiptId = invoiceReceiptId;
+            fields.InvoiceId = invoiceId;
             fields.Amount = +amount;
             InvoiceDataList.push(fields);
         }
