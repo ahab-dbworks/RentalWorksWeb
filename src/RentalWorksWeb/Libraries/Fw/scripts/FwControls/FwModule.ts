@@ -327,10 +327,12 @@
                 if (newRow.find('.andor').css('visibility') === 'hidden') {
                     newRow.next().find('.andor').css('visibility', 'hidden');
                 }
-                if ($browse.find('.query').find('.queryrow').length === 2) {
+                if ($browse.find('.query').find('.queryrow').length === 2 && newRow.next().length !== 0) {
                     newRow.next().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
                 }
-
+                if ($browse.find('.query').find('.queryrow').length === 2 && newRow.prev().length !== 0) {
+                    newRow.prev().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                }
                 newRow.remove();
             }).css('visibility', 'visible');
             newRow.find('.andor').css('visibility', 'visible');
@@ -349,10 +351,16 @@
 
         $browse.find('.search').on('click', function () {
             let request = FwBrowse.getRequest($browse);
-            request.searchfieldoperators.unshift('like');
-            request.searchfields.unshift(FwFormField.getValue2($browse.find('div[data-datafield="Datafield"]')));
-            request.searchfieldvalues.unshift(FwFormField.getValue2($browse.find('div[data-datafield="DatafieldQuery"]')));
-            request.searchseparators.unshift(',');
+            let queryRows = $browse.find('.query').find('.queryrow');
+
+            for (var i = 0; i < queryRows.length; i++) {
+                if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
+                    request.searchfieldoperators.unshift('like');
+                    request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
+                    request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
+                    request.searchseparators.unshift(',');
+                }
+            }
 
             FwServices.module.method(request, request.module, 'Browse', $browse, function (response) {
                 try {
