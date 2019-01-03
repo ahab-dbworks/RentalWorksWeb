@@ -186,7 +186,7 @@
                         FwFormField.setValue2(dateBehavior, response.DateBehavior);
                     } else if (response.DateBehavior === '' && response.DefaultDateBehavior !== '') {
                         let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
-                        FwFormField.setValue2(dateBehavior, response.DateBehavior);
+                        FwFormField.setValue2(dateBehavior, response.DefaultDateBehavior);
                     }
 
                     $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
