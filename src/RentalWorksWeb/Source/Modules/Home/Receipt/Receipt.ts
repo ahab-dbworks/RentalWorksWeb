@@ -187,14 +187,20 @@ class Receipt {
         $form.find('div[data-datafield="PaymentBy"]').change(() => {
             this.paymentByRadioBehavior($form);
         });
- 
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
         // called every save since in afterload but only refresh grid in if NEW
         // currently only loads for first time but needs to distinguish if new and after
         // shade amount if not 0
-        // add peek?
+        // if mode not edit, refresh aka html("")
+
+
+
+        // when new, refresh the grid when user chooses a deal or customer
+        // refresh grid if deal or customer is changed
+        // if amount is not 0, highlight
+
         if (!$form.data('formtable')) {
             let request: any = {};
             let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
@@ -216,16 +222,35 @@ class Receipt {
                         htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}"class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td>
                                        <td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td>
                                        <td class="decimal invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`
-                                      );
+                        );
                     }
                     $form.find('.table-rows').html(htmlRows.join(''));
                     $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: '' });
                     $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
                     $form.find('.table-rows input').eq(0).focus();
-                    $form.find('.invoice-amount input').on('change', e => {
-                        let $tab, $tabpage;
-                        e.stopPropagation();
 
+                    (function() {
+                        let $amountFields = $form.find('.invoice-amount input');
+                        for (let i = 0; i < $amountFields.length; i++) {
+                            let amount: any = $amountFields.eq(i).val();
+                            if (amount === '0.00' || amount === '') {
+                                $amountFields.eq(i).css('background-color', 'white');
+                            } else {
+                                $amountFields.eq(i).css('background-color', '#e0e0e0');
+                            }
+                        }
+                    })();
+                    // Amount column listener
+                    $form.find('.invoice-amount input').on('change', e => {
+                        let $tab, $tabpage, val, el;
+                        e.stopPropagation();
+                        el = jQuery(e.currentTarget)
+                        val = el.val() 
+                        if (val === '0.00' || val === '') {
+                            el.css('background-color', 'white');
+                        } else {
+                            el.css('background-color', '#e0e0e0');
+                        }
                         $tabpage = $form.parent();
                         $tab = jQuery('#' + $tabpage.attr('data-tabid'));
                         $tab.find('.modified').html('*');
