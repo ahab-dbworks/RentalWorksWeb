@@ -95,12 +95,6 @@
                     html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
@@ -108,6 +102,15 @@
                     html.push('</div>');
                     html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" style="float:left;width:200px;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
                     html.push('</div>');
                     //for (var i = 0; i < response.data.labels.length; i++) {
                     //    html.push('<div class="flexrow">');
@@ -120,6 +123,23 @@
                         { value: 'bar', text: 'Bar' },
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
                         { value: 'pie', text: 'Pie' }
+                    ], true);
+                    FwFormField.loadItems($confirmation.find('.datebehavior'), [
+                        { value: 'NONE', text: 'None' },
+                        { value: 'SINGLE DATE - YESTERDAY', text: 'Single Date - Yesterday' },
+                        { value: 'SINGLE DATE - TODAY', text: 'Single Date - Today' },
+                        { value: 'SINGLE DATE - TOMORROW', text: 'Single Date - Tomorrow' },
+                        { value: 'SINGLE DATE - SPECIFIC DATE', text: 'Single Date - Specific Date' },
+                        { value: 'DATE RANGE - PRIOR WEEK', text: 'Date Range - Prior Week' },
+                        { value: 'DATE RANGE - CURRENT WEEK', text: 'Date Range - Current Week' },
+                        { value: 'DATE RANGE - PRIOR MONTH', text: 'Date Range - Prior Month' },
+                        { value: 'DATE RANGE - CURRENT MONTH', text: 'Date Range - Current Month' },
+                        { value: 'DATE RANGE - NEXT MONTH', text: 'Date Range - Next Week' },
+                        { value: 'DATE RANGE - PRIOR YEAR', text: 'Date Range - Prior Year' },
+                        { value: 'DATE RANGE - CURRENT YEAR', text: 'Date Range - Current Year' },
+                        { value: 'DATE RANGE - YEAR TO DATE', text: 'Date Range - Year To Date' },
+                        { value: 'DATE RANGE - NEXT YEAR', text: 'Date Range - Next Year' },
+                        { value: 'DATE RANGE - SPECIFIC DATES', text: 'Date Range - Specific Dates' }
                     ], true);
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
 
@@ -160,6 +180,42 @@
                         toDate.show();
                         FwFormField.setValue2(toDate, response.DefaultToDate);
                     }
+
+                    if (response.DateBehavior !== '') {
+                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
+                        FwFormField.setValue2(dateBehavior, response.DateBehavior);
+                    } else if (response.DateBehavior === '' && response.DefaultDateBehavior !== '') {
+                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
+                        FwFormField.setValue2(dateBehavior, response.DateBehavior);
+                    }
+
+                    $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
+                        let selected = FwFormField.getValue2(jQuery(this));
+                        //let dateField = $confirmation.find('.date-field');
+                        let fromDate = $confirmation.find('.fromdate');
+                        let toDate = $confirmation.find('.todate');
+                        let fromDateField = $confirmation.find('div[data-datafield="FromDate"] > .fwformfield-caption');
+
+                        if (selected === 'NONE') {
+                            //dateField.hide();
+                            fromDate.hide();
+                            toDate.hide();
+                        } else if (selected === 'SINGLE DATE - YESTERDAY' || selected === 'SINGLE DATE - TODAY' || selected === 'SINGLE DATE - TOMORROW' || selected === 'DATE RANGE - PRIOR WEEK' || selected === 'DATE RANGE - CURRENT WEEK' || selected === 'DATE RANGE - NEXT WEEK' || selected === 'DATE RANGE - PRIOR MONTH' || selected === 'DATE RANGE - CURRENT MONTH' || selected === 'DATE RANGE - NEXT MONTH' || selected === 'DATE RANGE - PRIOR YEAR' || selected === 'DATE RANGE - CURRENT YEAR' || selected === 'DATE RANGE - NEXT YEAR' || selected === 'DATE RANGE - YEAR TO DATE') {
+                            //dateField.show();
+                            fromDate.hide();
+                            toDate.hide();
+                        } else if (selected === 'SINGLE DATE - SPECIFIC DATE') {
+                            //dateField.show();
+                            fromDateField.text('Date');
+                            fromDate.show();
+                            toDate.hide();
+                        } else if (selected === 'DATE RANGE - SPECIFIC DATES') {
+                            //dateField.show();
+                            fromDateField.text('From Date');
+                            fromDate.show();
+                            toDate.show();
+                        }
+                    });
                 }, null, null);
 
                 $select.on('click', function () {

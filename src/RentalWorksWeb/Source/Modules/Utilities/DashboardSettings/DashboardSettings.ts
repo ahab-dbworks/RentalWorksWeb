@@ -168,6 +168,14 @@ class DashboardSettings {
                         FwFormField.setValue2(toDate, response.DefaultToDate);
                     }
 
+                    if (response.DateBehavior !== '') {
+                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
+                        FwFormField.setValue2(dateBehavior, response.DateBehavior);
+                    } else if (response.DateBehavior === '' && response.DefaultDateBehavior !== '') {
+                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
+                        FwFormField.setValue2(dateBehavior, response.DateBehavior);
+                    }
+
                     $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
                         let selected = FwFormField.getValue2(jQuery(this));
                         //let dateField = $confirmation.find('.date-field');
@@ -195,6 +203,7 @@ class DashboardSettings {
                             toDate.show();
                         }
                     });
+
                     if (li.data('request') !== undefined) {
                         let request = li.data('request');
                         if (request.FromDate !== '') {
