@@ -270,7 +270,7 @@ class FwMultiSelectValidationClass {
                         if (length === 0) {
                             e.preventDefault();
                             let $this = jQuery(e.currentTarget);
-                            let $item = $this.parent('div.multiitem');
+                            let $item = $this.find('div.multiitem:last');
                             let itemvalue = $item.attr('data-multivalue');
                             let $selectedRows = $browse.data('selectedrows');
                             if (typeof $selectedRows[itemvalue] !== 'undefined') {
@@ -289,7 +289,7 @@ class FwMultiSelectValidationClass {
                                 })
                                 .join(',');
                             $valuefield.val(value);
-                            $control.find('.multiitem:last').remove();
+                            $item.remove();
                         }
                     }
                 } catch (ex) {
@@ -319,14 +319,17 @@ class FwMultiSelectValidationClass {
     //---------------------------------------------------------------------------------
     validate(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, useSearchFieldValue: boolean): void {
         var $validationSearchbox;
+        $validationSearchbox = $browse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
         if (useSearchFieldValue && ((<string>$searchfield.val()).length > 0)) {
-            $validationSearchbox = $browse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
             if ($validationSearchbox.length == 1) {
                 $validationSearchbox.val($searchfield.val());
             } else {
                 throw 'FwMultiSelectValidation: Validation is not setup correctly. Missing validation display field.';
             }
+        } else {
+            $validationSearchbox.val('');
         }
+
         $browse.data('$btnvalidate', $btnvalidate);
         $btnvalidate.hide();
         $browse.data('$control').find('.validation-loader').show();

@@ -230,7 +230,7 @@ html.theme-material .fwformfield[data-type="multiselectvalidation"].focused .fwf
 html.theme-material .fwformfield[data-type="multiselectvalidation"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .3s;}
 
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems {display:flex;width:100%; line-height:2em; flex-wrap:wrap;}
-html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems span {height:auto;line-height:2em; font-size:.9em; margin:0px 5px;}
+html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiselectitems span {min-height:2em;height:auto;line-height:2em; font-size:.9em; margin:0px 5px;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem {border:1px solid #DCDCDC; background-color:#EFEFEF; margin:2px 3px; border-radius:5px; height:1.5em;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem i {cursor:pointer; padding:0px 2px; font-size:1em; font-weight:bolder; white-space:nowrap;}
 html.theme-material .fwformfield[data-type="multiselectvalidation"] .fwformfield-control .multiitem span {font-size:.9em; padding-left:3px; position:relative; top:-4px;}
