@@ -52,8 +52,18 @@ namespace WebApi.Modules.Reports.GlDistributionReport
                     useWithNoLock = false;
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
-                    addStringFilterToSelect("glaccountid", request.GlAccountId, select);
+                    //addStringFilterToSelect("locationid", request.OfficeLocationId, select);
+                    //addStringFilterToSelect("glaccountid", request.GlAccountId, select);
+
+                    if (!string.IsNullOrEmpty(request.OfficeLocationId))
+                    {
+                        select.AddWhereIn("and", "locationid", request.OfficeLocationId, false);
+                    }
+                    if (!string.IsNullOrEmpty(request.GlAccountId))
+                    {
+                        select.AddWhereIn("and", "glaccountid", request.GlAccountId, false);
+                    }
+
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
                     select.AddOrderBy("location,groupheading,glno,glacctdesc");
