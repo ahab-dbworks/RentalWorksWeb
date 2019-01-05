@@ -88,7 +88,7 @@ namespace WebApi.Modules.Reports.RetiredRentalInventoryReport
         [FwSqlDataField(column: "purchasepono", modeltype: FwDataTypes.Text)]
         public string PurchasePurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "purchaseamt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "purchaseamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasecurrencyid", modeltype: FwDataTypes.Text)]
@@ -163,7 +163,7 @@ namespace WebApi.Modules.Reports.RetiredRentalInventoryReport
         [FwSqlDataField(column: "billedtoinvoiceno", modeltype: FwDataTypes.Text)]
         public string BilledToInvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billedamt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "billedamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? BilledAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unretiredid", modeltype: FwDataTypes.Text)]
