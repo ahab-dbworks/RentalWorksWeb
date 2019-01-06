@@ -28,8 +28,8 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, required: true)]
         public string CheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? RecType { get; set; }
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char")]
+        public string RecType { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string RecTypeColor { get; set; }

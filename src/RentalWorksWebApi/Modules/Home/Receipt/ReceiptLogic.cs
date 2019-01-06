@@ -98,7 +98,7 @@ namespace WebApi.Modules.Home.Receipt
         public string PaymentMemo { get { return receipt.PaymentMemo; } set { receipt.PaymentMemo = value; } }
 
         [FwLogicProperty(Id: "TpuozxIakrza")]
-        public bool? RecType { get { return receipt.RecType; } set { receipt.RecType = value; } }
+        public string RecType { get { return receipt.RecType; } set { receipt.RecType = value; } }
 
         [FwLogicProperty(Id: "0uxt3Kj2zTdS", IsReadOnly: true)]
         public string ChargeBatchId { get; set; }
@@ -173,16 +173,22 @@ namespace WebApi.Modules.Home.Receipt
         //------------------------------------------------------------------------------------
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
+                if (string.IsNullOrEmpty(RecType))
+                {
+                    RecType = RwConstants.RECEIPT_RECTYPE_PAYMENT;
+                }
                 if (PaymentBy != null)
                 {
                     if (PaymentBy.Equals(RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER))
                     {
+                        Deal = "";
                         DealId = "";
                     }
                     else if (PaymentBy.Equals(RwConstants.RECEIPT_PAYMENT_BY_DEAL))
                     {
+                        Customer = "";
                         CustomerId = "";
                     }
                 }

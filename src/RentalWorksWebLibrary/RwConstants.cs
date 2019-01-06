@@ -128,6 +128,9 @@ namespace WebLibrary
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
         public const string RECEIPT_PAYMENT_BY_CUSTOMER = "CUSTOMER";
 
+        public const string RECEIPT_RECTYPE_PAYMENT = "P";
+
+
         //REPAIR
         public const string REPAIR_STATUS_NEW = "NEW";
         public const string REPAIR_PRIORITY_HIGH = "HIG";
