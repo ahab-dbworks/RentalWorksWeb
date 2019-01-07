@@ -277,6 +277,7 @@
                     'type': response._Fields[i].DataType
                 })
             }
+            findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
             window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
             window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'And', text: 'And' }, { value: 'Or', text: 'Or' }], true);
             $browse.find('.datafieldselect').on('change', function () {
@@ -285,10 +286,10 @@
                     case 'Text':
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
-                    case 'Number':
+                    case 'Integer':
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
-                    case 'Checkbox':
+                    case 'Boolean':
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), booleanComparisonFields, true);
                         break;
                     case 'Date':
@@ -306,16 +307,16 @@
             newRow.find('.datafieldselect').on('change', function () {
                 let datatype = jQuery(this).find(':selected').data('type');
                 switch (datatype) {
-                    case 'text':
+                    case 'Text':
                         window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
-                    case 'number':
+                    case 'Integer':
                         window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
-                    case 'checkbox':
+                    case 'Boolean':
                         window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
                         break;
-                    case 'date':
+                    case 'Date':
                         window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), dateComparisonFields, true);
                         break;
                 }
@@ -642,7 +643,7 @@
                                             <div class="query">
                                                 <div class="flexrow queryrow" style="align-items: center;">
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Datafield" data-datafield="Datafield" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 auto;"></div>
                                                     <i class="material-icons delete-query">delete_outline</i>
