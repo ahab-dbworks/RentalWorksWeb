@@ -942,6 +942,81 @@
 			]
 		},
 		{
+			"name": "Billing",
+			"item": [
+				{
+					"name": "Billing: Populate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"BillAsOfDate\": \"01/06/2019\",\n    \t\t\"OfficeLocationId\": \"\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"B003KROA\",\n    \t\t\"DepartmentId\": \"\",\n    \t\t\"OrderId\": \"\"\n}\n\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/billing/populate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"billing",
+								"populate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Billing: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Deal\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I0009PES\"\n    \t}\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/billing/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"billing",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Billing Cycle",
 			"item": [
 				{
