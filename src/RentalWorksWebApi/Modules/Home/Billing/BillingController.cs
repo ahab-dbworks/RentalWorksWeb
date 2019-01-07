@@ -1,0 +1,82 @@
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Controllers;
+using System.Threading.Tasks;
+using FwStandard.SqlServer;
+using System.Collections.Generic;
+using FwStandard.AppManager;
+using System;
+using WebApi.Logic;
+using Microsoft.AspNetCore.Http;
+
+namespace WebApi.Modules.Home.Billing
+{
+
+
+    public class PopulateBillingRequest
+    {
+        public DateTime BillAsOfDate { get; set; }
+        public string OfficeLocationId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealId { get; set; }
+        public string DepartmentId { get; set; }
+        public string AgentId { get; set; }
+        public string OrderId { get; set; }
+    }
+
+    public class PopulateBillingResponse : TSpStatusReponse
+    {
+        public string SessionId { get; set; }
+    }
+
+    [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id: "67cZ8IUbw53c")]
+    public class BillingController : AppDataController
+    {
+        public BillingController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(BillingLogic); }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/billing/populate 
+        [HttpPost("populate")]
+        [FwControllerMethod(Id: "IkJY2GybFJCXf")]
+        public async Task<ActionResult<string>> Populate([FromBody]PopulateBillingRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+                PopulateBillingResponse response = await BillingFunc.Populate(AppConfig, UserSession, request);
+                return response.SessionId;
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/billing/browse 
+        [HttpPost("browse")]
+        [FwControllerMethod(Id: "IailV9PQbfGc")]
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/billing/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "wkAGDeyykITiq")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}
