@@ -5,6 +5,7 @@
         public string PublicBaseUrl { get; set; } = string.Empty;
         public string VirtualDirectory { get; set; } = string.Empty;
         public SqlServerConfig DatabaseSettings { get; set; }
+        public SqlServerConfig DataWarehouseDatabaseSettings { get; set; }
         public FwJwtIssuerOptions JwtIssuerOptions { get; set; }
         public DebuggingConfig Debugging { get; set; } = new DebuggingConfig();
     }
