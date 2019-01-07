@@ -47,7 +47,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetinvoiceprintdetails", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetinvoiceprintdetails", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.InvoiceId);
                     AddPropertiesAsQueryColumns(qry);
@@ -387,7 +387,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 await conn.OpenAsync();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetinvoiceprintheader", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetinvoiceprintheader", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.InvoiceId);
                     AddPropertiesAsQueryColumns(qry);

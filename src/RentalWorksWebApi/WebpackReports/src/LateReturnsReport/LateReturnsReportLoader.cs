@@ -238,7 +238,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
 
         //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
         //    {
-        //        using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+        //        using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
         //        {
         //            qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, reportType);
         //            qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, days);
@@ -275,7 +275,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getlatereturnsrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, request.ReportType);
                     qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, request.Days);

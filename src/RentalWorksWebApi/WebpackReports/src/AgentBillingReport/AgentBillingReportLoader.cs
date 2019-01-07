@@ -137,7 +137,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();

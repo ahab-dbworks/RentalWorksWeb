@@ -198,7 +198,7 @@ namespace WebApi.Modules.Reports.RetiredRentalInventoryReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getretireditemsrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getretireditemsrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@availfor", SqlDbType.Text, ParameterDirection.Input, RwConstants.INVENTORY_AVAILABLE_FOR_RENT);
                     qry.AddParameter("@retiredfromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);

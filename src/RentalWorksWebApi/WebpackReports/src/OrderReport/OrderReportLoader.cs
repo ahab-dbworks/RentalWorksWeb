@@ -47,7 +47,7 @@ namespace WebApi.Modules.Reports.OrderReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintdetails", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintdetails", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
                     AddPropertiesAsQueryColumns(qry);
@@ -550,7 +550,7 @@ namespace WebApi.Modules.Reports.OrderReport
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 await conn.OpenAsync();
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintheader", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "webgetorderprintheader", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
                     AddPropertiesAsQueryColumns(qry);

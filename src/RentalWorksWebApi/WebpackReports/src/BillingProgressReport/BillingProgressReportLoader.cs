@@ -91,7 +91,7 @@ namespace WebApi.Modules.Reports.BillingProgressReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getbillingprogressrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getbillingprogressrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@asofdate", SqlDbType.Date, ParameterDirection.Input, request.AsOfDate);
                     qry.AddParameter("@includeconfirmed", SqlDbType.Text, ParameterDirection.Input, includeConfirmed ? "T" : "F");

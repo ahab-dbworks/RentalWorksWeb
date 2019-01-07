@@ -93,7 +93,7 @@ namespace WebApi.Modules.Reports.PartsInventoryReorderReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventoryreorderrpt", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventoryreorderrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@availfor", SqlDbType.Text, ParameterDirection.Input, RwConstants.INVENTORY_AVAILABLE_FOR_PARTS);
                     qry.AddParameter("@mode", SqlDbType.Text, ParameterDirection.Input, request.ReorderPointMode);
