@@ -12,9 +12,11 @@ var hbFooter = require("./hbFooter.hbs");
 export class RetiredRentalInventoryReportRequest {
     FromDate: Date;
     ToDate: Date;
+    IncludeUnretired: boolean;
     WarehouseId: string;
     InventoryTypeId: string;
     CategoryId: string;
+    SubCategoryId: string;
     InventoryId: string;
     CustomerId: string;
     DealId: string;
@@ -30,9 +32,11 @@ export class RetiredRentalInventoryReport extends WebpackReport {
             let request = new RetiredRentalInventoryReportRequest();
             request.FromDate = parameters.FromDate;
             request.ToDate = parameters.ToDate;
+            request.IncludeUnretired = parameters.IncludeUnretired;
             request.WarehouseId = parameters.WarehouseId;
             request.InventoryTypeId = parameters.InventoryTypeId;
             request.CategoryId = parameters.CategoryId;
+            request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.InventoryId;
             request.CustomerId = parameters.CustomerId;
             request.DealId = parameters.DealId;
@@ -49,6 +53,7 @@ export class RetiredRentalInventoryReport extends WebpackReport {
                     retiredRentalInventory.System = 'RENTALWORKS';
                     retiredRentalInventory.Company = '4WALL ENTERTAINMENT';
                     retiredRentalInventory.ShowSellInformation = parameters.ShowSellInformation;
+                    retiredRentalInventory.IncludeUnretired = parameters.IncludeUnretired;
 
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

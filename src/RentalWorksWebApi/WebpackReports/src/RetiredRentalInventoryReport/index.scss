@@ -96,6 +96,14 @@ html.pdf {
                 white-space: nowrap;
                 text-align: left;
             }
+
+            th.Qty {
+                width: 20px;
+            }
+
+            th.ICode {
+                width: 50px;
+            }
         }
 
         tbody[data-rowtype="detail"]:nth-of-type(even) {
@@ -105,11 +113,13 @@ html.pdf {
         tbody tr th.subHeaders {
             text-align: left;
             border-bottom: 2px solid black;
+            padding-left: 3px;
         }
 
         tbody tr.subValues {
             text-align: left;
             padding-bottom: 2px;
+            padding-left: 3px;
         }
 
         tbody td.RetireNote {
@@ -117,8 +127,9 @@ html.pdf {
         }
 
         tbody tr td.Qty,
-        tbody tr td.PurchPrice, 
-        tbody tr td.RetireUnRetireDate {
+        tbody tr td.PurchPrice,
+        tbody tr td.RetireUnRetireDate,
+        tbody tr td.Price {
             text-align: right;
         }
 
