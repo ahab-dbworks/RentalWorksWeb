@@ -31,9 +31,6 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "char")]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string RecTypeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "crcno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string CreditCardNumber { get; set; }
         //------------------------------------------------------------------------------------ 

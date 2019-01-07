@@ -216,11 +216,11 @@ Form tables
 .form-table th { border: .75px solid black;padding:5px; }
 .form-table td { border: .75px solid black;padding:5px;margin:0; }
 .form-table td:not(.invoice-amount) { vertical-align:text-top; }
-.form-table td .text { text-align:left; }
-.form-table td .decimal { text-align:right; }
+.form-table .text { text-align:left; }
+.form-table .decimal { text-align:right; }
 .form-table input { height:100%;width:97%;padding:3px 0px 0px 0px;font-family:inherit; }
 .form-table i { top:7px;left:3px;position:relative;cursor:pointer; }
-.form-table tr:nth-child(even) { background-color:#E0E0E0; }
+.form-table tr:nth-child(even) { background-color:#f1eded; }
 
 
 /* Removes default up and down arrows in input[type="number"] */

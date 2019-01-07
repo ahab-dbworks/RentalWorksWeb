@@ -99,7 +99,9 @@ class Receipt {
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
             const today = FwFunc.getDate();
+            const locationId = JSON.parse(sessionStorage.getItem('location'));
 
+            FwFormField.setValueByDataField($form, 'LocationId', locationId.locationid);
             FwFormField.setValueByDataField($form, 'ReceiptDate', today);
             FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
             FwFormField.enable($form.find('div[data-datafield="DealId"]'));
@@ -109,14 +111,13 @@ class Receipt {
             $form.find('.deal-customer').data('onchange', () => {
                 this.loadReceiptInvoiceGrid($form);
             });
-
+           
             $form.find('div[data-datafield="PaymentBy"]').change(() => {
                 this.paymentByRadioBehavior($form);
                 if (FwFormField.getValueByDataField($form, 'DealId') !== '' && FwFormField.getValueByDataField($form, 'CustomerId') !== '') {
                     this.loadReceiptInvoiceGrid($form);
                 }
             });
-
         }
         this.events($form);
         // Adds receipt invoice datatable to request
@@ -195,16 +196,7 @@ class Receipt {
     events($form: JQuery): void { }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
-        // called every save since in afterload but only refresh grid in if NEW
-        // currently only loads for first time but needs to distinguish if new and after
-        // shade amount if not 0
-        // if mode not edit, refresh aka html("")
 
-
-
-        // when new, refresh the grid when user chooses a deal or customer
-        // refresh grid if deal or customer is changed
-        // if amount is not 0, highlight
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
             getInvoiceData($form);
@@ -254,7 +246,7 @@ class Receipt {
                             if (amount === '0.00' || amount === '') {
                                 $amountFields.eq(i).css('background-color', 'white');
                             } else {
-                                $amountFields.eq(i).css('background-color', '#e0e0e0');
+                                $amountFields.eq(i).css('background-color', '#F4FFCC');
                             }
                         }
                     })();
@@ -267,7 +259,7 @@ class Receipt {
                         if (val === '0.00' || val === '') {
                             el.css('background-color', 'white');
                         } else {
-                            el.css('background-color', '#e0e0e0');
+                            el.css('background-color', '#F4FFCC');
                         }
                         $tabpage = $form.parent();
                         $tab = jQuery('#' + $tabpage.attr('data-tabid'));
