@@ -66,6 +66,7 @@ class DashboardSettings {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        let self = this;
         $form.find('.settings').on('click', function () {
             let li = jQuery(this).closest('li');
             let widgetId = li.data('value');
@@ -102,6 +103,7 @@ class DashboardSettings {
                     html.push('</div>');
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
+
                     FwFormField.loadItems($confirmation.find('.widgettype'), [
                         { value: 'bar', text: 'Bar' },
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
@@ -109,20 +111,20 @@ class DashboardSettings {
                     ], true);
                     FwFormField.loadItems($confirmation.find('.datebehavior'), [
                         { value: 'NONE', text: 'None' },
-                        { value: 'SINGLE DATE - YESTERDAY', text: 'Single Date - Yesterday' },
-                        { value: 'SINGLE DATE - TODAY', text: 'Single Date - Today' },
-                        { value: 'SINGLE DATE - TOMORROW', text: 'Single Date - Tomorrow' },
-                        { value: 'SINGLE DATE - SPECIFIC DATE', text: 'Single Date - Specific Date' },
-                        { value: 'DATE RANGE - PRIOR WEEK', text: 'Date Range - Prior Week' },
-                        { value: 'DATE RANGE - CURRENT WEEK', text: 'Date Range - Current Week' },
-                        { value: 'DATE RANGE - PRIOR MONTH', text: 'Date Range - Prior Month' },
-                        { value: 'DATE RANGE - CURRENT MONTH', text: 'Date Range - Current Month' },
-                        { value: 'DATE RANGE - NEXT MONTH', text: 'Date Range - Next Week' },
-                        { value: 'DATE RANGE - PRIOR YEAR', text: 'Date Range - Prior Year' },
-                        { value: 'DATE RANGE - CURRENT YEAR', text: 'Date Range - Current Year' },
-                        { value: 'DATE RANGE - YEAR TO DATE', text: 'Date Range - Year To Date' },
-                        { value: 'DATE RANGE - NEXT YEAR', text: 'Date Range - Next Year' },
-                        { value: 'DATE RANGE - SPECIFIC DATES', text: 'Date Range - Specific Dates' }
+                        { value: 'SINGLEDATEYESTERDAY', text: 'Single Date - Yesterday' },
+                        { value: 'SINGLEDATETODAY', text: 'Single Date - Today' },
+                        { value: 'SINGLEDATETOMORROW', text: 'Single Date - Tomorrow' },
+                        { value: 'SINGLEDATESPECIFICDATE', text: 'Single Date - Specific Date' },
+                        { value: 'DATERANGEPRIORWEEK', text: 'Date Range - Prior Week' },
+                        { value: 'DATERANGECURRENTWEEK', text: 'Date Range - Current Week' },
+                        { value: 'DATERANGEPRIORMONTH', text: 'Date Range - Prior Month' },
+                        { value: 'DATERANGECURRENTMONTH', text: 'Date Range - Current Month' },
+                        { value: 'DATERANGENEXTMONTH', text: 'Date Range - Next Week' },
+                        { value: 'DATERANGEPRIORYEAR', text: 'Date Range - Prior Year' },
+                        { value: 'DATERANGECURRENTYEAR', text: 'Date Range - Current Year' },
+                        { value: 'DATERANGEYEARTODATE', text: 'Date Range - Year To Date' },
+                        { value: 'DATERANGENEXTYEAR', text: 'Date Range - Next Year' },
+                        { value: 'DATERANGESPECIFICDATES', text: 'Date Range - Specific Dates' }
                     ], true);
                     if (response.DataPoints !== 0) {
                         FwFormField.setValue2($confirmation.find('.defaultpoints'), response.DataPoints);
@@ -171,37 +173,16 @@ class DashboardSettings {
                     if (response.DateBehavior !== '') {
                         let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
                         FwFormField.setValue2(dateBehavior, response.DateBehavior);
+                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
                     } else if (response.DateBehavior === '' && response.DefaultDateBehavior !== '') {
                         let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
                         FwFormField.setValue2(dateBehavior, response.DefaultDateBehavior);
+                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
                     }
 
                     $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
                         let selected = FwFormField.getValue2(jQuery(this));
-                        //let dateField = $confirmation.find('.date-field');
-                        let fromDate = $confirmation.find('.fromdate');
-                        let toDate = $confirmation.find('.todate');
-                        let fromDateField = $confirmation.find('div[data-datafield="FromDate"] > .fwformfield-caption');
-
-                        if (selected === 'NONE') {
-                            //dateField.hide();
-                            fromDate.hide();
-                            toDate.hide();
-                        } else if (selected === 'SINGLE DATE - YESTERDAY' || selected === 'SINGLE DATE - TODAY' || selected === 'SINGLE DATE - TOMORROW' || selected === 'DATE RANGE - PRIOR WEEK' || selected === 'DATE RANGE - CURRENT WEEK' || selected === 'DATE RANGE - NEXT WEEK' || selected === 'DATE RANGE - PRIOR MONTH' || selected === 'DATE RANGE - CURRENT MONTH' || selected === 'DATE RANGE - NEXT MONTH' || selected === 'DATE RANGE - PRIOR YEAR' || selected === 'DATE RANGE - CURRENT YEAR' || selected === 'DATE RANGE - NEXT YEAR' || selected === 'DATE RANGE - YEAR TO DATE') {
-                            //dateField.show();
-                            fromDate.hide();
-                            toDate.hide();
-                        } else if (selected === 'SINGLE DATE - SPECIFIC DATE') {
-                            //dateField.show();
-                            fromDateField.text('Date');
-                            fromDate.show();
-                            toDate.hide();
-                        } else if (selected === 'DATE RANGE - SPECIFIC DATES') {
-                            //dateField.show();
-                            fromDateField.text('From Date');
-                            fromDate.show();
-                            toDate.show();
-                        }
+                        self.setDateBehaviorFields($confirmation, selected);
                     });
 
                     if (li.data('request') !== undefined) {
@@ -212,6 +193,7 @@ class DashboardSettings {
                         if (request.ToDate !== '') {
                             $confirmation.find('.todate').show();
                         }
+                        self.setDateBehaviorFields($confirmation, request.DateBehavior);
                         FwFormField.setValue2($confirmation.find('.defaultpoints'), request.DataPoints);
                         FwFormField.setValue2($confirmation.find('.axisformat'), request.AxisNumberFormatId, request.AxisNumberFormat);
                         FwFormField.setValue2($confirmation.find('.dataformat'), request.DataNumberFormatId, request.DataNumberFormat);
@@ -255,6 +237,28 @@ class DashboardSettings {
                 FwFunc.showError(ex);
             }
         })
+    }
+    //----------------------------------------------------------------------------------------------
+    setDateBehaviorFields($control, DateBehavior) {
+        let fromDate = $control.find('.fromdate');
+        let toDate = $control.find('.todate');
+        let fromDateField = $control.find('div[data-datafield="FromDate"] > .fwformfield-caption');
+
+        if (DateBehavior === 'NONE') {
+            fromDate.hide();
+            toDate.hide();
+        } else if (DateBehavior === 'SINGLEDATEYESTERDAY' || DateBehavior === 'SINGLEDATETODAY' || DateBehavior === 'SINGLEDATETOMORROW' || DateBehavior === 'DATERANGEPRIORWEEK' || DateBehavior === 'DATERANGECURRENTWEEK' || DateBehavior === 'DATERANGENEXTWEEK' || DateBehavior === 'DATERANGEPRIORMONTH' || DateBehavior === 'DATERANGECURRENTMONTH' || DateBehavior === 'DATERANGENEXTMONTH' || DateBehavior === 'DATERANGEPRIORYEAR' || DateBehavior === 'DATERANGECURRENTYEAR' || DateBehavior === 'DATERANGENEXTYEAR' || DateBehavior === 'DATERANGEYEARTODATE') {
+            fromDate.hide();
+            toDate.hide();
+        } else if (DateBehavior === 'SINGLEDATESPECIFICDATE') {
+            fromDateField.text('Date');
+            fromDate.show();
+            toDate.hide();
+        } else if (DateBehavior === 'DATERANGESPECIFICDATES') {
+            fromDateField.text('From Date');
+            fromDate.show();
+            toDate.show();
+        }
     }
     //----------------------------------------------------------------------------------------------
 }

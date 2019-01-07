@@ -82,11 +82,11 @@
         var self = this;
         $chartSettings.on('click', function () {
             try {
-                var $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
-                var $select = FwConfirmation.addButton($confirmation, 'Confirm', false);
-                var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
-                var widgetName = jQuery(this).parent().data('chart')
-                var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                let $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
+                let $select = FwConfirmation.addButton($confirmation, 'Confirm', false);
+                let $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                let widgetName = jQuery(this).parent().data('chart')
+                let userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
 
                 var html = [];
                 FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -119,6 +119,11 @@
                     //}
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
+
+                    let fromDate = $confirmation.find('.fromdate');
+                    let toDate = $confirmation.find('.todate');
+                    let fromDateField = $confirmation.find('div[data-datafield="FromDate"] > .fwformfield-caption');
+
                     FwFormField.loadItems($confirmation.find('.widgettype'), [
                         { value: 'bar', text: 'Bar' },
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
@@ -126,20 +131,20 @@
                     ], true);
                     FwFormField.loadItems($confirmation.find('.datebehavior'), [
                         { value: 'NONE', text: 'None' },
-                        { value: 'SINGLE DATE - YESTERDAY', text: 'Single Date - Yesterday' },
-                        { value: 'SINGLE DATE - TODAY', text: 'Single Date - Today' },
-                        { value: 'SINGLE DATE - TOMORROW', text: 'Single Date - Tomorrow' },
-                        { value: 'SINGLE DATE - SPECIFIC DATE', text: 'Single Date - Specific Date' },
-                        { value: 'DATE RANGE - PRIOR WEEK', text: 'Date Range - Prior Week' },
-                        { value: 'DATE RANGE - CURRENT WEEK', text: 'Date Range - Current Week' },
-                        { value: 'DATE RANGE - PRIOR MONTH', text: 'Date Range - Prior Month' },
-                        { value: 'DATE RANGE - CURRENT MONTH', text: 'Date Range - Current Month' },
-                        { value: 'DATE RANGE - NEXT MONTH', text: 'Date Range - Next Week' },
-                        { value: 'DATE RANGE - PRIOR YEAR', text: 'Date Range - Prior Year' },
-                        { value: 'DATE RANGE - CURRENT YEAR', text: 'Date Range - Current Year' },
-                        { value: 'DATE RANGE - YEAR TO DATE', text: 'Date Range - Year To Date' },
-                        { value: 'DATE RANGE - NEXT YEAR', text: 'Date Range - Next Year' },
-                        { value: 'DATE RANGE - SPECIFIC DATES', text: 'Date Range - Specific Dates' }
+                        { value: 'SINGLEDATEYESTERDAY', text: 'Single Date - Yesterday' },
+                        { value: 'SINGLEDATETODAY', text: 'Single Date - Today' },
+                        { value: 'SINGLEDATETOMORROW', text: 'Single Date - Tomorrow' },
+                        { value: 'SINGLEDATESPECIFICDATE', text: 'Single Date - Specific Date' },
+                        { value: 'DATERANGEPRIORWEEK', text: 'Date Range - Prior Week' },
+                        { value: 'DATERANGECURRENTWEEK', text: 'Date Range - Current Week' },
+                        { value: 'DATERANGEPRIORMONTH', text: 'Date Range - Prior Month' },
+                        { value: 'DATERANGECURRENTMONTH', text: 'Date Range - Current Month' },
+                        { value: 'DATERANGENEXTMONTH', text: 'Date Range - Next Week' },
+                        { value: 'DATERANGEPRIORYEAR', text: 'Date Range - Prior Year' },
+                        { value: 'DATERANGECURRENTYEAR', text: 'Date Range - Current Year' },
+                        { value: 'DATERANGEYEARTODATE', text: 'Date Range - Year To Date' },
+                        { value: 'DATERANGENEXTYEAR', text: 'Date Range - Next Year' },
+                        { value: 'DATERANGESPECIFICDATES', text: 'Date Range - Specific Dates' }
                     ], true);
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
 
@@ -181,41 +186,20 @@
                         FwFormField.setValue2(toDate, response.DefaultToDate);
                     }
 
+                    $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
+                        let selected = FwFormField.getValue2(jQuery(this));
+                        self.setDateBehaviorFields($confirmation, selected);
+                    });
+
                     if (response.DateBehavior !== '') {
                         let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
                         FwFormField.setValue2(dateBehavior, response.DateBehavior);
+                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
                     } else if (response.DateBehavior === '' && response.DefaultDateBehavior !== '') {
                         let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
                         FwFormField.setValue2(dateBehavior, response.DefaultDateBehavior);
+                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
                     }
-
-                    $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
-                        let selected = FwFormField.getValue2(jQuery(this));
-                        //let dateField = $confirmation.find('.date-field');
-                        let fromDate = $confirmation.find('.fromdate');
-                        let toDate = $confirmation.find('.todate');
-                        let fromDateField = $confirmation.find('div[data-datafield="FromDate"] > .fwformfield-caption');
-
-                        if (selected === 'NONE') {
-                            //dateField.hide();
-                            fromDate.hide();
-                            toDate.hide();
-                        } else if (selected === 'SINGLE DATE - YESTERDAY' || selected === 'SINGLE DATE - TODAY' || selected === 'SINGLE DATE - TOMORROW' || selected === 'DATE RANGE - PRIOR WEEK' || selected === 'DATE RANGE - CURRENT WEEK' || selected === 'DATE RANGE - NEXT WEEK' || selected === 'DATE RANGE - PRIOR MONTH' || selected === 'DATE RANGE - CURRENT MONTH' || selected === 'DATE RANGE - NEXT MONTH' || selected === 'DATE RANGE - PRIOR YEAR' || selected === 'DATE RANGE - CURRENT YEAR' || selected === 'DATE RANGE - NEXT YEAR' || selected === 'DATE RANGE - YEAR TO DATE') {
-                            //dateField.show();
-                            fromDate.hide();
-                            toDate.hide();
-                        } else if (selected === 'SINGLE DATE - SPECIFIC DATE') {
-                            //dateField.show();
-                            fromDateField.text('Date');
-                            fromDate.show();
-                            toDate.hide();
-                        } else if (selected === 'DATE RANGE - SPECIFIC DATES') {
-                            //dateField.show();
-                            fromDateField.text('From Date');
-                            fromDate.show();
-                            toDate.show();
-                        }
-                    });
                 }, null, null);
 
                 $select.on('click', function () {
@@ -226,6 +210,7 @@
                         request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
                         request.AxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
                         request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
+                        request.DateBehavior = FwFormField.getValue($confirmation, '.datebehavior');
                         request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                         request.ToDate = FwFormField.getValue($confirmation, '.todate');
                         FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -259,7 +244,7 @@
             for (var i = 0; i < response.UserWidgets.length; i++) {
                 if (response.UserWidgets[i].selected) {
                     // to do - clean up this function with an object instead of tons of variables 
-                    self.renderWidget($dashboard, response.UserWidgets[i].apiname, response.UserWidgets[i].widgettype, response.UserWidgets[i].clickpath, response.UserWidgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.UserWidgets[i].text, response.UserWidgets[i].dataPoints, response.UserWidgets[i].axisNumberFormatId, response.UserWidgets[i].dataNumberFormatId, response.UserWidgets[i].fromDate, response.UserWidgets[i].toDate)
+                    self.renderWidget($dashboard, response.UserWidgets[i].apiname, response.UserWidgets[i].widgettype, response.UserWidgets[i].clickpath, response.UserWidgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.UserWidgets[i].text, response.UserWidgets[i].dataPoints, response.UserWidgets[i].axisNumberFormatId, response.UserWidgets[i].dataNumberFormatId, response.UserWidgets[i].dateBehavior, response.UserWidgets[i].fromDate, response.UserWidgets[i].toDate)
                 } else {
                     hiddenCounter++;
                 }
@@ -273,7 +258,7 @@
         }, null, $control);
     }
 
-    renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints, axisFormat, dataFormat, fromDate, toDate) {
+    renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints, axisFormat, dataFormat, dateBehavior, fromDate, toDate) {
         var self = this;
         var refresh = '<i id="' + userWidgetId + 'refresh" class="chart-refresh material-icons">refresh</i>';
         var settings = '<i id="' + userWidgetId + 'settings" class="chart-settings material-icons">settings</i>';
@@ -288,7 +273,7 @@
         }
 
         jQuery($control).on('click', '#' + userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     if (axisFormat === 'TWODGDEC') {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
@@ -351,7 +336,7 @@
 
                 var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');  
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         if (axisFormat === 'TWODGDEC') {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
@@ -402,7 +387,7 @@
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 if (axisFormat === 'TWODGDEC') {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
@@ -451,6 +436,29 @@
             }
         }, null, jQuery(widgetcanvas));
     };
+    //----------------------------------------------------------------------------------------------
+    setDateBehaviorFields($control, DateBehavior) {
+        let fromDate = $control.find('.fromdate');
+        let toDate = $control.find('.todate');
+        let fromDateField = $control.find('div[data-datafield="FromDate"] > .fwformfield-caption');
+
+        if (DateBehavior === 'NONE') {
+            fromDate.hide();
+            toDate.hide();
+        } else if (DateBehavior === 'SINGLEDATEYESTERDAY' || DateBehavior === 'SINGLEDATETODAY' || DateBehavior === 'SINGLEDATETOMORROW' || DateBehavior === 'DATERANGEPRIORWEEK' || DateBehavior === 'DATERANGECURRENTWEEK' || DateBehavior === 'DATERANGENEXTWEEK' || DateBehavior === 'DATERANGEPRIORMONTH' || DateBehavior === 'DATERANGECURRENTMONTH' || DateBehavior === 'DATERANGENEXTMONTH' || DateBehavior === 'DATERANGEPRIORYEAR' || DateBehavior === 'DATERANGECURRENTYEAR' || DateBehavior === 'DATERANGENEXTYEAR' || DateBehavior === 'DATERANGEYEARTODATE') {
+            fromDate.hide();
+            toDate.hide();
+        } else if (DateBehavior === 'SINGLEDATESPECIFICDATE') {
+            fromDateField.text('Date');
+            fromDate.show();
+            toDate.hide();
+        } else if (DateBehavior === 'DATERANGESPECIFICDATES') {
+            fromDateField.text('From Date');
+            fromDate.show();
+            toDate.show();
+        }
+    }
+    //----------------------------------------------------------------------------------------------
 };
 
 var RwHomeController = new RwHome();
