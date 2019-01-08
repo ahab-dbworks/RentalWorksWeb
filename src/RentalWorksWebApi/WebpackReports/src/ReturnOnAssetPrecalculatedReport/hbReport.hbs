@@ -5,7 +5,7 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -49,14 +49,14 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{Warehouse}}"></td>
+        <td class="text" data-value="{{Warehouse}}"></td>a
         <td class="text" data-value="{{InventoryType}}"></td>
         <td class="text" data-value="{{Category}}"></td>
         <td class="text" data-value="{{SubCategory}}"></td>
         <td class="text" data-value="{{ICodeRank}}"></td>
         <td class="text" data-value="{{ICode}}"></td>
         <td class="text" data-value="{{ICodeDescription}}"></td>
-        <td class="text" data-value="{{Deal}}"></td>
+        <td class="text" data-value="{{BLANK}}"></td>
         <td class="number" data-value="{{DaysOwned}}"></td>
         <td class="number" data-value="{{AverageOwnedQuantity}}"></td>
         <td class="number" data-value="{{AverageWeeklyAmount}}"></td>
@@ -75,7 +75,7 @@
         <td class="number" data-value="{{ReplacementCostAmount}}"></td>
         <td class="number" data-value="{{TotalReplacementCostAmount}}"></td>
         <td class="number" data-value="{{UnitValueCostAmount}}"></td>
-        <td class="number" data-value="{{InvoiceTax}}"></td>
+        <td class="number" data-value="{{BLANK}}"></td>
         <td class="number" data-value="{{RepairPercent}}"></td>
         {{/ifEquals}}
       </tr>

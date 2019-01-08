@@ -161,24 +161,24 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
         ], true);
 
         FwFormField.loadItems($form.find('div[data-datafield="ReportPeriod"]'), [
-            { value: 'January', text: 'January' },
-            { value: 'February', text: 'February' },
-            { value: 'March', text: 'March' },
+            { value: 'M1', text: 'January' },
+            { value: 'M2', text: 'February' },
+            { value: 'M3', text: 'March' },
             { value: 'Q1', text: 'Q1' },
-            { value: 'April', text: 'April' },
-            { value: 'May', text: 'May' },
-            { value: 'June', text: 'June' },
+            { value: 'M4', text: 'April' },
+            { value: 'M5', text: 'May' },
+            { value: 'M6', text: 'June' },
             { value: 'Q2', text: 'Q2' },
-            { value: 'Semester1', text: '1st Semester' },
-            { value: 'July', text: 'July' },
-            { value: 'August', text: 'August' },
-            { value: 'September', text: 'September' },
+            { value: 'S1', text: '1st Semester' },
+            { value: 'M7', text: 'July' },
+            { value: 'M8', text: 'August' },
+            { value: 'M9', text: 'September' },
             { value: 'Q3', text: 'Q3' },
-            { value: 'October', text: 'October' },
-            { value: 'November', text: 'November' },
-            { value: 'December', text: 'December' },
+            { value: 'M10', text: 'October' },
+            { value: 'M11', text: 'November' },
+            { value: 'M12', text: 'December' },
             { value: 'Q4', text: 'Q4' },
-            { value: 'Semester2', text: '2nd Semester' },
+            { value: 'S2', text: '2nd Semester' },
             { value: 'FY', text: 'Full Year' }
         ], true);
     }
