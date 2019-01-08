@@ -1,0 +1,85 @@
+﻿<!--Return on Asset Precalculated-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="text">Warehouse</th>
+        <th class="text">Inventory Type</th>
+        <th class="text">Category</th>
+        <th class="text">Sub Category</th>
+        <th class="text">ICode Rank</th>
+        <th class="text">ICode</th>
+        <th class="text">Description</th>
+        <th class="number">Owned Qty</th>
+        <th class="number">Days Owned</th>
+        <th class="number">Avg Owned Qty</th>
+        <th class="number">Avg Weekly Amt</th>
+        <th class="number">Utilization (Billed)</th>
+        <th class="number">Utilization (Out)</th>
+        <th class="number">Annual ROA</th>
+        <th class="number">Rental ROR</th>
+        <th class="number">Annual ROR</th>
+        <th class="number">Annual ROUV</th>
+        <th class="number">Weeks Billed</th>
+        <th class="number">Days Rented</th>
+        <th class="number">Owned Revenue Amt</th>
+        <th class="number">Vendor Revenue Amt</th>
+        <th class="number">Average Cost</th>
+        <th class="number">Asset Average Cost</th>
+        <th class="number">Replacement Cost</th>
+        <th class="number">Total Replacement Cost</th>
+        <th class="number">Unit Value</th>
+        <th class="number">Total Unit Value</th>
+        <th class="number">Percent In Repair</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "detail"}}
+        <td class="text" data-value="{{Warehouse}}"></td>
+        <td class="text" data-value="{{InventoryType}}"></td>
+        <td class="text" data-value="{{Category}}"></td>
+        <td class="text" data-value="{{SubCategory}}"></td>
+        <td class="text" data-value="{{ICodeRank}}"></td>
+        <td class="text" data-value="{{ICode}}"></td>
+        <td class="text" data-value="{{ICodeDescription}}"></td>
+        <td class="text" data-value="{{Deal}}"></td>
+        <td class="number" data-value="{{DaysOwned}}"></td>
+        <td class="number" data-value="{{AverageOwnedQuantity}}"></td>
+        <td class="number" data-value="{{AverageWeeklyAmount}}"></td>
+        <td class="number" data-value="{{Utilization}}"></td>
+        <td class="number" data-value="{{OutUtilization}}"></td>
+        <td class="number" data-value="{{AnnualROA}}"></td>
+        <td class="number" data-value="{{RentalROR}}"></td>
+        <td class="number" data-value="{{AnnualROR}}"></td>
+        <td class="number" data-value="{{AnnualROUV}}"></td>
+        <td class="number" data-value="{{WeeksBilled}}"></td>
+        <td class="number" data-value="{{DaysRented}}"></td>
+        <td class="number" data-value="{{OwnedRevenueAmount}}"></td>
+        <td class="number" data-value="{{VendorRevenueAmount}}"></td>
+        <td class="number" data-value="{{AverageCostAmount}}"></td>
+        <td class="number" data-value="{{AssetAverageCostAmount}}"></td>
+        <td class="number" data-value="{{ReplacementCostAmount}}"></td>
+        <td class="number" data-value="{{TotalReplacementCostAmount}}"></td>
+        <td class="number" data-value="{{UnitValueCostAmount}}"></td>
+        <td class="number" data-value="{{InvoiceTax}}"></td>
+        <td class="number" data-value="{{RepairPercent}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

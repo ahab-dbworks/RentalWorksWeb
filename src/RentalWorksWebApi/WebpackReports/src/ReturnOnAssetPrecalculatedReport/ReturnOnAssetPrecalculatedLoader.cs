@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         public string ReportDateRangeCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "RptYear", modeltype: FwDataTypes.Text)]
-        public string RptYear { get; set; }
+        public string ReportYear { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "Warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         public decimal? AverageOwnedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "AverageWeeklyAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? AverageWeeklyAmt { get; set; }
+        public decimal? AverageWeeklyAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "Utilization", modeltype: FwDataTypes.Decimal)]
         public decimal? Utilization { get; set; }
@@ -73,34 +73,34 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         public int? WeeksBilled { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "OwnedRevenueAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? OwnedRevenueAmt { get; set; }
+        public decimal? OwnedRevenueAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "VendorRevenueAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? VendorRevenueAmt { get; set; }
+        public decimal? VendorRevenueAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "VendorCostAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? VendorCostAmt { get; set; }
+        public decimal? VendorCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "AverageCostAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? AverageCostAmt { get; set; }
+        public decimal? AverageCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "AssetAverageCostAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? AssetAverageCostAmt { get; set; }
+        public decimal? AssetAverageCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ReplacementCostAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? ReplacementCostAmt { get; set; }
+        public decimal? ReplacementCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "TotalReplacementCostAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? TotalReplacementCostAmt { get; set; }
+        public decimal? TotalReplacementCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "UnitValueCostAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitValueCostAmt { get; set; }
+        public decimal? UnitValueCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "AssetUnitValueCostAmt", modeltype: FwDataTypes.Decimal)]
-        public decimal? AssetUnitValueCostAmt { get; set; }
+        public decimal? AssetUnitValueCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "RepairPct", modeltype: FwDataTypes.Decimal)]
-        public decimal? RepairPct { get; set; }
+        public decimal? RepairPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "DaysRented", modeltype: FwDataTypes.Integer)]
         public int? DaysRented { get; set; }
