@@ -249,25 +249,32 @@ namespace WebApi.Modules.Settings.Widget
                     paramsAdded = true;
                 }
 
+                if (paramsAdded)
+                {
+                    qry.Add(",");
+                }
+                qry.Add(" @outputfromdate = @outputfromdate output");
+                qry.AddParameter("@outputfromdate", System.Data.SqlDbType.Date, System.Data.ParameterDirection.Output);
+                paramsAdded = true;
+
+                if (paramsAdded)
+                {
+                    qry.Add(",");
+                }
+                qry.Add(" @outputtodate = @outputtodate output");
+                qry.AddParameter("@outputtodate", System.Data.SqlDbType.Date, System.Data.ParameterDirection.Output);
+                paramsAdded = true;
+
                 qry.AddColumn(counterFieldName);
                 qry.AddColumn(labelFieldName);
                 qry.AddColumn(backgroundColorFieldName);
                 qry.AddColumn(borderColorFieldName);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
+                fromDate = qry.GetParameter("@outputfromdate").ToDateTime();
+                toDate = qry.GetParameter("@outputtodate").ToDateTime();
+
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
-                    //int statusCount = Convert.ToInt32(table.Rows[r][0]);
-                    //string quoteStatus = table.Rows[r][1].ToString();
-                    //int statusColorInt = Convert.ToInt32(table.Rows[r][2]);
-                    //string statusColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, opacity);
-                    //string borderColorStr = FwConvert.OleColorToHtmlColor(statusColorInt, 1);
-
-                    //data.labels.Add(quoteStatus);
-                    //dataList.Add(statusCount);
-                    //backgroundColor.Add(statusColorStr);
-                    //borderColor.Add(borderColorStr);
-
-
                     decimal value = Convert.ToDecimal(table.Rows[r][0]);
                     string label = table.Rows[r][1].ToString();
                     int colorInt = Convert.ToInt32(table.Rows[r][2]);
