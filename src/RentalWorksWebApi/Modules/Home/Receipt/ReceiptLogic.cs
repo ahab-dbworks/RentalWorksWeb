@@ -132,16 +132,16 @@ namespace WebApi.Modules.Home.Receipt
             {
                 orig = (ReceiptLogic)original;
 
-                if (AppliedById != null)
+                if (PaymentBy != null)
                 {
-                    if (orig.AppliedById == null)
+                    if (orig.PaymentBy == null)
                     {
-                        orig.AppliedById = "";
+                        orig.PaymentBy = "";
                     }
-                    if (!AppliedById.Equals(orig.AppliedById)) 
+                    if (!PaymentBy.Equals(orig.PaymentBy)) 
                     {
                         isValid = false;
-                        validateMsg = $"Cannot change the Applied By on this {BusinessLogicModuleName}.";
+                        validateMsg = $"Cannot change the Payment By on this {BusinessLogicModuleName}.";
                     }
                 }
 
