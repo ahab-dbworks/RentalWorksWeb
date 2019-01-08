@@ -10,26 +10,27 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculated
+namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
 {
-    public class ReturnOnAssetPrecalculatedRequest
+    public class ReturnOnAssetPrecalculatedReportRequest
     {
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public string ReportYear { get; set; }
+        public string ReportPeriod { get; set; }
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
         public string SubCategoryId { get; set; }
         public string InventoryId { get; set; }
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "15TIjoDzY09G")]
-    public class ReturnOnAssetPrecalculatedController : AppReportController
+    public class ReturnOnAssetPrecalculatedReportController : AppReportController
     {
-        public ReturnOnAssetPrecalculatedController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "ReturnOnAssetPrecalculated"; }
+        public ReturnOnAssetPrecalculatedReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "ReturnOnAssetPrecalculatedReport"; }
         //------------------------------------------------------------------------------------ 
         protected override string GetReportFriendlyName() { return "Return On Asset Precalculated"; }
         //------------------------------------------------------------------------------------ 
@@ -44,10 +45,10 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculated
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "ReturnOnAssetPrecalculated";
+            return "ReturnOnAssetPrecalculatedReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/returnonassetprecalculated/render 
+        // POST api/v1/returnonassetprecalculatedreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "vxkDs5fdH9xK")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -57,10 +58,10 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculated
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/returnonassetprecalculated/runreport 
+        // POST api/v1/returnonassetprecalculatedreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "ZoQDFHjFP2pe")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ReturnOnAssetPrecalculatedRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ReturnOnAssetPrecalculatedReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -68,7 +69,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculated
             }
             try
             {
-                ReturnOnAssetPrecalculatedLoader l = new ReturnOnAssetPrecalculatedLoader();
+                ReturnOnAssetPrecalculatedReportLoader l = new ReturnOnAssetPrecalculatedReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);

@@ -6,10 +6,10 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
-namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculated
+namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
 {
     [FwSqlTable("ReturnOnAsset")]
-    public class ReturnOnAssetPrecalculatedLoader : AppDataLoadRecord
+    public class ReturnOnAssetPrecalculatedReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ReturnOnAssetKey", modeltype: FwDataTypes.Integer)]
@@ -120,7 +120,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculated
         [FwSqlDataField(column: "DaysOwned", modeltype: FwDataTypes.Integer)]
         public int? DaysOwned { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<FwJsonDataTable> RunReportAsync(ReturnOnAssetPrecalculatedRequest request)
+        public async Task<FwJsonDataTable> RunReportAsync(ReturnOnAssetPrecalculatedReportRequest request)
         {
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DataWarehouseDatabaseSettings.ConnectionString))
