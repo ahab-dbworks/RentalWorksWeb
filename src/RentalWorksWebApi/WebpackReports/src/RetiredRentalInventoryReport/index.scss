@@ -126,6 +126,10 @@ html.pdf {
             font-weight: bold;
         }
 
+        tbody tr td.By {
+            padding-left:5px;
+        }
+
         tbody tr td.Qty,
         tbody tr td.PurchPrice,
         tbody tr td.RetireUnRetireDate,

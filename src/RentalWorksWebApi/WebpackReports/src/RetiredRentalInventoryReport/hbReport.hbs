@@ -23,11 +23,24 @@
         <th class="ReceiveDate">Receive Date</th>
         <th class="PONo">PO No.</th>
         <th class="PurchPrice">Purch. Price</th>
-        {{#if IncludeUnretired}}
-        <th class="RetireUnRetireDate"><div>Retire Date</div><div>Un-Retire Date</div></th>
-        <th class="By"><div>By</div><div>By</div></th>
-        <th class="Reason"><div>Reason</div><div>Reason</div></th>
-        {{/if}}
+        <th class="RetireUnRetireDate">
+          <div>Retire Date</div>        
+          {{#if IncludeUnretired}}
+          <div>Un-Retire Date</div>
+          {{/if}}
+        </th>
+        <th class="By">
+          <div>By</div>
+          {{#if IncludeUnretired}}
+          <div>By</div>
+          {{/if}}
+        </th>
+        <th class="Reason">
+          <div>Reason</div>
+          {{#if IncludeUnretired}}
+          <div>Reason</div>
+          {{/if}}
+        </th>
       </tr>
     </thead>
     {{#with Items}}
@@ -57,19 +70,30 @@
         <td class="ReceiveDate">{{ReceiveDate}}</td>
         <td class="PONo">{{PurchasePurchaseOrderNumber}}</td>
         <td class="PurchPrice">{{PurchaseAmount}}</td>
-        {{#if ../../IncludeUnretired}}
-        <td class="RetireUnRetireDate"><div>{{RetireDate}}</div><div>{{UnretireDate}}</div></td>
-        <td class="By"><div>{{RetiredBy}}</div><div>{{UnretiredBy}}</div></td>
-        <td class="Reason"><div>{{RetiredReason}}</div><div>{{UnretiredReason}}</div></td>
-        {{/if}}
+        <td class="RetireUnRetireDate">
+          <div>{{RetireDate}}</div>
+          {{#if ../../IncludeUnretired}}
+          <div>{{UnretireDate}}</div>
+          {{/if}}
+        </td>
+        <td class="By">
+          <div>{{RetiredBy}}</div>
+          {{#if ../../IncludeUnretired}}
+          <div>{{UnretiredBy}}</div>
+          {{/if}}
+        </td>
+        <td class="Reason">
+          <div>{{RetiredReason}}</div>
+          {{#if ../../IncludeUnretired}}
+          <div>{{UnretiredReason}}</div>
+          {{/if}}
+        </td>
       </tr>
       {{#if RetiredNotes}}
       <tr>
         <td></td>
         <td class="RetireNote" colspan="7">Retire Note: {{RetiredNotes}}</td>
-        {{#if ../../IncludeUnretired}}
         <td colspan="3"></td>
-        {{/if}}
       </tr>
       {{/if}}
       {{#ifEquals ../../ShowSellInformation true}}
@@ -82,9 +106,7 @@
         <th class="subHeaders">L&D Order No.</th>
         <th class="subHeaders">Invoice No.</th>
         <th class="subHeaders">Price</th>
-        {{#if ../../IncludeUnretired}}
         <th colspan="3"></th>
-        {{/if}}
       </tr>
       <tr class="subValues">
         <td></td>
@@ -94,9 +116,7 @@
         <td></td>
         <td>{{BilledToInvoiceNumber}}</td>
         <td class="Price">{{BilledAmount}}</td>
-        {{#if ../../IncludeUnretired}}
         <th colspan="3"></th>
-        {{/if}}
       </tr>
       {{/checkLength}}
       {{/ifEquals}}
