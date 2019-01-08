@@ -4,7 +4,7 @@ FwFormField_multiselectvalidation.renderDesignerHtml = function ($control, html)
     html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
-    html.push(`<div contenteditable="true" class="multiselectitems"><span class="addItem"></span></div>`);
+    html.push(`<div contenteditable="true" class="multiselectitems"><span class="addItem" tabindex="-1"></span></div>`);
     html.push('<input class="fwformfield-value" type="hidden" />');
     html.push('<input class="fwformfield-value" type="text" readonly="true"');
     if ($control.attr('data-enabled') === 'false') {
@@ -21,7 +21,7 @@ FwFormField_multiselectvalidation.renderRuntimeHtml = function ($control, html) 
 
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
-    html.push(`<div contenteditable="true" class="multiselectitems"><span class="addItem"></span></div>`);
+    html.push(`<div contenteditable="true" class="multiselectitems"><span class="addItem" tabindex="-1"></span></div>`);
     html.push('<input class="fwformfield-value" type="hidden" />');
     html.push('<input class="fwformfield-text" type="text" readonly="true"');
     if ($control.attr('data-enabled') === 'false') {
