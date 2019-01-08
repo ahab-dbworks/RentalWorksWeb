@@ -131,6 +131,45 @@ namespace WebApi.Modules.Home.Receipt
             if (original != null)
             {
                 orig = (ReceiptLogic)original;
+
+                if (AppliedById != null)
+                {
+                    if (orig.AppliedById == null)
+                    {
+                        orig.AppliedById = "";
+                    }
+                    if (!AppliedById.Equals(orig.AppliedById)) 
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the Applied By on this {BusinessLogicModuleName}.";
+                    }
+                }
+
+                if (CustomerId != null)
+                {
+                    if (orig.CustomerId == null)
+                    {
+                        orig.CustomerId = "";
+                    }
+                    if (!CustomerId.Equals(orig.CustomerId))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the Customer on this {BusinessLogicModuleName}.";
+                    }
+                }
+
+                if (DealId != null)
+                {
+                    if (orig.DealId == null)
+                    {
+                        orig.DealId = "";
+                    }
+                    if (!DealId.Equals(orig.DealId))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the Deal on this {BusinessLogicModuleName}.";
+                    }
+                }
             }
 
             if (saveMode.Equals(TDataRecordSaveMode.smInsert))
