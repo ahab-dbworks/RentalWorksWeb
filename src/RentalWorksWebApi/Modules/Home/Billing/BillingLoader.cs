@@ -82,7 +82,7 @@ namespace WebApi.Modules.Home.Billing
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billstartdate", modeltype: FwDataTypes.Date)]
-        public string BillingS6tartDate { get; set; }
+        public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billstopdate", modeltype: FwDataTypes.Date)]
         public string BillingStopDate { get; set; }

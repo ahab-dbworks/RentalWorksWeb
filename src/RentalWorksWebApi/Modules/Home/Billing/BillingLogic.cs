@@ -57,7 +57,7 @@ namespace WebApi.Modules.Home.Billing
         [FwLogicProperty(Id: "CpFETq4AKDvB", IsReadOnly: true)]
         public string OfficeLocationId { get; set; }
         [FwLogicProperty(Id: "DNWfPd0iEc09i", IsReadOnly: true)]
-        public string BillingS6tartDate { get; set; }
+        public string BillingStartDate { get; set; }
         [FwLogicProperty(Id: "6svCe94oZKUF", IsReadOnly: true)]
         public string BillingStopDate { get; set; }
         [FwLogicProperty(Id: "8PFUJfaLik8t", IsReadOnly: true)]
