@@ -275,11 +275,17 @@
         jQuery($control).on('click', '#' + userWidgetId + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
+                    let titleArray = [];
+                    titleArray.push(response.options.title.text);
                     if (response.fromDate !== undefined && response.fromDate === response.toDate) {
-                        response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll');
+                        titleArray.push(moment(response.fromDate).format('l'));
+                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                        titleArray.push(moment(response.fromDate).format('l'));
                     } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
-                        response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll') + ' to ' + moment(response.toDate).format('ll');
+                        titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                     }
+
+                    response.options.title.text = titleArray;
 
                     if (axisFormat === 'TWODGDEC') {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
@@ -344,11 +350,17 @@
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
+                        let titleArray = [];
+                        titleArray.push(response.options.title.text);
                         if (response.fromDate !== undefined && response.fromDate === response.toDate) {
-                            response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll');
+                            titleArray.push(moment(response.fromDate).format('l'));
+                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                            titleArray.push(moment(response.fromDate).format('l'));
                         } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
-                            response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll') + ' to ' + moment(response.toDate).format('ll');
+                            titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                         }
+
+                        response.options.title.text = titleArray;
 
                         if (axisFormat === 'TWODGDEC') {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
@@ -401,11 +413,17 @@
 
         FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
+                let titleArray = [];
+                titleArray.push(response.options.title.text);
                 if (response.fromDate !== undefined && response.fromDate === response.toDate) {
-                    response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll');
+                    titleArray.push(moment(response.fromDate).format('l'));
+                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                    titleArray.push(moment(response.fromDate).format('l'));
                 } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
-                    response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll') + ' to ' + moment(response.toDate).format('ll');
+                    titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                 }
+
+                response.options.title.text = titleArray;
 
                 if (axisFormat === 'TWODGDEC') {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
