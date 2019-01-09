@@ -275,6 +275,12 @@
         jQuery($control).on('click', '#' + userWidgetId + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
+                    if (response.fromDate !== undefined && response.fromDate === response.toDate) {
+                        response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll');
+                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
+                        response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll') + ' to ' + moment(response.toDate).format('ll');
+                    }
+
                     if (axisFormat === 'TWODGDEC') {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                     } else {
@@ -338,6 +344,12 @@
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
+                        if (response.fromDate !== undefined && response.fromDate === response.toDate) {
+                            response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll');
+                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
+                            response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll') + ' to ' + moment(response.toDate).format('ll');
+                        }
+
                         if (axisFormat === 'TWODGDEC') {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                         } else {
@@ -389,6 +401,12 @@
 
         FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
+                if (response.fromDate !== undefined && response.fromDate === response.toDate) {
+                    response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll');
+                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
+                    response.options.title.text = response.options.title.text + ' - ' + moment(response.fromDate).format('ll') + ' to ' + moment(response.toDate).format('ll');
+                }
+
                 if (axisFormat === 'TWODGDEC') {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                 } else {
@@ -458,6 +476,27 @@
             toDate.show();
         }
     }
+    //----------------------------------------------------------------------------------------------
+    //setDateBehaviorTitle(DateBehavior) {
+    //    if (DateBehavior === 'SINGLEDATEYESTERDAY') {
+    //        return moment().subtract(1, 'days').format('ll');
+    //    } else if (DateBehavior === 'SINGLEDATEYESTERDAY') {
+    //    } else if (DateBehavior === 'SINGLEDATETODAY') {
+    //    } else if (DateBehavior === 'SINGLEDATETOMORROW') {
+    //    } else if (DateBehavior === 'DATERANGEPRIORWEEK') {
+    //    } else if (DateBehavior === 'DATERANGECURRENTWEEK') {
+    //    } else if (DateBehavior === 'DATERANGENEXTWEEK') {
+    //    } else if (DateBehavior === 'DATERANGEPRIORMONTH') {
+    //    } else if (DateBehavior === 'DATERANGECURRENTMONTH') {
+    //    } else if (DateBehavior === 'DATERANGENEXTMONTH') {
+    //    } else if (DateBehavior === 'DATERANGEPRIORYEAR') {
+    //    } else if (DateBehavior === 'DATERANGECURRENTYEAR') {
+    //    } else if (DateBehavior === 'DATERANGENEXTYEAR') {
+    //    } else if (DateBehavior === 'DATERANGEYEARTODATE') {
+    //    } else if (DateBehavior === 'SINGLEDATESPECIFICDATE') {
+    //    } else if (DateBehavior === 'DATERANGESPECIFICDATES') {
+    //    }
+    //}
     //----------------------------------------------------------------------------------------------
 };
 
