@@ -38,7 +38,7 @@ export class InvoiceReport extends WebpackReport {
                         if (controlObject.ReportLogoImage != '') {
                             invoice.Logosrc = controlObject.ReportLogoImage;
                         } 
-                     
+                         console.log('invoice:', invoice)
                         this.renderFooterHtml(invoice);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;

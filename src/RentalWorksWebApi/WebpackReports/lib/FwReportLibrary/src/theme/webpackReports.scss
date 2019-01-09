@@ -49,6 +49,23 @@
     font-size: 12px;
     font-weight: bold;
 }
+.rpt-meta-header {
+    background-color: #F2F2F2;
+    font-weight: 600;
+    border-bottom: .2em solid #027cc5;
+    border-top: .2em solid #027cc5;
+    padding: 8px;
+    margin-bottom: 8px;
+}
+.rpt-meta-section {
+    border-bottom: .1em solid #027cc5;
+    border-top: .1em solid #027cc5;
+    padding: 8px;
+}
+.shaded-block {
+    background-color: #F2F2F2;
+    font-weight: 600;
+}
 
 table {
     border-collapse: collapse;
