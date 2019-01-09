@@ -58,16 +58,6 @@ class FwMultiSelectValidationClass {
             if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller][formbeforevalidate] === 'function')) {
                 window[controller][formbeforevalidate]($browse, $form, request);
             }
-            FwServices.validation.method(request, validationName, 'Browse', $browse,
-                // onSuccess
-                function (response) {
-                    try {
-                        FwBrowse.databindcallback($browse, response);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                }
-            );
         });
         FwBrowse.renderRuntimeHtml($browse);
         if (hasselectall) {
@@ -175,10 +165,9 @@ class FwMultiSelectValidationClass {
                 var code = e.keyCode || e.which;
                 try {
                     if (code === 13) { //Enter Key
+                        e.preventDefault();
                         $searchfield = jQuery(e.currentTarget);
                         FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
-                        e.preventDefault();
-                        return false;
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
