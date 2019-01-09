@@ -12,14 +12,13 @@ class Invoice {
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
-        var self = this;
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
         var $browse = this.openBrowse();
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined' && filter.datafield === 'agent') {
                 filter.search = filter.search.split('%20').reverse().join(', ');
@@ -27,7 +26,7 @@ class Invoice {
 
             if (typeof filter !== 'undefined') {
                 filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             }
 
             FwBrowse.databind($browse);
@@ -40,15 +39,14 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         var location = JSON.parse(sessionStorage.getItem('location'));
-        self.ActiveView = 'LocationId=' + location.locationid;
+        this.ActiveView = 'LocationId=' + location.locationid;
 
-        $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
         });
         // Changes text color to light gray if void
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
@@ -68,7 +66,6 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
-        var self = this;
         var $all = FwMenu.generateDropDownViewBtn('All', true);
         var $new = FwMenu.generateDropDownViewBtn('New', false);
         var $open = FwMenu.generateDropDownViewBtn('Open', false);
@@ -76,46 +73,46 @@ class Invoice {
         var $complete = FwMenu.generateDropDownViewBtn('Complete', false);
         var $void = FwMenu.generateDropDownViewBtn('Void', false);
         var $closed = FwMenu.generateDropDownViewBtn('Closed', false);
-        $all.on('click', function () {
+        $all.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
+            this.ActiveView = 'ALL';
             FwBrowse.search($browse);
         });
-        $new.on('click', function () {
+        $new.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'NEW';
+            this.ActiveView = 'NEW';
             FwBrowse.search($browse);
         });
-        $open.on('click', function () {
+        $open.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'OPEN';
+            this.ActiveView = 'OPEN';
             FwBrowse.search($browse);
         });
-        $received.on('click', function () {
+        $received.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'RECEIVED';
+            this.ActiveView = 'RECEIVED';
             FwBrowse.search($browse);
         });
-        $complete.on('click', function () {
+        $complete.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'COMPLETE';
+            this.ActiveView = 'COMPLETE';
             FwBrowse.search($browse);
         });
-        $void.on('click', function () {
+        $void.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'VOID';
+            this.ActiveView = 'VOID';
             FwBrowse.search($browse);
         });
-        $closed.on('click', function () {
+        $closed.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CLOSED';
+            this.ActiveView = 'CLOSED';
             FwBrowse.search($browse);
         });
         var viewSubitems = [];
@@ -133,16 +130,16 @@ class Invoice {
         var location = JSON.parse(sessionStorage.getItem('location'));
         var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
         var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', function () {
+        $allLocations.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
+            this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
-        $userLocation.on('click', function () {
+        $userLocation.on('click', () => {
             var $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
+            this.ActiveView = 'LocationId=' + location.locationid;
             FwBrowse.search($browse);
         });
         var viewLocation = [];
@@ -697,7 +694,6 @@ FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = functi
     try {
         const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
         if (invoiceId != null) {
-            var self = this;
             let $confirmation, $yes, $no;
             $confirmation = FwConfirmation.renderConfirmation('Void', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
