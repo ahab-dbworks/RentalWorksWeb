@@ -15641,7 +15641,7 @@
 			]
 		},
 		{
-			"name": "G/L Distribution",
+			"name": "G/L Distribution (for Settings)",
 			"item": [
 				{
 					"name": "G/L Distribution: Get Many",
@@ -15845,6 +15845,46 @@
 								"v1",
 								"gldistribution",
 								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "G/L Distribution (for Invoice, Receipt, etc)",
+			"item": [
+				{
+					"name": "GL Distribution: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InvoiceId\": \"abc\",\n    \t\t\"ReceiptId\": \"def\",\n    \t\t\"VendorInvoiceId\": \"ghi\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/gldistribution/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"gldistribution",
+								"browse"
 							]
 						}
 					},
@@ -51935,7 +51975,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/widget/loadbyname/ordersbyagent",
+							"raw": "http://localhost:57949/api/v1/widget/loadbyname/ordersbyagent?dateBehavior=DATERANGEPRIORYEAR",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -51947,6 +51987,12 @@
 								"widget",
 								"loadbyname",
 								"ordersbyagent"
+							],
+							"query": [
+								{
+									"key": "dateBehavior",
+									"value": "DATERANGEPRIORYEAR"
+								}
 							]
 						}
 					},

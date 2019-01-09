@@ -1,14 +1,14 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Settings.GlDistribution
+namespace WebApi.Modules.Settings.GlDistributionRule
 {
     [FwLogic(Id:"VaIT9Ka9gJHt")]
-    public class GlDistributionLogic : AppBusinessLogic
+    public class GlDistributionRuleLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        GlDistributionRecord glDistribution = new GlDistributionRecord();
-        GlDistributionLoader glDistributionLoader = new GlDistributionLoader();
-        public GlDistributionLogic()
+        GlDistributionRuleRecord glDistribution = new GlDistributionRuleRecord();
+        GlDistributionRuleLoader glDistributionLoader = new GlDistributionRuleLoader();
+        public GlDistributionRuleLogic()
         {
             dataRecords.Add(glDistribution);
             dataLoader = glDistributionLoader;

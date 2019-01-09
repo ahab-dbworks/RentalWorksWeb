@@ -6,16 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
-namespace WebApi.Modules.Settings.GlDistribution
+namespace WebApi.Modules.Settings.GlDistributionRule
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "settings-v1")]
     [FwController(Id:"71QUDQyIbibs")]
-    public class GlDistributionController : AppDataController
+    public class GlDistributionRuleController : AppDataController
     {
-        public GlDistributionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GlDistributionLogic); }
+        public GlDistributionRuleController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(GlDistributionRuleLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/gldistribution/browse 
+        // POST api/v1/gldistributionrule/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id:"TGSUSEa1NH7q")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -31,31 +31,31 @@ namespace WebApi.Modules.Settings.GlDistribution
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/gldistribution 
+        // GET api/v1/gldistributionrule 
         [HttpGet]
         [FwControllerMethod(Id:"creqXexG3apd")]
-        public async Task<ActionResult<IEnumerable<GlDistributionLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<IEnumerable<GlDistributionRuleLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
-            return await DoGetAsync<GlDistributionLogic>(pageno, pagesize, sort);
+            return await DoGetAsync<GlDistributionRuleLogic>(pageno, pagesize, sort);
         }
         //------------------------------------------------------------------------------------ 
-        // GET api/v1/gldistribution/A0000001 
+        // GET api/v1/gldistributionrule/A0000001 
         [HttpGet("{id}")]
         [FwControllerMethod(Id:"BWIEKcNomzH7")]
-        public async Task<ActionResult<GlDistributionLogic>> GetOneAsync([FromRoute]string id)
+        public async Task<ActionResult<GlDistributionRuleLogic>> GetOneAsync([FromRoute]string id)
         {
-            return await DoGetAsync<GlDistributionLogic>(id);
+            return await DoGetAsync<GlDistributionRuleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/gldistribution 
+        // POST api/v1/gldistributionrule 
         [HttpPost]
         [FwControllerMethod(Id:"nAF3lRel3dXS")]
-        public async Task<ActionResult<GlDistributionLogic>> PostAsync([FromBody]GlDistributionLogic l)
+        public async Task<ActionResult<GlDistributionRuleLogic>> PostAsync([FromBody]GlDistributionRuleLogic l)
         {
-            return await DoPostAsync<GlDistributionLogic>(l);
+            return await DoPostAsync<GlDistributionRuleLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/gldistribution/A0000001 
+        // DELETE api/v1/gldistributionrule/A0000001 
         [HttpDelete("{id}")]
         [FwControllerMethod(Id:"olBYTapfO7Rm")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)

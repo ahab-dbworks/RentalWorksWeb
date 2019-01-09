@@ -2,10 +2,10 @@ using FwStandard.BusinessLogic;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data;
-namespace WebApi.Modules.Settings.GlDistribution
+namespace WebApi.Modules.Settings.GlDistributionRule
 {
     [FwSqlTable("gldistribution")]
-    public class GlDistributionRecord : AppDataReadWriteRecord
+    public class GlDistributionRuleRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "gldistributionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]

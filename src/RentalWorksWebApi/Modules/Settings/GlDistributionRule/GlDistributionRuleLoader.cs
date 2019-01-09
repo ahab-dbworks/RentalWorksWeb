@@ -4,10 +4,10 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
-namespace WebApi.Modules.Settings.GlDistribution
+namespace WebApi.Modules.Settings.GlDistributionRule
 {
     [FwSqlTable("gldistributionview")]
-    public class GlDistributionLoader : AppDataLoadRecord
+    public class GlDistributionRuleLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "gldistributionid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
