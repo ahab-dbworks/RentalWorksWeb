@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -576,7 +576,14 @@ namespace FwStandard.DataLayer
                                     string partialParameterName = parameterName + partialValueCounter.ToString();
                                     if (partialValueCounter > 0)
                                     {
-                                        searchcondition = searchcondition + " and ";
+                                        if (!string.IsNullOrEmpty(request.searchcondition[i]))
+                                        {
+                                            searchcondition = searchcondition + " " + request.searchcondition[i] + " ";
+                                        }
+                                        else
+                                        {
+                                            searchcondition = searchcondition + " and ";
+                                        }
                                     }
                                     searchcondition = searchcondition + searchField + " like " + partialParameterName;
                                     select.AddParameter(partialParameterName, "%" + partialValue.ToUpper() + "%");
