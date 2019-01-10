@@ -615,23 +615,23 @@ namespace FwStandard.DataLayer
                         }
                         else if (searchFieldOperator.Equals("greaterthan"))
                         {
-                            searchcondition = conditionConjunction + searchField + " " + parameterName;
-                            select.AddParameter(parameterName, "<" + searchFieldValue.ToUpper());
+                            searchcondition = conditionConjunction + searchField + " >= " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
                         }
                         else if (searchFieldOperator.Equals("greaterthanequal"))
                         {
-                            searchcondition = conditionConjunction + searchField + " " + parameterName;
-                            select.AddParameter(parameterName, "<=" + searchFieldValue.ToUpper());
+                            searchcondition = conditionConjunction + searchField + " >= " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
                         }
                         else if (searchFieldOperator.Equals("lessthan"))
                         {
-                            searchcondition = conditionConjunction + searchField + " " + parameterName;
-                            select.AddParameter(parameterName, ">" + searchFieldValue.ToUpper());
+                            searchcondition = conditionConjunction + searchField + " < " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
                         }
                         else if (searchFieldOperator.Equals("lessthanequal"))
                         {
-                            searchcondition = conditionConjunction + searchField + " " + parameterName;
-                            select.AddParameter(parameterName, ">=" + searchFieldValue.ToUpper());
+                            searchcondition = conditionConjunction + searchField + " <= " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
                         }
                         else if (searchFieldOperator.Equals("=") || searchFieldOperator.Equals("<>"))
                         {
