@@ -339,6 +339,7 @@ namespace WebLibrary.Security
             AddGrid("Exchange Item",                          "{B58D8E40-D6C1-45D4-97B8-18A1270822B9}", lv1menuGrids.Id, "ExchangeItemGridController");
             AddGrid("Floor",                                  "{472B5E4A-57BB-4DFB-AD6A-D0F71915124B}", lv1menuGrids.Id, "FloorGridController");
             AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
+            AddGrid("G/L Distribution",                       "{A41DF75D-A3A3-40B8-84E0-7B8F8DACDC35}", lv1menuGrids.Id, "GlDistributionGridController");
             AddGrid("Inventory Group Inventory",              "{2EE8822B-F83E-4D8B-B055-4DA5853080C8}", lv1menuGrids.Id, "InventoryGroupInvGridController");
             AddGrid("Inventory Attribute Value",              "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
             AddGrid("Inventory Availability",                 "{8241ACB4-9346-43D6-8D3C-B6567FAA0270}", lv1menuGrids.Id, "InventoryAvailabilityGridController");

@@ -4,7 +4,7 @@
 
     constructor() {
         this.Module = 'GlDistribution';
-        this.apiurl = 'api/v1/gldistribution';
+        this.apiurl = 'api/v1/gldistributionrule';
     }
 
     getModuleScreen() {
