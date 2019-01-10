@@ -10,7 +10,7 @@ var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
 export class ReturnonAssetPrecalculatedReportRequest {
-    ReportYear: Date;
+    ReportYear: string;
     ReportPeriod: string;
     Ranks: any;
     TrackedBys: any;
@@ -44,9 +44,9 @@ export class ReturnonAssetPrecalculatedReport extends WebpackReport {
 
             let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetprecalculatedreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    assetPrecalculated = DataTable.toObjectList(response);
+                    assetPrecalculated.rows = DataTable.toObjectList(response);
                     assetPrecalculated.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    assetPrecalculated.Report = 'Asset On Precalculated Report';
+                    assetPrecalculated.Report = 'Return On Asset Precalculated Report';
                     assetPrecalculated.System = 'RENTALWORKS';
                     assetPrecalculated.Company = '4WALL ENTERTAINMENT';
 

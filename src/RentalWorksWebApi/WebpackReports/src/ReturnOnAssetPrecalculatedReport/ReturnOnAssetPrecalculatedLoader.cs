@@ -39,8 +39,8 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         [FwSqlDataField(column: "SubCategory", modeltype: FwDataTypes.Text)]
         public string SubCategory { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ICodeRank", modeltype: FwDataTypes.Boolean)]
-        public bool? ICodeRank { get; set; }
+        [FwSqlDataField(column: "ICodeRank", modeltype: FwDataTypes.Text)]
+        public string ICodeRank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ICode", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }

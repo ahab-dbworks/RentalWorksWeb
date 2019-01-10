@@ -21,7 +21,6 @@ export class RentalInventoryAttributesReportRequest {
 export class RentalInventoryAttributesReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log('parameters: ', parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
