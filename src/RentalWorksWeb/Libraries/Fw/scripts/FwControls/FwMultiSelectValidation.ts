@@ -112,10 +112,26 @@ class FwMultiSelectValidationClass {
         });
         $browse
             .on('click', '.validationbuttons .btnSelect', function () {
-                var selectedrows;
+                let $selectedrows, $tr, $selectedTrs, uniqueid;
                 try {
-                    selectedrows = $browse.data('selectedrows');
-                    FwMultiSelectValidation.select($control, selectedrows, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
+                    if (typeof $browse.data('selectedrows') === 'undefined') {
+                        $browse.data('selectedrows', {});
+                    }
+                    $selectedrows = $browse.data('selectedrows');
+                    $selectedTrs = $browse.find('tbody > tr.selected');
+
+                    for (let i = 0; i < $selectedTrs.length; i++) {
+                        $tr = jQuery($selectedTrs[i]);
+                        uniqueid = FwMultiSelectValidation.getUniqueIds($tr);
+                        if (typeof $selectedrows[uniqueid] == 'undefined') {
+                            $selectedrows[uniqueid] = $tr; 
+                        }
+                    }
+                    if ($selectedrows.length === 0) {
+                        FwNotification.renderNotification('WARNING', 'No rows selected.');
+                    } else {
+                        FwMultiSelectValidation.select($control, $selectedrows, validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
