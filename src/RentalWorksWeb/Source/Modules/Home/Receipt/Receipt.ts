@@ -149,7 +149,18 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-
+        let $glDistributionGrid;
+        let $glDistributionGridControl;
+        $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        $glDistributionGrid.empty().append($glDistributionGridControl);
+        $glDistributionGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                ReceiptId: FwFormField.getValueByDataField($form, 'ReceiptId')
+            };
+        });
+        FwBrowse.init($glDistributionGridControl);
+        FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         // ----------
         
         // ----------

@@ -364,6 +364,19 @@ class Invoice {
         FwBrowse.renderRuntimeHtml($invoiceItemGridRentalSaleControl);
 
         //----------------------------------------------------------------------------------------------
+        let $glDistributionGrid;
+        let $glDistributionGridControl;
+        $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        $glDistributionGrid.empty().append($glDistributionGridControl);
+        $glDistributionGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+            };
+        });
+        FwBrowse.init($glDistributionGridControl);
+        FwBrowse.renderRuntimeHtml($glDistributionGridControl);
+        //----------------------------------------------------------------------------------------------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');

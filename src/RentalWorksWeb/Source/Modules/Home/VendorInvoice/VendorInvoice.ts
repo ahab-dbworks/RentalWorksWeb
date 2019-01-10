@@ -112,12 +112,28 @@ class VendorInvoice {
         })
         FwBrowse.init($vendorInvoiceItemGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
+
+        let $glDistributionGrid;
+        let $glDistributionGridControl;
+        $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        $glDistributionGrid.empty().append($glDistributionGridControl);
+        $glDistributionGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+            };
+        });
+        FwBrowse.init($glDistributionGridControl);
+        FwBrowse.renderRuntimeHtml($glDistributionGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
         let $vendorInvoiceItemGridControl = $form.find('[data-name="VendorInvoiceItemGrid"]');
         FwBrowse.search($vendorInvoiceItemGridControl);
+
+        let $glDistributionGridControl = $form.find('[data-name="GlDistributionGrid"]');
+        FwBrowse.search($glDistributionGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
