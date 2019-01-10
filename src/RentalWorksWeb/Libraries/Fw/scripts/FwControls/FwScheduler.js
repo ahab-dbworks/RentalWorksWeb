@@ -502,7 +502,7 @@ class FwSchedulerClass {
         var dpyear;
         dpyear = new DayPilot.Scheduler($control.attr('data-dpyearid'));
         $control.data('dpyear', dpyear);
-        dpyear.startDate = this.getFirstSundayMonth();
+        dpyear.startDate = this.getFirstSundayMonth(dpyear);
         dpyear.cellWidth = 50;
         dpyear.eventHeight = 30;
         dpyear.headerHeight = 25;
@@ -922,7 +922,7 @@ class FwSchedulerClass {
     getTodaysDate() {
         return new DayPilot.Date(new Date().toISOString());
     }
-    getFirstSundayMonth() {
+    getFirstSundayMonth(year) {
         for (var i = 0; i < 12; i++) {
             if (moment().startOf('year').add(i, 'M').format('dddd') === 'Sunday') {
                 return moment().startOf('year').add(i, 'M').format('YYYY-MM-DD');
