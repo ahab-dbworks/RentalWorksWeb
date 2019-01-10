@@ -241,32 +241,32 @@
         let fields = FwModule.loadFormFromTemplate($browse.data('name')).find('.fwformfield');
         let findFields = [];
         let textComparisonFields = [
-            { value: 'Contains', text: 'Contains' },
-            { value: 'StartsWith', text: 'Starts With' },
-            { value: 'EndsWith', text: 'Ends With' },
-            { value: 'Equals', text: 'Equals' },
-            { value: 'DoesNotContain', text: 'Does Not Contain' },
-            { value: 'DoesNotEqual', text: 'Does Not Equal' }
+            { value: 'like', text: 'Contains' },
+            { value: 'startswith', text: 'Starts With' },
+            { value: 'endswith', text: 'Ends With' },
+            { value: '=', text: 'Equals' },
+            { value: 'doesnotcontain', text: 'Does Not Contain' },
+            { value: '<>', text: 'Does Not Equal' }
         ];
         let numericComparisonFields = [
-            { value: 'Equals', text: '=' },
-            { value: 'GreaterThan', text: '>' },
-            { value: 'GreaterThanEqual', text: '≥' },
-            { value: 'LessThan', text: '<' },
-            { value: 'LessThanEqual', text: '≤' },
-            { value: 'NotEqual', text: '≠' },
+            { value: '=', text: '=' },
+            { value: 'greaterthan', text: '>' },
+            { value: 'greaterthanqual', text: '≥' },
+            { value: 'lessthan', text: '<' },
+            { value: 'lessthanequal', text: '≤' },
+            { value: '<>', text: '≠' },
         ];
         let booleanComparisonFields = [
-            { value: 'Equals', text: 'Equals' },
-            { value: 'DoesNotEqual', text: 'Does Not Equal' }
+            { value: '=', text: 'Equals' },
+            { value: '<>', text: 'Does Not Equal' }
         ];
         let dateComparisonFields = [
-            { value: 'Equals', text: 'Equals' },
+            { value: '=', text: 'Equals' },
             { value: 'PriorTo', text: 'Prior To' },
             { value: 'PriorToEquals', text: 'Prior To or Equals' },
             { value: 'LaterThan', text: 'Later Than' },
             { value: 'LaterThanEquals', text: 'Later Than or Equals' },
-            { value: 'NotEqual', text: 'Does Not Equal' },
+            { value: '<>', text: 'Does Not Equal' },
         ];
 
         FwAppData.apiMethod(true, 'GET', window[controller].apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -287,6 +287,9 @@
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
                     case 'Integer':
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
+                        break;
+                    case 'Decimal':
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Boolean':
@@ -311,6 +314,9 @@
                         window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
                     case 'Integer':
+                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), numericComparisonFields, true);
+                        break;
+                    case 'Decimal':
                         window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Boolean':
@@ -356,7 +362,7 @@
 
             for (var i = 0; i < queryRows.length; i++) {
                 if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
-                    request.searchfieldoperators.unshift('like');
+                    request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
                     request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
                     request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
                     request.searchseparators.unshift(',');

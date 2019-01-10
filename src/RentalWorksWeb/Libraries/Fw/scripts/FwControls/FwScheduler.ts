@@ -238,7 +238,7 @@ class FwSchedulerClass {
                 } else if ($control.find('.btnYear').attr('data-selected') === 'true') {
                     navyear = $control.data('navyear');
                     currentDay = navyear.selectionStart;
-                    previousMonth = currentDay.addMonths(-1);
+                    previousMonth = currentDay.addYears(-1);
                     FwScheduler.navigate($control, previousMonth);
                 } else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
                     navscheduler = $control.data('navscheduler');
@@ -617,6 +617,7 @@ class FwSchedulerClass {
         $control.find('.monthcontainer').hide();
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
+        $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnDay').attr('data-selected', 'true');
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
@@ -951,8 +952,8 @@ class FwSchedulerClass {
     getTodaysDate() {
         return new DayPilot.Date(new Date().toISOString());
     }
-    //----------------------------------------------------------------------------------------------
-    getFirstSundayMonth() {
+    //---------------------------------------------------------------------------------
+    getFirstSundayMonth(year) {
         for (var i = 0; i < 12; i++) {
             if (moment().startOf('year').add(i, 'M').format('dddd') === 'Sunday') {
                 return moment().startOf('year').add(i, 'M').format('YYYY-MM-DD');

@@ -251,7 +251,7 @@ class FwSchedulerClass {
                 else if ($control.find('.btnYear').attr('data-selected') === 'true') {
                     navyear = $control.data('navyear');
                     currentDay = navyear.selectionStart;
-                    previousMonth = currentDay.addMonths(-1);
+                    previousMonth = currentDay.addYears(-1);
                     FwScheduler.navigate($control, previousMonth);
                 }
                 else if ($control.find('.btnSchedule').attr('data-selected') === 'true') {
@@ -599,6 +599,7 @@ class FwSchedulerClass {
         $control.find('.monthcontainer').hide();
         $control.find('.schedulercontainer').hide();
         $control.find('.calendarcontainer').show();
+        $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnDay').attr('data-selected', 'true');
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
