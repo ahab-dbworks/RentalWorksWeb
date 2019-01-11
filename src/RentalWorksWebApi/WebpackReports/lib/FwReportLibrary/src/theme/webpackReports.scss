@@ -58,15 +58,33 @@
     margin-bottom: 8px;
 }
 .rpt-meta-section {
-    border-bottom: .1em solid #027cc5;
     border-top: .1em solid #027cc5;
     padding: 8px;
+    display: flex;
+}
+.rpt-meta-address {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
 }
 .shaded-block {
     background-color: #F2F2F2;
     font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 7px;
+    margin-left: -7px;
 }
 
+.right-text-block {
+    color: #027cc5;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 7px;
+}
 table {
     border-collapse: collapse;
 }
