@@ -284,7 +284,7 @@
             findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
             window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
             window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'And', text: 'And' }, { value: 'Or', text: 'Or' }], true);
-            window['FwFormField_select'].loadItems(booleanField , [{ value: 'true', text: 'true' }, { value: 'false', text: 'false' }], true);
+            window['FwFormField_select'].loadItems(booleanField, [{ value: 'true', text: 'true' }, { value: 'false', text: 'false' }], true);
             $browse.find('.datafieldselect').on('change', function () {
                 let datatype = jQuery(this).find(':selected').data('type');
                 dateField.hide();
@@ -319,24 +319,35 @@
 
         $browse.find('.add-query').on('click', function cloneRow() {
             let newRow = jQuery(this).closest('.queryrow').clone();
+            let dateField = $browse.find('.datequery');
+            let textField = $browse.find('.textquery');
+            let booleanField = $browse.find('.booleanquery');
 
             newRow.find('.datafieldselect').on('change', function () {
                 let datatype = jQuery(this).find(':selected').data('type');
+                dateField.hide();
+                textField.hide();
+                booleanField.hide();
                 switch (datatype) {
                     case 'Text':
-                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), textComparisonFields, true);
+                        textField.show();
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
                     case 'Integer':
-                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), numericComparisonFields, true);
+                        textField.show();
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Decimal':
-                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), numericComparisonFields, true);
+                        textField.show();
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Boolean':
-                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
+                        booleanField.show();
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), booleanComparisonFields, true);
                         break;
                     case 'Date':
-                        window['FwFormField_select'].loadItems(newRow.find('.datafieldcomparison'), dateComparisonFields, true);
+                        dateField.show();
+                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), dateComparisonFields, true);
                         break;
                 }
             });
@@ -656,7 +667,8 @@
                                                 $this.addClass('active');
 
                                                 jQuery(document).on('click', function closeMenu(e: any) {
-                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query') && jQuery(e.target).parent().prop('tagName') !== 'TR') {
+                                                    let target = jQuery(e.target);
+                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query') && target.parent().prop('tagName') !== 'TR' && !target.hasClass('year') && !target.hasClass('month')) {
                                                         $this.removeClass('active');
                                                         $this.find('.findbutton-dropdown').css('z-index', '0');
                                                         jQuery(document).off('click');
