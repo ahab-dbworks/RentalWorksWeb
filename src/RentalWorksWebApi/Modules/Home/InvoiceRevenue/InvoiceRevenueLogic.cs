@@ -33,9 +33,9 @@ namespace WebApi.Modules.Home.InvoiceRevenue
         [FwLogicProperty(Id: "W7ZI03euGi25Z", IsReadOnly: true)]
         public decimal? Cost { get; set; }
         [FwLogicProperty(Id: "2X7nkTK3kYLBc", IsReadOnly: true)]
-        public string MasterId { get; set; }
+        public string InventoryId { get; set; }
         [FwLogicProperty(Id: "G7YrMwTrG98z3", IsReadOnly: true)]
-        public string RentalItemId { get; set; }
+        public string ItemId { get; set; }
         [FwLogicProperty(Id: "ihzeU00uVzAa", IsReadOnly: true)]
         public string WarehouseId { get; set; }
         [FwLogicProperty(Id: "5YlCJT4Wo6UJ", IsReadOnly: true)]
