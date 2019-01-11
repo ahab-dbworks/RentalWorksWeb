@@ -185,6 +185,11 @@
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridBrowse.htm" />
+    <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridBrowse.htm" />
+    <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js" />
+    <Content Include="Source\Grids\InvoiceStatusHistoryGrid\InvoiceStatusHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\InvoiceRevenueGrid\InvoiceRevenueGridBrowse.htm" />
+    <Content Include="Source\Grids\InvoiceOrderGrid\InvoiceOrderGridBrowse.htm" />
     <Content Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoiceItemGrid\VendorInvoiceItemGridBrowse.htm" />
     <Content Include="Source\Grids\OrderItemGrid\OrderItemGridBrowse.htm" />
@@ -310,6 +315,10 @@
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InvoiceStatusHistoryGrid\InvoiceStatusHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InvoiceRevenueGrid\InvoiceRevenueGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InvoiceOrderGrid\InvoiceOrderGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceItemGrid\VendorInvoiceItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderItemGrid\OrderItemGridController.ts" />
@@ -1139,6 +1148,7 @@
     <Content Include="tsconfig.json" />
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
     <Content Include="Source\Modules\Reports\CrewSignInReport\RwCrewSignInReportController.js.map" />
+    <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

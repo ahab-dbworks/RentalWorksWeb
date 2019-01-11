@@ -377,6 +377,45 @@ class Invoice {
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         //----------------------------------------------------------------------------------------------
+        let $invoiceOrderGrid;
+        let $invoiceOrderGridControl;
+        $invoiceOrderGrid = $form.find('div[data-grid="InvoiceOrderGrid"]');
+        $invoiceOrderGridControl = FwBrowse.loadGridFromTemplate('InvoiceOrderGrid');
+        $invoiceOrderGrid.empty().append($invoiceOrderGridControl);
+        $invoiceOrderGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+            };
+        });
+        FwBrowse.init($invoiceOrderGridControl);
+        FwBrowse.renderRuntimeHtml($invoiceOrderGridControl);
+        //----------------------------------------------------------------------------------------------
+        let $invoiceRevenueGrid;
+        let $invoiceRevenueGridControl;
+        $invoiceRevenueGrid = $form.find('div[data-grid="InvoiceRevenueGrid"]');
+        $invoiceRevenueGridControl = FwBrowse.loadGridFromTemplate('InvoiceRevenueGrid');
+        $invoiceRevenueGrid.empty().append($invoiceRevenueGridControl);
+        $invoiceRevenueGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+            };
+        });
+        FwBrowse.init($invoiceRevenueGridControl);
+        FwBrowse.renderRuntimeHtml($invoiceRevenueGridControl);
+        //----------------------------------------------------------------------------------------------
+        let $invoiceStatusHistoryGrid;
+        let $invoiceStatusHistoryGridControl;
+        $invoiceStatusHistoryGrid = $form.find('div[data-grid="InvoiceStatusHistoryGrid"]');
+        $invoiceStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('InvoiceStatusHistoryGrid');
+        $invoiceStatusHistoryGrid.empty().append($invoiceStatusHistoryGridControl);
+        $invoiceStatusHistoryGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+            };
+        });
+        FwBrowse.init($invoiceStatusHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($invoiceStatusHistoryGridControl);
+        //----------------------------------------------------------------------------------------------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
