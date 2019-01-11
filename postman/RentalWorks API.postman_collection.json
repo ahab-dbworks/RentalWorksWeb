@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "ff90ba39-56a0-4ae5-b031-98b669d3337c",
+		"_postman_id": "8af97fc8-ad0a-451e-ad5e-f70566b416d8",
 		"name": "RentalWorks API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -21125,6 +21125,115 @@
 			]
 		},
 		{
+			"name": "Invoice Creation Batch",
+			"item": [
+				{
+					"name": "Invoice Creation Batch: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicecreationbatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicecreationbatch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Creation Batch: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"BatchNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicecreationbatch/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicecreationbatch",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Creation Batch: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicecreationbatch/B003KUGG",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicecreationbatch",
+								"B003KUGG"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Invoice Item",
 			"item": [
 				{
@@ -21329,6 +21438,46 @@
 								"v1",
 								"invoiceitem",
 								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Invoice Order",
+			"item": [
+				{
+					"name": "Invoice Order: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoiceorder/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoiceorder",
+								"browse"
 							]
 						}
 					},
@@ -21549,44 +21698,10 @@
 			]
 		},
 		{
-			"name": "Invoice Creation Batch",
+			"name": "Invoice Revenue",
 			"item": [
 				{
-					"name": "Invoice Creation Batch: Get Many",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/invoicecreationbatch",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"invoicecreationbatch"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Invoice Creation Batch: Browse",
+					"name": "Invoice Revenue: Browse",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -21601,10 +21716,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"BatchNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/invoicecreationbatch/browse",
+							"raw": "http://localhost:57949/api/v1/invoicerevenue/browse",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -21613,43 +21728,8 @@
 							"path": [
 								"api",
 								"v1",
-								"invoicecreationbatch",
+								"invoicerevenue",
 								"browse"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Invoice Creation Batch: Get One",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/invoicecreationbatch/B003KUGG",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"invoicecreationbatch",
-								"B003KUGG"
 							]
 						}
 					},

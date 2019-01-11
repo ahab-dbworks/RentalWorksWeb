@@ -1,0 +1,35 @@
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Controllers;
+using System.Threading.Tasks;
+using FwStandard.SqlServer;
+using System.Collections.Generic;
+using FwStandard.AppManager;
+namespace WebApi.Modules.Home.InvoiceOrder
+{
+    [Route("api/v1/[controller]")]
+    [ApiExplorerSettings(GroupName = "home-v1")]
+    [FwController(Id: "xAv0ILs8aJA5C")]
+    public class InvoiceOrderController : AppDataController
+    {
+        public InvoiceOrderController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InvoiceOrderLogic); }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoiceorder/browse 
+        [HttpPost("browse")]
+        [FwControllerMethod(Id: "AwrBtHFFFmj1")]
+        public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoiceorder/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "e0SLz9kAYzg0")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
+        {
+            return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+    }
+}
