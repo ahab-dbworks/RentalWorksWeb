@@ -250,10 +250,10 @@
         ];
         let numericComparisonFields = [
             { value: '=', text: '=' },
-            { value: 'greaterthan', text: '>' },
-            { value: 'greaterthanqual', text: '≥' },
-            { value: 'lessthan', text: '<' },
-            { value: 'lessthanequal', text: '≤' },
+            { value: '>', text: '>' },
+            { value: '>=', text: '≥' },
+            { value: '<', text: '<' },
+            { value: '<=', text: '≤' },
             { value: '<>', text: '≠' },
         ];
         let booleanComparisonFields = [
@@ -262,14 +262,18 @@
         ];
         let dateComparisonFields = [
             { value: '=', text: 'Equals' },
-            { value: 'PriorTo', text: 'Prior To' },
-            { value: 'PriorToEquals', text: 'Prior To or Equals' },
-            { value: 'LaterThan', text: 'Later Than' },
-            { value: 'LaterThanEquals', text: 'Later Than or Equals' },
-            { value: '<>', text: 'Does Not Equal' },
+            { value: '<', text: 'Prior To' },
+            { value: '<=', text: 'Prior To or Equals' },
+            { value: '>', text: 'Later Than' },
+            { value: '>=', text: 'Later Than or Equals' },
+            { value: '<>    ', text: 'Does Not Equal' },
         ];
 
         FwAppData.apiMethod(true, 'GET', window[controller].apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+            let dateField = $browse.find('.datequery');
+            let textField = $browse.find('.textquery');
+            let booleanField = $browse.find('.booleanquery');
+
             for (var i = 0; i < response._Fields.length; i++) {
                 findFields.push({
                     'value': response._Fields[i].Name,
@@ -280,22 +284,31 @@
             findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
             window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
             window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'And', text: 'And' }, { value: 'Or', text: 'Or' }], true);
+            window['FwFormField_select'].loadItems(booleanField , [{ value: 'true', text: 'true' }, { value: 'false', text: 'false' }], true);
             $browse.find('.datafieldselect').on('change', function () {
                 let datatype = jQuery(this).find(':selected').data('type');
+                dateField.hide();
+                textField.hide();
+                booleanField.hide();
                 switch (datatype) {
                     case 'Text':
+                        textField.show();
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
                     case 'Integer':
+                        textField.show();
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Decimal':
+                        textField.show();
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Boolean':
+                        booleanField.show();
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), booleanComparisonFields, true);
                         break;
                     case 'Date':
+                        dateField.show();
                         window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), dateComparisonFields, true);
                         break;
                 }
@@ -361,10 +374,18 @@
             let queryRows = $browse.find('.query').find('.queryrow');
 
             for (var i = 0; i < queryRows.length; i++) {
+                let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type')
                 if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
                     request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                    request.searchfieldtypes.unshift(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
                     request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
-                    request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
+                    if (type === 'Date') {
+                        request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
+                    } else if (type === 'Boolean') {
+                        request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]')));
+                    } else {
+                        request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
+                    }
                     request.searchseparators.unshift(',');
                 }
             }
@@ -635,7 +656,7 @@
                                                 $this.addClass('active');
 
                                                 jQuery(document).on('click', function closeMenu(e: any) {
-                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query')) {
+                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query') && jQuery(e.target).parent().prop('tagName') !== 'TR') {
                                                         $this.removeClass('active');
                                                         $this.find('.findbutton-dropdown').css('z-index', '0');
                                                         jQuery(document).off('click');
@@ -647,11 +668,13 @@
                                         $menubarbutton.append(`
                                         <div class="findbutton-dropdown">
                                             <div class="query">
-                                                <div class="flexrow queryrow" style="align-items: center;">
+                                                <div class="flexrow queryrow" style="align-items:center;min-width:800px;">
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 auto;display:none;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 auto;display:none;"></div>
                                                     <i class="material-icons delete-query">delete_outline</i>
                                                     <i class="material-icons add-query">add_circle_outline</i>
                                                 </div>
