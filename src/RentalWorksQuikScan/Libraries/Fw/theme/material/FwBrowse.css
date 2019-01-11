@@ -275,6 +275,10 @@ html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .vi
 html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .viewcell .col2 {flex: 0 0 16px;}
 html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .viewcell .col2 i {cursor:pointer;color:#F44336;font-size:16px;vertical-align:middle;}
 
+html.theme-material .fwbrowse table tbody td.flexgridspacer{width:26px;float:right;display:block !important;}
+html.theme-material .fwbrowse table tbody td.browsecontextmenucell{position:absolute;right:0px;padding-left:2px !important;}
+html.theme-material .fwbrowse table tbody td.gridspacer{width:26px;float:left;display:block !important;}
+html.theme-material .fwbrowse table tbody td.tdselectrow{position:absolute;left:0px;padding-right:12px !important;}
 /********************
 Theme
 ********************/
@@ -358,16 +362,18 @@ html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color:transparent;}
+html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] {background-color:transparent;}
 html.theme-material .fwbrowse[data-enabled="false"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color:transparent;}
 
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
-html.theme-material .fwbrowse table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="text"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="date"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="phone"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="number"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="money"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="validation"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="combobox"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="checkbox"] {background-color: #F5F5F5;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr:not(.selected) .field[data-formreadonly="true"][data-formdatatype="note"] {background-color: #F5F5F5;}
 
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="text"] {padding: 0 10px;}
 html.theme-material .fwbrowse table tbody tr.editrow td .field[data-formreadonly="true"][data-formdatatype="date"] {padding: 0 10px;}

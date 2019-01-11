@@ -30,16 +30,33 @@ class FwSettingsClass {
         html.push('  </div>');
         html.push('</div>');
         html.push('<div class="flexrow settings-content">');
-        html.push('  <div class="navigation"></div>');
+        html.push('  <div class="menu-expand"><i class="material-icons">keyboard_arrow_right</i></div>');
+        html.push('  <div class="navigation flexrow">');
+        html.push('    <div class="navigation-menu flexcolumn"></div>');
+        html.push('  </div>');
         html.push('  <div class="well"></div>');
         html.push('</div>');
         //< div class="input-group pull-right" > <input type="text" class="form-control" placeholder="Settings..."><span class="input-group-addon"><i class="material-icons">search</i></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         var settingsMenu = this.getHeaderView($control);
-
+        settingsMenu.append('<div class="flexcolumn menu-collapse"><i class="material-icons">keyboard_arrow_left</i></div>');
         $control.html(html.join(''));
+        let menuCollapse = settingsMenu.find('.menu-collapse');
+        let menuExpand = $control.find('.menu-expand');
 
-        $control.find('.navigation').append(settingsMenu);
+        menuExpand.on('click', function () {
+            menuCollapse.closest('.navigation').show();
+            jQuery(this).hide();
+        });
+
+        menuCollapse.on('click', function () {
+            menuExpand.show();
+            jQuery(this).closest('.navigation').hide();
+        });
+
+        settingsMenu.addClass('flexrow');
+        settingsMenu.find('.menu').addClass('flexcolumn');
+        $control.find('.navigation-menu').append(settingsMenu);
     };
     //----------------------------------------------------------------------------------------------
     saveForm(module, $form, closetab, navigationpath, $control, browseKeys, rowId, moduleName, emptyRows?, getRows?) {
@@ -830,16 +847,23 @@ class FwSettingsClass {
             })
             .on('click', '.heading-menu', function (e) {
                 e.stopPropagation();
-                let menuButton: any = jQuery(this);
-                if (menuButton.parent().prev().css('display') === 'none') {
-                    menuButton.parent().prev().css('display', 'block');
+                let activeMenu = $control.find('.active-menu');
+                let $this: any = jQuery(this);
+                if ($this.parent().prev().css('display') === 'none') {
+                    $this.parent().prev().css('display', 'block').addClass('active-menu');
                     jQuery(document).one('click', function closeMenu(e) {
-                        if (menuButton.has(e.target).length === 0) {
-                            menuButton.parent().prev().css('display', 'none');
+                        if ($this.has(e.target).length === 0) {
+                            $this.parent().prev().removeClass('active-menu').css('display', 'none');
+                        } else {
+                            $this.parent().prev().css('display', 'block');
                         }
                     })
                 } else {
-                    menuButton.parent().prev().css('display', 'none');
+                    $this.parent().prev().removeClass('active-menu').css('display', 'none');
+                }
+
+                if (activeMenu.length > 0) {
+                    activeMenu.removeClass('active-menu').hide();
                 }
             })
             .on('click', '.refresh', function (e) {
@@ -875,7 +899,7 @@ class FwSettingsClass {
                     $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
-                    $form.find('div.fwform-menu > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    $form.find('div.fwmenu.default > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {

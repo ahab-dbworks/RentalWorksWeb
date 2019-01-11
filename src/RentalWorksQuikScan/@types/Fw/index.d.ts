@@ -7,3 +7,4 @@ declare var FwMenu: any;
 declare var FwMobileMasterController: any;
 declare var FwSecurity: any;
 declare var DayPilot: any;
+declare var moment: any;

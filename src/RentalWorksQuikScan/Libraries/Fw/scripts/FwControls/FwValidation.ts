@@ -304,8 +304,8 @@
         }
 
         $validationbrowse.data('$btnvalidate', $btnvalidate);
-        //$btnvalidate.hide();
-        //$validationbrowse.data('$control').find('.validation-loader').show();
+        $btnvalidate.hide();
+        $validationbrowse.data('$control').find('.validation-loader').show();
         if (useSearchFieldValue && ($searchfield.val().toString().length > 0)) {
             let $validationSearchbox = $validationbrowse.find('thead .field[data-validationdisplayfield="true"] > .search > input');
             if ($validationSearchbox.length == 1) {

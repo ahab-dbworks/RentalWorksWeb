@@ -5,18 +5,39 @@ FwFormField_checkboxlist.renderDesignerHtml = function ($control, html) {
 };
 //---------------------------------------------------------------------------------
 FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
+    let options = {};
+    let $form = $control.closest('.fwform');
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');;
     html.push('<div class="fwformfield-control">');
-    html.push('  <ol>');
+    html.push('  <ol style="min-height:500px;min-width:150px;">');
     html.push('  </ol>');
     html.push('</div>');
     $control.html(html.join(''));
+    if ($control.attr('data-share') === 'true') {
+        options.group = 'shared';
+        options.onAdd = function (evt) {
+            jQuery(evt.item).find('.checkbox').prop('checked', true).show();
+        }
+    }
+    if ($control.attr('data-listtype') === 'cloneonly') {
+        options.sort = false;
+        options.group = {
+            name: 'shared',
+            pull: 'clone',
+            revertClone: true
+        }
+        options.onAdd = function (evt) {
+            this.el.removeChild(evt.item);
+            $form.attr('data-modified', 'true');
+            $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+        }
+    }
     if ($control.attr('data-sortable') === 'true') {
         $control.find('ol').addClass('sortable');
         var ol = $control.find('ol');
         if (ol.length > 0) {
             ol = ol.get(0);
-            Sortable.create(ol);
+            Sortable.create(ol, options);
         }
     }
 };
@@ -103,13 +124,25 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('<li data-value="');
             html.push(value[i].value);
             html.push('" data-selected="');
-            html.push(value[i].selected.toString());
+            if ($fwformfield.attr('data-listtype') === 'cloneonly') {
+                html.push('T')
+                html.push('" data-userwidgetid="');
+            } else if ($fwformfield.attr('data-listtype') === 'standard') {
+                html.push(value[i].selected.toString());
+                html.push('" data-userwidgetid="');
+                html.push(value[i].userWidgetId);
+            } else {
+                html.push(value[i].selected.toString());
+            }
             html.push('">');
             html.push('<div class="wrapper">');
             html.push('<div class="handle">::</div>');
             html.push('<input class="checkbox" type="checkbox" id="');
             html.push(checkboxid);
             html.push('"');
+            if ($fwformfield.attr('data-listtype') === 'cloneonly') {
+                html.push(' style="display:none" ');
+            }
             if (value[i].selected === 'T') {
                 html.push(' checked="checked"');
             }
@@ -119,6 +152,9 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
             html.push('">');
             html.push(value[i].text);
             html.push('</label>');
+            if ($fwformfield.attr('data-listtype') === 'standard') {
+                html.push('<div class="settings"><i class="material-icons">settings</i></div>')
+            }
             if (hasorderby) {
                 html.push('<div class="orderbydirection"></div>');
             }
@@ -163,6 +199,7 @@ FwFormField_checkboxlist.getValue2 = function ($fwformfield) {
             item.text = $li.find('label').text();
             item.userWidgetId = $li.attr('data-userwidgetid');
             item.selected = 'true'
+            jQuery.extend(item, $li.data('request'));
             value.push(item);
         });
         $fwformfield.find('li[data-selected="F"]').each(function (index, element) {

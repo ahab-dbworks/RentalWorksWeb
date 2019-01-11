@@ -39,8 +39,11 @@ class FwBrowseClass {
                 if (typeof $field.attr('data-sort') === 'undefined') {
                     $field.attr('data-sort', 'off');
                 }
-                if (typeof $field.attr('data-formreadonly') === 'undefined') {
+                if (typeof $field.attr('data-formreadonly') === 'undefined' && $control.attr('data-type') === 'Grid') {
                     $field.attr('data-formreadonly', 'false');
+                }
+                if (typeof $field.attr('data-formreadonly') === 'undefined' && $control.attr('data-type') === 'Browse') {
+                    $field.attr('data-formreadonly', 'true');
                 }
                 if (typeof $field.attr('data-datafield') !== 'undefined') {
                     $field.attr('data-browsedatafield', $field.attr('data-datafield'));
@@ -1087,6 +1090,7 @@ class FwBrowseClass {
                 if (($control.attr('data-type') === 'Grid') || (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true'))) {
                     var cbuniqueId = FwApplication.prototype.uniqueId(10);
                     html.push('<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow"/><label for="' + cbuniqueId + '" class="lblselectrow"></label></div></td>');
+                    html.push('<td class="column gridspacer" style="display:none;"></td>');
                 }
                 for (var colno = 0; colno < $columns.length; colno++) {
                     var $column = $columns.eq(colno);
@@ -1183,6 +1187,12 @@ class FwBrowseClass {
                     if ($control.attr('data-allownew') !== 'false') {
                         html.push('<div class="fwbrowsebutton btnNew">New</div>');
                     }
+                    html.push(`<div class="multiSelectDisplay" style="font-size:.9em; font-weight:bold; margin:0px 10px; display:none;">
+                                    <div class="fwformfield-caption">Display Field</div>
+                                    <div class="fwformfield-control">
+                                    <select class="fwformfield-value"></select>
+                                    </div>
+                            </div>`);
                     $customvalidationbuttons = $control.find('.customvalidationbuttons');
                     if ($customvalidationbuttons.length > 0) {
                         FwControl.renderRuntimeControls($customvalidationbuttons.find('.fwcontrol'));
@@ -1507,6 +1517,11 @@ class FwBrowseClass {
                                                         FwFunc.showError(ex);
                                                     }
                                                 });
+                                                let $form = $control.closest('.fwform');
+                                                let mode = $form.attr('data-mode');
+                                                if (gridSubMenuItem.properties.allowonnewform === 'False' && mode === 'NEW') {
+                                                    $submenuitem.css({ 'pointerEvents': 'none', 'color': 'lightgray' });
+                                                }
                                             }
                                         }
                                     }
@@ -1718,6 +1733,7 @@ class FwBrowseClass {
         request.searchseparators = [];
         request.searchfieldoperators = [];
         request.searchfieldvalues = [];
+        request.searchcondition = [];
         request.miscfields = !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform'));
         request.orderby = '';
         request.pageno = parseInt($control.attr('data-pageno'));
@@ -1769,6 +1785,11 @@ class FwBrowseClass {
                 request.searchfields.push(browsedatafield);
                 request.searchfieldtypes.push(fieldtype);
                 request.searchseparators.push(searchSeparator);
+                if (typeof $field.attr('data-searchcondition') !== 'undefined') {
+                    request.searchcondition.push($field.attr('data-searchcondition'));
+                } else {
+                    request.searchcondition.push("and");
+                }
                 if ($field.attr('data-searchfieldoperators') === 'startswith') {
                     request.searchfieldoperators.push('startswith');
                 } else {
@@ -1978,8 +1999,8 @@ class FwBrowseClass {
                             } else {
                                 FwServices.validation.method(request, request.module, 'Browse', $control, function (response) {
                                     // replace spinner with search again
-                                    //$control.data('$control').find('.validation-loader').hide();
-                                    //$control.data('$btnvalidate').show();
+                                    $control.data('$control').find('.validation-loader').hide();
+                                    $control.data('$btnvalidate').show();
                                     try {
                                         me.beforeDataBindCallBack($control, request, response);
                                         resolve();
@@ -2246,7 +2267,7 @@ class FwBrowseClass {
                             var $browsecontextmenu = jQuery(this);
                             //me.unselectAllRows($control);
                             //me.selectRow($control, $tr, true);
-                            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu);
+                            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu, e);
                             //$contextmenu.data('beforedestroy', function () {
                             //    me.unselectRow($control, $tr);
                             //});
@@ -2273,15 +2294,17 @@ class FwBrowseClass {
                                 }
                             }
                             //---------------------------------------------------------------------------------
-                            FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
-                                try {
-                                    let $tr = jQuery(this).closest('tr');
-                                    me.renderAuditHistoryPopup($tr);
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            });
-                            menuItemCount++;
+                            if ($browse.attr('data-hasaudithistory') !== 'false') {
+                                FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
+                                    try {
+                                        let $tr = jQuery(this).closest('tr');
+                                        me.renderAuditHistoryPopup($tr);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                });
+                                menuItemCount++;
+                            }
                             if (menuItemCount === 0) {
                                 FwContextMenu.destroy($contextmenu);
                             }
@@ -2403,7 +2426,7 @@ class FwBrowseClass {
                     break;
             }
 
-            if ((typeof onrowdblclick !== 'undefined') && ($control.attr('data-multiselectvalidation') !== 'true')) {
+            if (typeof onrowdblclick !== 'undefined') {
                 $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.Event) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
@@ -2710,12 +2733,12 @@ class FwBrowseClass {
             .then(() => {
                 $tr = $control.find('tbody tr').eq(rowIndex);
                 $control.attr('data-mode', 'EDIT');
+                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                 $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
                 $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
                 //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
                 //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
                     var controller;
                     controller = $control.attr('data-controller');
                     if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
@@ -2896,16 +2919,33 @@ class FwBrowseClass {
             let validationDisplayField = (typeof $field.attr('data-browsedisplayfield') === 'string') ? $field.attr('data-browsedisplayfield') : '';
             let validationDisplayValue = $tr.find(`.field[data-browsedatafield="${formdatafield}"] input.text`).val();
 
-            let field = {
-                datafield: formdatafield,
-                value: originalvalue
-            };
+            let field: any = {};
+            if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
+                if (typeof fields._Custom === 'undefined') {
+                    fields._Custom = [];
+                }
+            } else {
+                field = {
+                    datafield: formdatafield,
+                    value: originalvalue
+                };
+            }
+
             if (typeof window['FwBrowseColumn_' + formdatatype] !== 'undefined') {
                 if (typeof window['FwBrowseColumn_' + formdatatype].getFieldValue === 'function') {
                     window['FwBrowseColumn_' + formdatatype].getFieldValue($control, $tr, $field, field, originalvalue);
                 }
             }
-            fields[formdatafield] = field.value;
+
+            if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
+                field = {
+                    FieldName: formdatafield,
+                    FieldValue: field.value
+                }
+                fields._Custom.push(field);
+            } else {
+                fields[formdatafield] = field.value;
+            }
 
             if (formdatatype === 'validation') {
                 if (validationDisplayField != formdatafield) {
@@ -3339,7 +3379,15 @@ class FwBrowseClass {
     //}
     //---------------------------------------------------------------------------------
     loadGridFromTemplate(modulename: string) {
-        var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
+        if (sessionStorage.getItem('customForms') !== null) {
+            let customGrids = JSON.parse(sessionStorage.getItem('customForms'));
+            customGrids = customGrids.filter(a => a.BaseForm == `${modulename}Browse`);
+            if (customGrids.length > 0) {
+                $control = jQuery(jQuery(`#tmpl-custom-${modulename}Browse`)[0].innerHTML);
+            } else {
+                var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
+            }
+        }
         return $control;
     }
     //---------------------------------------------------------------------------------
@@ -3473,6 +3521,7 @@ class BrowseRequest {
     searchfieldvalues: Array<string> = [];
     searchfieldtypes: Array<string> = [];
     searchseparators: Array<string> = [];
+    searchcondition: Array<string> = [];
     uniqueids: any = {};
     boundids: any = {};
     filterfields: any = {};

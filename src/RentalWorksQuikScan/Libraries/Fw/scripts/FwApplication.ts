@@ -1,4 +1,4 @@
-class FwApplication {
+﻿class FwApplication {
     name:  string;
     screens: any[] = [];
     audioMode: string;
@@ -127,13 +127,13 @@ class FwApplication {
                     // Preload audio resources
                     if (typeof (<any>window).plugins.NativeAudio.preloadedSounds !== 'boolean') {
                         (<any>window).plugins.NativeAudio.preloadedSounds = true;
-                        (<any>window).plugins.NativeAudio.preloadSimple('success', 'audio/success2.wav', function (msg) {
+                        (<any>window).plugins.NativeAudio.preloadSimple('success', 'audio/success.wav', function (msg) {
                         }, function(msg){
-                            FwFunc.showError(msg);
+                            //FwFunc.showError(msg);
                         });
-                        (<any>window).plugins.NativeAudio.preloadSimple( 'error', 'audio/error2.wav', function(msg){
+                        (<any>window).plugins.NativeAudio.preloadSimple( 'error', 'audio/error.wav', function(msg){
                         }, function(msg){
-                            FwFunc.showError(msg);
+                            //FwFunc.showError(msg);
                         });
                     }
                 }
@@ -316,6 +316,34 @@ class FwApplication {
     getApplicationOptions() {
         return JSON.parse(sessionStorage.getItem('applicationOptions'));
     };
+    //---------------------------------------------------------------------------------
+    updateTemplatesWithCustomForms(loadDefaultPage?) {
+        var me = this;
+        if (sessionStorage.getItem('userid') != null) {
+            let request: any = {};
+            var WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+            request.uniqueids = {
+                WebUserId: WebUserId
+            };
+            FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                let baseFormIndex = response.ColumnIndex.BaseForm;
+                //let activeIndex = response.ColumnIndex.Active;
+                let htmlIndex = response.ColumnIndex.Html;
+                for (let i = 0; i < response.Rows.length; i++) {
+                    let customForm = response.Rows[i];
+                    //if (customForm[activeIndex] == true) {
+                        let baseform = customForm[baseFormIndex];
+                        jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
+                    //}
+                }
+                loadDefaultPage.call(me);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, null);
+        } else {
+            loadDefaultPage.call(me);
+        }
+    }
     //---------------------------------------------------------------------------------
     navigateHashChange(path) {
         var screen: any, $appendToContainer: any;
