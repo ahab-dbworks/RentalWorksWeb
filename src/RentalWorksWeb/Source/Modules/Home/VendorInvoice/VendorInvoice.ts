@@ -128,6 +128,12 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        //Disables editing when STATUS is CLOSED or PROCESSED 
+        let status = FwFormField.getValueByDataField($form, 'Status');
+        if ((status === 'CLOSED') || (status === 'PROCESSED')) {
+            FwFormField.disable($form.find('.fwformfield'));
+        }
+
         FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
         let $vendorInvoiceItemGridControl = $form.find('[data-name="VendorInvoiceItemGrid"]');
         FwBrowse.search($vendorInvoiceItemGridControl);
