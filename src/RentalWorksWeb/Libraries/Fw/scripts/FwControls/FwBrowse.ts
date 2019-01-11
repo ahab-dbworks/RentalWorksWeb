@@ -1836,6 +1836,14 @@ class FwBrowseClass {
                     break;
             }
         }
+        if ($control.data('advancedsearchrequest') !== undefined) {
+            let advancedSearch = $control.data('advancedsearchrequest');
+            request.searchfieldoperators = advancedSearch.searchfieldoperators;
+            request.searchfields = advancedSearch.searchfields;
+            request.searchfieldtypes = advancedSearch.searchfieldtypes;
+            request.searchfieldvalues = advancedSearch.searchfieldvalues;
+            request.searchseparators = advancedSearch.searchseparators;
+        }
         orderby = orderby.join(',');
         request.orderby = orderby;
         if (typeof $control.data('ondatabind') === 'function') {

@@ -318,12 +318,16 @@
         }, null);
 
         $browse.find('.add-query').on('click', function cloneRow() {
-            let newRow = jQuery(this).closest('.queryrow').clone();
-            let dateField = $browse.find('.datequery');
-            let textField = $browse.find('.textquery');
-            let booleanField = $browse.find('.booleanquery');
+            let $newRow = jQuery(this).closest('.queryrow').clone();
+            FwControl.renderRuntimeHtml($newRow.find('.fwcontrol'));
+            window['FwFormField_select'].loadItems($newRow.find('.datafieldselect'), findFields, false);
+            window['FwFormField_select'].loadItems($newRow.find('.andor'), [{ value: 'And', text: 'And' }, { value: 'Or', text: 'Or' }], true);
+            window['FwFormField_select'].loadItems($newRow.find('.booleanquery'), [{ value: 'true', text: 'true' }, { value: 'false', text: 'false' }], true);
+            let dateField = $newRow.find('.datequery');
+            let textField = $newRow.find('.textquery');
+            let booleanField = $newRow.find('.booleanquery');
 
-            newRow.find('.datafieldselect').on('change', function () {
+            $newRow.find('.datafieldselect').on('change', function () {
                 let datatype = jQuery(this).find(':selected').data('type');
                 dateField.hide();
                 textField.hide();
@@ -331,45 +335,45 @@
                 switch (datatype) {
                     case 'Text':
                         textField.show();
-                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), textComparisonFields, true);
+                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
                     case 'Integer':
                         textField.show();
-                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
+                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Decimal':
                         textField.show();
-                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), numericComparisonFields, true);
+                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
                     case 'Boolean':
                         booleanField.show();
-                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), booleanComparisonFields, true);
+                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
                         break;
                     case 'Date':
                         dateField.show();
-                        window['FwFormField_select'].loadItems($browse.find('.datafieldcomparison'), dateComparisonFields, true);
+                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), dateComparisonFields, true);
                         break;
                 }
             });
-            newRow.find('.delete-query').on('click', function () {
-                if (newRow.find('.add-query').css('visibility') === 'visible') {
-                    newRow.prev().find('.add-query').css('visibility', 'visible');
+            $newRow.find('.delete-query').on('click', function () {
+                if ($newRow.find('.add-query').css('visibility') === 'visible') {
+                    $newRow.prev().find('.add-query').css('visibility', 'visible');
                 }
-                if (newRow.find('.andor').css('visibility') === 'hidden') {
-                    newRow.next().find('.andor').css('visibility', 'hidden');
+                if ($newRow.find('.andor').css('visibility') === 'hidden') {
+                    $newRow.next().find('.andor').css('visibility', 'hidden');
                 }
-                if ($browse.find('.query').find('.queryrow').length === 2 && newRow.next().length !== 0) {
-                    newRow.next().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                if ($browse.find('.query').find('.queryrow').length === 2 && $newRow.next().length !== 0) {
+                    $newRow.next().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
                 }
-                if ($browse.find('.query').find('.queryrow').length === 2 && newRow.prev().length !== 0) {
-                    newRow.prev().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                if ($browse.find('.query').find('.queryrow').length === 2 && $newRow.prev().length !== 0) {
+                    $newRow.prev().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
                 }
-                newRow.remove();
+                $newRow.remove();
             }).css('visibility', 'visible');
-            newRow.find('.andor').css('visibility', 'visible');
-            newRow.find('.add-query').on('click', cloneRow);
-            newRow.find('input').val('')
-            newRow.appendTo($browse.find('.query'));
+            $newRow.find('.andor').css('visibility', 'visible');
+            $newRow.find('.add-query').on('click', cloneRow);
+            $newRow.find('input').val('')
+            $newRow.appendTo($browse.find('.query'));
             if ($browse.find('.query').find('.queryrow').length > 1) {
                 jQuery($browse.find('.query').find('.queryrow')[0]).find('.delete-query').on('click', function () {
                     jQuery(this).closest('.queryrow').next().find('.andor').css('visibility', 'hidden');
@@ -380,9 +384,10 @@
             jQuery(this).css('visibility', 'hidden');
         })
 
-        $browse.find('.search').on('click', function () {
+        $browse.find('.search').on('click', function (e) {
             let request = FwBrowse.getRequest($browse);
             let queryRows = $browse.find('.query').find('.queryrow');
+            let $find = jQuery(this).closest('.btn')
 
             for (var i = 0; i < queryRows.length; i++) {
                 let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type')
@@ -409,6 +414,11 @@
                 }
             })
 
+            $find.removeClass('active');
+            $find.find('.findbutton-dropdown').css('z-index', '0');
+            jQuery(document).off('click');
+            $browse.data('advancedsearchrequest', request);
+            e.stopPropagation();
         })
 
         return $browse;
@@ -668,7 +678,7 @@
 
                                                 jQuery(document).on('click', function closeMenu(e: any) {
                                                     let target = jQuery(e.target);
-                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query') && target.parent().prop('tagName') !== 'TR' && !target.hasClass('year') && !target.hasClass('month')) {
+                                                    if ($menubarbutton.has(e.target).length === 0 && !jQuery(e.target).hasClass('delete-query') && target.parent().prop('tagName') !== 'TR' && !target.hasClass('year') && !target.hasClass('month') && jQuery(document.body).find('.datepicker').has(e.target).length === 0) {
                                                         $this.removeClass('active');
                                                         $this.find('.findbutton-dropdown').css('z-index', '0');
                                                         jQuery(document).off('click');
@@ -684,9 +694,9 @@
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
                                                     <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
-                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 auto;display:none;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 auto;display:none;"></div>
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
+                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
                                                     <i class="material-icons delete-query">delete_outline</i>
                                                     <i class="material-icons add-query">add_circle_outline</i>
                                                 </div>
