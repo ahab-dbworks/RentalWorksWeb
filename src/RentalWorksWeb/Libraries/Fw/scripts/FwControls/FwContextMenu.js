@@ -2,18 +2,23 @@
 //----------------------------------------------------------------------------------------------
 FwContextMenu.render = function (title, position, $appendto, event) {
     let html = [], $control, viewPort, scrollTop, scrollLeft, topValue, leftValue, maxZIndex;
-    viewPort = document.querySelector('html');
-    scrollTop = viewPort.scrollTop;
-    scrollLeft = viewPort.scrollLeft;
-    topValue = event.pageY - scrollTop;
-    leftValue = event.pageX - scrollLeft - 105;
     if (typeof position !== 'string') {
         position = 'center';
     }
     if (typeof $appendto === 'undefined') {
         $appendto = jQuery('#application');
     }
-    html.push(`<div style="top:${topValue}px;left:${leftValue}px;" class="fwcontextmenu" data-position="${position}">`);
+    if (typeof event !== 'undefined' && event !== null) {
+        viewPort = document.querySelector('html');
+        scrollTop = viewPort.scrollTop;
+        scrollLeft = viewPort.scrollLeft;
+        topValue = event.pageY - scrollTop;
+        leftValue = event.pageX - scrollLeft - 105;
+        html.push(`<div style="top:${topValue}px;left:${leftValue}px;" class="fwcontextmenu" data-position="${position}">`);
+    }
+    else {
+        html.push(`<div class="fwcontextmenu" data-position="${position}">`);
+    }
     html.push(`  <div class="fwcontextmenubox">`);
     //if ((typeof title === 'string') && (title.length > 0)) {
     //    html.push('    <div class="fwcontextmenutitle">' + title + '</div>');

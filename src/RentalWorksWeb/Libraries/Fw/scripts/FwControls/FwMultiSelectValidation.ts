@@ -124,7 +124,7 @@ class FwMultiSelectValidationClass {
                         $tr = jQuery($selectedTrs[i]);
                         uniqueid = FwMultiSelectValidation.getUniqueIds($tr);
                         if (typeof $selectedrows[uniqueid] == 'undefined') {
-                            $selectedrows[uniqueid] = $tr; 
+                            $selectedrows[uniqueid] = $tr;
                         }
                     }
                     if ($selectedrows.length === 0) {

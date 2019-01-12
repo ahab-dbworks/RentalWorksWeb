@@ -1,19 +1,25 @@
 ﻿var FwContextMenu = {};
 //----------------------------------------------------------------------------------------------
-FwContextMenu.render = function(title, position, $appendto) {
-    var html=[], $control;
-
+FwContextMenu.render = function (title, position, $appendto, event) {
+    let html = [], $control, viewPort, scrollTop, scrollLeft, topValue, leftValue, maxZIndex;
     if (typeof position !== 'string') {
         position = 'center';
     }
     if (typeof $appendto === 'undefined') {
         $appendto = jQuery('#application');
     }
-
-    html.push('<div class="fwcontextmenu"');
-    html.push(` data-position="${position}"`);
-    html.push('>');
-    html.push('  <div class="fwcontextmenubox">');
+    if (typeof event !== 'undefined' && event !== null) {
+        viewPort = document.querySelector('html');
+        scrollTop = viewPort.scrollTop;
+        scrollLeft = viewPort.scrollLeft;
+        topValue = event.pageY - scrollTop;
+        leftValue = event.pageX - scrollLeft - 105;
+        html.push(`<div style="top:${topValue}px;left:${leftValue}px;" class="fwcontextmenu" data-position="${position}">`);
+    }
+    else {
+        html.push(`<div class="fwcontextmenu" data-position="${position}">`);
+    }
+    html.push(`  <div class="fwcontextmenubox">`);
     //if ((typeof title === 'string') && (title.length > 0)) {
     //    html.push('    <div class="fwcontextmenutitle">' + title + '</div>');
     //}
@@ -25,11 +31,27 @@ FwContextMenu.render = function(title, position, $appendto) {
     html.push('  </div>');
     html.push('</div>');
     $control = jQuery(html.join('\n'));
-    var maxZIndex = FwFunc.getMaxZ('*');
+    maxZIndex = FwFunc.getMaxZ('*');
     $control.css('z-index', maxZIndex);
     $appendto.append($control);
     //FwContextMenu.center($control);
     $control.on('click', function (event) {
+        try {
+            event.stopPropagation();
+            FwContextMenu.destroy($control);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
+    jQuery(document).one('scroll', event => {
+        try {
+            event.stopPropagation();
+            FwContextMenu.destroy($control);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
+    jQuery('.tablewrapper').one('scroll', event => {
         try {
             event.stopPropagation();
             FwContextMenu.destroy($control);
@@ -53,7 +75,7 @@ FwContextMenu.render = function(title, position, $appendto) {
 //----------------------------------------------------------------------------------------------
 //FwContextMenu.center = function($control) {
 //    var $confirmbox;
-    
+
 //    $confirmbox = $control.find('.fwcontextmenubox');
 //    $confirmbox
 //        .css({
@@ -64,9 +86,9 @@ FwContextMenu.render = function(title, position, $appendto) {
 //    $control.css({height: Math.max(window.innerHeight, document.documentElement.clientHeight, document.body.clientHeight)});
 //};
 //----------------------------------------------------------------------------------------------
-FwContextMenu.addMenuItem = function($control, text, onclick) {
+FwContextMenu.addMenuItem = function ($control, text, onclick) {
     let $menuitem;
-    
+
     $menuitem = jQuery(`<div class="responsive fwcontextmenuitem">${text}</div>`);
     $control.find('.fwcontextmenuitems').append($menuitem);
     if (typeof onclick === 'function') {
@@ -77,7 +99,7 @@ FwContextMenu.addMenuItem = function($control, text, onclick) {
     return $menuitem;
 };
 //----------------------------------------------------------------------------------------------
-FwContextMenu.destroy = function($control) {
+FwContextMenu.destroy = function ($control) {
     if (typeof $control.data('beforedestroy') === 'function') {
         typeof $control.data('beforedestroy')();
     }

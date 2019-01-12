@@ -1,4 +1,4 @@
-FwFormField_multiselectvalidation = {};
+﻿FwFormField_multiselectvalidation = {};
 //---------------------------------------------------------------------------------
 FwFormField_multiselectvalidation.renderDesignerHtml = function ($control, html) {
     html.push(FwControl.generateDesignerHandle($control.attr('data-type'), $control.attr('id')));

@@ -7,10 +7,16 @@ html.theme-material .fwscheduler .datecallout {float:left;margin:0 0 0 10px;font
 
 html.theme-material .fwscheduler > .content {min-width:1400px;padding:10px;}
 html.theme-material .fwscheduler .navcalendarcontainer {float:left;width:145px;}
+html.theme-material .fwscheduler .calendarcontainer {overflow:hidden;}
 html.theme-material .fwscheduler .dpcalendarcontainer {float:left;width:1200px;}
 html.theme-material .fwscheduler .monthcontainer {overflow:hidden;}
 html.theme-material .fwscheduler .navmonthcontainer {float:left;width:145px;}
 html.theme-material .fwscheduler .dpmonthcontainer {float:left;width:1200px;}
+html.theme-material .fwscheduler .dpyearcontainer {float:left;width:100%;}
+html.theme-material .fwscheduler .fiveweekcontainer {overflow:hidden;}
+html.theme-material .fwscheduler .yearcontainer {overflow:hidden;}
+html.theme-material .fwscheduler .nav5weekcontainer {float:left;width:145px;}
+html.theme-material .fwscheduler .dp5weekcontainer {float:left;width:1200px;}
 html.theme-material .fwscheduler .schedulercontainer {overflow:hidden;}
 html.theme-material .fwscheduler .navschedulercontainer {float:left;width:145px;}
 html.theme-material .fwscheduler .dpschedulercontainer {float:left;width:1200px;}

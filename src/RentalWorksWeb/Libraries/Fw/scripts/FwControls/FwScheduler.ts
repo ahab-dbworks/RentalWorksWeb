@@ -514,7 +514,7 @@ class FwSchedulerClass {
         var dpyear;
         dpyear = new DayPilot.Scheduler($control.attr('data-dpyearid'));
         $control.data('dpyear', dpyear);
-        dpyear.startDate = this.getFirstSundayMonth(dpyear);  //justin 01/10/2019 temporary build fix
+        dpyear.startDate = this.getFirstSundayMonth(dpyear);
         dpyear.cellWidth = 50;
         dpyear.eventHeight = 30;
         dpyear.headerHeight = 25;
@@ -524,7 +524,7 @@ class FwSchedulerClass {
         dpyear.eventClickHandling = 'Disabled';
         dpyear.eventMoveHandling = 'Disabled';
         dpyear.eventResizeHandling = 'Disabled';
-        
+
         dpyear.bubble = new DayPilot.Bubble({
             cssClassPrefix: "bubble_default",
             onLoad: function (args) {

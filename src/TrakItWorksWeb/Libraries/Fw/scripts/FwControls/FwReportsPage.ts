@@ -19,13 +19,34 @@
         html.push('    </span>');
         html.push('  </div>');
         html.push('</div>');
-        html.push('<div class="well"></div>');
+        html.push('<div class="flexrow reports-content">');
+        html.push('  <div class="menu-expand"><i class="material-icons">keyboard_arrow_right</i></div>');
+        html.push('  <div class="navigation flexrow">');
+        html.push('    <div class="navigation-menu flexcolumn"></div>');
+        html.push('  </div>');
+        html.push('  <div class="well"></div>');
+        html.push('</div>');
 
         var reportsMenu = this.getHeaderView($control);
-
+        reportsMenu.append('<div class="flexcolumn menu-collapse"><i class="material-icons">keyboard_arrow_left</i></div>');
         $control.html(html.join(''));
+        let menuCollapse = reportsMenu.find('.menu-collapse');
+        let menuExpand = $control.find('.menu-expand');
 
-        $control.find('.fwreportsheader').append(reportsMenu);
+        menuExpand.on('click', function () {
+            menuCollapse.closest('.navigation').show();
+            jQuery(this).hide();
+        });
+
+        menuCollapse.on('click', function () {
+            menuExpand.show();
+            jQuery(this).closest('.navigation').hide();
+        });
+
+        reportsMenu.addClass('flexrow');
+        reportsMenu.find('.menu').addClass('flexcolumn');
+
+        $control.find('.navigation-menu').append(reportsMenu);
     }
     //----------------------------------------------------------------------------------------------
     getCaptions(screen) {
@@ -58,24 +79,24 @@
         }
     }
     //---------------------------------------------------------------------------------------------- 
-    renderModuleHtml($control, title, moduleName, description, menu, moduleId) {
+    renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
         var me = this;
         var html = [], $reportsPageModules, $rowBody, $modulecontainer, $body, $form, browseKeys = [], rowId, screen = { 'moduleCaptions': {} }, filter = [];
 
         $modulecontainer = $control.find('#' + moduleName);
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '">');
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');
         html.push('        <i class="material-icons arrow-selector">keyboard_arrow_down</i>');
         html.push('        <h4 class="panel-title">');
         html.push('          <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
-        html.push('          <i class="material-icons heading-menu">more_vert</i>');
         html.push('          <div id="myDropdown" class="dropdown-content">');
         html.push('            <a class="pop-out">Pop Out Module</a>');
         html.push('          </div>');
+        html.push('          <i class="material-icons heading-menu">more_vert</i>');
         html.push('      </h4>');
         html.push('      </div>');
         if (description === "") {
@@ -137,12 +158,25 @@
             })
             .on('click', '.heading-menu', function (e) {
                 e.stopPropagation();
-                if (jQuery(this).next().css('display') === 'none') {
-                    jQuery(this).next().css('display', 'flex');
+                let activeMenu = $control.find('.active-menu');
+                let $this: any = jQuery(this);
+                if ($this.prev().css('display') === 'none') {
+                    $this.prev().css('display', 'block').addClass('active-menu');
+                    jQuery(document).one('click', function closeMenu(e) {
+                        if ($this.has(e.target).length === 0) {
+                            $this.prev().removeClass('active-menu').css('display', 'none');
+                        } else {
+                            $this.prev().css('display', 'block');
+                        }
+                    })
                 } else {
-                    jQuery(this).next().css('display', 'none');
+                    $this.prev().removeClass('active-menu').css('display', 'none');
                 }
-            });
+
+                if (activeMenu.length > 0) {
+                    activeMenu.removeClass('active-menu').hide();
+                }
+            })
 
         $control.on('click', '.input-group-clear', function (e) {
             let event = jQuery.Event('keypress');
@@ -227,9 +261,7 @@
     getHeaderView($control) {
         var $view;
 
-        $view = jQuery('<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>');
-
-        FwControl.renderRuntimeControls($view);
+        $view = jQuery('<div class="menu-container" data-control="FwFileMenu" data-version="2" data-rendermode="template"><div class="menu"></div></div>');
 
         var nodeApplications, nodeApplication = null, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
         nodeApplications = FwApplicationTree.getMyTree();
@@ -248,7 +280,6 @@
             if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Reports') {
                 switch (nodeLv1MenuItem.properties.nodetype) {
                     case 'Lv1ReportsMenu':
-                        $menu = FwFileMenu.addMenu($view, nodeLv1MenuItem.properties.caption)
                         for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                             var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                             if (nodeLv2MenuItem.properties.visible === 'T') {
@@ -261,10 +292,10 @@
                                                 dropDownMenuItems.push({ id: nodeLv3MenuItem.id, caption: nodeLv3MenuItem.properties.caption, modulenav: nodeLv3MenuItem.properties.modulenav, imgurl: nodeLv3MenuItem.properties.iconurl, moduleName: nodeLv3MenuItem.properties.controller.slice(0, -10) });
                                             }
                                         }
-                                        this.generateDropDownModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
+                                        this.generateDropDownModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.iconurl, dropDownMenuItems);
                                         break;
                                     case 'ReportsModule':
-                                        this.generateStandardModuleBtn($menu, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
+                                        this.generateStandardModuleBtn($view, $control, nodeLv2MenuItem.id, nodeLv2MenuItem.properties.caption, nodeLv2MenuItem.properties.modulenav, nodeLv2MenuItem.properties.iconurl, nodeLv2MenuItem.properties.controller.slice(0, -10));
                                         break;
                                 }
                             }
@@ -286,7 +317,7 @@
         if ((caption !== '') && (typeof caption !== 'undefined')) {
             try {
                 btnHtml = [];
-                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="btnModule' + securityid + '" class="ddmodulebtn menu-tab" data-securityid="' + securityid + '" data-navigation="' + caption + '">');
                 btnHtml.push('<div class="ddmodulebtn-caption">');
                 btnHtml.push('<div class="ddmodulebtn-text">');
                 btnHtml.push(caption);
@@ -303,6 +334,9 @@
                 subitemHtml.push('<div class="ddmodulebtn-dropdown-btn-text"></div>');
                 subitemHtml.push('</div>');
                 jQuery.each(subitems, function (index, value) {
+                    if (index === 0) {
+                        $modulebtn.data('firstmodule', subitems[index].moduleName);
+                    }
                     $subitem = jQuery(subitemHtml.join(''));
                     $subitem.attr('data-securityid', subitems[index].id);
                     $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
@@ -329,6 +363,34 @@
             throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
 
+        $modulebtn
+            .on('click', function () {
+                try {
+                    let navigationCaption = $modulebtn.data('navigation');
+                    let panels = $control.find('.panel-group');
+                    if (navigationCaption != '') {
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#reportsSearch').val('')
+                        jQuery(this).addClass('selected');
+                        //if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
+                        //    $control.find('#' + moduleName + ' > div > div.panel-heading').click();
+                        //}
+                        //jQuery('html, body').animate({
+                        //    scrollTop: $control.find('#' + moduleName).offset().top + $control.find('.well').scrollTop()
+                        //}, 1);
+                        for (var i = 0; i < panels.length; i++) {
+                            if (jQuery(panels[i]).data('navigation') !== navigationCaption) {
+                                jQuery(panels[i]).hide();
+                            } else {
+                                jQuery(panels[i]).show();
+                            }
+                        }
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+
         $menu.find('.menu').append($modulebtn);
     };
     //----------------------------------------------------------------------------------------------
@@ -340,7 +402,7 @@
             try {
                 btnId = 'btnModule' + securityid;
                 btnHtml = [];
-                btnHtml.push('<div id="' + btnId + '" class="modulebtn" data-securityid="' + securityid + '">');
+                btnHtml.push('<div id="' + btnId + '" class="modulebtn menu-tab" data-securityid="' + securityid + '">');
                 btnHtml.push('<div class="modulebtn-text">');
                 btnHtml.push(caption);
                 btnHtml.push('</div>');
@@ -357,12 +419,21 @@
             .on('click', function () {
                 try {
                     if (modulenav != '') {
+                        let panels = $control.find('.panel-group');
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#reportsSearch').val('')
+                        jQuery(this).addClass('selected');
+                        for (var i = 0; i < panels.length; i++) {
+                            if (jQuery(panels[i]).attr('id') !== moduleName) {
+                                jQuery(panels[i]).hide();
+                            } else {
+                                jQuery(panels[i]).show();
+                            }
+
+                        }
                         if ($control.find('#' + moduleName + ' > div > div.panel-collapse').is(':hidden')) {
                             $control.find('#' + moduleName + ' > div > div.panel-heading').click();
                         }
-                        jQuery('html, body').animate({
-                            scrollTop: $control.find('#' + moduleName).offset().top
-                        }, 1);
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);

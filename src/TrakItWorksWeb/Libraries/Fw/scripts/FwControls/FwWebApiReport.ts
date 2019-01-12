@@ -23,7 +23,7 @@ class FwWebApiReport {
             HasEmailHtml: true,
             HasEmailPdf: true,
             HasEmailMePdf: true,
-            HasDownloadExcel: false
+            HasDownloadExcel: true
         };
     }
     //----------------------------------------------------------------------------------------------
@@ -141,7 +141,43 @@ class FwWebApiReport {
             });
         }
         FwMenu.addVerticleSeparator($menuObject);
-
+        // Download Excel button
+        if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
+            var $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
+            $btnDownloadExcel.on('click', (event) => {
+                try {
+                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+                    let request = me.getRenderRequest($form);
+                    // request.renderMode = 'excel';
+                    request.downloadPdfAsAttachment = true;
+                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
+                        (successResponse) => {
+                            try {
+                                let $iframe = jQuery('<iframe style="display:none;" />');
+                                $iframe.attr('src', `${applicationConfig.apiurl}${successResponse.downloadUrl}`);
+                                jQuery('#application').append($iframe);
+                                setTimeout(function () {
+                                    $iframe.remove();
+                                }, 500);
+                                // window.location.assign(`${applicationConfig.apiurl}${successResponse.downloadUrl}`);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            } finally {
+                                FwNotification.closeNotification($notification);
+                            }
+                        },
+                        (errorResponse) => {
+                            FwNotification.closeNotification($notification);
+                            if (errorResponse !== 'abort') {
+                                FwFunc.showError(errorResponse);
+                            }
+                        }, null);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+        }
+        FwMenu.addVerticleSeparator($menuObject);
         // View PDF button
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             let $btnOpenPdf = FwMenu.addStandardBtn($menuObject, 'View PDF');
@@ -188,7 +224,6 @@ class FwWebApiReport {
                 }
             });
         }
-
         // Download PDF button
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             let $btnDownloadPdf = FwMenu.addStandardBtn($menuObject, 'Download PDF');
@@ -233,9 +268,7 @@ class FwWebApiReport {
                 }
             });
         }
-
         FwMenu.addVerticleSeparator($menuObject);
-
         // E-mail (to me)
         if ((typeof reportOptions.HasEmailMePdf === 'undefined') || (reportOptions.HasEmailMePdf === true)) {
             let $btnEmailMePdf = FwMenu.addStandardBtn($menuObject, 'E-mail (to me)');
@@ -253,7 +286,6 @@ class FwWebApiReport {
                     FwAppData.apiMethod(true, 'POST', me.apiurl + '/render', request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
-
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             } finally {
@@ -271,7 +303,7 @@ class FwWebApiReport {
                 }
             });
         }
-
+        FwMenu.addVerticleSeparator($menuObject);
         // E-mail button
         if ((typeof reportOptions.HasEmailPdf === 'undefined') || (reportOptions.HasEmailPdf === true)) {
             let $btnEmailPdf = FwMenu.addStandardBtn($menuObject, 'E-mail');
@@ -284,26 +316,26 @@ class FwWebApiReport {
                         email = sessionStorage.getItem('email');
                     }
                     FwFormField.setValueByDataField($confirmation, 'from', email);
-                    $confirmation.find('.tousers').data('onchange', function ($selectedRows) {
-                        let emailArray = new Array<string>();
-                        for (let i = 0; i < $selectedRows.length; i++) {
-                            let $tr = $selectedRows[i];
-                            let email = $tr.find('[data-cssclass="Email"]').text();
-                            emailArray.push(email);
-                        }
-                        FwFormField.setValueByDataField($confirmation, 'to', emailArray.join('; '));
-                        FwFormField.setValueByDataField($confirmation, 'tousers', '', '');
-                    });
-                    $confirmation.find('.ccusers').data('onchange', function ($selectedRows) {
-                        let emailArray = new Array<string>();
-                        for (let i = 0; i < $selectedRows.length; i++) {
-                            let $tr = $selectedRows[i];
-                            let email = $tr.find('[data-cssclass="Email"]').text();
-                            emailArray.push(email);
-                        }
-                        FwFormField.setValueByDataField($confirmation, 'cc', emailArray.join('; '));
-                        FwFormField.setValueByDataField($confirmation, 'ccusers', '', '');
-                    });
+                    //$confirmation.find('.tousers').data('onchange', function ($selectedRows) {
+                    //    let emailArray = new Array<string>();
+                    //    for (let i = 0; i < $selectedRows.length; i++) {
+                    //        let $tr = $selectedRows[i];
+                    //        let email = $tr.find('[data-cssclass="Email"]').text();
+                    //        emailArray.push(email);
+                    //    }
+                    //    FwFormField.setValueByDataField($confirmation, 'to', emailArray.join('; '));
+                    //    FwFormField.setValueByDataField($confirmation, 'tousers', '', '');
+                    //});
+                    //$confirmation.find('.ccusers').data('onchange', function ($selectedRows) {
+                    //    let emailArray = new Array<string>();
+                    //    for (let i = 0; i < $selectedRows.length; i++) {
+                    //        let $tr = $selectedRows[i];
+                    //        let email = $tr.find('[data-cssclass="Email"]').text();
+                    //        emailArray.push(email);
+                    //    }
+                    //    FwFormField.setValueByDataField($confirmation, 'cc', emailArray.join('; '));
+                    //    FwFormField.setValueByDataField($confirmation, 'ccusers', '', '');
+                    //});
                     FwFormField.setValueByDataField($confirmation, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
                     let $btnSend = FwConfirmation.addButton($confirmation, 'Send');
                     FwConfirmation.addButton($confirmation, 'Cancel');
@@ -311,12 +343,12 @@ class FwWebApiReport {
                         try {
                             let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                             let requestEmailPdf = me.getRenderRequest($form);
-                                requestEmailPdf.renderMode = 'Email';
-                                requestEmailPdf.email.to = '[me]';
-                                requestEmailPdf.email.cc = '';
-                                requestEmailPdf.email.subject = '[reportname]';
-                                requestEmailPdf.email.body = '';
-                                requestEmailPdf.parameters = this.getParameters($form);
+                            requestEmailPdf.renderMode = 'Email';
+                            requestEmailPdf.email.to = '[me]';
+                            requestEmailPdf.email.cc = '';
+                            requestEmailPdf.email.subject = '[reportname]';
+                            requestEmailPdf.email.body = '';
+                            requestEmailPdf.parameters = this.getParameters($form);
                             FwAppData.apiMethod(true, 'POST', this.apiurl + '/render', requestEmailPdf, timeout,
                                 (successResponse) => {
                                     try {
@@ -374,43 +406,6 @@ class FwWebApiReport {
             });
         }
 
-        // Download Excel button
-        FwMenu.addVerticleSeparator($menuObject);
-        if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
-            var $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
-            $btnDownloadExcel.on('click', (event) => {
-                try {
-                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = me.getRenderRequest($form);
-                    //request.renderMode = 'excel';
-                    request.downloadPdfAsAttachment = true;
-                    FwAppData.apiMethod(true, 'POST', this.apiurl + '/render', request, timeout,
-                        (successResponse) => {
-                            try {
-                                let $iframe = jQuery('<iframe style="display:none;" />');
-                                jQuery('.application').append($iframe);
-                                $iframe.attr('src', successResponse.downloadurl);
-                                setTimeout(function () {
-                                    $iframe.remove();
-                                }, 500);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            } finally {
-                                FwNotification.closeNotification($notification);
-                            }
-                        },
-                        (errorResponse) => {
-                            FwNotification.closeNotification($notification);
-                            if (errorResponse !== 'abort') {
-                                FwFunc.showError(errorResponse);
-                            }
-                        }, null);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        }
-
         if (typeof window[$form.attr('data-controller')].addReportMenuItems === 'function') {
             $menuObject = window[$form.attr('data-controller')].addReportMenuItems($menuObject, $form);
         }
@@ -440,6 +435,30 @@ class FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     getEmailTemplate() {
+        //return `
+        //    <div style="width:540px;">
+        //      <div class="formrow">
+        //        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        //          <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-enabled="true"></div>
+        //        </div>
+        //        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        //          <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>
+        //          <div data-datafield="to" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield to" data-caption="To" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>
+        //        </div>
+        //        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        //          <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>
+        //          <div data-datafield="cc" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield cc" data-caption="CC" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>
+        //        </div>
+        //        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        //          <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-enabled="true"></div>
+        //        </div>
+        //        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+        //          <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-enabled="true"></div>
+        //        </div>
+        //      </div>
+        //    </div>
+        //`;
+        // 12-20-2018 Jason H use updated template with multiselect below
         return `
             <div style="width:540px;">
               <div class="formrow">
@@ -447,13 +466,11 @@ class FwWebApiReport {
                   <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-enabled="true"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>
-                  <div data-datafield="to" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield to" data-caption="To" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>
+                  <div data-datafield="tousers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield tousers" data-caption="To (Users)" data-validationname="PersonValidation" data-hasselectall="false" style="box-sizing:border-box;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="float:left;box-sizing:border-box;width:20%;"></div>
-                  <div data-datafield="cc" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield cc" data-caption="CC" data-enabled="true" style="float:left;box-sizing:border-box;width:80%;"></div>
-                </div>
+                  <div data-datafield="ccusers" data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield ccusers" data-caption="CC (Users)" data-validationname="PersonValidation"  data-hasselectall="false" style="box-sizing:border-box;"></div>
+               </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="subject" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield subject" data-caption="Subject" data-enabled="true"></div>
                 </div>
@@ -467,8 +484,8 @@ class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 }
 
-type ActionType =  'None' | 'Preview' | 'PrintHtml';
-type RenderMode =  'Html' | 'Pdf' | 'Email';
+type ActionType = 'None' | 'Preview' | 'PrintHtml';
+type RenderMode = 'Html' | 'Pdf' | 'Email';
 
 class ReportPageMessage {
     action: ActionType = 'None';
@@ -498,4 +515,3 @@ class EmailInfo {
     subject: string = '';
     body: string = '';
 }
-

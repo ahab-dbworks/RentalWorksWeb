@@ -198,7 +198,7 @@ FwFormField_checkboxlist.getValue2 = function ($fwformfield) {
             item.value = $li.attr('data-value');
             item.text = $li.find('label').text();
             item.userWidgetId = $li.attr('data-userwidgetid');
-            item.selected = 'true';
+            item.selected = 'true'
             jQuery.extend(item, $li.data('request'));
             value.push(item);
         });
