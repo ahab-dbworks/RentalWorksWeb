@@ -17,15 +17,15 @@
     <span class="title blue">{{Report}}</span>
   </div>
   <div class="rpt-flexcolumn">
-    <span class="header-right blue" style="font-size:30px;"><span style="font-weight:600;padding-right:8px;">No: </span><span style="background-color:#DCDCDC;color:black;border:3px solid #0798ee;padding:3px;">{{InvoiceNumber}}</span></span>
-    <span style="font-size:18px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:49px;">Invoice Date: </span><span style="color:black;">{{OrderDate}}</span></span>
-    <span style="font-size:18px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:61px;">Due Date: </span><span style="color:black;">needField{{BLANK}}</span></span>
+    <span class="header-right blue" style="font-size:34px;"><span style="font-weight:600;padding-right:8px;">No: </span><span style="background-color:#DCDCDC;color:black;border:3px solid #0798ee;padding:3px;">{{InvoiceNumber}}</span></span>
+    <span style="font-size:22px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:49px;">Invoice Date: </span><span style="color:black;">{{OrderDate}}</span></span>
+    <span style="font-size:22px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:61px;">Due Date: </span><span style="color:black;">needField{{BLANK}}</span></span>
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:10px;padding-left:3px;">
   <div class="rpt-flexcolumn">
-    <div class="rpt-meta-header"><span>Billed To:</span></div>
-    <div class="rpt-meta-address">
+    <div class="meta-header"><span>Billed To:</span></div>
+    <div class="meta-address">
       <span class="header-left">{{BillToName}}</span>
       {{#if BillToAttention}}
       <span class="header-left">c/o {{BillToAttention}}</span>
@@ -36,45 +36,44 @@
       <span class="header-left"><span style="font-weight:600;">Phone: </span>needField{{blank}}</span>
       <span class="header-left"><span style="font-weight:600;">Fax: </span>needField{{blank}}</span>
     </div>
-    <div class="rpt-meta-section">
+    <div class="meta-section">
       <div class="shaded-block">
-        <span class="header-left">Ordered By:</span>
-        <span class="header-left">Phone:</span>
-        <span class="header-left">Email:</span>
+        <span class="meta-content">Ordered By:</span>
+        <span class="meta-content">Phone:</span>
+        <span class="meta-content">Email:</span>
       </div>
       <div class="right-text-block">
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
+        <span class="meta-content">{{BillingCycle}}</span>
+        <span class="meta-content">{{BillingCycle}}</span>
+        <span class="meta-content">{{BillingCycle}}</span>
       </div>
     </div>
-    <div class="rpt-meta-section">
+    <div class="meta-section">
       <div class="shaded-block">
-        <span class="header-left">Location: </span>
+        <span style="margin-right:19px;" class="meta-content">Location: </span>
       </div>
       <div class="right-text-block">
-        <span class="header-left">{{BillingCycle}}</span>
+        <span class="meta-content">{{BillingCycle}}</span>
       </div>
     </div>
-    <div class="rpt-meta-header"><span>Delivered To:</span></div>
-    <div class="rpt-meta-address">
+    <div class="meta-header"><span>Delivered To:</span></div>
+    <div class="meta-address">
       <span class="header-left">{{BillToName}}</span>
       {{#if BillToAttention}}
-      <span class="header-left">c/o {{BillToAttention}}</span>
+      <span class="header-left">c/o {{OutDeliveryAttention}}</span>
       {{/if}}
-      <span class="header-left">{{BillToAddress1}}</span>
-      <span class="header-left">{{BillToAddress2}}</span>
-      <span class="header-left">{{BillToCityStateZipCodeCountry}}</span>
-      <span class="header-left"><span style="font-weight:600;">Phone: </span>needField{{blank}}</span>
-      <span class="header-left"><span style="font-weight:600;">Fax: </span>needField{{blank}}</span>
+      <span class="header-left">{{OutDeliveryContact}}</span>
+      <span class="header-left">{{OutDeliveryAddress1}}</span>
+      <span class="header-left">{{OutDeliveryAddress2}}</span>
+      <span class="header-left">{{Outdeliverycitystatezipcountry}}</span>
     </div>
   </div>
-  <div class="rpt-flexcolumn middle">
+  <div style="max-width:50px;" class="rpt-flexcolumn middle">
     <span style="padding:10px;"></span>
   </div>
   <div class="rpt-flexcolumn">
-    <div class="rpt-meta-header"><span>Remit To:</span></div>
-    <div class="rpt-meta-address">
+    <div class="meta-header"><span>Remit To:</span></div>
+    <div class="meta-address">
       <span class="header-left">{{BillToName}}</span>
       {{#if BillToAttention}}
       <span class="header-left">c/o {{BillToAttention}}</span>
@@ -82,56 +81,56 @@
       <span class="header-left">{{BillToAddress1}}</span>
       <span class="header-left">{{BillToAddress2}}</span>
       <span class="header-left">{{BillToCityStateZipCodeCountry}}</span>
-      <span class="header-left"><span style="font-weight:600;">Phone: </span>needField{{blank}}</span>
-      <span class="header-left"><span style="font-weight:600;">Fax: </span>needField{{blank}}</span>
+      <span class="header-left"><span style="font-weight:600;">Phone: </span>{{blank}}</span>
+      <span class="header-left"><span style="font-weight:600;">Fax: </span>{{blank}}</span>
     </div>
-    <div class="rpt-meta-header"><span>Order Details:</span></div>
-    <div class="rpt-meta-section">
+    <div class="meta-header"><span>Order Details:</span></div>
+    <div style="border-top:none;" class="meta-section">
       <div class="shaded-block">
-        <span class="header-left">Order:</span>
-        <span class="header-left">Deal:</span>
-        <span class="header-left">Customer:</span>
-        <span class="header-left">Customer Type:</span>
+        <span class="meta-content">Order:</span>
+        <span class="meta-content">Deal:</span>
+        <span class="meta-content">Customer:</span>
+        <span class="meta-content">Customer Type:</span>
       </div>
       <div class="right-text-block">
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
+        <span class="meta-content">{{OrderNumberAndDescription}}</span>
+        <span class="meta-content">{{DealAndDealNumber}}</span>
+        <span class="meta-content">{{Customer}}</span>
+        <span class="meta-content">{{Customer}}</span>
       </div>
     </div>
-    <div class="rpt-meta-section">
+    <div class="meta-section">
       <div class="shaded-block">
-        <span class="header-left">PO No:</span>
-        <span class="header-left">Reference No:</span>
-        <span class="header-left">Terms:</span>
+        <span class="meta-content">PO No:</span>
+        <span class="meta-content">Ref No:</span>
+        <span class="meta-content">Terms:</span>
       </div>
       <div class="right-text-block">
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
+        <span class="meta-content">{{PoNumber}}</span>
+        <span class="meta-content">{{ReferenceNumber}}</span>
+        <span class="meta-content">{{PaymentTerms}}</span>
       </div>
     </div>
-    <div class="rpt-meta-section">
+    <div class="meta-section">
       <div class="shaded-block">
-        <span class="header-left">Usage:</span>
-        <span class="header-left">Billing:</span>
+        <span class="meta-content">Usage:</span>
+        <span class="meta-content">Billing:</span>
       </div>
       <div class="right-text-block">
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
+        <span class="meta-content">{{UsageDates}}</span>
+        <span class="meta-content">{{BillingDates}}</span>
       </div>
     </div>
-    <div class="rpt-meta-section">
+    <div class="meta-section">
       <div class="shaded-block">
-        <span class="header-left">Agent:</span>
-        <span class="header-left">Phone:</span>
-        <span class="header-left">Email:</span>
+        <span class="meta-content">Agent:</span>
+        <span class="meta-content">Phone:</span>
+        <span class="meta-content">Email:</span>
       </div>
       <div class="right-text-block">
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
-        <span class="header-left">{{BillingCycle}}</span>
+        <span class="meta-content">{{Agent}}</span>
+        <span class="meta-content">{{AgentPhoneAndExtension}}</span>
+        <span class="meta-content">{{AgentEmail}}</span>
       </div>
     </div>
   </div>

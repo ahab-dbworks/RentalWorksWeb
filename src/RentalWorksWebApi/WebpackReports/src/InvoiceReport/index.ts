@@ -34,7 +34,7 @@ export class InvoiceReport extends WebpackReport {
                         invoice.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                         invoice.System = 'RENTALWORKS';
                         invoice.Company = '4WALL ENTERTAINMENT';
-                        invoice.Report = 'Invoice';
+                        invoice.Report = 'INVOICE';
                         if (controlObject.ReportLogoImage != '') {
                             invoice.Logosrc = controlObject.ReportLogoImage;
                         } 
