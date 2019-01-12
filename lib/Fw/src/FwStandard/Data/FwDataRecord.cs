@@ -613,14 +613,34 @@ namespace FwStandard.DataLayer
                             searchcondition = conditionConjunction + searchField + " not like " + parameterName;
                             select.AddParameter(parameterName, "%" + searchFieldValue.ToUpper() + "%");
                         }
-                        else if (searchFieldOperator.Equals("=") || searchFieldOperator.Equals("<>") || searchFieldOperator.Equals("<") || searchFieldOperator.Equals(">") || searchFieldOperator.Equals("<=") || searchFieldOperator.Equals(">="))
+                        else if (searchFieldOperator.Equals("greaterthan"))
+                        {
+                            searchcondition = conditionConjunction + searchField + " >= " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
+                        }
+                        else if (searchFieldOperator.Equals("greaterthanequal"))
+                        {
+                            searchcondition = conditionConjunction + searchField + " >= " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
+                        }
+                        else if (searchFieldOperator.Equals("lessthan"))
+                        {
+                            searchcondition = conditionConjunction + searchField + " < " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
+                        }
+                        else if (searchFieldOperator.Equals("lessthanequal"))
+                        {
+                            searchcondition = conditionConjunction + searchField + " <= " + parameterName;
+                            select.AddParameter(parameterName, searchFieldValue.ToUpper());
+                        }
+                        else if (searchFieldOperator.Equals("=") || searchFieldOperator.Equals("<>"))
                         {
                             searchcondition = conditionConjunction + searchField + " " + searchFieldOperator + " " + parameterName;
-                            if (searchFieldType.Equals("date") || searchFieldType.Equals("Date"))
+                            if (searchFieldType.Equals("date"))
                             {
                                 select.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, 0, FwConvert.ToDateTime(searchFieldValue));
                             }
-                            else if (searchFieldType.Equals("number") || searchFieldType.Equals("Integer") || searchFieldType.Equals("Decimal"))
+                            else if (searchFieldType.Equals("number"))
                             {
                                 select.AddParameter(parameterName, SqlDbType.Float, ParameterDirection.Input, 0, searchFieldValue);
                             }
