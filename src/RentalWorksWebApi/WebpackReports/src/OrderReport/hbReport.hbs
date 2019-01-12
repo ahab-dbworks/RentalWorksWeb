@@ -142,13 +142,23 @@
       {{#each Items}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "RecTypeDisplayheader"}}
-        <td colspan="8" style="font-weight:bold;text-align:left;padding-top:11px">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="text">{{ICode}}</td>
         <td class="text">{{Description}}</td>
         <td class="number">{{QuantityOrdered}}</td>
         <td class="number">{{PeriodExtended}}</td>
+        {{/ifEquals}}
+          {{#ifEquals RowType "RecTypeDisplayfooter"}}
+        <td></td><td></td>
+        <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
+        <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td></td><td></td>
+        <td class="display-footer">GRAND TOTAL:&nbsp;</td>
+        <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

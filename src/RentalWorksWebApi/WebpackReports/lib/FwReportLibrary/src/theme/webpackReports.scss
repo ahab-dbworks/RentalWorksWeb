@@ -90,6 +90,30 @@
     align-items: flex-start;
 }
 
+.section-header {
+    border: 1px dashed #027cc5;
+    font-weight: bold;
+    text-align: left;
+    font-size: 35px;
+    padding-top: 5px;
+    color: #027cc5;
+}
+.display-footer {
+    width: 150px;
+    background-color: #DCDCDC;
+    font-weight: bold;
+    text-align: right;
+    padding-top: 11px;
+}
+.display-footer-total {
+    background-color: #F4FFCC;
+    width: 150px;
+    text-align: right;
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding-top: 10px;
+}
+
 table {
     border-collapse: collapse;
 }
