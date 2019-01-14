@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
         public decimal? Quantity{ get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "extended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "extended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Extended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]

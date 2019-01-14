@@ -36,7 +36,7 @@ namespace WebApi.Modules.Reports.OrderReport
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "periodextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderby", modeltype: FwDataTypes.Text)]
