@@ -48,6 +48,12 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         [FwSqlDataField(column: "ICodeDescription", modeltype: FwDataTypes.Text)]
         public string ICodeDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "TrackedBy", modeltype: FwDataTypes.Text)]
+        public string TrackedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "CurrentOwnedQty", modeltype: FwDataTypes.Integer)]
+        public int? CurrentOwnedQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "AverageOwnedQty", modeltype: FwDataTypes.Decimal)]
         public decimal? AverageOwnedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -131,6 +137,39 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
+
+                    if (!string.IsNullOrEmpty(request.ReportYear))
+                    {
+                        select.AddWhereIn("and", "RptYear", request.ReportYear, false);
+                    }
+                    if (!string.IsNullOrEmpty(request.ReportPeriod))
+                    {
+                        select.AddWhereIn("and", "ReportDateRangeCode", request.ReportPeriod, false);
+                    }
+                    if (!string.IsNullOrEmpty(request.WarehouseId))
+                    {
+                        select.AddWhereIn("and", "WarehouseKey", request.WarehouseId, false);
+                    }
+                    if (!string.IsNullOrEmpty(request.InventoryTypeId))
+                    {
+                        select.AddWhereIn("and", "DepartmentKey", request.InventoryTypeId, false);
+                    }
+                    if (!string.IsNullOrEmpty(request.CategoryId))
+                    {
+                        select.AddWhereIn("and", "CategoryKey", request.CategoryId, false);
+                    }
+                    if (!string.IsNullOrEmpty(request.SubCategoryId))
+                    {
+                        select.AddWhereIn("and", "SubCategoryKey", request.SubCategoryId, false);
+                    }
+                    if (!string.IsNullOrEmpty(request.InventoryId))
+                    {
+                        select.AddWhereIn("and", "InventoryKey", request.InventoryId, false);
+                    }
+                    select.AddWhereIn("and", "TrackedBy", request.TrackedBys.ToString(), false);
+                    select.AddWhereIn("and", "ICodeRank", request.Ranks.ToString(), false);
+
+
                     //select.AddWhere("(xxxxid ^> ')"); 
                     //addStringFilterToSelect("filter1fieldname", request.FiterValue1, select); 
                     //addStringFilterToSelect("filter2fieldname", request.FiterValue2, select); 
