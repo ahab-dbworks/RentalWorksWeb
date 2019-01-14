@@ -1222,6 +1222,11 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        public virtual FwSqlConnection GetDatabaseConnection()
+        {
+            return new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             FwJsonDataTable dt = null;
@@ -1253,7 +1258,8 @@ namespace FwStandard.DataLayer
             }
             else
             {
-                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                using (FwSqlConnection conn = GetDatabaseConnection())
                 {
                     FwSqlSelect select = new FwSqlSelect();
                     select.EnablePaging = request.pageno != 0 || request.pagesize > 0;
@@ -1272,7 +1278,8 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwCustomFields customFields = null)
         {
-            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            using (FwSqlConnection conn = GetDatabaseConnection())
             {
                 bool openAndCloseConnection = true;
                 FwSqlSelect select = new FwSqlSelect();
@@ -1291,7 +1298,8 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public virtual async Task<GetManyResponse<T>> GetManyAsync<T>(GetManyRequest request, FwCustomFields customFields = null, Func<FwSqlSelect, Task> beforeExecuteQuery = null)
         {
-            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            using (FwSqlConnection conn = GetDatabaseConnection())
             {
                 bool openAndCloseConnection = true;
                 FwSqlSelect select = new FwSqlSelect();
@@ -1347,7 +1355,8 @@ namespace FwStandard.DataLayer
             {
                 if (AllPrimaryKeysHaveValues)
                 {
-                    using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                    //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                    using (FwSqlConnection conn = GetDatabaseConnection())
                     {
                         FwSqlSelect select = new FwSqlSelect();
                         using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
