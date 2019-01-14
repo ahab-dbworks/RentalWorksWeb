@@ -16,6 +16,8 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPeriod
         public string Period { get; set; }
         [FwLogicProperty(Id: "rWckDsxP4wgLQ", IsReadOnly: true)]
         public string Label { get; set; }
+        [FwLogicProperty(Id: "8CYsdjusbfBO", IsReadOnly: true)]
+        public int? OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

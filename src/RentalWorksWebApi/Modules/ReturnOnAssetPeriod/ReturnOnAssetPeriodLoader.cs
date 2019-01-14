@@ -15,6 +15,9 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPeriod
         [FwSqlDataField(column: "Label", modeltype: FwDataTypes.Text)]
         public string Label { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "OrderNbr", modeltype: FwDataTypes.Integer)]
+        public int? OrderBy { get; set; }
+        //------------------------------------------------------------------------------------ 
         public override FwSqlConnection GetDatabaseConnection()
         {
             return new FwSqlConnection(AppConfig.DataWarehouseDatabaseSettings.ConnectionString);
