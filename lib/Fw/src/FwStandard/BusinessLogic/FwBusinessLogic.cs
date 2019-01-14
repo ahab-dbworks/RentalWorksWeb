@@ -270,7 +270,37 @@ namespace FwStandard.BusinessLogic
 
             LoadCustomFields();
 
-            if (browseLoader != null)
+            bool useBrowseLoader = (browseLoader != null);
+
+            if (useBrowseLoader)
+            {
+                if (request != null)
+                {
+                    if (request.searchfields.Count > 0)
+                    {
+                        // if searching for specific fields and one or more of the searched fields is not in the browseLoader, then use the regular dataLoader instead
+                        PropertyInfo[] properties = browseLoader.GetType().GetProperties();
+                        for (int i = 0; i < request.searchfields.Count; i++)
+                        {
+                            bool searchFieldDefined = false;
+                            foreach (PropertyInfo property in properties)
+                            {
+                                if (property.Name.Equals(request.searchfields[i]))
+                                {
+                                    searchFieldDefined = true;
+                                }
+                            }
+                            if (!searchFieldDefined)
+                            {
+                                useBrowseLoader = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (useBrowseLoader)
             {
                 browseLoader.UserSession = this.UserSession;
                 browse = await browseLoader.BrowseAsync(request, _Custom.CustomFields);
