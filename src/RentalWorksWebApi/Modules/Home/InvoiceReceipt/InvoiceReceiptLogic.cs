@@ -22,6 +22,10 @@ namespace WebApi.Modules.Home.InvoiceReceipt
         public string ReceiptId { get { return invoiceReceipt.ReceiptId; } set { invoiceReceipt.ReceiptId = value; } }
         [FwLogicProperty(Id: "X0xDQDANjLj5O", IsReadOnly: true)]
         public string ReceiptDate { get; set; }
+        [FwLogicProperty(Id: "6Rou679GB8Z", IsReadOnly: true)]
+        public string PaymentTypeId { get; set; }
+        [FwLogicProperty(Id: "FhZoC0RyV2S", IsReadOnly: true)]
+        public string PaymentType { get; set; }
         [FwLogicProperty(Id: "uJvygdAwOzDZ", IsReadOnly: true)]
         public string CheckNumber { get; set; }
         [FwLogicProperty(Id: "MjiveJjqqAHr1", IsReadOnly: true)]
@@ -48,6 +52,12 @@ namespace WebApi.Modules.Home.InvoiceReceipt
         public string InvoiceDeal { get; set; }
         [FwLogicProperty(Id: "RvNDPhUphSjY")]
         public decimal? Amount { get { return invoiceReceipt.Amount; } set { invoiceReceipt.Amount = value; } }
+        [FwLogicProperty(Id: "Id2KXjJdiNi", IsReadOnly: true)]
+        public string AppliedById { get; set; }
+        [FwLogicProperty(Id: "ncZWr1Qgp22", IsReadOnly: true)]
+        public string AppliedBy { get; set; }
+        [FwLogicProperty(Id: "hzNeDn8OyNI", IsReadOnly: true)]
+        public string PaymentMemo { get; set; }
         [FwLogicProperty(Id: "LszY68davOcH")]
         public string DateStamp { get { return invoiceReceipt.DateStamp; } set { invoiceReceipt.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

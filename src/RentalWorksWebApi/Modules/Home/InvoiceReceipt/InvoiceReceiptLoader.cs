@@ -21,6 +21,12 @@ namespace WebApi.Modules.Home.InvoiceReceipt
         [FwSqlDataField(column: "ardate", modeltype: FwDataTypes.Date)]
         public string ReceiptDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text)]
+        public string PaymentTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
+        public string PaymentType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "checkno", modeltype: FwDataTypes.Text)]
         public string CheckNumber { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -59,6 +65,15 @@ namespace WebApi.Modules.Home.InvoiceReceipt
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "amount", modeltype: FwDataTypes.Decimal)]
         public decimal? Amount { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "appliedbyid", modeltype: FwDataTypes.Text)]
+        public string AppliedById { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "appliedby", modeltype: FwDataTypes.Text)]
+        public string AppliedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "pmtmemo", modeltype: FwDataTypes.Text)]
+        public string PaymentMemo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }

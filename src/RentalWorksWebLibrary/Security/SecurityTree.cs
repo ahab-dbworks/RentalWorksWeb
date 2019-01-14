@@ -357,6 +357,7 @@ namespace WebLibrary.Security
             AddGrid("Inventory Warehouse Staging",            "{3D9F7C07-4B47-4E4C-B573-331D694B979E}", lv1menuGrids.Id, "InventoryWarehouseStagingGridController");
             AddGrid("Invoice Item",                           "{8D093CB9-1C37-449F-8E64-E76653488ABB}", lv1menuGrids.Id, "InvoiceItemGridController");
             AddGrid("Invoice Order",                          "{D4B2DBB4-FDB8-461E-A3BE-EE81F43A61C6}", lv1menuGrids.Id, "InvoiceOrderGridController");
+            AddGrid("Invoice Receipt",                        "{1C5F43F4-7428-4246-95B2-F45CE950CAFF}", lv1menuGrids.Id, "InvoiceReceiptGridController");
             AddGrid("Invoice Revenue",                        "{8066A976-772F-4CCF-A227-EF4EE95CA137}", lv1menuGrids.Id, "InvoiceRevenueGridController");
             AddGrid("Invoice Status History",                 "{08E2713B-9B57-4B1F-8859-E7B10E116EAA}", lv1menuGrids.Id, "InvoiceStatusHistoryGridController");
             AddGrid("Item Attribute Value",                   "{22D75843-E915-4956-9B25-C52E815F3C5E}", lv1menuGrids.Id, "ItemAttributeValueGridController");

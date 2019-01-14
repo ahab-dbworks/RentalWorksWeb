@@ -403,6 +403,19 @@ class Invoice {
         FwBrowse.init($invoiceRevenueGridControl);
         FwBrowse.renderRuntimeHtml($invoiceRevenueGridControl);
         //----------------------------------------------------------------------------------------------
+        let $invoiceReceiptGrid;
+        let $invoiceReceiptGridControl;
+        $invoiceReceiptGrid = $form.find('div[data-grid="InvoiceReceiptGrid"]');
+        $invoiceReceiptGridControl = FwBrowse.loadGridFromTemplate('InvoiceReceiptGrid');
+        $invoiceReceiptGrid.empty().append($invoiceReceiptGridControl);
+        $invoiceReceiptGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId')
+            };
+        });
+        FwBrowse.init($invoiceReceiptGridControl);
+        FwBrowse.renderRuntimeHtml($invoiceReceiptGridControl);
+        //----------------------------------------------------------------------------------------------
         let $invoiceStatusHistoryGrid;
         let $invoiceStatusHistoryGridControl;
         $invoiceStatusHistoryGrid = $form.find('div[data-grid="InvoiceStatusHistoryGrid"]');
