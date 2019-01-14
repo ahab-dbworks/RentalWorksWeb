@@ -842,6 +842,46 @@
 			]
 		},
 		{
+			"name": "Rental Inventory Change Report",
+			"item": [
+				{
+					"name": "Rental Inventory Change Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n            \"Ranks\": [\n            \t{\"value\": \"A\"},\n            \t{\"value\": \"B\"},\n            \t{\"value\": \"C\"},\n            \t{\"value\": \"D\"},\n            \t{\"value\": \"E\"}\n            \t],\n            \"TrackedBys\": [\n            \t{\"value\": \"BARCODE\"},\n            \t{\"value\": \"QUANTITY\"},\n            \t{\"value\": \"SERIALNO\"}\n            \t],\n    \t\t\"WarehouseId\": \"0000000H\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/rentalinventorychangereport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"rentalinventorychangereport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Rental Inventory Purchase History Report",
 			"item": [
 				{
@@ -953,6 +993,116 @@
 								"api",
 								"v1",
 								"retiredrentalinventoryreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Return On Asset Precalculated Report",
+			"item": [
+				{
+					"name": "Return On Asset Year: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Year\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/returnonassetyear/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"returnonassetyear",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Return On Asset Period: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Label\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/returnonassetperiod/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"returnonassetperiod",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Return On Asset Precalculated Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"ReportYear\": \"2018\",\n    \t\t\"ReportPeriod\": \"FY\",\n            \"Ranks\": [\n            \t{\"value\": \"A\"},\n            \t{\"value\": \"B\"},\n            \t{\"value\": \"C\"},\n            \t{\"value\": \"D\"},\n            \t{\"value\": \"E\"}\n            \t],\n            \"TrackedBys\": [\n            \t{\"value\": \"BARCODE\"},\n            \t{\"value\": \"QUANTITY\"},\n            \t{\"value\": \"SERIALNO\"}\n            \t],\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/returnonassetprecalculated/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"returnonassetprecalculated",
 								"runreport"
 							]
 						}
