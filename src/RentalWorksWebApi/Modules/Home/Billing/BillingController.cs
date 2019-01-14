@@ -40,7 +40,7 @@ namespace WebApi.Modules.Home.Billing
         // POST api/v1/billing/populate 
         [HttpPost("populate")]
         [FwControllerMethod(Id: "IkJY2GybFJCXf")]
-        public async Task<ActionResult<string>> Populate([FromBody]PopulateBillingRequest request)
+        public async Task<ActionResult<PopulateBillingResponse>> Populate([FromBody]PopulateBillingRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.Billing
             {
 
                 PopulateBillingResponse response = await BillingFunc.Populate(AppConfig, UserSession, request);
-                return response.SessionId;
+                return response;
             }
             catch (Exception ex)
             {
@@ -78,5 +78,13 @@ namespace WebApi.Modules.Home.Billing
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/billing/A0000001
+        [HttpGet("{id}")]
+        [FwControllerMethod(Id: "oUL3WodVBURC")]
+        public async Task<ActionResult<BillingLogic>> GetOneAsync([FromRoute]string id)
+        {
+            return await DoGetAsync<BillingLogic>(id);
+        }
+        //------------------------------------------------------------------------------------
     }
 }
