@@ -60,8 +60,8 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
         [FwSqlDataField(column: "category", modeltype: FwDataTypes.Text)]
         public string Category { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
-        public bool? Rank { get; set; }
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryorderby", modeltype: FwDataTypes.Decimal)]
         public decimal? CategoryOrderBy { get; set; }

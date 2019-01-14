@@ -42,8 +42,8 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
         [FwSqlDataField(column: "SubCategory", modeltype: FwDataTypes.Text)]
         public string SubCategory { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ICodeRank", modeltype: FwDataTypes.Boolean)]
-        public bool? ICodeRank { get; set; }
+        [FwSqlDataField(column: "ICodeRank", modeltype: FwDataTypes.Text)]
+        public string ICodeRank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ICode", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
@@ -126,8 +126,8 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
                     {
                         select.AddWhereIn("and", "InventoryKey", request.InventoryId, false);
                     }
-                    //Ranks
-                    //TrackedBys
+                    select.AddWhereIn("and", "TrackedBy", request.TrackedBys.ToString(), false);
+                    select.AddWhereIn("and", "ICodeRank", request.Ranks.ToString(), false);
 
                     select.AddOrderBy("Warehouse, Department, CategoryOrderBy, SubCategoryOrderBy, ICodeRank, ICode, ICodeDescription, TransactionDate, TransactionSequence");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
