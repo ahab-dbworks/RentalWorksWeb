@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8af97fc8-ad0a-451e-ad5e-f70566b416d8",
+		"_postman_id": "1897bf7d-2a56-419a-b1fb-972522964c27",
 		"name": "RentalWorks API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -3126,6 +3126,81 @@
 								"v1",
 								"department",
 								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Complete QC",
+			"item": [
+				{
+					"name": "Complete QC Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Code\": \"123486\",\n\t\"QcAnyway\": false\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/completeqc/completeqcitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"completeqc",
+								"completeqcitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update QC Item",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"ItemId\": \"A1234567\",\n\t\"QcItemId\": \"B1234567\",\n\t\"ConditionId\": \"C1234567\",\n\t\"Note\": \"Here is a note\"\n}\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/completeqc/updateqcitem",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"completeqc",
+								"updateqcitem"
 							]
 						}
 					},
