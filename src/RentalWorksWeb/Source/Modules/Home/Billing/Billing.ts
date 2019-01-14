@@ -28,19 +28,19 @@ class Billing {
     //----------------------------------------------------------------------------------------------
     renderBrowseFilterPopup($browse) {
         let html, $popup;
-        html = `<div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-rendermode="template" style="background-color:white; padding:15px 0px; border:2px solid gray;">
+        html = `<div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-rendermode="template" style="background-color:white; padding:15px 0px; border:2px solid gray; min-width:350px;">
                   <div class="close-modal" style="position:absolute; right:5px; top:5px; cursor:pointer;"><i class="material-icons">clear</i></div>
                   <div class="flexpage">
                     <div class="flexrow">
                       <div class="flexcolumn">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Bill As Of" data-datafield="BillAsOfDate" data-required="true"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Bill As Of" data-datafield="BillAsOfDate" data-required="true" style="max-width:150px;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="OfficeLocationId" data-displayfield="Location" data-validationname="OfficeLocationValidation"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="UserId" data-displayfield="User" data-validationname="UserValidation"></div>
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="max-width:150px;"></div>
                         </div>
                       </div>
                     </div>
@@ -81,7 +81,7 @@ class Billing {
                     //load browse with sessionId 
                     $browse.data('ondatabind', function (request) {
                         request.uniqueids = {
-                            SessionId: response
+                            SessionId: response.SessionId
                         }
                     });
                     FwBrowse.search($browse);
@@ -92,6 +92,10 @@ class Billing {
         $popup.on('click', 'div.close-modal', e => {
             $popup.hide();
         });
+
+        //defaults bill as of date to today
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($popup, 'BillAsOfDate', today);
         }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
