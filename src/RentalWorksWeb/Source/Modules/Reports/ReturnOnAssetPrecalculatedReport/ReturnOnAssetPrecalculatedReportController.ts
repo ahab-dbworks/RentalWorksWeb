@@ -17,10 +17,10 @@ var returnOnAssetPrecalculatedTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield year-date-range" data-caption="Year" data-datafield="ReportYear" style="float:left;max-width:250px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Year" data-datafield="Year" data-displayfield="Year" data-validationname="ReturnOnAssetYearValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield period-date-range" data-caption="Period" data-datafield="ReportPeriod" style="float:left;max-width:250px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Period" data-datafield="Period" data-displayfield="Label" data-validationname="ReturnOnAssetPeriodValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>
@@ -95,11 +95,11 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
             request.parameters = this.getParameters($form);
             return request;
         });
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
+
         this.load($form, this.reportOptions);
         var appOptions: any = program.getApplicationOptions();
         var request: any = { method: "LoadForm" };
@@ -107,7 +107,11 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
         this.loadLists($form);
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const date = new Date();
+        const year = date.getFullYear();
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        FwFormField.setValue($form, 'div[data-datafield="Period"]', 'FY', 'Full Year');
+        FwFormField.setValue($form, 'div[data-datafield="Year"]', year, year);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {
@@ -154,33 +158,6 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }, { value: "RFID", text: "RFID", selected: "T" }]);
         FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
-        FwFormField.loadItems($form.find('div[data-datafield="ReportYear"]'), [
-            { value: '2017', text: '2017' },
-            { value: '2018', text: '2018' },
-            { value: '2019', text: '2019' }
-        ], true);
-
-        FwFormField.loadItems($form.find('div[data-datafield="ReportPeriod"]'), [
-            { value: 'M1', text: 'January' },
-            { value: 'M2', text: 'February' },
-            { value: 'M3', text: 'March' },
-            { value: 'Q1', text: 'Q1' },
-            { value: 'M4', text: 'April' },
-            { value: 'M5', text: 'May' },
-            { value: 'M6', text: 'June' },
-            { value: 'Q2', text: 'Q2' },
-            { value: 'S1', text: '1st Semester' },
-            { value: 'M7', text: 'July' },
-            { value: 'M8', text: 'August' },
-            { value: 'M9', text: 'September' },
-            { value: 'Q3', text: 'Q3' },
-            { value: 'M10', text: 'October' },
-            { value: 'M11', text: 'November' },
-            { value: 'M12', text: 'December' },
-            { value: 'Q4', text: 'Q4' },
-            { value: 'S2', text: '2nd Semester' },
-            { value: 'FY', text: 'Full Year' }
-        ], true);
     }
     //----------------------------------------------------------------------------------------------
 };

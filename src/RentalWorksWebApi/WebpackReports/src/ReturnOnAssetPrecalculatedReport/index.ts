@@ -9,7 +9,7 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
-export class ReturnonAssetPrecalculatedReportRequest {
+export class ReturnOnAssetPrecalculatedReportRequest {
     ReportYear: string;
     ReportPeriod: string;
     Ranks: any;
@@ -21,17 +21,16 @@ export class ReturnonAssetPrecalculatedReportRequest {
     InventoryId: string;
 }
 
-export class ReturnonAssetPrecalculatedReport extends WebpackReport {
+export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-
-            let request = new ReturnonAssetPrecalculatedReportRequest();
-            request.ReportYear = parameters.ReportYear;
-            request.ReportPeriod = parameters.ReportPeriod;
+            let request = new ReturnOnAssetPrecalculatedReportRequest();
+            request.ReportYear = parameters.Year;
+            request.ReportPeriod = parameters.Period;
             request.Ranks = parameters.Ranks;
             request.TrackedBys = parameters.TrackedBys;
             request.WarehouseId = parameters.WarehouseId;
@@ -73,4 +72,4 @@ export class ReturnonAssetPrecalculatedReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new ReturnonAssetPrecalculatedReport();
+(<any>window).report = new ReturnOnAssetPrecalculatedReport();
