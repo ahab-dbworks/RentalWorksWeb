@@ -66,6 +66,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
 
     public class InvoiceReportLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
         public string InvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -285,8 +286,8 @@ namespace WebApi.Modules.Reports.InvoiceReport
         [FwSqlDataField(column: "approveddate", modeltype: FwDataTypes.Date)]
         public string ApprovedDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Decimal)]
-        public decimal? SummaryInvoiceGroup { get; set; }
+        [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Text)]
+        public string SummaryInvoiceGroup { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
         public bool? IsNoCharge { get; set; }
