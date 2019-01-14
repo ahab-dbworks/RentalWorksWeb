@@ -131,7 +131,7 @@ class VendorInvoice {
         //Disables editing when STATUS is CLOSED or PROCESSED 
         let status = FwFormField.getValueByDataField($form, 'Status');
         if ((status === 'CLOSED') || (status === 'PROCESSED')) {
-            FwFormField.disable($form.find('.fwformfield'));
+            FwModule.setFormReadOnly($form);
         }
 
         FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
