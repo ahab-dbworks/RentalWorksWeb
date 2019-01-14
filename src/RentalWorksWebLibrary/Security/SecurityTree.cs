@@ -428,6 +428,9 @@ namespace WebLibrary.Security
             AddGrid("Warehouse",                              "{EF27A7FE-26D8-4F3C-85CD-9CD2D6FE57A5}", lv1menuGrids.Id, "WarehouseGridController");
             AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNoteGridController");
             AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");
+            AddGrid("Vendor Invoice Note",                    "{D9DBA1D1-65E7-4CE5-99D0-6C79144DECAD}", lv1menuGrids.Id, "VendorInvoiceNoteGridController");
+            AddGrid("Vendor Invoice Payment",                 "{8B63442E-DE46-47BD-B995-342B2A49E77E}", lv1menuGrids.Id, "VendorInvoicePaymentGridController");
+            AddGrid("Vendor Invoice Status History",          "{4CCDDE3F-57CD-43B4-88F0-F8B59AF104F9}", lv1menuGrids.Id, "VendorInvoiceStatusHistoryGridController");
             AddGrid("Deal Shipper",                           "{032CBF05-9924-4244-AB5A-B5298E6F7498}", lv1menuGrids.Id, "DealShipperGridController");
             AddGrid("Discount Item",                          "{2EB32722-33D0-43C4-B799-ECD81EDF9C99}", lv1menuGrids.Id, "DiscountItemGridController");
             AddGrid("Order Type Contact Title",               "{E104C48C-2579-4674-9BD1-41069AC6968B}", lv1menuGrids.Id, "OrderTypeContactTitleGridController");

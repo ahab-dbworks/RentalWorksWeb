@@ -112,7 +112,7 @@ class VendorInvoice {
         })
         FwBrowse.init($vendorInvoiceItemGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
-
+        //----------------------------------------------------------------------------------------------
         let $glDistributionGrid;
         let $glDistributionGridControl;
         $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
@@ -125,6 +125,47 @@ class VendorInvoice {
         });
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
+        //----------------------------------------------------------------------------------------------
+        let $vendorInvoicePaymentGrid;
+        let $vendorInvoicePaymentGridControl;
+        $vendorInvoicePaymentGrid = $form.find('div[data-grid="VendorInvoicePaymentGrid"]');
+        $vendorInvoicePaymentGridControl = FwBrowse.loadGridFromTemplate('VendorInvoicePaymentGrid');
+        $vendorInvoicePaymentGrid.empty().append($vendorInvoicePaymentGridControl);
+        $vendorInvoicePaymentGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+            };
+        });
+        FwBrowse.init($vendorInvoicePaymentGridControl);
+        FwBrowse.renderRuntimeHtml($vendorInvoicePaymentGridControl);
+        //----------------------------------------------------------------------------------------------
+        let $vendorInvoiceNoteGrid;
+        let $vendorInvoiceNoteGridControl;
+        $vendorInvoiceNoteGrid = $form.find('div[data-grid="VendorInvoiceNoteGrid"]');
+        $vendorInvoiceNoteGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceNoteGrid');
+        $vendorInvoiceNoteGrid.empty().append($vendorInvoiceNoteGridControl);
+        $vendorInvoiceNoteGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                UniqueId1: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+            };
+        });
+        FwBrowse.init($vendorInvoiceNoteGridControl);
+        FwBrowse.renderRuntimeHtml($vendorInvoiceNoteGridControl);
+        //----------------------------------------------------------------------------------------------
+        let $vendorInvoiceHistoryGrid;
+        let $vendorInvoiceHistoryGridControl;
+        $vendorInvoiceHistoryGrid = $form.find('div[data-grid="VendorInvoiceStatusHistoryGrid"]');
+        $vendorInvoiceHistoryGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceStatusHistoryGrid');
+        $vendorInvoiceHistoryGrid.empty().append($vendorInvoiceHistoryGridControl);
+        $vendorInvoiceHistoryGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+            };
+        });
+        FwBrowse.init($vendorInvoiceHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($vendorInvoiceHistoryGridControl);
+        //----------------------------------------------------------------------------------------------
+
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
@@ -140,6 +181,15 @@ class VendorInvoice {
 
         let $glDistributionGridControl = $form.find('[data-name="GlDistributionGrid"]');
         FwBrowse.search($glDistributionGridControl);
+
+        let $vendorInvoicePaymentGridControl = $form.find('[data-name="VendorInvoicePaymentGrid"]');
+        FwBrowse.search($vendorInvoicePaymentGridControl);
+
+        let $vendorInvoiceNoteGridControl = $form.find('[data-name="VendorInvoiceNoteGrid"]');
+        FwBrowse.search($vendorInvoiceNoteGridControl);
+
+        let $vendorInvoiceHistoryGridControl = $form.find('[data-name="VendorInvoiceStatusHistoryGrid"]');
+        FwBrowse.search($vendorInvoiceHistoryGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form) {

@@ -1,5 +1,5 @@
 ﻿﻿class InvoiceStatusHistoryGrid {
-    Module: string = 'InvoiceStatusHistory';
+    Module: string = 'InvoiceStatusHistoryGrid';
      apiurl: string = 'api/v1/invoicestatushistory';
 }
 //----------------------------------------------------------------------------------------------
