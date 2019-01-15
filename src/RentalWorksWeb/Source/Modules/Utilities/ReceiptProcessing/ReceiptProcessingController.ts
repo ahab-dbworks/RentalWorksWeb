@@ -1,10 +1,13 @@
 ﻿class ReceiptProcessingControllerClass {
-    Module: 'ReceiptProcessing';
+    Module: string = 'ReceiptProcessing';
     ModuleOptions: {
         ReportOptions: {
             HasDownloadExcel: true
         }
     };
+    caption: string = 'Process Receipts';
+    nav: string = 'module/receiptprocessing';
+    id: string = '0BB9B45C-57FA-47E1-BC02-39CEE720792C';
     //----------------------------------------------------------------------------------------------
     constructor() {
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);

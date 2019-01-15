@@ -1,10 +1,13 @@
 ﻿class ChargeProcessingControllerClass {
-    Module: 'ChargeProcessing';
+    Module: string = 'ChargeProcessing';
     ModuleOptions: {
         ReportOptions: {
             HasDownloadExcel: true
         }
     };
+    caption: string = 'Process Deal Invoices';
+    nav: string = 'module/chargeprocessing';
+    id: string = '5DB3FB9C-6F86-4696-867A-9B99AB0D6647';
     //----------------------------------------------------------------------------------------------
     constructor() {
         this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);

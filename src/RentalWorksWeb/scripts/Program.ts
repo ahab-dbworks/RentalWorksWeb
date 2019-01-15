@@ -204,9 +204,9 @@ routes.push({ pattern: /^module\/dealoutstanding/, action: function (match: RegE
 routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 
 //Utilities Modules                                   
-routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return RwChargeProcessingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/receiptprocessing/, action: function (match: RegExpExecArray) { return RwReceiptProcessingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/vendorinvoiceprocessing/, action: function (match: RegExpExecArray) { return RwVendorInvoiceProcessingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return ChargeProcessingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/receiptprocessing/, action: function (match: RegExpExecArray) { return ReceiptProcessingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vendorinvoiceprocessing/, action: function (match: RegExpExecArray) { return VendorInvoiceProcessingController.getModuleScreen(); } });
 
 //Administrator
 routes.push({ pattern: /^module\/control$/, action: function (match: RegExpExecArray) { return ControlController.getModuleScreen(); } });

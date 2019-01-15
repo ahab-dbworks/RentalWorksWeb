@@ -27,7 +27,7 @@
             {
                 caption: 'Utilities',
                 id: '81609B0E-4B1F-4C13-8BE0-C1948557B82D',
-                children: [DashboardController, DashboardSettingsController]
+                children: [DashboardController, DashboardSettingsController, ChargeProcessingController, ReceiptProcessingController, VendorInvoiceProcessingController]
             },
             {
                 caption: 'Administator',
