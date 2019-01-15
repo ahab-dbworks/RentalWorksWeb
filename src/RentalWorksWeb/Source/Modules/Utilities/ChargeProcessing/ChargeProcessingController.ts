@@ -1,4 +1,53 @@
-﻿class ChargeProcessingControllerClass {
+﻿var chargeProcessingFrontEndTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport chargeprocessingexport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ChargeProcessingController">
+  <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+    <div class="tabs">
+      <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+      <div id="exporttab" class="tab exporttab" data-tabpageid="exporttabpage" data-caption="Export"></div>
+    </div>
+    <div class="tabpages">
+      <div id="generaltabpage" class="tabpage" data-tabid="generaltab">
+        <div class="formpage">
+          <div class="formcolumn">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Create Batch">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div style="float:left;margin:9px 10px 0 0;"><div class="createbatch fwformcontrol" data-type="button">Process All Approved Invoices</div></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="asofdate" style="float:left;width:46%;"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View Batch">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="viewbatch" style="float:left;width:10%;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Batch No" data-datafield="batchno" data-validationname="BatchInvoicesValidation" style="float:left;width:45%;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Exported" data-datafield="exported" data-enabled="false" style="float:left;width:45%;"></div>
+              </div>
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="" data-datafield="viewdates" style="float:left;width:10%;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date Range From" data-datafield="batchfrom" data-enabled="false" style="float:left;width:45%;"></div>
+                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date Range To" data-datafield="batchto" data-enabled="false" style="float:left;width:45%;"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Data By">
+              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                <div data-datafield="orderbylist" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-sortable="true" data-orderby="true" style="float:left;width:300px;margin-left:10px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="formcolumn">
+            <div class="fwcontrol fwcontainer fwform-section qbointegration" data-control="FwContainer" data-type="section" data-caption="QuickBooks Online Integration" style="display:none;">
+              <div style="text-align:center;margin-top:9px;"><div class="exportqbo qbobutton disabled">Export batch to Quickbooks</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="exporttabpage" class="tabpage exporttabpage" data-tabid="exporttab">
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+class ChargeProcessingControllerClass extends FwWebApiReport {
     Module: string = 'ChargeProcessing';
     ModuleOptions: {
         ReportOptions: {
@@ -10,7 +59,8 @@
     id: string = '5DB3FB9C-6F86-4696-867A-9B99AB0D6647';
     //----------------------------------------------------------------------------------------------
     constructor() {
-        this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
+        //this.ModuleOptions = jQuery.extend({}, FwReport.ModuleOptions, this.ModuleOptions);
+        super('ChargeProcessing', '', chargeProcessingFrontEndTemplate);
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -33,7 +83,8 @@
     
         batchid = "";
 
-        $form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
+        //$form = FwReport.getFrontEnd('Rw', this.Module, 'tmpl-reports-' + this.Module + 'FrontEnd');
+        $form = this.getFrontEnd();
         $form.data('getexportrequest', function(request) {
             request.parameters = FwReport.getParameters($form);
             return request;
@@ -154,7 +205,8 @@
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         var request: any = {}, appOptions;
-        FwReport.load($form, this.ModuleOptions.ReportOptions);
+        //FwReport.load($form, this.ModuleOptions.ReportOptions);
+        this.load($form, this.reportOptions);
         appOptions = program.getApplicationOptions();
 
         request.method = "LoadForm";
