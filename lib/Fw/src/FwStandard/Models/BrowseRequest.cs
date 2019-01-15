@@ -19,6 +19,7 @@ namespace FwStandard.Models
         public List<string> searchfieldtypes { get; set; } = new List<string>();
         public List<string> searchseparators { get; set; } = new List<string>();
         public List<string> searchcondition { get; set; } = new List<string>();
+        public List<string> searchconjunctions { get; set; } = new List<string>();
         public dynamic uniqueids { get; set; } = new ExpandoObject();
         public dynamic boundids { get; set; } = new ExpandoObject();
         public Dictionary<string, string> filterfields { get; set; } = new Dictionary<string, string>();

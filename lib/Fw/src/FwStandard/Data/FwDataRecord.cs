@@ -541,6 +541,10 @@ namespace FwStandard.DataLayer
                                 searchSeparator = ',';
                             }
                         }
+                        if (request.searchconjunctions.Count > i)
+                        {
+                            conditionConjunction = " " + request.searchconjunctions[i] + " ";
+                        }
 
                         if (searchField.Equals("inactive"))
                         {
