@@ -2,7 +2,7 @@
 <div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn" style="border-bottom: 2px solid #027cc5;padding-bottom:5px;">
     {{#if Logosrc}}
-    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo"/></div>
+    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
     {{else}}
     <div></div>
     {{/if}}
@@ -13,6 +13,7 @@
     <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
   </div>
   <div class="rpt-flexcolumn">
+    <span class="sub-title blue">{{Department}}</span>
     <span class="title blue">{{Report}}</span>
   </div>
   <div class="rpt-flexcolumn">
@@ -130,38 +131,50 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">
   <table>
-    <thead>
+    {{#each Items}}
+    {{#ifEquals RowType "RecTypeDisplayheader"}}
+    <thead data-rowtype="{{RowType}}">
       <tr>
+        <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
+      </tr>
+      <tr>
+        <td></td>
         <th class="text">I-Code</th>
         <th class="text">Description</th>
         <th class="number">Quantity</th>
         <th class="number">Period Extended</th>
       </tr>
     </thead>
-    <tbody>
-      {{#each Items}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "RecTypeDisplayheader"}}
-        <td colspan="8" class="section-header">{{RecTypeDisplay}}&nbsp;</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td></td>
         <td class="text">{{ICode}}</td>
         <td class="text">{{Description}}</td>
         <td class="number">{{QuantityOrdered}}</td>
         <td class="number">{{PeriodExtended}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "RecTypeDisplayfooter"}}
-        <td></td><td></td>
-        <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
-        <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td></td><td></td>
-        <td class="display-footer">GRAND TOTAL:&nbsp;</td>
-        <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
-        {{/ifEquals}}
       </tr>
-      {{/each}}
     </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "RecTypeDisplayfooter"}}
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="display-footer">{{RecTypeDisplay}}&nbsp;</td>
+      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "grandtotal"}}
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="display-footer">GRAND TOTAL:&nbsp;</td>
+      <td class="display-footer-total" data-value="{{PeriodExtended}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{/each}}
   </table>
 </div>

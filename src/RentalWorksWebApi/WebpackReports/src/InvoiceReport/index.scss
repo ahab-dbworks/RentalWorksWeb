@@ -1,9 +1,5 @@
 ﻿/*Invoice Report*/
 tbody {
-    tr[data-rowtype="detail"]:nth-child(even) {
-        background-color: #DCDCDC;
-    }
-
     td:after {
         content: attr(data-value);
     }
@@ -11,6 +7,10 @@ tbody {
     td {
         padding: 3px;
     }
+}
+
+tbody[data-rowtype="detail"]:nth-child(even) {
+    background-color: #DCDCDC;
 }
 
 .sub-header tr > td {
@@ -62,7 +62,6 @@ body {
 
 thead {
     th {
-        border-top: 2px solid #000000;
         border-bottom: 2px solid #000000;
         font-weight: bold;
         padding: 5px;
