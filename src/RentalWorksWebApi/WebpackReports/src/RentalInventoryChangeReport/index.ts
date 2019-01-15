@@ -9,9 +9,9 @@ import './index.scss';
 var hbReport = require("./hbReport.hbs");
 var hbFooter = require("./hbFooter.hbs");
 
-export class ReturnOnAssetPrecalculatedReportRequest {
-    ReportYear: string;
-    ReportPeriod: string;
+export class RentalInventoryChangeReportRequest {
+    FromDate: string;
+    ToDate: string;
     Ranks: any;
     TrackedBys: any;
     WarehouseId: string;
@@ -21,16 +21,16 @@ export class ReturnOnAssetPrecalculatedReportRequest {
     InventoryId: string;
 }
 
-export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
+export class RentalInventoryChangeReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new ReturnOnAssetPrecalculatedReportRequest();
-            request.ReportYear = parameters.Year;
-            request.ReportPeriod = parameters.Period;
+            let request = new RentalInventoryChangeReportRequest();
+            request.FromDate = parameters.FromDate;
+            request.ToDate = parameters.ToDate;
             request.Ranks = parameters.Ranks;
             request.TrackedBys = parameters.TrackedBys;
             request.WarehouseId = parameters.WarehouseId;
@@ -39,21 +39,22 @@ export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
             request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.InventoryId;
 
-            let assetPrecalculated: any = {};
+            let rentalInventoryChange: any = {};
 
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetprecalculatedreport/runreport`, authorizationHeader, request)
+            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/RentalInventoryChangeReport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
-                    assetPrecalculated.rows = DataTable.toObjectList(response);
-                    assetPrecalculated.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    assetPrecalculated.Report = 'Return On Asset Precalculated Report';
-                    assetPrecalculated.System = 'RENTALWORKS';
-                    assetPrecalculated.Company = '4WALL ENTERTAINMENT';
+                    rentalInventoryChange.rows = DataTable.toObjectList(response);
+                    rentalInventoryChange.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    rentalInventoryChange.Report = 'Rental Inventory Change Report';
+                    rentalInventoryChange.System = 'RENTALWORKS';
+                    rentalInventoryChange.Company = '4WALL ENTERTAINMENT';
 
-                    this.renderFooterHtml(assetPrecalculated);
+                    console.log('report: ', rentalInventoryChange)
+                    this.renderFooterHtml(rentalInventoryChange);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(assetPrecalculated);
+                    document.getElementById('pageBody').innerHTML = hbReport(rentalInventoryChange);
 
                     this.onRenderReportCompleted();
                 })
@@ -71,4 +72,4 @@ export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new ReturnOnAssetPrecalculatedReport();
+(<any>window).report = new RentalInventoryChangeReport();

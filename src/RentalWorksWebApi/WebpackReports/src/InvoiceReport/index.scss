@@ -12,10 +12,12 @@ tbody {
         padding: 3px;
     }
 }
+
 .sub-header tr > td {
     padding: 0;
     width: 33.3%;
 }
+
 .att-text-align {
     padding-left: 75px;
 }
@@ -23,19 +25,15 @@ tbody {
 .sub-header-left {
     align-self: flex-start;
 }
+
 .sub-header-center {
     align-self: center;
 }
+
 .sub-header-right {
     align-self: flex-end;
 }
 
-.title {
-    align-self: center;
-    font-family: Arial, sans-serif;
-    font-size: 38px;
-    font-weight: bold;
-}
 .header-center {
     align-self: center;
     font-family: Arial, sans-serif;

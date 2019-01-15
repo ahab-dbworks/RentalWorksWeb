@@ -49,6 +49,7 @@
     font-size: 12px;
     font-weight: bold;
 }
+
 .meta-header {
     background-color: #F2F2F2;
     font-weight: 600;
@@ -56,16 +57,19 @@
     border-top: .2em solid #027cc5;
     padding: 8px;
 }
+
 .meta-section {
     border-top: .5px solid #027cc5;
     padding: 2px;
     display: flex;
 }
+
 .meta-address {
     padding: 8px;
     display: flex;
     flex-direction: column;
 }
+
 .meta-content {
     font-family: Arial, sans-serif;
     align-self: flex-start;
@@ -74,6 +78,7 @@
     font-weight: bold;
     color: #027cc5;
 }
+
 .shaded-block {
     background-color: #F2F2F2;
     font-weight: 600;
@@ -81,6 +86,7 @@
     flex-direction: column;
     align-items: flex-start;
 }
+
 .section-header {
     border: 1px dashed #027cc5;
     font-weight: bold;
@@ -89,6 +95,7 @@
     padding-top: 5px;
     color: #027cc5;
 }
+
 .display-footer {
     width: 150px;
     background-color: #DCDCDC;
@@ -96,6 +103,7 @@
     text-align: right;
     padding-top: 11px;
 }
+
 .display-footer-total {
     background-color: #F4FFCC;
     width: 150px;
@@ -103,6 +111,20 @@
     font-weight: bold;
     border-top: 1.5px solid black;
     padding-top: 10px;
+}
+
+.title {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 38px;
+    font-weight: bold;
+}
+
+.sub-title {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
 }
 
 table {
@@ -134,6 +156,7 @@ body {
     @page {
         margin: 20px 20px 20px 20px; // Adds margin on the pdf
     }
+
     body {
         margin: 20px 0px 0px 0px;
 
