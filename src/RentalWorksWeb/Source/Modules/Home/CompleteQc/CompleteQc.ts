@@ -4,6 +4,7 @@ class CompleteQc {
     Module: string = 'CompleteQc';
     caption: string = 'Complete QC';
     nav: string = 'module/completeqc';
+    id: string = '3F20813A-CC21-49D8-A5F8-9930B7F05404';
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -120,7 +121,7 @@ class CompleteQc {
                       <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>
                     </div>
                     <div class="flexrow">
-                      <div class="fwformcontrol updateqc" data-type="button" style="flex:0 1 90px;margin:15px 15px 10px 10px;"Update QC></div>
+                      <div class="fwformcontrol updateqc" data-type="button" style="flex:0 1 90px;margin:15px 15px 10px 10px;">Update QC</div>
                     </div>
                   </div>
                 </div>
