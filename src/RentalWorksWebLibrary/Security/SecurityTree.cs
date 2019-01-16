@@ -63,6 +63,7 @@ namespace WebLibrary.Security
             AddModule("Asset",            "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuInventory.Id, "AssetController",             "module/item",              homeiconbaseurl + "placeholder.png");
             AddModule("Container",        "{28A49328-FFBD-42D5-A492-EDF540DF7011}", lv1menuInventory.Id, "ContainerController",         "module/container",         homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order",     "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuInventory.Id, "RepairController",            "module/repair",            homeiconbaseurl + "placeholder.png");
+            AddModule("Complete Qc",      "{3F20813A-CC21-49D8-A5F8-9930B7F05404}", lv1menuInventory.Id, "CompleteQcController",        "module/completeqc",        homeiconbaseurl + "placeholder.png");
 
             AddModule("Order Status",        "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController",        "module/orderstatus",       homeiconbaseurl + "placeholder.png");
             AddModule("Pick List",           "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController",           "module/picklist",          homeiconbaseurl + "placeholder.png");
