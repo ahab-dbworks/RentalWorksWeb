@@ -44,7 +44,7 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<FileStreamResult>> DoGetAsync(string fileName, string downloadAsFileName)
+        protected virtual async Task<ActionResult> DoGetAsync(string fileName, string downloadAsFileName)
         {
             if (string.IsNullOrEmpty(fileName)) return BadRequest();
             if (string.IsNullOrEmpty(downloadAsFileName)) return BadRequest();

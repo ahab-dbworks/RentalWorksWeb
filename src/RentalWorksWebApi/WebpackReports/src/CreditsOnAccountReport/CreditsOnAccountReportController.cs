@@ -57,9 +57,6 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
         }
         //------------------------------------------------------------------------------------ 
 
-
-
-
         //justin wip
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
@@ -71,7 +68,6 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
             return await DoExportExcelXlsxFileAsync(dt);
         }
         //------------------------------------------------------------------------------------
-
 
         // POST api/v1/creditsonaccount/runreport 
         [HttpPost("runreport")]

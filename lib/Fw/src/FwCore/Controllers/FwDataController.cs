@@ -93,7 +93,7 @@ namespace FwCore.Controllers
 
                 dt.ToExcelXlsxFile(worksheetName, path);
                 DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
-                result.downloadUrl = "api/v1/download/" + filename + "?downloadasfilename=" + downloadFileName + ".xlsx";
+                result.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
                 return new OkObjectResult(result);
             }
             catch (Exception ex)

@@ -562,14 +562,12 @@
 
                                                                             FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
                                                                                 try {
-                                                                                    //let $iframe = jQuery('<iframe style="display:none;" />');
-                                                                                    //jQuery('.application').append($iframe);
-                                                                                    //$iframe.attr('src', `${applicationConfig.apiurl}${response.downloadUrl}`);
-                                                                                    //setTimeout(function () {
-                                                                                    //    $iframe.remove();
-                                                                                    //}, 500);
-
-                                                                                    window.location.assign(applicationConfig.apiurl + response.downloadUrl);
+                                                                                    let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
+                                                                                    jQuery('#application').append($iframe);
+                                                                                    setTimeout(function () {
+                                                                                        $iframe.remove();
+                                                                                    }, 500);
+                                                                                    // window.location.assign(`${applicationConfig.apiurl}${successResponse.downloadUrl}`);
                                                                                 } catch (ex) {
                                                                                     FwFunc.showError(ex);
                                                                                 }
