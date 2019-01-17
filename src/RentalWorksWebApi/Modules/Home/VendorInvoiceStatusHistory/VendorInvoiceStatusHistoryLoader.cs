@@ -9,7 +9,7 @@ namespace WebApi.Modules.Home.VendorInvoiceStatusHistory
     public class VendorInvoiceStatusHistoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
+        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.DateTime)]
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
