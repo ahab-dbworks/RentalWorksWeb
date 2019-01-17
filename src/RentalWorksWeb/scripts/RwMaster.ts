@@ -191,19 +191,19 @@
     }
     //----------------------------------------------------------------------------------------------
     buildSystemBar($usercontrol: JQuery<HTMLElement>) {
-        var $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
+        var $dashboard = jQuery('<i class="material-icons dashboard" title="Dashboard">insert_chart</i>');
         $dashboard.on('click', function () {
             try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
 
-        var $settings  = jQuery('<i class="material-icons dashboard">settings</i>');
+        var $settings = jQuery('<i class="material-icons dashboard" title="Settings">settings</i>');
         $settings.on('click', function () {
             try { program.navigate('module/settings'); } catch (ex) { FwFunc.showError(ex); }
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
 
-        var $reports   = jQuery('<i class="material-icons dashboard">assignment</i>');
+        var $reports   = jQuery('<i class="material-icons dashboard" title="Reports">assignment</i>');
         $reports.on('click', function () {
             try { program.navigate('module/reports'); } catch (ex) { FwFunc.showError(ex); }
         });
