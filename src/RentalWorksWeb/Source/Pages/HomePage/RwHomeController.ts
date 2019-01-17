@@ -265,7 +265,7 @@
         var fullscreen = '<i id="' + userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
         var dataPointCount = 0;
 
-        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container" style="height:' + width + ';width:' + width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + userWidgetId + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
+        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container ' + userWidgetId + '" style="height:' + width + ';width:' + width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + userWidgetId + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
         self.buildWidgetSettings(jQuery($control).find('#' + userWidgetId + 'settings'), userWidgetId);
 
         if (dataPoints > 0) {
@@ -283,6 +283,10 @@
                         titleArray.push(moment(response.fromDate).format('l'));
                     } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                         titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
+                    }
+
+                    if (response.dateBehavior === 'NONE') {
+                        titleArray.pop();
                     }
 
                     response.options.title.text = titleArray;
@@ -360,6 +364,10 @@
                             titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                         }
 
+                        if (response.dateBehavior === 'NONE') {
+                            titleArray.pop();
+                        }
+
                         response.options.title.text = titleArray;
 
                         if (axisFormat === 'TWODGDEC') {
@@ -421,6 +429,10 @@
                     titleArray.push(moment(response.fromDate).format('l'));
                 } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                     titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
+                }
+
+                if (response.dateBehavior === 'NONE') {
+                    titleArray.pop();
                 }
 
                 response.options.title.text = titleArray;
