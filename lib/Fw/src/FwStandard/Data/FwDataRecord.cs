@@ -546,7 +546,7 @@ namespace FwStandard.DataLayer
                             conditionConjunction = " " + request.searchconjunctions[i] + " ";
                         }
 
-                        if (searchField.Equals("inactive"))
+                        if (searchField.ToLower().Equals("inactive"))
                         {
                             doUpper = false;
                         }
@@ -554,14 +554,27 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
-                        if ((searchFieldType.Equals("date")) || (searchFieldType.Equals("number")) || (searchFieldType.Equals("integer")))
+                        if ((searchFieldType.ToLower().Equals("date")) || (searchFieldType.ToLower().Equals("number")) || (searchFieldType.ToLower().Equals("integer")) || (searchFieldType.ToLower().Equals("boolean")))
                         {
                             doUpper = false;
-                            if (searchFieldOperator.Equals("like"))
+                            if (searchFieldOperator.ToLower().Equals("like"))
                             {
                                 searchFieldOperator = "=";
                             }
                         }
+
+                        if  (searchFieldType.ToLower().Equals("boolean"))
+                        {
+                            if ((searchFieldValue.ToLower().Equals("true")) || (searchFieldValue.ToLower().Equals("t")))
+                            {
+                                searchFieldValue = "T";
+                            }
+                            else
+                            {
+                                searchFieldValue = "F";
+                            }
+                        }
+
 
                         if (doUpper)
                         {
@@ -569,7 +582,7 @@ namespace FwStandard.DataLayer
                         }
 
                         string searchcondition;
-                        if (searchFieldOperator.Equals("like"))
+                        if (searchFieldOperator.ToLower().Equals("like"))
                         {
                             if (searchFieldValue.IndexOf(searchSeparator) >= 0)
                             {
@@ -602,17 +615,17 @@ namespace FwStandard.DataLayer
                             }
 
                         }
-                        else if (searchFieldOperator.Equals("startswith"))
+                        else if (searchFieldOperator.ToLower().Equals("startswith"))
                         {
                             searchcondition = conditionConjunction + searchField + " like " + parameterName;
                             select.AddParameter(parameterName, searchFieldValue.ToUpper() + "%");
                         }
-                        else if (searchFieldOperator.Equals("endswith"))
+                        else if (searchFieldOperator.ToLower().Equals("endswith"))
                         {
                             searchcondition = conditionConjunction + searchField + " like " + parameterName;
                             select.AddParameter(parameterName, "%" + searchFieldValue.ToUpper());
                         }
-                        else if (searchFieldOperator.Equals("doesnotcontain"))
+                        else if (searchFieldOperator.ToLower().Equals("doesnotcontain"))
                         {
                             searchcondition = conditionConjunction + searchField + " not like " + parameterName;
                             select.AddParameter(parameterName, "%" + searchFieldValue.ToUpper() + "%");
@@ -620,11 +633,11 @@ namespace FwStandard.DataLayer
                         else if (searchFieldOperator.Equals("=") || searchFieldOperator.Equals("<>") || searchFieldOperator.Equals("<") || searchFieldOperator.Equals(">") || searchFieldOperator.Equals("<=") || searchFieldOperator.Equals(">="))
                         {
                             searchcondition = conditionConjunction + searchField + " " + searchFieldOperator + " " + parameterName;
-                            if (searchFieldType.Equals("date") || searchFieldType.Equals("Date"))
+                            if (searchFieldType.ToLower().Equals("date"))
                             {
                                 select.AddParameter(parameterName, SqlDbType.Date, ParameterDirection.Input, 0, FwConvert.ToDateTime(searchFieldValue));
                             }
-                            else if (searchFieldType.Equals("number") || searchFieldType.Equals("Integer") || searchFieldType.Equals("Decimal"))
+                            else if (searchFieldType.ToLower().Equals("number") || searchFieldType.ToLower().Equals("integer") || searchFieldType.ToLower().Equals("decimal"))
                             {
                                 select.AddParameter(parameterName, SqlDbType.Float, ParameterDirection.Input, 0, searchFieldValue);
                             }
