@@ -284,7 +284,7 @@
             findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
             window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
             window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
-            window['FwFormField_select'].loadItems(booleanField, [{ value: 'true', text: 'true' }, { value: 'false', text: 'false' }], true);
+            window['FwFormField_select'].loadItems(booleanField, [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
             $browse.find('.datafieldselect').on('change', function () {
                 let datatype = jQuery(this).find(':selected').data('type');
                 dateField.hide();
@@ -322,7 +322,7 @@
             FwControl.renderRuntimeHtml($newRow.find('.fwcontrol'));
             window['FwFormField_select'].loadItems($newRow.find('.datafieldselect'), findFields, false);
             window['FwFormField_select'].loadItems($newRow.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
-            window['FwFormField_select'].loadItems($newRow.find('.booleanquery'), [{ value: 'true', text: 'true' }, { value: 'false', text: 'false' }], true);
+            window['FwFormField_select'].loadItems($newRow.find('.booleanquery'), [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
             let dateField = $newRow.find('.datequery');
             let textField = $newRow.find('.textquery');
             let booleanField = $newRow.find('.booleanquery');
@@ -399,15 +399,31 @@
             for (var i = 0; i < queryRows.length; i++) {
                 let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type')
                 if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
-                    request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
                     request.searchfieldtypes.unshift(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
                     request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
-                    if (type === 'Date') {
-                        request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
-                    } else if (type === 'Boolean') {
-                        request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]')));
-                    } else {
-                        request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
+                    switch (type) {
+                        case 'Boolean':
+                            let bool = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
+                            let comp = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
+                            if (bool === 'F' && comp === '=') {
+                                request.searchfieldvalues.unshift('T');
+                                request.searchfieldoperators.unshift('<>');
+                            } else if (bool === 'F' && comp === '<>') {
+                                request.searchfieldvalues.unshift('T');
+                                request.searchfieldoperators.unshift('=');
+                            } else {
+                                request.searchfieldvalues.unshift(bool);
+                                request.searchfieldoperators.unshift(comp);
+                            }
+                            break;
+                        case 'Date':
+                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
+                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                            break;
+                        default:
+                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
+                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                            break;
                     }
                     request.searchseparators.unshift(',');
                 }
