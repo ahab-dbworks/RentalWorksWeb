@@ -9,6 +9,7 @@ class Receipt {
     id: string = '57E34535-1B9F-4223-AD82-981CA34A6DEC';
     ActiveView: string = 'ALL';
     thisModule: Receipt;
+   
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var self = this;
@@ -94,7 +95,6 @@ class Receipt {
     openForm(mode: string, parentModuleInfo?: any) {
         var $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
         if (mode === 'NEW') {
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
@@ -120,6 +120,8 @@ class Receipt {
             });
         }
         this.events($form);
+        let braintreeScipt = `<script> let button = document.querySelector('#braintree-btn'); braintree.dropin.create({authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',container: '#dropin-container'}, function (createErr, instance) {button.addEventListener('click', function () {instance.requestPaymentMethod(function (err, payload) {});});});</script>`;
+        $form.find('.braintree-row').prepend(braintreeScipt)
         // Adds receipt invoice datatable to request
         $form.data('beforesave', request => {
             request.InvoiceDataList = this.getFormTableData($form);
