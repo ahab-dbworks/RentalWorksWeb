@@ -57,7 +57,7 @@ class Billing {
         $popup.data('fields', $popup.find('.fwformfield'));
 
         //Adds "Search" button to the menu bar 
-        $browse.find('.buttonbar').append(`<div class="openBrowseFilter" style="display:flex; padding:0 10px; cursor:pointer;"><i class="material-icons">filter_list</i><div class="btn-text">Search</div></div>`);
+        $browse.find('.buttonbar').append(`<div class="openBrowseFilter btn" style="display:flex; padding:0 10px; cursor:pointer;"><i class="material-icons">filter_list</i><div class="btn-text">Search</div></div>`);
 
         $browse.on('click', 'div.openBrowseFilter', e => {
             $popup.show();
@@ -79,10 +79,17 @@ class Billing {
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     //load browse with sessionId 
+                    let max = 9999;
                     $browse.data('ondatabind', function (request) {
                         request.uniqueids = {
                             SessionId: response.SessionId
                         }
+                        request.pagesize = max;
+                    });
+
+                    //selects all checkboxes/records
+                    FwBrowse.addEventHandler($browse, 'afterdatabindcallback', () => {
+                        $browse.find('thead .cbselectrow').click();
                     });
                     FwBrowse.search($browse);
                 }, null, $browse);
@@ -96,7 +103,27 @@ class Billing {
         //defaults bill as of date to today
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($popup, 'BillAsOfDate', today);
-        }
+
+        this.createInvoicesEvents($browse);
+    }
+    //----------------------------------------------------------------------------------------------
+    createInvoicesEvents($browse) {
+        //Adds "Create Invoices" button to the menu bar 
+        $browse.find('.buttonbar').append(`<div class="createInvoices btn" style="display:flex; padding:0 10px; cursor:pointer;"><i class="material-icons">add</i><div class="btn-text">Create Invoices</div></div>`);
+
+        $browse.on('click', '.createInvoices', e => {
+            let $selectedCheckBoxes;
+            let ids: any = [];
+            $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                let $this = jQuery($selectedCheckBoxes[i]);
+                let id;
+                id = $this.closest('tr').find('div[data-browsedatafield="BillingId"]').attr('data-originalvalue');
+                ids.push(id);
+            };
+        });
+    }
+
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         var self = this;
@@ -152,7 +179,7 @@ class Billing {
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
-     
+
     };
 };
 //----------------------------------------------------------------------------------------------
