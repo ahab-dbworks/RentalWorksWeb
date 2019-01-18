@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using System;
+using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.Tax;
 using WebLibrary;
@@ -312,5 +313,11 @@ namespace WebApi.Modules.Home.VendorInvoice
             }
         }
         //------------------------------------------------------------------------------------ 
+        public async Task<ToggleVendorInvoiceApprovedReponse> ToggleApproved()
+        {
+            return await vendorInvoice.ToggleApproved();
+        }
+        //------------------------------------------------------------------------------------    
+
     }
 }

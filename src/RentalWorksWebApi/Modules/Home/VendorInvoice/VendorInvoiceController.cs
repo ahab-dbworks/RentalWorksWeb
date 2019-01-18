@@ -6,6 +6,9 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
+using System;
+using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Home.VendorInvoice
 {
     [Route("api/v1/[controller]")]
@@ -63,5 +66,39 @@ namespace WebApi.Modules.Home.VendorInvoice
             return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/vendorinvoice/toggleapproved/A0000001
+        [HttpPost("toggleapproved/{id}")]
+        [FwControllerMethod(Id: "qGQ28sAtqVz4")]
+        public async Task<ActionResult<ToggleVendorInvoiceApprovedReponse>> ToggleApproved([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                VendorInvoiceLogic l = new VendorInvoiceLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<VendorInvoiceLogic>(ids))
+                {
+                    ToggleVendorInvoiceApprovedReponse response = await l.ToggleApproved();
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

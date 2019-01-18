@@ -18,7 +18,12 @@ namespace WebApi.Modules.Home.VendorInvoice
         public DateTime? BillingEndDate { get; set; }
     }
 
+
     public class UpdateVendorInvoiceItemsReponse : TSpStatusReponse
+    {
+    }
+
+    public class ToggleVendorInvoiceApprovedReponse : TSpStatusReponse
     {
     }
 
@@ -43,6 +48,27 @@ namespace WebApi.Modules.Home.VendorInvoice
                 //response.status = qry.GetParameter("@status").ToInt32();
                 //response.success = (response.status == 0);
                 //response.msg = qry.GetParameter("@msg").ToString();
+                response.success = true;
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<ToggleVendorInvoiceApprovedReponse> ToggleVendorInvoiceApproved(FwApplicationConfig appConfig, FwUserSession userSession, string vendorInvoiceId)
+        {
+            ToggleVendorInvoiceApprovedReponse response = new ToggleVendorInvoiceApprovedReponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "vendorinvoiceapproved", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@vendorinvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, vendorInvoiceId);
+                qry.AddParameter("@approvedusersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                //qry.AddParameter("@pushchangestopo", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                //qry.AddParameter("@approveifdealinvisnew", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
                 response.success = true;
             }
             return response;

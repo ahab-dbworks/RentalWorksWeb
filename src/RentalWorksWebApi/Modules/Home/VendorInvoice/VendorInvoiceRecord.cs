@@ -1,5 +1,6 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Home.VendorInvoice
 {
@@ -178,5 +179,12 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<ToggleVendorInvoiceApprovedReponse> ToggleApproved()
+        {
+            ToggleVendorInvoiceApprovedReponse response = await VendorInvoiceFunc.ToggleVendorInvoiceApproved(AppConfig, UserSession, VendorInvoiceId);
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+
     }
 }
