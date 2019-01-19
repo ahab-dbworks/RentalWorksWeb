@@ -97,7 +97,7 @@ class Program extends FwApplication {
                         if (connectionState === 'CONNECTED') {
                             program.setScanMode('DTDevices');
                         } else {
-                            program.setScanMode('none');
+                            program.setScanMode('NativeAudio');
                         }
                         me.setDeviceConnectionState(connectionState);
                     });
@@ -419,9 +419,7 @@ class Program extends FwApplication {
                 setTimeout(function () { }, 100);
             });
         }
-        if (typeof (<any>window).plugins === 'object' && typeof (<any>window).plugins.NativeAudio === 'object') {
-            this.setAudioMode('NativeAudio');
-        }
+        this.setAudioMode('NativeAudio');
     };
     //---------------------------------------------------------------------------------
     setDeviceConnectionState(connectionState: string) {
