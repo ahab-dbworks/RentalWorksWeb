@@ -1734,6 +1734,7 @@ class FwBrowseClass {
         request.searchfieldoperators = [];
         request.searchfieldvalues = [];
         request.searchcondition = [];
+        request.searchconjunctions = [];
         request.miscfields = !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform'));
         request.orderby = '';
         request.pageno = parseInt($control.attr('data-pageno'));
@@ -1835,6 +1836,15 @@ class FwBrowseClass {
                     }
                     break;
             }
+        }
+        if ($control.data('advancedsearchrequest') !== undefined) {
+            let advancedSearch = $control.data('advancedsearchrequest');
+            request.searchfieldoperators = advancedSearch.searchfieldoperators;
+            request.searchfields = advancedSearch.searchfields;
+            request.searchfieldtypes = advancedSearch.searchfieldtypes;
+            request.searchfieldvalues = advancedSearch.searchfieldvalues;
+            request.searchseparators = advancedSearch.searchseparators;
+            request.searchconjunctions = advancedSearch.searchconjunctions;
         }
         orderby = orderby.join(',');
         request.orderby = orderby;
@@ -2734,10 +2744,10 @@ class FwBrowseClass {
                 $tr = $control.find('tbody tr').eq(rowIndex);
                 $control.attr('data-mode', 'EDIT');
                 if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-                $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-                //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-                //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+                    $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                    $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                    //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                    //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
                     var controller;
                     controller = $control.attr('data-controller');
@@ -3447,9 +3457,9 @@ class DataTable {
     Columns: Array<DataTableColumn> = [];
     Rows: Array<Array<any>> = [];
     PageNo: number = 0;
-    PageSize:	number = 15;
-    TotalPages:	number = 0;
-    TotalRows:	number = 0;
+    PageSize: number = 15;
+    TotalPages: number = 0;
+    TotalRows: number = 0;
     ColumnNameByIndex: any = {};
 
     static toObjectList<T>(dt: DataTable): Array<T> {
@@ -3522,6 +3532,7 @@ class BrowseRequest {
     searchfieldtypes: Array<string> = [];
     searchseparators: Array<string> = [];
     searchcondition: Array<string> = [];
+    searchconjunctions: Array<string> = [];
     uniqueids: any = {};
     boundids: any = {};
     filterfields: any = {};

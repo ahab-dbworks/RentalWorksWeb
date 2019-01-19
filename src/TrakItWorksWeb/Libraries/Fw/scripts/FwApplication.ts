@@ -8,7 +8,7 @@
     audioError: HTMLAudioElement;
     //---------------------------------------------------------------------------------
     constructor() {
-        this.setAudioMode('none');
+        this.setAudioMode('NativeAudio');
 
         // inline templates when debugging by ajaxing for the src url
         var $templates = jQuery('script[data-ajaxload="true"]');

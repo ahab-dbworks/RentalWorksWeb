@@ -1734,6 +1734,7 @@ class FwBrowseClass {
         request.searchfieldoperators = [];
         request.searchfieldvalues = [];
         request.searchcondition = [];
+        request.searchconjunctions = [];
         request.miscfields = !$control.closest('.fwform').length ? jQuery([]) : FwModule.getFormUniqueIds($control.closest('.fwform'));
         request.orderby = '';
         request.pageno = parseInt($control.attr('data-pageno'));
@@ -1843,6 +1844,7 @@ class FwBrowseClass {
             request.searchfieldtypes = advancedSearch.searchfieldtypes;
             request.searchfieldvalues = advancedSearch.searchfieldvalues;
             request.searchseparators = advancedSearch.searchseparators;
+            request.searchconjunctions = advancedSearch.searchconjunctions;
         }
         orderby = orderby.join(',');
         request.orderby = orderby;
@@ -3530,6 +3532,7 @@ class BrowseRequest {
     searchfieldtypes: Array<string> = [];
     searchseparators: Array<string> = [];
     searchcondition: Array<string> = [];
+    searchconjunctions: Array<string> = [];
     uniqueids: any = {};
     boundids: any = {};
     filterfields: any = {};

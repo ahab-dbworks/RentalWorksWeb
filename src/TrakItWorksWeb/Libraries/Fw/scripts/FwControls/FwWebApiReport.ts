@@ -153,8 +153,7 @@ class FwWebApiReport {
                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
                         (successResponse) => {
                             try {
-                                let $iframe = jQuery('<iframe style="display:none;" />');
-                                $iframe.attr('src', `${applicationConfig.apiurl}${successResponse.downloadUrl}`);
+                                let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${successResponse.downloadUrl}" style="display:none;"></iframe>`);
                                 jQuery('#application').append($iframe);
                                 setTimeout(function () {
                                     $iframe.remove();

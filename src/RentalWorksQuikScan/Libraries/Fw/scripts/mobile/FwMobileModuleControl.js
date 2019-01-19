@@ -97,13 +97,14 @@
             this._buttons.css('display', 'none');
             this.$element.find('.btn[data-state="' + this._state + '"]').removeAttr('style');
         },
-        _toggleItemlistMenu: function() {
+        _toggleItemlistMenu: function (id) {
             var plugin = this;
-            if (plugin.$element.find('#itemlist_menu').length) {
-                plugin.$element.find('#itemlist_menu').hide();
-                plugin.$element.find('#itemlist_menu .menu-dropdown-btn').each(function(index, element) {
+            var $menu = plugin.$element.find(id).closest('.menu');
+            if ($menu.length) {
+                $menu.hide();
+                $menu.find('.menu-dropdown-btn').each(function(index, element) {
                     if (jQuery(this).css('display') != 'none') {
-                        plugin.$element.find('#itemlist_menu').show();
+                        $menu.show();
                     }
                 });
             }
@@ -123,11 +124,11 @@
         },
         hideButton: function(id) {
             this.$element.find(id).hide();
-            this._toggleItemlistMenu();
+            this._toggleItemlistMenu(id);
         },
         showButton: function(id) {
             this.$element.find(id).show();
-            this._toggleItemlistMenu();
+            this._toggleItemlistMenu(id);
         }
     };
 

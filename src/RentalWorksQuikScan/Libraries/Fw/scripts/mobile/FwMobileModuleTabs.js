@@ -58,6 +58,12 @@
         },
         showTab: function(id) {
             this.$element.find(id).show();
+        },
+        clickTab: function(id) {
+            this.$element.find(id).click();
+        },
+        isActive: function (id) {
+            return this.$element.find(id).hasClass('active');
         }
     };
 
