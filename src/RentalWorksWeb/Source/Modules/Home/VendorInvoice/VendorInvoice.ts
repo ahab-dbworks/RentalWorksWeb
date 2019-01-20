@@ -256,6 +256,7 @@ class VendorInvoice {
     };
 };
 //----------------------------------------------------------------------------------------------
+//form approve
 FwApplicationTree.clickEvents['{79ABAD41-19F1-42C1-A88B-41479DE13B3B}'] = function (event) {
     var $form, vendorInvoiceId;
     $form = jQuery(this).closest('.fwform');
@@ -269,6 +270,7 @@ FwApplicationTree.clickEvents['{79ABAD41-19F1-42C1-A88B-41479DE13B3B}'] = functi
     }, null, $form);
 };
 //----------------------------------------------------------------------------------------------
+//form unapprove
 FwApplicationTree.clickEvents['{FB248072-C14C-4EEC-8B99-5ED8E950CE8A}'] = function (event) {
     var $form, vendorInvoiceId;
     $form = jQuery(this).closest('.fwform');
@@ -280,6 +282,52 @@ FwApplicationTree.clickEvents['{FB248072-C14C-4EEC-8B99-5ED8E950CE8A}'] = functi
             FwNotification.renderNotification('WARNING', response.msg);
         }
     }, null, $form);
+};
+//----------------------------------------------------------------------------------------------
+//browse approve
+FwApplicationTree.clickEvents['{4A8CEF38-F59F-4306-8A9B-9B43FF6D127D}'] = function (event) {
+    let $browse;
+    let vendorInvoiceId;
+    $browse = jQuery(this).closest('.fwbrowse');
+    try {
+        vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+        if (typeof vendorInvoiceId !== 'undefined') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    FwBrowse.search($browse);
+                } else {
+                    FwNotification.renderNotification('WARNING', response.msg);
+                }
+            }, null, $browse);
+        } else {
+            FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
+        }
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+//browse unapprove
+FwApplicationTree.clickEvents['{9378DA62-F7FD-4FD2-8310-3277BBD155BF}'] = function (event) {
+    let $browse;
+    let vendorInvoiceId;
+    $browse = jQuery(this).closest('.fwbrowse');
+    try {
+        vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+        if (typeof vendorInvoiceId !== 'undefined') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    FwBrowse.search($browse);
+                } else {
+                    FwNotification.renderNotification('WARNING', response.msg);
+                }
+            }, null, $browse);
+        } else {
+            FwNotification.renderNotification('WARNING', 'No Vendor Invoice Selected');
+        }
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //----------------------------------------------------------------------------------------------
 var VendorInvoiceController = new VendorInvoice();

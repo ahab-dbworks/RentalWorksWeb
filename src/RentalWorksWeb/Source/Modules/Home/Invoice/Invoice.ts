@@ -278,7 +278,7 @@ class Invoice {
         $invoiceItemGridLabor.addClass('L');
         $invoiceItemGridLabor.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true');
         $invoiceItemGridLabor.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
-        $invoiceItemGridLabor.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true'); 
+        $invoiceItemGridLabor.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
         $invoiceItemGridLabor.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
         $invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
 
@@ -565,7 +565,7 @@ class Invoice {
             rentalShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Rate", "Cost", "DaysPerWeek", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
             salesShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
             laborShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Cost", "DiscountAmount", "Extended", "Taxable"],
-            miscShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Cost", "DiscountPercent", "DiscountAmount","Extended", "Taxable"],
+            miscShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Cost", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
             rentalSaleShowFields: Array<string> = ["OrderNumber", "SerialNumber", "BarCode", "ICode", "Description", "Quantity", "Cost", "Unit", "Rate", "DiscountAmount", "Extended", "Taxable"];
 
         for (let i = 3; i < fields.length; i++) {
@@ -662,7 +662,7 @@ class Invoice {
                 invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
                 recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
                 $report = RwInvoiceReportController.openForm();
-                
+
                 FwModule.openSubModuleTab($form, $report);
 
                 $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(invoiceId);
@@ -816,6 +816,7 @@ FwApplicationTree.clickEvents['{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
+//from approve
 FwApplicationTree.clickEvents['{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}'] = function (event) {
     var $form, invoiceId;
     $form = jQuery(this).closest('.fwform');
@@ -829,6 +830,7 @@ FwApplicationTree.clickEvents['{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}'] = functi
     }, null, $form);
 };
 //----------------------------------------------------------------------------------------------
+//form unapprove
 FwApplicationTree.clickEvents['{F8C5F06C-4B9D-4495-B589-B44B02AE7915}'] = function (event) {
     var $form, invoiceId;
     $form = jQuery(this).closest('.fwform');
@@ -840,6 +842,52 @@ FwApplicationTree.clickEvents['{F8C5F06C-4B9D-4495-B589-B44B02AE7915}'] = functi
             FwNotification.renderNotification('WARNING', response.msg);
         }
     }, null, $form);
+};
+//----------------------------------------------------------------------------------------------
+//browse approve
+FwApplicationTree.clickEvents['{9D1A3607-EE4A-49E6-8EAE-DB3E0FF06EAE}'] = function (event) {
+    let $browse;
+    let invoiceId;
+    $browse = jQuery(this).closest('.fwbrowse');
+    try {
+        invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
+        if (typeof invoiceId !== 'undefined') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    FwBrowse.search($browse);
+                } else {
+                    FwNotification.renderNotification('WARNING', response.msg);
+                }
+            }, null, $browse);
+        } else {
+            FwNotification.renderNotification('WARNING', 'No Invoice Selected');
+        }
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+//browse unapprove
+FwApplicationTree.clickEvents['{F9D43CB6-2666-4AE0-B35C-77735561B9B9}'] = function (event) {
+    let $browse;
+    let invoiceId;
+    $browse = jQuery(this).closest('.fwbrowse');
+    try {
+        invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
+        if (typeof invoiceId !== 'undefined') {
+            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    FwBrowse.search($browse);
+                } else {
+                    FwNotification.renderNotification('WARNING', response.msg);
+                }
+            }, null, $browse);
+        } else {
+            FwNotification.renderNotification('WARNING', 'No Invoice Selected');
+        }
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //----------------------------------------------------------------------------------------------
 
