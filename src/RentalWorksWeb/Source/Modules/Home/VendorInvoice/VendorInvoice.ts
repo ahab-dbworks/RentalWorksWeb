@@ -256,4 +256,30 @@ class VendorInvoice {
     };
 };
 //----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{79ABAD41-19F1-42C1-A88B-41479DE13B3B}'] = function (event) {
+    var $form, vendorInvoiceId;
+    $form = jQuery(this).closest('.fwform');
+    vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        if (response.success === true) {
+            FwModule.refreshForm($form, VendorInvoiceController);
+        } else {
+            FwNotification.renderNotification('WARNING', response.msg);
+        }
+    }, null, $form);
+};
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{FB248072-C14C-4EEC-8B99-5ED8E950CE8A}'] = function (event) {
+    var $form, vendorInvoiceId;
+    $form = jQuery(this).closest('.fwform');
+    vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+    FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        if (response.success === true) {
+            FwModule.refreshForm($form, VendorInvoiceController);
+        } else {
+            FwNotification.renderNotification('WARNING', response.msg);
+        }
+    }, null, $form);
+};
+//----------------------------------------------------------------------------------------------
 var VendorInvoiceController = new VendorInvoice();
