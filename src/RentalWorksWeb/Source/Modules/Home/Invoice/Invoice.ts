@@ -816,4 +816,32 @@ FwApplicationTree.clickEvents['{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}'] = function (event) {
+    var $form, invoiceId;
+    $form = jQuery(this).closest('.fwform');
+    invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        if (response.success === true) {
+            FwModule.refreshForm($form, InvoiceController);
+        } else {
+            FwNotification.renderNotification('WARNING', response.msg);
+        }
+    }, null, $form);
+};
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{F8C5F06C-4B9D-4495-B589-B44B02AE7915}'] = function (event) {
+    var $form, invoiceId;
+    $form = jQuery(this).closest('.fwform');
+    invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        if (response.success === true) {
+            FwModule.refreshForm($form, InvoiceController);
+        } else {
+            FwNotification.renderNotification('WARNING', response.msg);
+        }
+    }, null, $form);
+};
+//----------------------------------------------------------------------------------------------
+
+
 var InvoiceController = new Invoice();

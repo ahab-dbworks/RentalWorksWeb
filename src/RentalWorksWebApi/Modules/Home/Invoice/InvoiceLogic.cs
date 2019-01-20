@@ -386,6 +386,11 @@ namespace WebApi.Modules.Home.Invoice
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        public async Task<ToggleInvoiceApprovedResponse> ToggleApproved()
+        {
+            return await invoice.ToggleApproved();
+        }
+        //------------------------------------------------------------------------------------    
 
     }
 }

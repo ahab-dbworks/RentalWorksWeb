@@ -28,6 +28,8 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddSaveMenuBarButton("{FB73E264-2087-4ED5-9184-B625A69C2AD7}", nodeFormMenuBar.Id);
             tree.AddSubMenuItem("Void", "{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Print Invoice", "{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Approve", "{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Unapprove", "{F8C5F06C-4B9D-4495-B589-B44B02AE7915}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

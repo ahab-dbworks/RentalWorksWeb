@@ -326,5 +326,12 @@ namespace WebApi.Modules.Home.Invoice
             return await InvoiceFunc.VoidInvoice(AppConfig, UserSession, InvoiceId);
         }
         //------------------------------------------------------------------------------------ 
+        public async Task<ToggleInvoiceApprovedResponse> ToggleApproved()
+        {
+            ToggleInvoiceApprovedResponse response = await InvoiceFunc.ToggleInvoiceApproved(AppConfig, UserSession, InvoiceId);
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+
     }
 }

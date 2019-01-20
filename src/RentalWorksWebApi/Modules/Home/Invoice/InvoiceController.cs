@@ -109,6 +109,39 @@ namespace WebApi.Modules.Home.Invoice
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
-        //------------------------------------------------------------------------------------          
+        //------------------------------------------------------------------------------------     
+        // POST api/v1/invoice/toggleapproved/A0000001
+        [HttpPost("toggleapproved/{id}")]
+        [FwControllerMethod(Id: "1OiRex9QtrM")]
+        public async Task<ActionResult<ToggleInvoiceApprovedResponse>> ToggleApproved([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                InvoiceLogic l = new InvoiceLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                if (await l.LoadAsync<InvoiceLogic>(ids))
+                {
+                    ToggleInvoiceApprovedResponse response = await l.ToggleApproved();
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
     }
 }
