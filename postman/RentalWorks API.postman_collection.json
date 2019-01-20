@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "15250bf1-66ec-477c-b361-63f54815969e",
+		"_postman_id": "40d00549-52a7-4304-99a4-62c3aaaf6bed",
 		"name": "RentalWorks API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -21192,6 +21192,42 @@
 								"invoice",
 								"void",
 								"F01QKOO4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice: Toggle Approved",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoice/toggleapproved/F01QQIU7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoice",
+								"toggleapproved",
+								"F01QQIU7"
 							]
 						}
 					},
