@@ -259,7 +259,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         {
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
-                Status = RwConstants.INVOICE_STATUS_NEW;
+                Status = RwConstants.VENDOR_INVOICE_STATUS_NEW;
                 StatusDate = FwConvert.ToString(DateTime.Today);
             }
             else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
@@ -275,8 +275,6 @@ namespace WebApi.Modules.Home.VendorInvoice
         //------------------------------------------------------------------------------------ 
         public virtual void OnAfterSaveVendorInvoice(object sender, AfterSaveDataRecordEventArgs e)
         {
-            bool saved = false;
-
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {
                 if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))

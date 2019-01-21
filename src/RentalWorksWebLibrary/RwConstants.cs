@@ -123,6 +123,11 @@ namespace WebLibrary
         //VENDOR INVOICE
         public const string VENDOR_INVOICE_NUMBER_ACCRUAL = "ACCRUAL";
 
+        public const string VENDOR_INVOICE_STATUS_NEW = "NEW";
+        public const string VENDOR_INVOICE_STATUS_APPROVED = "APPROVED";
+        public const string VENDOR_INVOICE_STATUS_PROCESSED = "PROCESSED";
+        public const string VENDOR_INVOICE_STATUS_CLOSED = "CLOSED";
+
 
         //RECEIPT
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";

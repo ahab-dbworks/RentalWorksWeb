@@ -1,7 +1,10 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
+using System;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Home.Tax;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Invoice
@@ -11,13 +14,23 @@ namespace WebApi.Modules.Home.Invoice
     {
         //------------------------------------------------------------------------------------ 
         InvoiceRecord invoice = new InvoiceRecord();
+        TaxRecord tax = new TaxRecord();
+
         InvoiceLoader invoiceLoader = new InvoiceLoader();
         InvoiceBrowseLoader invoiceBrowseLoader = new InvoiceBrowseLoader();
         public InvoiceLogic()
         {
             dataRecords.Add(invoice);
+            dataRecords.Add(tax);
+
             dataLoader = invoiceLoader;
             browseLoader = invoiceBrowseLoader;
+
+            BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
+
+            invoice.AfterSave += OnAfterSaveInvoice;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"oPBmsLfmVQDA", IsPrimaryKey:true)]
@@ -258,10 +271,31 @@ namespace WebApi.Modules.Home.Invoice
 
 
         [FwLogicProperty(Id:"578Sa5Ns8Ute")]
-        public string TaxId { get { return invoice.TaxId; } set { invoice.TaxId = value; } }
+        public string TaxId { get { return invoice.TaxId; } set { invoice.TaxId = value; tax.TaxId = value; } }
 
         [FwLogicProperty(Id:"H0RhmRE6Y7u7", IsReadOnly:true)]
-        public string TaxOptionId { get; set; }
+        public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
+
+        [FwLogicProperty(Id: "H0RhmRE6Y7u7", IsReadOnly: true)]
+        public string TaxOption { get; set; }
+
+        [FwLogicProperty(Id: "DHGwxB6DpL9g")]
+        public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
+
+        [FwLogicProperty(Id: "9oGIwHGeUgqi")]
+        public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
+
+        [FwLogicProperty(Id: "wvSyYyw8kF6G")]
+        public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
+
+        [FwLogicProperty(Id: "m6zjObFbQKme")]
+        public decimal? RentalTaxRate2 { get { return tax.RentalTaxRate2; } set { tax.RentalTaxRate2 = value; } }
+
+        [FwLogicProperty(Id: "l9GX2xdTsLci")]
+        public decimal? SalesTaxRate2 { get { return tax.SalesTaxRate2; } set { tax.SalesTaxRate2 = value; } }
+
+        [FwLogicProperty(Id: "vhWuApLqB1CI")]
+        public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
         [FwLogicProperty(Id:"ctLo1B1EWVjy", IsReadOnly:true)]
         public string TaxItemCode { get; set; }
@@ -269,8 +303,6 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"QbXgDeRDw2GH", IsReadOnly:true)]
         public string TaxVendor { get; set; }
 
-        [FwLogicProperty(Id:"H0RhmRE6Y7u7", IsReadOnly:true)]
-        public string TaxOption { get; set; }
 
         [FwLogicProperty(Id:"gvf0dR5AH7Pq", IsReadOnly:true)]
         public string TaxCountry { get; set; }
@@ -354,11 +386,6 @@ namespace WebApi.Modules.Home.Invoice
 
 
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> Void()
-        {
-            return await invoice.Void();
-        }
-        //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
@@ -386,6 +413,60 @@ namespace WebApi.Modules.Home.Invoice
             return isValid;
         }
         //------------------------------------------------------------------------------------
+
+        public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                Status = RwConstants.INVOICE_STATUS_NEW;
+                StatusDate = FwConvert.ToString(DateTime.Today);
+            }
+            else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (e.Original != null)
+                {
+                    InvoiceLogic orig = ((InvoiceLogic)e.Original);
+                    TaxId = orig.TaxId;
+                }
+            }
+
+        }
+        //------------------------------------------------------------------------------------ 
+        public virtual void OnAfterSaveInvoice(object sender, AfterSaveDataRecordEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            {
+                if ((TaxOptionId != null) && (!TaxOptionId.Equals(string.Empty)))
+                {
+                    if (e.Original != null)
+                    {
+                        TaxId = ((InvoiceRecord)e.Original).TaxId;
+                    }
+
+                    if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
+                    {
+                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                // this is a new Invoice.  TaxId was not known at time of insert.  Need to re-update the data with the known ID
+                invoice.TaxId = tax.TaxId;
+                int i = invoice.SaveAsync(null).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+
+        public async Task<TSpStatusReponse> Void()
+        {
+            return await invoice.Void();
+        }
+        //------------------------------------------------------------------------------------ 
         public async Task<ToggleInvoiceApprovedResponse> ToggleApproved()
         {
             return await invoice.ToggleApproved();
