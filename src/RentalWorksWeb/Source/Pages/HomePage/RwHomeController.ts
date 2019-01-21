@@ -107,6 +107,9 @@
                     html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" style="float:left;width:200px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
@@ -200,6 +203,18 @@
                         FwFormField.setValue2(dateBehavior, response.DefaultDateBehavior);
                         self.setDateBehaviorFields($confirmation, response.DateBehavior);
                     }
+                    let dateFields = response.DateFields.split(',');
+                    let dateFieldDisplays = response.DateFieldDisplayNames.split(',');
+                    let dateFieldSelectArray = [];
+                    
+                    for (var i = 0; i < dateFields.length; i++) {
+                        dateFieldSelectArray.push({
+                            'value': dateFields[i],
+                            'text': dateFieldDisplays[i]
+                        })
+                    }
+                    FwFormField.loadItems($confirmation.find('.datefield'), dateFieldSelectArray, true);
+
                 }, null, null);
 
                 $select.on('click', function () {
@@ -243,8 +258,22 @@
             let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
             for (var i = 0; i < response.UserWidgets.length; i++) {
                 if (response.UserWidgets[i].selected) {
-                    // to do - clean up this function with an object instead of tons of variables 
-                    self.renderWidget($dashboard, response.UserWidgets[i].apiname, response.UserWidgets[i].widgettype, response.UserWidgets[i].clickpath, response.UserWidgets[i].userWidgetId, Math.floor(100 / response.WidgetsPerRow).toString() + '%', response.UserWidgets[i].text, response.UserWidgets[i].dataPoints, response.UserWidgets[i].axisNumberFormatId, response.UserWidgets[i].dataNumberFormatId, response.UserWidgets[i].dateBehavior, response.UserWidgets[i].fromDate, response.UserWidgets[i].toDate)
+                    let widgetData = {
+                        apiname: response.UserWidgets[i].apiname,
+                        type: response.UserWidgets[i].widgettype,
+                        chartpath: response.UserWidgets[i].clickpath,
+                        userWidgetId: response.UserWidgets[i].userWidgetId,
+                        width: Math.floor(100 / response.WidgetsPerRow).toString() + '%',
+                        text: response.UserWidgets[i].text,
+                        dataPoints: response.UserWidgets[i].dataPoints,
+                        axisFormat: response.UserWidgets[i].axisNumberFormatId,
+                        dataFormat: response.UserWidgets[i].dataNumberFormatId,
+                        dateBehavior: response.UserWidgets[i].dateBehavior,
+                        fromDate: response.UserWidgets[i].fromDate,
+                        toDate: response.UserWidgets[i].toDate,
+                        dateField: response.UserWidgets[i].dateField
+                    }
+                    self.renderWidget($dashboard, widgetData)
                 } else {
                     hiddenCounter++;
                 }
@@ -258,28 +287,28 @@
         }, null, $control);
     }
 
-    renderWidget($control, apiname, type, chartpath, userWidgetId, width, text, dataPoints, axisFormat, dataFormat, dateBehavior, fromDate, toDate) {
+    renderWidget($control, widgetData) {
         var self = this;
-        var refresh = '<i id="' + userWidgetId + 'refresh" class="chart-refresh material-icons">refresh</i>';
-        var settings = '<i id="' + userWidgetId + 'settings" class="chart-settings material-icons">settings</i>';
-        var fullscreen = '<i id="' + userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
+        var refresh = '<i id="' + widgetData.userWidgetId + 'refresh" class="chart-refresh material-icons">refresh</i>';
+        var settings = '<i id="' + widgetData.userWidgetId + 'settings" class="chart-settings material-icons">settings</i>';
+        var fullscreen = '<i id="' + widgetData.userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
         var dataPointCount = 0;
 
-        jQuery($control).append('<div data-chart="' + apiname + '" class="chart-container ' + userWidgetId + '" style="height:' + width + ';width:' + width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + userWidgetId + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
-        self.buildWidgetSettings(jQuery($control).find('#' + userWidgetId + 'settings'), userWidgetId);
+        jQuery($control).append('<div data-chart="' + widgetData.apiname + '" class="chart-container ' + widgetData.userWidgetId + '" style="height:' + widgetData.width + ';width:' + widgetData.width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + widgetData.userWidgetId + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
+        self.buildWidgetSettings(jQuery($control).find('#' + widgetData.userWidgetId + 'settings'), widgetData.userWidgetId);
 
-        if (dataPoints > 0) {
-            dataPointCount = dataPoints
+        if (widgetData.dataPoints > 0) {
+            dataPointCount = widgetData.dataPoints
         }
 
-        jQuery($control).on('click', '#' + userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        jQuery($control).on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let titleArray = [];
                     titleArray.push(response.options.title.text);
                     if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                         titleArray.push(moment(response.fromDate).format('l'));
-                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehavior === 'SINGLEDATESPECIFICDATE') {
                         titleArray.push(moment(response.fromDate).format('l'));
                     } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                         titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
@@ -291,13 +320,13 @@
 
                     response.options.title.text = titleArray;
 
-                    if (axisFormat === 'TWODGDEC') {
+                    if (widgetData.axisFormat === 'TWODGDEC') {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                     } else {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
                     }
-                    if (type !== '') {
-                        response.type = type
+                    if (widgetData.type !== '') {
+                        response.type = widgetData.type
                     }
                     if (response.type === 'pie') {
                         delete response.options.legend;
@@ -305,7 +334,7 @@
                     }
                     if (response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
-                        if (dataFormat === 'TWODGDEC') {
+                        if (widgetData.dataFormat === 'TWODGDEC') {
                             response.options.tooltips = {
                                 'callbacks': {
                                     'label': self.commaTwoDecimal2
@@ -331,7 +360,7 @@
                         var label = data.labels[activePoint._index];
                         var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                        program.getModule(chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        program.getModule(widgetData.chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                     });
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -339,26 +368,26 @@
             }, null, jQuery(widgetcanvas));
         });
 
-        var widgetcanvas = $control.find('#' + userWidgetId);   
+        var widgetcanvas = $control.find('#' + widgetData.userWidgetId);   
 
-        jQuery($control).on('click', '#' + userWidgetId + 'fullscreen', function () {
+        jQuery($control).on('click', '#' + widgetData.userWidgetId + 'fullscreen', function () {
             try {
-                var $confirmation = FwConfirmation.renderConfirmation(text, '');
+                var $confirmation = FwConfirmation.renderConfirmation(widgetData.text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
-                html.push('<div data-chart="' + apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + apiname + 'fullscreen"></canvas></div>');
+                html.push('<div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas></div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%')
 
-                var widgetfullscreen = $confirmation.find('#' + apiname + 'fullscreen');  
+                var widgetfullscreen = $confirmation.find('#' + widgetData.apiname + 'fullscreen');  
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         let titleArray = [];
                         titleArray.push(response.options.title.text);
                         if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                             titleArray.push(moment(response.fromDate).format('l'));
-                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehavior === 'SINGLEDATESPECIFICDATE') {
                             titleArray.push(moment(response.fromDate).format('l'));
                         } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                             titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
@@ -370,14 +399,14 @@
 
                         response.options.title.text = titleArray;
 
-                        if (axisFormat === 'TWODGDEC') {
+                        if (widgetData.axisFormat === 'TWODGDEC') {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                         } else {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
                         }
                         response.options.responsive = true;
-                        if (type !== '') {
-                            response.type = type
+                        if (widgetData.type !== '') {
+                            response.type = widgetData.type
                         }
                         if (response.type === 'pie') {
                             delete response.options.legend;
@@ -385,7 +414,7 @@
                         }
                         if (response.type !== 'pie') {
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
-                            if (dataFormat === 'TWODGDEC') {
+                            if (widgetData.dataFormat === 'TWODGDEC') {
                                 response.options.tooltips = {
                                     'callbacks': {
                                         'label': self.commaTwoDecimal2
@@ -407,7 +436,7 @@
                             var label = data.labels[activePoint._index];
                             var value = data.datasets[datasetIndex].data[activePoint._index];
                             FwConfirmation.destroyConfirmation($confirmation);
-                            program.getModule(chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                            program.getModule(widgetData.chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                         });
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -419,13 +448,13 @@
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${dateBehavior}&fromDate=${fromDate}&toDate=${toDate}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 let titleArray = [];
                 titleArray.push(response.options.title.text);
                 if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                     titleArray.push(moment(response.fromDate).format('l'));
-                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehavior === 'SINGLEDATESPECIFICDATE') {
                     titleArray.push(moment(response.fromDate).format('l'));
                 } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                     titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
@@ -437,13 +466,13 @@
 
                 response.options.title.text = titleArray;
 
-                if (axisFormat === 'TWODGDEC') {
+                if (widgetData.axisFormat === 'TWODGDEC') {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                 } else {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
                 }
-                if (type !== '') {
-                    response.type = type
+                if (widgetData.type !== '') {
+                    response.type = widgetData.type
                 }
                 if (response.type === 'pie') {
                     delete response.options.legend;
@@ -451,7 +480,7 @@
                 }
                 if (response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
-                    if (dataFormat === 'TWODGDEC') {
+                    if (widgetData.dataFormat === 'TWODGDEC') {
                         response.options.tooltips = {
                             'callbacks': {
                                 'label': self.commaTwoDecimal2
@@ -477,7 +506,7 @@
                     var label = data.labels[activePoint._index];
                     var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                    program.getModule(chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                    program.getModule(widgetData.chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                 });
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -489,21 +518,26 @@
         let fromDate = $control.find('.fromdate');
         let toDate = $control.find('.todate');
         let fromDateField = $control.find('div[data-datafield="FromDate"] > .fwformfield-caption');
+        let dateField = $control.find('.datefield');
 
         if (DateBehavior === 'NONE') {
             fromDate.hide();
             toDate.hide();
+            dateField.hide();
         } else if (DateBehavior === 'SINGLEDATEYESTERDAY' || DateBehavior === 'SINGLEDATETODAY' || DateBehavior === 'SINGLEDATETOMORROW' || DateBehavior === 'DATERANGEPRIORWEEK' || DateBehavior === 'DATERANGECURRENTWEEK' || DateBehavior === 'DATERANGENEXTWEEK' || DateBehavior === 'DATERANGEPRIORMONTH' || DateBehavior === 'DATERANGECURRENTMONTH' || DateBehavior === 'DATERANGENEXTMONTH' || DateBehavior === 'DATERANGEPRIORYEAR' || DateBehavior === 'DATERANGECURRENTYEAR' || DateBehavior === 'DATERANGENEXTYEAR' || DateBehavior === 'DATERANGEYEARTODATE') {
             fromDate.hide();
             toDate.hide();
+            dateField.show();
         } else if (DateBehavior === 'SINGLEDATESPECIFICDATE') {
             fromDateField.text('Date');
             fromDate.show();
             toDate.hide();
+            dateField.show();
         } else if (DateBehavior === 'DATERANGESPECIFICDATES') {
             fromDateField.text('From Date');
             fromDate.show();
             toDate.show();
+            dateField.show();
         }
     }
     //----------------------------------------------------------------------------------------------
