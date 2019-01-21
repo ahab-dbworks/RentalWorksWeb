@@ -83,11 +83,6 @@ class RwSalesInventoryTransactionReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         let $form = this.getFrontEnd();
-        $form.data('getRenderRequest', request => {
-            request.parameters = this.getParameters($form);
-            return request;
-        });
-
         return $form;
     }
     //----------------------------------------------------------------------------------------------

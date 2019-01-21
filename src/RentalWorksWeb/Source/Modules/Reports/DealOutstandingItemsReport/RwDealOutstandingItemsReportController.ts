@@ -115,10 +115,7 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         let $form = this.getFrontEnd();
-        $form.data('getRenderRequest', request => {
-            request.parameters = this.getParameters($form);
-            return request;
-        });
+
         // Mutually exclusive Image settings
         $form.on('change', '.include-full-images input[type=checkbox]', e => {
             if (FwFormField.getValueByDataField($form, 'IncludeFullImages') === true) {
