@@ -86,5 +86,30 @@ namespace WebApi.Modules.Home.Billing
             return await DoGetAsync<BillingLogic>(id);
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/billing/createinvoices 
+        [HttpPost("createinvoices")]
+        [FwControllerMethod(Id: "wgZGAuKCJv4Y")]
+        public async Task<ActionResult<CreateInvoicesResponse>> CreateInvoices([FromBody]CreateInvoicesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+
+                CreateInvoicesResponse response = await BillingFunc.CreateInvoices(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

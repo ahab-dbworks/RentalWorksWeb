@@ -42,9 +42,6 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "episodeno", modeltype: FwDataTypes.Integer)]
         public int? EpisodeNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
-        public string InvoiceCreationBatchId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "batchno", modeltype: FwDataTypes.Integer)]
         public int? InvoiceCreationBatchNumber { get; set; }
         //------------------------------------------------------------------------------------ 

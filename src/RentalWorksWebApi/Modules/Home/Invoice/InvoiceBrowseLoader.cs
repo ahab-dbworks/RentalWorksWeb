@@ -93,6 +93,9 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
         public string ProjectManager { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
+        public string InvoiceCreationBatchId { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -102,6 +105,9 @@ namespace WebApi.Modules.Home.Invoice
             addFilterToSelect("DepartmentId", "departmentid", select, request);
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
+            addFilterToSelect("InvoiceCreationBatchId", "invoicebatchid", select, request);
+            
+
 
             if ((request != null) && (request.activeview != null))
             {

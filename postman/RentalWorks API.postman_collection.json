@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "40d00549-52a7-4304-99a4-62c3aaaf6bed",
+		"_postman_id": "b4d6191b-92d0-4f24-8fa9-807471044d69",
 		"name": "RentalWorks API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -995,7 +995,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Deal\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I0009PES\"\n    \t}\n}\n\n\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Deal\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I0009PGV\"\n    \t}\n}\n\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/billing/browse",
@@ -1009,6 +1009,41 @@
 								"v1",
 								"billing",
 								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Billing: Create Invoices",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \t\"SessionId\": \"I0009PGV\",\n  \t\"BillingIds\": [\"293\", \"294\"]\n}\n\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/billing/createinvoices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"billing",
+								"createinvoices"
 							]
 						}
 					},
@@ -21005,7 +21040,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InvoiceDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OfficeLocationId\": \"B001WH00\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"InvoiceDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InvoiceCreationBatchId\": \"I0009PS1\"\n    \t\t\n    \t}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/invoice/browse",
