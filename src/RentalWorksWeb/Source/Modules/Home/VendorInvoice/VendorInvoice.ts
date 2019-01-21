@@ -198,13 +198,13 @@ class VendorInvoice {
     //----------------------------------------------------------------------------------------------
     events($form) {
         //populate fields with PO info
-        $form.find('[data-datafield="PurchaseOrderId"] input').on('change', e => {
+        $form.on('change', '[data-datafield="PurchaseOrderId"] input', e => {
             let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
             FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 FwFormField.setValueByDataField($form, 'VendorId', response.VendorId, response.Vendor);
                 FwFormField.setValueByDataField($form, 'DepartmentId', response.DepartmentId, response.Department);
                 FwFormField.setValueByDataField($form, 'WarehouseId', response.WarehouseId, response.Warehouse);
-                FwFormField.setValueByDataField($form, 'PurchaseOrderPaymentTermsId', response.PaymentTermsId, response.PaymentTerms);
+                FwFormField.setValueByDataField($form, 'PaymentTermsId', response.PaymentTermsId, response.PaymentTerms);
                 FwFormField.setValueByDataField($form, 'OrderDescription', response.Description);
                 FwFormField.setValueByDataField($form, 'PurchaseOrderBillingCycleId', response.BillingCycleId, response.BillingCycle);
                 FwFormField.setValueByDataField($form, 'PurchaseOrderDate', response.PurchaseOrderDate);
@@ -232,7 +232,7 @@ class VendorInvoice {
             }
         });
 
-        $form.find('[data-datafield="PurchaseOrderPaymentTermsId"]').data('onchange', $tr => {
+        $form.find('[data-datafield="PaymentTermsId"]').data('onchange', $tr => {
             let invoiceDate = FwFormField.getValueByDataField($form, 'InvoiceDate');
             invoiceDate = new Date(invoiceDate);
             let dueInDays = $tr.find('[data-browsedatafield="DueInDays"]').attr('data-originalvalue');
