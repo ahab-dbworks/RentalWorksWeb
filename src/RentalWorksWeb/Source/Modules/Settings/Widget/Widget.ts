@@ -64,18 +64,18 @@ class Widget {
                 specificDate.hide();
                 fromDate.hide();
                 toDate.hide();
-            } else if (selected === 'SINGLE DATE - YESTERDAY' || selected === 'SINGLE DATE - TODAY' || selected === 'SINGLE DATE - TOMORROW' || selected === 'DATE RANGE - PRIOR WEEK' || selected === 'DATE RANGE - CURRENT WEEK' || selected === 'DATE RANGE - NEXT WEEK' || selected === 'DATE RANGE - PRIOR MONTH' || selected === 'DATE RANGE - CURRENT MONTH' || selected === 'DATE RANGE - NEXT MONTH' || selected === 'DATE RANGE - PRIOR YEAR' || selected === 'DATE RANGE - CURRENT YEAR' || selected === 'DATE RANGE - NEXT YEAR' || selected === 'DATE RANGE - YEAR TO DATE') {
+            } else if (selected === 'SINGLEDATEYESTERDAY' || selected === 'SINGLEDATETODAY' || selected === 'SINGLEDATETOMORROW' || selected === 'DATERANGEPRIORWEEK' || selected === 'DATERANGECURRENTWEEK' || selected === 'DATERANGENEXTWEEK' || selected === 'DATERANGEPRIORMONTH' || selected === 'DATERANGECURRENTMONTH' || selected === 'DATERANGENEXTMONTH' || selected === 'DATERANGEPRIORYEAR' || selected === 'DATERANGECURRENTYEAR' || selected === 'DATERANGENEXTYEAR' || selected === 'DATERANGEYEARTODATE') {
                 dateField.show();
                 specificDate.hide();
                 fromDate.hide();
                 toDate.hide();
-            } else if (selected === 'SINGLE DATE - SPECIFIC DATE') {
+            } else if (selected === 'SINGLEDATESPECIFICDATE') {
                 dateField.show();
                 specificDate.show();
                 fromDateField.text('Date');
                 fromDate.show();
                 toDate.hide();
-            } else if (selected === 'DATE RANGE - SPECIFIC DATES') {
+            } else if (selected === 'DATERANGESPECIFICDATES') {
                 dateField.show();
                 specificDate.show();
                 fromDateField.text('From Date');
@@ -121,14 +121,14 @@ class Widget {
         let fromDateField = $form.find('div[data-datafield="DefaultFromDate"] > .fwformfield-caption')
         let selectArray = [];
 
-        if (defaultDayBehavior === 'SINGLE DATE - YESTERDAY' || defaultDayBehavior === 'SINGLE DATE - TODAY' || defaultDayBehavior === 'SINGLE DATE - TOMORROW' || defaultDayBehavior === 'DATE RANGE - PRIOR WEEK' || defaultDayBehavior === 'DATE RANGE - CURRENT WEEK' || defaultDayBehavior === 'DATE RANGE - NEXT WEEK' || defaultDayBehavior === 'DATE RANGE - PRIOR MONTH' || defaultDayBehavior === 'DATE RANGE - CURRENT MONTH' || defaultDayBehavior === 'DATE RANGE - NEXT MONTH' || defaultDayBehavior === 'DATE RANGE - PRIOR YEAR' || defaultDayBehavior === 'DATE RANGE - CURRENT YEAR' || defaultDayBehavior === 'DATE RANGE - NEXT YEAR' || defaultDayBehavior === 'DATE RANGE - YEAR TO DATE') {
-            dateField.show();
-        } else if (defaultDayBehavior === 'SINGLE DATE - SPECIFIC DATE') {
+        if (defaultDayBehavior === 'SINGLEDATEYESTERDAY' || defaultDayBehavior === 'SINGLEDATETODAY' || defaultDayBehavior === 'SINGLEDATETOMORROW' || defaultDayBehavior === 'DATERANGEPRIORWEEK' || defaultDayBehavior === 'DATERANGECURRENTWEEK' || defaultDayBehavior === 'DATERANGENEXTWEEK' || defaultDayBehavior === 'DATERANGEPRIORMONTH' || defaultDayBehavior === 'DATERANGECURRENTMONTH' || defaultDayBehavior === 'DATERANGENEXTMONTH' || defaultDayBehavior === 'DATERANGEPRIORYEAR' || defaultDayBehavior === 'DATERANGECURRENTYEAR' || defaultDayBehavior === 'DATERANGENEXTYEAR' || defaultDayBehavior === 'DATERANGEYEARTODATE') {
+           dateField.show();
+        } else if (defaultDayBehavior === 'SINGLEDATESPECIFICDATE') {
             dateField.show();
             specificDate.show();
             fromDateField.text('Date');
             fromDate.show();
-        } else if (defaultDayBehavior === 'DATE RANGE - SPECIFIC DATES') {
+        } else if (defaultDayBehavior === 'DATERANGESPECIFICDATES') {
             dateField.show();
             specificDate.show();
             fromDateField.text('From Date');
