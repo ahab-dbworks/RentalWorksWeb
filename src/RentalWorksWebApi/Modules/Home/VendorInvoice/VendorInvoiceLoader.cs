@@ -90,8 +90,11 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "printnotes", modeltype: FwDataTypes.Boolean)]
         public bool? PrintNotes { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Boolean)]
-        public bool? Payterms { get; set; }
+        [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text)]
+        public string PaymentTermsId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "payterms", modeltype: FwDataTypes.Text)]
+        public string PaymentTerms { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxid", modeltype: FwDataTypes.Text)]
         public string TaxId { get; set; }
@@ -149,6 +152,9 @@ namespace WebApi.Modules.Home.VendorInvoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealbilledextended", modeltype: FwDataTypes.Decimal)]
         public decimal? DealBilledExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date)]
+        public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

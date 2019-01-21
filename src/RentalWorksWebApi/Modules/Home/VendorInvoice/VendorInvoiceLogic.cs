@@ -173,6 +173,9 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwLogicProperty(Id: "MyL1YZCwCafI", IsReadOnly: true)]
         public bool? PrintNotes { get; set; }
 
+        [FwLogicProperty(Id: "NX8mTmIkb8bd", IsReadOnly: true)]
+        public bool? PaymentTermsId { get { return vendorInvoice.PaymentTermsId; } set { vendorInvoice.PaymentTermsId = value;} }
+
         [FwLogicProperty(Id: "RNBDNCR4prQc", IsReadOnly: true)]
         public bool? PaymentTerms { get; set; }
 

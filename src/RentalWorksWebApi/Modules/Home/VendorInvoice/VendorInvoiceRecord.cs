@@ -84,7 +84,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         public string TaxId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string PaytermsId { get; set; }
+        public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "duedate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string DueDate { get; set; }
