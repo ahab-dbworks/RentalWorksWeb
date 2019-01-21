@@ -72,7 +72,7 @@ class RwSalesRepresentativeBillingReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('SalesRepresentativeBillingReport', 'api/v1/salesrepresentativebillingreport', salesRepresentativeTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -93,7 +93,7 @@ class RwSalesRepresentativeBillingReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         let $form = this.getFrontEnd();
-        $form.data('getexportrequest', request => {
+        $form.data('getRenderRequest', request => {
             request.parameters = this.getParameters($form);
             return request;
         });
