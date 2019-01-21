@@ -10,11 +10,13 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.LateReturnsReport
 {
 
 
-    public class LateReturnsReportRequest
+    public class LateReturnsReportRequest : AppReportRequest
     {
         public string ReportType { get; set; }
         public int? Days{ get; set; }
@@ -63,10 +65,20 @@ namespace WebApi.Modules.Reports.LateReturnsReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "rIR6A55TgSZD")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]LateReturnsReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/latereturnsreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"qhOSjA6KYh")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReport([FromBody]LateReturnsReportRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]LateReturnsReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -81,11 +93,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

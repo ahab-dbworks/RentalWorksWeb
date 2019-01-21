@@ -12,11 +12,12 @@ using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Text;
+using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.InvoiceSummaryReport
 {
 
-    public class InvoiceSummaryReportRequest
+    public class InvoiceSummaryReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -63,6 +64,16 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "bsuzBOnZrC1D")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]InvoiceSummaryReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/invoicesummaryreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"5deElRqBmsbq")]
@@ -81,11 +92,7 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

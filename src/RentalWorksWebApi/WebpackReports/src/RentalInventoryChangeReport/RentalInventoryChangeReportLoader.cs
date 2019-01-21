@@ -133,10 +133,13 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            string[] totalFields = new string[] { "RunningTotalQuantity", "RunningTotalValue" };
-            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-            dt.InsertSubTotalRows("Description", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "RunningTotalQuantity", "RunningTotalValue" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("Description", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

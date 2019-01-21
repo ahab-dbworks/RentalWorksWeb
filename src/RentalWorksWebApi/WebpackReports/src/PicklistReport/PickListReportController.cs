@@ -10,16 +10,17 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Reports.PickListReport
 {
-    public class PickListReportRequest
+    public class PickListReportRequest : AppReportRequest
     {
         public string PickListId { get; set; }
     }
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"Rk38wHmvgXTg")]
+    [FwController(Id: "Rk38wHmvgXTg")]
     public class PickListReportController : AppReportController
     {
         public PickListReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -43,7 +44,7 @@ namespace WebApi.Modules.Reports.PickListReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"9Cxmjc8ym2oy")]
+        [FwControllerMethod(Id: "9Cxmjc8ym2oy")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -53,7 +54,7 @@ namespace WebApi.Modules.Reports.PickListReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"bfAeFhKAd4iP")]
+        [FwControllerMethod(Id: "bfAeFhKAd4iP")]
         public async Task<ActionResult<PickListReportLoader>> RunReportAsync([FromBody]PickListReportRequest request)
         {
             if (!ModelState.IsValid)
@@ -68,11 +69,7 @@ namespace WebApi.Modules.Reports.PickListReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

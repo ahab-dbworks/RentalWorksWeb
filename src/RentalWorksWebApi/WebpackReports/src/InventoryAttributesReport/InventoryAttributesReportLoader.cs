@@ -4,11 +4,12 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Text;
+using WebApi.Controllers;
 
 namespace WebApi.Modules.Reports.InventoryAttributesReport
 {
 
-    public class InventoryAttributesReportRequest
+    public class InventoryAttributesReportRequest : AppReportRequest
     {
         public CheckBoxListItems SortBy { get; set; } = new CheckBoxListItems();
         public string InventoryTypeId { get; set; }

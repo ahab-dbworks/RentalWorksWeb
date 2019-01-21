@@ -102,16 +102,20 @@ namespace WebApi.Modules.Reports.RentalInventoryValueReport
                 }
             }
 
-            string[] totalFields = new string[] { "Quantity", "ExtendedValue" };
-            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-            dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-            dt.InsertSubTotalRows("Category", "RowType", totalFields);
-            dt.InsertSubTotalRows("SubCategory", "RowType", totalFields);
-            if (!request.Summary.GetValueOrDefault(false))
+            if (request.IncludeSubHeadingsAndSubTotals)
             {
-                dt.InsertSubTotalRows("ICode", "RowType", totalFields);
+                string[] totalFields = new string[] { "Quantity", "ExtendedValue" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertSubTotalRows("SubCategory", "RowType", totalFields);
+                if (!request.Summary.GetValueOrDefault(false))
+                {
+                    dt.InsertSubTotalRows("ICode", "RowType", totalFields);
+                }
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 

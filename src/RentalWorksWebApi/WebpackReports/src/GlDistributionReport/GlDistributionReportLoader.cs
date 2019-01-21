@@ -71,9 +71,12 @@ namespace WebApi.Modules.Reports.GlDistributionReport
                 }
             }
 
-            string[] totalFields = new string[] { "Debit", "Credit" };
-            dt.InsertSubTotalRows("Location", "RowType", totalFields);
-            dt.InsertSubTotalRows("GroupHeading", "RowType", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "Debit", "Credit" };
+                dt.InsertSubTotalRows("Location", "RowType", totalFields);
+                dt.InsertSubTotalRows("GroupHeading", "RowType", totalFields);
+            }
 
             return dt;
         }

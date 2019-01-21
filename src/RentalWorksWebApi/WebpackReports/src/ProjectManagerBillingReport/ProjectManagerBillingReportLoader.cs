@@ -169,9 +169,12 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
                 }
             }
 
-            string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
-            dt.InsertSubTotalRows("ProjectManager", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
+                dt.InsertSubTotalRows("ProjectManager", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
 
             return dt;
         }

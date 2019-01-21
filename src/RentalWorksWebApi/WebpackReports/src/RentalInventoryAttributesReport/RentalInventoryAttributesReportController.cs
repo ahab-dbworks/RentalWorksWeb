@@ -10,6 +10,7 @@ using PuppeteerSharp;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using WebApi.Modules.Reports.InventoryAttributesReport;
+using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
 {
@@ -47,6 +48,16 @@ namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "JzPIXExe78vP")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]InventoryAttributesReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/rentalinventoryattributesreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"VpjB4XzHY5C")]
@@ -65,11 +76,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAttributesReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

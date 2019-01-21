@@ -107,10 +107,13 @@ namespace WebApi.Modules.Reports.SalesInventoryReorderReport
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
-            string[] totalFields = new string[] { "Quantity", "QuantityAllocated", "QuantityStaged", "QuantityInTransit", "QuantityOnPo", "LastPurchaseQuantity" };
-            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-            dt.InsertSubTotalRows("Category", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "Quantity", "QuantityAllocated", "QuantityStaged", "QuantityInTransit", "QuantityOnPo", "LastPurchaseQuantity" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

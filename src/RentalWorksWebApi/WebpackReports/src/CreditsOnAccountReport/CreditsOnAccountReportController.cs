@@ -14,17 +14,14 @@ using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.CreditsOnAccountReport
 {
-
-
-    public class CreditsOnAccountReportRequest
+    public class CreditsOnAccountReportRequest : AppReportRequest
     {
         public bool? OnlyRemaining { get; set; }
     }
 
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"9JCPjgemNM8D")]
+    [FwController(Id: "9JCPjgemNM8D")]
     public class CreditsOnAccountReportController : AppReportController
     {
         public CreditsOnAccountReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -48,7 +45,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/creditsonaccount/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"11WQfeFM3RBp")]
+        [FwControllerMethod(Id: "11WQfeFM3RBp")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -56,22 +53,19 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-
-        //justin wip
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "dJal7v67Fx4")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]CreditsOnAccountReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
-            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value ;
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt);
         }
         //------------------------------------------------------------------------------------
-
         // POST api/v1/creditsonaccount/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"IKvvPD6VZArB")]
+        [FwControllerMethod(Id: "IKvvPD6VZArB")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CreditsOnAccountReportRequest request)
         {
             if (!ModelState.IsValid)
@@ -87,11 +81,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

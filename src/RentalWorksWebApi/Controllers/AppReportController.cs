@@ -1,4 +1,5 @@
 ﻿using FwCore.Controllers;
+using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
 using FwStandard.SqlServer;
@@ -13,26 +14,17 @@ using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Controllers
 {
+
+    public class AppReportRequest
+    {
+        public bool IncludeSubHeadingsAndSubTotals { get; set; } = true;
+    }
+
     public abstract class AppReportController : FwReportController
     {
+        //------------------------------------------------------------------------------------
         public AppReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-
         //------------------------------------------------------------------------------------
-
-        //justin wip
-        protected FwBusinessLogic CreateBusinessLogic(Type type, FwApplicationConfig appConfig, FwUserSession userSession)
-        {
-            FwBusinessLogic bl = (FwBusinessLogic)Activator.CreateInstance(type);
-            bl.AppConfig = appConfig;
-            bl.UserSession = userSession;
-            bl.SetDependencies(appConfig, userSession);
-            return bl;
-        }
-        //------------------------------------------------------------------------------------
-
-
-
-        //justin wip
         protected ObjectResult GetApiExceptionResult(Exception ex)
         {
             FwApiException jsonException = new FwApiException();
@@ -46,14 +38,6 @@ namespace WebApi.Controllers
             return StatusCode(jsonException.StatusCode, jsonException);
         }
         //------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-        //justin wip
         protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "")
         {
             if (!ModelState.IsValid)
@@ -87,6 +71,5 @@ namespace WebApi.Controllers
             }
         }
         //------------------------------------------------------------------------------------
-
     }
 }

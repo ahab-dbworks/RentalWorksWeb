@@ -120,10 +120,13 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
                 }
             }
 
-            string[] totalFields = new string[] { "InvoiceCount", "ExceptionCount", "InvoiceTotal" };
-            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-            dt.InsertSubTotalRows("Department", "RowType", totalFields);
-            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "InvoiceCount", "ExceptionCount", "InvoiceTotal" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+            }
 
             return dt;
         }

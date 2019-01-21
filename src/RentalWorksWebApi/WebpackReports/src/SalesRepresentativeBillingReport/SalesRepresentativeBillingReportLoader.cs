@@ -169,9 +169,12 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
                 }
             }
 
-            string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
-            dt.InsertSubTotalRows("SalesRepresentative", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
+                dt.InsertSubTotalRows("SalesRepresentative", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
 
             return dt;
         }

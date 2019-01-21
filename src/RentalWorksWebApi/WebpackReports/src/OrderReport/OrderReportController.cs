@@ -10,9 +10,10 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Reports.OrderReport
 {
-    public class OrderReportRequest
+    public class OrderReportRequest : AppReportRequest
     {
         public string OrderId { get; set; }
     }
@@ -67,11 +68,7 @@ namespace WebApi.Modules.Reports.OrderReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

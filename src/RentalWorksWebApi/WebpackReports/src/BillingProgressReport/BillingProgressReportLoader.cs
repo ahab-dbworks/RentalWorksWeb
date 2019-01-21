@@ -113,10 +113,13 @@ namespace WebApi.Modules.Reports.BillingProgressReport
                 }
             }
 
-            string[] totalFields = new string[] { "OrderTotal", "Billed", "Remaining" };
-            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "OrderTotal", "Billed", "Remaining" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
 
             return dt;
         }

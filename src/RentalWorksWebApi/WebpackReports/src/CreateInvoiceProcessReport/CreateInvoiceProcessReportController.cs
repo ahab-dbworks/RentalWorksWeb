@@ -10,10 +10,12 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 {
 
-    public class CreateInvoiceProcessReportRequest
+    public class CreateInvoiceProcessReportRequest : AppReportRequest
     {
         public string InvoiceCreationBatchId { get; set; }
         public bool? ExceptionsOnly { get; set; }
@@ -54,6 +56,16 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "oWX59kojq768")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]CreateInvoiceProcessReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/createinvoiceprocessreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"I3gMmg5S5PlA")]
@@ -72,11 +84,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

@@ -216,10 +216,13 @@ namespace WebApi.Modules.Reports.RetiredRentalInventoryReport
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
-            string[] totalFields = new string[] { "Quantity" };
-            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-            dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "Quantity" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

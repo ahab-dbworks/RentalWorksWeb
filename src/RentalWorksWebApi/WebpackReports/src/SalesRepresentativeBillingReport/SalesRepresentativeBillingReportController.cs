@@ -10,11 +10,12 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
 {
 
-    public class SalesRepresentativeBillingReportRequest
+    public class SalesRepresentativeBillingReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
@@ -29,7 +30,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"SgF8AMJVjKARN")]
+    [FwController(Id: "SgF8AMJVjKARN")]
     public class SalesRepresentativeBillingReportController : AppReportController
     {
         //------------------------------------------------------------------------------------ 
@@ -55,7 +56,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/salesrepresentativebillingreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"EsTDsoD2wwzjJ")]
+        [FwControllerMethod(Id: "EsTDsoD2wwzjJ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
 
         {
@@ -64,9 +65,19 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "fTvTmHR0kHYe")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesRepresentativeBillingReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/salesrepresentativebillingreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"ot8i27Z2PZZCV")]
+        [FwControllerMethod(Id: "ot8i27Z2PZZCV")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]SalesRepresentativeBillingReportRequest request)
         {
             if (!ModelState.IsValid)
@@ -82,11 +93,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

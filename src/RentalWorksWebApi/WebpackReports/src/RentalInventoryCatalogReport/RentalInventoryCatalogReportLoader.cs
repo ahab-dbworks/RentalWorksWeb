@@ -153,11 +153,14 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
                 }
             }
 
-            string[] totalFields = new string[] { "QuantityOwned" };
-            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-            dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-            dt.InsertSubTotalRows("Category", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "QuantityOwned" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
 
             return dt;
         }

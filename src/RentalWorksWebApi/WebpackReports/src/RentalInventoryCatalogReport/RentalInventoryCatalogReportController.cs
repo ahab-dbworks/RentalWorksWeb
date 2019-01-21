@@ -10,10 +10,12 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
 {
 
-    public class RentalInventoryCatalogReportRequest
+    public class RentalInventoryCatalogReportRequest : AppReportRequest
     {
         public SelectedCheckBoxListItems Classifications { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
@@ -62,6 +64,16 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "fdos87pyamXB")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]RentalInventoryCatalogReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/rentalinventorycatalogreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"wUwSPtxGXHYvX")]
@@ -80,11 +92,7 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

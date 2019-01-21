@@ -228,12 +228,17 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
-            string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended"};
-            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-            dt.InsertSubTotalRows("Customer", "RowType", totalFields);
-            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-            dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 

@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using WebLibrary;
 using System;
 using FwStandard.Models;
+using WebApi.Controllers;
 
 namespace WebApi.Modules.Reports.InventoryPurchaseHistoryReport
 {
 
 
-    public class InventoryPurchaseHistoryReportRequest
+    public class InventoryPurchaseHistoryReportRequest : AppReportRequest
     {
         public DateTime? PurchasedFromDate { get; set; }
         public DateTime? PurchasedToDate { get; set; }
@@ -151,11 +152,15 @@ namespace WebApi.Modules.Reports.InventoryPurchaseHistoryReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            string[] totalFields = new string[] { "Quantity", "ExtendedCost" };
-            dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-            dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-            dt.InsertSubTotalRows("Category", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "Quantity", "ExtendedCost" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

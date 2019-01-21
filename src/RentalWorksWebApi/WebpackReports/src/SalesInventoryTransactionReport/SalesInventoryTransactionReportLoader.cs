@@ -102,10 +102,13 @@ namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            //string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-            //dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-            //dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
-            //dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                //string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
+                //dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
+                //dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                //dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

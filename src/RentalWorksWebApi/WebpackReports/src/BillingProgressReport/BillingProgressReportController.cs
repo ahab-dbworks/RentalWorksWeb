@@ -10,10 +10,12 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.BillingProgressReport
 {
 
-    public class BillingProgressReportRequest
+    public class BillingProgressReportRequest : AppReportRequest
     {
         public DateTime AsOfDate { get; set; }
         public SelectedCheckBoxListItems Statuses { get; set; } = new SelectedCheckBoxListItems();
@@ -63,6 +65,16 @@ namespace WebApi.Modules.Reports.BillingProgressReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "w4Jb1f6fLJMp")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BillingProgressReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/billingprogressreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"AOjPM7jV7pi")]
@@ -81,11 +93,7 @@ namespace WebApi.Modules.Reports.BillingProgressReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

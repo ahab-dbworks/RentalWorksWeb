@@ -294,10 +294,13 @@ namespace WebApi.Modules.Reports.LateReturnsReport
                 }
             }
 
-            string[] totalFields = new string[] { "Quantity", "ItemUnitValueExtended", "ItemReplacementCostExtended" };
-            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-            dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "Quantity", "ItemUnitValueExtended", "ItemReplacementCostExtended" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+            }
 
             return dt;
         }

@@ -129,12 +129,15 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
                 }
             }
 
-            string[] totalFields = new string[] { "Rental", "Sales", "Facilities", "Labor", "Miscellaneous", "AssetSale", "Parts", "Tax", "Total" };
-            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-            dt.InsertSubTotalRows("Department", "RowType", totalFields);
-            dt.InsertSubTotalRows("Customer", "RowType", totalFields);
-            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "Rental", "Sales", "Facilities", "Labor", "Miscellaneous", "AssetSale", "Parts", "Tax", "Total" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
 
             return dt;
         }

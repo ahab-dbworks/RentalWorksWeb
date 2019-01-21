@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
 {
-    public class ReturnOnAssetPrecalculatedReportRequest
+    public class ReturnOnAssetPrecalculatedReportRequest : AppReportRequest
     {
         public string ReportYear { get; set; }
         public string ReportPeriod { get; set; }

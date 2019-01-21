@@ -139,10 +139,15 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            string[] totalFields = new string[] { "InvoiceGrossTotal", "DiscountAmountWithDaysPerWeek", "TotalActual" };
-            dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-            dt.InsertSubTotalRows("Department", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "InvoiceGrossTotal", "DiscountAmountWithDaysPerWeek", "TotalActual" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 

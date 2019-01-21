@@ -10,9 +10,11 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.PartsInventoryReorderReport
 {
-    public class PartsInventoryReorderReportRequest
+    public class PartsInventoryReorderReportRequest : AppReportRequest
     {
         public string ReorderPointMode { get; set; } = "LTE";
         public bool? IncludeZeroReorderPoint { get; set; }
@@ -56,6 +58,16 @@ namespace WebApi.Modules.Reports.PartsInventoryReorderReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "R9j1KyRyWgug")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]PartsInventoryReorderReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/salesinventoryreorderreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"BLuf0ngwnmO")]
@@ -74,11 +86,7 @@ namespace WebApi.Modules.Reports.PartsInventoryReorderReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

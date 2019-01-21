@@ -105,11 +105,14 @@ namespace WebApi.Modules.Reports.CrewSignInReport
                 }
             }
 
-            string[] totalFields = new string[] { "RecCount" };
-            dt.InsertSubTotalRows("Location", "RowType", totalFields);
-            dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-            dt.InsertSubTotalRows("RentFromDate", "RowType", totalFields);
-            dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "RecCount" };
+                dt.InsertSubTotalRows("Location", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertSubTotalRows("RentFromDate", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
 
             return dt;
         }

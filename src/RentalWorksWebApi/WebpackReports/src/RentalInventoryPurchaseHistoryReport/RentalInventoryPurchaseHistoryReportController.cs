@@ -10,24 +10,12 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using static FwCore.Controllers.FwDataController;
 using WebApi.Modules.Reports.InventoryPurchaseHistoryReport;
 
 namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
 {
-    //public class RentalInventoryPurchaseHistoryReportRequest
-    //{
-    //    public DateTime? PurchasedFromDate { get; set; }
-    //    public DateTime? PurchasedToDate { get; set; }
-    //    public DateTime? ReceivedFromDate { get; set; }
-    //    public DateTime? ReceivedToDate { get; set; }
-    //    public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
-    //    public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
-    //    public string WarehouseId { get; set; }
-    //    public string InventoryTypeId { get; set; }
-    //    public string CategoryId { get; set; }
-    //    public string SubCategoryId { get; set; }
-    //    public string InventoryId { get; set; }
-    //}
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id:"kI5HgFqlPzr")]
@@ -62,6 +50,16 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "513cssfacTsZ")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]InventoryPurchaseHistoryReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/rentalinventorypurchasehistoryreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"azR5VwuQTaf")]
@@ -80,11 +78,7 @@ namespace WebApi.Modules.Reports.RentalInventoryPurchaseHistoryReport
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
