@@ -180,7 +180,7 @@ class RwAsset {
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
         var $itemAttributeValueGrid: JQuery = $form.find('div[data-grid="' + this.nameItemAttributeValueGrid + '"]');
-        var $itemAttributeValueGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemAttributeValueGrid);
+        var $itemAttributeValueGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + this.nameItemAttributeValueGrid + 'Browse').html());
         $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
         $itemAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
