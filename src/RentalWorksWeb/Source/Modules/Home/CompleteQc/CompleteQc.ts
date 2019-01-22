@@ -40,15 +40,6 @@ class CompleteQc {
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
         $form.find('div[data-datafield="Code"] input').select().focus();
 
-        $form.on('click', '.completeqc', function () {
-            let request: any = {
-                QcAnyway: false,
-                Code: FwFormField.getValue2($form.find('div[data-datafield="Code"]'))
-            };
-
-            self.completeQc($form, request);
-        });
-
         $form.find('.completeqc').on('click', function () {
             let request: any = {
                 QcAnyway: false,
@@ -84,6 +75,7 @@ class CompleteQc {
     //----------------------------------------------------------------------------------------------
     completeQc($form, request) {
         let self = this;
+        let $completed = $form.find('.qcsuccess');
         try {
             FwAppData.apiMethod(true, 'POST', 'api/v1/completeqc/completeqcitem', request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwFormField.setValueByDataField($form, 'ICode', '');
@@ -92,6 +84,7 @@ class CompleteQc {
                 FwFormField.setValueByDataField($form, 'Note', '');
 
                 if (response.success) {
+                    $completed.show();
                     $form.find('.code').removeClass('error');
                     $form.find('div.msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:green;color:white;">QC Completed Successfully</span></div>`);
                     FwFormField.setValueByDataField($form, 'ICode', response.ICode);
@@ -102,6 +95,7 @@ class CompleteQc {
                     $form.find('div[data-datafield="Code"] input').select().focus();
                     $form.find('div.updatemsg').html('');
                 } else {
+                    $completed.hide();
                     $form.find('.code').addClass('error');
                     $form.find('div.msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                     $form.find('div[data-datafield="Code"] input').select().focus();
@@ -118,6 +112,7 @@ class CompleteQc {
             FwAppData.apiMethod(true, 'POST', 'api/v1/completeqc/updateqcitem', request, FwServices.defaultTimeout, function onSuccess(response) {
                 $form.find('div[data-datafield="Code"] input').select().focus();
                 $form.find('div.msg').html('');
+                $form.find('.qcsuccess').hide();
                 $form.find('div.updatemsg').html(`<div style="margin:18px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:green;color:white;">QC Updated Successfully</span></div>`);
             }, null, $form);
         } catch (ex) {
@@ -158,15 +153,18 @@ class CompleteQc {
                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 125px;" data-enabled="false"></div>
                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Description" style="flex:1 1 350px;" data-enabled="false"></div>
                     </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:0 1 300px;" data-validationname="InventoryConditionValidation"></div>
+                    <div class="qcsuccess" style="display:none;">
+                      <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:0 1 300px;" data-validationname="InventoryConditionValidation"></div>
+                      </div>
+                      <div class="flexrow" style="max-width:800px">
+                          <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>
+                      </div>
+                      <div class="flexrow">
+                          <div class="fwformcontrol updateqc" data-type="button" style="flex:0 1 90px;margin:15px 15px 10px 10px;">Update QC</div>
+                      </div>
                     </div>
-                    <div class="flexrow" style="max-width:800px">
-                      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Note" data-datafield="Note" style="flex:1 1 450px;"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div class="fwformcontrol updateqc" data-type="button" style="flex:0 1 90px;margin:15px 15px 10px 10px;">Update QC</div><div class="updatemsg"></div>
-                    </div>
+                    <div class="updatemsg"></div>   
                   </div>
                 </div>
               </div>
