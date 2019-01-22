@@ -109,11 +109,13 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public class AvailableWidget : WidgetLogic
         {
 
-            [FwLogicProperty(Id: "3nSLO6CTowZlO")]
-            public string value { get { return WidgetId; } }
+            //jh 01/22/2019 moved to WidgetLogic to fix automapping issue
 
-            [FwLogicProperty(Id: "wNIy6uz4ptVYw")]
-            public string text { get { return Widget; } }
+            //[FwLogicProperty(Id: "3nSLO6CTowZlO")]
+            //public string value { get { return WidgetId; } }
+
+            //[FwLogicProperty(Id: "wNIy6uz4ptVYw")]
+            //public string text { get { return Widget; } }
         }
 
         //------------------------------------------------------------------------------------

@@ -81,5 +81,15 @@ namespace WebApi.Modules.Settings.Widget
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+
+        //jh 01/22/2019 moved to here to fix automapping issue
+        [FwLogicProperty(Id: "3nSLO6CTowZlO")]
+        public string value { get { return WidgetId; } }
+
+        [FwLogicProperty(Id: "wNIy6uz4ptVYw")]
+        public string text { get { return Widget; } }
+
+        //------------------------------------------------------------------------------------ 
+
     }
 }
