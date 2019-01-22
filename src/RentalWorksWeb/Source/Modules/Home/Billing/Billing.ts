@@ -7,6 +7,7 @@ class Billing {
     nav: string = 'module/billing';
     id: string = '34E0472E-9057-4C66-8CC2-1938B3222569';
     ActiveView: string = 'ALL';
+    SessionId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var self = this;
@@ -66,6 +67,7 @@ class Billing {
         $popup.on('click', 'div.billingSearchButton', e => {
             let request: any = {};
             let isValid;
+            let self = this;
             isValid = FwModule.validateForm($popup);
             if (isValid === true) {
                 $popup.hide();
@@ -92,6 +94,7 @@ class Billing {
                         $browse.find('thead .cbselectrow').click();
                     });
                     FwBrowse.search($browse);
+                    self.SessionId = response.SessionId;
                 }, null, $browse);
             }
         });
@@ -114,6 +117,7 @@ class Billing {
         $browse.on('click', '.createInvoices', e => {
             let $selectedCheckBoxes;
             let ids: any = [];
+            let request: any = {};
             $selectedCheckBoxes = $browse.find('tbody .cbselectrow:checked');
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                 let $this = jQuery($selectedCheckBoxes[i]);
@@ -121,6 +125,30 @@ class Billing {
                 id = $this.closest('tr').find('div[data-browsedatafield="BillingId"]').attr('data-originalvalue');
                 ids.push(id);
             };
+
+            request = {
+                SessionId: this.SessionId
+                , BillingIds: ids
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/billing/createinvoices`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    //Open new invoice browse tab
+                    let $invoiceBrowse = InvoiceController.openBrowse();
+                    //set data-newtab to false to prevent "+" button from being added
+                    $invoiceBrowse.attr('data-newtab', 'false');
+                    $invoiceBrowse.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            InvoiceCreationBatchId: response.InvoiceCreationBatchId
+                        }
+                        request.pagesize = 999;
+                    });
+                    FwModule.openModuleTab($invoiceBrowse, 'Invoice', true, 'BROWSE', true);
+                    FwBrowse.search($invoiceBrowse);
+                } else {
+                    FwNotification.renderNotification('ERROR', response.msg);
+                }
+            }, null, $browse);
         });
     }
 
