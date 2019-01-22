@@ -66,25 +66,25 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
         [FwSqlDataField(column: "AdditionQty", modeltype: FwDataTypes.Integer)]
         public int? AdditionQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "UnitPriceAddition", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "UnitPriceAddition", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitPriceAddition { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ExtendedAdditionPrice", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "ExtendedAdditionPrice", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ExtendedAdditionPrice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "SubtractionQty", modeltype: FwDataTypes.Integer)]
         public int? SubtractionQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "UnitPriceSubtraction", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "UnitPriceSubtraction", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitPriceSubtraction { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ExtendedSubtractionPrice", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "ExtendedSubtractionPrice", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ExtendedSubtractionPrice { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "RunningTotalQty", modeltype: FwDataTypes.Integer)]
         public int? RunningTotalQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "RunningTotalValue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "RunningTotalValue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? RunningTotalValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "TransactionSequence", modeltype: FwDataTypes.Integer)]
@@ -135,7 +135,7 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RunningTotalQuantity", "RunningTotalValue" };
+                string[] totalFields = new string[] { "AdditionQuantity", "ExtendedAdditionPrice", "SubtractionQuantity", "ExtendedSubtractionPrice" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("Description", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
