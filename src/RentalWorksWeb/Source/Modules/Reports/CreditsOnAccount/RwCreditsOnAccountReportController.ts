@@ -33,7 +33,6 @@ class RwCreditsOnAccountReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('CreditsOnAccount', 'api/v1/creditsonaccountreport', templateCreditsOnAccountFrontEnd);
-        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
