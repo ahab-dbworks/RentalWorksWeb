@@ -123,10 +123,6 @@
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
 
-                    let fromDate = $confirmation.find('.fromdate');
-                    let toDate = $confirmation.find('.todate');
-                    let fromDateField = $confirmation.find('div[data-datafield="FromDate"] > .fwformfield-caption');
-
                     FwFormField.loadItems($confirmation.find('.widgettype'), [
                         { value: 'bar', text: 'Bar' },
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
@@ -226,6 +222,7 @@
                         request.AxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
                         request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
                         request.DateBehavior = FwFormField.getValue($confirmation, '.datebehavior');
+                        request.DateField = FwFormField.getValue($confirmation, '.datefield');
                         request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                         request.ToDate = FwFormField.getValue($confirmation, '.todate');
                         FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
