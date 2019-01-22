@@ -136,7 +136,7 @@ class FwWebApiReport {
             var $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
             $btnDownloadExcel.on('click', event => {
                 try {
-                    let $confirmation, $yes, $no, html: Array<string> = [];
+                    let $confirmation, $yes, $no, parameters, html: Array<string> = [];
                     let request = this.getRenderRequest($form);
                     $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
                     $confirmation.find('.fwconfirmationbox').css('width', '450px');
@@ -158,7 +158,12 @@ class FwWebApiReport {
                         } else {
                             request.IncludeSubHeadingsAndSubTotals = false;
                         }
-                        request.parameters = this.getParameters($form);
+
+                        parameters = this.getParameters($form);
+                        for (let key in parameters) {
+                            request[key] = parameters[key];
+                        }
+
                         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
                             (successResponse) => {
                                 try {
