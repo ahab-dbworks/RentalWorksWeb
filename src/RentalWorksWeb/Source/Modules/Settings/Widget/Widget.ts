@@ -111,8 +111,8 @@ class Widget {
         FwFormField.disable($form.find('[data-datafield="ApiName"]'));
         let dateSelectField = $form.find('.datefield');
         let dateSelected = FwFormField.getValue2(dateSelectField);
-        let dateFieldDisplay = FwFormField.getValueByDataField($form, 'DateFieldDisplayNames').split(',');
-        let dateFieldValues = FwFormField.getValueByDataField($form, 'DateFields').split(',');
+        let dateFieldDisplay = FwFormField.getValueByDataField($form, 'DateFieldDisplayNames');
+        let dateFieldValues = FwFormField.getValueByDataField($form, 'DateFields');
         let defaultDayBehavior = FwFormField.getValueByDataField($form, 'DefaultDateBehavior');
         let dateField = $form.find('.date-field');
         let specificDate = $form.find('.specific-date');
@@ -136,11 +136,15 @@ class Widget {
             toDate.show();
         }
 
-        for (var i = 0; i < dateFieldDisplay.length; i++) {
-            selectArray.push({
-                'value': dateFieldValues[i],
-                'text': dateFieldDisplay[i]
-            })
+        if (dateFieldDisplay !== undefined) {
+            let dateFieldDisplayArray = dateFieldDisplay.split(',');
+            let dateFieldValueArray = dateFieldValues.split(',');
+            for (var i = 0; i < dateFieldDisplayArray.length; i++) {
+                selectArray.push({
+                    'value': dateFieldDisplayArray[i],
+                    'text': dateFieldValueArray[i]
+                })
+            }
         }
 
         window['FwFormField_select'].loadItems(dateSelectField, selectArray, true);
