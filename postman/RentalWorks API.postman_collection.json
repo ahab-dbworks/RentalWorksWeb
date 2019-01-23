@@ -21592,6 +21592,218 @@
 			]
 		},
 		{
+			"name": "Invoice Note",
+			"item": [
+				{
+					"name": "Invoice Note: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": \n    \t{\n    \t\t\"InvoiceId\": \"F01N3F44\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicenote/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicenote",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Note: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicenote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicenote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Note: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicenote/F01N3F5I",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicenote",
+								"F01N3F5I"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Note: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InvoiceId\": \"F01N3F44\",\n    \"OrderId\": \"\",\n    \"OrderNumber\": \"\",\n    \"NoteDate\": \"01/23/2019\",\n    \"Description\": \"JUSTIN TEST NOTE\",\n    \"NotesById\": \"F01C0NWW\",\n    \"Notes\": \"Here is a test note\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicenote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicenote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Note: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"InvoiceNoteId\": \"I000AVVO\",\n    \"Description\": \"JUSTIN UPDATED NOTE\",\n    \"Notes\": \"Here is a test note, with update\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicenote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicenote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Invoice Note: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoicenote/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoicenote",
+								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Invoice Order",
 			"item": [
 				{
@@ -47501,7 +47713,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/vendorinvoice/F00CO2AS",
+							"raw": "http://localhost:57949/api/v1/vendorinvoice/I0009PFY",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -47511,7 +47723,7 @@
 								"api",
 								"v1",
 								"vendorinvoice",
-								"F00CO2AS"
+								"I0009PFY"
 							]
 						}
 					},
