@@ -1,14 +1,14 @@
 using WebLibrary;
 using WebApi.Modules.Reports.InventoryTransactionReport;
 
-namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
+namespace WebApi.Modules.Reports.PartsInventoryTransactionReport
 {
-    public class SalesInventoryTransactionReportLoader : InventoryTransactionReportLoader
+    public class PartsInventoryTransactionReportLoader : InventoryTransactionReportLoader
     {
         //------------------------------------------------------------------------------------ 
-        public SalesInventoryTransactionReportLoader()
+        public PartsInventoryTransactionReportLoader()
         {
-            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
+            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_PARTS;
         }
         //------------------------------------------------------------------------------------ 
     }

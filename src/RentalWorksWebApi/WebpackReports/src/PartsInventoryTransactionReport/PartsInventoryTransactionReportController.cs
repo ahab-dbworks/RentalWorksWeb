@@ -13,18 +13,18 @@ using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Modules.Reports.InventoryTransactionReport;
 
-namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
+namespace WebApi.Modules.Reports.PartsInventoryTransactionReport
 {
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id:"uUxuUabbhO7ah")]
-    public class SalesInventoryTransactionReportController : AppReportController
+    [FwController(Id: "p4MdfH1e38wLE")]
+    public class PartsInventoryTransactionReportController : AppReportController
     {
-        public SalesInventoryTransactionReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "SalesInventoryTransactionReport"; }
+        public PartsInventoryTransactionReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "PartsInventoryTransactionReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Sales Inventory Transaction Report"; }
+        protected override string GetReportFriendlyName() { return "Parts Inventory Transaction Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -37,12 +37,12 @@ namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "SalesInventoryTransactionReport";
+            return "PartsInventoryTransactionReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salesinventorytransactionreport/render 
+        // POST api/v1/partsinventorytransactionreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id:"i1iFq7kwLytBu")]
+        [FwControllerMethod(Id: "Djg96TxhVw0qx")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -52,7 +52,7 @@ namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "zUTvH14uUxe3")]
+        [FwControllerMethod(Id: "h1e3cOmrPW0zR")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]InventoryTransactionReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
@@ -60,9 +60,9 @@ namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
             return await DoExportExcelXlsxFileAsync(dt);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/salesinventorytransactionreport/runreport 
+        // POST api/v1/partsinventorytransactionreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id:"BqLeqarYNe3hz")]
+        [FwControllerMethod(Id: "K4wN1qAiiMuTj")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]InventoryTransactionReportRequest request)
         {
             if (!ModelState.IsValid)
@@ -71,7 +71,7 @@ namespace WebApi.Modules.Reports.SalesInventoryTransactionReport
             }
             try
             {
-                SalesInventoryTransactionReportLoader l = new SalesInventoryTransactionReportLoader();
+                PartsInventoryTransactionReportLoader l = new PartsInventoryTransactionReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);

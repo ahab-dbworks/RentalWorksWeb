@@ -1312,6 +1312,46 @@
 			]
 		},
 		{
+			"name": "Parts Inventory Transaction Report",
+			"item": [
+				{
+					"name": "Parts Inventory Transaction Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\t{\n    \t\t\"FromDate\": \"01/01/2010\",\n    \t\t\"ToDate\": \"01/31/2018\",\n    \t\t\"TransactionTypes\": [\n    \t\t\t{\"value\": \"PURCHASE\"},\n    \t\t\t{\"value\": \"VENDOR RETURN\"}\n    \t\t],\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\",\n    \t\t\"CategoryId\": \"\",\n    \t\t\"SubCategoryId\": \"\",\n    \t\t\"InventoryId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/partsinventorytransactionreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"partsinventorytransactionreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Sales Representative Billing Report",
 			"item": [
 				{
