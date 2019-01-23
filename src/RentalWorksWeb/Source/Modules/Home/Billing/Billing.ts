@@ -189,6 +189,19 @@ class Billing {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         $browse.find('.pager .col2, .pager .col3').hide();
+
+        FwBrowse.addLegend($browse, 'Missing Crew Times', '#FF9D9D');
+        FwBrowse.addLegend($browse, 'Missing Break Times', '#B7B7FF');
+        FwBrowse.addLegend($browse, 'No Charge', '#FF6F6F');
+        FwBrowse.addLegend($browse, 'Outside Order Billing Dates', '#00FF00');
+        FwBrowse.addLegend($browse, 'Flat PO', '#8888FF');
+        FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
+        FwBrowse.addLegend($browse, 'Rebill Adds', '#F709DF');
+        FwBrowse.addLegend($browse, 'Has Billing Note', '#00FFFF');
+        FwBrowse.addLegend($browse, 'PO Pending', '#EEA011');
+        FwBrowse.addLegend($browse, 'L&D', '#3C0040');
+        FwBrowse.addLegend($browse, 'Hiatus', '#00B95C');
+
         this.renderBrowseFilterPopup($browse);
         return $browse;
     };

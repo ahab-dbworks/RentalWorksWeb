@@ -135,12 +135,20 @@ namespace WebApi.Modules.Home.Billing
 
         //colors
 
-        //[FwLogicProperty(Id: "xxxxxxxxxx", IsReadOnly: true)]
-        //public string OrderNumberColor { get; set; }
+        [FwLogicProperty(Id: "doqkwuvY4pK", IsReadOnly: true)]
+        public string OrderNumberColor { get; set; }
+        [FwLogicProperty(Id: "ByhexPRANAd", IsReadOnly: true)]
+        public string DescriptionColor { get; set; }
+        [FwLogicProperty(Id: "Rv1NsrtwODD", IsReadOnly: true)]
+        public string BillingStopDateColor { get; set; }
+        [FwLogicProperty(Id: "2ZzGyL00jt9", IsReadOnly: true)]
+        public string OrderDateColor { get; set; }
+        [FwLogicProperty(Id: "r6hltu0uCfn", IsReadOnly: true)]
+        public string PurchaseOrderNumberColor { get; set; }
+        [FwLogicProperty(Id: "OeUrQVPvUdU", IsReadOnly: true)]
+        public string TotalColor { get; set; }
 
-        //[FwLogicProperty(Id: "xxxxxxxxxx", IsReadOnly: true)]
-        //public string DescriptionColor { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------ 
 
 
 

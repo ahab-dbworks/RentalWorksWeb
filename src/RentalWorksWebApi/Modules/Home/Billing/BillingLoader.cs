@@ -198,12 +198,24 @@ namespace WebApi.Modules.Home.Billing
         //------------------------------------------------------------------------------------ 
 
 
-        //[FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        //public string OrderNumberColor { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        //public string DescriptionColor { get; set; }
-        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OrderNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingstopcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BillingStopDateColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdatecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OrderDateColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ponocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PurchaseOrderNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "totalcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string TotalColor { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)

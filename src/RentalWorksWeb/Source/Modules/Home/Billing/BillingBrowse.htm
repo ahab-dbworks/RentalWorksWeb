@@ -15,13 +15,16 @@
     <div class="field" data-caption="Department" data-datafield="Department" data-browsedatatype="text" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-browsedatatype="text" data-sort="off"></div>
+    <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-cellcolor="OrderNumberColor" data-browsedatatype="text" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Date" data-datafield="OrderDate" data-browsedatatype="date" data-sort="off"></div>
+    <div class="field" data-caption="Date" data-datafield="OrderDate" data-cellcolor="OrderDateColor" data-browsedatatype="date" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="Description" data-datafield="OrderDescription" data-browsedatatype="text" data-sort="off"></div>
+    <div class="field" data-caption="PO No." data-datafield="PoNumber" data-cellcolor="PurchaseOrderNumberColor" data-browsedatatype="text" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Description" data-datafield="OrderDescription" data-cellcolor="DescriptionColor" data-browsedatatype="text" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Status" data-datafield="Status" data-browsedatatype="text" data-sort="off"></div>
@@ -36,9 +39,12 @@
     <div class="field" data-caption="Start Date" data-datafield="BillingStartDate" data-browsedatatype="date" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="End Date" data-datafield="BillingStopDate" data-browsedatatype="date" data-sort="off"></div>
+    <div class="field" data-caption="End Date" data-datafield="BillingStopDate" data-cellcolor="BillingStopDateColor" data-browsedatatype="date" data-sort="off"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="As Of" data-datafield="BillAsOfDate" data-browsedatatype="date" data-sort="asc"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Invoice Total" data-datafield="BillingTotal" data-cellcolor="TotalColor" data-digits="2" data-browsedatatype="number" data-sort="off"></div>
   </div>
 </div>
