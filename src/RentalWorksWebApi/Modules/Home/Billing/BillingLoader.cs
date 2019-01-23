@@ -194,7 +194,18 @@ namespace WebApi.Modules.Home.Billing
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
+
         //------------------------------------------------------------------------------------ 
+
+
+        //[FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        //public string OrderNumberColor { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        //public string DescriptionColor { get; set; }
+        ////------------------------------------------------------------------------------------ 
+
+
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             string sessionId = GetUniqueIdAsString("SessionId", request) ?? "";
