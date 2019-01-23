@@ -64,6 +64,7 @@ class Billing {
             $popup.show();
         });
 
+        //populate browse
         $popup.on('click', 'div.billingSearchButton', e => {
             let request: any = {};
             let isValid;
@@ -77,6 +78,7 @@ class Billing {
                     , CustomerId: FwFormField.getValueByDataField($popup, 'CustomerId')
                     , DealId: FwFormField.getValueByDataField($popup, 'DealId')
                     , DepartmentId: FwFormField.getValueByDataField($popup, 'DepartmentId')
+                    , AgentId: FwFormField.getValueByDataField($popup, 'UserId')
                     , OrderId: FwFormField.getValueByDataField($popup, 'OrderId')
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -106,6 +108,22 @@ class Billing {
         //defaults bill as of date to today
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($popup, 'BillAsOfDate', today);
+
+        $browse
+            .off('dblclick', 'tbody tr')
+            .on('dblclick', 'tbody tr', e => {
+                let $this = jQuery(e.currentTarget);
+                let orderId = $this.find('[data-browsedatafield="OrderId"]').attr('data-originalvalue');
+                if (typeof orderId !== 'undefined') {
+                    let orderInfo: any = {};
+                    let $orderForm;
+                    let orderNumber = $this.find('[data-browsedatafield="OrderNumber"]').attr('data-originalvalue');
+                    let orderDescription = $this.find('[data-browsedatafield="OrderDescription"]').attr('data-originalvalue');
+                    orderInfo.OrderId = orderId;
+                    $orderForm = OrderController.loadForm(orderInfo);
+                    FwModule.openModuleTab($orderForm, `${orderNumber} ${orderDescription}`, true, 'FORM', true);
+                }
+            });
 
         this.createInvoicesEvents($browse);
     }
@@ -145,6 +163,19 @@ class Billing {
                     });
                     FwModule.openModuleTab($invoiceBrowse, 'Invoice', true, 'BROWSE', true);
                     FwBrowse.search($invoiceBrowse);
+
+                    //clear browse and add click event to billing tab to open up the search when clicked
+                    let $billingBrowseTab = FwTabs.getTabByElement($browse);
+                    $browse.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            SessionId: ''
+                        }
+                    });
+                    FwBrowse.search($browse);
+                    $billingBrowseTab.off('click');
+                    $billingBrowseTab.on('click', e => {
+                        $browse.find('.openBrowseFilter').click();
+                    });
                 } else {
                     FwNotification.renderNotification('ERROR', response.msg);
                 }
@@ -157,7 +188,7 @@ class Billing {
         var self = this;
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
-
+        $browse.find('.pager .col2, .pager .col3').hide();
         this.renderBrowseFilterPopup($browse);
         return $browse;
     };
