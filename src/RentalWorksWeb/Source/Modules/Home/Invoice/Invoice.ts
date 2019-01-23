@@ -194,8 +194,7 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val(uniqueids.InvoiceId);
         FwModule.loadForm(this.Module, $form);
 
@@ -208,7 +207,7 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         const maxPageSize = 9999;
-
+        // ----------
         let $invoiceItemGridRental;
         let $invoiceItemGridRentalControl;
         $invoiceItemGridRental = $form.find('.rentalgrid div[data-grid="InvoiceItemGrid"]');
@@ -236,10 +235,24 @@ class Invoice {
             //let rentalItems = $form.find('.rentalgrid tbody').children();
             //rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
         });
-
         FwBrowse.init($invoiceItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridRentalControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
+        let $invoiceNoteGrid, $invoiceNoteGridControl
+        $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
+        $invoiceNoteGridControl = jQuery(jQuery('#tmpl-grids-InvoiceNoteGridBrowse').html());
+        $invoiceNoteGrid.empty().append($invoiceNoteGridControl);
+        $invoiceNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InvoiceId: $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val()
+            }
+        });
+        $invoiceNoteGridControl.data('beforesave', function (request) {
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+        })
+        FwBrowse.init($invoiceNoteGridControl);
+        FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
+        // ----------
         let $invoiceItemGridSales;
         let $invoiceItemGridSalesControl;
         $invoiceItemGridSales = $form.find('.salesgrid div[data-grid="InvoiceItemGrid"]');
@@ -266,10 +279,9 @@ class Invoice {
             //let salesItems = $form.find('.salesgrid tbody').children();
             //salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
         });
-
         FwBrowse.init($invoiceItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridSalesControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $invoiceItemGridLabor;
         let $invoiceItemGridLaborControl;
         $invoiceItemGridLabor = $form.find('.laborgrid div[data-grid="InvoiceItemGrid"]');
@@ -300,10 +312,9 @@ class Invoice {
             //let laborItems = $form.find('.laborgrid tbody').children();
             //laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
         });
-
         FwBrowse.init($invoiceItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridLaborControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $invoiceItemGridMisc;
         let $invoiceItemGridMiscControl;
         $invoiceItemGridMisc = $form.find('.miscgrid div[data-grid="InvoiceItemGrid"]');
@@ -330,10 +341,9 @@ class Invoice {
             //let miscItems = $form.find('.miscgrid tbody').children();
             //miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
         });
-
         FwBrowse.init($invoiceItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridMiscControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $invoiceItemGridRentalSale;
         let $invoiceItemGridRentalSaleControl;
         $invoiceItemGridRentalSale = $form.find('.rentalsalegrid div[data-grid="InvoiceItemGrid"]');
@@ -362,8 +372,7 @@ class Invoice {
         });
         FwBrowse.init($invoiceItemGridRentalSaleControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridRentalSaleControl);
-
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $glDistributionGrid;
         let $glDistributionGridControl;
         $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
@@ -376,7 +385,7 @@ class Invoice {
         });
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $invoiceOrderGrid;
         let $invoiceOrderGridControl;
         $invoiceOrderGrid = $form.find('div[data-grid="InvoiceOrderGrid"]');
@@ -389,7 +398,7 @@ class Invoice {
         });
         FwBrowse.init($invoiceOrderGridControl);
         FwBrowse.renderRuntimeHtml($invoiceOrderGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $invoiceRevenueGrid;
         let $invoiceRevenueGridControl;
         $invoiceRevenueGrid = $form.find('div[data-grid="InvoiceRevenueGrid"]');
@@ -402,7 +411,7 @@ class Invoice {
         });
         FwBrowse.init($invoiceRevenueGridControl);
         FwBrowse.renderRuntimeHtml($invoiceRevenueGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $invoiceReceiptGrid;
         let $invoiceReceiptGridControl;
         $invoiceReceiptGrid = $form.find('div[data-grid="InvoiceReceiptGrid"]');
@@ -415,7 +424,7 @@ class Invoice {
         });
         FwBrowse.init($invoiceReceiptGridControl);
         FwBrowse.renderRuntimeHtml($invoiceReceiptGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $invoiceStatusHistoryGrid;
         let $invoiceStatusHistoryGridControl;
         $invoiceStatusHistoryGrid = $form.find('div[data-grid="InvoiceStatusHistoryGrid"]');
@@ -428,7 +437,7 @@ class Invoice {
         });
         FwBrowse.init($invoiceStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($invoiceStatusHistoryGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
         jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');

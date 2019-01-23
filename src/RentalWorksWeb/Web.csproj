@@ -185,6 +185,7 @@
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridBrowse.htm" />
+    <Content Include="Source\Grids\InvoiceNoteGrid\InvoiceNoteGridBrowse.htm" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridBrowse.htm" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js" />
     <Content Include="Source\Grids\InvoiceReceiptGrid\InvoiceReceiptGridBrowse.htm" />
@@ -319,6 +320,7 @@
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InvoiceNoteGrid\InvoiceNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InvoiceReceiptGrid\InvoiceReceiptGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceNoteGrid\VendorInvoiceNoteGridController.ts" />

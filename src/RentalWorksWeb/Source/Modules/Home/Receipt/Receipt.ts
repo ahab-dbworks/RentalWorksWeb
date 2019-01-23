@@ -167,12 +167,6 @@ class Receipt {
         
         // ----------
 
-
-        // ----------
-
-
-        // ----------
-
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
@@ -183,7 +177,7 @@ class Receipt {
         $form.on('click', '[data-type="tab"]', e => {
             let tabname = jQuery(e.currentTarget).attr('id');
             let lastIndexOfTab = tabname.lastIndexOf('tab');
-            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
+            let tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
 
             let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
             if ($gridControls.length > 0) {
