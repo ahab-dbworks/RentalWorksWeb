@@ -25,6 +25,8 @@
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+
         let today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'AsOfDate', today);
         FwFormField.setValueByDataField($form, 'ProcessInvoices', true);
@@ -65,8 +67,14 @@
                     FwFormField.setValueByDataField($form, 'ProcessInvoices', false);
                     FwFormField.enable($form.find('[data-datafield="BatchId"]'));
                     FwFormField.enable($form.find('.export-historical-batches'));
+                    FwFormField.disable($form.find('[data-datafield="AsOfDate"]'));
+                    FwFormField.disable($form.find('.create-batch'));
                 } else {
-                    $form.find('.export-historical-batches').attr('data-enabled', false);
+                    FwFormField.setValueByDataField($form, 'ProcessInvoices', true);
+                    FwFormField.enable($form.find('[data-datafield="AsOfDate"]'));
+                    FwFormField.enable($form.find('.create-batch'));
+                    FwFormField.disable($form.find('[data-datafield="BatchId"]'));
+                    FwFormField.disable($form.find('.export-historical-batches'));
                 }
             })
     }
