@@ -205,9 +205,9 @@ routes.push({ pattern: /^module\/dealoutstanding/, action: function (match: RegE
 routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 
 //Utilities Modules                                   
-routes.push({ pattern: /^module\/chargeprocessing/, action: function (match: RegExpExecArray) { return ChargeProcessingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/receiptprocessing/, action: function (match: RegExpExecArray) { return ReceiptProcessingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/vendorinvoiceprocessing/, action: function (match: RegExpExecArray) { return VendorInvoiceProcessingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/invoiceprocessbatch/, action: function (match: RegExpExecArray) { return InvoiceProcessBatchController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/receiptprocessbatch/, action: function (match: RegExpExecArray) { return ReceiptProcessBatchController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vendorinvoiceprocessbatch/, action: function (match: RegExpExecArray) { return VendorInvoiceProcessBatchController.getModuleScreen(); } });
 
 //Administrator
 routes.push({ pattern: /^module\/control$/, action: function (match: RegExpExecArray) { return ControlController.getModuleScreen(); } });

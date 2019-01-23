@@ -2,16 +2,16 @@
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
-    public class ChargeProcessingMenu : FwSecurityTreeBranch
+    public class ReceiptProcessBatchMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ChargeProcessingMenu() : base("{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}") { }
+        public ReceiptProcessBatchMenu() : base("{0BB9B45C-57FA-47E1-BC02-39CEE720792C}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
             // Form
-            var nodeForm = tree.AddForm("{A8879A01-2AEF-44BC-85DC-7E3096FDE067}", MODULEID);
-            var nodeFormMenuBar = tree.AddMenuBar("{97E5D898-F21E-4849-BE99-8AEE3F07EC14}", nodeForm.Id);
+            var nodeForm = tree.AddForm("{1E03BAE6-2B1F-45D0-931B-C74F1FA392A9}", MODULEID);
+            var nodeFormMenuBar = tree.AddMenuBar("{2FE90A15-942E-4A12-BFA8-9B85153C5D95}", nodeForm.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

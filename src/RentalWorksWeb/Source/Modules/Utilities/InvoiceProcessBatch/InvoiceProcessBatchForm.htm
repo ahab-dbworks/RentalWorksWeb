@@ -1,4 +1,4 @@
-<div id="chargeprocessingform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing - Invoices" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ChargeProcessingController">
+<div id="invoiceprocessbatchform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Charge Processing - Invoices" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="InvoiceProcessBatchController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -14,12 +14,12 @@
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Re-Export Historical Batch" data-datafield="ExportHistoricalBatch"></div>
                 </div>
                 <div class="flexcolumn" style="max-width:200px;">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="AsOfDate"></div>
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Batch No." data-datafield="BatchId" data-displayfield="BatchNumber" data-validation="BatchValidation" data-enabled="false"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield processinvoices" data-caption="As Of" data-datafield="AsOfDate"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield export" data-caption="Batch No." data-datafield="BatchId" data-displayfield="BatchNumber" data-validation="BatchValidation" data-enabled="false"></div>
                 </div>
                 <div class="flexcolumn" style="margin-left:15px;">
-                  <div class="fwformcontrol create-batch" data-type="button" style="text-align:center;width:250px;margin:17px 0 0 10px;">Process All Approved Invoices</div>
-                  <div class="fwformcontrol export-historical-batches" data-type="button" style="text-align:center;width:250px;margin:17px 0 0 10px;" data-enabled="false">Export Historical Batches</div>
+                  <div class="fwformcontrol create-batch processinvoices" data-type="button" style="text-align:center;width:250px;margin:17px 0 0 10px;">Process All Approved Invoices</div>
+                  <div class="fwformcontrol export-historical-batches export" data-type="button" style="text-align:center;width:250px;margin:17px 0 0 10px;" data-enabled="false">Export Historical Batches</div>
                 </div>
               </div>
               <div class="flexrow" style="display:none;">

@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
-    public class VendorInvoiceProcessingMenu : FwSecurityTreeBranch
+    public class VendorInvoiceProcessBatchMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public VendorInvoiceProcessingMenu() : base("{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}") { }
+        public VendorInvoiceProcessBatchMenu() : base("{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

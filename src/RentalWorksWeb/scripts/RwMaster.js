@@ -24,7 +24,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Utilities',
                 id: '81609B0E-4B1F-4C13-8BE0-C1948557B82D',
-                children: [DashboardController, DashboardSettingsController, ChargeProcessingController, ReceiptProcessingController, VendorInvoiceProcessingController]
+                children: [DashboardController, DashboardSettingsController, InvoiceProcessBatchController, ReceiptProcessBatchController, VendorInvoiceProcessBatchController]
             },
             {
                 caption: 'Administator',

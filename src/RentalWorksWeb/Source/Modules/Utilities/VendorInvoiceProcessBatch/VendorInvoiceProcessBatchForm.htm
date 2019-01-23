@@ -1,0 +1,34 @@
+<div id="vendorinvoiceprocessbatchform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Vendor Invoice Processing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="VendorInvoiceProcessBatchController">
+  <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+    <div class="tabs">
+      <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+    </div>
+    <div class="tabpages">
+      <div id="generaltabpage" class="tabpage" data-tabid="generaltab">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vendor Invoice Processing">
+              <div class="flexrow">
+                <div class="flexcolumn" style="max-width:300px;margin-top:8px;">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Process All Approved Vendor Invoices" data-datafield="Process"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Re-Export Historical Batch" data-datafield="ExportHistoricalBatch"></div>
+                </div>
+                <div class="flexcolumn">
+                  <div class="fwformcontrol create-batch process" data-type="button" style="text-align:center;width:365px;margin:17px 0 0 10px;">Process All Approved Vendor Invoices</div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield export" data-caption="Batch No." data-datafield="BatchId" data-displayfield="BatchNumber" data-validation="BatchValidation" data-enabled="false" style="max-width:150px;"></div>
+                    <div class="fwformcontrol export-historical-batches export" data-type="button" style="text-align:center;max-width:215px;margin:17px 0 0 10px;" data-enabled="false">Export Historical Batches</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flexrow" style="display:none;">
+                <div class="batch-success-message"></div>
+                <div class="fwformcontrol print-batch" data-type="button" style="text-align:center;max-width:50px;margin:17px 0 0 10px;">Print</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
