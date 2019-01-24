@@ -42,7 +42,7 @@ var unretiredRentalTemplateFrontEnd = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unretired Reason" data-datafield="RetiredReasonId" data-formbeforevalidate="beforeValidate" data-displayfield="RetiredReason" data-validationname="RetiredReasonValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unretired Reason" data-datafield="UnretiredReasonId" data-formbeforevalidate="beforeValidate" data-displayfield="UnretiredReason" data-validationname="UnretiredReasonValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>
