@@ -1,4 +1,4 @@
-﻿<!--Agent Billing Report-->
+﻿<!--Invoice Discount Report-->
 <div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
@@ -63,7 +63,7 @@
         <td class="number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
         <td class="number" data-value="{{DiscountPercent}}"></td>
         <td class="number" data-value="{{TotalActual}}"></td>
-        <td class="number" data-value="{{DiscountLines}}"></td>
+        <td class="number" data-value="{{DiscountLinesOfTotal}}"></td>
         <td class="number" data-value="{{DiscountReason}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
@@ -72,7 +72,7 @@
         <td class="total-row number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
         <td class="total-row number" data-value="{{DiscountPercent}}"></td>
         <td class="total-row number" data-value="{{TotalActual}}"></td>
-        <td class="total-row number" data-value="{{DiscountLines}}"></td>
+        <td class="total-row number" data-value="{{DiscountLinesOfTotal}}"></td>
         <td class="total-row number" data-value="{{DiscountReason}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
@@ -81,7 +81,7 @@
         <td class="total-row number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
         <td class="total-row number" data-value="{{DiscountPercent}}"></td>
         <td class="total-row number" data-value="{{TotalActual}}"></td>
-        <td class="total-row number" data-value="{{DiscountLines}}"></td>
+        <td class="total-row number" data-value="{{DiscountLinesOfTotal}}"></td>
         <td class="total-row number" data-value="{{DiscountReason}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
@@ -90,7 +90,7 @@
         <td class="total-row number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
         <td class="total-row number" data-value="{{DiscountPercent}}"></td>
         <td class="total-row number" data-value="{{TotalActual}}"></td>
-        <td class="total-row number" data-value="{{DiscountLines}}"></td>
+        <td class="total-row number" data-value="{{DiscountLinesOfTotal}}"></td>
         <td class="total-row number" data-value="{{DiscountReason}}"></td>
         {{/ifEquals}}
       </tr>

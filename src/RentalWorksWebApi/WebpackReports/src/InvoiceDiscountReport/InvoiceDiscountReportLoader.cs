@@ -75,16 +75,16 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicegrosstotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicegrosstotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceGrossTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "discountamtwdw", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "discountamtwdw", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? DiscountAmountWithDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "totalactual", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "totalactual", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TotalActual { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totallines", modeltype: FwDataTypes.Integer)]
@@ -92,6 +92,9 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountlines", modeltype: FwDataTypes.Integer)]
         public int? DiscountLines { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "discountlinesoftotal", modeltype: FwDataTypes.Text)]
+        public string DiscountLinesOfTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicediscountreasonid", modeltype: FwDataTypes.Text)]
         public string DiscountReasonId { get; set; }
