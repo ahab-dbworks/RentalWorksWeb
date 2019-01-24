@@ -238,9 +238,10 @@ class Invoice {
         FwBrowse.init($invoiceItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridRentalControl);
         // ----------
-        let $invoiceNoteGrid, $invoiceNoteGridControl
+        let $invoiceNoteGrid;
+        let $invoiceNoteGridControl;
         $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
-        $invoiceNoteGridControl = jQuery(jQuery('#tmpl-grids-InvoiceNoteGridBrowse').html());
+        $invoiceNoteGridControl = FwBrowse.loadGridFromTemplate('InvoiceNoteGrid');
         $invoiceNoteGrid.empty().append($invoiceNoteGridControl);
         $invoiceNoteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
