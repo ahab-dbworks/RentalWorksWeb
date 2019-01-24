@@ -150,7 +150,7 @@ class FwWebApiReport {
                     FwConfirmation.addControls($confirmation, html.join(''));
                     $yes = FwConfirmation.addButton($confirmation, 'Download', false);
                     $no = FwConfirmation.addButton($confirmation, 'Cancel');
-                    $confirmation.find('.sub-headings input').prop('checked', true);
+                    $confirmation.find('.sub-headings input').prop('checked', false);
                     request.downloadPdfAsAttachment = true;
                     $yes.on('click', () => {
                         if ($confirmation.find('.sub-headings input').prop('checked') === true) {
@@ -163,7 +163,6 @@ class FwWebApiReport {
                         for (let key in parameters) {
                             request[key] = parameters[key];
                         }
-
                         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
                             (successResponse) => {
                                 try {
