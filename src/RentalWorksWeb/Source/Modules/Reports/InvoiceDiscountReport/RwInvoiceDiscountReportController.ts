@@ -37,7 +37,7 @@ var invoiceDiscountTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="DiscountPercent" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Show Invoices with a Discount Percent </br> Greater than or Equal to" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="DiscountPercent" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-required="true" data-caption="Show Invoices with a Discount Percent </br> Greater than or Equal to" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>

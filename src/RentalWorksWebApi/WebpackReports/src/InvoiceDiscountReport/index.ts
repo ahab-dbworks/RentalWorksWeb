@@ -49,11 +49,11 @@ export class InvoiceDiscountReport extends WebpackReport {
                     invoiceDiscount.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     invoiceDiscount.FromDate = parameters.FromDate;
                     invoiceDiscount.ToDate = parameters.ToDate;
+                    invoiceDiscount.DiscountPercent = parameters.DiscountPercent;
                     invoiceDiscount.Report = 'Invoice Discount Report';
                     invoiceDiscount.System = 'RENTALWORKS';
                     invoiceDiscount.Company = '4WALL ENTERTAINMENT';
-
-                    console.log(invoiceDiscount);
+                    
                     this.renderFooterHtml(invoiceDiscount);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
