@@ -34,7 +34,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Decimal)]
-        public decimal? Quantity{ get; set; }
+        public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Extended { get; set; }
@@ -73,6 +73,12 @@ namespace WebApi.Modules.Reports.InvoiceReport
         [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicedate", modeltype: FwDataTypes.Date)]
+        public string InvoiceDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoiceduedate", modeltype: FwDataTypes.Date)]
+        public string InvoiceDueDate { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicedesc", modeltype: FwDataTypes.Text)]
         public string InvoiceDescription { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -109,6 +115,12 @@ namespace WebApi.Modules.Reports.InvoiceReport
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custno", modeltype: FwDataTypes.Text)]
+        public string CustomerNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "custtype", modeltype: FwDataTypes.Text)]
+        public string CustomerType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -117,6 +129,9 @@ namespace WebApi.Modules.Reports.InvoiceReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealno", modeltype: FwDataTypes.Text)]
         public string DealNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealphone", modeltype: FwDataTypes.Text)]
+        public string DealPhone { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
@@ -152,7 +167,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
         public string BillToCountry { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billcountryid", modeltype: FwDataTypes.Text)]
-        public string BillcountryId { get; set; }
+        public string BillToCountryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billcitystatezip", modeltype: FwDataTypes.Text)]
         public string BillToCityStateZipCode { get; set; }
@@ -295,9 +310,6 @@ namespace WebApi.Modules.Reports.InvoiceReport
         [FwSqlDataField(column: "coverletterfilename", modeltype: FwDataTypes.Text)]
         public string CoverLetterFileName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customernumber", modeltype: FwDataTypes.Text)]
-        public string CustomerNumber { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderunit", modeltype: FwDataTypes.Text)]
         public string OrderUnit { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -376,6 +388,63 @@ namespace WebApi.Modules.Reports.InvoiceReport
         [FwSqlDataField(column: "outdeliverydeliverynotes", modeltype: FwDataTypes.Text)]
         public string OutDeliveryDeliveryNotes { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "remittocompany", modeltype: FwDataTypes.Text)]
+        public string RemitToCompany { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittoadd1", modeltype: FwDataTypes.Text)]
+        public string RemitToAddress1 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittoadd2", modeltype: FwDataTypes.Text)]
+        public string RemitToAddress2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittoadd1and2", modeltype: FwDataTypes.Text)]
+        public string RemitToAddress1AndAddress2 { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittocitystatezip", modeltype: FwDataTypes.Text)]
+        public string RemitToCityStateZipCode { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittocountry", modeltype: FwDataTypes.Text)]
+        public string RemitToCountry { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittocitystatezipcountry", modeltype: FwDataTypes.Text)]
+        public string RemitToCityStateZipCodeCountry { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittofulladdress", modeltype: FwDataTypes.Text)]
+        public string RemitToFullAddress { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittophone", modeltype: FwDataTypes.Text)]
+        public string RemitToPhone { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittofax", modeltype: FwDataTypes.Text)]
+        public string RemitToFax { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittofedid", modeltype: FwDataTypes.Text)]
+        public string RemitToFederalId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "remittoemail", modeltype: FwDataTypes.Text)]
+        public string RemitToEmail { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbycontactid", modeltype: FwDataTypes.Text)]
+        public string OrderedByContactId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbycompcontactid", modeltype: FwDataTypes.Text)]
+        public string OrderedByCompanyContactId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedby", modeltype: FwDataTypes.Text)]
+        public string OrderedByName { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyphone", modeltype: FwDataTypes.Text)]
+        public string OrderedByPhone { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyext", modeltype: FwDataTypes.Text)]
+        public string OrderedByExtension { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
+        public string OrderedByPhoneAndExtension { get; set; }
+
+
+
+        //------------------------------------------------------------------------------------
         public FwJsonDataTable Items { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<InvoiceReportLoader> RunReportAsync(InvoiceReportRequest request)
