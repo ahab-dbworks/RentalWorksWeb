@@ -14,8 +14,8 @@ Publish WebAPI:
 	Open command prompt at WebApi directory
 	cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
 	npm run publish
-create Build Release Document in CRM
-Create new Build record in CRM
+[obsolete] create Build Release Document in CRM
+[obsolete] Create new Build record in CRM
 Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2018.1.1.X"
 Navigate to the "build" directory: <repo root>\build
 Navigate to the "api" directory: RentalWorksWebApi, Delete appsettings.json file
