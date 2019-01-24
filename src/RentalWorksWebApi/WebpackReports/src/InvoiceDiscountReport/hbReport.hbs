@@ -1,0 +1,100 @@
+﻿<!--Agent Billing Report-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="row1 text">Invoice Date</th>
+        <th class="row1 text">Invoice No.</th>
+        <th class="row1 text">Order No.</th>
+        <th class="row1 text">Agent</th>
+        <th class="row1 text">Deal</th>
+        <th class="row1 text">Deal No.</th>
+        <th class="row1 number">Gross Total</th>
+        <th class="row1 number">Discount Amount</th>
+        <th class="row1 number">Discount Percent</th>
+        <th class="row1 number">Total Actual</th>
+        <th class="row1 number">Discount Lines</th>
+        <th class="row1 number">Discount Reason</th>
+      </tr>
+      <tr>
+        <th class="row2 text"></th>
+        <th class="row2 text"></th>
+        <th class="row2 text"></th>
+        <th class="row2 text"></th>
+        <th class="row2 text"></th>
+        <th class="row2 text"></th>
+        <th class="row2 number"></th>
+        <th class="row2 number">(with D/W)</th>
+        <th class="row2 number">(with D/W)</th>
+        <th class="row2 number"></th>
+        <th class="row2 number">(≥ 5%)</th>
+        <th class="row2 number"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="3" class="name-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="3" class="name-row">Department: {{Department}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="text" data-value="{{InvoiceDate}}"></td>
+        <td class="text" data-value="{{InvoiceNumber}}"></td>
+        <td class="text" data-value="{{OrderNumber}}"></td>
+        <td class="text" data-value="{{Agent}}"></td>
+        <td class="text" data-value="{{Deal}}"></td>
+        <td class="text" data-value="{{DealNumber}}"></td>
+        <td class="number" data-value="{{InvoiceGrossTotal}}"></td>
+        <td class="number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
+        <td class="number" data-value="{{DiscountPercent}}"></td>
+        <td class="number" data-value="{{TotalActual}}"></td>
+        <td class="number" data-value="{{DiscountLines}}"></td>
+        <td class="number" data-value="{{DiscountReason}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{Department}}&nbsp;</td>
+        <td class="total-row number" data-value="{{InvoiceGrossTotal}}"></td>
+        <td class="total-row number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
+        <td class="total-row number" data-value="{{DiscountPercent}}"></td>
+        <td class="total-row number" data-value="{{TotalActual}}"></td>
+        <td class="total-row number" data-value="{{DiscountLines}}"></td>
+        <td class="total-row number" data-value="{{DiscountReason}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-row number" data-value="{{InvoiceGrossTotal}}"></td>
+        <td class="total-row number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
+        <td class="total-row number" data-value="{{DiscountPercent}}"></td>
+        <td class="total-row number" data-value="{{TotalActual}}"></td>
+        <td class="total-row number" data-value="{{DiscountLines}}"></td>
+        <td class="total-row number" data-value="{{DiscountReason}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td class="total-row number" data-value="{{InvoiceGrossTotal}}"></td>
+        <td class="total-row number" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
+        <td class="total-row number" data-value="{{DiscountPercent}}"></td>
+        <td class="total-row number" data-value="{{TotalActual}}"></td>
+        <td class="total-row number" data-value="{{DiscountLines}}"></td>
+        <td class="total-row number" data-value="{{DiscountReason}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
