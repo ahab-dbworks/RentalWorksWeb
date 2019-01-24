@@ -128,6 +128,8 @@ namespace WebLibrary
         public const string VENDOR_INVOICE_STATUS_PROCESSED = "PROCESSED";
         public const string VENDOR_INVOICE_STATUS_CLOSED = "CLOSED";
 
+        public const string BATCH_TYPE_VENDOR_INVOICE = "VENDORINVOICE";
+
 
         //RECEIPT
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
@@ -135,6 +137,7 @@ namespace WebLibrary
 
         public const string RECEIPT_RECTYPE_PAYMENT = "P";
 
+        public const string BATCH_TYPE_RECEIPT = "AR";
 
         //REPAIR
         public const string REPAIR_STATUS_NEW = "NEW";

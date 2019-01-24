@@ -93,5 +93,14 @@
                 FwFormField.disable($form.find(`${controlsToDisable}`));
             })
     }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate = function ($browse, $grid, request) {
+        let location = JSON.parse(sessionStorage.getItem('location'));
+
+        request.uniqueids = {
+            LocationId: location.locationid
+        };
+    }
+    //----------------------------------------------------------------------------------------------
 }
 var ReceiptProcessBatchController = new ReceiptProcessBatch();
