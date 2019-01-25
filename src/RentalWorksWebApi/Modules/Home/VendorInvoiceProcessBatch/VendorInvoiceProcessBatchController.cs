@@ -4,16 +4,51 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.AppManager;
+using WebApi.Logic;
+using System;
+using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Home.VendorInvoiceProcessBatch
 {
+    public class VendorInvoiceProcessBatchRequest
+    {
+    }
+
+    public class VendorInvoiceProcessBatchResponse : TSpStatusReponse
+    {
+        public string BatchId { get; set; }
+    }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "gRjYvLD2qZ6NR")]
     public class VendorInvoiceProcessBatchController : AppDataController
     {
         public VendorInvoiceProcessBatchController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(VendorInvoiceProcessBatchLogic); }
+
+        // POST api/v1/vendorinvoiceprocessbatch/createbatch
+        [HttpPost("createbatch")]
+        [FwControllerMethod(Id: "puxaS6Kno8j")]
+        public async Task<ActionResult<VendorInvoiceProcessBatchResponse>> CreateBatch([FromBody]VendorInvoiceProcessBatchRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                VendorInvoiceProcessBatchResponse response = await VendorInvoiceProcessBatchFunc.CreateBatch(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/vendorinvoiceprocessbatch/browse 
         [HttpPost("browse")]

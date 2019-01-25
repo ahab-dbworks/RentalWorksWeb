@@ -38,21 +38,17 @@
         $form
             .on('click', '.create-batch', e => {
                 let request;
+                let user = JSON.parse(sessionStorage.getItem('userid'));
                 request = {
-                    method: 'CreateCharge',
-                    asofdate: FwFormField.getValue($form, 'div[data-datafield="AsOfDate"]')
+                    FromDate: FwFormField.getValueByDataField($form, 'FromDate')
+                    , ToDate: FwFormField.getValueByDataField($form, 'ToDate')
                 };
-                FwReport.getData($form, request, function (response) {
-                    if ((response.status == '0') && (response.chgbatchid != '')) {
-                        FwFormField.setValue($form, 'div[data-datafield="BatchId"]', response.chgbatchid, response.chgbatchno, true);
-                        $form.find('.batch-success-message').html(`<div style="margin-left:8px; margin-top: 10px;"><span>Batch ${response.chgbatchno} Created Successfully</span></div>`);
-                        //FwFormField.setValue($form, 'div[data-datafield="exported"]', response.chgbatchdate);
-                    } else if ((response.status == '0') && (response.chgbatchid == '')) {
-                        FwNotification.renderNotification('WARNING', 'No Approved Invoices to Process.');
-                    } else {
-                        FwFunc.showError(response.msg);
-                    }
-                });
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/receiptprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    alert(response.BatchId);
+                    //submit batchid to export endpoint & show progress meter
+                    //when that is successful, updated text and show print button
+                }, null, $form, user.webusersid);
             })
             .on('click', '.print-batch', e => {
                 //open report front end in new tab
