@@ -465,17 +465,10 @@
             nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
             if (nodeBrowse !== null) {
                 nodeBrowseMenuBar = FwApplicationTree.getChildByType(nodeBrowse, 'MenuBar');
+                nodeBrowseMenuBar = this.addFindMenuButton($browse, nodeBrowseMenuBar);
                 if (nodeBrowseMenuBar !== null) {
                     if (nodeBrowseMenuBar.properties.visible === 'T') {
                         $browse.find('.fwbrowse-menu').append($menu);
-                        nodeBrowseMenuBar.children.push({
-                            id: '303DF0E5-1410-4894-8379-6D2995132DA9',
-                            properties: {
-                                caption: 'Find',
-                                nodetype: 'FindMenuBarButton',
-                                visible: 'T'
-                            }
-                        })
                         for (var menubaritemno = 0; menubaritemno < nodeBrowseMenuBar.children.length; menubaritemno++) {
                             var nodeMenuBarItem = nodeBrowseMenuBar.children[menubaritemno];
                             if (nodeMenuBarItem.properties.visible === 'T') {
@@ -1869,6 +1862,19 @@
                 FwFunc.showError(ex);
             }
         }, null, null);
+    }
+    //----------------------------------------------------------------------------------------------
+    static addFindMenuButton($browse, browseMenuBar) {
+        if ($browse.data('hasfind') !== false) {
+            browseMenuBar.children.push({
+                properties: {
+                    caption: 'Find',
+                    nodetype: 'FindMenuBarButton',
+                    visible: 'T'
+                }
+            })
+        }
+        return browseMenuBar;
     }
     //----------------------------------------------------------------------------------------------
 }
