@@ -6,12 +6,12 @@
     {{else}}
     <div></div>
     {{/if}}
-    <span class="header-left" style="font-weight:600">{{Company}}</span>
-    <span class="header-left">{{OfficeLocationAddress1}}</span>
-    <span class="header-left">{{OfficeLocationAddress2}}</span>
-    <span class="header-left">{{OfficeLocationCityStateZipCodeCountry}}</span>
-    <span class="header-left"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
-    <span class="header-left"><span style="font-weight:600;">Fax: </span>{{OfficeLocationFax}}</span>
+    <span style="font-weight:600; font-size:18px;">{{Company}}</span>
+    <span class="company-header">{{OfficeLocationAddress1}}</span>
+    <span class="company-header">{{OfficeLocationAddress2}}</span>
+    <span class="company-header">{{OfficeLocationCityStateZipCodeCountry}}</span>
+    <span class="company-header"><span style="font-weight:600;">Phone: </span>{{OfficeLocationPhone}}</span>
+    <span class="company-header"><span style="font-weight:600;">Fax: </span>{{OfficeLocationFax}}</span>
   </div>
   <div style="max-width: 200px;" class="rpt-flexcolumn">
     <span class="sub-title blue">{{Department}}</span>
@@ -19,19 +19,19 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="header-right blue" style="font-size:32px;"><span style="font-weight:600;padding-right:8px;">No: </span><span style="background-color:#DCDCDC;color:black;border:3px solid #0798ee;padding:3px;">{{InvoiceNumber}}</span></span>
-    <span style="font-size:20px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:49px;">Invoice Date: </span><span style="color:black;">{{OrderDate}}</span></span>
-    <span style="font-size:20px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:61px;">Due Date: </span><span style="color:black;">needField{{BLANK}}</span></span>
+    <span style="font-size:20px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:49px;">Invoice Date: </span><span style="color:black;">{{InvoiceDate}}</span></span>
+    <span style="font-size:20px;padding-top:5px;" class="header-right blue"><span style="font-weight:600;padding-right:61px;">Due Date: </span><span style="color:black;">{{InvoiceDueDate}}</span></span>
     <div style="margin-top:5px;" class="meta-header"><span>Remit To:</span></div>
     <div class="meta-address">
-      <span class="header-left">{{BillToName}}</span>
-      {{#if BillToAttention}}
-      <span class="header-left">c/o {{BillToAttention}}</span>
+      <span class="header-left">{{RemitToCompany}}</span>
+      <span class="header-left">{{RemitToAddress1}}</span>
+      <span class="header-left">{{RemitToAddress2}}</span>
+      <span class="header-left">{{RemitToCityStateZipCodeCountry}}</span>
+      <span class="header-left"><span style="font-weight:600;">Phone: </span>{{RemitToPhone}}</span>
+      <span class="header-left"><span style="font-weight:600;">Fax: </span>{{RemitToFax}}</span>
+      {{#if RemitToFederalId}}
+      <span class="header-left"><span style="font-weight:600;">Fed ID: </span>{{RemitToFederalId}}</span>
       {{/if}}
-      <span class="header-left">{{BillToAddress1}}</span>
-      <span class="header-left">{{BillToAddress2}}</span>
-      <span class="header-left">{{BillToCityStateZipCodeCountry}}</span>
-      <span class="header-left"><span style="font-weight:600;">Phone: </span>{{blank}}</span>
-      <span class="header-left"><span style="font-weight:600;">Fax: </span>{{blank}}</span>
     </div>
   </div>
 </div>
@@ -46,33 +46,31 @@
       <span class="header-left">{{BillToAddress1}}</span>
       <span class="header-left">{{BillToAddress2}}</span>
       <span class="header-left">{{BillToCityStateZipCodeCountry}}</span>
-      <span class="header-left"><span style="font-weight:600;">Phone: </span>needField{{blank}}</span>
-      <span class="header-left"><span style="font-weight:600;">Fax: </span>needField{{blank}}</span>
     </div>
     <table class="meta-section">
       <tr>
         <td class="shaded-block">Ordered By: </td>
-        <td class="meta-content">{{BillingCycle}}</td>
+        <td class="meta-content">{{OrderedByName}}</td>
       </tr>
       <tr>
         <td class="shaded-block">Phone: </td>
-        <td class="meta-content">{{BillingCycle}}</td>
+        <td class="meta-content">{{OrderedByPhoneAndExtension}}</td>
       </tr>
       <tr>
         <td class="shaded-block">Email: </td>
-        <td class="meta-content">{{BillingCycle}}</td>
+        <td class="meta-content">{{OrderedByEmail}}</td>
       </tr>
     </table>
     <table class="meta-section">
       <tr>
         <td style="width:87px;" class="shaded-block">Location: </td>
-        <td class="meta-content">{{BillingCycle}}</td>
+        <td class="meta-content">{{Location}}</td>
       </tr>
     </table>
     <div class="meta-header"><span>Delivered To:</span></div>
     <div class="meta-address">
-      <span class="header-left">{{BillToName}}</span>
-      {{#if BillToAttention}}
+      <span class="header-left">{{OutDeliveryLocation}}</span>
+      {{#if OutDeliveryAttention}}
       <span class="header-left">c/o {{OutDeliveryAttention}}</span>
       {{/if}}
       <span class="header-left">{{OutDeliveryContact}}</span>
@@ -102,7 +100,7 @@
       </tr>
       <tr>
         <td class="shaded-block">Customer Type: </td>
-        <td class="meta-content">{{Customer}}</td>
+        <td class="meta-content">{{CustomerType}}</td>
       </tr>
     </table>
     <table class="meta-section">
@@ -192,13 +190,13 @@
     </tr>
     {{/ifEquals}}
     {{/each}}
-    <tbody>
+    <!--<tbody>
       <tr>
-        <td colspan="5" class="meta-content">Account No: <span style="color:black;">{{OutDeliveryLocation}}</span></td>
+        <td colspan="5" class="meta-content">Account No: <span style="color:black;">{{CustomerNumber}}</span></td>
       </tr>
       <tr>
         <td colspan="5" class="meta-content">Note: <span style="color:black;">Lorem ipsum dolor amet unicorn meggings enamel pin, ugh pitchfork VHS umami bicycle rights quinoa tumblr ethical. Lo-fi normcore adaptogen yr paleo vaporware lyft.</span></td>
       </tr>
-    </tbody>
+    </tbody>-->
   </table>
 </div>
