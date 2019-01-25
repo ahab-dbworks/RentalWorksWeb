@@ -441,6 +441,9 @@ namespace WebApi.Modules.Reports.InvoiceReport
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderedbyphoneext", modeltype: FwDataTypes.Text)]
         public string OrderedByPhoneAndExtension { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "orderedbyemail", modeltype: FwDataTypes.Text)]
+        public string OrderedByEmail{ get; set; }
 
 
 
