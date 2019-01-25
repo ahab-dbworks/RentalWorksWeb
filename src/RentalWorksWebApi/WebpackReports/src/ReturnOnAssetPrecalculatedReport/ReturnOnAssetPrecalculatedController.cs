@@ -10,6 +10,8 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
 {
     public class ReturnOnAssetPrecalculatedReportRequest : AppReportRequest
@@ -56,6 +58,16 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
             if (!this.ModelState.IsValid) return BadRequest();
             FwReportRenderResponse response = await DoRender(request);
             return new OkObjectResult(response);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "aMbLEDkTPeSs")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ReturnOnAssetPrecalculatedReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/returnonassetprecalculatedreport/runreport 
