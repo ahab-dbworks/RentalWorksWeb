@@ -37,7 +37,7 @@ var invoiceSummaryTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="StatusList" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Statuses" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
@@ -128,7 +128,7 @@ class RwInvoiceSummaryReportClass extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="StatusList"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [
             { value: "NEW", text: "New", selected: "T" },
             { value: "RETURNED", text: "Returned", selected: "T" },
             { value: "REVISED", text: "Revised", selected: "T" },

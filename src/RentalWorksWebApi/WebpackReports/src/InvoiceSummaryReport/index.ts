@@ -23,7 +23,6 @@ export class InvoiceSummaryReportRequest {
 export class InvoiceSummaryReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log('parameters: ',parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
@@ -33,7 +32,7 @@ export class InvoiceSummaryReport extends WebpackReport {
             request.DateType = parameters.DateType;
             request.ToDate = parameters.ToDate;
             request.FromDate = parameters.FromDate;
-            request.Statuses = parameters.StatusList;
+            request.Statuses = parameters.Statuses;
             request.OfficeLocationId = parameters.OfficeLocationId;
             request.DepartmentId = parameters.DepartmentId;
             request.CustomerId = parameters.CustomerId;
@@ -55,7 +54,6 @@ export class InvoiceSummaryReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(invoiceSummary);
-                    console.log('invoiceSummary: ', invoiceSummary )
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

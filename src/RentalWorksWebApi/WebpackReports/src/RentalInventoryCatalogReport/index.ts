@@ -31,9 +31,9 @@ export class RentalInventoryCatalogReport extends WebpackReport {
             let data: any = {};
             let request = new RentalInventoryCatalogReportRequest();
 
-            request.Classifications = parameters.classificationlist;
-            request.TrackedBys = parameters.trackedbylist;
-            request.Ranks = parameters.ranklist;
+            request.Classifications = parameters.Classifications;
+            request.TrackedBys = parameters.TrackedBys;
+            request.Ranks = parameters.Ranks;
             request.WarehouseId = parameters.WarehouseId,
             request.InventoryTypeId = parameters.InventoryTypeId;
             request.CategoryId = parameters.CategoryId;

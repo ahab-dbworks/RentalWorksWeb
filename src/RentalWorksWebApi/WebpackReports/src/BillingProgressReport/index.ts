@@ -42,7 +42,7 @@ export class BillingProgressReport extends WebpackReport {
             request.DealTypeId = parameters.DealTypeId;
             request.ExcludeBilled100 = parameters.ExcludeOrders;
             //request.Statuses = parameters.statuslist;
-            request.Statuses = parameters.statuslist;
+            request.Statuses = parameters.Statuses;
 
             let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/billingprogressreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {

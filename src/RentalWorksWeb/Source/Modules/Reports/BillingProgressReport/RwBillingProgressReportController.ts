@@ -24,7 +24,7 @@ var templateBillingProgressFrontEnd = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="statuslist" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Statuses" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
@@ -121,7 +121,7 @@ class RwBillingProgressReport extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
-        FwFormField.loadItems($form.find('div[data-datafield="statuslist"]')
+        FwFormField.loadItems($form.find('div[data-datafield="Statuses"]')
             , [{ value: "CONFIRMED", text: "Confirmed", selected: "T" }
                 , { value: "HOLD", text: "Hold", selected: "T" }
                 , { value: "ACTIVE", text: "Active", selected: "T" }
