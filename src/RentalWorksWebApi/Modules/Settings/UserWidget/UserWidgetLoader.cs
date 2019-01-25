@@ -104,9 +104,17 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "todate", modeltype: FwDataTypes.Date)]
         public string ToDate { get; set; }
         //------------------------------------------------------------------------------------ 
-
         [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text)]
          public string Settings { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationcode", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disabled", modeltype: FwDataTypes.Boolean)]
         public bool? Disabled { get; set; }
