@@ -23,12 +23,46 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
         public string BatchId { get; set; }
     }
 
+    public class ExportInvoiceRequest
+    {
+        public string BatchId { get; set; }
+    }
+
+    public class ExportInvoiceResponse : TSpStatusReponse
+    { 
+    }
+
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "I8d2wTNNRmRJa")]
     public class InvoiceProcessBatchController : AppDataController
     {
         public InvoiceProcessBatchController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InvoiceProcessBatchLogic); }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/invoiceprocessbatch/export
+        [HttpPost("export")]
+        [FwControllerMethod(Id: "BrButJ3Xi3P")]
+        public async Task<ActionResult<ExportInvoiceResponse>> CreateBatch([FromBody]ExportInvoiceRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                ExportInvoiceResponse response = await InvoiceProcessBatchFunc.ExportInvoice(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/invoiceprocessbatch/createbatch
         [HttpPost("createbatch")]

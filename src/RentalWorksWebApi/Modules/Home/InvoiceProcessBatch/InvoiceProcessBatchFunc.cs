@@ -34,5 +34,19 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<ExportInvoiceResponse> ExportInvoice(FwApplicationConfig appConfig, FwUserSession userSession, ExportInvoiceRequest request)
+        {
+            ExportInvoiceResponse response = new ExportInvoiceResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "exportinvoices", appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Input, request.BatchId);
+                    await qry.ExecuteNonQueryAsync(true);
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

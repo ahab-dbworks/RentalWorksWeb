@@ -40,25 +40,42 @@
             .on('click', '.create-batch', e => {
                 let request;
                 let location = JSON.parse(sessionStorage.getItem('location'));
-                let user = JSON.parse(sessionStorage.getItem('userid'));
+                var userId = sessionStorage.getItem('usersid');
                 request = {
                     AsOfDate: FwFormField.getValueByDataField($form, 'AsOfDate')
                     , LocationId: location.locationid
                 };
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    alert(response.BatchId);
-                    //submit batchid to export endpoint & show progress meter
-                    //when that is successful, updated text and show print button
-                }, null, $form, user.webusersid);
+                    if ((response.success === true) && (response.BatchId !== '')) {
+                        var batchId = response.BatchId;
+                        request = {
+                            BatchId: batchId
+                        }
+                        FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                            $form.find('.export-success').show();
+                            $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchId} Created Successfully.</span>`);
+                        }, null, $form, userId);
+                    }
+                }, null, $form, userId);
 
             })
             .on('click', '.print-batch', e => {
                 //open report front end in new tab
             })
             .on('click', '.export-historical-batches', e => {
-                //check to see if a batch is chosen in the validation
-                //send to export endpoint
+                var batchId = FwFormField.getValueByDataField($form, 'BatchId');
+                var userId = sessionStorage.getItem('usersid');
+                if (batchId !== '') {
+                    let request: any = {};
+                    request = {
+                        BatchId: batchId
+                    }
+                    FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        $form.find('.export-success').show();
+                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchId} Created Successfully.</span>`);
+                    }, null, $form, userId);
+                }
             })
             // enable/disable controls based on checkbox
             .on('change', '[data-datafield="ExportHistoricalBatch"] input, [data-datafield="ProcessInvoices"] input', e => {
