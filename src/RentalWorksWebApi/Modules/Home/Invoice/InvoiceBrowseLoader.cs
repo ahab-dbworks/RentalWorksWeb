@@ -106,52 +106,39 @@ namespace WebApi.Modules.Home.Invoice
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
             addFilterToSelect("InvoiceCreationBatchId", "invoicebatchid", select, request);
-            
-
 
             if ((request != null) && (request.activeview != null))
             {
-                //    switch (request.activeview)
-                //    {
-                //        case "PROSPECT":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_PROSPECT);
-                //            break;
-                //        case "RESERVED":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_RESERVED);
-                //            break;
-                //        case "CONFIRMED":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CONFIRMED);
-                //            break;
-                //        case "HOLD":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_HOLD);
-                //            break;
-                //        case "ORDERED":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_ORDERED);
-                //            break;
-                //        case "ACTIVE":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_ACTIVE);
-                //            break;
-                //        case "COMPLETE":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_COMPLETE);
-                //            break;
-                //        case "CLOSED":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CLOSED);
-                //            break;
-                //        case "CANCELLED":
-                //            select.AddWhere("(status = @orderstatus)");
-                //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CANCELLED);
-                //            break;
-                //        case "ALL":
-                //            break;
-                //    }
+                switch (request.activeview)
+                {
+                    case "NEW":
+                        select.AddWhere("(status = @invoicestatus)");
+                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_NEW);
+                        break;
+                    case "APPROVED":
+                        select.AddWhere("(status = @invoicestatus)");
+                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_APPROVED);
+                        break;
+                    case "NEWAPPROVED":
+                        select.AddWhere("(status in (@invoicestatus0, @invoicestatus1))");
+                        select.AddParameter("@invoicestatus0", RwConstants.INVOICE_STATUS_NEW);
+                        select.AddParameter("@invoicestatus1", RwConstants.INVOICE_STATUS_APPROVED);
+                        break;
+                    case "PROCESSED":
+                        select.AddWhere("(status = @invoicestatus)");
+                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_PROCESSED);
+                        break;
+                    case "CLOSED":
+                        select.AddWhere("(status = @invoicestatus)");
+                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_CLOSED);
+                        break;
+                    case "VOID":
+                        select.AddWhere("(status = @invoicestatus)");
+                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_VOID);
+                        break;
+                    case "ALL":
+                        break;
+                }
 
                 string locId = "ALL";
                 if (request.activeview.Contains("OfficeLocationId="))
