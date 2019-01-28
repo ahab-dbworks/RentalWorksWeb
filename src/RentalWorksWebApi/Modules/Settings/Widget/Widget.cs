@@ -117,7 +117,7 @@ namespace WebApi.Modules.Settings.Widget
         public string labelFieldName { get; set; }
         public string backgroundColorFieldName { get; set; } = "backgroundcolor";
         public string borderColorFieldName { get; set; } = "bordercolor";
-        public double opacity { get; set; } = 0.4;
+        public double opacity { get; set; } = 0.75;
 
         //rentalworks-specific values
         public string locationId = "";
