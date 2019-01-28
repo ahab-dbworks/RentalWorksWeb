@@ -13,6 +13,7 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
         //-------------------------------------------------------------------------------------------------------
         public static async Task<InvoiceProcessBatchResponse> CreateBatch(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchRequest request)
         {
+            string batchId = "";
             InvoiceProcessBatchResponse response = new InvoiceProcessBatchResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
@@ -26,11 +27,20 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync(true);
-                    response.BatchId = qry.GetParameter("@chgbatchid").ToString();
+                    batchId = qry.GetParameter("@chgbatchid").ToString();
                     response.success = (qry.GetParameter("@status").ToInt32() == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
                 }
             }
+
+            if (!string.IsNullOrEmpty(batchId))
+            {
+                response.Batch = new InvoiceProcessBatchLogic();
+                response.Batch.SetDependencies(appConfig, userSession);
+                response.Batch.BatchId = batchId;
+                await response.Batch.LoadAsync<InvoiceProcessBatchLogic>();
+            }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

@@ -12,7 +12,7 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
             dataLoader = invoiceProcessBatchLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "OLvQpovUMgWv", IsReadOnly: true)]
+        [FwLogicProperty(Id: "OLvQpovUMgWv", IsReadOnly: true, IsPrimaryKey: true)]
         public string BatchId { get; set; }
         [FwLogicProperty(Id: "9OSqynOzRmpn", IsReadOnly: true)]
         public string LocationId { get; set; }

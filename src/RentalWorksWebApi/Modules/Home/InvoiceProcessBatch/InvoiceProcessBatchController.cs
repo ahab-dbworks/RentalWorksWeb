@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
 
     public class InvoiceProcessBatchResponse : TSpStatusReponse
     {
-        public string BatchId { get; set; }
+        public InvoiceProcessBatchLogic Batch;
     }
 
     public class ExportInvoiceRequest
