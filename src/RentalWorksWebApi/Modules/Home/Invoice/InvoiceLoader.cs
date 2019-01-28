@@ -108,14 +108,8 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "invoicediscounttotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceDiscountTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicesubtotal", modeltype: FwDataTypes.Decimal)]
-        public decimal? InvoiceSubTotal { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicedwdiscounttotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceDaysPerWeekDiscountTotal { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
-        public decimal? InvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billtoadd1", modeltype: FwDataTypes.Text)]
         public string BillToAddress1 { get; set; }
@@ -261,6 +255,43 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalSaleItem { get; set; }
         //------------------------------------------------------------------------------------ 
+
+
+
+
+        [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? RentalTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "metertotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? MeterTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? SalesTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "spacetotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? FacilitiesTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "misctotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? MiscellaneousTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "labortotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? LaborTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "partstotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? PartsTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assettotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
+        public decimal? AssetSaleTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+        [FwSqlDataField(column: "invoicesubtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceSubTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
+        public decimal? InvoiceTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+
 
     }
 }

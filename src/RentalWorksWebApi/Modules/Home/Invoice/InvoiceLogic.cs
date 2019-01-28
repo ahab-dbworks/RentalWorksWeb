@@ -204,17 +204,8 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"LKJYNS6kRKsh", IsReadOnly:true)]
         public decimal? InvoiceDiscountTotal { get; set; }
 
-        [FwLogicProperty(Id:"TQdn8N1xdrKn")]
-        public decimal? InvoiceSubTotal { get { return invoice.InvoiceSubTotal; } set { invoice.InvoiceSubTotal = value; } }
-
         [FwLogicProperty(Id:"eZ0Q5npyGVQj")]
         public decimal? InvoiceDaysPerWeekDiscountTotal { get; set; }
-
-        [FwLogicProperty(Id:"wga1bXifBm3L")]
-        public decimal? InvoiceTax { get { return invoice.InvoiceTax; } set { invoice.InvoiceTax = value; } }
-
-        [FwLogicProperty(Id:"M5umZVL08RbV")]
-        public decimal? InvoiceTotal { get { return invoice.InvoiceTotal; } set { invoice.InvoiceTotal = value; } }
 
         [FwLogicProperty(Id:"Ze6wuKQob0z7")]
         public string ReferenceNumber { get { return invoice.ReferenceNumber; } set { invoice.ReferenceNumber = value; } }
@@ -381,6 +372,34 @@ namespace WebApi.Modules.Home.Invoice
 
         [FwLogicProperty(Id:"uT0rueH1NWux", IsReadOnly:true)]
         public bool? HasRentalSaleItem { get; set; }
+
+              
+
+        [FwLogicProperty(Id: "4NGkESxWvfM5c")]
+        public decimal? RentalTotal { get { return invoice.RentalTotal; } set { invoice.RentalTotal = value; } }
+        [FwLogicProperty(Id: "yoxCD2WtTm269")]
+        public decimal? SalesTotal { get { return invoice.SalesTotal; } set { invoice.SalesTotal = value; } }
+        [FwLogicProperty(Id: "pHzuPgIbLokDW")]
+        public decimal? FacilitiesTotal { get { return invoice.FacilitiesTotal; } set { invoice.FacilitiesTotal = value; } }
+        [FwLogicProperty(Id: "oEzRpXFLt7GJr")]
+        public decimal? MiscellaneousTotal { get { return invoice.MiscellaneousTotal; } set { invoice.MiscellaneousTotal = value; } }
+        [FwLogicProperty(Id: "p7qgrNPbaiVbb")]
+        public decimal? LaborTotal { get { return invoice.LaborTotal; } set { invoice.LaborTotal = value; } }
+        [FwLogicProperty(Id: "drfRfBf491XQL")]
+        public decimal? PartsTotal { get { return invoice.PartsTotal; } set { invoice.PartsTotal = value; } }
+        [FwLogicProperty(Id: "TZ6bSob77cN2X")]
+        public decimal? AssetSaleTotal { get { return invoice.AssetSaleTotal; } set { invoice.AssetSaleTotal = value; } }
+
+
+        [FwLogicProperty(Id: "TQdn8N1xdrKn")]
+        public decimal? InvoiceSubTotal { get { return invoice.InvoiceSubTotal; } set { invoice.InvoiceSubTotal = value; } }
+
+        [FwLogicProperty(Id: "wga1bXifBm3L")]
+        public decimal? InvoiceTax { get { return invoice.InvoiceTax; } set { invoice.InvoiceTax = value; } }
+
+        [FwLogicProperty(Id: "M5umZVL08RbV")]
+        public decimal? InvoiceTotal { get { return invoice.InvoiceTotal; } set { invoice.InvoiceTotal = value; } }
+
 
 
 

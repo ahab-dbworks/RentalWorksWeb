@@ -237,7 +237,7 @@ namespace WebApi.Modules.Home.Invoice
         public decimal? InvoiceGrossTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 11, scale: 2)]
-        public decimal? Rentaltotal { get; set; }
+        public decimal? RentalTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "splitrentaltaxflg", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Splitrentaltaxflg { get; set; }
@@ -279,25 +279,25 @@ namespace WebApi.Modules.Home.Invoice
         public bool? Archived { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "metertotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Metertotal { get; set; }
+        public decimal? MeterTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salestotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Salestotal { get; set; }
+        public decimal? SalesTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "spacetotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Spacetotal { get; set; }
+        public decimal? FacilitiesTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "misctotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Misctotal { get; set; }
+        public decimal? MiscellaneousTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labortotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Labortotal { get; set; }
+        public decimal? LaborTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "partstotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Partstotal { get; set; }
+        public decimal? PartsTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "assettotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
-        public decimal? Assettotal { get; set; }
+        public decimal? AssetSaleTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totalbeforeoverride", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 2)]
         public decimal? Totalbeforeoverride { get; set; }
