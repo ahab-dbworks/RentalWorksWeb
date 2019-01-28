@@ -3395,8 +3395,10 @@ class FwBrowseClass {
             if (customGrids.length > 0) {
                 $control = jQuery(jQuery(`#tmpl-custom-${modulename}Browse`)[0].innerHTML);
             } else {
-                var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
+                var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
             }
+        } else {
+            var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
         }
         return $control;
     }
