@@ -66,63 +66,58 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
-        var $all = FwMenu.generateDropDownViewBtn('All', true);
-        var $new = FwMenu.generateDropDownViewBtn('New', false);
-        var $open = FwMenu.generateDropDownViewBtn('Open', false);
-        var $received = FwMenu.generateDropDownViewBtn('Received', false);
-        var $complete = FwMenu.generateDropDownViewBtn('Complete', false);
-        var $void = FwMenu.generateDropDownViewBtn('Void', false);
+        var $new = FwMenu.generateDropDownViewBtn('New', true);
+        var $approved = FwMenu.generateDropDownViewBtn('Approved', false);
+        var $newapproved = FwMenu.generateDropDownViewBtn('New & Approved', false);
+        var $processed = FwMenu.generateDropDownViewBtn('Processed', false);
         var $closed = FwMenu.generateDropDownViewBtn('Closed', false);
-        $all.on('click', () => {
+        var $void = FwMenu.generateDropDownViewBtn('Void', false);
+
+        $new.on('click', e => {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'ALL';
-            FwBrowse.search($browse);
-        });
-        $new.on('click', () => {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = 'NEW';
             FwBrowse.search($browse);
         });
-        $open.on('click', () => {
+        $approved.on('click', e => {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'OPEN';
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'APPROVED';
             FwBrowse.search($browse);
         });
-        $received.on('click', () => {
+        $newapproved.on('click', e => {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'RECEIVED';
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'NEWAPPROVED';
             FwBrowse.search($browse);
         });
-        $complete.on('click', () => {
+        $processed.on('click', e => {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'COMPLETE';
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'PROCESSED';
             FwBrowse.search($browse);
         });
-        $void.on('click', () => {
+        $closed.on('click', e => {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            this.ActiveView = 'VOID';
-            FwBrowse.search($browse);
-        });
-        $closed.on('click', () => {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = 'CLOSED';
             FwBrowse.search($browse);
         });
+        $void.on('click', e => {
+            var $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'VOID';
+            FwBrowse.search($browse);
+        });
+       
         var viewSubitems = [];
-        viewSubitems.push($all);
         viewSubitems.push($new);
-        viewSubitems.push($open);
-        viewSubitems.push($received);
-        viewSubitems.push($complete);
-        viewSubitems.push($void);
+        viewSubitems.push($approved);
+        viewSubitems.push($newapproved);
+        viewSubitems.push($processed);
         viewSubitems.push($closed);
+        viewSubitems.push($void);
+
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
@@ -130,21 +125,21 @@ class Invoice {
         var location = JSON.parse(sessionStorage.getItem('location'));
         var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
         var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', () => {
+        $allLocations.on('click', e => {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
-        $userLocation.on('click', () => {
+        $userLocation.on('click', e => {
             var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = 'LocationId=' + location.locationid;
             FwBrowse.search($browse);
         });
         var viewLocation = [];
+        viewLocation.push($allLocations);
         viewLocation.push($userLocation);
-        viewLocation.push($all);
         var $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
