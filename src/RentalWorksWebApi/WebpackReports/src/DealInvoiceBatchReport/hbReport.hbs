@@ -1,15 +1,16 @@
 ﻿<!-- Deal Invoice Batch Report-->
-<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
-  <div class="rpt-header-center">
-    <div style="font-weight:600">Charge Batch Report</div>
-    <div style="font-weight:600">
-      <span>Batch No: {{BatchNumber}}</span> - 
-      <span>Date: {{Date}}</span>
-    </div>
-    <div class="header-left">
-      <span>Office: {{Office}}</span>
-    </div>
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
   </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">Batch No: {{BatchNumber}} - Date: {{Date}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+  </div>
+</div>
+<div class="rpt-flexrow">
+  <span class="officeLocation">Office: {{OfficeLocation}}</span>
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">
   <table>
@@ -28,7 +29,28 @@
       </tr>
     </thead>
     <tbody>
-      <tr></tr>
+      {{#with Items}}
+      {{#each this}}
+      <tr>
+        {{#ifEquals RowType "detail"}}
+        <td class="Customer">{{Customer}}</td>
+        <td class="Deal">{{Deal}}</td>
+        <td class="InvoiceNumber">{{InvoiceNumber}}</td>
+        <td class="InvoiceDate">{{InvoiceDate}}</td>
+        <td class="OrderNumber">{{OrderNumber}}</td>
+        <td class="PurchaseOrderNumber">{{PurchaseOrderNumber}}</td>
+        <td class="InvoiceDescription">{{InvoiceDescription}}</td>
+        <td class="BillingStartDate">{{BillingStartDate}}</td>
+        <td class="BillingEndDate">{{BillingEndDate}}</td>
+        <td class="InvoiceTotal">{{InvoiceTotal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "invoicetotal"}}
+        <td colspan="9" class="invoiceTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
+        <td class="invoiceTotalRowTotal">{{InvoiceTotal}}</td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+      {{/with}}
     </tbody>
   </table>
 </div>

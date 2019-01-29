@@ -11,6 +11,8 @@ var hbFooter = require("./hbFooter.hbs");
 
 export class DealInvoiceBatchReportRequest {
     BatchId: string;
+    BatchNumber: string;
+    OfficeLocation: string;
 }
 
 export class DealInvoiceBatchReport extends WebpackReport {
@@ -27,10 +29,12 @@ export class DealInvoiceBatchReport extends WebpackReport {
                     report.Items = DataTable.toObjectList(response);
                     this.renderFooterHtml(report);
                     report.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    report.FromDate = moment().format('MM/DD/YYYY');
-                    report.Report = 'Deal Invoice Batch Report';
+                    report.Date = moment().format('MM/DD/YYYY');
+                    report.Report = 'Charge Batch Report';
                     report.System = 'RENTALWORKS';
                     report.Company = '4WALL ENTERTAINMENT';
+                    report.BatchNumber = report.Items[0].BatchNumber;
+                    report.OfficeLocation = report.Items[0].Location;
 
                     console.log(report);
 

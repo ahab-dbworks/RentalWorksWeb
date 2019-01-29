@@ -12,6 +12,9 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
     public class DealInvoiceBatchReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chgbatchid", modeltype: FwDataTypes.Text)]
         public string BatchId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -81,6 +84,9 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
         [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
         public bool? NoCharge { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? InvoiceTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(DealInvoiceBatchReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -98,9 +104,9 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
                     select.AddOrderBy("customer,deal,invoiceno,orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
+                string[] totalFields = new string[] { "InvoiceTotal" };
+                dt.InsertTotalRow("RowType", "detail", "invoicetotal", totalFields);
             }
-            //string[] totalFields = new string[] { "InvoiceTotal" };
-            //dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             return dt;
         }
         //------------------------------------------------------------------------------------ 

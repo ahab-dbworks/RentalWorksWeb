@@ -1,92 +1,96 @@
-﻿tbody {
-    td:after {
-        content: attr(data-value);
-    }
+﻿$page-width: 1110px;
+$line-height: 16px;
+$normal-text: 1em;
 
-    td {
-        padding: 3px;
-    }
-}
-tbody[data-rowtype="detail"]:nth-child(even) {
-    background-color: #DCDCDC;
-}
-.sub-header tr > td {
-    padding: 0;
-    width: 33.3%;
-}
-.att-text-align {
-    padding-left: 75px;
+@page {
+    margin: 130px 32px 96px 32px;
+    /*margin: 48px 24px 48px 24px;*/
+    /*size: auto;*/
+    size: landscape;
 }
 
-.sub-header-left {
-    align-self: flex-start;
-}
-.sub-header-center {
-    align-self: center;
-}
-.sub-header-right {
-    align-self: flex-end;
-}
-
-.title {
-    align-self: center;
-    font-family: Arial, sans-serif;
-    font-size: 35px;
-    font-weight: bold;
-}
-.header-center {
-    align-self: center;
-    font-family: Arial, sans-serif;
-    font-size: 15px;
-    margin-top: 5px;
-}
-
-.header-right {
-    font-family: Arial, sans-serif;
-    align-self: flex-end;
-    font-size: 15px;
-}
-
-.header-left {
-    font-family: Arial, sans-serif;
-    align-self: flex-start;
-    font-size: 15px;
+html {
 }
 
 body {
     font-family: Arial, sans-serif;
-    font-size: 15px;
+    font-size: 12px;
     margin: 0;
     padding: 0;
 }
 
-thead {
-    th {
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
-    th:not(.sub) {
-        border-bottom: 2px solid #000000;
+html.preview {
+    #pageno {
+        visibility: hidden;
     }
 }
-.sub {
-    border-top: 2px solid #027cc5;
-    border-bottom: 2px solid #027cc5;
-    background-color: #DCDCDC;
+
+html.pdf {
+    body {
+        /*margin: 130px 24px 96px 24px;*/
+    }
 }
 
-.header-row {
+@media only screen {
+    .parameters {
+        display: block;
+    }
+}
+
+@media only print {
+    .parameters {
+        display: none;
+    }
+}
+
+@media screen {
+    #pageContainer {
+        width: $page-width;
+    }
+}
+
+#pageContainer {
+    #pageHeader {
+    }
+
+    #contract {
+    }
+
+    #pageFooter {
+        margin: $line-height 0 0 0;
+    }
+}
+
+#pageContainer {
+    #header, #footer {
+        width: auto !important;
+    }
+}
+
+.columnheadings {
+    border-bottom: 2px solid black;
+    font-size:12px;
+    text-align:left;
+}
+
+.officeLocation {
+    font-size: 14px;
     font-weight: bold;
-    font-size: 12px;
 }
 
-.top-header-row:not(.lower) {
-    padding-top: 15px;
+.InvoiceTotal {
+    text-align: right;
 }
 
-.total-row {
+.invoiceTotalRowTitle {
     font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
+    font-size: 14px;
+    text-align: right;
+}
+
+.invoiceTotalRowTotal {
+    font-size: 14px;
+    font-weight: bold;
+    border-top: 2px solid black;
+    text-align:right;
 }
