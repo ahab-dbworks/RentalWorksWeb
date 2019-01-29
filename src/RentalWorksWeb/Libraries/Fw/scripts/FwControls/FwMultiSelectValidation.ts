@@ -372,7 +372,7 @@ class FwMultiSelectValidationClass {
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
             let values: any = $valuefield.val();
             $browse.data('selectedrowsuniqueids', values.split(','));
-        } else if ($browse.data('selectedrowsuniqueids') === 'undefined') {
+        } else if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
             $browse.data('selectedrowsuniqueids', []);
         }
         let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
