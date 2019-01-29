@@ -47,21 +47,39 @@
                 };
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    if ((response.success === true) && (response.BatchId !== '')) {
-                        var batchId = response.BatchId;
+                    if ((response.success === true) && (response.Batch !== null)) {
+                        var batch = response.Batch;
+                        var batchId = batch.BatchId;
+                        var batchNumber = batch.BatchNumber
                         request = {
                             BatchId: batchId
                         }
                         FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
                             $form.find('.export-success').show();
-                            $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchId} Created Successfully.</span>`);
+                            FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
+                            $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Created Successfully.</span>`);
                         }, null, $form, userId);
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
                     }
                 }, null, $form, userId);
 
             })
             .on('click', '.print-batch', e => {
-                //open report front end in new tab
+                let $report, batchNumber, batchId, batchTab;
+                try {
+                    batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
+                    batchId = FwFormField.getValueByDataField($form, 'BatchId');
+                    $report = RwDealInvoiceBatchReportController.openForm();
+                    FwModule.openSubModuleTab($form, $report);
+                    FwFormField.setValueByDataField($report, 'BatchId', batchId, batchNumber);
+                    jQuery('.tab.submodule.active').find('.caption').html(`Print Deal Invoice Batch`);
+                    batchTab = jQuery('.tab.submodule.active');
+                    batchTab.find('.caption').html(`Print Deal Invoice Batch`);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
             })
             .on('click', '.export-historical-batches', e => {
                 var batchId = FwFormField.getValueByDataField($form, 'BatchId');

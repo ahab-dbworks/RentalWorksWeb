@@ -43,7 +43,7 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
         // POST api/v1/invoiceprocessbatch/export
         [HttpPost("export")]
         [FwControllerMethod(Id: "BrButJ3Xi3P")]
-        public async Task<ActionResult<ExportInvoiceResponse>> CreateBatch([FromBody]ExportInvoiceRequest request)
+        public async Task<ActionResult<ExportInvoiceResponse>> Export([FromBody]ExportInvoiceRequest request)
         {
             if (!ModelState.IsValid)
             {
