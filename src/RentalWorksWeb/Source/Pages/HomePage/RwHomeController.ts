@@ -260,18 +260,18 @@
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             let hiddenCounter = 0;
             let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
+            if (hiddenCounter === response.UserWidgets.length) {
+                jQuery($control).append(dashboardButton);
+                jQuery($control).find('.dashboardsettings').on('click', e => {
+                    program.navigate('module/dashboardsettings');
+                });
+            }
             for (var i = 0; i < response.UserWidgets.length; i++) {
                 if (response.UserWidgets[i].selected) {
                     response.UserWidgets[i].width = Math.floor(100 / response.WidgetsPerRow).toString() + '%',
                     self.renderWidget($dashboard, response.UserWidgets[i]);
                 } else {
                     hiddenCounter++;
-                }
-                if (hiddenCounter === response.UserWidgets.length) {
-                    jQuery($control).append(dashboardButton);
-                    jQuery($control).find('.dashboardsettings').on('click', e => {
-                        program.navigate('module/dashboardsettings');
-                    });
                 }
             }
         }, null, $control);
