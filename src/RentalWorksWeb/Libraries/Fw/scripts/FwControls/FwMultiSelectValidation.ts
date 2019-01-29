@@ -333,10 +333,20 @@ class FwMultiSelectValidationClass {
             $validationSearchbox.val('');
         }
 
+        FwBrowse.addEventHandler($browse, 'afterdatabindcallback', function () {
+            let values: any = $valuefield.val();
+            let valueArray = values.split(',');
+
+            for (var i = 0; i < valueArray.length; i++) {
+                $browse.find(`div[data-originalvalue="${valueArray[i]}"]`).closest('tr').addClass('selected');
+            }
+
+        })
+
         $browse.data('$btnvalidate', $btnvalidate);
         $btnvalidate.hide();
         $browse.data('$control').find('.validation-loader').show();
-        FwBrowse.search($browse)
+        FwBrowse.search($browse);
         FwPopup.show($popup);
     };
     //---------------------------------------------------------------------------------
@@ -359,7 +369,10 @@ class FwMultiSelectValidationClass {
         let fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
         let $inputField = multiselectfield.find('span.addItem');
 
-        if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
+        if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
+            let values: any = $valuefield.val();
+            $browse.data('selectedrowsuniqueids', values.split(','));
+        } else if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
             $browse.data('selectedrowsuniqueids', []);
         }
         let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
@@ -498,6 +511,7 @@ class FwMultiSelectValidationClass {
         sel.addRange(range);
         element.focus();
     }
+    //---------------------------------------------------------------------------------
 }
 
 var FwMultiSelectValidation = new FwMultiSelectValidationClass();

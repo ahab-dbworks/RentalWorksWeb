@@ -72,6 +72,12 @@ Master
     position: relative;
 }
 
+#master-body .programlogo .chart-container .officebar {
+    display: block;
+    position: absolute;
+    right: 2%;
+}
+
 #master-body .programlogo .chart-container:hover .toolbar {
     display: block;
 }
@@ -79,7 +85,7 @@ Master
 #master-body .programlogo .chart-container .toolbar {
     display: none;
     position: absolute;
-    top: 2%;
+    top: 5%;
     right: 2%;
     cursor: pointer;
 }

@@ -44,6 +44,9 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1)]
         public string Settings { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disabled", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Disabled { get; set; }
         //------------------------------------------------------------------------------------ 

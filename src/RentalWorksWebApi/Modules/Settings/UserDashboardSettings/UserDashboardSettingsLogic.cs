@@ -104,20 +104,15 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public DateTime? defaultToDate { get; set; }
             [FwLogicProperty(Id: "hRvFdpdIUPtbM")]
             public DateTime? toDate { get; set; }
+            [FwLogicProperty(Id: "IeEt7jOpL7PAi")]
+            public string OfficeLocationId { get; set; }
+            [FwLogicProperty(Id: "h1oiCe9vWJnTg")]
+            public string OfficeLocation { get; set; }
+            [FwLogicProperty(Id: "s7rkkN7Gajmol")]
+            public string OfficeLocationCode { get; set; }
         }
 
-        public class AvailableWidget : WidgetLogic
-        {
-
-            //jh 01/22/2019 moved to WidgetLogic to fix automapping issue
-
-            //[FwLogicProperty(Id: "3nSLO6CTowZlO")]
-            //public string value { get { return WidgetId; } }
-
-            //[FwLogicProperty(Id: "wNIy6uz4ptVYw")]
-            //public string text { get { return Widget; } }
-        }
-
+        public class AvailableWidget : WidgetLogic { }
         //------------------------------------------------------------------------------------
         public UserDashboardSettingsLogic()
         {
@@ -197,7 +192,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("datanumberformatid");            //18
                 qry.AddColumn("datanumberformat");              //19
                 qry.AddColumn("datanumberformatmask");          //20
-
                 qry.AddColumn("defaultdatebehavior");           //21
                 qry.AddColumn("datebehavior");                  //22
                 qry.AddColumn("datefielddisplaynames");         //23
@@ -208,8 +202,10 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("fromdate");                      //28
                 qry.AddColumn("defaulttodate");                 //29
                 qry.AddColumn("todate");                        //30
-
-                qry.AddColumn("orderby");                       //31
+                qry.AddColumn("locationid");                    //31
+                qry.AddColumn("location");                      //32
+                qry.AddColumn("locationcode");                  //33
+                qry.AddColumn("orderby");                       //34
                 qry.AddParameter("@webusersid", UserId);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
@@ -236,7 +232,6 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string datanumberformatid = table.Rows[r][18].ToString();
                     string datanumberformat = table.Rows[r][19].ToString();
                     string datanumberformatmask = table.Rows[r][20].ToString();
-
                     string defaultdatebehavior = table.Rows[r][21].ToString();
                     string datebehavior = table.Rows[r][22].ToString();
                     string datefielddisplaynames = table.Rows[r][23].ToString();
@@ -263,6 +258,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     {
                         todate = FwConvert.ToDateTime(table.Rows[r][30].ToString());
                     }
+                    string locationid = table.Rows[r][31].ToString();
+                    string location = table.Rows[r][32].ToString();
+                    string locationcode = table.Rows[r][33].ToString();
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
@@ -297,6 +295,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.fromDate = fromdate;
                     w.defaultToDate = defaulttodate;
                     w.toDate = todate;
+                    w.OfficeLocationId = locationid;
+                    w.OfficeLocation = location;
+                    w.OfficeLocationCode = locationcode;
 
                     UserWidgets.Add(w);
                     loaded = true;

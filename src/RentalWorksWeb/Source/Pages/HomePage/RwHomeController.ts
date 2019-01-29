@@ -115,6 +115,9 @@
                     html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
                     html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;min-width:400px;"></div>');
+                    html.push('</div>');
                     //for (var i = 0; i < response.data.labels.length; i++) {
                     //    html.push('<div class="flexrow">');
                     //    html.push('  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="' + response.data.labels[i] + '" data-datafield="' + response.data.labels[i] + '"></div>');
@@ -199,6 +202,8 @@
                         FwFormField.setValue2(dateBehavior, response.DefaultDateBehavior);
                         self.setDateBehaviorFields($confirmation, response.DateBehavior);
                     }
+                    FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', response.OfficeLocationId, response.OfficeLocation);
+
                     let dateFields = response.DateFields.split(',');
                     let dateFieldDisplays = response.DateFieldDisplayNames.split(',');
                     let dateFieldSelectArray = [];
@@ -225,6 +230,8 @@
                         request.DateField = FwFormField.getValue($confirmation, '.datefield');
                         request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                         request.ToDate = FwFormField.getValue($confirmation, '.todate');
+                        request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
+                        request.OfficeLocation = FwFormField.getText($confirmation, '.officelocation');
                         FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                             FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                             FwConfirmation.destroyConfirmation($confirmation);
@@ -253,32 +260,18 @@
         FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
             let hiddenCounter = 0;
             let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
+            if (hiddenCounter === response.UserWidgets.length) {
+                jQuery($control).append(dashboardButton);
+                jQuery($control).find('.dashboardsettings').on('click', e => {
+                    program.navigate('module/dashboardsettings');
+                });
+            }
             for (var i = 0; i < response.UserWidgets.length; i++) {
                 if (response.UserWidgets[i].selected) {
-                    let widgetData = {
-                        apiname: response.UserWidgets[i].apiname,
-                        type: response.UserWidgets[i].widgettype,
-                        chartpath: response.UserWidgets[i].clickpath,
-                        userWidgetId: response.UserWidgets[i].userWidgetId,
-                        width: Math.floor(100 / response.WidgetsPerRow).toString() + '%',
-                        text: response.UserWidgets[i].text,
-                        dataPoints: response.UserWidgets[i].dataPoints,
-                        axisFormat: response.UserWidgets[i].axisNumberFormatId,
-                        dataFormat: response.UserWidgets[i].dataNumberFormatId,
-                        dateBehavior: response.UserWidgets[i].dateBehavior,
-                        fromDate: response.UserWidgets[i].fromDate,
-                        toDate: response.UserWidgets[i].toDate,
-                        dateField: response.UserWidgets[i].dateField
-                    }
-                    self.renderWidget($dashboard, widgetData)
+                    response.UserWidgets[i].width = Math.floor(100 / response.WidgetsPerRow).toString() + '%',
+                    self.renderWidget($dashboard, response.UserWidgets[i]);
                 } else {
                     hiddenCounter++;
-                }
-                if (hiddenCounter === response.UserWidgets.length) {
-                    jQuery($control).append(dashboardButton);
-                    jQuery($control).find('.dashboardsettings').on('click', e => {
-                        program.navigate('module/dashboardsettings');
-                    });
                 }
             }
         }, null, $control);
@@ -291,7 +284,7 @@
         var fullscreen = '<i id="' + widgetData.userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
         var dataPointCount = 0;
 
-        jQuery($control).append('<div data-chart="' + widgetData.apiname + '" class="chart-container ' + widgetData.userWidgetId + '" style="height:' + widgetData.width + ';width:' + widgetData.width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + widgetData.userWidgetId + '"></canvas><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
+        jQuery($control).append('<div data-chart="' + widgetData.apiname + '" class="chart-container ' + widgetData.userWidgetId + '" style="height:' + widgetData.width + ';width:' + widgetData.width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + widgetData.userWidgetId + '"></canvas><div class="officebar">' + widgetData.OfficeLocationCode + '</div><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
         self.buildWidgetSettings(jQuery($control).find('#' + widgetData.userWidgetId + 'settings'), widgetData.userWidgetId);
 
         if (widgetData.dataPoints > 0) {
@@ -299,7 +292,7 @@
         }
 
         jQuery($control).on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let titleArray = [];
                     titleArray.push(response.options.title.text);
@@ -317,13 +310,13 @@
 
                     response.options.title.text = titleArray;
 
-                    if (widgetData.axisFormat === 'TWODGDEC') {
+                    if (widgetData.axisNumberFormatId === 'TWODGDEC') {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                     } else {
                         response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
                     }
-                    if (widgetData.type !== '') {
-                        response.type = widgetData.type
+                    if (widgetData.widgettype !== '') {
+                        response.type = widgetData.widgettype
                     }
                     if (response.type === 'pie') {
                         delete response.options.legend;
@@ -331,7 +324,7 @@
                     }
                     if (response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
-                        if (widgetData.dataFormat === 'TWODGDEC') {
+                        if (widgetData.dataNumberFormatId === 'TWODGDEC') {
                             response.options.tooltips = {
                                 'callbacks': {
                                     'label': self.commaTwoDecimal2
@@ -357,7 +350,7 @@
                         var label = data.labels[activePoint._index];
                         var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                        program.getModule(widgetData.chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                     });
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -378,7 +371,7 @@
 
                 var widgetfullscreen = $confirmation.find('#' + widgetData.apiname + 'fullscreen');  
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         let titleArray = [];
                         titleArray.push(response.options.title.text);
@@ -396,14 +389,14 @@
 
                         response.options.title.text = titleArray;
 
-                        if (widgetData.axisFormat === 'TWODGDEC') {
+                        if (widgetData.axisNumberFormatId === 'TWODGDEC') {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                         } else {
                             response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
                         }
                         response.options.responsive = true;
-                        if (widgetData.type !== '') {
-                            response.type = widgetData.type
+                        if (widgetData.widgettype !== '') {
+                            response.type = widgetData.widgettype
                         }
                         if (response.type === 'pie') {
                             delete response.options.legend;
@@ -411,7 +404,7 @@
                         }
                         if (response.type !== 'pie') {
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
-                            if (widgetData.dataFormat === 'TWODGDEC') {
+                            if (widgetData.dataNumberFormatId === 'TWODGDEC') {
                                 response.options.tooltips = {
                                     'callbacks': {
                                         'label': self.commaTwoDecimal2
@@ -433,7 +426,7 @@
                             var label = data.labels[activePoint._index];
                             var value = data.datasets[datasetIndex].data[activePoint._index];
                             FwConfirmation.destroyConfirmation($confirmation);
-                            program.getModule(widgetData.chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                            program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                         });
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -445,7 +438,7 @@
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${JSON.parse(sessionStorage.getItem('location')).locationid}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 let titleArray = [];
                 titleArray.push(response.options.title.text);
@@ -463,13 +456,13 @@
 
                 response.options.title.text = titleArray;
 
-                if (widgetData.axisFormat === 'TWODGDEC') {
+                if (widgetData.axisNumberFormatId === 'TWODGDEC') {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
                 } else {
                     response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
                 }
-                if (widgetData.type !== '') {
-                    response.type = widgetData.type
+                if (widgetData.widgettype !== '') {
+                    response.type = widgetData.widgettype
                 }
                 if (response.type === 'pie') {
                     delete response.options.legend;
@@ -477,7 +470,7 @@
                 }
                 if (response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
-                    if (widgetData.dataFormat === 'TWODGDEC') {
+                    if (widgetData.dataNumberFormatId === 'TWODGDEC') {
                         response.options.tooltips = {
                             'callbacks': {
                                 'label': self.commaTwoDecimal2
@@ -503,7 +496,7 @@
                     var label = data.labels[activePoint._index];
                     var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                    program.getModule(widgetData.chartpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                    program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
                 });
             } catch (ex) {
                 FwFunc.showError(ex);
