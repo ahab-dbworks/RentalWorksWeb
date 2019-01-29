@@ -38,14 +38,14 @@
         $form
             .on('click', '.create-batch', e => {
                 let request;
-                let user = JSON.parse(sessionStorage.getItem('userid'));
+                let userId = JSON.parse(sessionStorage.getItem('usersid'));
                 request = {
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoiceprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     alert(response.BatchId);
                     //submit batchid to export endpoint & show progress meter
                     //when that is successful, updated text and show print button
-                }, null, $form, user.webusersid);
+                }, null, $form, userId);
             })
             .on('click', '.print-batch', e => {
                 //open report front end in new tab

@@ -100,7 +100,7 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    addStringFilterToSelect("chgbatchid ", request.BatchId, select);
+                    addStringFilterToSelect("chgbatchid", request.BatchId, select);
                     select.AddOrderBy("customer,deal,invoiceno,orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
