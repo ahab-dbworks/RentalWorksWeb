@@ -82,47 +82,40 @@
         var self = this;
         $chartSettings.on('click', function () {
             try {
-                let $confirmation = FwConfirmation.renderConfirmation('Chart Options', '');
-                let $select = FwConfirmation.addButton($confirmation, 'Confirm', false);
-                let $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
-                let widgetName = jQuery(this).parent().data('chart')
-                let userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-
-                var html = [];
                 FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    let $confirmation = FwConfirmation.renderConfirmation('Chart Options <div style="font-size:0.8em;">' + response.Widget + '</div>', '');
+                    let $select = FwConfirmation.addButton($confirmation, 'Confirm', false);
+                    let $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
+
+                    let html = [];
                     html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" style="float:left;width:200px;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
-                    html.push('</div>');
-                    html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;min-width:400px;"></div>');
-                    html.push('</div>');
-                    //for (var i = 0; i < response.data.labels.length; i++) {
-                    //    html.push('<div class="flexrow">');
-                    //    html.push('  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="' + response.data.labels[i] + '" data-datafield="' + response.data.labels[i] + '"></div>');
-                    //    html.push('</div>');
-                    //}
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" style="float:left;width:200px;"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                        html.push('</div>');
+                        html.push('<div class="flexrow">');
+                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                        html.push('</div>');
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
 
@@ -216,34 +209,33 @@
                     }
                     FwFormField.loadItems($confirmation.find('.datefield'), dateFieldSelectArray, true);
 
+                    $select.on('click', function () {
+                        try {
+                            var request: any = {};
+                            request.UserWidgetId = userWidgetId;
+                            request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
+                            request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
+                            request.AxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
+                            request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
+                            request.DateBehavior = FwFormField.getValue($confirmation, '.datebehavior');
+                            request.DateField = FwFormField.getValue($confirmation, '.datefield');
+                            request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
+                            request.ToDate = FwFormField.getValue($confirmation, '.todate');
+                            request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
+                            request.OfficeLocation = FwFormField.getText($confirmation, '.officelocation');
+                            FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
+                                FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
+                                FwConfirmation.destroyConfirmation($confirmation);
+                                program.navigate('home');
+                            }, function onError(response) {
+                                FwFunc.showError(response);
+                                FwFormField.enable($confirmation.find('.fwformfield'));
+                            }, $chartSettings);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    })
                 }, null, null);
-
-                $select.on('click', function () {
-                    try {
-                        var request: any = {};
-                        request.UserWidgetId = userWidgetId;
-                        request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
-                        request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
-                        request.AxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
-                        request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
-                        request.DateBehavior = FwFormField.getValue($confirmation, '.datebehavior');
-                        request.DateField = FwFormField.getValue($confirmation, '.datefield');
-                        request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
-                        request.ToDate = FwFormField.getValue($confirmation, '.todate');
-                        request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
-                        request.OfficeLocation = FwFormField.getText($confirmation, '.officelocation');
-                        FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
-                            FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
-                            FwConfirmation.destroyConfirmation($confirmation);
-                            program.navigate('home');
-                        }, function onError(response) {
-                            FwFunc.showError(response);
-                            FwFormField.enable($confirmation.find('.fwformfield'));
-                        }, $chartSettings);
-                    } catch (ex) {
-                        FwFunc.showError(ex);
-                    }
-                })
             } catch (ex) {
                 FwFunc.showError(ex);
             }

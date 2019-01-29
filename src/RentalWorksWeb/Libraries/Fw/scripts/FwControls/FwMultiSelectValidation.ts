@@ -236,6 +236,8 @@ class FwMultiSelectValidationClass {
                     let $item = $this.parent('div.multiitem');
                     let itemvalue = $item.attr('data-multivalue');
                     let value: any = $valuefield.val();
+                    let $selectedRows = $browse.data('selectedrows');
+                    let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
                     value = value
                         .split(',')
                         .filter((value) => {
@@ -244,9 +246,7 @@ class FwMultiSelectValidationClass {
                         .join(',');
                     $valuefield.val(value);
                     $item.remove();
-                    if ($item.attr('data-customvalue') != "true") {
-                        let $selectedRows = $browse.data('selectedrows');
-                        let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+                    if ($item.attr('data-customvalue') != "true" && $selectedRows !== undefined && selectedRowUniqueIds !== undefined) {
                         if (typeof $selectedRows[itemvalue] !== 'undefined') {
                             delete $selectedRows[itemvalue];
                         }
