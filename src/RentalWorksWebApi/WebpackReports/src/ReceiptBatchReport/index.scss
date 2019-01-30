@@ -1,0 +1,92 @@
+﻿$page-width: 1110px;
+$line-height: 16px;
+$normal-text: 1em;
+
+@page {
+    margin: 130px 32px 96px 32px;
+    /*margin: 48px 24px 48px 24px;*/
+    /*size: auto;*/
+    size: landscape;
+}
+
+html {
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+}
+
+html.preview {
+    #pageno {
+        visibility: hidden;
+    }
+}
+
+html.pdf {
+    body {
+        /*margin: 130px 24px 96px 24px;*/
+    }
+}
+
+@media only screen {
+    .parameters {
+        display: block;
+    }
+}
+
+@media only print {
+    .parameters {
+        display: none;
+    }
+}
+
+@media screen {
+    #pageContainer {
+        width: $page-width;
+    }
+}
+
+#pageContainer {
+    #pageHeader {
+    }
+
+    #contract {
+    }
+
+    #pageFooter {
+        margin: $line-height 0 0 0;
+    }
+}
+
+#pageContainer {
+    #header, #footer {
+        width: auto !important;
+    }
+}
+
+.columnheadings {
+    border-bottom: 2px solid black;
+    font-size:12px;
+    text-align:left;
+}
+
+.officeLocation {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.receiptTotalRowTitle {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: right;
+}
+
+.receiptTotalRowTotal {
+    font-size: 14px;
+    font-weight: bold;
+    border-top: 2px solid black;
+    text-align:right;
+}

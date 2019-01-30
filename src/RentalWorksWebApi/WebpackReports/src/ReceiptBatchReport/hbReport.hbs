@@ -1,0 +1,48 @@
+﻿<!-- Receipt Batch Report-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">Batch No: {{BatchNumber}} - Date: {{Date}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+  </div>
+</div>
+<div class="rpt-flexrow">
+  <span class="officeLocation">Office: {{OfficeLocation}}</span>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <table>
+    <thead class="mainHeader">
+      <tr class="columnheadings">
+        <th>Customer</th>
+        <th>Deal</th>
+        <th>Date</th>
+        <th>Ref/Check No.</th>
+        <th>Payment Type</th>
+        <th style="text-align:right;">Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#with Items}}
+      {{#each this}}
+      <tr>
+        {{#ifEquals RowType "detail"}}
+        <td class="Customer">{{Customer}}</td>
+        <td class="Deal">{{Deal}}</td>
+        <td class="ReceiptDate">{{ReceiptDate}}</td>
+        <td class="CheckNumber">{{CheckNumber}}</td>
+        <td class="PaymentType">{{PaymentType}}</td>
+        <td class="Amount">{{Amount}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "receipttotal"}}
+        <td colspan="4" class="receiptTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
+        <td class="receiptTotalRowTotal">{{Amount}}</td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+      {{/with}}
+    </tbody>
+  </table>
+</div>
