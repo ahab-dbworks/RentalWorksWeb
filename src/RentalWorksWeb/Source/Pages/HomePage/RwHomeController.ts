@@ -34,56 +34,6 @@
         return screen;
     };
 
-    commaDelimited = function (value, index, values) {
-        if (typeof value === 'string') {
-            return value;
-        }
-        if (typeof value !== 'string' && value > 1) {
-            value = value.toString();
-            value = value.split(/(?=(?:...)*$)/);
-            value = value.join(',');
-            return value;
-        } else if (value < 1) {
-            return Math.round(value * 10) / 10
-        } else {
-            return value;
-        }
-    };
-
-    commaDelimited2 = function(tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
-        value = value.toString();
-        value = value.split(/(?=(?:...)*$)/);
-        value = value.join(',');
-        return value;
-    }
-
-    commaTwoDecimal = function (value, index, values) {
-        if (typeof value === 'string') {
-            return value;
-        }
-        if (typeof value !== 'string' && value > 1) {
-            value = value.toString();
-            value = value.split(/(?=(?:...)*$)/);
-            value = value.join(',');
-            value = value + '.00';
-            return value;
-        } else if (value < 1) {
-            return (Math.round(value * 10) / 10) + '.00'
-        } else {
-            return value + '.00';
-        }
-    };
-
-    commaTwoDecimal2 = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
-        value = value.toString();
-        value = value.split(/(?=(?:...)*$)/);
-        value = value.join(',');
-        value = value + '.00';
-        return value;
-    }
-
     buildWidgetSettings($chartSettings, userWidgetId) {
         var self = this;
         $chartSettings.on('click', function () {
@@ -130,23 +80,7 @@
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
                         { value: 'pie', text: 'Pie' }
                     ], true);
-                    FwFormField.loadItems($confirmation.find('.datebehavior'), [
-                        { value: 'NONE', text: 'None' },
-                        { value: 'SINGLEDATEYESTERDAY', text: 'Single Date - Yesterday' },
-                        { value: 'SINGLEDATETODAY', text: 'Single Date - Today' },
-                        { value: 'SINGLEDATETOMORROW', text: 'Single Date - Tomorrow' },
-                        { value: 'SINGLEDATESPECIFICDATE', text: 'Single Date - Specific Date' },
-                        { value: 'DATERANGEPRIORWEEK', text: 'Date Range - Prior Week' },
-                        { value: 'DATERANGECURRENTWEEK', text: 'Date Range - Current Week' },
-                        { value: 'DATERANGEPRIORMONTH', text: 'Date Range - Prior Month' },
-                        { value: 'DATERANGECURRENTMONTH', text: 'Date Range - Current Month' },
-                        { value: 'DATERANGENEXTMONTH', text: 'Date Range - Next Week' },
-                        { value: 'DATERANGEPRIORYEAR', text: 'Date Range - Prior Year' },
-                        { value: 'DATERANGECURRENTYEAR', text: 'Date Range - Current Year' },
-                        { value: 'DATERANGEYEARTODATE', text: 'Date Range - Year To Date' },
-                        { value: 'DATERANGENEXTYEAR', text: 'Date Range - Next Year' },
-                        { value: 'DATERANGESPECIFICDATES', text: 'Date Range - Specific Dates' }
-                    ], true);
+
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
 
                     if (response.AxisNumberFormat !== '') {
@@ -191,16 +125,7 @@
                         let selected = FwFormField.getValue2(jQuery(this));
                         self.setDateBehaviorFields($confirmation, selected);
                     });
-
-                    if (response.DateBehavior !== '') {
-                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
-                        FwFormField.setValue2(dateBehavior, response.DateBehavior);
-                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
-                    } else if (response.DateBehavior === '' && response.DefaultDateBehavior !== '') {
-                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
-                        FwFormField.setValue2(dateBehavior, response.DefaultDateBehavior);
-                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
-                    }
+                    //FwFormField.setValueByDataField($confirmation, '', response.OfficeLocationId, response.OfficeLocation);
                     FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', response.OfficeLocationId, response.OfficeLocation);
 
                     let dateFields = response.DateFields.split(',');
@@ -325,13 +250,13 @@
                         if (widgetData.dataNumberFormatId === 'TWODGDEC') {
                             response.options.tooltips = {
                                 'callbacks': {
-                                    'label': self.commaTwoDecimal2
+                                    'label': self.commaTwoDecimalData
                                 }
                             };
                         } else {
                             response.options.tooltips = {
                                 'callbacks': {
-                                    'label': self.commaDelimited2
+                                    'label': self.commaDelimitedData
                                 }
                             };
                         }
@@ -405,13 +330,13 @@
                             if (widgetData.dataNumberFormatId === 'TWODGDEC') {
                                 response.options.tooltips = {
                                     'callbacks': {
-                                        'label': self.commaTwoDecimal2
+                                        'label': self.commaTwoDecimalData
                                     }
                                 };
                             } else {
                                 response.options.tooltips = {
                                     'callbacks': {
-                                        'label': self.commaDelimited2
+                                        'label': self.commaDelimitedData
                                     }
                                 };
                             }
@@ -454,32 +379,78 @@
 
                 response.options.title.text = titleArray;
 
-                if (widgetData.axisNumberFormatId === 'TWODGDEC') {
-                    response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
-                } else {
-                    response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                switch (widgetData.axisNumberFormatId) {
+                    case 'TWODGDEC':
+                        if (response.type !== 'horizontalBar') {
+                            response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
+                        } else {
+                            response.options.scales.xAxes[0].ticks.userCallback = self.commaTwoDecimal
+                        }
+                        break;
+                    case 'TWDIGPCT':
+                        if (response.type !== 'horizontalBar') {
+                            response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimalPercent
+                        } else {
+                            response.options.scales.xAxes[0].ticks.userCallback = self.commaTwoDecimalPercent
+                        }
+                        break;
+                    case 'WHOLENBR':
+                        if (response.type !== 'horizontalBar') {
+                            response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                        } else {
+                            response.options.scales.xAxes[0].ticks.userCallback = self.commaDelimited
+                        }
+                        break;
+                    case 'WHNUMPCT':
+                        if (response.type !== 'horizontalBar') {
+                            response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimitedPercent
+                        } else {
+                            response.options.scales.xAxes[0].ticks.userCallback = self.commaDelimitedPercent
+                        }
+                        break;
                 }
+
                 if (widgetData.widgettype !== '') {
                     response.type = widgetData.widgettype
                 }
+
                 if (response.type === 'pie') {
                     delete response.options.legend;
                     delete response.options.scales;
-                }
-                if (response.type !== 'pie') {
+                } else {
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
-                    if (widgetData.dataNumberFormatId === 'TWODGDEC') {
-                        response.options.tooltips = {
-                            'callbacks': {
-                                'label': self.commaTwoDecimal2
-                            }
-                        };
-                    } else {
-                        response.options.tooltips = {
-                            'callbacks': {
-                                'label': self.commaDelimited2
-                            }
-                        };
+                }
+
+                if (response.type !== 'pie') {
+                    switch (widgetData.axisNumberFormatId) {
+                        case 'TWODGDEC':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalData
+                                }
+                            };
+                            break;
+                        case 'TWDIGPCT':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalPercentData
+                                }
+                            };
+                            break;
+                        case 'WHOLENBR':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedData
+                                }
+                            };
+                            break;
+                        case 'WHNUMPCT':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedPercentData
+                                }
+                            };
+                            break;
                     }
                 }
                 if (response.data.labels.length > 10 && response.type !== 'pie') {
@@ -529,27 +500,68 @@
         }
     }
     //----------------------------------------------------------------------------------------------
-    //setDateBehaviorTitle(DateBehavior) {
-    //    if (DateBehavior === 'SINGLEDATEYESTERDAY') {
-    //        return moment().subtract(1, 'days').format('ll');
-    //    } else if (DateBehavior === 'SINGLEDATEYESTERDAY') {
-    //    } else if (DateBehavior === 'SINGLEDATETODAY') {
-    //    } else if (DateBehavior === 'SINGLEDATETOMORROW') {
-    //    } else if (DateBehavior === 'DATERANGEPRIORWEEK') {
-    //    } else if (DateBehavior === 'DATERANGECURRENTWEEK') {
-    //    } else if (DateBehavior === 'DATERANGENEXTWEEK') {
-    //    } else if (DateBehavior === 'DATERANGEPRIORMONTH') {
-    //    } else if (DateBehavior === 'DATERANGECURRENTMONTH') {
-    //    } else if (DateBehavior === 'DATERANGENEXTMONTH') {
-    //    } else if (DateBehavior === 'DATERANGEPRIORYEAR') {
-    //    } else if (DateBehavior === 'DATERANGECURRENTYEAR') {
-    //    } else if (DateBehavior === 'DATERANGENEXTYEAR') {
-    //    } else if (DateBehavior === 'DATERANGEYEARTODATE') {
-    //    } else if (DateBehavior === 'SINGLEDATESPECIFICDATE') {
-    //    } else if (DateBehavior === 'DATERANGESPECIFICDATES') {
-    //    }
-    //}
-    //----------------------------------------------------------------------------------------------
+    // TO DO - format these all functions below into more modularized code to input to widgets.
+
+    commaDelimited = function (value, index, values) {
+        value = value.toString();
+        return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+    };
+
+    commaDelimitedData = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+    }
+
+    commaTwoDecimal = function (value, index, values) {
+        value = value.toString();
+        if (value.charAt(value.length - 3) === '.') {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
+        }
+    };
+
+    commaTwoDecimalData = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        if (value.charAt(value.length - 3) === '.') {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
+        }
+    }
+
+    commaTwoDecimalPercent = function (value, index, values) {
+        value = value.toString();
+        if (value.charAt(value.length - 3) === '.') {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00%'
+        }
+    };
+
+    commaTwoDecimalPercentData = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        if (value.charAt(value.length - 3) === '.') {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00%'
+        }
+    }
+
+    commaDelimitedPercent = function (value, index, values) {
+        value = value.toString();
+        return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '%'
+    };
+
+    commaDelimitedPercentData = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '%'
+    }
+
 };
 
 var RwHomeController = new RwHome();
