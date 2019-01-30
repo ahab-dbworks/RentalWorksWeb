@@ -29,7 +29,7 @@ namespace WebLibrary
         public const string MODULE_REPAIR = "REPAIR";
         public const string MODULE_PROJECT = "PROJECT";
         public const string MODULE_PURCHASE_ORDER = "PO";
-        
+
 
         //QUOTE/ORDER
         public const string ORDER_TYPE_QUOTE = "Q";
@@ -199,6 +199,30 @@ namespace WebLibrary
 
         public const string VEHICLE_TYPE_VEHICLE = "VEHICLE";
         public const string VEHICLE_TYPE_GENERATOR = "GENERATOR";
+
+
+
+        //EXPORTING
+
+
+        public const string DATA_EXPORT_SETTINGS_TYPE_ONLINE_ORDER_TRACKING = "ONLINE ORDER TRACKING";
+        public const string DATA_EXPORT_SETTINGS_TYPE_CUSTOMER = "CUSTOMER";
+        public const string DATA_EXPORT_SETTINGS_TYPE_DEAL = "DEAL";
+        public const string DATA_EXPORT_SETTINGS_TYPE_TIME_LOG = "TIMELOG";
+        public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR = "VENDOR";
+        public const string DATA_EXPORT_SETTINGS_TYPE_ORDER = "ORDER";
+        public const string DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_HEADER = "DEAL INVOICE HEADER";
+        public const string DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_DETAIL = "DEAL INVOICE DETAIL";
+        public const string DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_GL_SUMMARY = "DEAL INVOICE G/L SUMMARY";
+        public const string DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_TAX = "DEAL INVOICE TAX";
+        public const string DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_NOTE = "DEAL INVOICE NOTE";
+        public const string DATA_EXPORT_SETTINGS_TYPE_RECEIPT_HEADER = "RECEIPT HEADER";
+        public const string DATA_EXPORT_SETTINGS_TYPE_RECEIPT_DETAIL = "RECEIPT DETAIL";
+        public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_HEADER = "VENDOR INVOICE HEADER";
+        public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_DETAIL = "VENDOR INVOICE DETAIL";
+        public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_GL_SUMMARY = "VENDOR INVOICE G/L SUMMARY";
+        public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_TAX = "VENDOR INVOICE TAX";
+
 
     }
 

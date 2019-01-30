@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b4d6191b-92d0-4f24-8fa9-807471044d69",
+		"_postman_id": "1c74e684-5992-4610-be35-9d977088e91f",
 		"name": "RentalWorks API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -1044,6 +1044,41 @@
 								"v1",
 								"billing",
 								"createinvoices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Billing: Create Invoices Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \t\"LocationId\": \"B001WH00\",\n  \t\"AsOfDate\": \"01/27/2019\"\n\t\n}\n\n\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/invoiceprocessbatch/createbatch",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"invoiceprocessbatch",
+								"createbatch"
 							]
 						}
 					},
@@ -11471,6 +11506,218 @@
 			]
 		},
 		{
+			"name": "Export Settings",
+			"item": [
+				{
+					"name": "Export Settings: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\t\"miscfields\": {\n\t\t\t\"Invoices\": false,\n\t\t\t\"Receipts\": false,\n\t\t\t\"VendorInvoices\": false\n\t\t},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"Description\": \"VENDOR INVOICE DETAIL\"}\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exportsettings/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exportsettings",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Settings: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exportsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exportsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Settings: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exportsettings/00002WPC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exportsettings",
+								"00002WPC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Settings: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exportsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exportsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Settings: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ExportSettingsId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exportsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exportsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Export Settings: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/exportsettings/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"exportsettings",
+								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Event Category",
 			"item": [
 				{
@@ -21112,7 +21359,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/invoice/00002WPC",
+							"raw": "http://localhost:57949/api/v1/invoice/I0009PW4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -21122,7 +21369,7 @@
 								"api",
 								"v1",
 								"invoice",
-								"00002WPC"
+								"I0009PW4"
 							]
 						}
 					},
@@ -52907,6 +53154,46 @@
 								"widget",
 								"loadbyname",
 								"customersbytype"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Widget Date Behavior",
+			"item": [
+				{
+					"name": "Widget Date Behavior: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/widgetdatebehavior/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"widgetdatebehavior",
+								"browse"
 							]
 						}
 					},
