@@ -25718,6 +25718,45 @@
 					"response": []
 				},
 				{
+					"name": "Orders: Get PO Worksheet Session Totals",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/order/poworksheetsessiontotals/I000J21Y",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"poworksheetsessiontotals",
+								"I000J21Y"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Orders: Select All PO Worksheet Items",
 					"request": {
 						"method": "POST",

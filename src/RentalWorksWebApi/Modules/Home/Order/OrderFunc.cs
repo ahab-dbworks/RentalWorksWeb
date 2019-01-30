@@ -141,5 +141,32 @@ namespace WebApi.Modules.Home.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<PoWorksheetSessionTotalsResponse> GetPoWorksheetSessionTotals(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
+        {
+            PoWorksheetSessionTotalsResponse response = new PoWorksheetSessionTotalsResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "getpoworksheetitemtotals", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                qry.AddParameter("@grosstotal", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@discount", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@subtotal", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@tax", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@total", SqlDbType.Float, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.GrossTotal = qry.GetParameter("@grosstotal").ToDouble();
+                response.Discount = qry.GetParameter("@discount").ToDouble();
+                response.SubTotal = qry.GetParameter("@subtotal").ToDouble();
+                response.Tax = qry.GetParameter("@tax").ToDouble();
+                response.Total = qry.GetParameter("@total").ToDouble();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

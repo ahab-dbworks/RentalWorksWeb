@@ -49,6 +49,18 @@ namespace WebApi.Modules.Home.Order
         public string PurchaseOrderId;
     }
 
+    public class PoWorksheetSessionTotalsResponse : TSpStatusReponse
+    {
+        public double? GrossTotal;
+        public double? Discount;
+        public double? SubTotal;
+        public double? Tax;
+        public double? Total;
+    }
+
+    
+
+
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
@@ -404,6 +416,33 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------        
+
+        // GET api/v1/order/poworksheetsessiontotals
+        [HttpGet("poworksheetsessiontotals/{sessionId}")]
+        [FwControllerMethod(Id: "prgSOVMTbnMEw")]
+        public async Task<ActionResult<PoWorksheetSessionTotalsResponse>> GetPoWorksheetSessionTotals([FromRoute] string sessionId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PoWorksheetSessionTotalsResponse response = await OrderFunc.GetPoWorksheetSessionTotals(AppConfig, UserSession, sessionId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------     
+
+
         // POST api/v1/order/completepoworksheetsession
         [HttpPost("completepoworksheetsession")]
         [FwControllerMethod(Id:"D2UdqmBoUarE")]
