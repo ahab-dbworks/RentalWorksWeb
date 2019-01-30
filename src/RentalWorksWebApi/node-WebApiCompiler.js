@@ -1,6 +1,7 @@
 const util = require('util');
 var spawn = require('child-process-promise').spawn;
 const rmfr = require('rmfr');
+const fs = require('fs');
 const WebpackReportsCompiler = require('./node-WebpackReportsCompiler');
 const UNSUPPORTED_CONFIGURATION = 'Unsupported configuration.';
 const path = require('path');
@@ -38,7 +39,7 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Deleting: ../../build/RentalWorksWebApi');
         await rmfr('../../build/RentalWorksWebApi');
-    }
+		}
     //------------------------------------------------------------------------------------
     async npm_i() {
         console.log('//------------------------------------------------------------------------------------');
@@ -113,6 +114,8 @@ class WebApiCompiler {
         console.log(`dotnet publish -o ../../build/RentalWorksWebApi WebApi.csproj --configuration ${this.dotnetConfiguration} --self-contained -r win-x64`);
         console.log('//------------------------------------------------------------------------------------');
         await spawn('dotnet', ['publish', '-o', '../../build/RentalWorksWebApi', 'WebApi.csproj', '--configuration', this.dotnetConfiguration, '--self-contained', '-r', 'win-x64'], { stdio: 'inherit' });
+        console.log('Deleting: appsettings.json');
+        await fs.unlink('../../build/RentalWorksWebApi/appsettings.json', function(error) { if (error) { throw error; } console.log('Deleted appsettings.json');});
     }
     //------------------------------------------------------------------------------------
     async dotnet_run() {

@@ -1,8 +1,8 @@
-Last Updated 05/31/2018
+Last Updated 01/29/2019
 ===================================================
 Navigate to the "build" directory: <repo root>\build, Delete all files and directories
-GitKraken: confirm that you are on local\develop branch
-Stash any unstaged changes (or Stage, Commit, and Push)
+Confirm that you are on local\develop branch
+Stash any unstaged changes
 Modify version.txt file in the root of the Web project (save and close)
 Build Reports:
 	Open command prompt at WebApi directory
@@ -14,14 +14,13 @@ Publish WebAPI:
 	Open command prompt at WebApi directory
 	cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
 	npm run publish
-[obsolete] create Build Release Document in CRM
-[obsolete] Create new Build record in CRM
 Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2018.1.1.X"
 Navigate to the "build" directory: <repo root>\build
-Navigate to the "api" directory: RentalWorksWebApi, Delete appsettings.json file
-zip the RentalWorksWeb and RentalWorksWebApi directories together (7zip).  (File naming convention: RentalWorksWeb_2018_001_12.zip)
+Use 7Zip to compress the RentalWorksWeb and RentalWorksWebApi directories together "RentalWorksWeb_2018_001_XX.zip"
 Upload zip file to ftp or web server.
 	4Wall web server is 4we-lv-rwweb
+		C:\inetpub\wwwroot\rentalworksweb
+		C:\inetpub\wwwroot\rentalworkswebapi
 	DatabaseWorks demo is: TSWEBDEMO01
 		web2018demo.rentalworks.net
 		webapi2018demo.rentalworks.net
