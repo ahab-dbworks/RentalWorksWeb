@@ -273,13 +273,36 @@ namespace WebApi.Modules.Settings.Widget
                 fromDate = qry.GetParameter("@outputfromdate").ToDateTime();
                 toDate = qry.GetParameter("@outputtodate").ToDateTime();
 
+                bool labelIsDate = false;
+                if (table.Rows.Count > 0)
+                {
+                    DateTime dt = new DateTime();
+                    if (DateTime.TryParse(table.Rows[0][1].ToString(), out dt))
+                    {
+                        labelIsDate = (dt.Date == dt);
+                    }
+                }
+
+                decimal value = 0;
+                string label = "";
+                int colorInt = 0;
+                string colorStr = "";
+                string borderColorStr = "";
+
                 for (int r = 0; r < table.Rows.Count; r++)
                 {
-                    decimal value = Convert.ToDecimal(table.Rows[r][0]);
-                    string label = table.Rows[r][1].ToString();
-                    int colorInt = Convert.ToInt32(table.Rows[r][2]);
-                    string colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
-                    string borderColorStr = FwConvert.OleColorToHtmlColor(colorInt, 1);
+                    value = Convert.ToDecimal(table.Rows[r][0]);
+                    if (labelIsDate)
+                    {
+                        label = FwConvert.ToUSShortDate(table.Rows[r][1].ToString());
+                    }
+                    else
+                    {
+                        label = table.Rows[r][1].ToString();
+                    }
+                    colorInt = Convert.ToInt32(table.Rows[r][2]);
+                    colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
+                    borderColorStr = FwConvert.OleColorToHtmlColor(colorInt, 1);
 
                     data.labels.Add(label);
                     dataList.Add(value);
