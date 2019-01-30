@@ -64,20 +64,20 @@ class FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     addReportMenu($form, reportOptions) {
-        let me = this;
         let $menuObject = FwMenu.getMenuControl('default');
         let timeout = 7200; // 2 hour timeout for the ajax request
-        let urlHtmlReport = `${applicationConfig.apiurl}Reports/${me.reportName}/index.html`;
+        let urlHtmlReport = `${applicationConfig.apiurl}Reports/${this.reportName}/index.html`;
         let apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
         let authorizationHeader = 'Bearer ' + sessionStorage.getItem('apiToken');
 
         // Preview Button
         if ((typeof reportOptions.HasExportHtml === 'undefined') || (reportOptions.HasExportHtml === true)) {
             let $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
+            FwMenu.addVerticleSeparator($menuObject);
             $btnPreview.on('click', (event: JQuery.Event) => {
                 try {
                     //let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Preview...');
-                    let request = me.getRenderRequest($form);
+                    let request = this.getRenderRequest($form);
                     request.renderMode = 'Html';
                     request.parameters = this.getParameters($form);
                     //if (typeof request.uniqueid === 'undefined' || request.uniqueid === null) {
@@ -105,10 +105,11 @@ class FwWebApiReport {
         // Print HTML button
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             let $btnPrintPdf = FwMenu.addStandardBtn($menuObject, 'Print HTML');
+            FwMenu.addVerticleSeparator($menuObject);
             $btnPrintPdf.on('click', (event: JQuery.Event) => {
                 try {
                     //let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Preview...');
-                    let request = me.getRenderRequest($form);
+                    let request = this.getRenderRequest($form);
                     request.renderMode = 'Html';
                     request.parameters = this.getParameters($form);
                     let $iframe = jQuery('<iframe style="display:none;" />');
@@ -130,10 +131,10 @@ class FwWebApiReport {
                 }
             });
         }
-        FwMenu.addVerticleSeparator($menuObject);
         // Download Excel button
         if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
             var $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
+            FwMenu.addVerticleSeparator($menuObject);
             $btnDownloadExcel.on('click', event => {
                 try {
                     let $confirmation, $yes, $no, parameters, html: Array<string> = [];
@@ -189,20 +190,20 @@ class FwWebApiReport {
                 }
             });
         }
-        FwMenu.addVerticleSeparator($menuObject);
         // View PDF button
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             let $btnOpenPdf = FwMenu.addStandardBtn($menuObject, 'View PDF');
+            FwMenu.addVerticleSeparator($menuObject);
             $btnOpenPdf.on('click', (event: JQuery.Event) => {
                 var request, webserviceurl, $notification;
                 try {
                     let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = me.getRenderRequest($form);
+                    let request = this.getRenderRequest($form);
                     request.renderMode = 'Pdf';
                     request.downloadPdfAsAttachment = false;
                     request.parameters = this.getParameters($form);
                     var win = window.open('about:blank', 'newtab');
-                    FwAppData.apiMethod(true, 'POST', me.apiurl + '/render', request, timeout,
+                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
                                 win.location.href = successResponse.pdfReportUrl;
@@ -237,57 +238,58 @@ class FwWebApiReport {
             });
         }
         // Download PDF button
-        if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
-            let $btnDownloadPdf = FwMenu.addStandardBtn($menuObject, 'Download PDF');
-            $btnDownloadPdf.on('click', (event: JQuery.Event) => {
-                try {
-                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = me.getRenderRequest($form);
-                    request.renderMode = 'Pdf';
-                    request.downloadPdfAsAttachment = true;
-                    request.parameters = this.getParameters($form);
-                    FwAppData.apiMethod(true, 'POST', me.apiurl + '/render', request, timeout,
-                        (successResponse: RenderResponse) => {
-                            try {
-                                let win = window.open(successResponse.pdfReportUrl);
-                                let startTime = new Date();
-                                let setWindowTitle = () => {
-                                    if (win.document) // If loaded
-                                    {
-                                        win.document.title = "Report (PDF)";
-                                    }
-                                    else // If not loaded yet
-                                    {
-                                        setTimeout(setWindowTitle, 10); // Recheck again every 10 ms
-                                    }
-                                }
-                                setWindowTitle();
-                                if (!win) throw 'Please disable your popup blocker for this site!';
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            } finally {
-                                FwNotification.closeNotification($notification);
-                            }
-                        },
-                        (errorResponse) => {
-                            FwNotification.closeNotification($notification);
-                            if (errorResponse !== 'abort') {
-                                FwFunc.showError(errorResponse);
-                            }
-                        }, null);
-                } catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            });
-        }
-        FwMenu.addVerticleSeparator($menuObject);
+        //if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
+        //    let $btnDownloadPdf = FwMenu.addStandardBtn($menuObject, 'Download PDF');
+        //    FwMenu.addVerticleSeparator($menuObject);
+        //    $btnDownloadPdf.on('click', (event: JQuery.Event) => {
+        //        try {
+        //            let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+        //            let request = this.getRenderRequest($form);
+        //            request.renderMode = 'Pdf';
+        //            request.downloadPdfAsAttachment = true;
+        //            request.parameters = this.getParameters($form);
+        //            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
+        //                (successResponse: RenderResponse) => {
+        //                    try {
+        //                        let win = window.open(successResponse.pdfReportUrl);
+        //                        let startTime = new Date();
+        //                        let setWindowTitle = () => {
+        //                            if (win.document) // If loaded
+        //                            {
+        //                                win.document.title = "Report (PDF)";
+        //                            }
+        //                            else // If not loaded yet
+        //                            {
+        //                                setTimeout(setWindowTitle, 10); // Recheck again every 10 ms
+        //                            }
+        //                        }
+        //                        setWindowTitle();
+        //                        if (!win) throw 'Please disable your popup blocker for this site!';
+        //                    } catch (ex) {
+        //                        FwFunc.showError(ex);
+        //                    } finally {
+        //                        FwNotification.closeNotification($notification);
+        //                    }
+        //                },
+        //                (errorResponse) => {
+        //                    FwNotification.closeNotification($notification);
+        //                    if (errorResponse !== 'abort') {
+        //                        FwFunc.showError(errorResponse);
+        //                    }
+        //                }, null);
+        //        } catch (ex) {
+        //            FwFunc.showError(ex);
+        //        }
+        //    });
+        //}
         // E-mail (to me)
         if ((typeof reportOptions.HasEmailMePdf === 'undefined') || (reportOptions.HasEmailMePdf === true)) {
             let $btnEmailMePdf = FwMenu.addStandardBtn($menuObject, 'E-mail (to me)');
+            FwMenu.addVerticleSeparator($menuObject);
             $btnEmailMePdf.on('click', (event: JQuery.Event) => {
                 try {
                     let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = me.getRenderRequest($form);
+                    let request = this.getRenderRequest($form);
                     request.renderMode = 'Email';
                     request.email.from = '[me]';
                     request.email.to = '[me]';
@@ -295,7 +297,7 @@ class FwWebApiReport {
                     request.email.subject = '[reportname]';
                     request.email.body = '';
                     request.parameters = this.getParameters($form);
-                    FwAppData.apiMethod(true, 'POST', me.apiurl + '/render', request, timeout,
+                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
                             } catch (ex) {
@@ -315,7 +317,6 @@ class FwWebApiReport {
                 }
             });
         }
-        FwMenu.addVerticleSeparator($menuObject);
         // E-mail button
         if ((typeof reportOptions.HasEmailPdf === 'undefined') || (reportOptions.HasEmailPdf === true)) {
             let $btnEmailPdf = FwMenu.addStandardBtn($menuObject, 'E-mail');
@@ -354,7 +355,7 @@ class FwWebApiReport {
                     $btnSend.click((event: JQuery.Event) => {
                         try {
                             let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                            let requestEmailPdf = me.getRenderRequest($form);
+                            let requestEmailPdf = this.getRenderRequest($form);
                             requestEmailPdf.renderMode = 'Email';
                             requestEmailPdf.email.to = '[me]';
                             requestEmailPdf.email.cc = '';
