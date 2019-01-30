@@ -193,6 +193,9 @@ class FwBrowseClass {
                                     compositekey.push($keyfield.html());
                                 });
                                 compositekey = compositekey.join(',');
+                                if (typeof $control.data('selectedrows') === 'undefined') {
+                                    $control.data('selectedrows', {});
+                                }
                                 selectedrows = $control.data('selectedrows');
                                 if (typeof selectedrows[compositekey] !== 'undefined') {
                                     $tr.removeClass('selected');
