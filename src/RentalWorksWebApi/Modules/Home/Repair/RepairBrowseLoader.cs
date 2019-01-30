@@ -25,6 +25,9 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "repairdate", modeltype: FwDataTypes.Date)]
         public string RepairDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
+        public string ItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -36,6 +39,9 @@ namespace WebApi.Modules.Home.Repair
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availfordisp", modeltype: FwDataTypes.Text)]
         public string AvailForDisplay { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
+        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
@@ -100,6 +106,8 @@ namespace WebApi.Modules.Home.Repair
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
+            addFilterToSelect("InventoryId", "masterid", select, request);
+            addFilterToSelect("ItemId", "rentalitemid", select, request);
 
 
             if ((request != null) && (request.activeview != null))
