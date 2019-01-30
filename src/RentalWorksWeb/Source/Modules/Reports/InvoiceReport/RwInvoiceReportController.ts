@@ -32,8 +32,8 @@ var invoiceTemplateFrontEnd = `
 class RwInvoiceReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-            super('InvoiceReport', 'api/v1/invoicereport', invoiceTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('InvoiceReport', 'api/v1/invoicereport', invoiceTemplateFrontEnd);
+        this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

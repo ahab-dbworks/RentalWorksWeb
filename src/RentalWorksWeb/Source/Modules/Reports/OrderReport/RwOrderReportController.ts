@@ -32,8 +32,8 @@ var orderTemplateFrontEnd = `
 class RwOrderReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-            super('OrderReport', 'api/v1/orderreport', orderTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('OrderReport', 'api/v1/orderreport', orderTemplateFrontEnd);
+        this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

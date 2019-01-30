@@ -49,7 +49,6 @@ export class OrderReport extends WebpackReport {
                             order.Report = 'QUOTE';
                             document.title = 'Quote Report'
                         }
-                        console.log('report:', order)
                         this.renderFooterHtml(order);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;

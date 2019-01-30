@@ -31,9 +31,8 @@ var quoteTemplateFrontEnd = `
 class RwQuoteReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-            super('OrderReport', 'api/v1/orderreport', quoteTemplateFrontEnd);
-        
-        //this.reportOptions.HasDownloadExcel = true;
+        super('OrderReport', 'api/v1/orderreport', quoteTemplateFrontEnd);
+        this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
