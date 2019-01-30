@@ -94,7 +94,7 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="OfficeExtension"]').attr('data-originalvalue'));
         });
 
-        $form.find('.openworksheet').on('click', function (e) {
+        $form.find('.openworksheet').on('click', e => {
             worksheetRequest = {
                 OrderId: parentmoduleinfo.OrderId,
                 RecType: parentmoduleinfo.RecType,
@@ -117,7 +117,7 @@ class SubWorksheet {
             }
 
             try {
-                FwAppData.apiMethod(true, 'POST', "api/v1/order/startpoworksheetsession", worksheetRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', "api/v1/order/startpoworksheetsession", worksheetRequest, FwServices.defaultTimeout, response => {
                     if (response.success) {
                         $form.find('div.errormsg').html('');
                         FwFormField.disable($form.find('.subworksheet'));
@@ -125,14 +125,17 @@ class SubWorksheet {
                         let gridUniqueIds: any = {
                             SessionId: response.SessionId
                         };
-                        me.SessionId = response.SessionId;
-                        me.renderPOGrid($form);
+                        this.SessionId = response.SessionId;
+                        this.renderPOGrid($form);
 
                         var $subPurchaseOrderItemGridControl: any;
                         $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
                         $subPurchaseOrderItemGridControl.data('ondatabind', function (request) {
                             request.uniqueids = gridUniqueIds
                         })
+                        FwBrowse.addEventHandler($subPurchaseOrderItemGridControl, 'afterdatabindcallback', () => {
+                            this.getSubPOItemGridTotals($form);
+                        });
                         FwBrowse.search($subPurchaseOrderItemGridControl);
                         if (createNew.prop('checked')) {
                             $form.find('.completeorder').show();
@@ -258,6 +261,18 @@ class SubWorksheet {
 
         return $form;
     }
+    //----------------------------------------------------------------------------------------------
+    getSubPOItemGridTotals($form: any): void {
+        FwAppData.apiMethod(true, 'GET', `api/v1/order/poworksheetsessiontotals/${this.SessionId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            $form.find(`div[data-totalfield="SubTotal"] input`).val(response.SubTotal);
+            $form.find(`div[data-totalfield="Discount"] input`).val(response.Discount);
+            $form.find(`div[data-totalfield="Tax"] input`).val(response.Tax);
+            $form.find(`div[data-totalfield="GrossTotal"] input`).val(response.GrossTotal);
+            $form.find(`div[data-totalfield="Total"] input`).val(response.Total);
+        }, function onError(response) {
+            FwFunc.showError(response);
+            }, $form);
+    };
     //----------------------------------------------------------------------------------------------
     beforeValidateContact($browse, $grid, request) {
         const vendorId = jQuery($grid.find('[data-validationname="VendorValidation"] input')).val();
