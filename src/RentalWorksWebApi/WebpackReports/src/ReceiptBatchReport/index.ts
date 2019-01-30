@@ -35,7 +35,6 @@ export class ReceiptBatchReport extends WebpackReport {
                     report.Company = '4WALL ENTERTAINMENT';
                     report.BatchNumber = report.Items[0].BatchNumber;
                     report.OfficeLocation = report.Items[0].Location;
-                    console.log(report);
 
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
