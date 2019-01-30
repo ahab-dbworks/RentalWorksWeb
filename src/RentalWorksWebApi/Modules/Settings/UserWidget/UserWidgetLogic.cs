@@ -77,11 +77,16 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwLogicProperty(Id: "HlDA4Oq6XPJlV", IsReadOnly: true)]
         public string DataNumberFormatMask { get; set; }
 
+        [FwLogicProperty(Id: "PBaBr0YPnVhA0", IsReadOnly: true)]
+        public string DefaultDateBehaviorId { get; set; }
         [FwLogicProperty(Id: "qDChYGxR0e3DO", IsReadOnly: true)]
         public string DefaultDateBehavior { get; set; }
 
-        [FwLogicProperty(Id: "2MExrJsp8Dqx0")]
-        public string DateBehavior { get { return userWidget.DateBehavior; } set { userWidget.DateBehavior = value; } }
+        [FwLogicProperty(Id: "Myob17DjListW")]
+        public string DateBehaviorId { get { return userWidget.DateBehaviorId; } set { userWidget.DateBehaviorId = value; } }
+
+        [FwLogicProperty(Id: "2MExrJsp8Dqx0", IsReadOnly: true)]
+        public string DateBehavior { get; set; }
 
         [FwLogicProperty(Id: "LEwhr5fCzYgFD", IsReadOnly: true)]
         public string DateFieldDisplayNames { get; set; }

@@ -29,8 +29,8 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "datanumberformatid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string DataNumberFormatId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datebehavior", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
-        public string DateBehavior { get; set; }
+        [FwSqlDataField(column: "datebehaviorid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
+        public string DateBehaviorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datefield", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
         public string DateField { get; set; }

@@ -73,9 +73,14 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "datanumberformatmask", modeltype: FwDataTypes.Text)]
         public string DataNumberFormatMask { get; set; }
         //------------------------------------------------------------------------------------ 
-
+        [FwSqlDataField(column: "defaultdatebehaviorid", modeltype: FwDataTypes.Text)]
+        public string DefaultDateBehaviorId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultdatebehavior", modeltype: FwDataTypes.Text)]
         public string DefaultDateBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datebehaviorid", modeltype: FwDataTypes.Text)]
+        public string DateBehaviorId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datebehavior", modeltype: FwDataTypes.Text)]
         public string DateBehavior { get; set; }

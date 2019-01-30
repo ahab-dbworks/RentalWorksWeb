@@ -125,7 +125,7 @@ namespace WebApi.Modules.Settings.Widget
         public string departmentId = "";
 
         //date values
-        public string dateBehavior = "";
+        public string dateBehaviorId = "";
         public string dateField = "";
         public DateTime? fromDate = null;
         public DateTime? toDate = null;
@@ -205,14 +205,14 @@ namespace WebApi.Modules.Settings.Widget
                     paramsAdded = true;
                 }
 
-                if (!string.IsNullOrEmpty(dateBehavior))
+                if (!string.IsNullOrEmpty(dateBehaviorId))
                 {
                     if (paramsAdded)
                     {
                         qry.Add(",");
                     }
-                    qry.Add(" @datebehavior = @datebehavior");
-                    qry.AddParameter("@datebehavior", dateBehavior);
+                    qry.Add(" @datebehaviorid = @datebehaviorid");
+                    qry.AddParameter("@datebehaviorid", dateBehaviorId);
                     paramsAdded = true;
                 }
 

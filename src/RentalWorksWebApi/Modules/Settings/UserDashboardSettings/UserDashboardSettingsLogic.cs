@@ -84,8 +84,16 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             [FwLogicProperty(Id: "kRpwFBx8w0iV")]
             public string dataNumberFormatMask { get; set; }
 
+            [FwLogicProperty(Id: "taukSU3mlAFvZ")]
+            public string defaultDateBehaviorId { get; set; }
+
+
             [FwLogicProperty(Id: "DcfKXn0BmpO0l")]
             public string defaultDateBehavior { get; set; }
+
+            [FwLogicProperty(Id: "4IBZ7aWIKV1lX")]
+            public string dateBehaviorId { get; set; }
+
             [FwLogicProperty(Id: "SVfGQzuLNjj8j")]
             public string dateBehavior { get; set; }
             [FwLogicProperty(Id: "NX6Ds8RkWf3pw")]
@@ -192,20 +200,22 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("datanumberformatid");            //18
                 qry.AddColumn("datanumberformat");              //19
                 qry.AddColumn("datanumberformatmask");          //20
-                qry.AddColumn("defaultdatebehavior");           //21
-                qry.AddColumn("datebehavior");                  //22
-                qry.AddColumn("datefielddisplaynames");         //23
-                qry.AddColumn("datefields");                    //24
-                qry.AddColumn("defaultdatefield");              //25
-                qry.AddColumn("datefield");                     //26
-                qry.AddColumn("defaultfromdate");               //27
-                qry.AddColumn("fromdate");                      //28
-                qry.AddColumn("defaulttodate");                 //29
-                qry.AddColumn("todate");                        //30
-                qry.AddColumn("locationid");                    //31
-                qry.AddColumn("location");                      //32
-                qry.AddColumn("locationcode");                  //33
-                qry.AddColumn("orderby");                       //34
+                qry.AddColumn("defaultdatebehaviorid");         //21
+                qry.AddColumn("defaultdatebehavior");           //22
+                qry.AddColumn("datebehaviorid");                //23
+                qry.AddColumn("datebehavior");                  //24
+                qry.AddColumn("datefielddisplaynames");         //25
+                qry.AddColumn("datefields");                    //26
+                qry.AddColumn("defaultdatefield");              //27
+                qry.AddColumn("datefield");                     //28
+                qry.AddColumn("defaultfromdate");               //29
+                qry.AddColumn("fromdate");                      //30
+                qry.AddColumn("defaulttodate");                 //31
+                qry.AddColumn("todate");                        //32
+                qry.AddColumn("locationid");                    //33
+                qry.AddColumn("location");                      //34
+                qry.AddColumn("locationcode");                  //35
+                qry.AddColumn("orderby");                       //36
                 qry.AddParameter("@webusersid", UserId);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
@@ -232,35 +242,37 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string datanumberformatid = table.Rows[r][18].ToString();
                     string datanumberformat = table.Rows[r][19].ToString();
                     string datanumberformatmask = table.Rows[r][20].ToString();
-                    string defaultdatebehavior = table.Rows[r][21].ToString();
-                    string datebehavior = table.Rows[r][22].ToString();
-                    string datefielddisplaynames = table.Rows[r][23].ToString();
-                    string datefields = table.Rows[r][24].ToString();
-                    string defaultdatefield = table.Rows[r][25].ToString();
-                    string datefield = table.Rows[r][26].ToString();
+                    string defaultdatebehaviorid = table.Rows[r][21].ToString();
+                    string defaultdatebehavior = table.Rows[r][22].ToString();
+                    string datebehaviorid = table.Rows[r][23].ToString();
+                    string datebehavior = table.Rows[r][24].ToString();
+                    string datefielddisplaynames = table.Rows[r][25].ToString();
+                    string datefields = table.Rows[r][26].ToString();
+                    string defaultdatefield = table.Rows[r][27].ToString();
+                    string datefield = table.Rows[r][28].ToString();
                     DateTime? defaultfromdate = null;
                     DateTime? fromdate = null;
                     DateTime? defaulttodate = null;
                     DateTime? todate = null;
-                    if (!table.Rows[r][27].ToString().Equals(""))
-                    {
-                        defaultfromdate = FwConvert.ToDateTime(table.Rows[r][27].ToString());
-                    }
-                    if (!table.Rows[r][28].ToString().Equals(""))
-                    {
-                        fromdate = FwConvert.ToDateTime(table.Rows[r][28].ToString());
-                    }
                     if (!table.Rows[r][29].ToString().Equals(""))
                     {
-                        defaulttodate = FwConvert.ToDateTime(table.Rows[r][29].ToString());
+                        defaultfromdate = FwConvert.ToDateTime(table.Rows[r][29].ToString());
                     }
                     if (!table.Rows[r][30].ToString().Equals(""))
                     {
-                        todate = FwConvert.ToDateTime(table.Rows[r][30].ToString());
+                        fromdate = FwConvert.ToDateTime(table.Rows[r][30].ToString());
                     }
-                    string locationid = table.Rows[r][31].ToString();
-                    string location = table.Rows[r][32].ToString();
-                    string locationcode = table.Rows[r][33].ToString();
+                    if (!table.Rows[r][31].ToString().Equals(""))
+                    {
+                        defaulttodate = FwConvert.ToDateTime(table.Rows[r][31].ToString());
+                    }
+                    if (!table.Rows[r][32].ToString().Equals(""))
+                    {
+                        todate = FwConvert.ToDateTime(table.Rows[r][32].ToString());
+                    }
+                    string locationid = table.Rows[r][33].ToString();
+                    string location = table.Rows[r][34].ToString();
+                    string locationcode = table.Rows[r][35].ToString();
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
@@ -285,7 +297,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.dataNumberFormat = datanumberformat;
                     w.dataNumberFormatMask = datanumberformatmask;
 
+                    w.defaultDateBehaviorId = defaultdatebehaviorid;
                     w.defaultDateBehavior = defaultdatebehavior;
+                    w.dateBehaviorId = datebehaviorid;
                     w.dateBehavior = datebehavior;
                     w.dateFieldDisplayNames = datefielddisplaynames;
                     w.dateFields = datefields;
