@@ -112,7 +112,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             public string OfficeLocationCode { get; set; }
         }
 
-        public class AvailableWidget : WidgetLogic { }
+        //public class AvailableWidget : WidgetLogic { }
         //------------------------------------------------------------------------------------
         public UserDashboardSettingsLogic()
         {
@@ -131,7 +131,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public string DashboardSettingsTitle { get; set; }
 
         [FwLogicProperty(Id: "lqNWOoaHp83RB")]
-        public List<AvailableWidget> AvailableWidgets { get; set; }
+        public List<WidgetLogic> AvailableWidgets { get; set; }
         [FwLogicProperty(Id: "oZMIf4l1CVS5")]
         public List<UserDashboardSetting> UserWidgets { get; set; }
 
@@ -162,9 +162,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             request.pagesize = 0;
             request.orderby = string.Empty;
 
-            AvailableWidget l = new AvailableWidget();
+            WidgetLogic l = new WidgetLogic();
             l.SetDependencies(AppConfig, UserSession);
-            AvailableWidgets = await l.SelectAsync<AvailableWidget>(request);
+            AvailableWidgets = await l.SelectAsync<WidgetLogic>(request);
 
 
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
