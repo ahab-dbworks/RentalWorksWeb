@@ -80,6 +80,23 @@
         <div class="flexrow" style="max-width:2100px;">
           <div data-control="FwGrid" data-grid="VendorInvoiceItemGrid"></div>
         </div>
+        <div class="flexrow" style="max-width:121em;">
+          <!--<div class="fwcontrol fwcontainer fwform-section daily" data-control="FwContainer" data-type="section" data-caption="Adjustments" style="margin-left:auto;flex:0 1 15em">
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="D/W" data-datafield="DaysPerWeek" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
+              <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="Disc. %" data-datafield="DiscountPercent" data-digits="2" style="flex:1 1 50px;" data-enabled="true"></div>
+            </div>
+          </div>-->
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals" style="margin-left:auto;flex:0 1 50em">
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
+              <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <!-- Charges Tab -->
       <div data-type="tabpage" id="chargestabpage" class="tabpage" data-tabid="chargestab">

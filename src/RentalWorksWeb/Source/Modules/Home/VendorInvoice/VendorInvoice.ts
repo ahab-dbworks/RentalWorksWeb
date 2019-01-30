@@ -33,7 +33,7 @@ class VendorInvoice {
         $browse = FwModule.openBrowse($browse);
 
         var location = JSON.parse(sessionStorage.getItem('location'));
-        self.ActiveView = 'LocationId=' + location.locationid;
+        self.ActiveView = `LocationId=${location.locationid}`;
 
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
@@ -94,13 +94,13 @@ class VendorInvoice {
         return $form;
     };
     //----------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
+    saveForm($form: JQuery, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids($form) {
-        let $vendorInvoiceItemGrid: any,
-            $vendorInvoiceItemGridControl: any;
+    renderGrids($form: JQuery) {
+        let $vendorInvoiceItemGrid: any;
+        let $vendorInvoiceItemGridControl: any;
 
         $vendorInvoiceItemGrid = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
         $vendorInvoiceItemGridControl = jQuery(jQuery('#tmpl-grids-VendorInvoiceItemGridBrowse').html());
@@ -110,9 +110,12 @@ class VendorInvoice {
                 VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
             }
         })
+        FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', () => {
+            this.getVendorInvoiceItemGridTotals($form);
+        })
         FwBrowse.init($vendorInvoiceItemGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $glDistributionGrid;
         let $glDistributionGridControl;
         $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
@@ -125,7 +128,7 @@ class VendorInvoice {
         });
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $vendorInvoicePaymentGrid;
         let $vendorInvoicePaymentGridControl;
         $vendorInvoicePaymentGrid = $form.find('div[data-grid="VendorInvoicePaymentGrid"]');
@@ -138,7 +141,7 @@ class VendorInvoice {
         });
         FwBrowse.init($vendorInvoicePaymentGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoicePaymentGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $vendorInvoiceNoteGrid;
         let $vendorInvoiceNoteGridControl;
         $vendorInvoiceNoteGrid = $form.find('div[data-grid="VendorInvoiceNoteGrid"]');
@@ -151,7 +154,7 @@ class VendorInvoice {
         });
         FwBrowse.init($vendorInvoiceNoteGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceNoteGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
         let $vendorInvoiceHistoryGrid;
         let $vendorInvoiceHistoryGridControl;
         $vendorInvoiceHistoryGrid = $form.find('div[data-grid="VendorInvoiceStatusHistoryGrid"]');
@@ -164,11 +167,10 @@ class VendorInvoice {
         });
         FwBrowse.init($vendorInvoiceHistoryGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceHistoryGridControl);
-        //----------------------------------------------------------------------------------------------
-
+        // ----------
     };
     //----------------------------------------------------------------------------------------------
-    afterLoad($form) {
+    afterLoad($form: JQuery) {
         //Disables editing when STATUS is CLOSED or PROCESSED 
         let status = FwFormField.getValueByDataField($form, 'Status');
         if ((status === 'CLOSED') || (status === 'PROCESSED')) {
@@ -192,11 +194,23 @@ class VendorInvoice {
         FwBrowse.search($vendorInvoiceHistoryGridControl);
     };
     //----------------------------------------------------------------------------------------------
-    afterSave($form) {
+    afterSave($form: JQuery) {
         $form.find('.continue').hide();
     };
     //----------------------------------------------------------------------------------------------
-    events($form) {
+    getVendorInvoiceItemGridTotals($form: JQuery): void {
+        //FwAppData.apiMethod(true, 'GET', `api/v1/`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        //    $form.find(`div[data-totalfield="SubTotal"] input`).val(response.SubTotal);
+        //    $form.find(`div[data-totalfield="Discount"] input`).val(response.Discount);
+        //    $form.find(`div[data-totalfield="Tax"] input`).val(response.Tax);
+        //    $form.find(`div[data-totalfield="GrossTotal"] input`).val(response.GrossTotal);
+        //    $form.find(`div[data-totalfield="Total"] input`).val(response.Total);
+        //}, function onError(response) {
+        //    FwFunc.showError(response);
+        //}, $form);
+    };
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery) {
         //populate fields with PO info
         $form.on('change', '[data-datafield="PurchaseOrderId"] input', e => {
             let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
