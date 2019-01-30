@@ -34,7 +34,10 @@
         return screen;
     };
 
-    commaDelimited = function(value, index, values) {
+    commaDelimited = function (value, index, values) {
+        if (typeof value === 'string') {
+            return value;
+        }
         if (typeof value !== 'string' && value > 1) {
             value = value.toString();
             value = value.split(/(?=(?:...)*$)/);
@@ -56,6 +59,9 @@
     }
 
     commaTwoDecimal = function (value, index, values) {
+        if (typeof value === 'string') {
+            return value;
+        }
         if (typeof value !== 'string' && value > 1) {
             value = value.toString();
             value = value.split(/(?=(?:...)*$)/);
@@ -96,7 +102,7 @@
                         html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
                         html.push('</div>');
                         html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" style="float:left;width:200px;"></div>');
+                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
                         html.push('</div>');
                         html.push('<div class="flexrow">');
                         html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
@@ -357,7 +363,7 @@
                 var $confirmation = FwConfirmation.renderConfirmation(widgetData.text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
-                html.push('<div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas></div>');
+                html.push('<div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.OfficeLocationCode + '</div></div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%')
 

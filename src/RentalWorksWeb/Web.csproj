@@ -898,6 +898,7 @@
     <Content Include="Source\Validations\InvoiceProcessBatchValidation\InvoiceProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\ReturnOnAssetPeriodValidation\ReturnOnAssetPeriodValidationBrowse.htm" />
     <Content Include="Source\Validations\ReturnOnAssetYearValidation\ReturnOnAssetYearValidationBrowse.htm" />
+    <Content Include="Source\Validations\WidgetDateBehaviorValidation\WidgetDateBehaviorValidationBrowse.htm" />
     <Content Include="Source\Validations\WidgetNumberFormatValidation\WidgetNumberFormatValidationBrowse.htm" />
     <Content Include="Source\Validations\SoundValidation\SoundValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyValidation\CompanyValidationBrowse.htm" />

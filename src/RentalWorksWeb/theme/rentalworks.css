@@ -105,6 +105,12 @@ Master
     width: 100%;
 }
 
+.fwconfirmation .chart-container .fullscreenofficebar {
+    position: absolute;
+    top: 2%;
+    right: 2%;
+}
+
 /* need to override the framework values here to make things responsive */
 .formpage {
     min-width: 0;
