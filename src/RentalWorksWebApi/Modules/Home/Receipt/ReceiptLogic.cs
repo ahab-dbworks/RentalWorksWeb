@@ -285,6 +285,8 @@ namespace WebApi.Modules.Home.Receipt
             }
 
 
+            bool b = ReceiptFunc.PostGlForReceipt(AppConfig, UserSession, ReceiptId).Result;
+
         }
     }
 }
