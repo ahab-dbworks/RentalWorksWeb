@@ -18,7 +18,7 @@ class Billing {
         var $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
-            //FwBrowse.databind($browse);
+            self.renderBrowseFilterPopup($browse);
             //FwBrowse.screenload($browse);
         };
         screen.unload = function () {
@@ -202,7 +202,6 @@ class Billing {
         FwBrowse.addLegend($browse, 'L&D', '#3C0040');
         FwBrowse.addLegend($browse, 'Hiatus', '#00B95C');
 
-        this.renderBrowseFilterPopup($browse);
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
