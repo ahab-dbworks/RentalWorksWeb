@@ -16,7 +16,6 @@
   <table>
     <thead class="mainHeader">
       <tr class="columnheadings">
-        <th>Vendor</th>
         <th>Invoice No.</th>
         <th>Invoice Date</th>
         <th>PO No.</th>
@@ -26,17 +25,30 @@
     <tbody>
       {{#with Items}}
       {{#each this}}
-      <tr>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Locationheader"}}
+        <td colspan="4" class="rowHeader">Office: {{Location}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Vendorheader"}}
+        <td colspan="4" class="rowHeader">Vendor: {{Vendor}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="Vendor">{{Vendor}}</td>
         <td class="InvoiceNumber">{{InvoiceNumber}}</td>
         <td class="InvoiceDate">{{InvoiceDate}}</td>
         <td class="PurchaseOrderNumber">{{PurchaseOrderNumber}}</td>
         <td class="InvoiceTotal">{{InvoiceTotal}}</td>
         {{/ifEquals}}
+        {{#ifEquals RowType "Vendorfooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Vendor}}:</td>
+        <td class="total-row number">{{InvoiceTotal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Locationfooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Location}}:</td>
+        <td class="total-row number">{{InvoiceTotal}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "invoicetotal"}}
-        <td colspan="4" class="invoiceTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
-        <td class="invoiceTotalRowTotal">{{InvoiceTotal}}</td>
+        <td colspan="3" class="invoiceTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
+        <td class="total-row invoiceTotalRowTotal">{{InvoiceTotal}}</td>
         {{/ifEquals}}
       </tr>
       {{/each}}

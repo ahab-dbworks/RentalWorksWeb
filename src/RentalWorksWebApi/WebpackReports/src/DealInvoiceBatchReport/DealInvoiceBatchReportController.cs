@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 namespace WebApi.Modules.Reports.DealInvoiceBatchReport
 {
-    public class DealInvoiceBatchReportRequest
+    public class DealInvoiceBatchReportRequest: AppReportRequest
     {
         public string BatchId { get; set; }
 

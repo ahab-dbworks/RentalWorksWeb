@@ -66,10 +66,15 @@ namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     addStringFilterToSelect("chgbatchid", request.BatchId, select);
-                    select.AddOrderBy("vendor,invno,pono");
+                    select.AddOrderBy("location,vendor,invno,pono");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
+            }
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
                 string[] totalFields = new string[] { "InvoiceTotal" };
+                dt.InsertSubTotalRows("Location", "RowType", totalFields);
+                dt.InsertSubTotalRows("Vendor", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "invoicetotal", totalFields);
             }
             return dt;

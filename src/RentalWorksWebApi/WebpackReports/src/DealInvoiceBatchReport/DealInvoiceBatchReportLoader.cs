@@ -101,10 +101,16 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     addStringFilterToSelect("chgbatchid", request.BatchId, select);
-                    select.AddOrderBy("customer,deal,invoiceno,orderno");
+                    select.AddOrderBy("location,customer,deal,invoiceno,orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
+            }
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
                 string[] totalFields = new string[] { "InvoiceTotal" };
+                dt.InsertSubTotalRows("Location", "RowType", totalFields);
+                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "invoicetotal", totalFields);
             }
             return dt;

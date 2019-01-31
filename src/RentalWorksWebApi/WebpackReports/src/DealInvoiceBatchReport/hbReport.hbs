@@ -16,25 +16,30 @@
   <table>
     <thead class="mainHeader">
       <tr class="columnheadings">
-        <th>Customer</th>
-        <th>Deal</th>
-        <th>Inv. No.</th>
-        <th>Inv. Date</th>
+        <th>Invoice No.</th>
+        <th>Invoice Date</th>
         <th>Order No.</th>
         <th>PO No.</th>
         <th>Invoice Description</th>
-        <th>Bill Start</th>
-        <th>Bill End</th>
-        <th>Invoice Total</th>
+        <th>Billing Start Date</th>
+        <th>Billing End Date</th>
+        <th style="text-align:right;">Invoice Total</th>
       </tr>
     </thead>
     <tbody>
       {{#with Items}}
       {{#each this}}
-      <tr>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Locationheader"}}
+        <td colspan="8" class="rowHeader">Office: {{Location}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerheader"}}
+        <td colspan="8" class="rowHeader">Customer: {{Customer}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="8" class="rowHeader">Deal: {{Deal}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="Customer">{{Customer}}</td>
-        <td class="Deal">{{Deal}}</td>
         <td class="InvoiceNumber">{{InvoiceNumber}}</td>
         <td class="InvoiceDate">{{InvoiceDate}}</td>
         <td class="OrderNumber">{{OrderNumber}}</td>
@@ -44,9 +49,21 @@
         <td class="BillingEndDate">{{BillingEndDate}}</td>
         <td class="InvoiceTotal">{{InvoiceTotal}}</td>
         {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{Deal}}:</td>
+        <td class="total-row number">{{InvoiceTotal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerfooter"}}
+        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{Customer}}:</td>
+        <td class="total-row number">{{InvoiceTotal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Locationfooter"}}
+        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{Location}}:</td>
+        <td class="total-row number">{{InvoiceTotal}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "invoicetotal"}}
-        <td colspan="9" class="invoiceTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
-        <td class="invoiceTotalRowTotal">{{InvoiceTotal}}</td>
+        <td colspan="7" class="invoiceTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
+        <td class="total-row invoiceTotalRowTotal">{{InvoiceTotal}}</td>
         {{/ifEquals}}
       </tr>
       {{/each}}

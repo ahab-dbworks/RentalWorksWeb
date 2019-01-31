@@ -69,8 +69,9 @@ html.pdf {
 
 .columnheadings {
     border-bottom: 2px solid black;
-    font-size:12px;
-    text-align:left;
+    font-size: 12px;
+    text-align: left;
+    border-top: 2px solid black;
 }
 
 .officeLocation {
@@ -84,13 +85,30 @@ html.pdf {
 
 .invoiceTotalRowTitle {
     font-weight: bold;
-    font-size: 14px;
+    font-size: 12px;
     text-align: right;
 }
 
 .invoiceTotalRowTotal {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     border-top: 2px solid black;
-    text-align:right;
+    text-align: right;
+}
+
+.rowHeader {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
+    }
+}
+
+.total-row {
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding-top: 10px;
 }

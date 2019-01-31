@@ -78,10 +78,16 @@ namespace WebApi.Modules.Reports.ReceiptBatchReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     addStringFilterToSelect("chgbatchid", request.BatchId, select);
-                    select.AddOrderBy("chgbatchdate, customer, deal, ardate, checkno");
+                    select.AddOrderBy("location, chgbatchdate, customer, deal, ardate, checkno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
+            }
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
                 string[] totalFields = new string[] { "Amount" };
+                dt.InsertSubTotalRows("Location", "RowType", totalFields);
+                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "receipttotal", totalFields);
             }
             return dt;

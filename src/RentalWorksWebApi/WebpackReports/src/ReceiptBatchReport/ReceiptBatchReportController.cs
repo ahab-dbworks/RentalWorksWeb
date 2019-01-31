@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 namespace WebApi.Modules.Reports.ReceiptBatchReport
 {
-    public class ReceiptBatchReportRequest
+    public class ReceiptBatchReportRequest : AppReportRequest
     {
         public string BatchId { get; set; }
     }

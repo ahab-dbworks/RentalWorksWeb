@@ -16,8 +16,6 @@
   <table>
     <thead class="mainHeader">
       <tr class="columnheadings">
-        <th>Customer</th>
-        <th>Deal</th>
         <th>Date</th>
         <th>Ref/Check No.</th>
         <th>Payment Type</th>
@@ -27,18 +25,37 @@
     <tbody>
       {{#with Items}}
       {{#each this}}
-      <tr>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Locationheader"}}
+        <td colspan="4" class="rowHeader">Office: {{Location}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerheader"}}
+        <td colspan="4" class="rowHeader">Customer: {{Customer}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="4" class="rowHeader">Deal: {{Deal}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="Customer">{{Customer}}</td>
-        <td class="Deal">{{Deal}}</td>
         <td class="ReceiptDate">{{ReceiptDate}}</td>
         <td class="CheckNumber">{{CheckNumber}}</td>
         <td class="PaymentType">{{PaymentType}}</td>
         <td class="Amount">{{Amount}}</td>
         {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Deal}}:</td>
+        <td class="total-row number">{{Amount}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerfooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Customer}}:</td>
+        <td class="total-row number">{{Amount}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Locationfooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Location}}:</td>
+        <td class="total-row number">{{Amount}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "receipttotal"}}
-        <td colspan="5" class="receiptTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
-        <td class="receiptTotalRowTotal">{{Amount}}</td>
+        <td colspan="3" class="receiptTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
+        <td class="total-row receiptTotalRowTotal">{{Amount}}</td>
         {{/ifEquals}}
       </tr>
       {{/each}}

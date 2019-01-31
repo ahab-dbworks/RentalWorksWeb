@@ -21,13 +21,6 @@ var receiptBatchTemplateFrontEnd = `
                 </div>
               </div>
             </div> 
-            <div class="flexcolumn" style="max-width:210px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Data By">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="OrderBy" data-control="FwFormField" data-checkboxlist="persist" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-sortable="true" data-orderby="true" style="float:left;width:500px;margin-top:-2px"></div>
-                </div>
-              </div>
-            </div>  
           </div>
         </div>
       </div>
@@ -69,17 +62,6 @@ class RwReceiptBatchReportClass extends FwWebApiReport {
         this.load($form, this.reportOptions);
         var appOptions: any = program.getApplicationOptions();
         var request: any = { method: "LoadForm" };
-        this.loadLists($form);
-    }
-    //----------------------------------------------------------------------------------------------
-    loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="OrderBy"]'),
-            [
-                { value: "CUSTOMER", text: "Customer", selected: "T" },
-                { value: "DEAL", text: "Deal", selected: "T" },
-                { value: "INVOICENO", text: "Invoice No.", selected: "T" },
-                { value: "ORDERNO", text: "Order No.", selected: "T" },
-            ]);
     }
     //----------------------------------------------------------------------------------------------
 };
