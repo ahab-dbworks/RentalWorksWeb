@@ -4,10 +4,10 @@ Navigate to the "build" directory: <repo root>\build, Delete all files and direc
 Confirm that you are on local\develop branch
 Stash any unstaged changes
 Modify version.txt file in the root of the Web project (save and close)
-Build Reports:
-	Open command prompt at WebApi directory
-	cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
-	npm run build-reports-dev
+[obsolete?] Build Reports:
+[obsolete?] 	Open command prompt at WebApi directory
+[obsolete?] 	cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
+[obsolete?] 	npm run build-reports-dev
 Change build mode to Release - Any CPU
 Rebuild Solution
 Publish WebAPI:
@@ -41,6 +41,9 @@ Updating Api:
 		.well-known (directory)
 		appsettings.json
 	Copy over the new deliverable files. 
-	??update permissions on \wwwroot\temp\downloads directory.  Add Modify permissions for IIS_IUSRS
+	4Wall: 
+		create directory C:\inetpub\wwwroot\rentalworkswebapi\wwwroot\temp\downloads
+		Folder Properties --> Security --> Edit 
+		Add Modify permissions for user: IIS_IUSRS
 
 
