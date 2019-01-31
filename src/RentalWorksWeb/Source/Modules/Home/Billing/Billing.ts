@@ -179,7 +179,7 @@ class Billing {
                 } else {
                     FwNotification.renderNotification('ERROR', response.msg);
                 }
-            }, null, $browse);
+            }, null, $browse, this.SessionId);
         });
     }
 
