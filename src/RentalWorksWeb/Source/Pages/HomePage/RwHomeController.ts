@@ -214,13 +214,13 @@
         }
 
         jQuery($control).on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.DateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let titleArray = [];
                     titleArray.push(response.options.title.text);
                     if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                         titleArray.push(moment(response.fromDate).format('l'));
-                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.DateBehaviorId === 'SINGLEDATESPECIFICDATE') {
+                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
                         titleArray.push(moment(response.fromDate).format('l'));
                     } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                         titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
@@ -293,13 +293,13 @@
 
                 var widgetfullscreen = $confirmation.find('#' + widgetData.apiname + 'fullscreen');  
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.DateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         let titleArray = [];
                         titleArray.push(response.options.title.text);
                         if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                             titleArray.push(moment(response.fromDate).format('l'));
-                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.DateBehaviorId === 'SINGLEDATESPECIFICDATE') {
+                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
                             titleArray.push(moment(response.fromDate).format('l'));
                         } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                             titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
@@ -360,13 +360,13 @@
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehavior=${widgetData.DateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 let titleArray = [];
                 titleArray.push(response.options.title.text);
                 if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                     titleArray.push(moment(response.fromDate).format('l'));
-                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.DateBehaviorId === 'SINGLEDATESPECIFICDATE') {
+                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
                     titleArray.push(moment(response.fromDate).format('l'));
                 } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                     titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
