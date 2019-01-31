@@ -52,7 +52,7 @@
                         html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
                         html.push('</div>');
                         html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
+                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
                         html.push('</div>');
                         html.push('<div class="flexrow">');
                         html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
@@ -121,11 +121,11 @@
                         FwFormField.setValue2(toDate, response.DefaultToDate);
                     }
 
-                    $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
+                    $confirmation.find('div[data-datafield="DateBehaviorId"]').on('change', function () {
                         let selected = FwFormField.getValue2(jQuery(this));
                         self.setDateBehaviorFields($confirmation, selected);
                     });
-                    //FwFormField.setValueByDataField($confirmation, '', response.OfficeLocationId, response.OfficeLocation);
+                    FwFormField.setValueByDataField($confirmation, 'DateBehaviorId', response.dateBehaviorId, response.dateBehavior);
                     FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', response.OfficeLocationId, response.OfficeLocation);
 
                     let dateFields = response.DateFields.split(',');
@@ -148,12 +148,11 @@
                             request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
                             request.AxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
                             request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
-                            request.DateBehavior = FwFormField.getValue($confirmation, '.datebehavior');
+                            request.DateBehaviorId = FwFormField.getValue($confirmation, '.datebehavior');
                             request.DateField = FwFormField.getValue($confirmation, '.datefield');
                             request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                             request.ToDate = FwFormField.getValue($confirmation, '.todate');
                             request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');
-                            request.OfficeLocation = FwFormField.getText($confirmation, '.officelocation');
                             FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                                 FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                                 FwConfirmation.destroyConfirmation($confirmation);
@@ -215,19 +214,19 @@
         }
 
         jQuery($control).on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let titleArray = [];
                     titleArray.push(response.options.title.text);
                     if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                         titleArray.push(moment(response.fromDate).format('l'));
-                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                    } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
                         titleArray.push(moment(response.fromDate).format('l'));
                     } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                         titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                     }
 
-                    if (response.dateBehavior === 'NONE') {
+                    if (response.dateBehaviorId === 'NONE') {
                         titleArray.pop();
                     }
 
@@ -294,19 +293,19 @@
 
                 var widgetfullscreen = $confirmation.find('#' + widgetData.apiname + 'fullscreen');  
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         let titleArray = [];
                         titleArray.push(response.options.title.text);
                         if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                             titleArray.push(moment(response.fromDate).format('l'));
-                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                        } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
                             titleArray.push(moment(response.fromDate).format('l'));
                         } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                             titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                         }
 
-                        if (response.dateBehavior === 'NONE') {
+                        if (response.dateBehaviorId === 'NONE') {
                             titleArray.pop();
                         }
 
@@ -361,19 +360,19 @@
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehavior}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&dateBehavior=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 let titleArray = [];
                 titleArray.push(response.options.title.text);
                 if (response.fromDate !== undefined && response.fromDate === response.toDate) {
                     titleArray.push(moment(response.fromDate).format('l'));
-                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehavior === 'SINGLEDATESPECIFICDATE') {
+                } else if (response.fromDate !== undefined && response.fromDate !== response.toDate && widgetData.dateBehaviorId === 'SINGLEDATESPECIFICDATE') {
                     titleArray.push(moment(response.fromDate).format('l'));
                 } else if (response.fromDate !== undefined && response.fromDate !== response.toDate) {
                     titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                 }
 
-                if (response.dateBehavior === 'NONE') {
+                if (response.dateBehaviorId === 'NONE') {
                     titleArray.pop();
                 }
 
