@@ -9,10 +9,9 @@ class Receipt {
     id: string = '57E34535-1B9F-4223-AD82-981CA34A6DEC';
     ActiveView: string = 'ALL';
     thisModule: Receipt;
-   
+
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
-        var self = this;
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
@@ -21,8 +20,8 @@ class Receipt {
         var $browse: any = this.openBrowse();
         const today = FwFunc.getDate();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () =>  {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
                 var datafields = filter.datafield.split('%20');
@@ -30,7 +29,7 @@ class Receipt {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
-                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             } else {
                 // if no filter passed in, default view to today's date
                 $browse.find('div[data-browsedatafield="ReceiptDate"]').find('input').val(today);
@@ -52,7 +51,7 @@ class Receipt {
         $browse = FwModule.openBrowse($browse);
 
         let location = JSON.parse(sessionStorage.getItem('location'));
-        this.ActiveView = 'LocationId=' + location.locationid;
+        this.ActiveView = `LocationId=${location.locationid}`;
 
         $browse.data('ondatabind', request => {
             request.activeview = this.ActiveView;
@@ -111,7 +110,7 @@ class Receipt {
             $form.find('.deal-customer').data('onchange', () => {
                 this.loadReceiptInvoiceGrid($form);
             });
-           
+
             $form.find('div[data-datafield="PaymentBy"]').change(() => {
                 this.paymentByRadioBehavior($form);
                 if (FwFormField.getValueByDataField($form, 'DealId') !== '' && FwFormField.getValueByDataField($form, 'CustomerId') !== '') {
@@ -120,8 +119,51 @@ class Receipt {
             });
         }
         this.events($form);
-        let braintreeScipt = `<script> let button = document.querySelector('#braintree-btn'); braintree.dropin.create({authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',container: '#dropin-container'}, function (createErr, instance) {button.addEventListener('click', function () {instance.requestPaymentMethod(function (err, payload) {});});});</script>`;
-        $form.find('.braintree-row').prepend(braintreeScipt)
+        $form.find('.braintree-btn').click(() => {
+            let braintreeScipt = `<script>
+              let button = document.querySelector('#braintree-btn');
+
+              braintree.dropin.create({
+                authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',
+                container: '#dropin-container'
+              }, function (createErr, instance) {
+                button.addEventListener('click', function () {
+                  instance.requestPaymentMethod(function (requestPaymentMethodErr, payload) {
+                    // When the user clicks on the 'Submit payment' button this code will send the
+                    // encrypted payment information in a variable called a payment method nonce
+                    $.ajax({
+                      type: 'POST',
+                      url: '/checkout',
+                      data: {'paymentMethodNonce': payload.nonce}
+                    }).done(function(result) {
+                      // Tear down the Drop-in UI
+                      instance.teardown(function (teardownErr) {
+                        if (teardownErr) {
+                          console.error('Could not tear down Drop-in UI!');
+                        } else {
+                          console.info('Drop-in UI has been torn down!');
+                          // Remove the 'Submit payment' button
+                          button.remove();
+                        }
+                      });
+
+                      if (result.success) {
+                        $('#checkout-message').html('<h1>Success</h1><p>Your Drop-in UI is working! Check your <a href="https://sandbox.braintreegateway.com/login">sandbox Control Panel</a> for your test transactions.</p><p>Refresh to try another transaction.</p>');
+                      } else {
+                        console.log(result);
+                        $('#checkout-message').html('<h1>Error</h1><p>Check your console.</p>');
+                      }
+                    });
+                  });
+                });
+              });
+            </script>`;
+
+            //let braintreeScipt = `<script> let button = document.querySelector('#braintree-btn'); braintree.dropin.create({authorization: 'sandbox_bzjwnpg3_k3fb9p88pvbfjfg9',container: '#dropin-container'}, function (createErr, instance) {button.addEventListener('click', function () {instance.requestPaymentMethod(function (err, payload) {});});});</script>`;
+            $form.find('.braintree-row').prepend(braintreeScipt);
+            //let $popup = FwPopup.renderPopup(jQuery(braintreeScipt), { ismodal: true });
+            //FwPopup.showPopup($popup);
+        })
         // Adds receipt invoice datatable to request
         $form.data('beforesave', request => {
             request.InvoiceDataList = this.getFormTableData($form);
@@ -164,7 +206,7 @@ class Receipt {
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         // ----------
-        
+
         // ----------
 
     }
@@ -218,7 +260,7 @@ class Receipt {
             let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             let receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
             let receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
-            let dealCustomer = FwFormField.getValue($form, '.deal-customer:visible'); 
+            let dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
             let dealCustomerId = $form.find('.deal-customer:visible').attr('data-datafield');
 
             request.uniqueids = {
@@ -302,7 +344,7 @@ class Receipt {
             let invoiceReceiptId = $invoiceReceiptIds.eq(i).text();
             let amount: any = $amountFields.eq(i).val();
             amount = amount.replace(/,/g, '');
-           
+
             fields.InvoiceReceiptId = invoiceReceiptId;
             fields.InvoiceId = invoiceId;
             fields.Amount = +amount;
