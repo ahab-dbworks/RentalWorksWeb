@@ -270,8 +270,16 @@ namespace WebApi.Modules.Settings.Widget
                 qry.AddColumn(backgroundColorFieldName);
                 qry.AddColumn(borderColorFieldName);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
-                fromDate = qry.GetParameter("@outputfromdate").ToDateTime();
-                toDate = qry.GetParameter("@outputtodate").ToDateTime();
+                if (qry.GetParameter("@outputfromdate").FieldValue == DBNull.Value)
+                {
+                    fromDate = null;
+                    toDate = null;
+                }
+                else
+                {
+                    fromDate = qry.GetParameter("@outputfromdate").ToDateTime();
+                    toDate = qry.GetParameter("@outputtodate").ToDateTime();
+                }
 
                 bool labelIsDate = false;
                 if (table.Rows.Count > 0)
