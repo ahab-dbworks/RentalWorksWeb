@@ -139,4 +139,23 @@
     }
     //----------------------------------------------------------------------------------------------
 }
+//Export Settings
+FwApplicationTree.clickEvents['{28D5F4EF-9A60-4D7F-B294-4B302B88413F}'] = function (event) {
+    try {
+        let $exportSettingsBrowse = ExportSettingsController.openBrowse();
+        $exportSettingsBrowse.data('ondatabind', function (request) {
+            request.miscfields = {
+                Invoices: true
+                , Receipts: false
+                , VendorInvoices: false
+            }
+        });
+        FwModule.openModuleTab($exportSettingsBrowse, 'Export Settings', true, 'BROWSE', true);
+        FwBrowse.search($exportSettingsBrowse);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
 var InvoiceProcessBatchController = new InvoiceProcessBatch();

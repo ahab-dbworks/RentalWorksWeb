@@ -299,6 +299,7 @@ namespace WebLibrary.Security
             AddModule("Process Deal Invoices", "{5DB3FB9C-6F86-4696-867A-9B99AB0D6647}", lv1menuUtilities.Id, "InvoiceProcessBatchController", "module/invoiceprocessbatch", utilitiesiconbaseurl + "placeholder.png", "", "", "");
             AddModule("Process Receipts",      "{0BB9B45C-57FA-47E1-BC02-39CEE720792C}", lv1menuUtilities.Id, "ReceiptProcessBatchController", "module/receiptprocessbatch", utilitiesiconbaseurl + "placeholder.png", "", "", "");
             AddModule("Process Vendor Invoices", "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv1menuUtilities.Id, "VendorInvoiceProcessBatchController", "module/vendorinvoiceprocessbatch", utilitiesiconbaseurl + "placeholder.png", "", "", "");
+            AddModule("Export Settings",       "{70CEC5BB-2FD9-4C68-9BE2-F8A3C6A17BB7}", lv1menuUtilities.Id, "ExportSettingsController", "module/exportsettings", utilitiesiconbaseurl + "placeholder.png", "", "", "");
 
             // Add Administrator 
             AddModule("Control",             "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuAdministrator.Id, "ControlController",        "module/control",        administratoriconbaseurl + "placeholder.png");
