@@ -86,7 +86,7 @@ class DashboardSettings {
                     html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
-                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehavior" style="float:left;width:200px;"></div>');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
@@ -113,23 +113,6 @@ class DashboardSettings {
                         { value: 'bar', text: 'Bar' },
                         { value: 'horizontalBar', text: 'Horizontal Bar' },
                         { value: 'pie', text: 'Pie' }
-                    ], true);
-                    FwFormField.loadItems($confirmation.find('.datebehavior'), [
-                        { value: 'NONE', text: 'None' },
-                        { value: 'SINGLEDATEYESTERDAY', text: 'Single Date - Yesterday' },
-                        { value: 'SINGLEDATETODAY', text: 'Single Date - Today' },
-                        { value: 'SINGLEDATETOMORROW', text: 'Single Date - Tomorrow' },
-                        { value: 'SINGLEDATESPECIFICDATE', text: 'Single Date - Specific Date' },
-                        { value: 'DATERANGEPRIORWEEK', text: 'Date Range - Prior Week' },
-                        { value: 'DATERANGECURRENTWEEK', text: 'Date Range - Current Week' },
-                        { value: 'DATERANGEPRIORMONTH', text: 'Date Range - Prior Month' },
-                        { value: 'DATERANGECURRENTMONTH', text: 'Date Range - Current Month' },
-                        { value: 'DATERANGENEXTMONTH', text: 'Date Range - Next Week' },
-                        { value: 'DATERANGEPRIORYEAR', text: 'Date Range - Prior Year' },
-                        { value: 'DATERANGECURRENTYEAR', text: 'Date Range - Current Year' },
-                        { value: 'DATERANGEYEARTODATE', text: 'Date Range - Year To Date' },
-                        { value: 'DATERANGENEXTYEAR', text: 'Date Range - Next Year' },
-                        { value: 'DATERANGESPECIFICDATES', text: 'Date Range - Specific Dates' }
                     ], true);
                     $confirmation.find('div[data-datafield="DefaultDataPoints"] input').val(response.DataPoints);
 
@@ -171,20 +154,12 @@ class DashboardSettings {
                         FwFormField.setValue2(toDate, response.DefaultToDate);
                     }
 
-                    $confirmation.find('div[data-datafield="DateBehavior"]').on('change', function () {
+                    $confirmation.find('div[data-datafield="DateBehaviorId"]').on('change', function () {
                         let selected = FwFormField.getValue2(jQuery(this));
                         self.setDateBehaviorFields($confirmation, selected);
                     });
-
-                    if (response.DateBehavior !== '') {
-                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
-                        FwFormField.setValue2(dateBehavior, response.DateBehavior);
-                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
-                    } else if (response.DateBehavior === '' && response.DefaultDateBehavior !== '') {
-                        let dateBehavior = $confirmation.find('div[data-datafield="DateBehavior"]');
-                        FwFormField.setValue2(dateBehavior, response.DefaultDateBehavior);
-                        self.setDateBehaviorFields($confirmation, response.DateBehavior);
-                    }
+                    
+                    FwFormField.setValueByDataField($confirmation, 'DateBehaviorId', response.DateBehaviorId, response.DateBehavior);
                     FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', response.OfficeLocationId, response.OfficeLocation);
 
                     let dateFields = response.DateFields.split(',');
@@ -214,7 +189,7 @@ class DashboardSettings {
                         FwFormField.setValue2($confirmation.find('.widgettype'), request.WidgetType);
                         FwFormField.setValue2($confirmation.find('.fromdate'), request.FromDate);
                         FwFormField.setValue2($confirmation.find('.todate'), request.ToDate);
-                        FwFormField.setValue2($confirmation.find('div[data-datafield="DateBehavior"]'), request.DateBehavior);
+                        FwFormField.setValue2($confirmation.find('div[data-datafield="DateBehaviorId"]'), request.DateBehaviorId, request.DateBehavior);
                     }
 
                     $select.on('click', function () {
@@ -228,7 +203,8 @@ class DashboardSettings {
                             request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
                             request.AxisNumberFormat = FwFormField.getText($confirmation, '.axisformat');
                             request.DataNumberFormat = FwFormField.getText($confirmation, '.dataformat');
-                            request.DateBehavior = FwFormField.getValue($confirmation, '.datebehavior');
+                            request.DateBehaviorId = FwFormField.getValue($confirmation, '.datebehavior');
+                            request.DateBehavior = FwFormField.getText($confirmation, '.datebehavior');
                             request.FromDate = FwFormField.getValue($confirmation, '.fromdate');
                             request.ToDate = FwFormField.getValue($confirmation, '.todate');
                             request.OfficeLocationId = FwFormField.getValue($confirmation, '.officelocation');

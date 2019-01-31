@@ -226,40 +226,87 @@
                         titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                     }
 
-                    if (response.DateBehaviorId === 'NONE') {
+                    if (response.dateBehaviorId === 'NONE' || response.dateBehaviorId === undefined) {
                         titleArray.pop();
                     }
 
                     response.options.title.text = titleArray;
 
-                    if (widgetData.axisNumberFormatId === 'TWODGDEC') {
-                        response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
-                    } else {
-                        response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                    switch (widgetData.axisNumberFormatId) {
+                        case 'TWODGDEC':
+                            if (response.type !== 'horizontalBar') {
+                                response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
+                            } else {
+                                response.options.scales.xAxes[0].ticks.userCallback = self.commaTwoDecimal
+                            }
+                            break;
+                        case 'TWDIGPCT':
+                            if (response.type !== 'horizontalBar') {
+                                response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimalPercent
+                            } else {
+                                response.options.scales.xAxes[0].ticks.userCallback = self.commaTwoDecimalPercent
+                            }
+                            break;
+                        case 'WHOLENBR':
+                            if (response.type !== 'horizontalBar') {
+                                response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                            } else {
+                                response.options.scales.xAxes[0].ticks.userCallback = self.commaDelimited
+                            }
+                            break;
+                        case 'WHNUMPCT':
+                            if (response.type !== 'horizontalBar') {
+                                response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimitedPercent
+                            } else {
+                                response.options.scales.xAxes[0].ticks.userCallback = self.commaDelimitedPercent
+                            }
+                            break;
                     }
+
                     if (widgetData.widgettype !== '') {
                         response.type = widgetData.widgettype
                     }
+
                     if (response.type === 'pie') {
                         delete response.options.legend;
                         delete response.options.scales;
-                    }
-                    if (response.type !== 'pie') {
+                    } else {
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
-                        if (widgetData.dataNumberFormatId === 'TWODGDEC') {
-                            response.options.tooltips = {
-                                'callbacks': {
-                                    'label': self.commaTwoDecimalData
-                                }
-                            };
-                        } else {
-                            response.options.tooltips = {
-                                'callbacks': {
-                                    'label': self.commaDelimitedData
-                                }
-                            };
+                    }
+
+                    if (response.type !== 'pie') {
+                        switch (widgetData.dataNumberFormatId) {
+                            case 'TWODGDEC':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaTwoDecimalData
+                                    }
+                                };
+                                break;
+                            case 'TWDIGPCT':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaTwoDecimalPercentData
+                                    }
+                                };
+                                break;
+                            case 'WHOLENBR':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaDelimitedData
+                                    }
+                                };
+                                break;
+                            case 'WHNUMPCT':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaDelimitedPercentData
+                                    }
+                                };
+                                break;
                         }
                     }
+
                     if (response.data.labels.length > 10 && response.type !== 'pie') {
                         response.options.scales.xAxes[0].ticks.minRotation = 70;
                         response.options.scales.xAxes[0].ticks.maxRotation = 70;
@@ -305,7 +352,7 @@
                             titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                         }
 
-                        if (response.DateBehaviorId === 'NONE') {
+                        if (response.dateBehaviorId === 'NONE' || response.dateBehaviorId === undefined) {
                             titleArray.pop();
                         }
 
@@ -372,7 +419,7 @@
                     titleArray.push(moment(response.fromDate).format('l') + ' - ' + moment(response.toDate).format('l'));
                 }
 
-                if (response.DateBehaviorId === 'NONE') {
+                if (response.dateBehaviorId === 'NONE' || response.dateBehaviorId === undefined) {
                     titleArray.pop();
                 }
 
@@ -421,7 +468,7 @@
                 }
 
                 if (response.type !== 'pie') {
-                    switch (widgetData.axisNumberFormatId) {
+                    switch (widgetData.dataNumberFormatId) {
                         case 'TWODGDEC':
                             response.options.tooltips = {
                                 'callbacks': {
@@ -514,10 +561,10 @@
 
     commaTwoDecimal = function (value, index, values) {
         value = value.toString();
-        if (value.charAt(value.length - 3) === '.') {
-            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
-        } else {
+        if (value.charAt(value.length - 3) !== '.' && !isNaN(value)) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
         }
     };
 
@@ -533,10 +580,10 @@
 
     commaTwoDecimalPercent = function (value, index, values) {
         value = value.toString();
-        if (value.charAt(value.length - 3) === '.') {
-            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
-        } else {
+        if (value.charAt(value.length - 3) !== '.' && !isNaN(value)) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00%'
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
         }
     };
 
@@ -552,7 +599,11 @@
 
     commaDelimitedPercent = function (value, index, values) {
         value = value.toString();
-        return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '%'
+        if (value.charAt(value.length - 3) !== '.' && !isNaN(value)) {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '%'
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+        }
     };
 
     commaDelimitedPercentData = function (tooltipItem, data) {
