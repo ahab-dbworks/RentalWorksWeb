@@ -2273,20 +2273,50 @@ class Order extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     retireLossDamage($form: JQuery): void {
-        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        let request: any = {}
-        request.OrderId = orderId;
-        FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/retire`, request, FwServices.defaultTimeout, function onSuccess(response) {
-            if (response.success === true) {
-                let uniqueids: any = {};
-                uniqueids.ContractId = response.ContractId;
-                let $contractForm = ContractController.loadForm(uniqueids);
-                FwModule.openModuleTab($contractForm, "", true, 'FORM', true)
+        let $confirmation, $yes, $no, html: Array<string> = [];;
+        $confirmation = FwConfirmation.renderConfirmation('Void', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div>Create a Lost Contract and Retire the Items?</div>');
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+        $yes = FwConfirmation.addButton($confirmation, 'Retire', false);
+        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', retireLD);
+
+        function retireLD() {
+            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            let request: any = {}
+            request.OrderId = orderId;
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Retiring...');
+            $yes.off('click');
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/retire`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                if (response.success === true) {
+                    let uniqueids: any = {};
+                    uniqueids.ContractId = response.ContractId;
+                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Retired');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    let $contractForm = ContractController.loadForm(uniqueids);
+                    FwModule.openModuleTab($contractForm, "", true, 'FORM', true)
+                    FwModule.refreshForm($form, OrderController);
+                }
+            }, function onError(response) {
+                $yes.on('click', retireLD);
+                $yes.text('Retire');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
                 FwModule.refreshForm($form, OrderController);
-            }
-        }, function onError(response) {
-                console.log('response: ', response)
-            }, $form);
+                }, $form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     createSnapshotOrder($form: JQuery, event: any): void {

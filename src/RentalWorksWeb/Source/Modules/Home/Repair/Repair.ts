@@ -924,16 +924,15 @@ class Repair {
     };
     //----------------------------------------------------------------------------------------------
     voidOrder($form: JQuery): void {
-        let $confirmation, $yes, $no;
+        let $confirmation, $yes, $no, html: Array<string> = [];
         $confirmation = FwConfirmation.renderConfirmation('Void', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        let html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div>Would you like to void this Repair Order?</div>');
         html.push('  </div>');
         html.push('</div>');
-
+        
         FwConfirmation.addControls($confirmation, html.join(''));
         $yes = FwConfirmation.addButton($confirmation, 'Void', false);
         $no = FwConfirmation.addButton($confirmation, 'Cancel');
