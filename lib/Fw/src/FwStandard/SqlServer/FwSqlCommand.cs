@@ -1109,6 +1109,7 @@ namespace FwStandard.SqlServer
                                 }
                                 if (!found)
                                 {
+                                    colname = reader.GetName(fieldno);
                                     dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
                                 }
                             }
