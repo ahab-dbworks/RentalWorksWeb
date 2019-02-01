@@ -129,9 +129,28 @@
             }, 1);
         }
 
+        let controller = $form.attr('data-controller');
+        if (controller == "SalesInventoryController" || controller == "RentalInventoryController") {
+            let $submoduleRepairOrderBrowse = this.openRepairOrderBrowse($form);
+            $form.find('.repairOrderSubModule').append($submoduleRepairOrderBrowse);
+        }
         return $form;
     };
     //----------------------------------------------------------------------------------------------
+    openRepairOrderBrowse($form) {
+        let inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        let $browse;
+        $browse = RepairController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = RepairController.ActiveView;
+            request.uniqueids = {
+                InventoryId: inventoryId
+            };
+        });
+        jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
