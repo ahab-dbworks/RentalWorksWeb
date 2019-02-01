@@ -12,11 +12,12 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 namespace WebApi.Modules.Reports.DealInvoiceBatchReport
 {
-    public class DealInvoiceBatchReportRequest: AppReportRequest
+    public class DealInvoiceBatchReportRequest : AppReportRequest
     {
         public string BatchId { get; set; }
-
+        public string BatchNumber { get; set; }
     }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "t3byQWNa3hZ4H")]

@@ -15,6 +15,7 @@ namespace WebApi.Modules.Reports.ReceiptBatchReport
     public class ReceiptBatchReportRequest : AppReportRequest
     {
         public string BatchId { get; set; }
+        public string BatchNumber { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

@@ -116,6 +116,7 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
                 using (var tw = new StreamWriter(path, true))
                 {
                     tw.Write(sb);
+                    tw.Flush();
                     tw.Close();
                 }
             }

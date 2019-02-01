@@ -57,7 +57,7 @@ namespace WebApi.Modules.Reports.ReceiptBatchReport
         [FwSqlDataField(column: "paytype", modeltype: FwDataTypes.Text)]
         public string PaymentType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "amount", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "amount", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Amount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]

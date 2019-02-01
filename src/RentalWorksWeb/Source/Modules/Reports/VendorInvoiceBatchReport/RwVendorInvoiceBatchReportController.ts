@@ -19,6 +19,9 @@ var vendorInvoiceBatchTemplateFrontEnd = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor Invoice Processing Batch Number" data-datafield="BatchId" data-displayfield="BatchNumber" data-validationname="VendorInvoiceProcessBatchValidation" style="float:left;max-width:300px;"></div>
                 </div>
+                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield batchNumber" data-caption="Batch Number" data-datafield="BatchNumber" style="display:none;"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -55,6 +58,10 @@ class RwVendorInvoiceBatchReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         let $form = this.getFrontEnd();
+        $form.find('[data-datafield="BatchId"]').data('onchange', e => {
+            let batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
+            FwFormField.setValueByDataField($form, 'BatchNumber', batchNumber);
+        })
         return $form;
     }
     //----------------------------------------------------------------------------------------------

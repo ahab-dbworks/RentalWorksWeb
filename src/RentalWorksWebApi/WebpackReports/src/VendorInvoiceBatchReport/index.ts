@@ -12,7 +12,6 @@ var hbFooter = require("./hbFooter.hbs");
 export class VendorInvoiceBatchReportRequest {
     BatchId: string;
     BatchNumber: string;
-    OfficeLocation: string;
 }
 
 export class VendorInvoiceBatchReport extends WebpackReport {
@@ -33,8 +32,7 @@ export class VendorInvoiceBatchReport extends WebpackReport {
                     report.Report = 'Vendor Invoice Batch Report';
                     report.System = 'RENTALWORKS';
                     report.Company = '4WALL ENTERTAINMENT';
-                    report.BatchNumber = report.Items[0].BatchNumber;
-                    report.OfficeLocation = report.Items[0].Location;
+                    report.BatchNumber = parameters.BatchNumber;
 
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

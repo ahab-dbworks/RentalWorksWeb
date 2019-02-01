@@ -9,9 +9,6 @@
   <div class="rpt-flexcolumn">
   </div>
 </div>
-<div class="rpt-flexrow">
-  <span class="officeLocation">Office: {{OfficeLocation}}</span>
-</div>
 <div class="rpt-flexrow" style="margin-top:25px;">
   <table>
     <thead class="mainHeader">
@@ -39,23 +36,23 @@
         <td class="ReceiptDate">{{ReceiptDate}}</td>
         <td class="CheckNumber">{{CheckNumber}}</td>
         <td class="PaymentType">{{PaymentType}}</td>
-        <td class="Amount">{{Amount}}</td>
+        <td class="Amount" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
         <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Deal}}:</td>
-        <td class="total-row number">{{Amount}}</td>
+        <td class="total-row number" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
         <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Customer}}:</td>
-        <td class="total-row number">{{Amount}}</td>
+        <td class="total-row number" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Locationfooter"}}
         <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Location}}:</td>
-        <td class="total-row number">{{Amount}}</td>
+        <td class="total-row number" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "receipttotal"}}
         <td colspan="3" class="receiptTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
-        <td class="total-row receiptTotalRowTotal">{{Amount}}</td>
+        <td class="total-row receiptTotalRowTotal" data-value="{{Amount}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

@@ -45,7 +45,7 @@ namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
         [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chgbatchno", modeltype: FwDataTypes.Text)]
