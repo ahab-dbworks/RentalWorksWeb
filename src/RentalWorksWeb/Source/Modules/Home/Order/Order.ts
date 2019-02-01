@@ -2210,7 +2210,8 @@ class Order extends OrderBase {
                         FwPopup.destroyPopup($popup);
                         FwBrowse.search($orderItemGridLossDamage);
                     } else {
-                        FwConfirmation.renderConfirmation('ERROR', 'Error')
+                        //FwConfirmation.renderConfirmation('ERROR', 'Error')
+                        FwNotification.renderNotification('ERROR', response.msg); //justin 01/31/2019
                     }
                 }, null, $lossAndDamageItemGrid)
             });

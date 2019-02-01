@@ -64,19 +64,17 @@ namespace WebApi.Modules.Home.LossAndDamage
             CompleteLossAndDamageSessionResponse response = new CompleteLossAndDamageSessionResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "ldcopysession", appConfig.DatabaseSettings.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "webldcopysession", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
                 qry.AddParameter("@destorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.SourceOrderId);
                 qry.AddParameter("@usevalue", SqlDbType.NVarChar, ParameterDirection.Input, "");
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync(true);
-                //response.NewQuantity = qry.GetParameter("@newqty").ToInt32();
-                //response.status = qry.GetParameter("@status").ToInt32();
-                //response.success = (response.status == 0);
-                //response.msg = qry.GetParameter("@msg").ToString();
-                response.success = true;
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
             }
             return response;
         }
