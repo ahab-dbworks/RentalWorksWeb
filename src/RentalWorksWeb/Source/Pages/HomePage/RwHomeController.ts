@@ -200,13 +200,13 @@
     }
 
     renderWidget($control, widgetData) {
-        var self = this;
-        var refresh = '<i id="' + widgetData.userWidgetId + 'refresh" class="chart-refresh material-icons">refresh</i>';
-        var settings = '<i id="' + widgetData.userWidgetId + 'settings" class="chart-settings material-icons">settings</i>';
-        var fullscreen = '<i id="' + widgetData.userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
-        var dataPointCount = 0;
+        let self = this;
+        let refresh = '<i id="' + widgetData.userWidgetId + 'refresh" class="chart-refresh material-icons">refresh</i>';
+        let settings = '<i id="' + widgetData.userWidgetId + 'settings" class="chart-settings material-icons">settings</i>';
+        let fullscreen = '<i id="' + widgetData.userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
+        let dataPointCount = 0;
 
-        jQuery($control).append('<div data-chart="' + widgetData.apiname + '" class="chart-container ' + widgetData.userWidgetId + '" style="height:' + widgetData.width + ';width:' + widgetData.width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + widgetData.userWidgetId + '"></canvas><div class="officebar">' + widgetData.OfficeLocationCode + '</div><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
+        let container = jQuery($control).append('<div data-chart="' + widgetData.apiname + '" class="chart-container ' + widgetData.userWidgetId + '" style="height:' + widgetData.width + ';width:' + widgetData.width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + widgetData.userWidgetId + '"></canvas><div class="officebar">' + widgetData.OfficeLocationCode + '</div><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
         self.buildWidgetSettings(jQuery($control).find('#' + widgetData.userWidgetId + 'settings'), widgetData.userWidgetId);
 
         if (widgetData.dataPoints > 0) {
@@ -324,7 +324,7 @@
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            }, null, jQuery(widgetcanvas));
+            }, null, jQuery(widgetcanvas).parent());
         });
 
         var widgetcanvas = $control.find('#' + widgetData.userWidgetId);   
@@ -446,7 +446,7 @@
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
-                }, null, jQuery(widgetfullscreen));
+                }, null, jQuery(widgetfullscreen).parent());
 
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -562,7 +562,7 @@
             } catch (ex) {
                 FwFunc.showError(ex);
             }
-        }, null, jQuery(widgetcanvas));
+        }, null, jQuery(widgetcanvas).parent());
     };
     //----------------------------------------------------------------------------------------------
     setDateBehaviorFields($control, DateBehavior) {

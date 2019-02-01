@@ -72,6 +72,11 @@ Master
     position: relative;
 }
 
+#master-body .programlogo .chart-container .fwoverlay {
+    z-index: 1;
+    position:absolute;
+}
+
 #master-body .programlogo .chart-container .officebar {
     display: block;
     position: absolute;
