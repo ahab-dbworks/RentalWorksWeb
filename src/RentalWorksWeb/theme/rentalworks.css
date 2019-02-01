@@ -138,7 +138,8 @@ flexrow
 }
 
 html.theme-material .fwform-section {
-    margin: .3rem .9rem;
+    margin: .6rem .6rem; /* .3erm .9erm  
+    background-color: #eceff1;*/
 }
 
 html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {
