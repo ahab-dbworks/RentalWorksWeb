@@ -1096,10 +1096,11 @@ namespace FwStandard.SqlServer
                             }
                             if (!found)
                             {
-                                string colname = string.Empty;
+                                //string colname = string.Empty;
+                                string colname = reader.GetName(fieldno);  //jason and justin 01/31/2019 
                                 for (int colno = 0; colno < columns.Count; colno++)
                                 {
-                                    colname = reader.GetName(fieldno);
+                                    //colname = reader.GetName(fieldno);
                                     if (colname == columns[colno].DataField)
                                     {
                                         found = true;
@@ -1109,7 +1110,6 @@ namespace FwStandard.SqlServer
                                 }
                                 if (!found)
                                 {
-                                    colname = reader.GetName(fieldno);
                                     dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
                                 }
                             }
