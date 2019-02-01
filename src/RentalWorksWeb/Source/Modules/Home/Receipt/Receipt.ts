@@ -68,24 +68,23 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
-        var self = this;
         //Location Filter
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
+        let location = JSON.parse(sessionStorage.getItem('location'));
+        let $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        let $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        $allLocations.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
-        $userLocation.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
+        $userLocation.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = `LocationId=${location.locationid}`;
             FwBrowse.search($browse);
         });
-        var viewLocation = [];
+        let viewLocation = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;

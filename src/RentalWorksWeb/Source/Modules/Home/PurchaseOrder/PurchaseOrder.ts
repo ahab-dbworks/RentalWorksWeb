@@ -14,14 +14,13 @@ class PurchaseOrder {
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
-        var self = this;
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
         var $browse = this.openBrowse();
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined' && filter.datafield === 'agent') {
                 filter.search = filter.search.split('%20').reverse().join(', ');
@@ -40,20 +39,18 @@ class PurchaseOrder {
         };
         return screen;
     };
-
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
-        //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
+        let location = JSON.parse(sessionStorage.getItem('location'));
+        this.ActiveView = `LocationId=${location.locationid}`;
 
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+        FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, response => {
+            this.DefaultPurchasePoType = response.DefaultPurchasePoType;
+            this.DefaultPurchasePoTypeId = response.DefaultPurchasePoTypeId;
+        }, null, null);
 
-        $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
-        });
         FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
         FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
         FwBrowse.addLegend($browse, 'Late', '#FFB3D9');
@@ -62,109 +59,92 @@ class PurchaseOrder {
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
 
-        let department = JSON.parse(sessionStorage.getItem('department'));;
-        let location = JSON.parse(sessionStorage.getItem('location'));;
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
+        });
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            self.DefaultPurchasePoType = response.DefaultPurchasePoType;
-            self.DefaultPurchasePoTypeId = response.DefaultPurchasePoTypeId;
-        }, null, null);
-
+        FwBrowse.search($browse);
         return $browse;
     };
-
     //----------------------------------------------------------------------------------------------
-    addBrowseMenuItems($menuObject) {
-        var self = this;
-        var $all = FwMenu.generateDropDownViewBtn('All', true);
-        var $new = FwMenu.generateDropDownViewBtn('New', false);
-        var $open = FwMenu.generateDropDownViewBtn('Open', false);
-        var $received = FwMenu.generateDropDownViewBtn('Received', false);
-        var $complete = FwMenu.generateDropDownViewBtn('Complete', false);
-        var $void = FwMenu.generateDropDownViewBtn('Void', false);
-        var $closed = FwMenu.generateDropDownViewBtn('Closed', false);
-        $all.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
+    addBrowseMenuItems($menuObject: any) {
+        let $all = FwMenu.generateDropDownViewBtn('All', true);
+        let $new = FwMenu.generateDropDownViewBtn('New', false);
+        let $open = FwMenu.generateDropDownViewBtn('Open', false);
+        let $received = FwMenu.generateDropDownViewBtn('Received', false);
+        let $complete = FwMenu.generateDropDownViewBtn('Complete', false);
+        let $void = FwMenu.generateDropDownViewBtn('Void', false);
+        let $closed = FwMenu.generateDropDownViewBtn('Closed', false);
+        $all.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'ALL';
             FwBrowse.search($browse);
         });
-        $new.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'NEW';
+        $new.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'NEW';
             FwBrowse.search($browse);
         });
-        $open.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'OPEN';
+        $open.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'OPEN';
             FwBrowse.search($browse);
         });
-        $received.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'RECEIVED';
+        $received.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'RECEIVED';
             FwBrowse.search($browse);
         });
-        $complete.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'COMPLETE';
+        $complete.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'COMPLETE';
             FwBrowse.search($browse);
         });
-        $void.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'VOID';
+        $void.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'VOID';
             FwBrowse.search($browse);
         });
-        $closed.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CLOSED';
+        $closed.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'CLOSED';
             FwBrowse.search($browse);
         });
-        var viewSubitems = [];
-        viewSubitems.push($all);
-        viewSubitems.push($new);
-        viewSubitems.push($open);
-        viewSubitems.push($received);
-        viewSubitems.push($complete);
-        viewSubitems.push($void);
-        viewSubitems.push($closed);
-        var $view;
+        let viewSubitems = [];
+        viewSubitems.push($all, $new, $open, $received, $complete, $void, $closed);
+        let $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
         //Location Filter
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
+        let location = JSON.parse(sessionStorage.getItem('location'));
+        let $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        let $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        $allLocations.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
-        $userLocation.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
+        $userLocation.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = `LocationId=${location.locationid}`;
             FwBrowse.search($browse);
         });
-        var viewLocation = [];
-        viewLocation.push($userLocation);
-        viewLocation.push($all);
-        var $locationView;
-        $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        let viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
-
     //----------------------------------------------------------------------------------------------
-    openForm(mode, parentModuleInfo?: any) {
-        //var $form;
-
-        //$form = FwModule.loadFormFromTemplate(this.Module);
+    openForm(mode: string, parentModuleInfo?: any) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -276,9 +256,8 @@ class PurchaseOrder {
 
         return $form;
     };
-
     //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids) {
+    loadForm(uniqueids: any) {
         var $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
@@ -286,9 +265,8 @@ class PurchaseOrder {
 
         return $form;
     };
-
     //----------------------------------------------------------------------------------------------
-    openVendorInvoiceBrowse($form) {
+    openVendorInvoiceBrowse($form: JQuery) {
         var $browse;
         $browse = VendorInvoiceController.openBrowse();
 
@@ -302,14 +280,13 @@ class PurchaseOrder {
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
+    saveForm($form: JQuery, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
     };
-
     //----------------------------------------------------------------------------------------------
-    renderGrids($form) {
+    renderGrids($form: JQuery): void {
         const maxPageSize = 9999;
-
+        // ----------
         let $orderStatusHistoryGrid;
         let $orderStatusHistoryGridControl;
         $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
@@ -322,7 +299,7 @@ class PurchaseOrder {
         });
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
-
+        // ----------
         let $orderItemGridRental;
         let $orderItemGridRentalControl;
         $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
@@ -331,7 +308,6 @@ class PurchaseOrder {
         $orderItemGridRentalControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-formreadonly', 'true');
-
 
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRentalControl.data('isSummary', false);
@@ -357,7 +333,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
-
+        // ----------
         let $orderItemGridSales;
         let $orderItemGridSalesControl;
         $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
@@ -388,7 +364,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
-
+        // ----------
         let $orderItemGridPart;
         let $orderItemGridPartControl;
         $orderItemGridPart = $form.find('.partgrid div[data-grid="OrderItemGrid"]');
@@ -419,7 +395,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridPartControl);
         FwBrowse.renderRuntimeHtml($orderItemGridPartControl);
-
+        // ----------
         let $orderItemGridLabor;
         let $orderItemGridLaborControl;
         $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
@@ -450,7 +426,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
-
+        // ----------
         let $orderItemGridMisc;
         let $orderItemGridMiscControl;
         $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
@@ -481,7 +457,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
-
+        // ----------
         let $orderItemGridSubRent;
         let $orderItemGridSubRentControl;
         $orderItemGridSubRent = $form.find('.subrentalgrid div[data-grid="OrderItemGrid"]');
@@ -517,7 +493,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridSubRentControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSubRentControl);
-
+        // ----------
         let $oderItemGridSubSales;
         let $oderItemGridSubSalesControl;
         $oderItemGridSubSales = $form.find('.subsalesgrid div[data-grid="OrderItemGrid"]');
@@ -553,7 +529,7 @@ class PurchaseOrder {
 
         FwBrowse.init($oderItemGridSubSalesControl);
         FwBrowse.renderRuntimeHtml($oderItemGridSubSalesControl);
-
+        // ----------
         let $orderItemGridSubLabor;
         let $orderItemGridSubLaborControl;
         $orderItemGridSubLabor = $form.find('.sublaborgrid div[data-grid="OrderItemGrid"]');
@@ -589,7 +565,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridSubLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSubLaborControl);
-
+        // ----------
         let $orderItemGridSubMisc;
         let $orderItemGridSubMiscControl;
         $orderItemGridSubMisc = $form.find('.submiscgrid div[data-grid="OrderItemGrid"]');
@@ -625,7 +601,7 @@ class PurchaseOrder {
 
         FwBrowse.init($orderItemGridSubMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSubMiscControl);
-
+        // ----------
         let $orderNoteGrid;
         let $orderNoteGridControl;
         $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
@@ -642,15 +618,13 @@ class PurchaseOrder {
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
     };
-
     //----------------------------------------------------------------------------------------------
-    loadAudit($form) {
+    loadAudit($form: JQuery): void {
         let uniqueid = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         FwModule.loadAudit($form, uniqueid);
     };
-
     //----------------------------------------------------------------------------------------------
-    afterLoad($form) {
+    afterLoad($form: JQuery): void {
         let status = FwFormField.getValueByDataField($form, 'Status');
 
         if (status === 'VOID' || status === 'CLOSED' || status === 'SNAPSHOT') {
