@@ -2274,7 +2274,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     retireLossDamage($form: JQuery): void {
         let $confirmation, $yes, $no, html: Array<string> = [];;
-        $confirmation = FwConfirmation.renderConfirmation('Void', '');
+        $confirmation = FwConfirmation.renderConfirmation('Confirm?', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
 
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
@@ -2295,6 +2295,7 @@ class Order extends OrderBase {
             request.OrderId = orderId;
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
+            FwFormField.disable($no);
             $yes.text('Retiring...');
             $yes.off('click');
 
