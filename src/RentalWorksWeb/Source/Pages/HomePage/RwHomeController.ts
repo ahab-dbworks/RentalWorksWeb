@@ -232,6 +232,10 @@
 
                     response.options.title.text = titleArray;
 
+                    if (widgetData.widgettype !== '') {
+                        response.type = widgetData.widgettype
+                    }
+
                     switch (widgetData.axisNumberFormatId) {
                         case 'TWODGDEC':
                             if (response.type !== 'horizontalBar') {
@@ -261,10 +265,6 @@
                                 response.options.scales.xAxes[0].ticks.userCallback = self.commaDelimitedPercent
                             }
                             break;
-                    }
-
-                    if (widgetData.widgettype !== '') {
-                        response.type = widgetData.widgettype
                     }
 
                     if (response.type === 'pie') {
@@ -358,35 +358,81 @@
 
                         response.options.title.text = titleArray;
 
-                        if (widgetData.axisNumberFormatId === 'TWODGDEC') {
-                            response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
-                        } else {
-                            response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
-                        }
-                        response.options.responsive = true;
                         if (widgetData.widgettype !== '') {
                             response.type = widgetData.widgettype
                         }
+
+                        switch (widgetData.axisNumberFormatId) {
+                            case 'TWODGDEC':
+                                if (response.type !== 'horizontalBar') {
+                                    response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimal
+                                } else {
+                                    response.options.scales.xAxes[0].ticks.userCallback = self.commaTwoDecimal
+                                }
+                                break;
+                            case 'TWDIGPCT':
+                                if (response.type !== 'horizontalBar') {
+                                    response.options.scales.yAxes[0].ticks.userCallback = self.commaTwoDecimalPercent
+                                } else {
+                                    response.options.scales.xAxes[0].ticks.userCallback = self.commaTwoDecimalPercent
+                                }
+                                break;
+                            case 'WHOLENBR':
+                                if (response.type !== 'horizontalBar') {
+                                    response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimited
+                                } else {
+                                    response.options.scales.xAxes[0].ticks.userCallback = self.commaDelimited
+                                }
+                                break;
+                            case 'WHNUMPCT':
+                                if (response.type !== 'horizontalBar') {
+                                    response.options.scales.yAxes[0].ticks.userCallback = self.commaDelimitedPercent
+                                } else {
+                                    response.options.scales.xAxes[0].ticks.userCallback = self.commaDelimitedPercent
+                                }
+                                break;
+                        }
+
                         if (response.type === 'pie') {
                             delete response.options.legend;
                             delete response.options.scales;
-                        }
-                        if (response.type !== 'pie') {
+                        } else {
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
-                            if (widgetData.dataNumberFormatId === 'TWODGDEC') {
-                                response.options.tooltips = {
-                                    'callbacks': {
-                                        'label': self.commaTwoDecimalData
-                                    }
-                                };
-                            } else {
-                                response.options.tooltips = {
-                                    'callbacks': {
-                                        'label': self.commaDelimitedData
-                                    }
-                                };
+                        }
+
+                        if (response.type !== 'pie') {
+                            switch (widgetData.dataNumberFormatId) {
+                                case 'TWODGDEC':
+                                    response.options.tooltips = {
+                                        'callbacks': {
+                                            'label': self.commaTwoDecimalData
+                                        }
+                                    };
+                                    break;
+                                case 'TWDIGPCT':
+                                    response.options.tooltips = {
+                                        'callbacks': {
+                                            'label': self.commaTwoDecimalPercentData
+                                        }
+                                    };
+                                    break;
+                                case 'WHOLENBR':
+                                    response.options.tooltips = {
+                                        'callbacks': {
+                                            'label': self.commaDelimitedData
+                                        }
+                                    };
+                                    break;
+                                case 'WHNUMPCT':
+                                    response.options.tooltips = {
+                                        'callbacks': {
+                                            'label': self.commaDelimitedPercentData
+                                        }
+                                    };
+                                    break;
                             }
                         }
+
                         var chart = new Chart(widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
                             var activePoint = chart.getElementAtEvent(evt)[0];
@@ -425,6 +471,10 @@
 
                 response.options.title.text = titleArray;
 
+                if (widgetData.widgettype !== '') {
+                    response.type = widgetData.widgettype
+                }
+
                 switch (widgetData.axisNumberFormatId) {
                     case 'TWODGDEC':
                         if (response.type !== 'horizontalBar') {
@@ -455,11 +505,7 @@
                         }
                         break;
                 }
-
-                if (widgetData.widgettype !== '') {
-                    response.type = widgetData.widgettype
-                }
-
+                
                 if (response.type === 'pie') {
                     delete response.options.legend;
                     delete response.options.scales;
