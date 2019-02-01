@@ -1091,11 +1091,13 @@ class FwBrowseClass {
                 // header row
                 html.push('<tr class="fieldnames">');
                 if (($control.attr('data-type') === 'Grid') || (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true'))) {
-                    var cbuniqueId = FwApplication.prototype.uniqueId(10);
-                    html.push('<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow"/><label for="' + cbuniqueId + '" class="lblselectrow"></label></div></td>');
-                    html.push('<td class="column gridspacer" style="display:none;"></td>');
+                    let cbuniqueId = FwApplication.prototype.uniqueId(10);
+                    if ($control.attr('data-hasmultirowselect') !== 'false') {
+                        html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                        html.push('<td class="column gridspacer" style="display:none;"></td>');
+                    }
                 }
-                for (var colno = 0; colno < $columns.length; colno++) {
+                for (let colno = 0; colno < $columns.length; colno++) {
                     var $column = $columns.eq(colno);
                     var width = $column.attr('data-width');
                     var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
@@ -2506,18 +2508,21 @@ class FwBrowseClass {
         }
 
         if (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true')) {
-            var cbuniqueId = FwApplication.prototype.uniqueId(10);
-            $tr.find('.tdselectrow').append('<div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow" /><label for="' + cbuniqueId + '" class="lblselect"></label><div>');
+            let cbuniqueId = FwApplication.prototype.uniqueId(10);
+            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
         }
 
         if ($control.attr('data-type') === 'Grid') {
-            var cbuniqueId = FwApplication.prototype.uniqueId(10);
-            $tr.find('.tdselectrow').append('<div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow" /><label for="' + cbuniqueId + '" class="lblselect"></label><div>');
+            let cbuniqueId = FwApplication.prototype.uniqueId(10);
+
+            if ($control.attr('data-hasmultirowselect') !== 'false') {
+                $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+            }
             $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
         }
 
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            var controller = $control.attr('data-controller');
+            let controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['generateRow'] === 'function') {
                 window[controller]['generateRow']($control, $tr);
