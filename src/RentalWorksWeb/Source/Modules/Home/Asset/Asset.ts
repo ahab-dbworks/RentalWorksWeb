@@ -157,7 +157,7 @@ class RwAsset {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-
+        
         return $form;
     };
     //---------------------------------------------------------------------------------------------
@@ -166,9 +166,26 @@ class RwAsset {
         FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
         FwModule.loadForm(this.Module, $form);
 
+        let $submoduleRepairOrderBrowse = this.openRepairOrderBrowse($form);
+        $form.find('.repairOrderSubModule').append($submoduleRepairOrderBrowse);
         return $form;
     };
     //---------------------------------------------------------------------------------------------
+    openRepairOrderBrowse($form) {
+        let itemId = FwFormField.getValueByDataField($form, 'ItemId');
+        let $browse;
+        $browse = RepairController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = RepairController.ActiveView;
+            request.uniqueids = {
+                ItemId: itemId
+            };
+        });
+        //$browse.attr('data-activeinactiveview', 'all');
+        jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
@@ -273,6 +290,7 @@ class RwAsset {
               <div data-type="tab" id="purchasetab" class="tab" data-tabpageid="purchasetabpage" data-caption="Purchase"></div>
               <div data-type="tab" id="attributetab" class="tab" data-tabpageid="attributetabpage" data-caption="Attribute"></div>
               <div data-type="tab" id="qctab" class="tab" data-tabpageid="qctabpage" data-caption="Quality Control"></div>
+              <div data-type="tab" id="repairordertab" class="tab submodule" data-tabpageid="repairordertabpage" data-caption="Repair Orders"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -494,6 +512,9 @@ class RwAsset {
                     </div>
                   </div>
                 </div>
+              </div>
+              <!-- Repair Order tab -->
+              <div data-type="tabpage" id="repairordertabpage" class="tabpage repairOrderSubModule" data-tabid="repairordertab">
               </div>
               <!-- Notes tab -->
               <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
