@@ -881,6 +881,7 @@
     <Content Include="Source\Validations\InvoiceCreationBatchValidation\InvoiceCreationBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceValidation\InvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptProcessBatchValidation\ReceiptProcessBatchValidationBrowse.htm" />
+    <Content Include="Source\Validations\ReceiptValidation\ReceiptValidationBrowse.htm" />
     <Content Include="Source\Validations\UnretiredReasonValidation\UnretiredReasonValidationBrowse.htm" />
     <Content Include="Source\Validations\VendorInvoiceProcessBatchValidation\VendorInvoiceProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceProcessBatchValidation\InvoiceProcessBatchValidationBrowse.htm" />
@@ -1106,6 +1107,7 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
+    <TypeScriptCompile Include="Source\Validations\ReceiptValidation\ReceiptValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\SoundValidation\SoundValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\CompanyValidation\CompanyValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\PartsInventoryValidation\PartsInventoryValidationController.ts" />
