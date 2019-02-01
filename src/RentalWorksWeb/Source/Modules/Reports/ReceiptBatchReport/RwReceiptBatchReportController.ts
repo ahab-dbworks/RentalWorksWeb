@@ -22,6 +22,9 @@ var receiptBatchTemplateFrontEnd = `
                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield batchNumber" data-caption="Batch Number" data-datafield="BatchNumber" style="display:none;"></div>
                 </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield batchDate" data-caption="Batch Date" data-datafield="BatchDate" style="display:none;"></div>
+                </div>
               </div>
             </div> 
           </div>
@@ -60,7 +63,9 @@ class RwReceiptBatchReportClass extends FwWebApiReport {
         let $form = this.getFrontEnd();
         $form.find('[data-datafield="BatchId"]').data('onchange', e => {
             let batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
+            let batchDate = jQuery(e).find('[data-browsedatafield="BatchDate"]').attr('data-originalvalue');
             FwFormField.setValueByDataField($form, 'BatchNumber', batchNumber);
+            FwFormField.setValueByDataField($form, 'BatchDate', batchDate);
         })
         return $form;
     }

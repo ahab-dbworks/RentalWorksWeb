@@ -18,6 +18,7 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
     {
         public string BatchId { get; set; }
         public string BatchNumber { get; set; }
+        public DateTime BatchDate { get; set; }
     }
 
     [Route("api/v1/[controller]")]
