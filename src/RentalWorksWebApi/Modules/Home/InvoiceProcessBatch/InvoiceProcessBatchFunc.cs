@@ -1,4 +1,5 @@
-﻿using FwStandard.Models;
+﻿using FwCore.Controllers;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using System;
 using System.Data;
@@ -46,22 +47,26 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<ExportInvoiceResponse> ExportInvoice(FwApplicationConfig appConfig, FwUserSession userSession, ExportInvoiceRequest request)
+        public static async Task<ExportInvoiceResponse> Export(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchLogic batch)
         {
             FwJsonDataTable dt = null;
             FwJsonDataTable exportFields = null;
-            FwJsonDataTable exportSettings = null;
-            string exportString = "";
+            //FwJsonDataTable exportSettings = null;
+            //string exportString = "";
             StringBuilder sb = new StringBuilder();
             ExportInvoiceResponse response = new ExportInvoiceResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.Add("select exportstring from dataexportsetting where settingname = 'DEAL INVOICE G/L SUMMARY'");
-                    exportSettings = await qry.QueryToFwJsonTableAsync(true, 0);
-                    exportString = exportSettings.Rows[0][0].ToString();
-                }
+                //using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                //{
+                //    qry.Add("select exportstring from dataexportsetting where settingname = 'DEAL INVOICE G/L SUMMARY'");
+                //    exportSettings = await qry.QueryToFwJsonTableAsync(true, 0);
+                //    exportString = exportSettings.Rows[0][0].ToString();
+                //}
+                
+                //this is just a simpler way to grab a single field from a single table
+                string exportString = await AppFunc.GetStringDataAsync(appConfig, "dataexportsetting", "settingname", RwConstants.DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_GL_SUMMARY, "exportstring");  //hard-coded for 4Wall
+
 
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
@@ -71,10 +76,9 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
 
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "exportinvoices", appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Input, request.BatchId);
+                    qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Input, batch.BatchId);
                     qry.AddColumn("invoiceid", "invoiceid", FwDataTypes.Text, true, false, false);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
-                    //await qry.ExecuteNonQueryAsync(true);
                 }
 
                 for (int i = 0; i <= dt.Rows.Count - 1; i++)
@@ -101,6 +105,18 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
                                             fieldName = exportFields.Rows[k][4].ToString();
                                             int fieldIndex = dt2.ColumnIndex[fieldName];
                                             string fieldValue = dt2.Rows[j][fieldIndex].ToString();
+
+                                            //below is how we could maybe get the dates formatting correctly, but it's not working because "DataType" is currently always Text
+                                            //string fieldValue = "";
+                                            //if (dt2.Columns[fieldIndex].DataType.Equals(FwDataTypes.Date))
+                                            //{
+                                            //    fieldValue = FwConvert.ToUSShortDate(FwConvert.ToDateTime(dt2.Rows[j][fieldIndex].ToString()));
+                                            //}
+                                            //else
+                                            //{
+                                            //    fieldValue = dt2.Rows[j][fieldIndex].ToString();
+                                            //}
+
                                             lineText = lineText.Replace(s, fieldValue);
                                             break;
                                         }
@@ -112,13 +128,23 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
 
                     }
                 }
-                string path = @"C:\TEMP\Batch" + request.BatchId + ".csv";
-                using (var tw = new StreamWriter(path, true))
+                //string path = @"C:\TEMP\Batch" + batch.BatchNumber + ".csv";
+
+                // here we are creating a downloadable file that will live in the API "downloads" directory
+                string downloadFileName = batch.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
+                string filename = userSession.WebUsersId + "_" + batch.BatchNumber + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
+                string directory = FwDownloadController.GetDownloadsDirectory();
+                string path = Path.Combine(directory, filename);
+
+                using (var tw = new StreamWriter(path, /*true */false)) // false here will initialize the file fresh, no appending
                 {
                     tw.Write(sb);
                     tw.Flush();
                     tw.Close();
                 }
+
+                response.batch = batch;
+                response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}";
             }
             return response;
         }

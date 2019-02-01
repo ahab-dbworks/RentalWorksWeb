@@ -29,7 +29,9 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
     }
 
     public class ExportInvoiceResponse : TSpStatusReponse
-    { 
+    {
+        public InvoiceProcessBatchLogic batch = null;
+        public string downloadUrl = "";
     }
 
 
@@ -51,8 +53,20 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
             }
             try
             {
-                ExportInvoiceResponse response = await InvoiceProcessBatchFunc.ExportInvoice(AppConfig, UserSession, request);
-                return response;
+                //validate the batchId before proceeding to export
+                InvoiceProcessBatchLogic batch = new InvoiceProcessBatchLogic();
+                batch.SetDependencies(AppConfig, UserSession);
+                batch.BatchId = request.BatchId;
+                if (await batch.LoadAsync<InvoiceProcessBatchLogic>())
+                {
+                    ExportInvoiceResponse response = await InvoiceProcessBatchFunc.Export(AppConfig, UserSession, batch);
+                    // the response contains "downloadUrl" which we want to harvest on the front-end and initiate the download
+                    return response;
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {

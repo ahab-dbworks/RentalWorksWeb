@@ -15,7 +15,7 @@ namespace WebApi.Modules.Utilities.ExportSettings
         [FwLogicProperty(Id: "p5C3bzMQVKfeD", IsPrimaryKey: true)]
         public string ExportSettingsId { get { return exportSettings.ExportSettingsId; } set { exportSettings.ExportSettingsId = value; } }
 
-        [FwLogicProperty(Id: "V19x664aGmKaD")]
+        [FwLogicProperty(Id: "V19x664aGmKaD", IsRecordTitle: true)]
         public string Description { get { return exportSettings.Description; } set { exportSettings.Description = value; } }
         [FwLogicProperty(Id: "u7u9K0h177Fh")]
         public string OfficeLocationId { get { return exportSettings.OfficeLocationId; } set { exportSettings.OfficeLocationId = value; } }

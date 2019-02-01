@@ -10,6 +10,8 @@ using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
+using static FwCore.Controllers.FwDataController;
+
 namespace WebApi.Modules.Reports.ReceiptBatchReport
 {
     public class ReceiptBatchReportRequest : AppReportRequest
@@ -51,6 +53,16 @@ namespace WebApi.Modules.Reports.ReceiptBatchReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/receiptbatchreport/exportexcelxlsx/filedownloadname 
+        [HttpPost("exportexcelxlsx/{fileDownloadName}")]
+        [FwControllerMethod(Id: "trPTReKnJmWm4")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ReceiptBatchReportRequest request)
+        {
+            ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
+            FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
+            return await DoExportExcelXlsxFileAsync(dt);
+        }
+        //------------------------------------------------------------------------------------
         // POST api/v1/receiptbatchreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "by05ybTkfJFg")]

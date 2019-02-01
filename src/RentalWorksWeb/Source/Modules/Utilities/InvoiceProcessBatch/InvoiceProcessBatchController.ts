@@ -90,8 +90,24 @@
                         BatchId: batchId
                     }
                     FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+
+                    if ((response.success === true) && (response.Batch !== null)) {
+                        var batch = response.Batch;
+                        var batchId = batch.BatchId;
+                        var batchNumber = batch.BatchNumber
+                        var downloadUrl = response.downloadUrl;
+
                         $form.find('.export-success').show();
-                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchId} Created Successfully.</span>`);
+                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Exported Successfully.</span>`);
+
+                        // at this point we want to initiate the download process using "downloadUrl" from the response. 
+                        // please loop in Josh at this point as he did a lot of work on the "Download Excel" process for reports.  I think this will be similar
+
+
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
+                    }
+
                     }, null, $form, userId);
                 }
             })
