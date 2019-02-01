@@ -1,10 +1,41 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.LossAndDamage
 {
+
+
+    public class SelectAllNoneLossAndDamageItemRequest
+    {
+        [Required]
+        public string SessionId { get; set; }
+    }
+
+
+    public class SelectAllNoneLossAndDamageItemResponse : TSpStatusReponse
+    {
+    }
+
+
+
+
+    public class RetireLossAndDamageItemRequest
+    {
+        [Required]
+        public string OrderId { get; set; }
+    }
+
+
+    public class RetireLossAndDamageItemResponse : TSpStatusReponse
+    {
+        public string ContractId { get; set; }
+    }
+
     public static class LossAndDamageFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -53,6 +84,39 @@ namespace WebApi.Modules.Home.LossAndDamage
         }
         //-------------------------------------------------------------------------------------------------------
 
+
+        private static async Task<SelectAllNoneLossAndDamageItemResponse> SelectAllNoneLossAndDamageItem(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, bool selectAll)
+        {
+            SelectAllNoneLossAndDamageItemResponse response = new SelectAllNoneLossAndDamageItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "webldselectallnone", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneLossAndDamageItemResponse> SelectAllLossAndDamageItem(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
+        {
+            return await SelectAllNoneLossAndDamageItem(appConfig, userSession, sessionId, true);
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SelectAllNoneLossAndDamageItemResponse> SelectNoneLossAndDamageItem(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
+        {
+            return await SelectAllNoneLossAndDamageItem(appConfig, userSession, sessionId, false);
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+
         public static async Task<CompleteLossAndDamageSessionResponse> CompleteSession(FwApplicationConfig appConfig, FwUserSession userSession, CompleteLossAndDamageSessionRequest request)
         {
             // consider implementing this to let the API create the new Order for the user.
@@ -75,6 +139,30 @@ namespace WebApi.Modules.Home.LossAndDamage
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+
+        public static async Task<RetireLossAndDamageItemResponse> RetireLossAndDamageItem(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        {
+            RetireLossAndDamageItemResponse response = new RetireLossAndDamageItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "ldcreatecontractandretire", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@lostcontractid", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                //response.status = qry.GetParameter("@status").ToInt32();
+                //response.success = (response.status == 0);
+                //response.msg = qry.GetParameter("@msg").ToString();
+                response.ContractId = qry.GetParameter("@lostcontractid").ToString();
+                response.success = true;
             }
             return response;
         }

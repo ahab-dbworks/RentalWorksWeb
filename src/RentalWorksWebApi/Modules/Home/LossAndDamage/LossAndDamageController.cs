@@ -93,11 +93,7 @@ namespace WebApi.Modules.Home.LossAndDamage
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -139,14 +135,50 @@ namespace WebApi.Modules.Home.LossAndDamage
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/lossanddamage/selectall
+        [HttpPost("selectall")]
+        [FwControllerMethod(Id: "GE33IAKqVKgTA")]
+        public async Task<ActionResult<SelectAllNoneLossAndDamageItemResponse>> SelectAll([FromBody] SelectAllNoneLossAndDamageItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                SelectAllNoneLossAndDamageItemResponse response = await LossAndDamageFunc.SelectAllLossAndDamageItem(AppConfig, UserSession, request.SessionId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/lossanddamage/selectnone
+        [HttpPost("selectnone")]
+        [FwControllerMethod(Id: "xAPYeO2q21xcc")]
+        public async Task<ActionResult<SelectAllNoneLossAndDamageItemResponse>> SelectNone([FromBody] SelectAllNoneLossAndDamageItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                SelectAllNoneLossAndDamageItemResponse response = await LossAndDamageFunc.SelectNoneLossAndDamageItem (AppConfig, UserSession, request.SessionId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------      
         // POST api/v1/lossanddamage/completesession
         [HttpPost("completesession")]
         [FwControllerMethod(Id:"tQvfBhyuXk7i")]
@@ -179,13 +211,31 @@ namespace WebApi.Modules.Home.LossAndDamage
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------     
+        // POST api/v1/lossanddamage/retire
+        [HttpPost("retire")]
+        [FwControllerMethod(Id: "mEEALs7s4ruoY")]
+        public async Task<ActionResult<RetireLossAndDamageItemResponse>> Retire([FromBody] RetireLossAndDamageItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                RetireLossAndDamageItemResponse response = await LossAndDamageFunc.RetireLossAndDamageItem(AppConfig, UserSession, request.OrderId);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------      
+
+
     }
 }

@@ -23800,6 +23800,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Loss and Damage: Retire Loss and Damage Items",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"OrderId\": \"I00008DA\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/lossanddamage/retire",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"lossanddamage",
+								"retire"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
