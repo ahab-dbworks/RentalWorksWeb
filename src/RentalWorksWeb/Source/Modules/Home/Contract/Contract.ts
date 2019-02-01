@@ -55,34 +55,30 @@ class Contract {
 
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems = ($menuObject) => {
-        let self = this;
         const location = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', function () {
+        $allLocations.on('click', () => {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
+            this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
-        $userLocation.on('click', function () {
+        $userLocation.on('click', () => {
             let $browse;
             $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
+            this.ActiveView = `LocationId=${location.locationid}`;
             FwBrowse.search($browse);
         });
         const viewLocation = [];
-        viewLocation.push($userLocation);
-        viewLocation.push($allLocations);
+        viewLocation.push($userLocation, $allLocations);
         let $locationView;
         $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
 
-    openForm(mode: string) {
-        //var $form;
-
-        //$form = FwModule.loadFormFromTemplate(this.Module);
+    openForm(mode: string, parentModuleInfo?: any) {
+        //let $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
         return $form;
@@ -98,7 +94,7 @@ class Contract {
         return $form;
     }
 
-    renderGrids($form) {
+    renderGrids($form: JQuery): void {
         var $contractSummaryGrid;
         var $contractSummaryGridControl;
         $contractSummaryGrid = $form.find('div[data-grid="ContractSummaryGrid"]');

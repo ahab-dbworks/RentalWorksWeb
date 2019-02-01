@@ -425,7 +425,7 @@ class OrderBase {
                     uniqueids.QuoteId = response.QuoteId;
                     var $form = QuoteController.loadForm(uniqueids);
                 }
-                FwModule.openModuleTab($form, "", true, 'FORM', true)
+                FwModule.openModuleTab($form, "", true, 'FORM', true);
             }, function onError(response) {
                 $yes.on('click', makeACopy);
                 $yes.text('Copy');

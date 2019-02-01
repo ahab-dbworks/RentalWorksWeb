@@ -165,7 +165,7 @@ class Order extends OrderBase {
     };
 
     //----------------------------------------------------------------------------------------------
-    openForm(mode, parentModuleInfo?: any) {
+    openForm(mode: string, parentModuleInfo?: any) {
         var $form, $submodulePickListBrowse, $submoduleContractBrowse;
         var self = this;
 
@@ -671,11 +671,11 @@ class Order extends OrderBase {
         //FwBrowse.search($orderItemGridLossDamage);
 
         // Hides Loss and Damage menu item from non-LD grids
-        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-        $orderItemGridUsedSale.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+        $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+        $orderItemGridLabor.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+        $orderItemGridMisc.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+        $orderItemGridUsedSale.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
 
         if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
             $orderItemGridUsedSale.find('.rates').attr('data-formreadonly', true);
@@ -2272,6 +2272,23 @@ class Order extends OrderBase {
         events();
     }
     //----------------------------------------------------------------------------------------------
+    retireLossDamage($form: JQuery): void {
+        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        let request: any = {}
+        request.OrderId = orderId;
+        FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/retire`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.success === true) {
+                let uniqueids: any = {};
+                uniqueids.ContractId = response.ContractId;
+                let $contractForm = ContractController.loadForm(uniqueids);
+                FwModule.openModuleTab($contractForm, "", true, 'FORM', true)
+                FwModule.refreshForm($form, OrderController);
+            }
+        }, function onError(response) {
+                console.log('response: ', response)
+            }, $form);
+    }
+    //----------------------------------------------------------------------------------------------
     createSnapshotOrder($form: JQuery, event: any): void {
         let orderNumber, orderId, $orderSnapshotGrid;
         orderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
@@ -2347,7 +2364,21 @@ FwApplicationTree.clickEvents['{427FCDFE-7E42-4081-A388-150D3D7FAE36}'] = functi
         FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     }
 };
-
+//---------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}'] = function (event) {
+    let $form;
+    $form = jQuery(this).closest('.fwform');
+    if ($form.attr('data-mode') !== 'NEW') {
+        try {
+            OrderController.retireLossDamage($form);
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    } else {
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+    }
+};
 //---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}'] = function (event) {
     let $form;
