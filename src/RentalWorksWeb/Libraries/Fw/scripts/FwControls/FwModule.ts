@@ -274,6 +274,14 @@
             let textField = $browse.find('.textquery');
             let booleanField = $browse.find('.booleanquery');
 
+            for (var j = 0; j < response._Custom.length; j++) {
+                findFields.push({
+                    'value': response._Custom[j].FieldName,
+                    'text': response._Custom[j].FieldName,
+                    'type': response._Custom[j].FieldType
+                })
+            }
+
             for (var i = 0; i < response._Fields.length; i++) {
                 findFields.push({
                     'value': response._Fields[i].Name,
