@@ -109,6 +109,9 @@ class Billing {
         const today = FwFunc.getDate();
         FwFormField.setValueByDataField($popup, 'BillAsOfDate', today);
 
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValueByDataField($popup, 'OfficeLocationId', location.locationid, location.location);
+
         $browse
             .off('dblclick', 'tbody tr')
             .on('dblclick', 'tbody tr', e => {
