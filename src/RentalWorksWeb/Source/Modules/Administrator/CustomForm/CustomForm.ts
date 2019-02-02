@@ -1037,7 +1037,7 @@ class CustomForm {
                                     }
                                     jQuery(originalHtml).attr('data-type', datatype);
                                     $form.find(`#controlProperties .propname:contains('data-type')`).siblings('.propval').find('select').val(datatype);
-
+                                    jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-type', datatype);
                                     jQuery(originalHtml).attr('data-customfield', 'true');
                                     jQuery($customFormClone).find(`div[data-index="${index}"]`).attr('data-customfield', 'true');
                                 }
