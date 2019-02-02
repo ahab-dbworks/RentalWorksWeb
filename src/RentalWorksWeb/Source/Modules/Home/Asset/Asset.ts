@@ -11,16 +11,15 @@ class RwAsset {
     ActiveView: string = 'ALL';
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var self = this;
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
         var $browse: JQuery = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -32,20 +31,19 @@ class RwAsset {
     };
     //---------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
         // var $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
 
-        $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
         });
 
         FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-            for (var i = 0; i < response.length; i++) {
+            for (let i = 0; i < response.length; i++) {
                 FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
             }
         }, null, $browse);
@@ -54,100 +52,96 @@ class RwAsset {
     };
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        var self = this;
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        var $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
-        var view = [];
-        view[0] = 'WarehouseId=' + warehouse.warehouseid;
+        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        let $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
+        let $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
+        let view = [];
+        view[0] = `WarehouseId=${warehouse.warehouseid}`;
 
-        $all.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=ALL';
+        $all.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'WarehouseId=ALL';
 
-            view[0] = self.ActiveView;
+            view[0] = this.ActiveView;
             if (view.length > 1) {
-                self.ActiveView = view.join(', ');
+                this.ActiveView = view.join(', ');
             }
 
             FwBrowse.search($browse);
         });
-        $userWarehouse.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
+        $userWarehouse.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
 
-            view[0] = self.ActiveView;
+            view[0] = this.ActiveView;
             if (view.length > 1) {
-                self.ActiveView = view.join(', ');
+                this.ActiveView = view.join(', ');
             }
 
             FwBrowse.search($browse);
         });
 
         var viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($userWarehouse);
-        viewSubitems.push($all);
+        viewSubitems.push($userWarehouse, $all);
 
         var $view;
         $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems);
 
         //Tracked By Filter
-        var $trackAll = FwMenu.generateDropDownViewBtn('ALL', true);
-        var $trackBarcode = FwMenu.generateDropDownViewBtn('Bar Code', false);
-        var $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false);
-        var $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false);
+        let $trackAll = FwMenu.generateDropDownViewBtn('ALL', true);
+        let $trackBarcode = FwMenu.generateDropDownViewBtn('Bar Code', false);
+        let $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false);
+        let $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false);
 
-        $trackAll.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'TrackedBy=ALL';
+        $trackAll.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'TrackedBy=ALL';
 
-            view[1] = self.ActiveView;
+            view[1] = this.ActiveView;
             if (view.length > 1) {
-                self.ActiveView = view.join(', ');
+                this.ActiveView = view.join(', ');
             }
             FwBrowse.search($browse);
         });
-        $trackBarcode.on('click', function () {
-            var $browse, barcode, sortByBarcode;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'TrackedBy=BARCODE';
+        $trackBarcode.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'TrackedBy=BARCODE';
 
-            view[1] = self.ActiveView;
+            view[1] = this.ActiveView;
             if (view.length > 1) {
-                self.ActiveView = view.join(', ');
+                this.ActiveView = view.join(', ');
             }
             FwBrowse.search($browse);
         });
-        $trackSerialNumber.on('click', function () {
-            var $browse, serialNumber, sortBySerial;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'TrackedBy=SERIALNO';
+        $trackSerialNumber.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'TrackedBy=SERIALNO';
 
-            view[1] = self.ActiveView;
+            view[1] = this.ActiveView;
             if (view.length > 1) {
-                self.ActiveView = view.join(', ');
+                this.ActiveView = view.join(', ');
             }
             FwBrowse.search($browse);
         });
-        $trackRFID.on('click', function () {
-            var $browse, rfid, sortByRFID;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'TrackedBy=RFID';
+        $trackRFID.on('click', e => {
+            let $browse;
+            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'TrackedBy=RFID';
 
-            view[1] = self.ActiveView;
+            view[1] = this.ActiveView;
             if (view.length > 1) {
-                self.ActiveView = view.join(', ');
+                this.ActiveView = view.join(', ');
             }
             FwBrowse.search($browse);
         });
         var viewTrack = [];
-        viewTrack.push($trackAll);
-        viewTrack.push($trackBarcode);
-        viewTrack.push($trackSerialNumber);
-        viewTrack.push($trackRFID);
+        viewTrack.push($trackAll, $trackBarcode, $trackSerialNumber, $trackRFID);
+
         var $trackByView;
         $trackByView = FwMenu.addViewBtn($menuObject, 'Tracked By', viewTrack);
         return $menuObject;
@@ -209,7 +203,7 @@ class RwAsset {
         })
         FwBrowse.init($itemAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
-
+        // ----------
         var $itemQcGrid: JQuery = $form.find('div[data-grid="' + this.nameItemQcGrid + '"]');
         var $itemQcGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + this.nameItemQcGrid + 'Browse').html());
         $itemQcGrid.empty().append($itemQcGridControl);
@@ -220,6 +214,7 @@ class RwAsset {
         })
         FwBrowse.init($itemQcGridControl);
         FwBrowse.renderRuntimeHtml($itemQcGridControl);
+        // ----------
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
