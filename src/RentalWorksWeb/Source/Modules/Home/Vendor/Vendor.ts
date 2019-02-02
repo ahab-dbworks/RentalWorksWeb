@@ -64,6 +64,8 @@ class Vendor {
         FwModule.loadForm(this.Module, $form);
         let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
         $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
+        let $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
+        $form.find('.vendorInvoiceSubModule').append($submoduleVendorInvoiceBrowse);
         return $form;
     }
     //---------------------------------------------------------------------------------
@@ -73,6 +75,20 @@ class Vendor {
         $browse = PurchaseOrderController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.ActiveView = PurchaseOrderController.ActiveView;
+            request.uniqueids = {
+                VendorId: vendorId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
+    openVendorInvoiceBrowse($form) {
+        let vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        let $browse;
+        $browse = VendorInvoiceController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = VendorInvoiceController.ActiveView;
             request.uniqueids = {
                 VendorId: vendorId
             };
@@ -277,6 +293,7 @@ class Vendor {
             <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
             <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
             <div data-type="tab" id="purchaseordertab" class="tab submodule" data-tabpageid="purchaseordertabpage" data-caption="Purchase Order"></div>
+            <div data-type="tab" id="vendorinvoicetab" class="tab submodule" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
             <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
           </div>
           <div class="tabpages">
@@ -542,6 +559,9 @@ class Vendor {
             </div>
              <!-- Purchase Order tab -->
            <div data-type="tabpage" id="purchaseordertabpage" class="tabpage purchaseOrderSubModule" data-tabid="purchaseordertab">
+              </div>
+             <!-- Vendor Invoice tab -->
+           <div data-type="tabpage" id="vendorinvoicetabpage" class="tabpage vendorInvoiceSubModule" data-tabid="vendorinvoicetab">
               </div>
             <!-- Notes tab -->
             <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
