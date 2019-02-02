@@ -648,7 +648,7 @@ class Deal {
         FwBrowse.renderRuntimeHtml($contactControl);
 
         $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
-        $dealNoteControl = jQuery(jQuery('#tmpl-grids-DealNoteGridBrowse').html());
+        $dealNoteControl = FwBrowse.loadGridFromTemplate('DealNoteGrid');
         $dealNoteGrid.empty().append($dealNoteControl);
         $dealNoteControl.data('ondatabind', function (request) {
             request.uniqueids = {
