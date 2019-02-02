@@ -10,7 +10,6 @@ class Customer {
     thisModule: Customer;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
-        var self = this;
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
@@ -18,16 +17,16 @@ class Customer {
 
         var $browse: any = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
                 var datafields = filter.datafield.split('%20');
-                for (var i = 0; i < datafields.length; i++) {
+                for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
-                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             }
 
             FwBrowse.databind($browse);
@@ -75,6 +74,53 @@ class Customer {
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', officeLocation.locationid, officeLocation.location);
             FwFormField.setValue($form, 'div[data-datafield="CustomerStatusId"]', customerStatus.defaultcustomerstatusid, customerStatus.defaultcustomerstatus);
         }
+
+        // SUBMODULES
+        // Deal  submodule
+        let $submoduleDealBrowse = this.openDealBrowse($form);
+        $form.find('.deal-page').append($submoduleDealBrowse);
+        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $dealForm, controller, $browse, dealFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $dealForm = window[controller]['openForm']('NEW', dealFormData);
+            FwModule.openSubModuleTab($browse, $dealForm);
+        });
+        // Quote submodule
+        let $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        $form.find('.quote-page').append($submoduleQuoteBrowse);
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $quoteForm, controller, $browse, quoteFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
+            FwModule.openSubModuleTab($browse, $quoteForm);
+        });
+        // Order submodule 
+        let $submoduleOrderBrowse = this.openOrderBrowse($form);
+        $form.find('.order-page').append($submoduleOrderBrowse);
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
+        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
+            var $orderForm, controller, $browse, orderFormData: any = {};
+            $browse = jQuery(this).closest('.fwbrowse');
+            controller = $browse.attr('data-controller');
+            orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
+            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
+            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
+            $orderForm = window[controller]['openForm']('NEW', orderFormData);
+            FwModule.openSubModuleTab($browse, $orderForm);
+        });
 
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -151,7 +197,6 @@ class Customer {
         });
         FwBrowse.init($companyResaleGridControl);
         FwBrowse.renderRuntimeHtml($companyResaleGridControl);
-
         // ----------
         var nameCustomerNoteGrid: string = 'CustomerNoteGrid';
         var $customerNoteGrid: any = $customerNoteGrid = $form.find('div[data-grid="' + nameCustomerNoteGrid + '"]');
@@ -164,7 +209,6 @@ class Customer {
         });
         FwBrowse.init($customerNoteGridControl);
         FwBrowse.renderRuntimeHtml($customerNoteGridControl);
-
         // ----------
         var nameCompanyTaxGrid: string = 'CompanyTaxOptionGrid'
         var $companyTaxGrid: any = $companyTaxGrid = $form.find('div[data-grid="' + nameCompanyTaxGrid + '"]');
@@ -180,7 +224,6 @@ class Customer {
         });
         FwBrowse.init($companyTaxControl);
         FwBrowse.renderRuntimeHtml($companyTaxControl);
-
         // ----------
         var nameCompanyContactGrid: string = 'CompanyContactGrid'
         var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
@@ -209,73 +252,13 @@ class Customer {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
-        //FwBrowse.search($customerResaleGrid);
-
         var $customerNoteGrid: any = $form.find('[data-name="CustomerNoteGrid"]');
-        //FwBrowse.search($customerNoteGrid);
-
         var $companyTaxGrid: any = $form.find('[data-name="CompanyTaxOptionGrid"]');
-        //FwBrowse.search($companyTaxGrid);
-
         var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
-        //FwBrowse.search($companyContactGrid);
-
-        let $dealBrowse = $form.find('#DealBrowse');
-        // FwBrowse.search($dealBrowse);
-        let $orderBrowse = $form.find('#OrderBrowse');
-        // FwBrowse.search($orderBrowse);
-        let $quoteBrowse = $form.find('#QuoteBrowse');
-        // FwBrowse.search($quoteBrowse);
 
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));
         };
-
-        //open Deal browse submodule
-        let $submoduleDealBrowse = this.openDealBrowse($form);
-        $form.find('.deal-page').append($submoduleDealBrowse);
-        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleDealBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $dealForm, controller, $browse, dealFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
-            dealFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            dealFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $dealForm = window[controller]['openForm']('NEW', dealFormData);
-            FwModule.openSubModuleTab($browse, $dealForm);
-        });
-         // Open Quote submodule browse
-        let $submoduleQuoteBrowse = this.openQuoteBrowse($form);
-        $form.find('.quote-page').append($submoduleQuoteBrowse);
-        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $quoteForm, controller, $browse, quoteFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
-            quoteFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            quoteFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $quoteForm = window[controller]['openForm']('NEW', quoteFormData);
-            FwModule.openSubModuleTab($browse, $quoteForm);
-        });
-        // Open Order submodule browse
-        let $submoduleOrderBrowse = this.openOrderBrowse($form);
-        $form.find('.order-page').append($submoduleOrderBrowse);
-        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-            var $orderForm, controller, $browse, orderFormData: any = {};
-            $browse = jQuery(this).closest('.fwbrowse');
-            controller = $browse.attr('data-controller');
-            orderFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-            orderFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-            if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-            if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-            $orderForm = window[controller]['openForm']('NEW', orderFormData);
-            FwModule.openSubModuleTab($browse, $orderForm);
-        });
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {

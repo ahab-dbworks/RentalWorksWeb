@@ -171,12 +171,6 @@ class Deal {
             $dealNoteGrid,
             $vendorGrid;
 
-        var $quoteBrowse = $form.find('#QuoteBrowse');
-        //FwBrowse.search($quoteBrowse);
-
-        var $orderBrowse = $form.find('#OrderBrowse');
-        //FwBrowse.search($orderBrowse);
-
         $resaleGrid = $form.find('[data-name="CompanyResaleGrid"]');
         //FwBrowse.search($resaleGrid);
 
