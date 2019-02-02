@@ -68,10 +68,6 @@ class Deal {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $submoduleQuoteBrowse = this.openQuoteBrowse($form);
-        $form.find('.quote').append($submoduleQuoteBrowse);
-        $submoduleOrderBrowse = this.openOrderBrowse($form);
-        $form.find('.order').append($submoduleOrderBrowse);
 
         FwFormField.disable($form.find('.CompanyResaleGrid'));
         this.events($form);
@@ -92,7 +88,9 @@ class Deal {
             FwFormField.setValue($form, 'div[data-datafield="DealStatusId"]', dealDefaults.defaultcustomerstatusid, dealDefaults.defaultdealstatus);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', dealDefaults.defaultdealbillingcycleid, dealDefaults.defaultdealbillingcycle);
         }
-
+        // SUBMODULES
+        $submoduleQuoteBrowse = this.openQuoteBrowse($form);
+        $form.find('.quote').append($submoduleQuoteBrowse);
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleQuoteBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
             var $quoteForm, controller, $browse, quoteFormData: any = {};
@@ -110,6 +108,8 @@ class Deal {
             FwModule.openSubModuleTab($browse, $quoteForm);
         });
 
+        $submoduleOrderBrowse = this.openOrderBrowse($form);
+        $form.find('.order').append($submoduleOrderBrowse);
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
         $submoduleOrderBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
             var $orderForm, controller, $browse, orderFormData: any = {};

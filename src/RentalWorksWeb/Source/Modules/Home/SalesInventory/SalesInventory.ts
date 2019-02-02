@@ -51,7 +51,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($itemLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
-
+        // ----------
         $salesInventoryWarehouseGrid = $form.find('div[data-grid="SalesInventoryWarehouseGrid"]');
         $salesInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-SalesInventoryWarehouseGridBrowse').html());
         $salesInventoryWarehouseGrid.empty().append($salesInventoryWarehouseGridControl);
@@ -65,7 +65,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($salesInventoryWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($salesInventoryWarehouseGridControl);
-
+        // ----------
         $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         $inventoryAvailabilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryAvailabilityGridBrowse').html());
         $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
@@ -79,7 +79,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryAvailabilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
-
+        // ----------
         $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
         $inventoryConsignmentGridControl = jQuery(jQuery('#tmpl-grids-InventoryConsignmentGridBrowse').html());
         $inventoryConsignmentGrid.empty().append($inventoryConsignmentGridControl);
@@ -90,7 +90,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryConsignmentGridControl);
         FwBrowse.renderRuntimeHtml($inventoryConsignmentGridControl);
-
+        // ----------
         $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
         $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());
         $inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
@@ -101,7 +101,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryCompleteKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
-
+        // ----------
         $inventorySubstituteGrid = $form.find('div[data-grid="SalesInventorySubstituteGrid"]');
         $inventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-SalesInventorySubstituteGridBrowse').html());
         $inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
@@ -115,7 +115,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventorySubstituteGridControl);
         FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
-
+        // ----------
         $inventoryCompatibilityGrid = $form.find('div[data-grid="SalesInventoryCompatibilityGrid"]');
         $inventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-SalesInventoryCompatibilityGridBrowse').html());
         $inventoryCompatibilityGrid.empty().append($inventoryCompatibilityGridControl);
@@ -129,7 +129,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryCompatibilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
-
+        // ----------
         $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
         $inventoryQcGridControl = jQuery(jQuery('#tmpl-grids-InventoryQcGridBrowse').html());
         $inventoryQcGrid.empty().append($inventoryQcGridControl);
@@ -140,7 +140,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryQcGridControl);
         FwBrowse.renderRuntimeHtml($inventoryQcGridControl);
-
+        // ----------
         $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
         $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
@@ -154,7 +154,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
-
+        // ----------
         $inventoryVendorGrid = $form.find('div[data-grid="InventoryVendorGrid"]');
         $inventoryVendorGridControl = jQuery(jQuery('#tmpl-grids-InventoryVendorGridBrowse').html());
         $inventoryVendorGrid.empty().append($inventoryVendorGridControl);
@@ -168,7 +168,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryVendorGridControl);
         FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
-
+        // ----------
         $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
         $inventoryPrepGridControl = jQuery(jQuery('#tmpl-grids-InventoryPrepGridBrowse').html());
         $inventoryPrepGrid.empty().append($inventoryPrepGridControl);
@@ -182,7 +182,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
-
+        // ----------
         $wardrobeInventoryColorGrid = $form.find('div[data-grid="WardrobeInventoryColorGrid"]');
         $wardrobeInventoryColorGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryColorGridBrowse').html());
         $wardrobeInventoryColorGrid.empty().append($wardrobeInventoryColorGridControl);
@@ -196,7 +196,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($wardrobeInventoryColorGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryColorGridControl);
-
+        // ----------
         $wardrobeInventoryMaterialGrid = $form.find('div[data-grid="WardrobeInventoryMaterialGrid"]');
         $wardrobeInventoryMaterialGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryMaterialGridBrowse').html());
         $wardrobeInventoryMaterialGrid.empty().append($wardrobeInventoryMaterialGridControl);
@@ -210,7 +210,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($wardrobeInventoryMaterialGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryMaterialGridControl);
-
+        // ----------
         $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
         $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
         $inventoryCompleteGridControl.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
@@ -224,22 +224,12 @@ class SalesInventory extends InventoryBase {
         $inventoryCompleteGridControl.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
-        //$inventoryCompleteGridControl.data('afterdatabindcallback', function ($control, dt) {
-        //    var orderByIndex = dt.ColumnIndex.OrderBy;
-        //    var inventoryIdIndex = dt.ColumnIndex.InventoryId
-        //    for (var i = 0; i < dt.Rows.length; i++) {
-        //        if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
-        //            primaryRowIndex = i
-        //        }
-        //    }
-
-        //});
         $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
             var primaryRowIndex;
             if (primaryRowIndex === undefined) {
-                var orderByIndex = dt.ColumnIndex.OrderBy;
-                var inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (var i = 0; i < dt.Rows.length; i++) {
+                let orderByIndex = dt.ColumnIndex.OrderBy;
+                let inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
                         primaryRowIndex = i
                     }
@@ -253,7 +243,7 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryCompleteGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
-
+        // ----------
         $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
         $inventoryKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryKitGridBrowse').html());
         $inventoryKitGridControl.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
@@ -269,9 +259,9 @@ class SalesInventory extends InventoryBase {
         $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
             var primaryRowIndex;
             if (primaryRowIndex === undefined) {
-                var orderByIndex = dt.ColumnIndex.OrderBy;
-                var inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (var i = 0; i < dt.Rows.length; i++) {
+                let orderByIndex = dt.ColumnIndex.OrderBy;
+                let inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
                         primaryRowIndex = i
                     }
@@ -285,61 +275,18 @@ class SalesInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
+        // ----------
     };
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
 
-        let $itemLocationTaxGrid: any;
-        let $salesInventoryWarehouseGrid: any;
-        let $inventoryAvailabilityGrid: any;
-        let $inventoryConsignmentGrid: any;
-        let $inventoryCompleteKitGrid: any;
-        let $inventorySubstituteGrid: any;
-        let $inventoryCompatibilityGrid: any;
-        let $inventoryQcGrid: any;
-        let $inventoryAttributeValueGrid: any;
-        let $inventoryVendorGrid: any;
-        let $inventoryPrepGrid: any;
-        let $wardrobeInventoryColorGrid: any;
-        let $wardrobeInventoryMaterialGrid: any;
-        let $inventoryCompleteGrid: any;
-        let $inventoryKitGrid: any;
-        let $assetBrowse;
-
-        $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
-        //FwBrowse.search($itemLocationTaxGrid);
-        $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
+        let $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
         FwBrowse.search($salesInventoryWarehouseGrid);
-        $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
-        //FwBrowse.search($inventoryAvailabilityGrid);
-        $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
-        //FwBrowse.search($inventoryConsignmentGrid);
-        $inventoryCompleteKitGrid = $form.find('[data-name="InventoryCompleteKitGrid"]');
-        //FwBrowse.search($inventoryCompleteKitGrid);
-        $inventorySubstituteGrid = $form.find('[data-name="SalesInventorySubstituteGrid"]');
-        //FwBrowse.search($inventorySubstituteGrid);
-        $inventoryCompatibilityGrid = $form.find('[data-name="SalesInventoryCompatibilityGrid"]');
-        //FwBrowse.search($inventoryCompatibilityGrid);
-        $inventoryQcGrid = $form.find('[data-name="InventoryQcGrid"]');
-        //FwBrowse.search($inventoryQcGrid);
-        $inventoryAttributeValueGrid = $form.find('[data-name="InventoryAttributeValueGrid"]');
-        //FwBrowse.search($inventoryAttributeValueGrid);
-        $inventoryVendorGrid = $form.find('[data-name="InventoryVendorGrid"]');
-        //FwBrowse.search($inventoryVendorGrid);
-        $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
-        //FwBrowse.search($inventoryPrepGrid);
-        $wardrobeInventoryColorGrid = $form.find('[data-name="WardrobeInventoryColorGrid"]');
-        //FwBrowse.search($wardrobeInventoryColorGrid);
-        $wardrobeInventoryMaterialGrid = $form.find('[data-name="WardrobeInventoryMaterialGrid"]');
-        //FwBrowse.search($wardrobeInventoryMaterialGrid);
-        $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
-        //FwBrowse.search($inventoryCompleteGrid);
-        $inventoryKitGrid = $form.find('[data-name="InventoryKitGrid"]');
-        //FwBrowse.search($inventoryKitGrid);
 
         this.afterLoadSetClassification($form);
+        this.addAssetTab($form);
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
@@ -356,9 +303,7 @@ class SalesInventory extends InventoryBase {
         } else {
             FwFormField.disable($form.find('.subcategory'));
         }
-        this.addAssetTab($form);
-        $assetBrowse = $form.find('#AssetBrowse');
-        setTimeout(() => { FwBrowse.search($assetBrowse); }, 0);
+
     };
     //----------------------------------------------------------------------------------------------
     addAssetTab($form: any): void {
@@ -370,19 +315,7 @@ class SalesInventory extends InventoryBase {
             if (trackedByValue !== 'QUANTITY') {
                 $form.find('.tab.asset').show();
                 $submoduleAssetBrowse = this.openAssetBrowse($form);
-                $form.find('.tabpage.asset').append($submoduleAssetBrowse);
-
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-                    var $assetForm, controller, $browse, assetFormData: any = {};
-                    $browse = jQuery(this).closest('.fwbrowse');
-                    controller = $browse.attr('data-controller');
-                    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-                    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                    $assetForm = window[controller]['openForm']('NEW', assetFormData);
-                    FwModule.openSubModuleTab($browse, $assetForm);
-                });
+                $form.find('.tabpage.asset').html($submoduleAssetBrowse);
             }
         }
     };
@@ -403,9 +336,9 @@ class SalesInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
-        var validationName = request.module;
-        var InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
-        var CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
+        const validationName = request.module;
+        const InventoryTypeValue = jQuery($grid.find('[data-validationname="InventoryTypeValidation"] input')).val();
+        const CategoryTypeId = jQuery($grid.find('[data-validationname="SalesCategoryValidation"] input')).val();
 
         switch (validationName) {
             case 'InventoryTypeValidation':
