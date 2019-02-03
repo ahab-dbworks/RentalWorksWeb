@@ -23,14 +23,17 @@ namespace WebApi.Modules.Settings.Widget
         [FwLogicProperty(Id: "FuQOXtzL8B9")]
         public string ApiName { get { return widget.ApiName; } set { widget.ApiName = value; } }
 
-        [FwLogicProperty(Id: "X5NtJ7MHJ2f")]
-        public string Sql { get { return widget.Sql; } set { widget.Sql = value; } }
+        [FwLogicProperty(Id: "MF2KXqkBDu9rP")]
+        public string ProcedureName { get { return widget.ProcedureName; } set { widget.ProcedureName = value; } }
 
         [FwLogicProperty(Id: "uCPgDGUf6xN")]
         public string CounterFieldName { get { return widget.CounterFieldName; } set { widget.CounterFieldName = value; } }
 
         [FwLogicProperty(Id: "IgNzBmcS7Nq")]
-        public string LabelFieldName { get { return widget.LabelFieldName; } set { widget.LabelFieldName = value; } }
+        public string Label1FieldName { get { return widget.Label1FieldName; } set { widget.Label1FieldName = value; } }
+
+        [FwLogicProperty(Id: "tDInqMNN4gKIn")]
+        public string Label2FieldName { get { return widget.Label2FieldName; } set { widget.Label2FieldName = value; } }
 
         [FwLogicProperty(Id: "5rnMg2K4Tkq")]
         public string ClickPath { get { return widget.ClickPath; } set { widget.ClickPath = value; } }

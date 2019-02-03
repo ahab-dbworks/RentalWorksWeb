@@ -112,12 +112,22 @@ namespace WebApi.Modules.Settings.Widget
         public WidgetOptions options { get; set; }
         public int dataPoints { get; set; }
 
-        public string sql { get; set; }
+        public string apiName { get; set; }
+        public string procedureName { get; set; }
         public string counterFieldName { get; set; }
-        public string labelFieldName { get; set; }
+        public string label1FieldName { get; set; }
+        public string label2FieldName { get; set; }
         public string backgroundColorFieldName { get; set; } = "backgroundcolor";
         public string borderColorFieldName { get; set; } = "bordercolor";
         public double opacity { get; set; } = 0.75;
+
+
+        private int counterFieldIndex;
+        private int label1FieldIndex;
+        private int label2FieldIndex;
+        private int backgroundColorFieldIndex;
+        private int borderColorFieldIndex;
+
 
         //rentalworks-specific values
         public string locationId = "";
@@ -130,36 +140,180 @@ namespace WebApi.Modules.Settings.Widget
         public DateTime? fromDate = null;
         public DateTime? toDate = null;
 
-        public Widget()
+        //------------------------------------------------------------------------------------
+        public Widget(WidgetLogic l)
         {
             data = new WidgetData();
             options = new WidgetOptions();
+            options.title.text = l.Widget;
+            options.title.fontSize = 16;
+            type = l.DefaultType;
+            apiName = l.ApiName;
+            procedureName = l.ProcedureName;
+            counterFieldName = l.CounterFieldName;
+            label1FieldName = l.Label1FieldName;
+            label2FieldName = l.Label2FieldName;
         }
-
-        public Widget(string sql, string counterFieldName, string labelFieldName) : base()
-        {
-            this.sql = sql;
-            this.counterFieldName = counterFieldName;
-            this.labelFieldName = labelFieldName;
-        }
-
+        //------------------------------------------------------------------------------------
         public void SetDbConfig(SqlServerConfig dbConfig)
         {
             _dbConfig = dbConfig;
         }
+        //------------------------------------------------------------------------------------
+        protected virtual bool PopulateDataSets(FwJsonDataTable table)
+        {
+            bool loaded = false;
 
+            List<string> label1List = new List<string>();
+            List<string> label2List = new List<string>();
+
+
+            counterFieldIndex = table.GetColumnNo(counterFieldName);
+            label1FieldIndex = table.GetColumnNo(label1FieldName);
+            label2FieldIndex = table.GetColumnNo(label2FieldName);
+            backgroundColorFieldIndex = table.GetColumnNo(backgroundColorFieldName);
+            borderColorFieldIndex = table.GetColumnNo(borderColorFieldName);
+
+            for (int r = 0; r < table.Rows.Count; r++)
+            {
+                string s = table.Rows[r][label1FieldIndex].ToString();
+
+                if (!label1List.Contains(s))
+                {
+                    label1List.Add(s);
+                }
+            }
+            if (!string.IsNullOrEmpty(label2FieldName))
+            {
+                for (int r = 0; r < table.Rows.Count; r++)
+                {
+                    string s = table.Rows[r][label2FieldIndex].ToString();
+
+                    if (!label2List.Contains(s))
+                    {
+                        label2List.Add(s);
+                    }
+                }
+            }
+
+
+            if (label2List.Count == 0)  // 2D chart
+            {
+                List<decimal> dataList = new List<decimal>();
+                List<string> backgroundColor = new List<string>();
+                List<string> borderColor = new List<string>();
+
+                data.labels = label1List;
+
+                foreach (string label in label1List)
+                {
+                    decimal value = 0;
+                    string datalabel = "";
+                    int colorInt = 0;
+                    int borderColorInt = 0;
+                    string colorStr = "";
+                    string borderColorStr = "";
+
+                    for (int r = 0; r < table.Rows.Count; r++)
+                    {
+                        datalabel = table.Rows[r][label1FieldIndex].ToString();
+                        if (datalabel.Equals(label))
+                        {
+                            value = Convert.ToDecimal(table.Rows[r][counterFieldIndex]);
+                            colorInt = Convert.ToInt32(table.Rows[r][backgroundColorFieldIndex]);
+                            colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
+
+                            borderColorInt = Convert.ToInt32(table.Rows[r][borderColorFieldIndex]);
+                            borderColorStr = FwConvert.OleColorToHtmlColor(borderColorInt, 1);
+
+                            dataList.Add(value);
+                            backgroundColor.Add(colorStr);
+                            borderColor.Add(borderColorStr);
+
+                        }
+                        loaded = true;
+                    }
+                }
+
+                WidgetDataSet wds = new WidgetDataSet();
+                wds.data = dataList;
+                wds.backgroundColor = backgroundColor;
+                wds.borderColor = borderColor;
+                data.datasets.Add(wds);
+
+            }
+            else //3D chart
+            {
+                data.labels = label2List;
+
+                foreach (string label in label1List)
+                {
+                    List<decimal> dataList = new List<decimal>();
+                    List<string> backgroundColor = new List<string>();
+                    List<string> borderColor = new List<string>();
+
+                    foreach (string label2 in label2List)
+                    {
+                        decimal value = 0;
+                        string datalabel = "";
+                        string datalabel2 = "";
+                        int colorInt = 0;
+                        int borderColorInt = 0;
+                        string colorStr = "";
+                        string borderColorStr = "";
+
+                        for (int r = 0; r < table.Rows.Count; r++)
+                        {
+
+                            datalabel = table.Rows[r][label1FieldIndex].ToString();
+                            datalabel2 = table.Rows[r][label2FieldIndex].ToString();
+
+                            if ((datalabel.Equals(label)) && (datalabel2.Equals(label2)))
+                            {
+
+                                value = Convert.ToDecimal(table.Rows[r][counterFieldIndex]);
+                                colorInt = Convert.ToInt32(table.Rows[r][backgroundColorFieldIndex]);
+                                colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
+
+                                borderColorInt = Convert.ToInt32(table.Rows[r][borderColorFieldIndex]);
+                                borderColorStr = FwConvert.OleColorToHtmlColor(borderColorInt, 1);
+
+                                dataList.Add(value);
+                                backgroundColor.Add(colorStr);
+                                borderColor.Add(borderColorStr);
+
+                            }
+                            loaded = true;
+                        }
+
+                    }
+
+                    WidgetDataSet wds = new WidgetDataSet();
+                    wds.data = dataList;
+                    wds.label = label;
+                    wds.backgroundColor = backgroundColor;
+                    wds.borderColor = borderColor;
+                    data.datasets.Add(wds);
+                }
+
+                options.legend.display = true;
+
+            }
+
+
+
+            return loaded;
+        }
+        //------------------------------------------------------------------------------------
         public virtual async Task<bool> LoadAsync()
         {
             bool loaded = false;
-            List<decimal> dataList = new List<decimal>();
-            List<string> backgroundColor = new List<string>();
-            List<string> borderColor = new List<string>();
 
             using (FwSqlConnection conn = new FwSqlConnection(_dbConfig.ConnectionString))
             {
                 bool paramsAdded = false;
                 FwSqlCommand qry = new FwSqlCommand(conn, _dbConfig.QueryTimeout);
-                qry.Add(sql);
+                qry.Add("exec " + procedureName);
                 if (dataPoints != 0)
                 {
                     if (paramsAdded)
@@ -265,11 +419,8 @@ namespace WebApi.Modules.Settings.Widget
                 qry.AddParameter("@outputtodate", System.Data.SqlDbType.Date, System.Data.ParameterDirection.Output);
                 paramsAdded = true;
 
-                qry.AddColumn(counterFieldName);
-                qry.AddColumn(labelFieldName);
-                qry.AddColumn(backgroundColorFieldName);
-                qry.AddColumn(borderColorFieldName);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
+
                 if (qry.GetParameter("@outputfromdate").FieldValue == DBNull.Value)
                 {
                     fromDate = null;
@@ -281,56 +432,12 @@ namespace WebApi.Modules.Settings.Widget
                     toDate = qry.GetParameter("@outputtodate").ToDateTime();
                 }
 
-                bool labelIsDate = false;
-                if (table.Rows.Count > 0)
-                {
-                    DateTime dt = new DateTime();
-                    if (DateTime.TryParse(table.Rows[0][1].ToString(), out dt))
-                    {
-                        labelIsDate = (dt.Date == dt);
-                    }
-                }
-
-                decimal value = 0;
-                string label = "";
-                int colorInt = 0;
-                string colorStr = "";
-                string borderColorStr = "";
-
-                for (int r = 0; r < table.Rows.Count; r++)
-                {
-                    value = Convert.ToDecimal(table.Rows[r][0]);
-                    if (labelIsDate)
-                    {
-                        label = FwConvert.ToUSShortDate(table.Rows[r][1].ToString());
-                    }
-                    else
-                    {
-                        label = table.Rows[r][1].ToString();
-                    }
-                    colorInt = Convert.ToInt32(table.Rows[r][2]);
-                    colorStr = FwConvert.OleColorToHtmlColor(colorInt, opacity);
-                    borderColorStr = FwConvert.OleColorToHtmlColor(colorInt, 1);
-
-                    data.labels.Add(label);
-                    dataList.Add(value);
-                    backgroundColor.Add(colorStr);
-                    borderColor.Add(borderColorStr);
-
-                    loaded = true;
-                }
+                loaded = PopulateDataSets(table);
             }
-
-            data.datasets.Add(new WidgetDataSet());
-            data.datasets[0].data = dataList;
-            data.datasets[0].backgroundColor = backgroundColor;
-            data.datasets[0].borderColor = borderColor;
 
             return loaded;
 
         }
-        //------------------------------------------------------------------------------------
-
         //------------------------------------------------------------------------------------
     }
 }

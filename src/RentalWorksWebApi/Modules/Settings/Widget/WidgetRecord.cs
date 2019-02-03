@@ -17,14 +17,17 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "apiname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string ApiName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sql", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8000, required: true)]
-        public string Sql { get; set; }
+        [FwSqlDataField(column: "procedurename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
+        public string ProcedureName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "counterfieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string CounterFieldName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "labelfieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
-        public string LabelFieldName { get; set; }
+        [FwSqlDataField(column: "label1fieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
+        public string Label1FieldName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "label2fieldname", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
+        public string Label2FieldName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "clickpath", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string ClickPath { get; set; }

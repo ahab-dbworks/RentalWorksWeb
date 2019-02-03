@@ -168,7 +168,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             BrowseRequest request = new BrowseRequest();
             request.pageno = 0;
             request.pagesize = 0;
-            request.orderby = string.Empty;
+            request.orderby = "Widget";
 
             WidgetLogic l = new WidgetLogic();
             l.SetDependencies(AppConfig, UserSession);
