@@ -1,13 +1,10 @@
 Last Updated 01/29/2019
 ===================================================
-Navigate to the "build" directory: <repo root>\build, Delete all files and directories
+Navigate to the "build" directory: <repo root>\build
+	Delete all files and directories
 Confirm that you are on local\develop branch
 Stash any unstaged changes
 Modify version.txt file in the root of the Web project (save and close)
-[obsolete?] Build Reports:
-[obsolete?] 	Open command prompt at WebApi directory
-[obsolete?] 	cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
-[obsolete?] 	npm run build-reports-dev
 Change build mode to Release - Any CPU
 Rebuild Solution
 Publish WebAPI:
@@ -18,13 +15,6 @@ Stage, Commit, and Push assembly/version files, provide Description similar to "
 Navigate to the "build" directory: <repo root>\build
 Use 7Zip to compress the RentalWorksWeb and RentalWorksWebApi directories together "RentalWorksWeb_2018_001_XX.zip"
 Upload zip file to ftp or web server.
-	4Wall web server is 4we-lv-rwweb
-		C:\inetpub\wwwroot\rentalworksweb
-		C:\inetpub\wwwroot\rentalworkswebapi
-	DatabaseWorks demo is: TSWEBDEMO01
-		web2018demo.rentalworks.net
-		webapi2018demo.rentalworks.net
-
 
 Updating Web: 
 	find the target directory
@@ -47,3 +37,10 @@ Updating Api:
 		Add Modify permissions for user: IIS_IUSRS
 
 
+Deployment Server info:
+	4Wall web server is 4we-lv-rwweb
+		C:\inetpub\wwwroot\rentalworksweb
+		C:\inetpub\wwwroot\rentalworkswebapi
+	DatabaseWorks demo is: TSWEBDEMO01
+		web2018demo.rentalworks.net
+		webapi2018demo.rentalworks.net
