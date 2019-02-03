@@ -108,7 +108,6 @@ class Widget {
     }
 
     afterLoad($form: any) {
-        FwFormField.disable($form.find('[data-datafield="ApiName"]'));
         let dateSelectField = $form.find('.datefield');
         let dateSelected = FwFormField.getValue2(dateSelectField);
         let dateFieldDisplay = FwFormField.getValueByDataField($form, 'DateFieldDisplayNames');
