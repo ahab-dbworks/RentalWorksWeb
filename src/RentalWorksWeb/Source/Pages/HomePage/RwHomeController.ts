@@ -3,9 +3,6 @@
     Module: string = 'RwHome';
     charts: any = [];
     widgets: any = {};
-    ordersbyagent: boolean = false;
-    dealsbytype: boolean = false;
-    billingbyagentbymonth: boolean = false;
 
     constructor() {
         this.charts = [];
@@ -575,20 +572,20 @@
             fromDate.hide();
             toDate.hide();
             dateField.hide();
-        } else if (DateBehavior === 'SINGLEDATEYESTERDAY' || DateBehavior === 'SINGLEDATETODAY' || DateBehavior === 'SINGLEDATETOMORROW' || DateBehavior === 'DATERANGEPRIORWEEK' || DateBehavior === 'DATERANGECURRENTWEEK' || DateBehavior === 'DATERANGENEXTWEEK' || DateBehavior === 'DATERANGEPRIORMONTH' || DateBehavior === 'DATERANGECURRENTMONTH' || DateBehavior === 'DATERANGENEXTMONTH' || DateBehavior === 'DATERANGEPRIORYEAR' || DateBehavior === 'DATERANGECURRENTYEAR' || DateBehavior === 'DATERANGENEXTYEAR' || DateBehavior === 'DATERANGEYEARTODATE') {
-            fromDate.hide();
-            toDate.hide();
+        } else {
             dateField.show();
-        } else if (DateBehavior === 'SINGLEDATESPECIFICDATE') {
-            fromDateField.text('Date');
-            fromDate.show();
-            toDate.hide();
-            dateField.show();
-        } else if (DateBehavior === 'DATERANGESPECIFICDATES') {
-            fromDateField.text('From Date');
-            fromDate.show();
-            toDate.show();
-            dateField.show();
+            if (DateBehavior === 'SINGLEDATESPECIFICDATE') {
+                fromDateField.text('Date');
+                fromDate.show();
+                toDate.hide();
+            } else if (DateBehavior === 'DATERANGESPECIFICDATES') {
+                fromDateField.text('From Date');
+                fromDate.show();
+                toDate.show();
+            } else {
+                fromDate.hide();
+                toDate.hide();
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
