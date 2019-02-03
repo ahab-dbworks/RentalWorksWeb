@@ -66,6 +66,7 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
+        let location = JSON.parse(sessionStorage.getItem('location'));
         let $new = FwMenu.generateDropDownViewBtn('New', false);
         let $approved = FwMenu.generateDropDownViewBtn('Approved', false);
         let $newapproved = FwMenu.generateDropDownViewBtn('New & Approved', false);
@@ -73,70 +74,107 @@ class Invoice {
         let $closed = FwMenu.generateDropDownViewBtn('Closed', false);
         let $void = FwMenu.generateDropDownViewBtn('Void', false);
         let $all = FwMenu.generateDropDownViewBtn('All', true);
+        let view = [];
+        view[0] = `LocationId=${location.locationid}`;
 
         $new.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'NEW';
+            this.ActiveView = 'Status=NEW';
+            view[1] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $approved.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'APPROVED';
+            this.ActiveView = 'Status=APPROVED';
+            view[1] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $newapproved.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'NEWAPPROVED';
+            this.ActiveView = 'Status=NEWAPPROVED';
+            view[1] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $processed.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'PROCESSED';
+            this.ActiveView = 'Status=PROCESSED';
+            view[1] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $closed.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'CLOSED';
+            this.ActiveView = 'Status=CLOSED';
+            view[1] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $void.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'VOID';
+            this.ActiveView = 'Status=VOID';
+            view[1] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $all.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'ALL';
+            this.ActiveView = 'Status=ALL';
+            view[1] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
-       
-        const viewSubitems = [];
+
+        const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $new, $approved, $newapproved, $processed, $closed, $void);
 
         let $view;
         $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
 
         //Location Filter
-        let location = JSON.parse(sessionStorage.getItem('location'));
         let $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
         let $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
         $allLocations.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = 'LocationId=ALL';
+            view[0] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         $userLocation.on('click', e => {
             let $browse;
             $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = `LocationId=${location.locationid}`;
+            view[0] = this.ActiveView;
+            if (view.length > 1) {
+                this.ActiveView = view.join(', ');
+            }
             FwBrowse.search($browse);
         });
         const viewLocation = [];
@@ -683,7 +721,7 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     checkBillingDateRange($form: JQuery, event: any): void {
-        let  parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+        let parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
         let parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
 
         if (parsedToDate < parsedFromDate) {
