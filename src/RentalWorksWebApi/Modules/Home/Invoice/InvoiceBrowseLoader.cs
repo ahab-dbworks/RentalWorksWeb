@@ -109,50 +109,60 @@ namespace WebApi.Modules.Home.Invoice
 
             if ((request != null) && (request.activeview != null))
             {
-                switch (request.activeview)
-                {
-                    case "NEW":
-                        select.AddWhere("(status = @invoicestatus)");
-                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_NEW);
-                        break;
-                    case "APPROVED":
-                        select.AddWhere("(status = @invoicestatus)");
-                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_APPROVED);
-                        break;
-                    case "NEWAPPROVED":
-                        select.AddWhere("(status in (@invoicestatus0, @invoicestatus1))");
-                        select.AddParameter("@invoicestatus0", RwConstants.INVOICE_STATUS_NEW);
-                        select.AddParameter("@invoicestatus1", RwConstants.INVOICE_STATUS_APPROVED);
-                        break;
-                    case "PROCESSED":
-                        select.AddWhere("(status = @invoicestatus)");
-                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_PROCESSED);
-                        break;
-                    case "CLOSED":
-                        select.AddWhere("(status = @invoicestatus)");
-                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_CLOSED);
-                        break;
-                    case "VOID":
-                        select.AddWhere("(status = @invoicestatus)");
-                        select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_VOID);
-                        break;
-                    case "ALL":
-                        break;
-                }
 
-                string locId = "ALL";
-                if (request.activeview.Contains("OfficeLocationId="))
+                List<string> activeView = new List<string>(request.activeview.Split(','));
+
+                foreach (string s in activeView)
                 {
-                    locId = request.activeview.Replace("OfficeLocationId=", "");
-                }
-                else if (request.activeview.Contains("LocationId="))
-                {
-                    locId = request.activeview.Replace("LocationId=", "");
-                }
-                if (!locId.Equals("ALL"))
-                {
-                    select.AddWhere("(locationid = @locid)");
-                    select.AddParameter("@locid", locId);
+
+                    switch (s)
+                    {
+                        case "NEW":
+                            select.AddWhere("(status = @invoicestatus)");
+                            select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_NEW);
+                            break;
+                        case "APPROVED":
+                            select.AddWhere("(status = @invoicestatus)");
+                            select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_APPROVED);
+                            break;
+                        case "NEWAPPROVED":
+                            select.AddWhere("(status in (@invoicestatus0, @invoicestatus1))");
+                            select.AddParameter("@invoicestatus0", RwConstants.INVOICE_STATUS_NEW);
+                            select.AddParameter("@invoicestatus1", RwConstants.INVOICE_STATUS_APPROVED);
+                            break;
+                        case "PROCESSED":
+                            select.AddWhere("(status = @invoicestatus)");
+                            select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_PROCESSED);
+                            break;
+                        case "CLOSED":
+                            select.AddWhere("(status = @invoicestatus)");
+                            select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_CLOSED);
+                            break;
+                        case "VOID":
+                            select.AddWhere("(status = @invoicestatus)");
+                            select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_VOID);
+                            break;
+                        case "ALL":
+                            break;
+                    }
+
+                    if (s.Contains("OfficeLocationId=") || s.Contains("LocationId="))
+                    {
+                        string locId = "ALL";
+                        if (s.Contains("OfficeLocationId="))
+                        {
+                            locId = s.Replace("OfficeLocationId=", "");
+                        }
+                        else if (s.Contains("LocationId="))
+                        {
+                            locId = s.Replace("LocationId=", "");
+                        }
+                        if (!locId.Equals("ALL"))
+                        {
+                            select.AddWhere("(locationid = @locid)");
+                            select.AddParameter("@locid", locId);
+                        }
+                    }
                 }
             }
 
