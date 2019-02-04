@@ -89,11 +89,11 @@
                     request = {
                         BatchId: batchId
                     }
-                    FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    let timeout = 7200;
+                    FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, timeout, function onSuccess(response) {
 
-                    if ((response.success === true) && (response.Batch !== null)) {
-                        var batch = response.Batch;
-                        var batchId = batch.BatchId;
+                    if ((response.success === true) && (response.batch !== null)) {
+                        var batch = response.batch;
                         var batchNumber = batch.BatchNumber
                         var downloadUrl = response.downloadUrl;
 
@@ -102,7 +102,12 @@
 
                         // at this point we want to initiate the download process using "downloadUrl" from the response. 
                         // please loop in Josh at this point as he did a lot of work on the "Download Excel" process for reports.  I think this will be similar
-
+     
+                        let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
+                        jQuery('#application').append($iframe);
+                        setTimeout(function () {
+                            $iframe.remove();
+                        }, 500);
 
                     } else {
                         FwNotification.renderNotification('WARNING', 'Batch could not be exported.');

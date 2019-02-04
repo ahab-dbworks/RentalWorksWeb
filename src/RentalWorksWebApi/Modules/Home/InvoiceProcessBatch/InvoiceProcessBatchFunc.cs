@@ -143,8 +143,10 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
                     tw.Close();
                 }
 
+
                 response.batch = batch;
                 response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}";
+                response.success = true;
             }
             return response;
         }
