@@ -1009,7 +1009,7 @@ class CustomForm {
                             }
                         } else if (type === 'Form') {
                             if (attribute === 'data-datafield') {
-                                isCustomField = $form.find(`option[value=${value}]`).attr('data-iscustomfield');
+                                isCustomField = $form.find(`option[value="${value}"]`).attr('data-iscustomfield');
 
                                 //update caption when datafield is changed
                                 jQuery(originalHtml).attr('data-caption', value);
@@ -1017,7 +1017,7 @@ class CustomForm {
 
                                 if (isCustomField === "true") {
                                     //update datatype
-                                    let datatype = $form.find(`option[value=${value}]`).attr('data-type');
+                                    let datatype = $form.find(`option[value="${value}"]`).attr('data-type');
                                     switch (datatype) {
                                         case 'integer':
                                             datatype = "number";
