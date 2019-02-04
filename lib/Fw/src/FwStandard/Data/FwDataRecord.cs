@@ -555,7 +555,7 @@ namespace FwStandard.DataLayer
                         {
                             doUpper = false;
                         }
-                        if ((searchFieldType.ToLower().Equals("date")) || (searchFieldType.ToLower().Equals("number")) || (searchFieldType.ToLower().Equals("integer")) || (searchFieldType.ToLower().Equals("boolean")))
+                        if ((searchFieldType.ToLower().Equals("date")) || (searchFieldType.ToLower().Equals("number")) || (searchFieldType.ToLower().Equals("integer")) || (searchFieldType.ToLower().Equals("boolean")) || (searchFieldType.ToLower().Equals("true/false")))
                         {
                             doUpper = false;
                             if (searchFieldOperator.ToLower().Equals("like"))
@@ -564,7 +564,7 @@ namespace FwStandard.DataLayer
                             }
                         }
 
-                        if  (searchFieldType.ToLower().Equals("boolean"))
+                        if  ((searchFieldType.ToLower().Equals("boolean")) || (searchFieldType.ToLower().Equals("true/false")))
                         {
                             if ((searchFieldValue.ToLower().Equals("true")) || (searchFieldValue.ToLower().Equals("t")))
                             {
