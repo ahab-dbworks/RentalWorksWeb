@@ -311,6 +311,10 @@
                         textField.show();
                         window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
                         break;
+                    case 'Float':
+                        textField.show();
+                        window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
+                        break;
                     case 'Boolean':
                         booleanField.show();
                         window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), booleanComparisonFields, true);
