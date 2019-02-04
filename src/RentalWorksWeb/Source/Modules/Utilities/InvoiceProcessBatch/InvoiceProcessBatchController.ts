@@ -113,7 +113,7 @@
                         FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
                     }
 
-                    }, null, $form, userId);
+                    }, null, $form);
                 }
             })
             // enable/disable controls based on checkbox

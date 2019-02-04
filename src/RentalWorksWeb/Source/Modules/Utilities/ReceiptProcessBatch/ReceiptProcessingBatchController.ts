@@ -94,7 +94,7 @@
                             FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
                         }
 
-                    }, null, $form, userId);
+                    }, null, $form);
                 }
             })
             .on('change', '[data-datafield="ExportHistoricalBatch"] input, [data-datafield="Process"] input', e => {
