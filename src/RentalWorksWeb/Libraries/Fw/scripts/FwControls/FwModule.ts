@@ -304,17 +304,12 @@
                         window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), textComparisonFields, true);
                         break;
                     case 'Integer':
-                        textField.show();
-                        window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
-                        break;
                     case 'Decimal':
-                        textField.show();
-                        window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
-                        break;
                     case 'Float':
                         textField.show();
                         window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
                         break;
+                    case 'True/False':
                     case 'Boolean':
                         booleanField.show();
                         window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), booleanComparisonFields, true);
@@ -350,13 +345,12 @@
                         window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), textComparisonFields, true);
                         break;
                     case 'Integer':
-                        textField.show();
-                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), numericComparisonFields, true);
-                        break;
                     case 'Decimal':
+                    case 'Float':
                         textField.show();
                         window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), numericComparisonFields, true);
                         break;
+                    case 'True/False':
                     case 'Boolean':
                         booleanField.show();
                         window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
