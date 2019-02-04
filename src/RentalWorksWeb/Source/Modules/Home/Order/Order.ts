@@ -908,7 +908,6 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-
                   <!-- Status section -->
                   <div class="flexcolumn" style="flex:1 1 150px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
@@ -920,7 +919,6 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-
                 <!-- Location / PO section -->
                 <div class="flexrow">
                   <div class="flexcolumn" style="flex:1 1 350px;">
@@ -938,15 +936,12 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-                  <!--
-                  <div class="flexcolumn" style="flex:1 1 100px;">
+                  <div class="flexcolumn" style="flex:0 1 115px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Print">
                       <div class="print fwformcontrol" data-type="button" style="flex:1 1 50px;margin:15px 0 0 10px;">Print</div>
                     </div>
                   </div>
-                  -->
                 </div>
-
                <!-- Summary Details -->
               <div class="flexrow">
                 <div class="fwcontrol fwcontainer fwform-section summarySection" data-control="FwContainer" data-type="section" data-caption="Summary" style="flex:0 1 65%;">
@@ -1265,7 +1260,6 @@ class Order extends OrderBase {
                   <i class="material-icons expandArrow hideFrames" style="cursor:pointer; background-color:#37474F; color:white">keyboard_arrow_down</i>
                 </div>
               </div>
-
               <!-- Value/Cost // Weight // Office/Warehouse -->
               <div class="flexrow allFrames">
                 <!-- Value / Cost -->
@@ -1285,7 +1279,6 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-
                 <!-- US Customary Weight -->
                 <div class="flexcolumn">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="U.S. Customary Weight">
@@ -1299,7 +1292,6 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-
                 <!-- Metric Weight -->
                 <div class="flexcolumn">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Metric Weight">
@@ -1314,7 +1306,6 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-
                 <!-- Activity section -->
                 <div class="flexrow">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity" style="flex:1 1 770px">
@@ -1342,7 +1333,6 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-
                 <!-- Personnel -->
                 <div class="flexrow">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
