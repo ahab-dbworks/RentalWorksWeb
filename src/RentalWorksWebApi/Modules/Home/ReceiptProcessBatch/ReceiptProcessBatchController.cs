@@ -17,16 +17,63 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
         public DateTime ToDate { get; set; }
     }
 
+
     public class ReceiptProcessBatchResponse : TSpStatusReponse
+    {
+        public ReceiptProcessBatchLogic Batch;
+    }
+
+    public class ExportReceiptRequest
     {
         public string BatchId { get; set; }
     }
+
+    public class ExportReceiptResponse : TSpStatusReponse
+    {
+        public ReceiptProcessBatchLogic batch = null;
+        public string downloadUrl = "";
+    }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "ThKpggGlj1hqd")]
     public class ReceiptProcessBatchController : AppDataController
     {
         public ReceiptProcessBatchController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ReceiptProcessBatchLogic); }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/receiptprocessbatch/export
+        [HttpPost("export")]
+        [FwControllerMethod(Id: "qJl9ySG3Dc4")]
+        public async Task<ActionResult<ExportReceiptResponse>> Export([FromBody]ExportReceiptRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                ReceiptProcessBatchLogic batch = new ReceiptProcessBatchLogic();
+                batch.SetDependencies(AppConfig, UserSession);
+                batch.BatchId = request.BatchId;
+                if (await batch.LoadAsync<ReceiptProcessBatchLogic>())
+                {
+                    ExportReceiptResponse response = await ReceiptProcessBatchFunc.Export(AppConfig, UserSession, batch);
+                    return response;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receiptprocessbatch/createbatch
         [HttpPost("createbatch")]

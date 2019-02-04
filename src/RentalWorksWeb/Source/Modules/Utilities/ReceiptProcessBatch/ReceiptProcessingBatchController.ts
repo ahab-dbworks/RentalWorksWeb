@@ -51,10 +51,51 @@
                 }, null, $form, user.webusersid);
             })
             .on('click', '.print-batch', e => {
-                //open report front end in new tab
+                let $report, batchNumber, batchId, batchTab;
+                try {
+                    batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
+                    batchId = FwFormField.getValueByDataField($form, 'BatchId');
+                    $report = RwReceiptBatchReportController.openForm();
+                    FwModule.openSubModuleTab($form, $report);
+                    FwFormField.setValueByDataField($report, 'BatchId', batchId, batchNumber);
+                    jQuery('.tab.submodule.active').find('.caption').html(`Print Receipt Batch`);
+                    batchTab = jQuery('.tab.submodule.active');
+                    batchTab.find('.caption').html(`Print Receipt Batch`);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
             })
             .on('click', '.export-historical-batches', e => {
-                alert("asdf");
+                var batchId = FwFormField.getValueByDataField($form, 'BatchId');
+                var userId = sessionStorage.getItem('usersid');
+                if (batchId !== '') {
+                    let request: any = {};
+                    request = {
+                        BatchId: batchId
+                    }
+                    let timeout = 7200;
+                    FwAppData.apiMethod(true, 'POST', `api/v1/receiptprocessbatch/export`, request, timeout, function onSuccess(response) {
+
+                        if ((response.success === true) && (response.batch !== null)) {
+                            var batch = response.batch;
+                            var batchNumber = batch.BatchNumber
+                            var downloadUrl = response.downloadUrl;
+
+                            $form.find('.export-success').show();
+                            $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Exported Successfully.</span>`);
+                            let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
+                            jQuery('#application').append($iframe);
+                            setTimeout(function () {
+                                $iframe.remove();
+                            }, 500);
+
+                        } else {
+                            FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
+                        }
+
+                    }, null, $form, userId);
+                }
             })
             .on('change', '[data-datafield="ExportHistoricalBatch"] input, [data-datafield="Process"] input', e => {
                 let $this = jQuery(e.currentTarget);
@@ -99,4 +140,22 @@
     }
     //----------------------------------------------------------------------------------------------
 }
+//Export Settings
+FwApplicationTree.clickEvents['{0D951DA8-1843-4080-AD73-B0DF7F27189B}'] = function (event) {
+    try {
+        let $exportSettingsBrowse = ExportSettingsController.openBrowse();
+        $exportSettingsBrowse.data('ondatabind', function (request) {
+            request.miscfields = {
+                Invoices: false
+                , Receipts: true
+                , VendorInvoices: false
+            }
+        });
+        FwModule.openModuleTab($exportSettingsBrowse, 'Export Settings', true, 'BROWSE', true);
+        FwBrowse.search($exportSettingsBrowse);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 var ReceiptProcessBatchController = new ReceiptProcessBatch();
