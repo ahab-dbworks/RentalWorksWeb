@@ -408,6 +408,7 @@
                     request.searchfieldtypes.unshift(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
                     request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
                     switch (type) {
+                        case 'True/False':
                         case 'Boolean':
                             let bool = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
                             let comp = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
