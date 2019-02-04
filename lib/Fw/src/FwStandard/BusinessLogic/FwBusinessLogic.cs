@@ -283,11 +283,26 @@ namespace FwStandard.BusinessLogic
                         for (int i = 0; i < request.searchfields.Count; i++)
                         {
                             bool searchFieldDefined = false;
-                            foreach (PropertyInfo property in properties)
+                            if (!searchFieldDefined)
                             {
-                                if (property.Name.Equals(request.searchfields[i]))
+                                foreach (PropertyInfo property in properties)
                                 {
-                                    searchFieldDefined = true;
+                                    if (property.Name.Equals(request.searchfields[i]))
+                                    {
+                                        searchFieldDefined = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (!searchFieldDefined)
+                            {
+                                foreach (FwCustomField customField in customFields)
+                                {
+                                    if (customField.FieldName.Equals(request.searchfields[i]))
+                                    {
+                                        searchFieldDefined = true;
+                                        break;
+                                    }
                                 }
                             }
                             if (!searchFieldDefined)
