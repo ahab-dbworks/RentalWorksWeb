@@ -15,6 +15,14 @@ namespace WebApi.Modules.Home.SuspendedSession
     {
         public SuspendedSessionController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(SuspendedSessionLogic); }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/suspendedsession/A0000001 
+        [HttpGet("{id}")]
+        [FwControllerMethod(Id: "kmJGmu1xRWcaT")]
+        public async Task<ActionResult<SuspendedSessionLogic>> GetOneAsync([FromRoute]string id)
+        {
+            return await DoGetAsync<SuspendedSessionLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/suspendedsession/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id: "PuCNKwQS7OJ0")]
