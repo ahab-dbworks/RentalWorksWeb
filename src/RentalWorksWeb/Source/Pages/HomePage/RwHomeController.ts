@@ -159,7 +159,15 @@
                             FwAppData.apiMethod(true, 'POST', 'api/v1/userwidget/', request, FwServices.defaultTimeout, function onSuccess(response) {
                                 FwNotification.renderNotification('SUCCESS', 'Widget Chart Type Updated');
                                 FwConfirmation.destroyConfirmation($confirmation);
-                                program.navigate('home');
+                                FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + response.UserId, null, FwServices.defaultTimeout, function onSuccess(widgetResponse) {
+                                    let $dashboard = $chartSettings.closest('.programlogo');
+                                    for (var i = 0; i < widgetResponse.UserWidgets.length; i++) {
+                                        if (widgetResponse.UserWidgets[i].selected && widgetResponse.UserWidgets[i].userWidgetId === response.UserWidgetId) {
+                                            widgetResponse.UserWidgets[i].width = Math.floor(100 / widgetResponse.WidgetsPerRow).toString() + '%',
+                                            self.renderWidget($dashboard, widgetResponse.UserWidgets[i]);
+                                        }
+                                    }
+                                }, null, null);
                             }, function onError(response) {
                                 FwFunc.showError(response);
                                 FwFormField.enable($confirmation.find('.fwformfield'));
@@ -216,7 +224,7 @@
             dataPointCount = widgetData.dataPoints
         }
 
-        jQuery($control).on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
+        jQuery($control).off('click', '#' + widgetData.userWidgetId + 'refresh').on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
             FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     let titleArray = [];
@@ -332,7 +340,7 @@
 
         var widgetcanvas = $control.find('#' + widgetData.userWidgetId);   
 
-        jQuery($control).on('click', '#' + widgetData.userWidgetId + 'fullscreen', function () {
+        jQuery($control).off('click', '#' + widgetData.userWidgetId + 'fullscreen').on('click', '#' + widgetData.userWidgetId + 'fullscreen', function () {
             try {
                 var $confirmation = FwConfirmation.renderConfirmation(widgetData.text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
