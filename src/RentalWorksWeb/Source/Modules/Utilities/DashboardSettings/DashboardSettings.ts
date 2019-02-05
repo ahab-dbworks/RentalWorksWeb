@@ -174,6 +174,11 @@ class DashboardSettings {
                     }
                     FwFormField.loadItems($confirmation.find('.datefield'), dateFieldSelectArray, true);
 
+                    if (response.DateBehaviorId !== '' && response.DateBehaviorId !== undefined) {
+                        self.setDateBehaviorFields($confirmation, response.DateBehaviorId);
+                        FwFormField.setValueByDataField($confirmation, 'DateField', response.DateField);
+                    }
+
                     if (li.data('request') !== undefined) {
                         let request = li.data('request');
                         if (request.FromDate !== '') {
@@ -189,6 +194,7 @@ class DashboardSettings {
                         FwFormField.setValue2($confirmation.find('.widgettype'), request.WidgetType);
                         FwFormField.setValue2($confirmation.find('.fromdate'), request.FromDate);
                         FwFormField.setValue2($confirmation.find('.todate'), request.ToDate);
+                        FwFormField.setValue2($confirmation.find('.datefield'), request.DateField);
                         FwFormField.setValue2($confirmation.find('div[data-datafield="DateBehaviorId"]'), request.DateBehaviorId, request.DateBehavior);
                     }
 

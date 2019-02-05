@@ -125,6 +125,10 @@
                     FwFormField.setValueByDataField($confirmation, 'DateBehaviorId', response.DateBehaviorId, response.DateBehavior);
                     FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', response.OfficeLocationId, response.OfficeLocation);
 
+                    if (response.DateBehaviorId !== '' && response.DateBehaviorId !== undefined) {
+                        self.setDateBehaviorFields($confirmation, response.DateBehaviorId);
+                    }
+
                     let dateFields = response.DateFields.split(',');
                     let dateFieldDisplays = response.DateFieldDisplayNames.split(',');
                     let dateFieldSelectArray = [];
@@ -135,7 +139,9 @@
                             'text': dateFieldDisplays[i]
                         })
                     }
+
                     FwFormField.loadItems($confirmation.find('.datefield'), dateFieldSelectArray, true);
+                    FwFormField.setValue2($confirmation.find('.datefield'), response.DateField);
 
                     $select.on('click', function () {
                         try {
