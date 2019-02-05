@@ -1,4 +1,4 @@
-﻿class FwApplication {
+class FwApplication {
     name:  string;
     screens: any[] = [];
     audioMode: string;
@@ -152,7 +152,9 @@
                     this.audioSuccess.play();
                     break;
                 case 'NativeAudio':
-                    (<any>window).plugins.NativeAudio.play('success');
+                    if ((<any>window).plugins && (<any>window).plugins.NativeAudio) {
+                        (<any>window).plugins.NativeAudio.play('success');
+                    }
                     break;
             }
         } else {
@@ -165,7 +167,9 @@
                     this.audioError.play(); 
                     break;
                 case 'NativeAudio':
-                    (<any>window).plugins.NativeAudio.play('error');
+                    if ((<any>window).plugins && (<any>window).plugins.NativeAudio) {
+                        (<any>window).plugins.NativeAudio.play('error');
+                    }
                     break;
             }
         }

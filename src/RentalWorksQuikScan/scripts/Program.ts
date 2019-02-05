@@ -9,7 +9,17 @@ class Program extends FwApplication {
     onScanBarcode:      (data: string, type?: string) => void;
     localstorageprefix: string;
     localstorageitems:  object;
-    runningInCordova:   boolean = false;
+    runningInCordova: boolean = false;
+    browserVersionString: string = '';
+    browserVersionMajor: number = 0;
+    browserVersionMinor: number = 0;
+    browserVersionRevision: number = 0;
+    browserVersionBuild: number = 0;
+    online: boolean = true;
+    lineaPro_BatteryStatus_Level: string = '---%';
+    lineaPro_BatteryStatus_IsPlugged: boolean = false;
+    lineaPro_BatteryStatus_Status: 'unknown' | 'critical' | 'low' | 'ok' = 'unknown';
+    showRfidStatusIcon: boolean = false;
     //---------------------------------------------------------------------------------
     constructor() {
         super();
@@ -63,103 +73,157 @@ class Program extends FwApplication {
         setTimeout(function() {
             me.loadApplication();
         }, 2000);
-
         if (typeof document.addEventListener !== 'undefined') {
-            document.addEventListener('deviceready', function (){
+            document.addEventListener('deviceready', function() {
                 me.runningInCordova = true;
-                if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
-                    var orientation = localStorage.getItem('orientation');
-                    if (typeof orientation !== 'string') {
-                        localStorage.setItem('orientation', 'portrait-primary');
-                        orientation = localStorage.getItem('orientation');
-                    }
-                    if (orientation === 'unlocked') {
-                        (<any>window).screen.unlockOrientation();
-                    } else {
-                        (<any>window).screen.lockOrientation(<OrientationLockType | OrientationLockType[]>orientation);
-                    }
-                }
+                document.addEventListener("offline", function () {
+                    program.online = false;
+                    FwMobileMasterController.generateDeviceStatusIcons();
+                    //FwNotification.renderNotification('ERROR', 'Network Disconnected');
+                }, false);
+                document.addEventListener("online", function () {
+                    program.online = true;
+                    FwMobileMasterController.generateDeviceStatusIcons();
+                    //FwNotification.renderNotification('SUCCESS', 'Network Connected');
+                }, false);
+                DwCordovaFunc.getBrowserVersion(function(args: Array<any>) {
+                    var versionString = args[0];
+                    let version = versionString.split('.');
+                    let major: number = parseInt(version[0]);
+                    let minor: number = parseInt(version[1]);
+                    let revision: number = parseInt(version[2]);
+                    let build: number = parseInt(version[3]);
+                    program.browserVersionString = versionString;
+                    program.browserVersionMajor = major;
+                    program.browserVersionMinor = minor;
+                    program.browserVersionRevision = revision;
+                    program.browserVersionBuild = build;
 
-                if (typeof DTDevices === 'object') {
-                    DTDevices.barcodeSetScanBeep(true, [500,50]);
-                    DTDevices.startListening();
-                    DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function (barcode, barcodeType) {
-                        program.setAudioMode('DTDevices');
-                        me.onBarcodeData(barcode);
-                    });
-                    if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
-                        localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
-                    }
-                    DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
+                    //fires when the device's battery percentage changes
+                    window.addEventListener("batterystatus", (status) => {
+                        let batteryStatus: BatteryStatusEvent = <any>status;
+                        program.lineaPro_BatteryStatus_Level = batteryStatus.level + '%';
+                        program.lineaPro_BatteryStatus_IsPlugged = batteryStatus.isPlugged;
+                        program.lineaPro_BatteryStatus_Status = batteryStatus.status;
+                    }, false);
 
-                    //set the connection state when it changes
-                    DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
-                        if (connectionState === 'CONNECTED') {
-                            program.setScanMode('DTDevices');
-                        } else {
-                            program.setScanMode('NativeAudio');
+                    if ((typeof window.screen === 'object') && (typeof (<any>window).screen.lockOrientation === 'function')) {
+                        var orientation = localStorage.getItem('orientation');
+                        if (typeof orientation !== 'string') {
+                            localStorage.setItem('orientation', 'portrait-primary');
+                            orientation = localStorage.getItem('orientation');
                         }
-                        me.setDeviceConnectionState(connectionState);
-                    });
-                    // since the initial connection state event usually happens early in the page life cycle, we need to explicity query the value the first time
-                    me.updateConnectionState();
-                }
+                        if (orientation === 'unlocked') {
+                            (<any>window).screen.unlockOrientation();
+                        } else {
+                            (<any>window).screen.lockOrientation(<OrientationLockType | OrientationLockType[]>orientation);
+                        }
+                    }
 
-                if (typeof TslReader === 'object') {
-                    TslReader.startListening();
-                    //TslReader.registerListener('epcsReceived', 'epcsReceived_applicationjs', function(epcs) {
-                    //    me.onBarcodeData(epcs);
-                    //});
-                    TslReader.registerListener('barcodeReceived', 'barcodeReceived_applicationjs', function(barcode) {
-                        me.onBarcodeData(barcode);
-                    });
-                    TslReader.registerListener('deviceConnected', 'deviceConnected_applicationjs', function() {
-                        RwRFID.isConnected = true;
-                    });
-                    TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_applicationjs', function() {
-                        RwRFID.isConnected = false;
-                        program.setScanMode('none');
-                    });
-                    TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
-                        RwRFID.isConnected = isConnected;
-                    });
-                }
+                    if (typeof DTDevices === 'object') {
+                        DTDevices.barcodeSetScanBeep(true, [500,50]);
+                        DTDevices.startListening();
+                        DTDevices.registerListener('barcodeData', 'barcodeData_applicationjs', function (barcode, barcodeType) {
+                            program.setAudioMode('DTDevices');
+                            me.onBarcodeData(barcode);
+                        });
+                        if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
+                            localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
+                        }
+                        DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
 
-                //if (typeof window.Zebra2DScanner === 'object') {
-                    //window.Zebra2DScanner.startListening();
-                    //window.Zebra2DScanner.registerListener('sbtEventBarcode', 'barcodeReceived_applicationjs', function(barcode, barcodetype) {
-                    //    me.onBarcodeData(barcode);
-                    //});
-                    //window.Zebra2DScanner.registerListener('sbtEventScannerDisappeared', 'sbtEventScannerDisappeared_applicationjs', function() {
-                
-                    //});
-                    //window.Zebra2DScanner.registerListener('sbtEventCommunicationSessionEstablished', 'sbtEventCommunicationSessionEstablished_applicationjs', function() {
-                
-                    //});
-                    //window.Zebra2DScanner.registerListener('sbtEventCommunicationSessionTerminated', 'sbtEventCommunicationSessionTerminated_applicationjs', function() {
-                
-                    //});
-                //}
+                        //set the connection state when it changes
+                        DTDevices.registerListener('connectionState', 'connectionState_applicationjs', function (connectionState) {
+                            if (connectionState === 'CONNECTED') {
+                                program.setScanMode('DTDevices');
+                            } else {
+                                program.setScanMode('NativeAudio');
+                            }
+                            me.setDeviceConnectionState(connectionState);
+                        });
+                        // since the initial connection state event usually happens early in the page life cycle, we need to explicity query the value the first time
+                        me.updateConnectionState();
+                    }
+                    if (typeof window.TslReader === 'object') {
+                        window.TslReader.startListening();
+                        window.TslReader.registerListener('deviceConnected', 'deviceConnected_programts', function() {
+                            RwRFID.isConnected = true;
+                            FwMobileMasterController.generateDeviceStatusIcons();
+                            //FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
+                        });
+                        window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_programts', function() {
+                            if ((program.browserVersionMajor > 2018) ||
+                                (program.browserVersionMajor === 2018 && program.browserVersionMinor > 1) ||
+                                (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision > 4) ||
+                                (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision === 4 && program.browserVersionBuild >= 2)) {
+                                //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+                                RwRFID.isConnected = false;
+                            } else {
+                                // the TSL plugin was firing this event for any connected device, so this was firing incorrectly when linea was unplugged.
+                                if (RwRFID.isConnected === true) {
+                                    //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+                                    RwRFID.isConnected = false;
+                                }
+                            }
+                            FwMobileMasterController.generateDeviceStatusIcons();
+                        });
+                        window.TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
+                            program.showRfidStatusIcon = true;
+                            RwRFID.isConnected = isConnected;
+                            FwMobileMasterController.generateDeviceStatusIcons();
+                        }, function () {
+                            RwRFID.isConnected = false;
+                        });
+                    }
 
-                //if (typeof window.ZebraRFIDScanner === 'object') {
-                    //window.ZebraRFIDScanner.startListening();
-                    //window.ZebraRFIDScanner.isConnected(function(isConnected) {
-                    //    RwRFID.isConnected = isConnected;
-                    //});
-                    //window.ZebraRFIDScanner.registerListener('sbtEventScannerDisappeared', 'sbtEventScannerDisappeared_applicationjs', function() {
-                
-                    //});
-                    //window.ZebraRFIDScanner.registerListener('sbtEventCommunicationSessionEstablished', 'sbtEventCommunicationSessionEstablished_applicationjs', function() {
-                
-                    //});
-                    //window.ZebraRFIDScanner.registerListener('sbtEventCommunicationSessionTerminated', 'sbtEventCommunicationSessionTerminated_applicationjs', function() {
-                
-                    //});
-                //}
+                    if (typeof window.ZebraEmdk !== 'undefined') {
+                        window.ZebraEmdk.startHardRead(function (barcodeInfo) {
+                            try {
+                                me.onBarcodeData(barcodeInfo.barcode);
+                                //barcodeInfo.barcodeType
+                            }
+                            catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        })
+                    }
 
-                setTimeout(function() {
-                    me.loadApplication();
-                }, 0);
+                    //if (typeof window.Zebra2DScanner === 'object') {
+                        //window.Zebra2DScanner.startListening();
+                        //window.Zebra2DScanner.registerListener('sbtEventBarcode', 'barcodeReceived_applicationjs', function(barcode, barcodetype) {
+                        //    me.onBarcodeData(barcode);
+                        //});
+                        //window.Zebra2DScanner.registerListener('sbtEventScannerDisappeared', 'sbtEventScannerDisappeared_applicationjs', function() {
+                
+                        //});
+                        //window.Zebra2DScanner.registerListener('sbtEventCommunicationSessionEstablished', 'sbtEventCommunicationSessionEstablished_applicationjs', function() {
+                
+                        //});
+                        //window.Zebra2DScanner.registerListener('sbtEventCommunicationSessionTerminated', 'sbtEventCommunicationSessionTerminated_applicationjs', function() {
+                
+                        //});
+                    //}
+
+                    //if (typeof window.ZebraRFIDScanner === 'object') {
+                        //window.ZebraRFIDScanner.startListening();
+                        //window.ZebraRFIDScanner.isConnected(function(isConnected) {
+                        //    RwRFID.isConnected = isConnected;
+                        //});
+                        //window.ZebraRFIDScanner.registerListener('sbtEventScannerDisappeared', 'sbtEventScannerDisappeared_applicationjs', function() {
+                
+                        //});
+                        //window.ZebraRFIDScanner.registerListener('sbtEventCommunicationSessionEstablished', 'sbtEventCommunicationSessionEstablished_applicationjs', function() {
+                
+                        //});
+                        //window.ZebraRFIDScanner.registerListener('sbtEventCommunicationSessionTerminated', 'sbtEventCommunicationSessionTerminated_applicationjs', function() {
+                
+                        //});
+                    //}
+
+                    setTimeout(function() {
+                        me.loadApplication();
+                    }, 0);
+                });
             }, false);
         }
     };
@@ -484,3 +548,9 @@ jQuery(function () {
     program = new Program();
     application = program;
 });
+//---------------------------------------------------------------------------------
+interface BatteryStatusEvent{
+    isPlugged: boolean;
+    level: number;
+    status: 'low' | 'critical' | 'ok';
+}

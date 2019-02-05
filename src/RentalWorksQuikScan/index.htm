@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html style="background-color:#000000;" lang="en-us">
 <head id="head">
 <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">-->
@@ -89,7 +89,7 @@
     len = url.length;
     for (var vdcharno = applicationConfig.appvirtualdirectory.length - 1; vdcharno >= 0; vdcharno--) {
       len--;
-      if (url[len] !== applicationConfig.appvirtualdirectory[vdcharno]) {
+      if (url[len].toLowerCase() !== applicationConfig.appvirtualdirectory[vdcharno].toLowerCase()) {
         break;
       }
     }

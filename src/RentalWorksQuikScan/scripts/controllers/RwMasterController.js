@@ -90,18 +90,17 @@ RwMasterController.generateMenu = function() {
     html = [];
 
     html.push('<div class="menu">');
-        html.push('<div class="menu-body">');
-            html.push('<div class="menu-body-top">');
-                html.push('<div class="apptitle bgothm center" style="padding-top:10px 0;background-color:rgba(0,0,0,.4);font-size:18px;color:#2f2f2f;">Rental<span style="color:#6f30b3;">Works</span> QuikScan</div>');
-                html.push('<div class="" style="padding:5px;background-color:rgba(0,0,0,.4);overflow:auto;font-size:12px;">');
-                    html.push('<div class="username" style="float:left;"><div class="caption" style="float:left;">User:</div><div class="value" style="float:left;margin-left:5px;">' + RwAppData.fixCaps(sessionStorage.getItem('fullname')) + '</div></div>');
-                    //html.push('<div class="gate" style="float:right"><div class="caption" style="float:left;">Gate:</div><div class="value" style="float:left;margin-left:5px;">' + localStorage.getItem('gate') + '</div></div>');
-                html.push('</div>');
-            html.push('</div>');
-            html.push('<div class="menu-body-links"></div>');
-            html.push('<div class="menu-body-footer center" style="font-size:10px;padding:5px 0;background-color:rgba(0,0,0,.4);width:100%;">RentalWorks QuikScan v' + applicationConfig.version + '</div>');
-        html.push('</div>')
-        html.push('<div class="menu-close"></div>');
+    html.push('  <div class="menu-body">');
+    html.push('    <div class="menu-body-top">');
+    html.push('      <div class="apptitle bgothm center" style="padding-top:10px 0;background-color:rgba(0,0,0,.4);font-size:18px;color:#2f2f2f;">Rental<span style="color:#6f30b3;">Works</span> QuikScan</div>');
+    html.push('      <div class="" style="padding:5px;background-color:rgba(0,0,0,.4);overflow:auto;font-size:12px;">');
+    html.push('      <div class="username" style="float:left;"><div class="caption" style="float:left;">User:</div><div class="value" style="float:left;margin-left:5px;">' + RwAppData.fixCaps(sessionStorage.getItem('fullname')) + '</div></div>');
+    html.push('    </div>');
+    html.push('  </div>');
+    html.push('  <div class="menu-body-links"></div>');
+    html.push('    <div class="menu-body-footer center" style="font-size:10px;padding:5px 0;background-color:rgba(0,0,0,.4);width:100%;">RentalWorks QuikScan v' + applicationConfig.version + '</div>');
+    html.push('  </div>')
+    html.push('  <div class="menu-close"></div>');
     html.push('</div>');
     $menu = jQuery(html.join(''));
 

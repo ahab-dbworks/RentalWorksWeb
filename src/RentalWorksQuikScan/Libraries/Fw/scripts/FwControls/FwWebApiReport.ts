@@ -47,21 +47,11 @@ class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getRenderRequest($form) {
         let request = new RenderRequest();
-        if (typeof $form.data('getRenderRequest') === 'function') {
+        if (typeof $form.data('getRenderRequest') === 'function') {     // This method is not being called in any reports and might be able to be removed
             request = $form.data('getRenderRequest')(request);
         }
         return request;
     }
-    //----------------------------------------------------------------------------------------------
-    //getDownloadExcelRequest($form) {
-    //    let request: any = {
-    //        parameters: {}
-    //    };
-    //    if (typeof $form.data('getexportrequest') === 'function') {
-    //        request = $form.data('getexportrequest')(request);
-    //    }
-    //    return request;
-    //}
     //----------------------------------------------------------------------------------------------
     load($form: JQuery, reportOptions) {
         let formid = program.uniqueId(8);
@@ -144,33 +134,57 @@ class FwWebApiReport {
         // Download Excel button
         if ((typeof reportOptions.HasDownloadExcel === 'undefined') || (reportOptions.HasDownloadExcel === true)) {
             var $btnDownloadExcel = FwMenu.addStandardBtn($menuObject, 'Download Excel');
-            $btnDownloadExcel.on('click', (event) => {
+            $btnDownloadExcel.on('click', event => {
                 try {
-                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = me.getRenderRequest($form);
-                    // request.renderMode = 'excel';
+                    let $confirmation, $yes, $no, parameters, html: Array<string> = [];
+                    let request = this.getRenderRequest($form);
+                    $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
+                    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+
+                    html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
+                    html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
+                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield sub-headings" data-caption="Include Sub Headings and Sub Totals" data-datafield="" style="float:left;width:100px;"></div>`);
+                    html.push(`  </div>`);
+                    html.push(`</div>`);
+
+                    FwConfirmation.addControls($confirmation, html.join(''));
+                    $yes = FwConfirmation.addButton($confirmation, 'Download', false);
+                    $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                    $confirmation.find('.sub-headings input').prop('checked', false);
                     request.downloadPdfAsAttachment = true;
-                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
-                        (successResponse) => {
-                            try {
-                                let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${successResponse.downloadUrl}" style="display:none;"></iframe>`);
-                                jQuery('#application').append($iframe);
-                                setTimeout(function () {
-                                    $iframe.remove();
-                                }, 500);
-                                // window.location.assign(`${applicationConfig.apiurl}${successResponse.downloadUrl}`);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            } finally {
-                                FwNotification.closeNotification($notification);
-                            }
-                        },
-                        (errorResponse) => {
-                            FwNotification.closeNotification($notification);
-                            if (errorResponse !== 'abort') {
-                                FwFunc.showError(errorResponse);
-                            }
-                        }, null);
+                    $yes.on('click', () => {
+                        if ($confirmation.find('.sub-headings input').prop('checked') === true) {
+                            request.IncludeSubHeadingsAndSubTotals = true;
+                        } else {
+                            request.IncludeSubHeadingsAndSubTotals = false;
+                        }
+
+                        parameters = this.getParameters($form);
+                        for (let key in parameters) {
+                            request[key] = parameters[key];
+                        }
+
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
+                            (successResponse) => {
+                                try {
+                                    let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${successResponse.downloadUrl}" style="display:none;"></iframe>`);
+                                    jQuery('#application').append($iframe);
+                                    setTimeout(function () {
+                                        $iframe.remove();
+                                    }, 500);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            },
+                            (errorResponse) => {
+                                if (errorResponse !== 'abort') {
+                                    FwFunc.showError(errorResponse);
+                                }
+                            }, null);
+
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+                    });
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -499,6 +513,7 @@ class RenderRequest {
     email = new EmailInfo();
     uniqueid: string = '';
     downloadPdfAsAttachment: boolean = false;
+    IncludeSubHeadingsAndSubTotals: boolean = true;
 }
 
 class RenderResponse {

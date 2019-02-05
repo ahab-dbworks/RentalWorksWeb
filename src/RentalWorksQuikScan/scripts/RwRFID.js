@@ -19,16 +19,29 @@ RwRFID.init = function() {
 RwRFID.registerEvents = function(callbackfunction) {
     var me = this;
     if (typeof window.TslReader !== 'undefined') {
-        window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwrfidjs', function() {
-            RwRFID.isConnected = true;
-            FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
-        });
-        window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwrfidjs', function() {
-            // this seems to fire when Linea Pros get disconnected from power also, so only fire if connected
-            if (RwRFID.isConnected === true) {
-                FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
-            }
-            RwRFID.isConnected = false;
+        //window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwrfidjs', function() {
+        //    //RwRFID.isConnected = true;
+        //    FwMobileMasterController.generateDeviceStatusIcons();
+        //    //FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
+        //});
+        //window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_rwrfidjs', function() {
+        //    if ((program.browserVersionMajor > 2018) ||
+        //        (program.browserVersionMajor === 2018 && program.browserVersionMinor > 1) ||
+        //        (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision > 4) ||
+        //        (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision === 4 && program.browserVersionBuild >= 2)) {
+        //        //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+        //        RwRFID.isConnected = false;
+        //    } else {
+        //        // the TSL plugin was firing this event for any connected device, so this was firing incorrectly when linea was unplugged.
+        //        if (RwRFID.isConnected === true) {
+        //            //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+        //            RwRFID.isConnected = false;
+        //        }
+        //    }
+        //    FwMobileMasterController.generateDeviceStatusIcons();
+        //});
+        window.TslReader.registerListener('barcodeReceived', 'epcsReceived_rwrfidjs', function(barcode) {
+            program.onBarcodeData(barcode);
         });
         window.TslReader.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function (epcs) {
             RwRFID.isConnected = true;
@@ -68,24 +81,24 @@ RwRFID.registerEvents = function(callbackfunction) {
         });
     }
 
-    if (typeof window.ZebraRFIDScanner !== 'undefined') {
-        window.ZebraRFIDScanner.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function(epcs) {
-            callbackfunction(epcs);
-            if (jQuery('.tagCountPopup').length) {
-                FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
-            }
-        });
-        window.ZebraRFIDScanner.registerListener('epcReceived', 'epcReceived_rwrfidjs', function(epc, count) {
-            if (jQuery('.tagCountPopup').length) {
-                jQuery('.tagCount').html(count);
-            } else {
-                var $confirmation;
-                $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', '<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
-                $confirmation.addClass('tagCountPopup');
-                $confirmation.find('.tagCount').html(count);
-            }
-        });
-    }
+    //if (typeof window.ZebraRFIDScanner !== 'undefined') {
+    //    window.ZebraRFIDScanner.registerListener('epcsReceived', 'epcsReceived_rwrfidjs', function(epcs) {
+    //        callbackfunction(epcs);
+    //        if (jQuery('.tagCountPopup').length) {
+    //            FwConfirmation.destroyConfirmation(jQuery('.tagCountPopup'));
+    //        }
+    //    });
+    //    window.ZebraRFIDScanner.registerListener('epcReceived', 'epcReceived_rwrfidjs', function(epc, count) {
+    //        if (jQuery('.tagCountPopup').length) {
+    //            jQuery('.tagCount').html(count);
+    //        } else {
+    //            var $confirmation;
+    //            $confirmation = FwConfirmation.renderConfirmation('Tags Scanned', '<div class="tagCount" style="color:black;font-weight:bold;text-align:center;font-size:100px;"></div>');
+    //            $confirmation.addClass('tagCountPopup');
+    //            $confirmation.find('.tagCount').html(count);
+    //        }
+    //    });
+    //}
 };
 //----------------------------------------------------------------------------------------------
 RwRFID.unregisterEvents = function () {
