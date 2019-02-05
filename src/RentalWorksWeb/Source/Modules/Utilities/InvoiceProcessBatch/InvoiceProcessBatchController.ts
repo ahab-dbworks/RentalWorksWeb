@@ -36,6 +36,7 @@
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
+        var self = this;
         $form
             .on('click', '.create-batch', e => {
                 let request;
@@ -54,11 +55,8 @@
                         request = {
                             BatchId: batchId
                         }
-                        FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                            $form.find('.export-success').show();
-                            FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
-                            $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Created Successfully.</span>`);
-                        }, null, $form, userId);
+                        FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
+                        exportBatch();
                     } else {
                         FwNotification.renderNotification('WARNING', 'There are no Approved Invoices to process.');
                     }
@@ -73,6 +71,7 @@
                     $report = RwDealInvoiceBatchReportController.openForm();
                     FwModule.openSubModuleTab($form, $report);
                     FwFormField.setValueByDataField($report, 'BatchId', batchId, batchNumber);
+                    $report.find('[data-datafield="BatchId"] input').change(); //sets the batchnumber and batchdate for the report
                     jQuery('.tab.submodule.active').find('.caption').html(`Print Deal Invoice Batch`);
                     batchTab = jQuery('.tab.submodule.active');
                     batchTab.find('.caption').html(`Print Deal Invoice Batch`);
@@ -82,39 +81,7 @@
                 }
             })
             .on('click', '.export-historical-batches', e => {
-                var batchId = FwFormField.getValueByDataField($form, 'BatchId');
-                var userId = sessionStorage.getItem('usersid');
-                if (batchId !== '') {
-                    let request: any = {};
-                    request = {
-                        BatchId: batchId
-                    }
-                    let timeout = 7200;
-                    FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, timeout, function onSuccess(response) {
-
-                    if ((response.success === true) && (response.batch !== null)) {
-                        var batch = response.batch;
-                        var batchNumber = batch.BatchNumber
-                        var downloadUrl = response.downloadUrl;
-
-                        $form.find('.export-success').show();
-                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Exported Successfully.</span>`);
-
-                        // at this point we want to initiate the download process using "downloadUrl" from the response. 
-                        // please loop in Josh at this point as he did a lot of work on the "Download Excel" process for reports.  I think this will be similar
-     
-                        let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
-                        jQuery('#application').append($iframe);
-                        setTimeout(function () {
-                            $iframe.remove();
-                        }, 500);
-
-                    } else {
-                        FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
-                    }
-
-                    }, null, $form);
-                }
+                exportBatch();
             })
             // enable/disable controls based on checkbox
             .on('change', '[data-datafield="ExportHistoricalBatch"] input, [data-datafield="ProcessInvoices"] input', e => {
@@ -149,6 +116,31 @@
                 FwFormField.enable($form.find(`${controlsToEnable}`));
                 FwFormField.disable($form.find(`${controlsToDisable}`));
             })
+
+        function exportBatch() {
+            let batchId = FwFormField.getValueByDataField($form, 'BatchId');
+            if (batchId !== '') {
+                let request: any = {};
+                request = {
+                    BatchId: batchId
+                }
+                FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if ((response.success === true) && (response.batch !== null)) {
+                        let batch = response.batch;
+                        let batchNumber = batch.BatchNumber
+                        let downloadUrl = response.downloadUrl;
+                        let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
+                        jQuery('#application').append($iframe);
+                        setTimeout(function () {
+                            $iframe.remove();
+                        }, 500);
+
+                        $form.find('.export-success').show();
+                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Created Successfully.</span>`);
+                    }
+                }, null, $form);
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $grid, request) {

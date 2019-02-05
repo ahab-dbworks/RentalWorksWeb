@@ -35,20 +35,30 @@
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
+        var self = this;
         $form
             .on('click', '.create-batch', e => {
                 let request;
-                let user = JSON.parse(sessionStorage.getItem('userid'));
+                var userId = sessionStorage.getItem('usersid');
                 request = {
                     FromDate: FwFormField.getValueByDataField($form, 'FromDate')
                     , ToDate: FwFormField.getValueByDataField($form, 'ToDate')
                 };
 
                 FwAppData.apiMethod(true, 'POST', `api/v1/receiptprocessbatch/createbatch`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                    alert(response.BatchId);
-                    //submit batchid to export endpoint & show progress meter
-                    //when that is successful, updated text and show print button
-                }, null, $form, user.webusersid);
+                    if (response.Batch !== null) {
+                        var batch = response.Batch;
+                        var batchId = batch.BatchId;
+                        var batchNumber = batch.BatchNumber
+                        request = {
+                            BatchId: batchId
+                        }
+                        FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
+                        exportBatch();
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'There are no Receipts to process.');
+                    }
+                }, null, $form, userId);
             })
             .on('click', '.print-batch', e => {
                 let $report, batchNumber, batchId, batchTab;
@@ -58,6 +68,7 @@
                     $report = RwReceiptBatchReportController.openForm();
                     FwModule.openSubModuleTab($form, $report);
                     FwFormField.setValueByDataField($report, 'BatchId', batchId, batchNumber);
+                    $report.find('[data-datafield="BatchId"] input').change(); //sets the batchnumber and batchdate for the report
                     jQuery('.tab.submodule.active').find('.caption').html(`Print Receipt Batch`);
                     batchTab = jQuery('.tab.submodule.active');
                     batchTab.find('.caption').html(`Print Receipt Batch`);
@@ -67,35 +78,7 @@
                 }
             })
             .on('click', '.export-historical-batches', e => {
-                var batchId = FwFormField.getValueByDataField($form, 'BatchId');
-                var userId = sessionStorage.getItem('usersid');
-                if (batchId !== '') {
-                    let request: any = {};
-                    request = {
-                        BatchId: batchId
-                    }
-                    let timeout = 7200;
-                    FwAppData.apiMethod(true, 'POST', `api/v1/receiptprocessbatch/export`, request, timeout, function onSuccess(response) {
-
-                        if ((response.success === true) && (response.batch !== null)) {
-                            var batch = response.batch;
-                            var batchNumber = batch.BatchNumber
-                            var downloadUrl = response.downloadUrl;
-
-                            $form.find('.export-success').show();
-                            $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Exported Successfully.</span>`);
-                            let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
-                            jQuery('#application').append($iframe);
-                            setTimeout(function () {
-                                $iframe.remove();
-                            }, 500);
-
-                        } else {
-                            FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
-                        }
-
-                    }, null, $form);
-                }
+                exportBatch();
             })
             .on('change', '[data-datafield="ExportHistoricalBatch"] input, [data-datafield="Process"] input', e => {
                 let $this = jQuery(e.currentTarget);
@@ -128,7 +111,34 @@
                 }
                 FwFormField.enable($form.find(`${controlsToEnable}`));
                 FwFormField.disable($form.find(`${controlsToDisable}`));
-            })
+            });
+
+        function exportBatch() {
+            let batchId = FwFormField.getValueByDataField($form, 'BatchId');
+            if (batchId !== '') {
+                let request: any = {};
+                request = {
+                    BatchId: batchId
+                }
+                FwAppData.apiMethod(true, 'POST', `api/v1/receiptprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if ((response.success === true) && (response.batch !== null)) {
+                        let batch = response.batch;
+                        let batchNumber = batch.BatchNumber
+                        let downloadUrl = response.downloadUrl;
+                        let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
+                        jQuery('#application').append($iframe);
+                        setTimeout(function () {
+                            $iframe.remove();
+                        }, 500);
+
+                        $form.find('.export-success').show();
+                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Created Successfully.</span>`);
+                    } else {
+                        FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
+                    }
+                }, null, $form);
+            }
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $grid, request) {
