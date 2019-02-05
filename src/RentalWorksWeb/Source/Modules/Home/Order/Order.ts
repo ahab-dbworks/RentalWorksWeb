@@ -2197,7 +2197,7 @@ class Order extends OrderBase {
 
                         FwBrowse.search($lossAndDamageItemGridControl);
                     }
-                }, null, $lossAndDamageItemGridControl);
+                }, null, $browse);
             } else {
                 FwNotification.renderNotification('WARNING', 'Select rows in order to perform this function.');
             }
