@@ -106,6 +106,7 @@ namespace WebApi.Modules.Home.Invoice
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
             addFilterToSelect("InvoiceCreationBatchId", "invoicebatchid", select, request);
+            addFilterToSelect("OrderId", "orderid", select, request);
 
             if ((request != null) && (request.activeview != null))
             {

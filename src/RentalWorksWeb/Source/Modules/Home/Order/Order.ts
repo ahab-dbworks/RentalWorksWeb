@@ -307,10 +307,42 @@ class Order extends OrderBase {
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
         FwModule.loadForm(this.Module, $form);
 
+        let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
+        $form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
+        let $submoduleInvoiceBrowse = this.openInvoiceBrowse($form);
+        $form.find('.invoiceSubModule').append($submoduleInvoiceBrowse);
+
         return $form;
     };
-
     //----------------------------------------------------------------------------------------------
+    openPurchaseOrderBrowse($form) {
+        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        let $browse;
+        $browse = PurchaseOrderController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = PurchaseOrderController.ActiveView;
+            request.uniqueids = {
+                OrderId: orderId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
+    openInvoiceBrowse($form) {
+        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        let $browse;
+        $browse = InvoiceController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = InvoiceController.ActiveView;
+            request.uniqueids = {
+                OrderId: orderId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };
@@ -868,6 +900,8 @@ class Order extends OrderBase {
             <div data-type="tab" id="picklisttab" class="tab submodule" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
             <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>
             <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
+            <div data-type="tab" id="subpurchaseordertab" class="tab submodule" data-tabpageid="subpurchaseordertabpage" data-caption="Sub Purchase Order"></div>
+            <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>        
             <div data-type="tab" id="notetab" class="notestab tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
             <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
           </div>
@@ -1944,6 +1978,12 @@ class Order extends OrderBase {
                 </div>
               </div>
             </div>
+           <!-- SUB PURCHASE ORDER TAB -->
+           <div data-type="tabpage" id="subpurchaseordertabpage" class="tabpage subPurchaseOrderSubModule" data-tabid="subpurchaseordertab">
+              </div>
+            <!-- INVOICE tab -->
+           <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule" data-tabid="invoicetab">
+              </div>
             <!-- CONTACTS TAB -->
             <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts">

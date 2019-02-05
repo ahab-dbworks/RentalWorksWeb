@@ -151,9 +151,56 @@ class Deal {
 
         this.disableFields($form, ['DiscountTemplateId', 'DiscountTemplate']);
 
+  
+        $form.find('.contractSubModule').append(this.openContractBrowse($form));
+        $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
+        $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
+    openContractBrowse($form) {
+        let dealId = FwFormField.getValueByDataField($form, 'DealId');
+        let $browse;
+        $browse = ContractController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = ContractController.ActiveView;
+            request.uniqueids = {
+                DealId: dealId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
+    openInvoiceBrowse($form) {
+        let dealId = FwFormField.getValueByDataField($form, 'DealId');
+        let $browse;
+        $browse = InvoiceController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = InvoiceController.ActiveView;
+            request.uniqueids = {
+                DealId: dealId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
+    openReceiptBrowse($form) {
+        let dealId = FwFormField.getValueByDataField($form, 'DealId');
+        let $browse;
+        $browse = ReceiptController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = ReceiptController.ActiveView;
+            request.uniqueids = {
+                DealId: dealId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+   //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any):void {
         FwModule.saveForm(this.Module, $form, parameters);
     }
@@ -854,6 +901,9 @@ class Deal {
               <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Order"></div>
               <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
+              <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>
+              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipt"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             </div>
             <div class="tabpages">
@@ -1247,6 +1297,15 @@ class Deal {
                     </div>
                   </div>
                 </div>
+              </div>
+     <!-- CONTRACT TAB -->
+           <div data-type="tabpage" id="contracttabpage" class="tabpage contractSubModule" data-tabid="contracttab">
+              </div>
+     <!-- INVOICE TAB -->
+           <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule" data-tabid="invoicetab">
+              </div>
+     <!-- RECEIPT TAB -->
+           <div data-type="tabpage" id="receipttabpage" class="tabpage receiptSubModule" data-tabid="receipttab">
               </div>
               <div data-type="tabpage" id="optionstabpage" class="tabpage" data-tabid="optionstab">
                 <div class="formpage">

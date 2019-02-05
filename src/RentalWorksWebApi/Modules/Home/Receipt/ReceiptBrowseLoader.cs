@@ -54,16 +54,10 @@ namespace WebApi.Modules.Home.Receipt
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            //string paramString = GetUniqueIdAsString("ParamString", request) ?? ""; 
-            //DateTime paramDate = GetUniqueIdAsDateTime("ParamDate", request) ?? DateTime.MinValue; 
-            //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-            //select.AddParameter("@paramstring", paramString); 
-            //select.AddParameter("@paramdate", paramDate); 
-            //select.AddParameter("@paramboolean", paramBoolean); 
+            addFilterToSelect("DealId", "dealid", select, request);
+            addFilterToSelect("CustomerId", "customerid", select, request);
 
             if ((request != null) && (request.activeview != null))
             {

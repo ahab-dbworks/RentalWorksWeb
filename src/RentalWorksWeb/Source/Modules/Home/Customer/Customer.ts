@@ -168,7 +168,53 @@ class Customer {
         FwFormField.setValueByDataField($form, 'CustomerId', uniqueids.CustomerId);
         FwModule.loadForm(this.Module, $form);
 
+        $form.find('.contractSubModule').append(this.openContractBrowse($form));
+        $form.find('.invoiceSubModule').append(this.openInvoiceBrowse($form));
+        $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+
         return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    openContractBrowse($form) {
+        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        let $browse;
+        $browse = ContractController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = ContractController.ActiveView;
+            request.uniqueids = {
+                CustomerId: customerId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
+    openInvoiceBrowse($form) {
+        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        let $browse;
+        $browse = InvoiceController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = InvoiceController.ActiveView;
+            request.uniqueids = {
+                CustomerId: customerId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
+    //---------------------------------------------------------------------------------------------
+    openReceiptBrowse($form) {
+        let customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        let $browse;
+        $browse = ReceiptController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = ReceiptController.ActiveView;
+            request.uniqueids = {
+                CustomerId: customerId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
@@ -397,7 +443,10 @@ class Customer {
               <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
               <!--<div data-type="tab" id="additionaladdressestab" class="tab" data-tabpageid="additionaladdressestabpage" data-caption="> Additional Addresses"></div>-->
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
-              <!--<div data-type="tab" id="rebaterentaltab" class="tab" data-tabpageid="rebaterentaltabpage" data-caption="Rebate Rental"></div>-->
+              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
+              <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>
+              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipt"></div>             
+            <!--<div data-type="tab" id="rebaterentaltab" class="tab" data-tabpageid="rebaterentaltabpage" data-caption="Rebate Rental"></div>-->
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
               <div data-type="tab" id="imagetab" class="tab" data-tabpageid="imagetabpage" data-caption="Image"></div>
               <!--<div data-type="tab" id="rentalworksnettab" class="tab" data-tabpageid="rentalworksnettabpage" data-caption="RentalWorks.NET"></div>
@@ -1447,6 +1496,15 @@ class Customer {
                     </div>
                   </div>
                 </div>
+              </div>
+     <!-- CONTRACT TAB -->
+           <div data-type="tabpage" id="contracttabpage" class="tabpage contractSubModule" data-tabid="contracttab">
+              </div>
+     <!-- INVOICE TAB -->
+           <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule" data-tabid="invoicetab">
+              </div>
+     <!-- RECEIPT TAB -->
+           <div data-type="tabpage" id="receipttabpage" class="tabpage receiptSubModule" data-tabid="receipttab">
               </div>
 
               <!-- CONTACTS -->

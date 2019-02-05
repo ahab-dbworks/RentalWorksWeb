@@ -201,10 +201,6 @@ class PurchaseOrder {
             //$form.find(".frame .add-on").children().hide();
         };
 
-        let $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
-        $form.find('.vendorinvoice').append($submoduleVendorInvoiceBrowse);
-
-
         //$form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
         //    var $this = jQuery(this);
         //    if ($this.prop('checked') === true) {
@@ -262,9 +258,24 @@ class PurchaseOrder {
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
         FwModule.loadForm(this.Module, $form);
-
+        $form.find('.vendorinvoice').append(this.openVendorInvoiceBrowse($form));
+        $form.find('.contractSubModule').append(this.openContractBrowse($form));
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    openContractBrowse($form) {
+        let poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        let $browse;
+        $browse = ContractController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.ActiveView = ContractController.ActiveView;
+            request.uniqueids = {
+                PurchaseOrderId: poId
+            };
+        });
+        FwBrowse.search($browse);
+        return $browse;
+    }
     //----------------------------------------------------------------------------------------------
     openVendorInvoiceBrowse($form: JQuery) {
         var $browse;
@@ -794,6 +805,7 @@ class PurchaseOrder {
                   <div data-type="tab" id="vendorinvoicetab" class="tab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
 <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
                 <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
+                <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>    
                 <div data-type="tab" id="notetab" class="tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
                 <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
               </div>
@@ -1569,8 +1581,10 @@ class PurchaseOrder {
                 </div>-->
     <!-- VENDOR INVOICE TAB-->
       <div data-type="tabpage" id="vendorinvoicetabpage" class="tabpage submodule vendorinvoice" data-tabid="vendorinvoicetab">
-
       </div>
+     <!-- CONTRACT TAB -->
+           <div data-type="tabpage" id="contracttabpage" class="tabpage contractSubModule" data-tabid="contracttab">
+              </div>
                 <!-- CONTACTS TAB -->
                 <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts">
