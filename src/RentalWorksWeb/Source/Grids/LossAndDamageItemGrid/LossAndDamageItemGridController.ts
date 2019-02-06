@@ -13,7 +13,6 @@
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let quantityOutValue = +$tr.find('[data-browsedatafield="QuantityOut"]').attr('data-originalvalue');
-            let preventBubble = true;
             let $oldElement = $quantityColumn.find('div');
             let html: any = [];
             let $grid = $tr.parents('[data-grid="LossAndDamageItemGrid"]');
@@ -74,14 +73,14 @@
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/lossanddamage/updateitem", request, FwServices.defaultTimeout,
                             function onSuccess(response) {
-                                let errormsg = $form.find('.error-msg');
-                                errormsg.html('');
+                                let errorMsg = $form.find('.error-msg:not(.qty)');
+                                errorMsg.html('');
                                 if (response.success) {
                                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                                     $tr.find('[data-browsedatafield="Quantity"] .fieldvalue').val(+response.NewQuantity);
                                 } else {
                                     errorSound.play();
-                                    errormsg.html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
                                     $tr.find('[data-browsedatafield="Quantity"] .fieldvalue').val(+response.NewQuantity);
                                 }
                             },

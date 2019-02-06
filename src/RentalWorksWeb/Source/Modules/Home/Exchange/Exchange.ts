@@ -15,16 +15,15 @@ class Exchange {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         let screen: any = {};
-        let self = this;
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
 
         let $form = this.openForm('EDIT');
 
-        screen.load = function () {
+        screen.load = () => {
             FwModule.openModuleTab($form, 'Exchange', false, 'FORM', true);
-            self.ContractId = '';
+            this.ContractId = '';
         };
         screen.unload = function () {
         };
@@ -66,9 +65,9 @@ class Exchange {
 
             $form.on('click', '.suspendedsession', e => {
                 let html = `<div>
-                 <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-<div id="suspendedSessions" style="max-width:1400px; max-height:750px; overflow:auto;"></div>
-            </div>`;
+                             <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
+                             <div id="suspendedSessions" style="max-width:1400px;max-height:750px;overflow:auto;"></div>
+                            </div>`;
 
                 let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
 
@@ -111,14 +110,14 @@ class Exchange {
         }
     }
     //----------------------------------------------------------------------------------------------
-    getSoundUrls($form): void {
+    getSoundUrls($form: JQuery): void {
         this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
         this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
         this.notificationSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).notificationSoundFileName;
     };
     //----------------------------------------------------------------------------------------------
-    events($form: any): void {
-        let self = this, errorSound, successSound, department, contractRequest = {}, exchangeRequest = {};
+    events($form: JQuery): void {
+        let errorSound, successSound, department, contractRequest = {}, exchangeRequest = {};
 
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
@@ -127,14 +126,14 @@ class Exchange {
         contractRequest['DepartmentId'] = department.departmentid;
 
         // Deal Id
-        $form.find('div[data-datafield="DealId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
             contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue')
             contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue')
 
             try {
-                FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (self.ContractId === '') {
-                        self.ContractId = response.ContractId
+                FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
+                    if (this.ContractId === '') {
+                        this.ContractId = response.ContractId
                     }
 
                     let $exchangeItemGridControl: any;
@@ -153,16 +152,16 @@ class Exchange {
             }
         });
         // Order Id
-        $form.find('div[data-datafield="OrderId"]').data('onchange', function ($tr) {
+        $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'DealId', $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
             contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue');
             contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue');
             FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
             try {
-                FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    if (self.ContractId === '') {
-                        self.ContractId = response.ContractId
+                FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
+                    if (this.ContractId === '') {
+                        this.ContractId = response.ContractId
                     }
 
                     FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
@@ -175,14 +174,14 @@ class Exchange {
             $form.find('.suspendedsession').hide();
         });
         // Check-Out
-        $form.find('.out').on('keypress', function (e) {
+        $form.find('.out').on('keypress', e => {
             if (e.which === 13) {
-                exchangeRequest['ContractId'] = self.ContractId;
+                exchangeRequest['ContractId'] = this.ContractId;
                 exchangeRequest['OutCode'] = FwFormField.getValueByDataField($form, 'BarCodeOut');
                 exchangeRequest['InCode'] = FwFormField.getValueByDataField($form, 'BarCodeIn');
 
                 try {
-                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemout", exchangeRequest, FwServices.defaultTimeout, response => {
                         if (response.success) {
                             successSound.play();
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
@@ -191,22 +190,22 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'VendorIdOut', response.ItemStatus.VendorId, response.ItemStatus.Vendor);
                             FwFormField.setValueByDataField($form, 'PurchaseOrderIdOut', response.ItemStatus.PurchaseOrderNumberId, response.ItemStatus.PurchaseOrder);
                             FwFormField.setValueByDataField($form, 'ConsignorIdOut', response.ItemStatus.ConsignorId, response.ItemStatus.Consignor);
-                            $form.find('div.error-msg-out').html('');
+                            $form.find('div.error-msg.check-out').html('');
                             $form.find('.out').removeClass('error');
                             let fields = $form.find('.fwformfield');
-                            for (var i = 0; i < fields.length; i++) {
+                            for (let i = 0; i < fields.length; i++) {
                                 if (jQuery(fields[i]).attr('data-datafield').match(/^((?!DepartmentId$|DealId$|OrderId$|Description$).)*$/g)) {
                                     FwFormField.setValue2(jQuery(fields[i]), '', '');
                                 }
                             }
 
-                            self.ExchangeResponse = response;
+                            this.ExchangeResponse = response;
 
                             var $exchangeItemGridControl: any;
                             $exchangeItemGridControl = $form.find('[data-name="ExchangeItemGrid"]');
-                            $exchangeItemGridControl.data('ondatabind', function (request) {
+                            $exchangeItemGridControl.data('ondatabind', request => {
                                 request.uniqueids = {
-                                    ContractId: self.ContractId
+                                    ContractId: this.ContractId
                                 }
                             })
                             FwBrowse.search($exchangeItemGridControl);
@@ -216,7 +215,7 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'ICodeOut', response.ItemStatus.ICode);
                             FwFormField.setValueByDataField($form, 'DescriptionOut', response.ItemStatus.Description);
                             $form.find('.out').addClass('error');
-                            $form.find('div.error-msg-out').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                            $form.find('div.error-msg.check-out').html(`<div><span>${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeOut').find('input').select();
                         }
                     }, null, $form);
@@ -226,19 +225,19 @@ class Exchange {
             }
         });
         // Check-In
-        $form.find('.in').on('keypress', function (e) {
+        $form.find('.in').on('keypress', e => {
             if (e.which === 13) {
                 try {
                     var inRequest = {
-                        ContractId: self.ContractId,
+                        ContractId: this.ContractId,
                         InCode: jQuery(this).find('input').val()
                     }
-                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout,  response => {
                         if (response.success) {
-                            if (self.ContractId === '') {
-                                self.ContractId = response.ContractId
+                            if (this.ContractId === '') {
+                                this.ContractId = response.ContractId
                             }
-                            $form.find('div.error-msg-in').html('');
+                            $form.find('div.error-msg.check-in').html('');
                             $form.find('.in').removeClass('error');
                             successSound.play();
                             FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
@@ -258,7 +257,7 @@ class Exchange {
                             FwFormField.setValueByDataField($form, 'ICodeIn', response.ItemStatus.ICode);
                             $form.find('.in').addClass('error');
                             errorSound.play();
-                            $form.find('div.error-msg-in').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                            $form.find('div.error-msg.check-in').html(`<div><span>${response.msg}</span></div>`);
                             FwFormField.getDataField($form, 'BarCodeIn').find('input').select();
                         }
                     }, null, $form);
@@ -269,22 +268,22 @@ class Exchange {
         });
         // Create Contract
         $form.find('.createcontract').on('click', () => {
-            if (self.ContractId !== '') {
+            if (this.ContractId !== '') {
                 try {
-                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/completeexchangecontract/" + self.ContractId, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/exchange/completeexchangecontract/${this.ContractId}`, null, FwServices.defaultTimeout, response => {
                         let $contractForm = ContractController.loadForm({
                             ContractId: response.ContractId
                         });
                         let fields = $form.find('.fwformfield');
                         FwModule.openSubModuleTab($form, $contractForm);
-                        for (var i = 0; i < fields.length; i++) {
+                        for (let i = 0; i < fields.length; i++) {
                             if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
                                 FwFormField.setValue2(jQuery(fields[i]), '', '');
                             }
                         }
-                        self.ContractId = '';
-                        self.ExchangeResponse = {};
-                        self.renderGrids($form);
+                        this.ContractId = '';
+                        this.ExchangeResponse = {};
+                        this.renderGrids($form);
                         FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));
                         FwFormField.enable(FwFormField.getDataField($form, 'DealId'));
                     }, null, $form);
@@ -298,7 +297,7 @@ class Exchange {
         });
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids($form: any): void {
+    renderGrids($form: JQuery): void {
         let $exchangeItemGrid: any;
         let $exchangeItemGridControl: any;
 
@@ -351,7 +350,7 @@ class Exchange {
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderIdIn" data-displayfield="PoNumberIn" data-validationname="PurchaseOrderValidation" style="flex:1 1 50px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Consignor" data-datafield="ConsignorIdIn" data-displayfield="ConsignorIn" data-validationname="ConsignorValidation" style="flex:1 1 150px;" data-enabled="false"></div>
                   </div>
-                  <div class="flexrow error-msg-in"></div>
+                  <div class="flexrow error-msg check-in" style="margin-top:8px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check-Out">
                   <div class="flexrow">
@@ -366,7 +365,7 @@ class Exchange {
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderIdOut" data-displayfield="PoNumberOut" data-validationname="PurchaseOrderValidation" style="flex:1 1 50px;" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Consignor" data-datafield="ConsignorIdOut" data-displayfield="ConsignorOut" data-validationname="ConsignorValidation" style="flex:1 1 150px;" data-enabled="false"></div>
                   </div>
-                  <div class="flexrow error-msg-out"></div>
+                  <div class="flexrow error-msg check-out" style="margin-top:8px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Exchange">
                   <div class="flexcolumn" style="max-width:1600px">

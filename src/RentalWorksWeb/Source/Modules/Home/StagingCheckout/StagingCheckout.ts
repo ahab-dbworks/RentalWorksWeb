@@ -141,7 +141,7 @@ class StagingCheckout {
                 let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
-                $form.find('.error-msg').html('');
+                $form.find('.error-msg:not(.qty)').html('');
                 $form.find('.grid-view-radio').show();
 
                 if (FwFormField.getValueByDataField($form, 'IncludeZeroRemaining') === 'T') {
@@ -233,7 +233,7 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     startPartialCheckoutItems = ($form: JQuery, event): void => {
-        $form.find('.error-msg').html('');
+        $form.find('.error-msg:not(.qty)').html('');
         const MAX_PAGE_SIZE = 9999;
         let requestBody: any = {}, $checkedOutItemGridControl, $stagedItemGridControl: any;
         let orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -287,7 +287,7 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the Staged Item Grid controller
     moveStagedItemToOut($form: JQuery): void {
-        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorMsg, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
         errorSound = new Audio(this.errorSoundFileName);
         $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
@@ -296,6 +296,7 @@ class StagingCheckout {
         barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        errorMsg = $form.find('.error-msg:not(.qty)');
 
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
             request.ContractId = this.contractId;
@@ -306,7 +307,7 @@ class StagingCheckout {
             }
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/movestageditemtoout`, request, FwServices.defaultTimeout, response => {
                 if (response.success === true && response.status != 107) {
-                    $form.find('.error-msg').html('');
+                    errorMsg.html('');
                     successSound.play();
                     $form.find('.partial-contract-barcode input').val('');
                     $form.find('.partial-contract-quantity input').val('');
@@ -317,13 +318,13 @@ class StagingCheckout {
                     }, 500);
                 }
                 if (response.status === 107) {
-                    $form.find('.error-msg').html('');
+                    errorMsg.html('');
                     successSound.play();
                     $form.find('.partial-contract-quantity input').focus();
                 }
                 if (response.success === false && response.status !== 107) {
                     errorSound.play();
-                    $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
                     $form.find('.partial-contract-barcode input').focus();
                 }
             }, null, null);
@@ -373,7 +374,7 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the Checked Out Item Grid controller
     moveOutItemToStaged($form: JQuery): void {
-        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, barCode, iCode, quantityFieldValue, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorSound, request: any = {};
+        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, barCode, iCode, quantityFieldValue, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorMsg, errorSound, request: any = {};
         successSound = new Audio(this.successSoundFileName);
         errorSound = new Audio(this.errorSoundFileName);
 
@@ -383,7 +384,7 @@ class StagingCheckout {
         barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         quantityFieldValue = $form.find('.partial-contract-quantity input').val();
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
-
+        errorMsg = $form.find('.error-msg:not(.qty)');
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
             request.ContractId = this.contractId;
             request.Code = barCodeFieldValue;
@@ -393,7 +394,7 @@ class StagingCheckout {
             }
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/moveoutitemtostaged`, request, FwServices.defaultTimeout, response => {
                 if (response.success === true && response.status != 107) {
-                    $form.find('.error-msg').html('');
+                    errorMsg.html('');
                     successSound.play();
                     $form.find('.partial-contract-barcode input').val('');
                     $form.find('.partial-contract-quantity input').val('');
@@ -404,13 +405,13 @@ class StagingCheckout {
                     }, 500);
                 }
                 if (response.status === 107) {
-                    $form.find('.error-msg').html('');
+                    errorMsg.html('');
                     successSound.play();
                     $form.find('.partial-contract-quantity input').focus();
                 }
                 if (response.success === false && response.status !== 107) {
                     errorSound.play();
-                    $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
                     $form.find('.partial-contract-barcode input').focus();
                 }
             }, null, null);
@@ -461,7 +462,7 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     completeCheckOutContract($form: JQuery, event): void {
-        $form.find('.error-msg').html('');
+        $form.find('.error-msg:not(.qty)').html('');
         $form.find('.grid-view-radio').hide();
 
         if (this.contractId) {
@@ -501,12 +502,13 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     createContract($form: JQuery, event): void {
-        $form.find('.error-msg').html('');
+        let orderId, errorMsg, errorSound, request: any = {};
+        errorMsg.html('');
         $form.find('.grid-view-radio').hide();
 
-        let orderId, errorSound, request: any = {};
         errorSound = new Audio(this.errorSoundFileName);
         orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        errorMsg = $form.find('.error-msg:not(.qty)');
         if (orderId != '') {
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -531,7 +533,7 @@ class StagingCheckout {
                 }
                 if (response.success === false) {
                     errorSound.play();
-                    $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
                 }
             }, null, $form);
         } else {
@@ -644,10 +646,11 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     events = ($form: any) => {
-        let errorSound, successSound;
+        let errorMsg, errorMsgQty, errorSound, successSound;
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
-
+        errorMsg = $form.find('.error-msg:not(.qty)');
+        errorMsgQty = $form.find('.error-msg.qty');
         $form.find('div.quantity-items-tab').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
             let orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -684,7 +687,7 @@ class StagingCheckout {
             if (e.which == 9 || e.which == 13) {
                 let code, orderId, $stagedItemGrid, $checkOutPendingItemGrid, request: any = {};
 
-                $form.find('.error-msg').html('');
+                errorMsg.html('');
                 $form.find('div.AddItemToOrder').html('');
                 orderId = FwFormField.getValueByDataField($form, 'OrderId');
                 code = FwFormField.getValueByDataField($form, 'Code');
@@ -716,7 +719,7 @@ class StagingCheckout {
                         errorSound.play();
                         this.showAddItemToOrder = true;
                         this.addItemFieldValues($form, response);
-                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                     } if (response.ShowAddCompleteToOrder === true) {
                         this.addItemFieldValues($form, response);
@@ -725,12 +728,12 @@ class StagingCheckout {
                         errorSound.play();
                         this.showAddItemToOrder = true;
                         this.addItemFieldValues($form, response);
-                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.unstageItem(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Unstage Item</div>`)
-                } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
+                    } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                         errorSound.play();
-                    this.addItemFieldValues($form, response);
-                        $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        this.addItemFieldValues($form, response);
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
                         $form.find('[data-datafield="Code"] input').select();
                     }
                 }, function onError(response) {
@@ -746,7 +749,7 @@ class StagingCheckout {
                     e.preventDefault();
                     let code, orderId, quantity, $stagedItemGrid, $checkOutPendingItemGrid;
 
-                    $form.find('.error-msg').html('');
+                    errorMsg.html('');
                     $form.find('div.AddItemToOrder').html('');
                     orderId = FwFormField.getValueByDataField($form, 'OrderId');
                     code = FwFormField.getValueByDataField($form, 'Code');
@@ -776,7 +779,7 @@ class StagingCheckout {
                             errorSound.play();
                             this.addItemFieldValues($form, response);
                             this.showAddItemToOrder = true;
-                            $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                            errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                         } if (response.ShowAddCompleteToOrder === true) {
                             this.addItemFieldValues($form, response);
@@ -784,7 +787,7 @@ class StagingCheckout {
                         } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                             errorSound.play();
                             this.addItemFieldValues($form, response);
-                            $form.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                            errorMsg.html(`<div><span>${response.msg}</span></div>`);
                             $form.find('[data-datafield="Code"] input').select();
                         }
                     }, function onError(response) {
@@ -902,10 +905,10 @@ class StagingCheckout {
 
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                $form.find('.error-msg-qty').html('');
+                errorMsgQty.html('');
                 if (response.success === false) {
                     errorSound.play();
-                    $form.find('div.error-msg-qty').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    errorMsgQty.html(`<div><span>${response.msg}</span></div>`);
                 } else {
                     successSound.play();
                     FwBrowse.search($stageQuantityItemGrid);
@@ -922,10 +925,10 @@ class StagingCheckout {
 
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                $form.find('.error-msg-qty').html('');
+                errorMsgQty.html('');
                 if (response.success === false) {
                     errorSound.play();
-                    $form.find('div.error-msg-qty').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                    errorMsgQty.html(`<div><span>${response.msg}</span></div>`);
                 } else {
                     successSound.play();
                     FwBrowse.search($stageQuantityItemGrid);
@@ -984,7 +987,7 @@ class StagingCheckout {
                 } else {
                     FwBrowse.search($checkOutPendingItemGrid);
                 }
-                $form.find('.error-msg').html('');
+                $form.find('.error-msg:not(.qty)').html('');
                 $form.find('div.AddItemToOrder').html('');
                 successSound.play();
             }
@@ -1019,7 +1022,7 @@ class StagingCheckout {
                 } else {
                     FwBrowse.search($checkOutPendingItemGrid);
                 }
-                $form.find('.error-msg').html('');
+                $form.find('.error-msg:not(.qty)').html('');
                 $form.find('div.AddItemToOrder').html('');
                 successSound.play();
             }
@@ -1063,7 +1066,7 @@ class StagingCheckout {
                 } else {
                     FwBrowse.search($checkOutPendingItemGrid);
                 }
-                $form.find('.error-msg').html('');
+                $form.find('.error-msg:not(.qty)').html('');
                 $form.find('div.AddItemToOrder').html('');
                 successSound.play();
             }
@@ -1091,7 +1094,7 @@ class StagingCheckout {
     getFormTemplate(): string {
         return `
         <div id="stagingcheckoutform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Staging / Check-Out" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="StagingCheckoutController">
-          <div id="dealform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+          <div id="checkinform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="Staging"></div>
               <div data-type="tab" id="quantityitemtab" class="tab quantity-items-tab" data-tabpageid="quantityitemtabpage" data-caption="Quantity Items"></div>
@@ -1178,7 +1181,7 @@ class StagingCheckout {
               <!--Quantity Items Page-->
               <div data-type="tabpage" id="quantityitemtabpage" class="tabpage" data-tabid="quantityitemtab">
                 <div class="flexpage">
-                  <div class="flexrow error-msg-qty"></div>
+                  <div class="flexrow error-msg qty"></div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>
                   </div>
@@ -1195,7 +1198,7 @@ class StagingCheckout {
               <!--HOLDING TAB-->
               <div data-type="tabpage" id="holdingitemtabpage" class="tabpage" data-tabid="holdingitemtab">
                 <div class="flexpage">
-                  <div class="flexrow error-msg-qty"></div>
+                  <div class="flexrow error-msg qty"></div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="StageHoldingItemGrid" data-securitycaption=""></div>
                   </div>

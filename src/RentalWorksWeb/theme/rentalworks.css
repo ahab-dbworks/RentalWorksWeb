@@ -301,12 +301,16 @@ Form tables
 }
 
 /* Styling for error message text */
-.fwform .errormsg span {
+.fwform .error-msg span {
     background-color: red;
     color: white;
-    font-size: 1.25em;
+    font-size: 1.4em;
     margin-top: .75em;
-    padding: 4px;
+    padding: 0px 4px 0px 4px;
+    border-radius: 2px;
+}
+.fwform .error-msg div {
+    margin-left:8px;
 }
 
 .popup {

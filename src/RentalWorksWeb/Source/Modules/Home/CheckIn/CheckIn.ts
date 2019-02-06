@@ -206,11 +206,11 @@ class CheckIn {
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let errorSound, successSound, department, self = this;
+        let errorMsg, errorSound, successSound, department, self = this;
         department = JSON.parse(sessionStorage.getItem('department'));
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
-
+        errorMsg = $form.find('.error-msg:not(.qty)');
         const $checkInQuantityItemsGridControl = $form.find('div[data-name="CheckInQuantityItemsGrid"]');
         const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
         const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
@@ -253,27 +253,27 @@ class CheckIn {
         //BarCode input
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
-                $form.find('.errormsg').html('');
+                errorMsg.html('');
                 this.checkInItem($form);
             }
         });
         //Quantity input
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
-                $form.find('.errormsg').html('');
+                errorMsg.html('');
                 let type = 'Quantity';
                 this.checkInItem($form, type);
             }
         });
         //Add Order to Contract
         $form.find('.addordertocontract').on('click', e => {
-            $form.find('.errormsg').html('');
+            errorMsg.html('');
             let type = 'AddOrderToContract';
             this.checkInItem($form, type);
         });
         //Swap Item
         $form.find('.swapitem').on('click', e => {
-            $form.find('.errormsg').html('');
+            errorMsg.html('');
             let type = 'SwapItem';
             this.checkInItem($form, type);
         });
@@ -288,7 +288,7 @@ class CheckIn {
                     FwModule.openSubModuleTab($form, $contractForm);
                     $form.find('.fwformfield').not('[data-datafield="DepartmentId"]').find('input').val('');
                     $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
-                    $form.find('.errormsg').html('');
+                    errorMsg.html('');
                     FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
                 }, null, $form);
             } else {
@@ -479,8 +479,6 @@ class CheckIn {
                 }
             }
             else if (!response.success) {
-                let errormsg = $form.find('.errormsg');
-
                 if (response.ShowSwap) {
                     notificationSound.play();
                     $form.find('.swapitem').show();
@@ -488,7 +486,7 @@ class CheckIn {
                     errorSound.play();
                     $form.find('.swapitem').hide();
                 }
-                errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
+                $form.find('.error-msg:not(.qty)').html(`<div><span>${response.msg}</span></div>`);
                 $form.find('[data-datafield="BarCode"] input').select();
             }
             response.ShowNewOrder ? $form.find('.addordertocontract').show() : $form.find('.addordertocontract').hide();
@@ -550,7 +548,7 @@ class CheckIn {
                           </div>
                         </div>
                       </div>
-                      <div class="errormsg"></div>
+                      <div class="error-msg" style="margin-top:8px;"></div>
                       <div class="fwformcontrol addordertocontract" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Add Order To Contract</div>
                       <div class="fwformcontrol swapitem" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Swap Item</div>
                       <div class="flexrow">

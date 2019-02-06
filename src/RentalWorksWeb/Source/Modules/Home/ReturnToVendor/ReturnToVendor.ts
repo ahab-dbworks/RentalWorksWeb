@@ -183,6 +183,7 @@ class ReturnToVendor {
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
         let self = this;
+        let errorMsg = $form.find('.error-msg:not(.qty)');
 
         // Create Contract
         $form.find('.createcontract').on('click', e => {
@@ -201,7 +202,7 @@ class ReturnToVendor {
                     FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
                     $form.find('div[data-name="POReturnItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="POReturnBarCodeGrid"] tr.viewmode').empty();
-                    $form.find('.errormsg').html('');
+                    errorMsg.html('');
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -245,7 +246,7 @@ class ReturnToVendor {
         //Bar Code / Serial No. Input field
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
             if (e.which === 13) {
-                $form.find('.errormsg').html('');
+                errorMsg.html('');
                 let request: any = {};
                 const $returnItemsGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                 const $returnBarCodeGridControl = $form.find('div[data-name="POReturnBarCodeGrid"]');
@@ -259,7 +260,7 @@ class ReturnToVendor {
                         FwBrowse.search($returnBarCodeGridControl);
                         FwBrowse.search($returnItemsGridControl);
                     } else {
-                        $form.find('.errormsg').html(response.msg);
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
                     }
 
                     $form.find('[data-datafield="BarCode"] input').select();
@@ -314,7 +315,7 @@ class ReturnToVendor {
                   </div>
                   <div class="flexcolumn" style="max-width: 575px;">
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code / Serial Number" data-datafield="BarCode" style="width:200px;"></div>
-                    <div class="errormsg"></div>
+                    <div class="error-msg"></div>
                     <div class="POReturnBarCodeGrid" data-control="FwGrid" data-grid="POReturnBarCodeGrid" data-securitycaption="Bar Code Items"></div>
                   </div>
                 </div>

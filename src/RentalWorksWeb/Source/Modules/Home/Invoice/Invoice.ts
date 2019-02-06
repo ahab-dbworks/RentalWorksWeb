@@ -54,13 +54,16 @@ class Invoice {
                 $tr.css('color', '#aaaaaa');
             }
         });
-        //FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
-        //FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
-        //FwBrowse.addLegend($browse, 'Late', '#FFB3D9');
-        //FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-        //FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
-        //FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
-        //FwBrowse.addLegend($browse, 'L&D', '#400040');
+        FwBrowse.addLegend($browse, 'Locked', '#EA300F');
+        FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
+        FwBrowse.addLegend($browse, 'Adjusted', '#FFB3D9');
+        FwBrowse.addLegend($browse, 'Hiatus', '#00c400');
+        FwBrowse.addLegend($browse, 'Flat PO', '#D6E180');
+        FwBrowse.addLegend($browse, 'Credit', '#00c400');
+        FwBrowse.addLegend($browse, 'Altered Dates', '#D6E180');
+        FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
+        FwBrowse.addLegend($browse, 'Estimate', '#5EAEAE');
+        FwBrowse.addLegend($browse, 'L&D', '#400040');
 
         return $browse;
     };

@@ -14,7 +14,6 @@
             let originalquantity = $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue');
             let trackedByValue = $tr.find('[data-browsedatafield="TrackedBy"]').attr('data-originalvalue');
             let itemClassValue = $tr.find('[data-browsedatafield="ItemClass"]').attr('data-originalvalue');
-            let preventBubble = true;
             let $oldElement = $quantityColumn.find('div');
             let html: any = [];
             let $grid = $tr.parents('[data-grid="StageQuantityItemGrid"]');
@@ -73,14 +72,13 @@
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/stageitem", request, FwServices.defaultTimeout,
                             function onSuccess(response) {
-                                let errormsg = $form.find('.error-msg-qty');
-                                errormsg.html('');
+                                $form.find('.error-msg.qty').html('');
                                 if (response.success) {
                                     $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue', Number(newValue));
                                     FwBrowse.setFieldValue($grid, $tr, 'QuantityRemaining', { value: response.InventoryStatus.QuantityRemaining });
                                 } else {
                                     errorSound.play();
-                                    errormsg.html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                                    $form.find('.error-msg.qty').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
                                     $tr.find('[data-browsedatafield="QuantityStaged"] input').val(Number(oldValue));
                                 }
                                 preventBubble = true;

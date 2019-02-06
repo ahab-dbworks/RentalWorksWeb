@@ -102,8 +102,7 @@
                 if (quantity != 0) {
                     FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorderreceiveitem/receiveitems", request, FwServices.defaultTimeout,
                         function onSuccess(response) {
-                            let errormsg = $form.find('.errormsg');
-                            errormsg.html('');
+                            $form.find('.error-msg').html('');
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                                 FwBrowse.setFieldValue($grid, $tr, 'QuantityReceived', { value: response.QuantityReceived });
@@ -114,7 +113,7 @@
                                 }
                             } else {
                                 errorSound.play();
-                                errormsg.html(`<div style="margin-left:8px; margin-top: 10px;"><span>${response.msg}</span></div>`);
+                                $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                             }
 

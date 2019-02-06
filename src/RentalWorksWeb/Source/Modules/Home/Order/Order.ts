@@ -2244,7 +2244,7 @@ class Order extends OrderBase {
                     $popup.find('.error-msg').html('');
                     if (response.success === false) {
                         errorSound.play();
-                        $popup.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        $popup.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
                         successSound.play();
                         FwBrowse.search($lossAndDamageItemGridControl);
@@ -2266,7 +2266,7 @@ class Order extends OrderBase {
                     if (response.success === false) {
                         errorSound.play();
                         FwBrowse.search($lossAndDamageItemGridControl);
-                        $popup.find('div.error-msg').html(`<div style="margin:0px 0px 0px 8px;"><span style="padding:0px 4px 0px 4px;font-size:22px;border-radius:2px;background-color:red;color:white;">${response.msg}</span></div>`);
+                        $popup.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
                     } else {
                         successSound.play();
                         FwBrowse.search($lossAndDamageItemGridControl); //justin 01/31/2019

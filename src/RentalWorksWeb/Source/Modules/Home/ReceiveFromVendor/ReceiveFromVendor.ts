@@ -361,7 +361,7 @@ class ReceiveFromVendor {
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Reference No." data-datafield="ReferenceNumber" style="flex:1 1 100px;" data-enabled="false"></div>
                           <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Time" data-datafield="Time" style="flex:0 1 175px;" data-enabled="false"></div>
                         </div>
-                        <div class="errormsg"></div>
+                        <div class="error-msg"></div>
                       </div>
                     </div>
                     <div class="flexrow POReceiveItemGrid">
