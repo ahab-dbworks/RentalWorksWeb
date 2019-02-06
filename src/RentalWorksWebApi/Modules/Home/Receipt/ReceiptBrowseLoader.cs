@@ -57,7 +57,15 @@ namespace WebApi.Modules.Home.Receipt
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("DealId", "dealid", select, request);
-            addFilterToSelect("CustomerId", "customerid", select, request);
+            //addFilterToSelect("CustomerId", "customerid", select, request);
+
+            string customerId = GetUniqueIdAsString("CustomerId", request) ?? "";
+
+            if (!string.IsNullOrEmpty(customerId))
+            {
+                select.AddWhere("exists (select * from deal d where d.dealid = " + TableAlias + ".dealid and d.customerid = @customerid)");
+                select.AddParameter("@customerid", customerId);
+            }
 
             if ((request != null) && (request.activeview != null))
             {

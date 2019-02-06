@@ -106,7 +106,15 @@ namespace WebApi.Modules.Home.Invoice
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
             addFilterToSelect("InvoiceCreationBatchId", "invoicebatchid", select, request);
-            addFilterToSelect("OrderId", "orderid", select, request);
+            //addFilterToSelect("OrderId", "orderid", select, request);
+
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
+
+            if (!string.IsNullOrEmpty(orderId))
+            {
+                select.AddWhere("exists (select * from orderinvoice oi where oi.invoiceid = " + TableAlias + ".invoiceid and oi.orderid = @orderid)");
+                select.AddParameter("@orderid", orderId);
+            }
 
             if ((request != null) && (request.activeview != null))
             {
