@@ -33,7 +33,7 @@
 
     buildWidgetSettings($chartSettings, userWidgetId) {
         var self = this;
-        $chartSettings.on('click', function () {
+        $chartSettings.off('click').on('click', function () {
             try {
                 FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     let $confirmation = FwConfirmation.renderConfirmation('Chart Options <div style="font-size:0.8em;">' + response.Widget + '</div>', '');
