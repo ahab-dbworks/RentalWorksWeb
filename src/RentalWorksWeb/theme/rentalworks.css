@@ -305,8 +305,7 @@ Form tables
     background-color: red;
     color: white;
     font-size: 1.4em;
-    margin-top: .75em;
-    padding: 0px 4px 0px 4px;
+    padding: 0px 4px 3px 4px;
     border-radius: 2px;
 }
 .fwform .error-msg div {
