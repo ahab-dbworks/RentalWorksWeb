@@ -13,7 +13,6 @@
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
             let $grid = $tr.parents('[data-grid="CheckInQuantityItemsGrid"]');
             let $oldElement = $quantityColumn.find('div');
-            let preventBubble = true;
 
             let html: any = [];
             html.push('<button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>');
@@ -94,7 +93,6 @@
                             } else {
                                 $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                             }
-                            preventBubble = true;
                         },
                         function onError(response) {
                             $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
