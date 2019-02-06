@@ -549,11 +549,22 @@ class FwSettingsClass {
     //---------------------------------------------------------------------------------------------- 
     renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
         var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, filter = [], me = this;
-
+        let showNew = false;
         $modulecontainer = $control.find('#' + moduleName);
         apiurl = window[moduleName + 'Controller'].apiurl;
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
         $body = $control.find('#' + moduleName + '.panel-body');
+
+        let tree = FwApplicationTree.getNodeByController(moduleName + 'Controller');
+        for (var i = 0; i < tree.children.length; i++) {
+            if (tree.children[i].properties.caption === 'Browse' && tree.children[i].children[0].properties.nodetype === 'MenuBar') {
+                for (var j = 0; j < tree.children[i].children[0].children.length; j++) {
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'NewMenuBarButton') {
+                        showNew = true;
+                    }
+                }
+            }
+        }
 
         html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
         html.push('  <div class="panel panel-primary">');
@@ -563,7 +574,9 @@ class FwSettingsClass {
         html.push('        <h4 class="panel-title">');
         html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
         html.push('        <div id="myDropdown" class="dropdown-content">');
-        html.push('          <a class="new-row-menu">New Item</a>');
+        if (showNew) {
+            html.push('          <a class="new-row-menu">New Item</a>');
+        }
         html.push('          <a class="show-inactive">Show Inactive</a>');
         html.push('          <a class="hide-inactive" style="display:none;">Hide Inactive</a>');
         html.push('          <a class="pop-out">Pop Out Module</a>');
