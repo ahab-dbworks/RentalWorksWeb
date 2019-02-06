@@ -1216,6 +1216,37 @@ namespace FwStandard.BusinessLogic
                         }
                     }
                 }
+                //Check for changes in customfields
+                FwCustomValues customFieldValues = this._Custom;
+                if (customFieldValues.Count > 0)
+                {
+                    for (int i = 0; i <= customFieldValues.Count -1; i++)
+                    {
+                        var customFieldName = customFieldValues[i].FieldName;
+                        if (customFieldName.Equals(original._Custom[i].FieldName))
+                        {
+                            newValue = customFieldValues[i].FieldValue;
+                            if (newValue != null)
+                            {
+                                bool valueChanged = false;
+                                if (original == null)
+                                {
+                                    oldValue = "";
+                                    valueChanged = false;
+                                }
+                                else
+                                {
+                                    oldValue = original._Custom[i].FieldValue;
+                                    valueChanged = (!newValue.Equals(oldValue));
+                                }
+                                if (valueChanged)
+                                {
+                                    deltas.Add(new FwBusinessLogicFieldDelta(customFieldName, oldValue, newValue));
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             //remove "id" fields where the corresponding display field is also in the list if fields
