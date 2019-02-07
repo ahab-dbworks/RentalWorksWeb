@@ -2971,8 +2971,26 @@ class FwBrowseClass {
             }
 
             if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
+                switch (formdatatype) {
+                    case "text":
+                        formdatatype = "Text";
+                        break;
+                    case "date":
+                        formdatatype = "Date";
+                        break;
+                    case "checkbox":
+                        formdatatype = "True/False";
+                        break;
+                    case "number":
+                        formdatatype = "Integer";
+                        break;
+                    case "decimal":
+                        formdatatype = "Float";
+                        break;
+                }
                 field = {
                     FieldName: formdatafield,
+                    FieldType: formdatatype,
                     FieldValue: field.value
                 }
                 fields._Custom.push(field);
