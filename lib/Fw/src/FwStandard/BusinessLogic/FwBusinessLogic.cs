@@ -958,6 +958,10 @@ namespace FwStandard.BusinessLogic
                 if (_Custom.Count > 0)
                 {
                     customFieldsSaved = await _Custom.SaveAsync(GetPrimaryKeys());
+                    if (customFieldsSaved && rowsAffected == 0)
+                    {
+                        rowsAffected = 1;
+                    }
                 }
                 bool savePerformed = ((rowsAffected > 0) || customFieldsSaved);
 
