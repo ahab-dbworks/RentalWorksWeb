@@ -1543,9 +1543,10 @@
         $fwformfields = typeof $form.data('fields') !== 'undefined' ? $form.data('fields') : jQuery([]);
         $fwformfields.each(function (index, element) {
             var $fwformfield, originalValue, dataField, value, isValidDataField, getAllFields, isBlank, isCalculatedField,
-                validationDisplayField, validationDisplayValue;
+                validationDisplayField, validationDisplayValue, datatype;
 
             $fwformfield = jQuery(element);
+            datatype = $fwformfield.attr('data-type');
             originalValue = $fwformfield.attr('data-originalvalue');
             dataField = $fwformfield.attr('data-datafield');
             if (typeof dataField === 'undefined') {
@@ -1568,8 +1569,27 @@
 
             if ((isValidDataField) && ((getAllFields) || (originalValue !== value2))) {
                 if ($fwformfield.data('customfield') !== undefined && $fwformfield.data('customfield') === true) {
+                    switch (datatype) {
+                        case "text":
+                            datatype = "Text";
+                            break;
+                        case "date":
+                            datatype = "Date";
+                            break;
+                        case "checkbox":
+                            datatype = "True/False";
+                            break;
+                        case "number":
+                            datatype = "Integer";
+                            break;
+                        case "decimal":
+                            datatype = "Float";
+                            break;
+                    }
+
                     field = {
                         FieldName: dataField,
+                        FieldType: datatype,
                         FieldValue: value
                     }
                     if (typeof fields._Custom === 'undefined') {
