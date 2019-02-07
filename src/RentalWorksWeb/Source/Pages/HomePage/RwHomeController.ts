@@ -42,33 +42,33 @@
 
                     let html = [];
                     html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
-                        html.push('</div>');
-                        html.push('<div class="flexrow">');
-                        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
-                        html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+                    html.push('</div>');
                     html.push('</div>');
                     FwConfirmation.addControls($confirmation, html.join(''));
 
@@ -132,7 +132,7 @@
                     let dateFields = response.DateFields.split(',');
                     let dateFieldDisplays = response.DateFieldDisplayNames.split(',');
                     let dateFieldSelectArray = [];
-                    
+
                     for (var i = 0; i < dateFields.length; i++) {
                         dateFieldSelectArray.push({
                             'value': dateFields[i],
@@ -164,7 +164,7 @@
                                     for (var i = 0; i < widgetResponse.UserWidgets.length; i++) {
                                         if (widgetResponse.UserWidgets[i].selected && widgetResponse.UserWidgets[i].userWidgetId === response.UserWidgetId) {
                                             widgetResponse.UserWidgets[i].width = Math.floor(100 / widgetResponse.WidgetsPerRow).toString() + '%',
-                                            self.renderWidget($dashboard, widgetResponse.UserWidgets[i]);
+                                                self.renderWidget($dashboard, widgetResponse.UserWidgets[i]);
                                         }
                                     }
                                 }, null, null);
@@ -202,7 +202,7 @@
             for (var i = 0; i < response.UserWidgets.length; i++) {
                 if (response.UserWidgets[i].selected) {
                     response.UserWidgets[i].width = Math.floor(100 / response.WidgetsPerRow).toString() + '%',
-                    self.renderWidget($dashboard, response.UserWidgets[i]);
+                        self.renderWidget($dashboard, response.UserWidgets[i]);
                 } else {
                     hiddenCounter++;
                 }
@@ -285,37 +285,35 @@
                         response.options.scales.xAxes[0].ticks.autoSkip = false;
                     }
 
-                    if (response.type !== 'pie') {
-                        switch (widgetData.dataNumberFormatId) {
-                            case 'TWODGDEC':
-                                response.options.tooltips = {
-                                    'callbacks': {
-                                        'label': self.commaTwoDecimalData
-                                    }
-                                };
-                                break;
-                            case 'TWDIGPCT':
-                                response.options.tooltips = {
-                                    'callbacks': {
-                                        'label': self.commaTwoDecimalPercentData
-                                    }
-                                };
-                                break;
-                            case 'WHOLENBR':
-                                response.options.tooltips = {
-                                    'callbacks': {
-                                        'label': self.commaDelimitedData
-                                    }
-                                };
-                                break;
-                            case 'WHNUMPCT':
-                                response.options.tooltips = {
-                                    'callbacks': {
-                                        'label': self.commaDelimitedPercentData
-                                    }
-                                };
-                                break;
-                        }
+                    switch (widgetData.dataNumberFormatId) {
+                        case 'TWODGDEC':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalData
+                                }
+                            };
+                            break;
+                        case 'TWDIGPCT':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalPercentData
+                                }
+                            };
+                            break;
+                        case 'WHOLENBR':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedData
+                                }
+                            };
+                            break;
+                        case 'WHNUMPCT':
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedPercentData
+                                }
+                            };
+                            break;
                     }
 
                     if (response.data.labels.length > 10 && response.type !== 'pie') {
@@ -343,7 +341,7 @@
             }, null, jQuery(widgetcanvas).parent());
         });
 
-        var widgetcanvas = $control.find('#' + widgetData.userWidgetId);   
+        var widgetcanvas = $control.find('#' + widgetData.userWidgetId);
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'fullscreen').on('click', '#' + widgetData.userWidgetId + 'fullscreen', function () {
             try {
@@ -354,7 +352,7 @@
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%')
 
-                var widgetfullscreen = $confirmation.find('#' + widgetData.apiname + 'fullscreen');  
+                var widgetfullscreen = $confirmation.find('#' + widgetData.apiname + 'fullscreen');
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
@@ -416,37 +414,35 @@
                             response.options.scales.xAxes[0].ticks.autoSkip = false;
                         }
 
-                        if (response.type !== 'pie') {
-                            switch (widgetData.dataNumberFormatId) {
-                                case 'TWODGDEC':
-                                    response.options.tooltips = {
-                                        'callbacks': {
-                                            'label': self.commaTwoDecimalData
-                                        }
-                                    };
-                                    break;
-                                case 'TWDIGPCT':
-                                    response.options.tooltips = {
-                                        'callbacks': {
-                                            'label': self.commaTwoDecimalPercentData
-                                        }
-                                    };
-                                    break;
-                                case 'WHOLENBR':
-                                    response.options.tooltips = {
-                                        'callbacks': {
-                                            'label': self.commaDelimitedData
-                                        }
-                                    };
-                                    break;
-                                case 'WHNUMPCT':
-                                    response.options.tooltips = {
-                                        'callbacks': {
-                                            'label': self.commaDelimitedPercentData
-                                        }
-                                    };
-                                    break;
-                            }
+                        switch (widgetData.dataNumberFormatId) {
+                            case 'TWODGDEC':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaTwoDecimalData
+                                    }
+                                };
+                                break;
+                            case 'TWDIGPCT':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaTwoDecimalPercentData
+                                    }
+                                };
+                                break;
+                            case 'WHOLENBR':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaDelimitedData
+                                    }
+                                };
+                                break;
+                            case 'WHNUMPCT':
+                                response.options.tooltips = {
+                                    'callbacks': {
+                                        'label': self.commaDelimitedPercentData
+                                    }
+                                };
+                                break;
                         }
 
                         var chart = new Chart(widgetfullscreen, response);
@@ -521,46 +517,44 @@
                         }
                         break;
                 }
-                
+
                 if (response.type === 'pie') {
                     delete response.options.legend;
                     delete response.options.scales;
                 } else {
                     response.options.scales.xAxes[0].ticks.autoSkip = false;
                 }
-
-                if (response.type !== 'pie') {
-                    switch (widgetData.dataNumberFormatId) {
-                        case 'TWODGDEC':
-                            response.options.tooltips = {
-                                'callbacks': {
-                                    'label': self.commaTwoDecimalData
-                                }
-                            };
-                            break;
-                        case 'TWDIGPCT':
-                            response.options.tooltips = {
-                                'callbacks': {
-                                    'label': self.commaTwoDecimalPercentData
-                                }
-                            };
-                            break;
-                        case 'WHOLENBR':
-                            response.options.tooltips = {
-                                'callbacks': {
-                                    'label': self.commaDelimitedData
-                                }
-                            };
-                            break;
-                        case 'WHNUMPCT':
-                            response.options.tooltips = {
-                                'callbacks': {
-                                    'label': self.commaDelimitedPercentData
-                                }
-                            };
-                            break;
-                    }
+                switch (widgetData.dataNumberFormatId) {
+                    case 'TWODGDEC':
+                        response.options.tooltips = {
+                            'callbacks': {
+                                'label': self.commaTwoDecimalData
+                            }
+                        };
+                        break;
+                    case 'TWDIGPCT':
+                        response.options.tooltips = {
+                            'callbacks': {
+                                'label': self.commaTwoDecimalPercentData
+                            }
+                        };
+                        break;
+                    case 'WHOLENBR':
+                        response.options.tooltips = {
+                            'callbacks': {
+                                'label': self.commaDelimitedData
+                            }
+                        };
+                        break;
+                    case 'WHNUMPCT':
+                        response.options.tooltips = {
+                            'callbacks': {
+                                'label': self.commaDelimitedPercentData
+                            }
+                        };
+                        break;
                 }
+
                 if (response.data.labels.length > 10 && response.type !== 'pie') {
                     response.options.scales.xAxes[0].ticks.minRotation = 70;
                     response.options.scales.xAxes[0].ticks.maxRotation = 70;
@@ -639,9 +633,9 @@
         var value = data.datasets[0].data[tooltipItem.index];
         value = value.toString();
         if (value.indexOf('.') === -1) {
-            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
-        } else {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
+        } else {
+            return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
         }
     }
 
