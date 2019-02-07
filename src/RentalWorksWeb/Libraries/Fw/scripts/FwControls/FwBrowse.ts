@@ -1511,9 +1511,10 @@ class FwBrowseClass {
                                         for (let gridSubMenuItemIndex = 0; gridSubMenuItemIndex < gridSubMenuGroup.children.length; gridSubMenuItemIndex++) {
                                             const gridSubMenuItem = gridSubMenuGroup.children[gridSubMenuItemIndex];
                                             if ((gridSubMenuItem && gridSubMenuItem.properties.nodetype === 'SubMenuItem') || (gridSubMenuItem && gridSubMenuItem.properties.nodetype === 'DownloadExcelSubMenuItem') && (gridSubMenuItem.properties.visible === 'T')) {
+                                                let $submenuitem;
                                                 switch (FwApplicationTree.getNodeType(gridSubMenuItem)) {
                                                     case 'SubMenuItem':
-                                                        const $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
+                                                        $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
                                                         $submenuitem.on('click', function (e: JQuery.Event) {
                                                             try {
                                                                 e.stopPropagation();
@@ -1526,8 +1527,8 @@ class FwBrowseClass {
                                                         });
                                                         break;
                                                     case 'DownloadExcelSubMenuItem':
-                                                        const $excelSubMenuItem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $excelSubMenuItem.on('click', function (e: JQuery.Event) {
+                                                        $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
+                                                        $submenuitem.on('click', function (e: JQuery.Event) {
                                                             try {
                                                                 FwBrowse.downloadExcelWorkbook($browse, controller);
                                                             } catch (ex) {
