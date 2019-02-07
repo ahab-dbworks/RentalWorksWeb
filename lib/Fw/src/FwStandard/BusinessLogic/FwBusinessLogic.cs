@@ -1217,66 +1217,33 @@ namespace FwStandard.BusinessLogic
                         }
                     }
                 }
-
                 //Check for changes in customfields
-                FwCustomValues newCustomFieldValues = this._Custom;
-                FwCustomValues origCustomFieldValues = original._Custom;
-                if (newCustomFieldValues.Count > 0)
+                FwCustomValues customFieldValues = this._Custom;
+                if (customFieldValues.Count > 0)
                 {
-                    for (int i = 0; i <= newCustomFieldValues.Count - 1; i++)
+                    for (int i = 0; i <= customFieldValues.Count -1; i++)
                     {
-                        string customFieldName = newCustomFieldValues[i].FieldName;
-                        string customFieldDataType = newCustomFieldValues[i].FieldType;
-                        //origCustomFieldValues.Where(item => item.FieldName == customFieldName)
-                        foreach (FwCustomValue obj in origCustomFieldValues)
+                        var customFieldName = customFieldValues[i].FieldName;
+                        if (customFieldName.Equals(original._Custom[i].FieldName))
                         {
-                            if (obj.FieldName.Equals(customFieldName))
+                            newValue = customFieldValues[i].FieldValue;
+                            if (newValue != null)
                             {
-                                newValue = newCustomFieldValues[i].FieldValue;
-                                if (newValue != null)
+                                bool valueChanged = false;
+                                if (original == null)
                                 {
-                                    bool valueChanged = false;
-                                    if (original == null)
-                                    {
-                                        oldValue = "";
-                                        valueChanged = false;
-                                    }
-                                    else
-                                    {
-                                        oldValue = obj.FieldValue;
-                                    }
-
-                                    switch (customFieldDataType)
-                                    {
-                                        case "Text":
-                                            break;
-                                        case "Integer":
-                                            Int32? j = 0;
-                                            j = FwConvert.ToInt32(newValue);
-                                            newValue = j;
-                                            break;
-                                        case "Float":
-                                            Decimal? d = 0;
-                                            d = FwConvert.ToDecimal(newValue);
-                                            newValue = d;
-                                            break;
-                                        case "Date":
-                                            DateTime? dt = null;
-                                            dt = FwConvert.ToDateTime(newValue.ToString());
-                                            newValue = dt.ToString();
-                                            break;
-                                        case "True/False":
-                                            newValue = FwConvert.LogicalToCharacter(FwConvert.ToBoolean(newValue.ToString()));
-                                            break;
-                                    }
-
-                                    valueChanged = (!newValue.Equals(oldValue));
-                                    if (valueChanged)
-                                    {
-                                        deltas.Add(new FwBusinessLogicFieldDelta(customFieldName, oldValue, newValue));
-                                    }
+                                    oldValue = "";
+                                    valueChanged = false;
                                 }
-                                break;
+                                else
+                                {
+                                    oldValue = original._Custom[i].FieldValue;
+                                    valueChanged = (!newValue.Equals(oldValue));
+                                }
+                                if (valueChanged)
+                                {
+                                    deltas.Add(new FwBusinessLogicFieldDelta(customFieldName, oldValue, newValue));
+                                }
                             }
                         }
                     }

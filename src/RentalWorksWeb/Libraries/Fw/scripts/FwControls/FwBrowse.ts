@@ -1465,10 +1465,10 @@ class FwBrowseClass {
                             $submenubtn = FwGridMenu.addSubMenu($menu);
                         }
                         if ($submenubtn !== null) {
-                            var $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
-                            var $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
+                            const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
+                            const $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
                             if (nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T') {
-                                var $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
+                                const $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
                                 $submenuitem.on('click', function (e: JQuery.Event) {
                                     try {
                                         if ($browse.attr('data-enabled') !== 'false') {
@@ -2970,26 +2970,8 @@ class FwBrowseClass {
             }
 
             if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
-                switch (formdatatype) {
-                    case "text":
-                        formdatatype = "Text";
-                        break;
-                    case "date":
-                        formdatatype = "Date";
-                        break;
-                    case "checkbox":
-                        formdatatype = "True/False";
-                        break;
-                    case "number":
-                        formdatatype = "Integer";
-                        break;
-                    case "decimal":
-                        formdatatype = "Float";
-                        break;
-                }
                 field = {
                     FieldName: formdatafield,
-                    FieldType: formdatatype,
                     FieldValue: field.value
                 }
                 fields._Custom.push(field);
