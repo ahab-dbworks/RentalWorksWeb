@@ -15,6 +15,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
             var nodeGridMenuBar = tree.AddMenuBar("{D8762DD6-1603-46AB-ADBD-118D68BC63DA}", MODULEID);
             var nodeGridSubMenu = tree.AddSubMenu("{00944CE3-2EDF-4E27-B7FB-38ADBA46AC2E}", nodeGridMenuBar.Id);
             var nodeBrowseOptions = tree.AddSubMenuGroup("Options", "{1A932D18-69F0-44CA-80AE-F1F10D3AAB9F}", nodeGridSubMenu.Id);
+            tree.AddDownloadExcelSubMenuItem("{AE2C816F-BF52-4DD5-A579-9A8B91DAC1BA}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Summary View", "{D27AD4E7-E924-47D1-AF6E-992B92F5A647}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Full View", "{1A977BFE-E5FB-4791-AD9A-42576160B6C3}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Primary View", "{D7DD3803-3AFF-4723-96FC-BDF3CD3AA997}", nodeBrowseOptions.Id);

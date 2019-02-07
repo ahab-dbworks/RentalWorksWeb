@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules
 {
     public class OrderMenu : FwSecurityTreeBranch
     {
@@ -13,9 +13,9 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeBrowse = tree.AddBrowse("{9F23AC18-D743-4FE1-A402-3BECE439D43E}", MODULEID);
             var nodeBrowseMenuBar = tree.AddMenuBar("{1D6FD475-4FDD-449F-B53F-DFAE1D4BF9A1}", nodeBrowse.Id);
             var nodeBrowseSubMenu = tree.AddSubMenu("{0E2A9234-314E-47EB-81EF-BE741C346903}", nodeBrowseMenuBar.Id);
-            var nodeBrowseExport = tree.AddSubMenuGroup("Export", "{EB58FFA8-DE71-434F-A4B4-D9D3786419D2}", nodeBrowseSubMenu.Id);
-            tree.AddDownloadExcelSubMenuItem("{5A45F16F-D7FA-410F-BE8D-304E0CFC1327}", nodeBrowseExport.Id);
-            tree.AddSubMenuItem("Cancel / Uncancel", "{DAE6DC23-A2CA-4E36-8214-72351C4E1449}", nodeBrowseExport.Id);
+            var nodeBrowseOptions = tree.AddSubMenuGroup("Options", "{EB58FFA8-DE71-434F-A4B4-D9D3786419D2}", nodeBrowseSubMenu.Id);
+            tree.AddDownloadExcelSubMenuItem("{5A45F16F-D7FA-410F-BE8D-304E0CFC1327}", nodeBrowseOptions.Id);
+            tree.AddSubMenuItem("Cancel / Uncancel", "{DAE6DC23-A2CA-4E36-8214-72351C4E1449}", nodeBrowseOptions.Id);
             tree.AddNewMenuBarButton("{82A3CF3D-485A-4F9C-8D2B-C9A0FF7E4F73}", nodeBrowseMenuBar.Id);
             tree.AddViewMenuBarButton("{E1FEF449-73EA-4BE9-8CED-D0BA711D9CFC}", nodeBrowseMenuBar.Id);
             tree.AddEditMenuBarButton("{8521DD2F-5F65-4528-9162-A262337B16AF}", nodeBrowseMenuBar.Id);

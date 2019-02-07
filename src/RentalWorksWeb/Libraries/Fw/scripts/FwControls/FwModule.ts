@@ -460,9 +460,7 @@
     }
     //----------------------------------------------------------------------------------------------
     static addBrowseMenu($browse: JQuery) {
-        var controller, $menu, $new, $edit, $delete, $inactiveView, $activeView, $allView, $show, $vr, $submenubtn, $submenucolumn, $optiongroup, $excelxlsx, $excelxls,
-            nodeModule, nodeBrowse, nodeBrowseMenuBar, nodeBrowseSubMenu, $submenubtn, $menubarbutton, nodeSubMenuGroup, $submenucolumn, $submenugroup,
-            nodeSubMenuItem, $submenuitem, hasClickEvent, $editbtn;
+        var controller, $menu, $edit, $vr, $submenubtn, $submenucolumn, nodeModule, nodeBrowse, nodeBrowseMenuBar, nodeBrowseSubMenu, $submenubtn, $menubarbutton, nodeSubMenuGroup, $submenucolumn, $submenugroup, nodeSubMenuItem, hasClickEvent, $editbtn;
 
         controller = $browse.attr('data-controller');
         $menu = FwMenu.getMenuControl('default');
@@ -483,115 +481,30 @@
                                     case 'SubMenu':
                                         nodeBrowseSubMenu = nodeMenuBarItem;
                                         $submenubtn = FwMenu.addSubMenu($menu);
-                                        for (var submenuoptionno = 0; submenuoptionno < nodeBrowseSubMenu.children.length; submenuoptionno++) {
+                                        for (let submenuoptionno = 0; submenuoptionno < nodeBrowseSubMenu.children.length; submenuoptionno++) {
                                             nodeSubMenuGroup = nodeBrowseSubMenu.children[submenuoptionno];
                                             if (nodeSubMenuGroup.properties.visible === 'T') {
                                                 $submenucolumn = FwMenu.addSubMenuColumn($submenubtn)
                                                 $submenugroup = FwMenu.addSubMenuGroup($submenucolumn, nodeSubMenuGroup.properties.caption, nodeSubMenuGroup.id);
-                                                for (var submenuitemno = 0; submenuitemno < nodeSubMenuGroup.children.length; submenuitemno++) {
+                                                for (let submenuitemno = 0; submenuitemno < nodeSubMenuGroup.children.length; submenuitemno++) {
                                                     nodeSubMenuItem = nodeSubMenuGroup.children[submenuitemno];
                                                     if (nodeSubMenuItem.properties.visible === 'T') {
                                                         switch (FwApplicationTree.getNodeType(nodeSubMenuItem)) {
                                                             case 'SubMenuItem':
-                                                                $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
+                                                                const $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
                                                                 hasClickEvent = ((typeof controller === 'string') &&
                                                                     (controller.length > 0) &&
                                                                     (typeof FwApplicationTree.clickEvents !== 'undefined') &&
-                                                                    (typeof FwApplicationTree.clickEvents['{' + nodeSubMenuItem.id + '}'] === 'function'));
+                                                                    (typeof FwApplicationTree.clickEvents[`{${nodeSubMenuItem.id}}`] === 'function'));
                                                                 if (hasClickEvent) {
-                                                                    $submenuitem.on('click', FwApplicationTree.clickEvents['{' + nodeSubMenuItem.id + '}']);
+                                                                    $submenuitem.on('click', FwApplicationTree.clickEvents[`{${nodeSubMenuItem.id}}`]);
                                                                 }
                                                                 break;
                                                             case 'DownloadExcelSubMenuItem':
-                                                                $submenuitem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
-                                                                $submenuitem.on('click', function () {
+                                                                const $excelSubMenuItem = FwMenu.addSubMenuBtn($submenugroup, nodeSubMenuItem.properties.caption, nodeSubMenuItem.id);
+                                                                $excelSubMenuItem.on('click', () => {
                                                                     try {
-                                                                        let $confirmation, $yes, $no, totalNumberofRows, totalNumberofRowsStr, totalPages, pageSize, userDefinedNumberofRows;
-                                                                        let module = window[controller].Module;
-                                                                        let apiurl = window[controller].apiurl;
-                                                                        let request = FwBrowse.getRequest($browse);
-
-                                                                        $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
-                                                                        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-                                                                        totalNumberofRows = FwBrowse.getTotalRowCount($browse);
-                                                                        totalNumberofRowsStr = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-
-                                                                        let html = [];
-                                                                        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-                                                                        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRowsStr} Records" data-datafield="" style="float:left;width:100px;"></div>`);
-                                                                        html.push('  </div>');
-                                                                        html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start; align-items:center">');
-                                                                        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                                                                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
-                                                                        html.push('  </div>');
-                                                                        html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
-                                                                        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-                                                                        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
-                                                                        html.push('  </div>');
-                                                                        html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
-                                                                        html.push(' </div>');
-                                                                        html.push('</div>');
-
-                                                                        FwConfirmation.addControls($confirmation, html.join(''));
-                                                                        $yes = FwConfirmation.addButton($confirmation, 'Download', false);
-                                                                        $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-                                                                        $confirmation.find('.user-defined-records-input input').val(request.pagesize);
-                                                                        $confirmation.find('.all-records input').prop('checked', true);
-                                                                        userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
-
-                                                                        $confirmation.find('.all-records input').on('change', function () {
-                                                                            var $this = jQuery(this);
-                                                                            if ($this.prop('checked') === true) {
-                                                                                $confirmation.find('.user-defined-records input').prop('checked', false);
-                                                                            }
-                                                                            else {
-                                                                                $confirmation.find('.user-defined-records input').prop('checked', true);
-                                                                            }
-                                                                        });
-
-                                                                        $confirmation.find('.user-defined-records input').on('change', function () {
-                                                                            var $this = jQuery(this);
-                                                                            if ($this.prop('checked') === true) {
-                                                                                $confirmation.find('.all-records input').prop('checked', false);
-                                                                            }
-                                                                            else {
-                                                                                $confirmation.find('.all-records input').prop('checked', true);
-                                                                            }
-                                                                        });
-
-                                                                        $confirmation.find('.user-defined-records-input input').keypress(function () {
-                                                                            $confirmation.find('.user-defined-records input').prop('checked', true);
-                                                                            $confirmation.find('.all-records input').prop('checked', false);
-                                                                        });
-
-                                                                        $yes.on('click', () => {
-                                                                            if ($confirmation.find('.all-records input').prop('checked') === true) {
-                                                                                userDefinedNumberofRows = totalNumberofRows;
-                                                                            } else {
-                                                                                userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
-                                                                            }
-
-                                                                            request.pagesize = userDefinedNumberofRows
-
-                                                                            FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
-                                                                                try {
-                                                                                    let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
-                                                                                    jQuery('#application').append($iframe);
-                                                                                    setTimeout(function () {
-                                                                                        $iframe.remove();
-                                                                                    }, 500);
-                                                                                    // window.location.assign(`${applicationConfig.apiurl}${successResponse.downloadUrl}`);
-                                                                                } catch (ex) {
-                                                                                    FwFunc.showError(ex);
-                                                                                }
-                                                                            }, null, null);
-                                                                            FwConfirmation.destroyConfirmation($confirmation);
-
-                                                                            FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
-                                                                        });
+                                                                        FwBrowse.downloadExcelWorkbook($browse, controller);
                                                                     } catch (ex) {
                                                                         FwFunc.showError(ex);
                                                                     }
@@ -757,44 +670,39 @@
             }
             FwMenu.addVerticleSeparator($menu);
 
-            $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
+            const $activeView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Active'), true);
             $activeView.on('click', function () {
-                var $fwbrowse;
                 try {
-                    $fwbrowse = jQuery(this).closest('.fwbrowse');
+                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
                     $fwbrowse.attr('data-activeinactiveview', 'active');
                     FwBrowse.search($fwbrowse);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
-            $inactiveView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Inactive'), false);
+            const $inactiveView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('Inactive'), false);
             $inactiveView.on('click', function () {
-                var $fwbrowse;
                 try {
-                    $fwbrowse = jQuery(this).closest('.fwbrowse');
+                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
                     $fwbrowse.attr('data-activeinactiveview', 'inactive');
                     FwBrowse.search($fwbrowse);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
-            $allView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('All'), false);
+            const $allView = FwMenu.generateDropDownViewBtn(FwLanguages.translate('All'), false);
             $allView.on('click', function () {
-                var $fwbrowse;
                 try {
-                    $fwbrowse = jQuery(this).closest('.fwbrowse');
+                    const $fwbrowse = jQuery(this).closest('.fwbrowse');
                     $fwbrowse.attr('data-activeinactiveview', 'all');
                     FwBrowse.search($fwbrowse);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
-            var viewitems = [];
-            viewitems.push($activeView);
-            viewitems.push($inactiveView);
-            viewitems.push($allView);
-            $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
+            const viewitems: Array<string> = [];
+            viewitems.push($activeView, $inactiveView, $allView);
+            const $show = FwMenu.addViewBtn($menu, FwLanguages.translate('Show'), viewitems);
         }
         FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
     }
