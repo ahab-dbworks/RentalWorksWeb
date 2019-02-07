@@ -954,11 +954,12 @@ namespace FwStandard.BusinessLogic
                 }
                 LoadCustomFields();
 
+                bool customFieldsSaved = false;
                 if (_Custom.Count > 0)
                 {
-                    await _Custom.SaveAsync(GetPrimaryKeys());
+                    customFieldsSaved = await _Custom.SaveAsync(GetPrimaryKeys());
                 }
-                bool savePerformed = (rowsAffected > 0);
+                bool savePerformed = ((rowsAffected > 0) || customFieldsSaved);
 
                 if (!savePerformed)
                 {
