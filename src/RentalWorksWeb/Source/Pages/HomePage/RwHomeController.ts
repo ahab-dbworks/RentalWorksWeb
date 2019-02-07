@@ -322,6 +322,11 @@
                         response.options.scales.xAxes[0].ticks.minRotation = 70;
                         response.options.scales.xAxes[0].ticks.maxRotation = 70;
                     }
+
+                    Chart.helpers.each(Chart.instances, function (instance) {
+                        if (instance.chart.canvas.id === widgetData.userWidgetId) { instance.chart.destroy() }
+                    })
+
                     var chart = new Chart(widgetcanvas, response);
                     jQuery(widgetcanvas).on('click', function (evt) {
                         var activePoint = chart.getElementAtEvent(evt)[0];
@@ -560,6 +565,11 @@
                     response.options.scales.xAxes[0].ticks.minRotation = 70;
                     response.options.scales.xAxes[0].ticks.maxRotation = 70;
                 }
+
+                Chart.helpers.each(Chart.instances, function (instance) {
+                    if (instance.chart.canvas.id === widgetData.userWidgetId) { instance.chart.destroy() }
+                })
+
                 var chart = new Chart(widgetcanvas, response);
                 jQuery(widgetcanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
@@ -617,8 +627,8 @@
     }
 
     commaTwoDecimal = function (value, index, values) {
-        value = value.toString();
-        if (value.charAt(value.length - 3) !== '.' && !isNaN(value)) {
+        value = (Math.round(value * 10) / 10).toString();
+        if (value.indexOf('.') === -1 && !isNaN(value)) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
         } else {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
@@ -628,7 +638,7 @@
     commaTwoDecimalData = function (tooltipItem, data) {
         var value = data.datasets[0].data[tooltipItem.index];
         value = value.toString();
-        if (value.charAt(value.length - 3) === '.') {
+        if (value.indexOf('.') === -1) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
         } else {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
@@ -647,7 +657,7 @@
     commaTwoDecimalPercentData = function (tooltipItem, data) {
         var value = data.datasets[0].data[tooltipItem.index];
         value = value.toString();
-        if (value.charAt(value.length - 3) === '.') {
+        if (value.indexOf('.') === -1) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
         } else {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00%'
