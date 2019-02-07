@@ -526,32 +526,64 @@
                 }
                 switch (widgetData.dataNumberFormatId) {
                     case 'TWODGDEC':
-                        response.options.tooltips = {
-                            'callbacks': {
-                                'label': self.commaTwoDecimalData
-                            }
-                        };
+                        if (response.type !== 'pie') {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalData
+                                }
+                            };
+                        } else {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalDataPie
+                                }
+                            };
+                        }
                         break;
                     case 'TWDIGPCT':
-                        response.options.tooltips = {
-                            'callbacks': {
-                                'label': self.commaTwoDecimalPercentData
-                            }
-                        };
+                        if (response.type !== 'pie') {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalPercentData
+                                }
+                            };
+                        } else {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaTwoDecimalPercentDataPie
+                                }
+                            };
+                        }
                         break;
                     case 'WHOLENBR':
-                        response.options.tooltips = {
-                            'callbacks': {
-                                'label': self.commaDelimitedData
-                            }
-                        };
+                        if (response.type !== 'pie') {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedData
+                                }
+                            };
+                        } else {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedDataPie
+                                }
+                            };
+                        }
                         break;
                     case 'WHNUMPCT':
-                        response.options.tooltips = {
-                            'callbacks': {
-                                'label': self.commaDelimitedPercentData
-                            }
-                        };
+                        if (response.type !== 'pie') {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedPercentData
+                                }
+                            };
+                        } else {
+                            response.options.tooltips = {
+                                'callbacks': {
+                                    'label': self.commaDelimitedPercentDataPie
+                                }
+                            };
+                        }
                         break;
                 }
 
@@ -620,6 +652,12 @@
         return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
     }
 
+    commaDelimitedDataPie = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}`
+    }
+
     commaTwoDecimal = function (value, index, values) {
         value = (Math.round(value * 10) / 10).toString();
         if (value.indexOf('.') === -1 && !isNaN(value)) {
@@ -636,6 +674,16 @@
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
         } else {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
+        }
+    }
+
+    commaTwoDecimalDataPie = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        if (value.indexOf('.') === -1) {
+            return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}.00`
+        } else {
+            return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}`
         }
     }
 
@@ -658,6 +706,16 @@
         }
     }
 
+    commaTwoDecimalPercentDataPie = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        if (value.indexOf('.') === -1) {
+            return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}`
+        } else {
+            return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}.00%`
+        }
+    }
+
     commaDelimitedPercent = function (value, index, values) {
         value = value.toString();
         if (value.charAt(value.length - 3) !== '.' && !isNaN(value)) {
@@ -671,6 +729,12 @@
         var value = data.datasets[0].data[tooltipItem.index];
         value = value.toString();
         return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '%'
+    }
+
+    commaDelimitedPercentDataPie = function (tooltipItem, data) {
+        var value = data.datasets[0].data[tooltipItem.index];
+        value = value.toString();
+        return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}%`
     }
 
 };
