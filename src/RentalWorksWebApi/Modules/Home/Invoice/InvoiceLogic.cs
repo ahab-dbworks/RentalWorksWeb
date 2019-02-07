@@ -347,6 +347,22 @@ namespace WebApi.Modules.Home.Invoice
         public bool? ExportTaxAsLineItem { get; set; }
 
 
+        [FwLogicProperty(Id: "lcK9rFRAr06av", IsReadOnly: true)]
+        public string InvoiceNumberColor { get; set; }
+        [FwLogicProperty(Id: "6pRwHtKT4YjHn", IsReadOnly: true)]
+        public string StatusColor { get; set; }
+        [FwLogicProperty(Id: "fqgQVrX67DPq0", IsReadOnly: true)]
+        public string OrderNumberColor { get; set; }
+        [FwLogicProperty(Id: "xAcPTrf7JAT9f", IsReadOnly: true)]
+        public string PurchaseOrderNumberColor { get; set; }
+        [FwLogicProperty(Id: "3DqtKdc6BpLnG", IsReadOnly: true)]
+        public string DealColor { get; set; }
+        [FwLogicProperty(Id: "PoaTqOQketXuF", IsReadOnly: true)]
+        public string BillingStartDateColor { get; set; }
+        [FwLogicProperty(Id: "JnKIjs2ZgscqD", IsReadOnly: true)]
+        public string InvoiceTotalColor { get; set; }
+        [FwLogicProperty(Id: "ozQ6H0PzmQsgx", IsReadOnly: true)]
+        public string DescriptionColor { get; set; }
 
 
         [FwLogicProperty(Id:"I9x7KeH1tdg0")]

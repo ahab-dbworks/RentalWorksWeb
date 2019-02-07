@@ -54,15 +54,15 @@ class Invoice {
                 $tr.css('color', '#aaaaaa');
             }
         });
-        FwBrowse.addLegend($browse, 'Locked', '#EA300F');
-        FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
-        FwBrowse.addLegend($browse, 'Adjusted', '#FFB3D9');
-        FwBrowse.addLegend($browse, 'Hiatus', '#00c400');
-        FwBrowse.addLegend($browse, 'Flat PO', '#D6E180');
-        FwBrowse.addLegend($browse, 'Credit', '#00c400');
-        FwBrowse.addLegend($browse, 'Altered Dates', '#D6E180');
+        FwBrowse.addLegend($browse, 'Locked', '#FF0200');
+        FwBrowse.addLegend($browse, 'No Charge', '#FF6F6F');
+        FwBrowse.addLegend($browse, 'Adjusted', '#FF80FF');
+        FwBrowse.addLegend($browse, 'Hiatus', '#04B85C');
+        FwBrowse.addLegend($browse, 'Flat PO', '#8988FF');
+        FwBrowse.addLegend($browse, 'Credit', '#DDDCFF');
+        FwBrowse.addLegend($browse, 'Altered Dates', '#04FF80');
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
-        FwBrowse.addLegend($browse, 'Estimate', '#5EAEAE');
+        FwBrowse.addLegend($browse, 'Estimate', '#FF8001');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
 
         return $browse;

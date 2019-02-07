@@ -255,10 +255,6 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalSaleItem { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
-
-
         [FwSqlDataField(column: "rentaltotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
         public decimal? RentalTotal { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -283,15 +279,11 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "assettotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric")]
         public decimal? AssetSaleTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
         [FwSqlDataField(column: "invoicesubtotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTax { get; set; }
         //------------------------------------------------------------------------------------ 
-
-
     }
 }

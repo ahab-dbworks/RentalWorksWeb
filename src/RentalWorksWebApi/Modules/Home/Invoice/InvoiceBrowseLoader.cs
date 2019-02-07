@@ -96,6 +96,30 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
         public string InvoiceCreationBatchId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicenocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string InvoiceNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "statuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StatusColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string OrderNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "poordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PurchaseOrderNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DealColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicedesccolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "billingstartdatecolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string BillingStartDateColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicetotalcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string TotalColor { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

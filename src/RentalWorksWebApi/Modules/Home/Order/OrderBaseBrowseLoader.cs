@@ -99,10 +99,6 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string DescriptionColor { get; set; }
         //------------------------------------------------------------------------------------
-
-
-
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
         public string ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
@@ -129,10 +125,6 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
         public string OutsideSalesRepresentative { get; set; }
-        //------------------------------------------------------------------------------------
-
-
-
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -187,8 +179,6 @@ namespace WebApi.Modules.Home.Order
                 }
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(lossAndDamageWarehouseId)?  "": " and mi.warehouseid = @ldwhid") + ")");
             }
-
-
 
             if ((request != null) && (request.activeview != null))
             {
