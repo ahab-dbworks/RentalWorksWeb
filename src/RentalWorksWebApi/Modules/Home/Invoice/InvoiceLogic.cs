@@ -103,7 +103,7 @@ namespace WebApi.Modules.Home.Invoice
         public string Department { get; set; }
 
         [FwLogicProperty(Id:"cBPz3uC1iBKO", IsReadOnly:true)]
-        public string PoNumber { get; set; }
+        public string PurchaseOrderNumber { get; set; }
 
         [FwLogicProperty(Id:"gbjEsq2kr1wh")]
         public string WaNo { get { return invoice.WaNo; } set { invoice.WaNo = value; } }
