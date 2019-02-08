@@ -432,6 +432,10 @@ namespace FwStandard.SqlServer
         {
             if (FwSqlLogEntry.LogSql)
             {
+                if (((str.Contains("controlclient")) && (str.Contains("options"))) || ((str.Contains("dbo.decrypt")) || (str.Contains("dbo.encrypt"))))
+                {
+                    str = "(encrypted sql)";
+                }
                 if (includeDuration)
                 {
                     str = "----" + Counter.ToString() + " " + str + " in " + GetExecutionTime() + "------------------------------------------";
