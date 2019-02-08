@@ -3243,87 +3243,91 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     downloadExcelWorkbook($control: JQuery, controller: any): void {
-        const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
         const totalNumberofRows = FwBrowse.getTotalRowCount($control);
         const totalNumberofRowsStr = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if (totalNumberofRows >= 1) {
 
-        const html: Array<string> = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRowsStr} Records" data-datafield="" style="float:left;width:100px;"></div>`);
-        html.push('  </div>');
-        html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start; align-items:center">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
-        html.push('  </div>');
-        html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
-        html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
-        html.push('  </div>');
-        html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
-        html.push(' </div>');
-        html.push('</div>');
+            const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRowsStr} Records" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start; align-items:center">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push('  </div>');
+            html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('  </div>');
+            html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
+            html.push(' </div>');
+            html.push('</div>');
 
-        FwConfirmation.addControls($confirmation, html.join(''));
-        const $yes = FwConfirmation.addButton($confirmation, 'Download', false);
-        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-        const request: any = FwBrowse.getRequest($control);
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Download', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            const request: any = FwBrowse.getRequest($control);
 
-        $confirmation.find('.user-defined-records-input input').val(request.pagesize);
-        $confirmation.find('.all-records input').prop('checked', true);
-        let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
+            $confirmation.find('.user-defined-records-input input').val(request.pagesize);
+            $confirmation.find('.all-records input').prop('checked', true);
+            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
 
-        $confirmation.find('.all-records input').on('change', function () {
-            const $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                $confirmation.find('.user-defined-records input').prop('checked', false);
-            }
-            else {
-                $confirmation.find('.user-defined-records input').prop('checked', true);
-            }
-        });
-
-        $confirmation.find('.user-defined-records input').on('change', function () {
-            const $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                $confirmation.find('.all-records input').prop('checked', false);
-            }
-            else {
-                $confirmation.find('.all-records input').prop('checked', true);
-            }
-        });
-
-        $confirmation.find('.user-defined-records-input input').keypress(function () {
-            $confirmation.find('.user-defined-records input').prop('checked', true);
-            $confirmation.find('.all-records input').prop('checked', false);
-        });
-
-        $yes.on('click', () => {
-            if ($confirmation.find('.all-records input').prop('checked') === true) {
-                userDefinedNumberofRows = totalNumberofRows;
-            } else {
-                userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
-            }
-
-            request.pagesize = userDefinedNumberofRows
-            const module = window[controller].Module;
-            const apiurl = window[controller].apiurl;
-
-            FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
-                try {
-                    const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
-                    jQuery('#application').append($iframe);
-                    setTimeout(function () {
-                        $iframe.remove();
-                    }, 500);
-                } catch (ex) {
-                    FwFunc.showError(ex);
+            $confirmation.find('.all-records input').on('change', function () {
+                const $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    $confirmation.find('.user-defined-records input').prop('checked', false);
                 }
-            }, null, null);
-            FwConfirmation.destroyConfirmation($confirmation);
-            FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
-        });
+                else {
+                    $confirmation.find('.user-defined-records input').prop('checked', true);
+                }
+            });
+
+            $confirmation.find('.user-defined-records input').on('change', function () {
+                const $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    $confirmation.find('.all-records input').prop('checked', false);
+                }
+                else {
+                    $confirmation.find('.all-records input').prop('checked', true);
+                }
+            });
+
+            $confirmation.find('.user-defined-records-input input').keypress(function () {
+                $confirmation.find('.user-defined-records input').prop('checked', true);
+                $confirmation.find('.all-records input').prop('checked', false);
+            });
+
+            $yes.on('click', () => {
+                if ($confirmation.find('.all-records input').prop('checked') === true) {
+                    userDefinedNumberofRows = totalNumberofRows;
+                } else {
+                    userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
+                }
+
+                request.pagesize = userDefinedNumberofRows
+                const module = window[controller].Module;
+                const apiurl = window[controller].apiurl;
+
+                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
+                    try {
+                        const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
+                        jQuery('#application').append($iframe);
+                        setTimeout(function () {
+                            $iframe.remove();
+                        }, 500);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, null, null);
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+                });
+        } else {
+            FwNotification.renderNotification('WARNING', 'There are no records to export.');
+        }
     }
     //----------------------------------------------------------------------------------------------
     disableGrid($control: JQuery) {
