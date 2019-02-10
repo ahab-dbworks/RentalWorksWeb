@@ -1284,6 +1284,7 @@ namespace FwStandard.DataLayer
                     select.PageNo = request.pageno;
                     select.PageSize = request.pagesize;
                     select.Top = request.top;
+                    select.TotalFields = request.totalfields;
                     using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
                         SetBaseSelectQuery(select, qry, customFields: customFields, request: request);

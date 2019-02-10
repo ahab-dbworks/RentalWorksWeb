@@ -1040,7 +1040,7 @@ namespace FwStandard.SqlServer
                 select.Parse();
             }
             select.SetQuery(this);
-            return await QueryToFwJsonTableAsync(select.PageNo, select.PageSize, includeAllColumns);
+            return await QueryToFwJsonTableAsync(select.PageNo, select.PageSize, includeAllColumns, select.TotalFields);
         }
 
         /// <summary>
@@ -1051,7 +1051,7 @@ namespace FwStandard.SqlServer
         /// <param name="query">Pass null if you already set the query on this FwSqlCommand.</param>
         /// <param name="includeAllColumns"></param>
         /// <returns></returns>
-        private async Task<FwJsonDataTable> QueryToFwJsonTableAsync(int pageNo, int pageSize, bool includeAllColumns)
+        private async Task<FwJsonDataTable> QueryToFwJsonTableAsync(int pageNo, int pageSize, bool includeAllColumns, List<string> totalFields)
         {
             List<string> readerColumns;
             List<object> row;
@@ -1132,11 +1132,16 @@ namespace FwStandard.SqlServer
                             {
                                 fieldName = reader.GetName(i);
                                 readerColumns.Add(fieldName);
-                                if (fieldName == "totalrows")
+                                if (fieldName.Equals(FwSqlSelect.TOTAL_ROWS_FIELD))
                                 {
                                     ordinal = reader.GetOrdinal(fieldName);
                                     dt.TotalRows = reader.GetInt32(ordinal);
                                     dt.TotalPages = (int)Math.Ceiling((double)dt.TotalRows / (double)dt.PageSize);
+                                }
+                                else if (totalFields.Contains(fieldName))
+                                {
+                                    ordinal = reader.GetOrdinal(FwSqlSelect.TOTAL_FIELD_PREFIX + fieldName);
+                                    dt.Totals.Add(fieldName, reader.GetDecimal(ordinal));
                                 }
                             }
                         }
@@ -1955,7 +1960,7 @@ namespace FwStandard.SqlServer
                     }
                     bool hasColTotalRows = false;
                     foreach (DataRow row in reader.GetSchemaTable().Rows) { 
-                        if (row["ColumnName"].ToString() == "totalrows") 
+                        if (row["ColumnName"].ToString().Equals(FwSqlSelect.TOTAL_ROWS_FIELD)) 
                             hasColTotalRows = true; 
                     }
                     bool needsTotalRows = hasColTotalRows;

@@ -19,11 +19,15 @@ namespace FwStandard.SqlServer
         public bool EnablePaging {get;set;} = false;
         public int PageNo {get;set;} = 0;
         public int PageSize {get;set;} = 10;
-        public string RowNoFieldName = "rowno";
         public FwSqlConnection SqlConnection;
         public FwSqlCommand SqlCommand;
         public enum PagingCompatibilities { AutoDetect, PreSql2012, Sql2012 } // AutoDetect logic is handled in FwController, since the Database Connection info is dependency injected there
         public static PagingCompatibilities PagingCompatibility { get; set; } = PagingCompatibilities.AutoDetect;
+        public List<string> TotalFields { get; set; } = new List<string>();
+        public static string ROW_NUMBER_FIELD = "Row__Number";
+        public static string TOTAL_ROWS_FIELD = "Total__Query__Rows";
+        public static string TOTAL_FIELD_PREFIX = "Total__";
+
 
         public bool Parsed { get; private set; } = false;
         //---------------------------------------------------------------------------------------------
@@ -289,7 +293,11 @@ namespace FwStandard.SqlServer
             {
                 sb.AppendLine(")");
                 sb.AppendLine(", count_cte as (");
-                sb.AppendLine("    select count(*) as [totalrows]");
+                sb.AppendLine("    select count(*) as [" + TOTAL_ROWS_FIELD + "]");
+                foreach (string totalField in TotalFields)
+                {
+                    sb.AppendLine("             , sum([" + totalField + "]) as [" + TOTAL_FIELD_PREFIX + totalField + "]");
+                }
                 sb.AppendLine("    from main_cte with (nolock)");
                 sb.AppendLine(")");
                 sb.AppendLine(", paging_cte as (");
@@ -302,14 +310,16 @@ namespace FwStandard.SqlServer
                 {
                     sb.Append(line);
                 }
-                //sb.AppendLine(") as rowno, *");
-                sb.AppendLine(") as " + RowNoFieldName + " , *"); //justin 05/25/2018
+                sb.Append(") as ");
+                sb.Append(ROW_NUMBER_FIELD); 
+                sb.AppendLine(" , *"); 
                 sb.AppendLine("    from main_cte with (nolock), count_cte with (nolock)");
                 sb.AppendLine(")");
                 sb.AppendLine("select *");
                 sb.AppendLine("from paging_cte with (nolock)");
-                //sb.AppendLine("where rowno between @fwrownostart and @fwrownoend");
-                sb.AppendLine("where " + RowNoFieldName + " between @fwrownostart and @fwrownoend");
+                sb.Append("where ");
+                sb.Append(ROW_NUMBER_FIELD);
+                sb.AppendLine(" between @fwrownostart and @fwrownoend");
             }
             if (!EnablePaging)
             {
@@ -322,7 +332,11 @@ namespace FwStandard.SqlServer
             {
                 sb.AppendLine(")");
                 sb.AppendLine(", count_cte as (");
-                sb.AppendLine("  select count(*) as [totalrows]");
+                sb.AppendLine("  select count(*) as [" + TOTAL_ROWS_FIELD + "]");
+                foreach (string totalField in TotalFields)
+                {
+                    sb.AppendLine("             , sum([" + totalField + "]) as [" + TOTAL_FIELD_PREFIX + totalField + "]");
+                }
                 sb.AppendLine("  from main_cte with (nolock)");
                 sb.AppendLine(")");
                 sb.AppendLine("select *");
