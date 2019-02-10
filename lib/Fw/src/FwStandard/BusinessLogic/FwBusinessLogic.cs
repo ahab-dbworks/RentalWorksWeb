@@ -1224,70 +1224,96 @@ namespace FwStandard.BusinessLogic
 
                 //Check for changes in customfields
                 FwCustomValues newCustomFieldValues = this._Custom;
-                FwCustomValues origCustomFieldValues = original._Custom;
+                FwCustomValues origCustomFieldValues = null;
+                if (original != null)
+                {
+                    origCustomFieldValues = original._Custom;
+                }
                 if (newCustomFieldValues.Count > 0)
                 {
-                    for (int i = 0; i <= newCustomFieldValues.Count - 1; i++)
+                    foreach (FwCustomValue newCustomFieldValue in newCustomFieldValues)
                     {
-                        string customFieldName = newCustomFieldValues[i].FieldName;
-                        string customFieldDataType = newCustomFieldValues[i].FieldType;
-                        //origCustomFieldValues.Where(item => item.FieldName == customFieldName)
-                        foreach (FwCustomValue obj in origCustomFieldValues)
+                        bool valueChanged = false;
+                        newValue = newCustomFieldValue.FieldValue;
+                        if (newValue != null)
                         {
-                            if (obj.FieldName.Equals(customFieldName))
+                            switch (newCustomFieldValue.FieldType)
                             {
-                                newValue = newCustomFieldValues[i].FieldValue;
-                                if (newValue != null)
+                                case "Text":
+                                    break;
+                                case "Integer":
+                                    Int32? j = 0;
+                                    j = FwConvert.ToInt32(newValue);
+                                    newValue = j;
+                                    break;
+                                case "Float":
+                                    Decimal? d = 0;
+                                    d = FwConvert.ToDecimal(newValue);
+                                    newValue = d;
+                                    break;
+                                case "Date":
+                                    DateTime? dt = null;
+                                    dt = FwConvert.ToDateTime(newValue.ToString());
+                                    newValue = dt.ToString();
+                                    break;
+                                case "True/False":
+                                    newValue = FwConvert.LogicalToCharacter(FwConvert.ToBoolean(newValue.ToString()));
+                                    break;
+                            }
+
+                            if (origCustomFieldValues == null)
+                            {
+                                valueChanged = true;
+                            }
+                            else
+                            {
+                                oldValue = "";
+                                foreach (FwCustomValue origCustomFieldValue in origCustomFieldValues)
                                 {
-                                    bool valueChanged = false;
-                                    if (original == null)
+                                    if (origCustomFieldValue.FieldName.Equals(newCustomFieldValue.FieldName))
                                     {
-                                        oldValue = "";
-                                        valueChanged = false;
-                                    }
-                                    else
-                                    {
-                                        oldValue = obj.FieldValue;
-                                    }
+                                        oldValue = origCustomFieldValue.FieldValue;
 
-                                    switch (customFieldDataType)
-                                    {
-                                        case "Text":
-                                            break;
-                                        case "Integer":
-                                            Int32? j = 0;
-                                            j = FwConvert.ToInt32(newValue);
-                                            newValue = j;
-                                            break;
-                                        case "Float":
-                                            Decimal? d = 0;
-                                            d = FwConvert.ToDecimal(newValue);
-                                            newValue = d;
-                                            break;
-                                        case "Date":
-                                            DateTime? dt = null;
-                                            dt = FwConvert.ToDateTime(newValue.ToString());
-                                            newValue = dt.ToString();
-                                            break;
-                                        case "True/False":
-                                            newValue = FwConvert.LogicalToCharacter(FwConvert.ToBoolean(newValue.ToString()));
-                                            break;
-                                    }
+                                        switch (newCustomFieldValue.FieldType)
+                                        {
+                                            case "Text":
+                                                break;
+                                            case "Integer":
+                                                Int32? j = 0;
+                                                j = FwConvert.ToInt32(oldValue);
+                                                oldValue = j;
+                                                break;
+                                            case "Float":
+                                                Decimal? d = 0;
+                                                d = FwConvert.ToDecimal(oldValue);
+                                                oldValue = d;
+                                                break;
+                                            case "Date":
+                                                DateTime? dt = null;
+                                                dt = FwConvert.ToDateTime(oldValue.ToString());
+                                                oldValue = dt.ToString();
+                                                break;
+                                            case "True/False":
+                                                oldValue = FwConvert.LogicalToCharacter(FwConvert.ToBoolean(oldValue.ToString()));
+                                                break;
+                                        }
 
-                                    valueChanged = (!newValue.Equals(oldValue));
-                                    if (valueChanged)
-                                    {
-                                        deltas.Add(new FwBusinessLogicFieldDelta(customFieldName, oldValue, newValue));
+                                        valueChanged = (!newValue.Equals(oldValue));
+                                        break;
                                     }
                                 }
-                                break;
                             }
+                        }
+
+                        if (valueChanged)
+                        {
+                            deltas.Add(new FwBusinessLogicFieldDelta(newCustomFieldValue.FieldName, oldValue, newValue));
                         }
                     }
                 }
             }
 
-            //remove "id" fields where the corresponding display field is also in the list if fields
+            //remove "id" fields where the corresponding display field is also in the list of fields
             List<int> removeIndexes = new List<int>();
             int index = 0;
             foreach (FwBusinessLogicFieldDelta delta in deltas)
