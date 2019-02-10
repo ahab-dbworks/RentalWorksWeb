@@ -22,7 +22,6 @@ export class InvoiceDiscountReportRequest {
 }
 
 export class InvoiceDiscountReport extends WebpackReport {
-
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);

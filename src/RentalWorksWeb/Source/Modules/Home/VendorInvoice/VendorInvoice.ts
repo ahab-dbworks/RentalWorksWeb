@@ -9,14 +9,13 @@ class VendorInvoice {
     ActiveView: string = 'ALL';
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
-        var self = this;
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
-        var $browse = this.openBrowse();
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        const $browse = this.openBrowse();
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
@@ -28,66 +27,59 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
-        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        self.ActiveView = `LocationId=${location.locationid}`;
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        this.ActiveView = `LocationId=${location.locationid}`;
 
-        $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+        $browse.data('ondatabind', request => {
+            request.activeview = this.ActiveView;
         });
 
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
-        var self = this;
         //Location Filter
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        $allLocations.on('click', e => {
+            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
-        $userLocation.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        $userLocation.on('click', e => {
+            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            this.ActiveView = `LocationId=${location.locationid}`;
             FwBrowse.search($browse);
         });
-        var viewLocation = [];
+        const viewLocation = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        this.events($form);
         if (mode === 'NEW') {
-            let today = FwFunc.getDate();
+            const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
             $form.find('.continue').show();
         }
 
-        let location = JSON.parse(sessionStorage.getItem('location'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
 
+        this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        var $form;
-        $form = this.openForm('EDIT');
+    loadForm(uniqueids: any): JQuery {
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="VendorInvoiceId"] input').val(uniqueids.VendorInvoiceId);
         FwModule.loadForm(this.Module, $form);
 
@@ -98,41 +90,39 @@ class VendorInvoice {
         FwModule.saveForm(this.Module, $form, parameters);
     };
     //----------------------------------------------------------------------------------------------
-    renderGrids($form: JQuery) {
-        let $vendorInvoiceItemGrid: any;
-        let $vendorInvoiceItemGridControl: any;
-
-        $vendorInvoiceItemGrid = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
-        $vendorInvoiceItemGridControl = jQuery(jQuery('#tmpl-grids-VendorInvoiceItemGridBrowse').html());
+    renderGrids($form: JQuery): void {
+        // ----------
+        const $vendorInvoiceItemGrid:JQuery = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
+        const $vendorInvoiceItemGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceItemGrid');
         $vendorInvoiceItemGrid.empty().append($vendorInvoiceItemGridControl);
-        $vendorInvoiceItemGridControl.data('ondatabind', function (request) {
+        $vendorInvoiceItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
             }
+            request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"]
         })
-        FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', () => {
+        FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', (res) => {
+            console.log('res', res)
             this.getVendorInvoiceItemGridTotals($form);
         })
         FwBrowse.init($vendorInvoiceItemGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
         // ----------
-        let $glDistributionGrid;
-        let $glDistributionGridControl;
-        $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
-        $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
         $glDistributionGrid.empty().append($glDistributionGridControl);
         $glDistributionGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
             };
         });
+        FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', (res) => {
+        })
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         // ----------
-        let $vendorInvoicePaymentGrid;
-        let $vendorInvoicePaymentGridControl;
-        $vendorInvoicePaymentGrid = $form.find('div[data-grid="VendorInvoicePaymentGrid"]');
-        $vendorInvoicePaymentGridControl = FwBrowse.loadGridFromTemplate('VendorInvoicePaymentGrid');
+        const $vendorInvoicePaymentGrid = $form.find('div[data-grid="VendorInvoicePaymentGrid"]');
+        const $vendorInvoicePaymentGridControl = FwBrowse.loadGridFromTemplate('VendorInvoicePaymentGrid');
         $vendorInvoicePaymentGrid.empty().append($vendorInvoicePaymentGridControl);
         $vendorInvoicePaymentGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -142,10 +132,8 @@ class VendorInvoice {
         FwBrowse.init($vendorInvoicePaymentGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoicePaymentGridControl);
         // ----------
-        let $vendorInvoiceNoteGrid;
-        let $vendorInvoiceNoteGridControl;
-        $vendorInvoiceNoteGrid = $form.find('div[data-grid="VendorInvoiceNoteGrid"]');
-        $vendorInvoiceNoteGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceNoteGrid');
+        const $vendorInvoiceNoteGrid = $form.find('div[data-grid="VendorInvoiceNoteGrid"]');
+        const $vendorInvoiceNoteGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceNoteGrid');
         $vendorInvoiceNoteGrid.empty().append($vendorInvoiceNoteGridControl);
         $vendorInvoiceNoteGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -155,10 +143,8 @@ class VendorInvoice {
         FwBrowse.init($vendorInvoiceNoteGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceNoteGridControl);
         // ----------
-        let $vendorInvoiceHistoryGrid;
-        let $vendorInvoiceHistoryGridControl;
-        $vendorInvoiceHistoryGrid = $form.find('div[data-grid="VendorInvoiceStatusHistoryGrid"]');
-        $vendorInvoiceHistoryGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceStatusHistoryGrid');
+        const $vendorInvoiceHistoryGrid = $form.find('div[data-grid="VendorInvoiceStatusHistoryGrid"]');
+        const $vendorInvoiceHistoryGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceStatusHistoryGrid');
         $vendorInvoiceHistoryGrid.empty().append($vendorInvoiceHistoryGridControl);
         $vendorInvoiceHistoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
