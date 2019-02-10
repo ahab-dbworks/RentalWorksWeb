@@ -94,6 +94,12 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         [FwLogicProperty(Id: "34agXtGDipQ")]
         public bool? Taxable { get { return vendorInvoiceItem.Taxable; } set { vendorInvoiceItem.Taxable = value; } }
 
+        [FwLogicProperty(Id: "cR1D9BT0CXklD", IsReadOnly: true)]
+        public decimal? Tax { get; set; }
+
+        [FwLogicProperty(Id: "YuX1GJAoNJZxe", IsReadOnly: true)]
+        public decimal? LineTotalWithTax { get; set; }
+
         [FwLogicProperty(Id: "kXFTc6vx0B9")]
         public string Note { get { return vendorInvoiceItem.Note; } set { vendorInvoiceItem.Note = value; } }
 

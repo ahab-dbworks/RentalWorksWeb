@@ -84,6 +84,12 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
+        public decimal? Tax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "linetotalwithtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? LineTotalWithTax { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "note", modeltype: FwDataTypes.Text)]
         public string Note { get; set; }
         //------------------------------------------------------------------------------------ 
