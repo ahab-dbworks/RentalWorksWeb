@@ -502,9 +502,14 @@ namespace WebApi.Modules.Home.Invoice
             return await invoice.Void();
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<ToggleInvoiceApprovedResponse> ToggleApproved()
+        public async Task<ToggleInvoiceApprovedResponse> Approve()
         {
-            return await invoice.ToggleApproved();
+            return await invoice.Approve();
+        }
+        //------------------------------------------------------------------------------------    
+        public async Task<ToggleInvoiceApprovedResponse> Unapprove()
+        {
+            return await invoice.Unapprove();
         }
         //------------------------------------------------------------------------------------    
 

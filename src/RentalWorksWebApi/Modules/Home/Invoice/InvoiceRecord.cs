@@ -4,6 +4,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Invoice
 {
@@ -326,9 +327,33 @@ namespace WebApi.Modules.Home.Invoice
             return await InvoiceFunc.VoidInvoice(AppConfig, UserSession, InvoiceId);
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<ToggleInvoiceApprovedResponse> ToggleApproved()
+        public async Task<ToggleInvoiceApprovedResponse> Approve()
         {
-            ToggleInvoiceApprovedResponse response = await InvoiceFunc.ToggleInvoiceApproved(AppConfig, UserSession, InvoiceId);
+            ToggleInvoiceApprovedResponse response = new ToggleInvoiceApprovedResponse();
+            if (Status.Equals(RwConstants.INVOICE_STATUS_NEW))
+            {
+                response = await InvoiceFunc.ToggleInvoiceApproved(AppConfig, UserSession, InvoiceId);
+            }
+            else
+            {
+                response.msg = "Cannot approve because status is " + Status + ".";
+                response.success = false;
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public async Task<ToggleInvoiceApprovedResponse> Unapprove()
+        {
+            ToggleInvoiceApprovedResponse response = new ToggleInvoiceApprovedResponse();
+            if (Status.Equals(RwConstants.INVOICE_STATUS_APPROVED))
+            {
+                response = await InvoiceFunc.ToggleInvoiceApproved(AppConfig, UserSession, InvoiceId);
+            }
+            else
+            {
+                response.msg = "Cannot unapprove because status is " + Status + ".";
+                response.success = false;
+            }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    

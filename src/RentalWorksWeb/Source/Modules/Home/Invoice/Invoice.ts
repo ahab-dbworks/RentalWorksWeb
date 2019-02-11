@@ -702,7 +702,7 @@ class Invoice {
         let html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Would you like to void this Invoice?</div>');
+        html.push('    <div>Void Invoice?</div>');
         html.push('  </div>');
         html.push('</div>');
 
@@ -721,7 +721,7 @@ class Invoice {
             $yes.text('Voiding...');
             $yes.off('click');
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/void/${invoiceId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwModule.refreshForm($form, self);
@@ -764,7 +764,7 @@ FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = functi
             let html = [];
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-            html.push('    <div>Void this Invoice?</div>');
+            html.push('    <div>Void Invoice?</div>');
             html.push('  </div>');
             html.push('</div>');
 
@@ -782,7 +782,7 @@ FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = functi
                 $yes.text('Voiding...');
                 $yes.off('click');
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/void/${invoiceId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
@@ -820,7 +820,7 @@ FwApplicationTree.clickEvents['{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}'] = functi
     var $form, invoiceId;
     $form = jQuery(this).closest('.fwform');
     invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
         if (response.success === true) {
             FwModule.refreshForm($form, InvoiceController);
         } else {
@@ -834,7 +834,7 @@ FwApplicationTree.clickEvents['{F8C5F06C-4B9D-4495-B589-B44B02AE7915}'] = functi
     var $form, invoiceId;
     $form = jQuery(this).closest('.fwform');
     invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
         if (response.success === true) {
             FwModule.refreshForm($form, InvoiceController);
         } else {
@@ -851,7 +851,7 @@ FwApplicationTree.clickEvents['{9D1A3607-EE4A-49E6-8EAE-DB3E0FF06EAE}'] = functi
     try {
         invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
         if (typeof invoiceId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
                     FwBrowse.search($browse);
                 } else {
@@ -874,7 +874,7 @@ FwApplicationTree.clickEvents['{F9D43CB6-2666-4AE0-B35C-77735561B9B9}'] = functi
     try {
         invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
         if (typeof invoiceId !== 'undefined') {
-            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/toggleapproved/${invoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
                     FwBrowse.search($browse);
                 } else {
