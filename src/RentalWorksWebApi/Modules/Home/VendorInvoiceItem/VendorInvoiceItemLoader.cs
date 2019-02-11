@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Home.VendorInvoiceItem
 {
-    [FwSqlTable("vendorinvoiceitemview")]
+    [FwSqlTable("vendorinvoiceitemwebview")]
     public class VendorInvoiceItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
