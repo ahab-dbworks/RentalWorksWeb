@@ -169,8 +169,15 @@ namespace FwStandard.SqlServer
                         }
                         else
                         {
-                            worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
-                            worksheetcol++;
+                            if (col.DataType == FwDataTypes.Decimal || col.DataType == FwDataTypes.Percentage || col.DataType == FwDataTypes.Integer || col.DataType == FwDataTypes.CurrencyStringNoDollarSign || col.DataType == FwDataTypes.CurrencyString || col.DataType == FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces)
+                            {
+                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDecimal();
+                                worksheetcol++;
+                            } else
+                            {
+                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
+                                worksheetcol++;
+                            }
                         }
                     }
                 }
