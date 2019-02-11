@@ -9106,7 +9106,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"DealId\": \"A0003JR4\",\n    \"Deal\": \"63928 ADVANCED BILLING2XXX\",\n    \"DealNumber\": \"L200029\"\n}"
+							"raw": "{\n\t\"DealId\":\"B005UACS\",\n\t\"Address2\":\"\",\n\t\"_Custom\":[\n\t\t{\"FieldName\":\"Last Verified Date\",\"FieldValue\":\"02/05/2019\"}\n\t\t]\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/deal",
@@ -39288,7 +39288,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ICode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"RepairId\": \"00002UMU\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ICode\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"totalfields\": [\"GrossTotal\", \"DiscountAmount\", \"Extended\", \"Tax\", \"Total\"],\n    \t\"uniqueids\":\n    \t{\n    \t\t\"RepairId\": \"F01R12OB\"\n    \t\t\n    \t}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/repaircost/browse",
@@ -44330,6 +44330,218 @@
 			]
 		},
 		{
+			"name": "Transfer Order",
+			"item": [
+				{
+					"name": "Transfer Order: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"TransferDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/transferorder/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"transferorder",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Order: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/transferorder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"transferorder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Order: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/transferorder/F006Y96N",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"transferorder",
+								"F006Y96N"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Order: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/transferorder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"transferorder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Order: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"TransferOrderId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/transferorder",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"transferorder"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Transfer Order: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/transferorder/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"transferorder",
+								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Unit",
 			"item": [
 				{
@@ -48223,6 +48435,218 @@
 								"api",
 								"v1",
 								"vendorinvoicenote",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Invoice Note: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoicenote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoicenote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Invoice Note: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoicenote/00002WPC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoicenote",
+								"00002WPC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Invoice Note: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoicenote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoicenote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Invoice Note: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"VendorInvoiceNoteId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoicenote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoicenote"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Vendor Invoice Note: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoicenote/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoicenote",
+								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vendor Invoice Item",
+			"item": [
+				{
+					"name": "Vendor Invoice Item: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"totalfields\": [\"LineTotal\", \"Tax\", \"LineTotalWithTax\"],\n    \t\"uniqueids\": {\"VendorInvoiceId\": \"F001COEB\"}\n\t\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoiceitem/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoiceitem",
 								"browse"
 							]
 						}
@@ -53228,6 +53652,112 @@
 								"widget",
 								"loadbyname",
 								"customersbytype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Load: Sales Revenue By Item",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/widget/loadbyname/customersbytype",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"widget",
+								"loadbyname",
+								"customersbytype"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Load: Any Widget",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/widget/loadbyname/revenuebytypebylocation?dataPoints=10&locationId=&warehouseId=B0029AY5&departmentId=B003KSM1&DateBehaviorId=DATERANGESPECIFICDATES&fromDate=2017-01-01T00:00:00&toDate=2017-12-31T00:00:00&datefield=REVENUEDATE",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"widget",
+								"loadbyname",
+								"revenuebytypebylocation"
+							],
+							"query": [
+								{
+									"key": "dataPoints",
+									"value": "10"
+								},
+								{
+									"key": "locationId",
+									"value": ""
+								},
+								{
+									"key": "warehouseId",
+									"value": "B0029AY5"
+								},
+								{
+									"key": "departmentId",
+									"value": "B003KSM1"
+								},
+								{
+									"key": "DateBehaviorId",
+									"value": "DATERANGESPECIFICDATES"
+								},
+								{
+									"key": "fromDate",
+									"value": "2017-01-01T00:00:00"
+								},
+								{
+									"key": "toDate",
+									"value": "2017-12-31T00:00:00"
+								},
+								{
+									"key": "datefield",
+									"value": "REVENUEDATE"
+								}
 							]
 						}
 					},

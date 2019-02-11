@@ -41,6 +41,9 @@ namespace WebApi.Modules.Home.DealOrder
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "fromwarehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string FromWarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------
@@ -339,9 +342,6 @@ public string Whfromnotes { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "requestsentat", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")] 
 public string Requestsentat { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "fromwarehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string FromwarehouseId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "requesttoid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
 public string RequesttoId { get; set; } 
