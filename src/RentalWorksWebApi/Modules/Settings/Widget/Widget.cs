@@ -133,6 +133,7 @@ namespace WebApi.Modules.Settings.Widget
         public string locationId = "";
         public string warehouseId = "";
         public string departmentId = "";
+        public string locationCodes = "";  // for output 
 
         //date values
         public string dateBehaviorId = "";
@@ -419,6 +420,14 @@ namespace WebApi.Modules.Settings.Widget
                 qry.AddParameter("@outputtodate", System.Data.SqlDbType.Date, System.Data.ParameterDirection.Output);
                 paramsAdded = true;
 
+                if (paramsAdded)
+                {
+                    qry.Add(",");
+                }
+                qry.Add(" @outputloccodes = @outputloccodes output");
+                qry.AddParameter("@outputloccodes", System.Data.SqlDbType.VarChar, System.Data.ParameterDirection.Output);
+                paramsAdded = true;
+
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
 
                 if (qry.GetParameter("@outputfromdate").FieldValue == DBNull.Value)
@@ -431,6 +440,7 @@ namespace WebApi.Modules.Settings.Widget
                     fromDate = qry.GetParameter("@outputfromdate").ToDateTime();
                     toDate = qry.GetParameter("@outputtodate").ToDateTime();
                 }
+                locationCodes = qry.GetParameter("@outputloccodes").ToString();
 
                 loaded = PopulateDataSets(table);
             }
