@@ -32,7 +32,7 @@ namespace WebApi.Modules.Reports.InventoryPurchaseHistoryReport
     {
         protected string AvailableForFilter = "X";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
@@ -155,6 +155,7 @@ namespace WebApi.Modules.Reports.InventoryPurchaseHistoryReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Quantity", "ExtendedCost" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);

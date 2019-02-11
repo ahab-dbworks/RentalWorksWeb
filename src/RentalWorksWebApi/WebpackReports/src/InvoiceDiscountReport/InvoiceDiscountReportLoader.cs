@@ -8,6 +8,7 @@ using System.Data;
 using System.Reflection;
 using WebLibrary;
 using System;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Reports.InvoiceDiscountReport
 {
@@ -15,7 +16,7 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
     public class InvoiceDiscountReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
@@ -106,6 +107,7 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
         {
             useWithNoLock = false;
             FwJsonDataTable dt = null;
+
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
@@ -145,6 +147,7 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "InvoiceGrossTotal", "DiscountAmountWithDaysPerWeek", "TotalActual" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);

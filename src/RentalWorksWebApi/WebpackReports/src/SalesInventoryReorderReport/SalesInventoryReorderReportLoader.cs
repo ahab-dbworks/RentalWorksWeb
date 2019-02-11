@@ -13,7 +13,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReorderReport
     public class SalesInventoryReorderReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
@@ -109,6 +109,7 @@ namespace WebApi.Modules.Reports.SalesInventoryReorderReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Quantity", "QuantityAllocated", "QuantityStaged", "QuantityInTransit", "QuantityOnPo", "LastPurchaseQuantity" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);

@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
     public class ProjectManagerBillingReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
@@ -171,6 +171,7 @@ namespace WebApi.Modules.Reports.ProjectManagerBillingReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
                 dt.InsertSubTotalRows("ProjectManager", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);

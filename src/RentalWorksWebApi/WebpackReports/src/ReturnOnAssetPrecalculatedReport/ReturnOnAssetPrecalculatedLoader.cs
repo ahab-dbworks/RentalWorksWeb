@@ -183,6 +183,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             //string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
             //dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
             //dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);

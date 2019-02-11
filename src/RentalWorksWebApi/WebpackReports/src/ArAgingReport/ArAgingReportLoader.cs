@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
     public class ArAgingReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "arid", modeltype: FwDataTypes.Text)]
@@ -136,6 +136,7 @@ namespace WebApi.Modules.Reports.ArAgingReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Total", "Total0030", "Total3160", "Total6190", "Total91x" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);

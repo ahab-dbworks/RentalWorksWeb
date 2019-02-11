@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
     public class DealOutstandingItemsReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
@@ -231,6 +231,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);

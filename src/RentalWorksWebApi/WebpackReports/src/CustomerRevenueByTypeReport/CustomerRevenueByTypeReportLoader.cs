@@ -15,7 +15,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
     public class CustomerRevenueByTypeReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
@@ -131,6 +131,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Rental", "Sales", "Facilities", "Labor", "Miscellaneous", "AssetSale", "Parts", "Tax", "Total" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);

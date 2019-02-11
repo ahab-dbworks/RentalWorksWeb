@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
     public class CreateInvoiceProcessReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicebatchid", modeltype: FwDataTypes.Text)]
@@ -122,6 +122,7 @@ namespace WebApi.Modules.Reports.CreateInvoiceProcessReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "InvoiceCount", "ExceptionCount", "InvoiceTotal" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);

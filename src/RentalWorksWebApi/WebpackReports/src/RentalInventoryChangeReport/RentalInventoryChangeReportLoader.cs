@@ -12,7 +12,7 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
     public class RentalInventoryChangeReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "RowType", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "InventoryKey", modeltype: FwDataTypes.Text)]
@@ -135,6 +135,7 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "AdditionQuantity", "ExtendedAdditionPrice", "SubtractionQuantity", "ExtendedSubtractionPrice" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("Description", "RowType", totalFields);

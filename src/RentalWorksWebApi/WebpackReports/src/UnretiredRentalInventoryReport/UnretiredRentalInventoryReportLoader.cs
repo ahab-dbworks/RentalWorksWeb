@@ -13,7 +13,7 @@ namespace WebApi.Modules.Reports.UnretiredRentalInventoryReport
     public class UnretiredRentalInventoryReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
@@ -215,6 +215,7 @@ namespace WebApi.Modules.Reports.UnretiredRentalInventoryReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Quantity" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);

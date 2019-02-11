@@ -15,7 +15,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
     public class CreditsOnAccountReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
@@ -71,6 +71,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "TotalDepletingDeposit", "TotalCredit", "TotalOverpayment", "TotalDeposit", "TotalApplied", "TotalRefunded", "Remaining" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);

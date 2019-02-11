@@ -10,7 +10,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
     public class AgentBillingReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
@@ -167,6 +167,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
                 dt.InsertSubTotalRows("Agent", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);

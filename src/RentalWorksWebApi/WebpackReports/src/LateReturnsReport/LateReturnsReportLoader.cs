@@ -15,7 +15,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
     public class LateReturnsReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
@@ -257,6 +257,7 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         //        }
         //    }
 
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
         //    string[] totalFields = new string[] { "Quantity", "ItemUnitValueExtended", "ItemReplacementCostExtended" };
         //    dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
         //    dt.InsertSubTotalRows("Deal", "RowType", totalFields);

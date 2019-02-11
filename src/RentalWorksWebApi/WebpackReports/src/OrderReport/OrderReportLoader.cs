@@ -18,7 +18,7 @@ namespace WebApi.Modules.Reports.OrderReport
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
@@ -55,6 +55,7 @@ namespace WebApi.Modules.Reports.OrderReport
                 }
                 //--------------------------------------------------------------------------------- 
             }
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "PeriodExtended" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);

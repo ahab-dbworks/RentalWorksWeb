@@ -17,7 +17,7 @@ namespace WebApi.Modules.Reports.PickListReport
     public class PickListItemReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "picklistid", modeltype: FwDataTypes.Text)]
@@ -306,6 +306,7 @@ namespace WebApi.Modules.Reports.PickListReport
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
             string[] totalFields = new string[] { "PickQuantity" };
             dt.InsertSubTotalRows("RecTypeDisplay", "RowType", totalFields);
             //dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);

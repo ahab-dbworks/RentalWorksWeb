@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.CrewSignInReport
     public class CrewSignInReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; } = string.Empty;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reccount", modeltype: FwDataTypes.Integer)]
@@ -107,6 +107,7 @@ namespace WebApi.Modules.Reports.CrewSignInReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "RecCount" };
                 dt.InsertSubTotalRows("Location", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);

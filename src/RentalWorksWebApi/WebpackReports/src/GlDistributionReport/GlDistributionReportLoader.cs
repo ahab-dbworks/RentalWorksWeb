@@ -13,7 +13,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
     public class GlDistributionReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
@@ -73,6 +73,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Debit", "Credit" };
                 dt.InsertSubTotalRows("Location", "RowType", totalFields);
                 dt.InsertSubTotalRows("GroupHeading", "RowType", totalFields);

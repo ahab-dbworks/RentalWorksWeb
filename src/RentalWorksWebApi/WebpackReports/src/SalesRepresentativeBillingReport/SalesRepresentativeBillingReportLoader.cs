@@ -14,7 +14,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
     public class SalesRepresentativeBillingReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
@@ -171,6 +171,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
                 dt.InsertSubTotalRows("SalesRepresentative", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);

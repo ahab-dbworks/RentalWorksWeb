@@ -12,7 +12,7 @@ namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
     public class VendorInvoiceBatchReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chgbatchid", modeltype: FwDataTypes.Text)]
@@ -72,6 +72,7 @@ namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
+                dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "InvoiceTotal" };
                 dt.InsertSubTotalRows("Location", "RowType", totalFields);
                 dt.InsertSubTotalRows("Vendor", "RowType", totalFields);
