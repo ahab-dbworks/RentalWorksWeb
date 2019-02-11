@@ -1976,6 +1976,54 @@
 					"response": []
 				},
 				{
+					"name": "Check-Out: Staging Tabs",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/checkout/stagingtabs?OrderId=I0000974&WarehouseId=B0029AY5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"checkout",
+								"stagingtabs"
+							],
+							"query": [
+								{
+									"key": "OrderId",
+									"value": "I0000974"
+								},
+								{
+									"key": "WarehouseId",
+									"value": "B0029AY5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Check-Out: Stage Item (barcode)",
 					"request": {
 						"method": "POST",

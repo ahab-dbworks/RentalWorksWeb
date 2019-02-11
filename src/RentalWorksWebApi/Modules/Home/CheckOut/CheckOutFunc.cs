@@ -12,27 +12,27 @@ namespace WebApi.Modules.Home.CheckOut
 
     public class OrderInventoryStatusCheckOut
     {
-        public string ICode{ get; set; }
-        public string Description{ get; set; }
-        public int QuantityOrdered{ get; set; }
-        public int QuantitySub{ get; set; }
-        public int QuantityStaged{ get; set; }
-        public int QuantityOut{ get; set; }
-        public int QuantityIn{ get; set; }
-        public int QuantityRemaining{ get; set; }
+        public string ICode { get; set; }
+        public string Description { get; set; }
+        public int QuantityOrdered { get; set; }
+        public int QuantitySub { get; set; }
+        public int QuantityStaged { get; set; }
+        public int QuantityOut { get; set; }
+        public int QuantityIn { get; set; }
+        public int QuantityRemaining { get; set; }
     }
 
     public class StageItemReponse : TSpStatusReponse
     {
-        public string InventoryId{ get; set; }
-        public string OrderItemId{ get; set; }
-        public int QuantityStaged{ get; set; }
+        public string InventoryId { get; set; }
+        public string OrderItemId { get; set; }
+        public int QuantityStaged { get; set; }
 
         public OrderInventoryStatusCheckOut InventoryStatus = new OrderInventoryStatusCheckOut();
 
-        public bool ShowAddItemToOrder{ get; set; }
-        public bool ShowAddCompleteToOrder{ get; set; }
-        public bool ShowUnstage{ get; set; }
+        public bool ShowAddItemToOrder { get; set; }
+        public bool ShowAddCompleteToOrder { get; set; }
+        public bool ShowUnstage { get; set; }
     }
 
     public class CheckOutAllStagedResponse : TSpStatusReponse
@@ -51,6 +51,14 @@ namespace WebApi.Modules.Home.CheckOut
     {
     }
 
+    public class StagingTabsResponse : TSpStatusReponse
+    {
+        public bool QuantityTab = false;
+        public bool HoldingTab = false;
+        public bool SerialTab = false;
+        public bool UsageTab = false;
+        public bool ConsignmentTab = false;
+    }
 
 
     public static class CheckOutFunc
@@ -163,7 +171,7 @@ namespace WebApi.Modules.Home.CheckOut
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "selectallstagedquantity", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
-                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, selectAll? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE);
+                qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -185,11 +193,7 @@ namespace WebApi.Modules.Home.CheckOut
             return await SelectAllNoneStageQuantityItem(appConfig, userSession, orderId, false);
         }
         //-------------------------------------------------------------------------------------------------------
-
-
-
-
-        public static async Task<CheckOutAllStagedResponse> CheckOutAllStaged (FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
+        public static async Task<CheckOutAllStagedResponse> CheckOutAllStaged(FwApplicationConfig appConfig, FwUserSession userSession, string orderId)
         {
             CheckOutAllStagedResponse response = new CheckOutAllStagedResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -279,6 +283,30 @@ namespace WebApi.Modules.Home.CheckOut
             }
             return response;
         }
-    //-------------------------------------------------------------------------------------------------------    
-}
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<StagingTabsResponse> GetStagingTabs(FwApplicationConfig appConfig, FwUserSession userSession, string orderId, string warehouseId)
+        {
+            StagingTabsResponse response = new StagingTabsResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "getstagingtabsweb", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
+                qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, warehouseId);
+                qry.AddParameter("@hasquantity", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@hasholding", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@hasserial", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@hasusage", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@hasconsignment", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync(true);
+                response.success = true;
+                response.QuantityTab = FwConvert.ToBoolean(qry.GetParameter("@hasquantity").ToString());
+                response.HoldingTab = FwConvert.ToBoolean(qry.GetParameter("@hasholding").ToString());
+                response.SerialTab = FwConvert.ToBoolean(qry.GetParameter("@hasserial").ToString());
+                response.UsageTab = FwConvert.ToBoolean(qry.GetParameter("@hasusage").ToString());
+                response.ConsignmentTab = FwConvert.ToBoolean(qry.GetParameter("@hasconsignment").ToString());
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+    }
 }

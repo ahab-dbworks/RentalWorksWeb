@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.CheckOut
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"H0sf3MFhL0VK")]
+    [FwController(Id: "H0sf3MFhL0VK")]
     public class CheckOutController : AppDataController
     {
         public CheckOutController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
@@ -86,17 +86,46 @@ namespace WebApi.Modules.Home.CheckOut
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/checkout/stagingtabs?OrderId&WarehouseId
+        [HttpGet("stagingtabs")]
+        [FwControllerMethod(Id: "2EfNs9npvIhkL")]
+        public async Task<ActionResult<StagingTabsResponse>> GetStagingTabs(string OrderId, string WarehouseId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                StagingTabsResponse response = new StagingTabsResponse();
+                response.success = false;
+                if (string.IsNullOrEmpty(OrderId))
+                {
+                    response.msg = "OrderId is required.";
+                }
+                else if (string.IsNullOrEmpty(WarehouseId))
+                {
+                    response.msg = "WarehouseId is required.";
+                }
+                else
+                {
+                    response = await CheckOutFunc.GetStagingTabs(AppConfig, UserSession, OrderId, WarehouseId);
+                }
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
         // POST api/v1/checkout/stageitem
         [HttpPost("stageitem")]
-        [FwControllerMethod(Id:"cjSZS0HLutCV")]
+        [FwControllerMethod(Id: "cjSZS0HLutCV")]
         public async Task<ActionResult<StageItemReponse>> StageItem([FromBody]StageItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -126,17 +155,13 @@ namespace WebApi.Modules.Home.CheckOut
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/checkoutallstaged
         [HttpPost("checkoutallstaged")]
-        [FwControllerMethod(Id:"3Ocr6r5He3xF")]
+        [FwControllerMethod(Id: "3Ocr6r5He3xF")]
         public async Task<ActionResult<CheckOutAllStagedResponse>> CheckOutAllStaged([FromBody]CheckOutAllStagedRequest request)
         {
             if (!ModelState.IsValid)
@@ -161,17 +186,13 @@ namespace WebApi.Modules.Home.CheckOut
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/startcheckoutcontract
         [HttpPost("startcheckoutcontract")]
-        [FwControllerMethod(Id:"O6ibb6WOwzzg")]
+        [FwControllerMethod(Id: "O6ibb6WOwzzg")]
         public async Task<ActionResult<CreateOutContractResponse>> StartCheckOutContract([FromBody]CreateOutContractRequest request)
         {
             if (!ModelState.IsValid)
@@ -196,17 +217,13 @@ namespace WebApi.Modules.Home.CheckOut
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/movestageditemtoout
         [HttpPost("movestageditemtoout")]
-        [FwControllerMethod(Id:"fbWJYkPbqpBE")]
+        [FwControllerMethod(Id: "fbWJYkPbqpBE")]
         public async Task<ActionResult<MoveStagedItemResponse>> MoveStagedItemToOut([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -239,17 +256,13 @@ namespace WebApi.Modules.Home.CheckOut
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/moveoutitemtostaged
         [HttpPost("moveoutitemtostaged")]
-        [FwControllerMethod(Id:"b705dpUOY3rJ")]
+        [FwControllerMethod(Id: "b705dpUOY3rJ")]
         public async Task<ActionResult<MoveStagedItemResponse>> MoveOutItemToStaged([FromBody]MoveStagedItemRequest request)
         {
             if (!ModelState.IsValid)
@@ -282,17 +295,13 @@ namespace WebApi.Modules.Home.CheckOut
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/checkout/completecheckoutcontract
+        // POST api/v1/checkout/completecheckoutcontract/A0000001
         [HttpPost("completecheckoutcontract/{id}")]
-        [FwControllerMethod(Id:"b1UmILugTF0F")]
+        [FwControllerMethod(Id: "b1UmILugTF0F")]
         public async Task<ActionResult<ContractLogic>> CompleteCheckOutContractAsync([FromRoute]string id)
         {
             if (!ModelState.IsValid)
@@ -320,11 +329,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------       
