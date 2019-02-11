@@ -1744,7 +1744,7 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     getRequest($control: JQuery): BrowseRequest {
-        var $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype, searchSeparator;
+        var $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype, searchSeparator, sortSequence;
         orderby = [];
         let request = new BrowseRequest();
         request.module = '';
@@ -1782,6 +1782,7 @@ class FwBrowseClass {
             $txtSearch = $field.find('> div.search > input');
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
+            sortSequence = $field.attr('data-sortsequence');
             fieldtype = $field.attr('data-browsedatatype');
             if (typeof $field.attr('data-datafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-datafield');
@@ -1818,12 +1819,18 @@ class FwBrowseClass {
                 }
                 request.searchfieldvalues.push(value);
             }
-            if (sort === 'asc') {
-                orderby.push(browsedatafield + ' asc');
-            }
-            if (sort === 'desc') {
-                orderby.push(browsedatafield + ' desc');
-            }
+
+            if (sort === 'asc' || sort === 'desc') {
+                orderby.push({
+                    Field: `${browsedatafield} ${sort}`
+                    , SortSequence: sortSequence
+                });
+            } else if (typeof sortSequence != 'undefined') {
+                orderby.push({
+                    Field: `${browsedatafield}`
+                    , SortSequence: sortSequence
+                });
+            };
         });
         if (typeof $control.attr('data-hasinactive') === 'string' && $control.attr('data-hasinactive') === 'true') {
             if (typeof $control.attr('data-activeinactiveview') !== 'string') {
@@ -1866,8 +1873,12 @@ class FwBrowseClass {
             request.searchseparators = advancedSearch.searchseparators;
             request.searchconjunctions = advancedSearch.searchconjunctions;
         }
-        orderby = orderby.join(',');
-        request.orderby = orderby;
+        //sort orderby list by sequence, map to return only the field, and join into a string
+        request.orderby = orderby
+            .sort((a, b) => (a.SortSequence > b.SortSequence) ? 1 : ((b.SortSequence > a.SortSequence) ? -1 : 0))
+            .map(a => a.Field)
+            .join();
+
         if (typeof $control.data('ondatabind') === 'function') {
             $control.data('ondatabind')(request);  // you can attach an ondatabind function to the browse control if you need to add custom parameters to the request
         }
@@ -3324,7 +3335,7 @@ class FwBrowseClass {
                 }, null, null);
                 FwConfirmation.destroyConfirmation($confirmation);
                 FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
-                });
+            });
         } else {
             FwNotification.renderNotification('WARNING', 'There are no records to export.');
         }
