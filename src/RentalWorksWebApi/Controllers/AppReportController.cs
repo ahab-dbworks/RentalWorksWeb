@@ -14,7 +14,6 @@ using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Controllers
 {
-
     public class AppReportRequest
     {
         public bool IncludeSubHeadingsAndSubTotals { get; set; } = true;
@@ -52,8 +51,8 @@ namespace WebApi.Controllers
                 }
 
                 string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
-                string downloadFileName = strippedWorksheetName + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-                string filename = this.UserSession.WebUsersId + "_" + strippedWorksheetName + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_xlsx";
+                string downloadFileName = $"{strippedWorksheetName}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
+                string filename = $"{this.UserSession.WebUsersId}_{strippedWorksheetName}_{Guid.NewGuid().ToString().Replace("-", string.Empty)}_xlsx";
                 string directory = FwDownloadController.GetDownloadsDirectory();
                 string path = Path.Combine(directory, filename);
 

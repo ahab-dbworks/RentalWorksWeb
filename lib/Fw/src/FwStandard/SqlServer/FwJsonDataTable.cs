@@ -169,7 +169,8 @@ namespace FwStandard.SqlServer
                         }
                         else
                         {
-                            if (col.DataType == FwDataTypes.Decimal || col.DataType == FwDataTypes.Percentage || col.DataType == FwDataTypes.Integer || col.DataType == FwDataTypes.CurrencyStringNoDollarSign || col.DataType == FwDataTypes.CurrencyString || col.DataType == FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces)
+                            FwDataTypes[] numericTypes = { FwDataTypes.Decimal, FwDataTypes.Percentage, FwDataTypes.Integer, FwDataTypes.CurrencyStringNoDollarSign, FwDataTypes.CurrencyString, FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces };
+                            if (Array.Exists(numericTypes, element => element == col.DataType))
                             {
                                 worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDecimal();
                                 worksheetcol++;
