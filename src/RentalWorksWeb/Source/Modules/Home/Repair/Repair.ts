@@ -12,7 +12,7 @@ class Repair {
 
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -29,7 +29,7 @@ class Repair {
                 }
                 filter.datafield = datafields.join('')
                 const parsedSearch = filter.search.replace(/%20/g, " ");
-                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(parsedSearch);
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
             }
 
             FwBrowse.databind($browse);
@@ -55,12 +55,8 @@ class Repair {
         });
 
         FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-            const out = response.filter(item => {
-                return item.StatusType === 'OUT';
-            })
-            const intransit = response.filter(item => {
-                return item.StatusType === 'INTRANSIT';
-            })
+            const out = response.filter(item => item.StatusType === 'OUT');
+            const intransit = response.filter(item => item.StatusType === 'INTRANSIT');
 
             FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
             FwBrowse.addLegend($browse, 'Priority', '#EA300F');
