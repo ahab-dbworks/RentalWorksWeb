@@ -42,7 +42,7 @@ class Invoice {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const  location = JSON.parse(sessionStorage.getItem('location'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
         this.ActiveView = `LocationId=${location.locationid}`;
 
         $browse.data('ondatabind', request => {

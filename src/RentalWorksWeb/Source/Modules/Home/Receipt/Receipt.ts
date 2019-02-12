@@ -12,20 +12,20 @@ class Receipt {
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
         screen.viewModel = {};
         screen.properties = {};
 
-        var $browse: any = this.openBrowse();
+        const $browse: any = this.openBrowse();
         const today = FwFunc.getDate();
 
         screen.load = () =>  {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
-                var datafields = filter.datafield.split('%20');
-                for (var i = 0; i < datafields.length; i++) {
+                const datafields = filter.datafield.split('%20');
+                for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
@@ -50,60 +50,56 @@ class Receipt {
         let $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        let location = JSON.parse(sessionStorage.getItem('location'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
         this.ActiveView = `LocationId=${location.locationid}`;
-
         $browse.data('ondatabind', request => {
             request.activeview = this.ActiveView;
         });
 
-        FwBrowse.addLegend($browse, 'Overpayment', '#80FFFF');
-        FwBrowse.addLegend($browse, 'Depleting Deposit', '#37D303'); // no color in res
-        FwBrowse.addLegend($browse, 'Refund Check', '#FF8888');
-        FwBrowse.addLegend($browse, 'NSF Adjustment', '#6F6FFF');
-        FwBrowse.addLegend($browse, 'Write Off', '#D6E180'); // no color in res
-        FwBrowse.addLegend($browse, 'Credit Memo', '#D6ABAB');
+        FwBrowse.addLegend($browse, 'Overpayment', '#FFFF80');
+        FwBrowse.addLegend($browse, 'Depleting Deposit', '#37D303');
+        FwBrowse.addLegend($browse, 'Refund Check', '#6F6FFF');
+        FwBrowse.addLegend($browse, 'NSF Adjustment', '#FF6F6F');
+        FwBrowse.addLegend($browse, 'Write Off', '#FF8040');
+        FwBrowse.addLegend($browse, 'Credit Memo', '#ABABD6');
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
         //Location Filter
-        let location = JSON.parse(sessionStorage.getItem('location'));
-        let $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        let $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
         $allLocations.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
         $userLocation.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
+            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
             this.ActiveView = `LocationId=${location.locationid}`;
             FwBrowse.search($browse);
         });
-        let viewLocation = [];
+        const viewLocation = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
-        var $form: any = FwModule.loadFormFromTemplate(this.Module);
+        let $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
-            const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-            const name = sessionStorage.getItem('name');
+            const location = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValueByDataField($form, 'LocationId', location.locationid);
             const today = FwFunc.getDate();
-            const locationId = JSON.parse(sessionStorage.getItem('location'));
-
-            FwFormField.setValueByDataField($form, 'LocationId', locationId.locationid);
             FwFormField.setValueByDataField($form, 'ReceiptDate', today);
             FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
             FwFormField.enable($form.find('div[data-datafield="DealId"]'));
             FwFormField.enable($form.find('div[data-datafield="CustomerId"]'));
+            const usersid = sessionStorage.getItem('usersid');  // J. Pace 7/09/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const name = sessionStorage.getItem('name');
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
             // Deal and Customer fields
             $form.find('.deal-customer').data('onchange', () => {
@@ -172,30 +168,28 @@ class Receipt {
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form: any = this.openForm('EDIT');
+        const $form: any = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'ReceiptId', uniqueids.ReceiptId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
     //----------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
+    saveForm($form: any, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
         FwFormField.disable($form.find('div[data-datafield="PaymentBy"]'));
         FwFormField.disable($form.find('div[data-datafield="DealId"]'));
         FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid: string = FwFormField.getValueByDataField($form, 'ReceiptId');
+    loadAudit($form: any): void {
+        const uniqueid: string = FwFormField.getValueByDataField($form, 'ReceiptId');
         FwModule.loadAudit($form, uniqueid);
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        let $glDistributionGrid;
-        let $glDistributionGridControl;
-        $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
-        $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
+        const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
+        const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
         $glDistributionGrid.empty().append($glDistributionGridControl);
         $glDistributionGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -205,15 +199,9 @@ class Receipt {
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
         // ----------
-
-        // ----------
-
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
-        // let $customerResaleGrid: any = $form.find('[data-name="CompanyResaleGrid"]');
-        // FwBrowse.search($customerResaleGrid);
-
         // Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             let tabname = jQuery(e.currentTarget).attr('id');
@@ -255,26 +243,27 @@ class Receipt {
         }
 
         function getInvoiceData($form: any): void {
-            let request: any = {};
-            let officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
-            let receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
-            let receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
-            let dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
-            let dealCustomerId = $form.find('.deal-customer:visible').attr('data-datafield');
+            const request: any = {};
+            const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+            const receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
+            const receiptDate = FwFormField.getValueByDataField($form, 'ReceiptDate');
 
             request.uniqueids = {
                 OfficeLocationId: officeLocationId,
                 ReceiptId: receiptId,
                 ReceiptDate: receiptDate,
             }
+
+            const dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
+            const dealCustomerId = $form.find('.deal-customer:visible').attr('data-datafield');
             if (dealCustomerId === 'DealId') {
                 request.uniqueids.DealId = dealCustomer;
             } else {
                 request.uniqueids.CustomerId = dealCustomer;
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
-                let rows = res.Rows;
-                let htmlRows: Array<string> = [];
+                const rows = res.Rows;
+                const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
                         htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td>
@@ -300,17 +289,16 @@ class Receipt {
                     })();
                     // Amount column listener
                     $form.find('.invoice-amount input').on('change', e => {
-                        let $tab, $tabpage, val, el;
                         e.stopPropagation();
-                        el = jQuery(e.currentTarget)
-                        val = el.val()
+                        const el = jQuery(e.currentTarget);
+                        const val = el.val();
                         if (val === '0.00' || val === '') {
                             el.css('background-color', 'white');
                         } else {
                             el.css('background-color', '#F4FFCC');
                         }
-                        $tabpage = $form.parent();
-                        $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+                        const $tabpage = $form.parent();
+                        const $tab = jQuery('#' + $tabpage.attr('data-tabid'));
                         $tab.find('.modified').html('*');
                         $form.attr('data-modified', 'true');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
@@ -318,7 +306,7 @@ class Receipt {
                     // btnpeek
                     $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
                         try {
-                            let $td = jQuery(this).parent();
+                            const $td = jQuery(this).parent();
                             FwValidation.validationPeek($form, $td.attr('data-validationname'), $td.attr('data-datafield'), $td.attr('data-datafield'), $form, $td.attr('data-displayfield'));
                         } catch (ex) {
                             FwFunc.showError(ex)
@@ -338,12 +326,12 @@ class Receipt {
         let $amountFields = $form.find('.invoice-amount input');
         let InvoiceDataList: any = [];
         for (let i = 0; i < $invoiceIdFields.length; i++) {
-            let fields: any = {}
             let invoiceId = $invoiceIdFields.eq(i).text();
             let invoiceReceiptId = $invoiceReceiptIds.eq(i).text();
             let amount: any = $amountFields.eq(i).val();
             amount = amount.replace(/,/g, '');
 
+            const fields: any = {}
             fields.InvoiceReceiptId = invoiceReceiptId;
             fields.InvoiceId = invoiceId;
             fields.Amount = +amount;
