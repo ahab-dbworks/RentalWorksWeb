@@ -100,10 +100,12 @@ class VendorInvoice {
                 VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
             }
             request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"]
+
         })
-        FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', (res) => {
-            console.log('res', res)
-            this.getVendorInvoiceItemGridTotals($form);
+        FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', ($vendorInvoiceItemGridControl, response) => {
+            FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemGrossTotal"]', response.Totals.LineTotal);
+            FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', response.Totals.Tax);
+            FwFormField.setValue($form,  'div[data-totalfield="InvoiceItemTotal"]', response.Totals.LineTotalWithTax);
         })
         FwBrowse.init($vendorInvoiceItemGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
@@ -116,7 +118,7 @@ class VendorInvoice {
                 VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
             };
         });
-        FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', (res) => {
+        FwBrowse.addEventHandler($glDistributionGridControl, 'afterdatabindcallback', () => {
         })
         FwBrowse.init($glDistributionGridControl);
         FwBrowse.renderRuntimeHtml($glDistributionGridControl);
