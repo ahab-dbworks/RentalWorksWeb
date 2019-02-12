@@ -185,7 +185,6 @@ class Customer {
                 CustomerId: customerId
             };
         });
-        FwBrowse.search($browse);
         return $browse;
     }
     //---------------------------------------------------------------------------------------------
@@ -199,7 +198,6 @@ class Customer {
                 CustomerId: customerId
             };
         });
-        FwBrowse.search($browse);
         return $browse;
     }
     //---------------------------------------------------------------------------------------------
@@ -213,7 +211,6 @@ class Customer {
                 CustomerId: customerId
             };
         });
-        FwBrowse.search($browse);
         return $browse;
     }
     //----------------------------------------------------------------------------------------------

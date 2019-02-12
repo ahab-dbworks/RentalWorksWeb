@@ -327,7 +327,6 @@ class Order extends OrderBase {
                 OrderId: orderId
             };
         });
-        FwBrowse.search($browse);
         return $browse;
     }
    //---------------------------------------------------------------------------------------------
@@ -341,7 +340,6 @@ class Order extends OrderBase {
                 OrderId: orderId
             };
         });
-        FwBrowse.search($browse);
         return $browse;
     }
    //---------------------------------------------------------------------------------------------

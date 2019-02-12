@@ -63,7 +63,7 @@ class PurchaseOrder {
             request.activeview = this.ActiveView;
         });
 
-        FwBrowse.search($browse);
+        //FwBrowse.search($browse);
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
@@ -273,7 +273,6 @@ class PurchaseOrder {
                 PurchaseOrderId: poId
             };
         });
-        FwBrowse.search($browse);
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
