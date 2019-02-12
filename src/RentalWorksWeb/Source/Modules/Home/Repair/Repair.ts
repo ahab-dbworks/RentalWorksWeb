@@ -369,10 +369,10 @@ class Repair {
             <div class="field" data-isuniqueid="true" data-datafield="RepairId" data-browsedatatype="key" ></div>
           </div>
           <div class="column flexcolumn" max-width="100px" data-visible="true">
-            <div class="field" data-caption="Repair No." data-datafield="RepairNumber" data-browsedatatype="text" data-cellcolor="RepairNumberColor" data-sort="off" data-searchfieldoperators="startswith"></div>
+            <div class="field" data-caption="Repair No." data-datafield="RepairNumber" data-browsedatatype="text" data-cellcolor="RepairNumberColor" data-sort="desc" data-sortsequence="2" data-searchfieldoperators="startswith"></div>
           </div>
           <div class="column flexcolumn" max-width="75px" data-visible="true">
-            <div class="field" data-caption="Date" data-datafield="RepairDate" data-browsedatatype="date" data-sort="desc"></div>
+            <div class="field" data-caption="Date" data-datafield="RepairDate" data-browsedatatype="date" data-sortsequence="1" data-sort="desc"></div>
           </div>
           <div class="column flexcolumn" max-width="250px" data-visible="true">
             <div class="field" data-caption="Bar Code" data-datafield="BarCode" data-browsedatatype="text" data-cellcolor="BarCodeColor" data-sort="off"></div>

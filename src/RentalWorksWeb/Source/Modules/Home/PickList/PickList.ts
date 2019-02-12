@@ -167,13 +167,13 @@ class PickList {
             <div class="field" data-datafield="OrderId" data-browsedatatype="key"></div>
           </div>
           <div class="column" data-width="125px" data-visible="true">
-            <div class="field" data-caption="Pick No." data-datafield="PickListNumber" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Pick No." data-datafield="PickListNumber" data-browsedatatype="text" data-sort="desc" data-sortsequence="3" ></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
-            <div class="field" data-caption="Pick Date" data-datafield="PickDate" data-browsedatatype="text" data-sort="desc"></div>
+            <div class="field" data-caption="Pick Date" data-datafield="PickDate" data-browsedatatype="text" data-sortsequence="1" data-sort="desc"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
-            <div class="field" data-caption="Pick Time" data-datafield="PickTime" data-browsedatatype="text" data-sort="desc"></div>
+            <div class="field" data-caption="Pick Time" data-datafield="PickTime" data-browsedatatype="text" data-sortsequence="2" data-sort="desc"></div>
           </div>
           <div class="column" data-width="125px" data-visible="true">
             <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-browsedatatype="text" data-sort="off"></div>

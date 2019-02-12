@@ -749,10 +749,10 @@ class PurchaseOrder {
               <div class="field" data-isuniqueid="true" data-datafield="PurchaseOrderId" data-browsedatatype="key"></div>
             </div>
             <div class="column" data-width="100px" data-visible="true">
-              <div class="field" data-caption="PO No." data-datafield="PurchaseOrderNumber" data-browsedatatype="text" data-sort="off" data-searchfieldoperators="startswith"></div>
+              <div class="field" data-caption="PO No." data-datafield="PurchaseOrderNumber" data-browsedatatype="text" data-sort="desc" data-sortsequence="2" data-searchfieldoperators="startswith"></div>
             </div>
             <div class="column" data-width="100px" data-visible="true">
-              <div class="field" data-caption="PO Date" data-datafield="PurchaseOrderDate" data-browsedatatype="date" data-sort="desc"></div>
+              <div class="field" data-caption="PO Date" data-datafield="PurchaseOrderDate" data-browsedatatype="date" data-sortsequence="1" data-sort="desc"></div>
             </div>
             <div class="column" data-width="350px" data-visible="true">
               <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-sort="off"></div>

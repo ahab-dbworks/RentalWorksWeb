@@ -252,16 +252,16 @@ class Contract {
           <div class="field" data-isuniqueid="true" data-datafield="ContractId" data-browsedatatype="key"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Contract No." data-datafield="ContractNumber" data-browsedatatype="text" data-sort="off" data-searchfieldoperators="startswith"></div>
+          <div class="field" data-caption="Contract No." data-datafield="ContractNumber" data-browsedatatype="text" data-sort="desc" data-sortsequence="3" data-searchfieldoperators="startswith"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
           <div class="field" data-caption="Type" data-datafield="ContractType" data-browsedatatype="text" data-sort="off"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Date" data-datafield="ContractDate" data-browsedatatype="date" data-sort="desc"></div>
+          <div class="field" data-caption="Date" data-datafield="ContractDate" data-browsedatatype="date" data-sortsequence="1" data-sort="desc"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Time" data-datafield="ContractTime" data-browsedatatype="text" data-sort="desc"></div>
+          <div class="field" data-caption="Time" data-datafield="ContractTime" data-browsedatatype="text" data-sortsequence="2" data-sort="desc"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
           <div class="field" data-caption="Deal" data-datafield="Deal" data-browsedatatype="text" data-sort="off"></div>
