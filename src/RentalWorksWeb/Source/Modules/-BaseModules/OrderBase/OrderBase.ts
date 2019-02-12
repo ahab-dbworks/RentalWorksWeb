@@ -69,18 +69,12 @@ class OrderBase {
             $form.find('[data-datafield="CombineActivity"] input').val(response.CombineActivityTabs);
             let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
                 , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-                , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
+                , miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]')
                 , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
                 , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]')
                 , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
                 , rate = FwFormField.getValueByDataField($form, 'RateType');
-            if (response.CombineActivityTabs === false) {
-                $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
-                $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-                $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-                $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
-            }
+
             if (response.CombineActivityTabs === true) {
                 $form.find('.notcombined').css('display', 'none');
                 $form.find('.notcombinedtab').css('display', 'none');
@@ -91,6 +85,14 @@ class OrderBase {
                 $form.find('.combinedtab').css('display', 'none');
                 $form.find('.notcombined').show();
                 $form.find('.notcombinedtab').show();
+            }
+
+            if (response.CombineActivityTabs === false) {
+                $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+                $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+                $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+                $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
             }
             var hiddenRentals: Array<string> = fieldNames.filter(function (field) {
                 return !this.has(field)
@@ -165,7 +167,7 @@ class OrderBase {
     activityCheckboxEvents($form: any, mode: string) {
         let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
             , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-            , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
+            , miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]')
             , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
             , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
             , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
