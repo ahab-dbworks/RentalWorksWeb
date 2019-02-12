@@ -86,16 +86,17 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
-        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true);
-        var $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false);
-        var $reserved: JQuery = FwMenu.generateDropDownViewBtn('Reserved', false);
-        var $ordered: JQuery = FwMenu.generateDropDownViewBtn('Ordered', false);
-        var $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false);
-        var $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false);
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, true);
+        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true, true);
+        var $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false, true);
+        var $reserved: JQuery = FwMenu.generateDropDownViewBtn('Reserved', false, true);
+        var $ordered: JQuery = FwMenu.generateDropDownViewBtn('Ordered', false, true);
+        var $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false, true);
+        var $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false, true);
 
         $all.on('click', function () {
             var $browse;
+            $all.addClass('select-all-filters');
             $browse = jQuery(this).closest('.fwbrowse');
             self.ActiveView = 'ALL';
             FwBrowse.search($browse);
@@ -147,8 +148,7 @@ class Quote extends OrderBase {
         viewSubitems.push($ordered);
         viewSubitems.push($cancelled);
         viewSubitems.push($closed);
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true);
 
         //Location Filter
         var location = JSON.parse(sessionStorage.getItem('location'));

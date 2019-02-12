@@ -189,14 +189,14 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addViewBtn($control, caption, subitems) {
-        var $btn, btnHtml, btnId, id, $ddBtn, subitemFunc;
+    addViewBtn($control, caption, subitems, allowMultiple?: boolean) {
+        var $btn, btnHtml, btnId, id, $ddBtn;
         id = program.uniqueId(8);
         btnId = 'btn' + id;
         btnHtml = [];
-        btnHtml.push('<div id="' + btnId + '" class="ddviewbtn">');
-        btnHtml.push('  <div class="ddviewbtn-caption">' + caption + ':</div>');
-        btnHtml.push('  <div class="ddviewbtn-select" tabindex="0">');
+        btnHtml.push(`<div id="${btnId}" class="ddviewbtn">`);
+        btnHtml.push(`  <div class="ddviewbtn-caption">${caption}:</div>`);
+        btnHtml.push(`  <div class="ddviewbtn-select ${allowMultiple ? ' multifilter' : ''}" tabindex="0">`);
         btnHtml.push('    <div class="ddviewbtn-select-value"></div>');
         btnHtml.push('    <i class="material-icons">&#xE5C5;</i>'); //arrow_drop_down
         btnHtml.push('    <div class="ddviewbtn-dropdown"></div>')
@@ -208,10 +208,12 @@ class FwMenuClass {
         for (var i = 0; i < subitems.length; i++) {
             $ddBtn = subitems[i];
 
+            if (allowMultiple) {
+                $ddBtn.prepend(`<input type="checkbox">`);
+            }
             $ddBtn.on('click', function (e) {
                 var $this;
                 $this = jQuery(this);
-
                 $btn.find('.ddviewbtn-select-value').empty().html($this.find('.ddviewbtn-dropdown-btn-caption').html());
                 $this.siblings('.ddviewbtn-dropdown-btn.active').removeClass('active');
                 $this.addClass('active');
@@ -225,12 +227,10 @@ class FwMenuClass {
             var $this, maxZIndex;
             $this = jQuery(this);
             e.preventDefault();
-
             if (!$this.hasClass('active')) {
                 maxZIndex = FwFunc.getMaxZ('*');
                 $this.find('.ddviewbtn-dropdown').css('z-index', maxZIndex + 1);
                 $this.addClass('active');
-
                 jQuery(document).one('click', function closeMenu(e) {
                     if (($this.has(e.target).length === 0) && ($this.parent().has(e.target).length === 0)) {
                         $this.removeClass('active');
@@ -243,7 +243,23 @@ class FwMenuClass {
                 $this.removeClass('active');
                 $this.find('.ddviewbtn-dropdown').css('z-index', '0');
             }
+        });
 
+        $btn.on('click', '.ddviewbtn-dropdown-btn', e => {
+            if (allowMultiple) {
+                e.stopPropagation();
+                let $this = jQuery(e.currentTarget);
+                //toggle checkboxes
+                if (jQuery(e.target).attr('type') != 'checkbox') {
+                    $this.find('input[type="checkbox"]').prop('checked', !$this.find('input[type="checkbox"]').prop('checked'));
+                }
+                //check all checkboxes if "ALL" is checked
+                if ($this.hasClass('select-all-filters')) {
+                    if ($this.find('input[type="checkbox"]').prop('checked') === true) {
+                        jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
+                    }
+                }
+            }
         });
 
         $control.find('.buttonbar').append($btn);
@@ -254,9 +270,9 @@ class FwMenuClass {
     generateDropDownViewBtn(caption, active) {
         var btnHtml, $ddBtn;
         btnHtml = [];
-        btnHtml.push('<div class="ddviewbtn-dropdown-btn' + ((active) ? ' active' : '') + '">');
-        btnHtml.push('<div class="ddviewbtn-dropdown-btn-caption">' + caption + '</div>');
-        btnHtml.push('</div>');
+        btnHtml.push(`<div class="ddviewbtn-dropdown-btn ${active ? ' active' : ''}">`);
+        btnHtml.push(`<div class="ddviewbtn-dropdown-btn-caption">${caption}</div>`);
+        btnHtml.push(`</div>`);
 
         $ddBtn = jQuery(btnHtml.join(''));
 
@@ -308,4 +324,4 @@ class FwMenuClass {
     //----------------------------------------------------------------------------------------------
 }
 
-var FwMenu : any = new FwMenuClass();
+var FwMenu: any = new FwMenuClass();
