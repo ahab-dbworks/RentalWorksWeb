@@ -258,6 +258,7 @@ class Quote extends OrderBase {
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
+        this.renderFrames($form);
         return $form;
     };
 
@@ -637,7 +638,6 @@ class Quote extends OrderBase {
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
 
-        this.renderFrames($form);
         this.dynamicColumns($form);
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');

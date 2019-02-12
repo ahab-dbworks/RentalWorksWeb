@@ -267,6 +267,8 @@ class Order extends OrderBase {
         this.events($form);
         this.getSoundUrls($form);
         this.activityCheckboxEvents($form, mode);
+        this.renderFrames($form);
+
         return $form;
     };
 
@@ -781,8 +783,6 @@ class Order extends OrderBase {
         } else {
             $form.find(".RentalDaysPerWeek").hide();
         }
-
-        this.renderFrames($form);
         this.dynamicColumns($form);
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
