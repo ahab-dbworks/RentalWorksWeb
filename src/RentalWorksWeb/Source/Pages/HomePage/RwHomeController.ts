@@ -202,6 +202,7 @@
 
                     FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${fullscreenDataPointCount}&locationId=${fullscreenOfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${fullscreenDateBehaviorId}&fromDate=${fullscreenFromDate}&toDate=${fullscreenToDate}&datefield=${fullscreenDateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                         try {
+                            $confirmation.find('.fullscreenofficebar').text(response.locationCodes);
                             let titleArray = [];
                             titleArray.push(response.options.title.text);
                             if (response.fromDate !== undefined && response.fromDate === response.toDate) {
