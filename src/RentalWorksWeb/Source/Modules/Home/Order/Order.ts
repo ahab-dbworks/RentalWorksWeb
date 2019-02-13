@@ -267,7 +267,7 @@ class Order extends OrderBase {
         this.events($form);
         this.getSoundUrls($form);
         this.activityCheckboxEvents($form, mode);
-        this.renderFrames($form);
+        this.renderFrames($form, parentModuleInfo.OrderId);
         this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
 
         return $form;

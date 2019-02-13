@@ -7,10 +7,12 @@ class OrderBase {
     Module: string;
     CachedOrderTypes: any = {};
 
-    renderFrames($form: any, period?) {
+    renderFrames($form: any, cachedId?, period?) {
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
-
+        if (typeof cachedId !== 'undefined') {
+            id = cachedId;
+        }
         if (id !== '') {
             if (typeof period !== 'undefined') {
                 id = `${id}~${period}`
