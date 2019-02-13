@@ -287,18 +287,17 @@ class Repair {
             request.uniqueids = {
                 RepairId: $form.find('div.fwformfield[data-datafield="RepairId"] input').val()
             }
-            //request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
+            request.totalfields = ["GrossTotal", "Tax", "Extended", "Total", "DiscountAmount"]
         });
         $repairPartGridControl.data('beforesave', request => {
             request.RepairId = FwFormField.getValueByDataField($form, 'RepairId');
         });
         FwBrowse.addEventHandler($repairPartGridControl, 'afterdatabindcallback', ($repairPartGridControl, response) => {
-            this.calculateTotals($form, 'part');
-            //FwFormField.setValue($form, 'div[data-totalfield="RepairPartTotal"]', response.Totals.Total);
-            //FwFormField.setValue($form, 'div[data-totalfield="RepairPartTax"]', response.Totals.Tax);
-            //FwFormField.setValue($form, 'div[data-totalfield="RepairPartExtended"]', response.Totals.Extended);
-            //FwFormField.setValue($form, 'div[data-totalfield="RepairPartGrossTotal"]', response.Totals.GrossTotal);
-            //FwFormField.setValue($form, 'div[data-totalfield="RepairPartDiscount"]', response.Totals.DiscountAmount);
+            FwFormField.setValue($form, 'div[data-totalfield="RepairPartTotal"]', response.Totals.Total);
+            FwFormField.setValue($form, 'div[data-totalfield="RepairPartTax"]', response.Totals.Tax);
+            FwFormField.setValue($form, 'div[data-totalfield="RepairPartExtended"]', response.Totals.Extended);
+            FwFormField.setValue($form, 'div[data-totalfield="RepairPartGrossTotal"]', response.Totals.GrossTotal);
+            FwFormField.setValue($form, 'div[data-totalfield="RepairPartDiscount"]', response.Totals.DiscountAmount);
         });
         FwBrowse.init($repairPartGridControl);
         FwBrowse.renderRuntimeHtml($repairPartGridControl);
@@ -653,11 +652,11 @@ class Repair {
                 </div>
                   <div class="formrow" style="display: flex; justify-content: flex-end;">
                     <div class="formcolumn parttotals" style="width:auto;">
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="max-width:125px; float:left"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="max-width:125px; float:left"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="SalesTax" style="max-width:125px; float:left;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="RepairPartGrossTotal" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="RepairPartDiscount" style="max-width:125px; float:left"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Extended" data-datafield="" data-enabled="false" data-totalfield="RepairPartExtended" style="max-width:125px; float:left"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="RepairPartTax" style="max-width:125px; float:left;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="RepairPartTotal" style="max-width:125px; float:left;"></div>
                     </div>
                   </div>
               </div>
@@ -1029,44 +1028,6 @@ class Repair {
                 FwFunc.showError("You are attempting to release more items than are available.");
             }
         };
-    };
-    //----------------------------------------------------------------------------------------------
-    calculateTotals($form: any, gridType: string) {
-        let subTotal, discount, salesTax, grossTotal, total;
-        let totalSumFromExtended = new Decimal(0);
-        let totalSumFromDiscount = new Decimal(0);
-        let totalSumFromTax = new Decimal(0);
-        const billableColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Billable"]');
-        const extendedColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Extended"]');
-        const discountColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="DiscountAmount"]');
-        const taxColumn: any = $form.find('.' + gridType + 'grid [data-browsedatafield="Tax"]');
-
-        for (let i = 1; i < billableColumn.length; i++) {
-            // Only calculate billable items
-            if (billableColumn.eq(i).attr('data-originalvalue') === "true") {
-                // Extended Column
-                let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
-                totalSumFromExtended = totalSumFromExtended.plus(inputValueFromExtended);
-                // DiscountAmount Column
-                let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
-                totalSumFromDiscount = totalSumFromDiscount.plus(inputValueFromDiscount);
-                // Tax Column
-                let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
-                totalSumFromTax = totalSumFromTax.plus(inputValueFromTax);
-            }
-        }
-
-        subTotal = totalSumFromExtended.toFixed(2);
-        discount = totalSumFromDiscount.toFixed(2);
-        salesTax = totalSumFromTax.toFixed(2);
-        grossTotal = totalSumFromExtended.plus(totalSumFromDiscount).toFixed(2);
-        total = totalSumFromTax.plus(totalSumFromExtended).toFixed(2);
-
-        $form.find('.' + gridType + 'totals [data-totalfield="SubTotal"] input').val(subTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Discount"] input').val(discount);
-        $form.find('.' + gridType + 'totals [data-totalfield="SalesTax"] input').val(salesTax);
-        $form.find('.' + gridType + 'totals [data-totalfield="GrossTotal"] input').val(grossTotal);
-        $form.find('.' + gridType + 'totals [data-totalfield="Total"] input').val(total);
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
