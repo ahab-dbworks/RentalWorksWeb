@@ -267,7 +267,8 @@ class Order extends OrderBase {
         this.events($form);
         this.getSoundUrls($form);
         this.activityCheckboxEvents($form, mode);
-        this.renderFrames($form);
+        this.renderFrames($form, parentModuleInfo.OrderId);
+        this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
 
         return $form;
     };
@@ -305,7 +306,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids) {
         var $form;
-        $form = this.openForm('EDIT');
+        $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
         FwModule.loadForm(this.Module, $form);
 
@@ -657,6 +658,19 @@ class Order extends OrderBase {
         super.afterLoad($form);
         let status = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
+        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'),
+            salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'),
+            miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]'),
+            laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'),
+            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'),
+            lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
+
+        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+        $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? lossDamageTab.show() : lossDamageTab.hide();
+        $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
 
         if (status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
@@ -781,7 +795,6 @@ class Order extends OrderBase {
         } else {
             $form.find(".RentalDaysPerWeek").hide();
         }
-        this.dynamicColumns($form);
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
 
@@ -812,8 +825,7 @@ class Order extends OrderBase {
 
         let rentalActivity = FwFormField.getValueByDataField($form, 'Rental'),
             usedSaleActivity = FwFormField.getValueByDataField($form, 'RentalSale'),
-            lossDamageActivity = FwFormField.getValueByDataField($form, 'LossAndDamage'),
-            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+            lossDamageActivity = FwFormField.getValueByDataField($form, 'LossAndDamage')
         if (rentalActivity) {
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             usedSaleTab.hide();
@@ -834,6 +846,9 @@ class Order extends OrderBase {
         <div data-name="Order" data-control="FwBrowse" data-type="Browse" id="OrderBrowse" class="fwcontrol fwbrowse" data-orderby="OrderNumber" data-controller="OrderController" data-hasinactive="false">
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-browsedatatype="key"></div>
+          </div>
+          <div class="column" data-width="0" data-visible="false">
+            <div class="field" data-isuniqueid="true" data-datafield="OrderTypeId" data-browsedatatype="key"></div>
           </div>
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="false" data-datafield="OfficeLocationId" data-browsedatatype="key"></div>

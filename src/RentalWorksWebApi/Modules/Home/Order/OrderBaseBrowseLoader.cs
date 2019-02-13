@@ -78,6 +78,9 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "projectmanager", modeltype: FwDataTypes.Text)]
         public string ProjectManager { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
+        public string OrderTypeId { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ordertypedesc", modeltype: FwDataTypes.Text)]
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------

@@ -58,9 +58,6 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "hasrentalsaleitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalSaleItem { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordertypeid", modeltype: FwDataTypes.Text)]
-        public string OrderTypeId { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "ordertypecombineactivitytabs", modeltype: FwDataTypes.Boolean)]
         public bool? OrderTypeCombineActivityTabs { get; set; }
         //------------------------------------------------------------------------------------

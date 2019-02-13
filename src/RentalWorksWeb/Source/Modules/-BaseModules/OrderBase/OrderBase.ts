@@ -7,10 +7,12 @@ class OrderBase {
     Module: string;
     CachedOrderTypes: any = {};
 
-    renderFrames($form: any, period?) {
+    renderFrames($form: any, cachedId?, period?) {
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
-
+        if (typeof cachedId !== 'undefined') {
+            id = cachedId;
+        }
         if (id !== '') {
             if (typeof period !== 'undefined') {
                 id = `${id}~${period}`
@@ -48,13 +50,13 @@ class OrderBase {
         }        
     };
     //----------------------------------------------------------------------------------------------
-    dynamicColumns($form) {
+    dynamicColumns($form, orderTypeId) {
         let self = this;
-        let orderType = FwFormField.getValueByDataField($form, "OrderTypeId"),
+        let orderType = orderTypeId,
             $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
             fieldNames = [];
-        let combineActivity, hiddenRentals, hiddenSales, hiddenLabor, hiddenMisc, hiddenUsedSale, hiddenLossDamage, hiddenCombined;
+        let hiddenRentals, hiddenSales, hiddenLabor, hiddenMisc, hiddenUsedSale, hiddenLossDamage, hiddenCombined;
 
 
         for (var i = 3; i < fields.length; i++) {
@@ -67,7 +69,6 @@ class OrderBase {
             this.columnLogic($form, this.CachedOrderTypes[orderType]);
         } else {
             FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
-                combineActivity = response.combineActivityTabs
                 hiddenRentals = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.RentalShowFields))
@@ -132,17 +133,11 @@ class OrderBase {
             $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'),
             $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]'),
             $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-            rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'),
-            salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'),
-            miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]'),
-            laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'),
-            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'),
-            lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]'),
             rate = FwFormField.getValueByDataField($form, 'RateType');
 
-        $form.find('[data-datafield="CombineActivity"] input').val(data.combineActivity);
+        $form.find('[data-datafield="CombineActivity"] input').val(data.CombineActivityTabs);
 
-        if (data.combineActivity === true) {
+        if (data.CombineActivityTabs === true) {
             $form.find('.notcombined').css('display', 'none');
             $form.find('.notcombinedtab').css('display', 'none');
             $form.find('.combined').show();
@@ -152,14 +147,7 @@ class OrderBase {
             $form.find('.combinedtab').css('display', 'none');
             $form.find('.notcombined').show();
             $form.find('.notcombinedtab').show();
-            $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
-            $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-            $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-            $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-            $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? lossDamageTab.show() : lossDamageTab.hide();
-            $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
         }
-
 
         for (var i = 0; i < data.hiddenRentals.length; i++) {
             jQuery($rentalGrid.find('[data-mappedfield="' + data.hiddenRentals[i] + '"]')).parent().hide();
