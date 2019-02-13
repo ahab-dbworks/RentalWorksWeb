@@ -298,6 +298,7 @@
 
         FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
+                widgetcanvas.siblings('.officebar').text(response.locationCodes)
                 let titleArray = [];
                 titleArray.push(response.options.title.text);
                 if (response.fromDate !== undefined && response.fromDate === response.toDate) {
