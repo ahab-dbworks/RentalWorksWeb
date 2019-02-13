@@ -10,7 +10,7 @@ using System.Text;
 
 namespace WebApi.Modules.Home.OrderItem
 {
-    [FwSqlTable("dbo.funcorderitem(@orderid)")]
+    [FwSqlTable("orderitemwebview")]
     public class OrderItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -26,10 +26,10 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "identseparateactivities", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(partition by rectype order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "identcombinedactivities", modeltype: FwDataTypes.Integer)]
+        [FwSqlDataField(calculatedColumnSql: "row_number() over(order by primaryitemorder)", modeltype: FwDataTypes.Integer)]
         public int? RowNumberCombined { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
@@ -179,6 +179,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "weeklyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "weeklytotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? WeeklyTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklycostextended", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyCostExtended { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -209,12 +212,6 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "episodes", modeltype: FwDataTypes.Integer)]
         public int? Episodes { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "episodediscountamt", modeltype: FwDataTypes.Decimal)]
-        public decimal? EpisodeDiscountAmount { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "episodeextended", modeltype: FwDataTypes.Decimal)]
-        public decimal? EpisodeExtended { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlyextendednodisc", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -230,6 +227,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "monthlytax", modeltype: FwDataTypes.Decimal)]
         public decimal? MonthlyTax { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "monthlytotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? MonthlyTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodextendednodisc", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodExtendedNoDiscount { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -244,6 +244,9 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodtax", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "periodtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? PeriodTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "periodvarianceextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PeriodVarianceExtended { get; set; }
@@ -800,32 +803,28 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
+            string orderId = OrderId;
             bool summaryMode = false;
             bool subs = false;
 
-            useWithNoLock = false;
-
-            if (string.IsNullOrEmpty(OrderId))
+            if (string.IsNullOrEmpty(orderId))
             {
-                if ((request != null) && (request.uniqueids != null))
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("OrderId"))
-                    {
-                        OrderId = uniqueIds["OrderId"].ToString();
-                    }
-                }
+                orderId = GetUniqueIdAsString("OrderId", request);
             }
 
-            if (string.IsNullOrEmpty(OrderId))
+            if (string.IsNullOrEmpty(orderId))
             {
                 if (!string.IsNullOrEmpty(OrderItemId))
                 {
-                    //                    OrderId = AppFunc.GetStringDataAsync(AppConfig, "masteritem", "masteritemid", OrderItemId, "orderid").Result;
                     string[] values = AppFunc.GetStringDataAsync(AppConfig, "masteritem", new string[] { "masteritemid" }, new string[] { OrderItemId }, new string[] { "orderid", "poorderid" }).Result;
-                    OrderId = values[0];
+                    orderId = values[0];
                     subs = (!values[1].Equals(""));
                 }
+            }
+
+            if (string.IsNullOrEmpty(orderId))
+            {
+                orderId = "~xx~";
             }
 
             base.SetBaseSelectQuery(select, qry, customFields, request);
@@ -860,10 +859,11 @@ namespace WebApi.Modules.Home.OrderItem
             select.AddWhere("poorderid " + (subs ? ">" : "=") + "''");
 
 
-            addFilterToSelect("OrderId", "orderid", select, request);
+            //addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("RecType", "rectype", select, request);
 
-            select.AddParameter("@orderid", OrderId);
+            select.AddWhere("orderid = @orderid");
+            select.AddParameter("@orderid", orderId);
 
         }
         //------------------------------------------------------------------------------------ 

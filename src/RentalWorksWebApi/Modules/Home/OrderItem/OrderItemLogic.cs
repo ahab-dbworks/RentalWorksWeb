@@ -202,6 +202,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwLogicProperty(Id:"8FotF6KXPAc9", IsReadOnly:true)]
         public decimal? WeeklyTax { get; set; }
 
+        [FwLogicProperty(Id: "FUB8yskSCpCVj", IsReadOnly: true)]
+        public decimal? WeeklyTotal { get; set; }
+
         [FwLogicProperty(Id:"mBjGTUbEP0DD")]
         public decimal? Week2Extended { get; set; }
 
@@ -226,12 +229,6 @@ namespace WebApi.Modules.Home.OrderItem
         [FwLogicProperty(Id:"ab4SmyGMUuyn", IsReadOnly:true)]
         public int? Episodes { get; set; }
 
-        [FwLogicProperty(Id:"irx1Q02j56Id", IsReadOnly:true)]
-        public decimal? EpisodeDiscountAmount { get; set; }
-
-        [FwLogicProperty(Id:"P9SYFgJZBi5S", IsReadOnly:true)]
-        public decimal? EpisodeExtended { get; set; }
-
         [FwLogicProperty(Id:"Khz9ko84K1xi", IsReadOnly:true)]
         public decimal? MonthlyExtendedNoDiscount { get; set; }
 
@@ -247,6 +244,9 @@ namespace WebApi.Modules.Home.OrderItem
         [FwLogicProperty(Id:"NnVFcSmTD2zF", IsReadOnly:true)]
         public decimal? MonthlyTax { get; set; }
 
+        [FwLogicProperty(Id: "SvZ6addubgvnC", IsReadOnly: true)]
+        public decimal? MonthlyTotal { get; set; }
+
         [FwLogicProperty(Id:"16fZQS3NTlTW")]
         public decimal? PeriodExtendedNoDiscount { get; set; }
 
@@ -261,6 +261,9 @@ namespace WebApi.Modules.Home.OrderItem
 
         [FwLogicProperty(Id:"Fz0tQ5thjcfX", IsReadOnly:true)]
         public decimal? PeriodTax { get; set; }
+
+        [FwLogicProperty(Id: "7N4hypXEFwSb7", IsReadOnly: true)]
+        public decimal? PeriodTotal { get; set; }
 
         [FwLogicProperty(Id:"OqjfCDLbWBhp", IsReadOnly:true)]
         public decimal? PeriodVarianceExtended { get; set; }
