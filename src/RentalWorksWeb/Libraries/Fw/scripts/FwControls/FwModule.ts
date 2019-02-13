@@ -382,16 +382,104 @@
                                         });
                                         break;
                                     case 'FindMenuBarButton':
+                                        let loaded = false;
                                         $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
                                         $browse = $menubarbutton.closest('.fwbrowse');
 
                                         $menubarbutton.attr('data-type', 'FindMenuBarButton');
-
+                                        let findFields = [];
+                                        let textComparisonFields = [
+                                            { value: 'like', text: 'Contains' },
+                                            { value: 'startswith', text: 'Starts With' },
+                                            { value: 'endswith', text: 'Ends With' },
+                                            { value: '=', text: 'Equals' },
+                                            { value: 'doesnotcontain', text: 'Does Not Contain' },
+                                            { value: '<>', text: 'Does Not Equal' }
+                                        ];
+                                        let numericComparisonFields = [
+                                            { value: '=', text: '=' },
+                                            { value: '>', text: '>' },
+                                            { value: '>=', text: '≥' },
+                                            { value: '<', text: '<' },
+                                            { value: '<=', text: '≤' },
+                                            { value: '<>', text: '≠' },
+                                        ];
+                                        let booleanComparisonFields = [
+                                            { value: '=', text: 'Equals' },
+                                            { value: '<>', text: 'Does Not Equal' }
+                                        ];
+                                        let dateComparisonFields = [
+                                            { value: '=', text: 'Equals' },
+                                            { value: '<', text: 'Prior To' },
+                                            { value: '<=', text: 'Prior To or Equals' },
+                                            { value: '>', text: 'Later Than' },
+                                            { value: '>=', text: 'Later Than or Equals' },
+                                            { value: '<>    ', text: 'Does Not Equal' },
+                                        ];
+                                        
                                         $menubarbutton.on('click', function (e) {
                                             controller = $browse.attr('data-controller');
                                             let maxZIndex;
                                             let $this = jQuery(this);
                                             e.preventDefault();
+                                            if (!loaded) {
+                                                FwAppData.apiMethod(true, 'GET', window[controller].apiurl + '/emptyobject', null, FwServices.defaultTimeout, function onSuccess(response) {
+                                                    let dateField = $browse.find('.datequery');
+                                                    let textField = $browse.find('.textquery');
+                                                    let booleanField = $browse.find('.booleanquery');
+
+                                                    for (var j = 0; j < response._Custom.length; j++) {
+                                                        findFields.push({
+                                                            'value': response._Custom[j].FieldName,
+                                                            'text': response._Custom[j].FieldName,
+                                                            'type': response._Custom[j].FieldType
+                                                        })
+                                                    }
+
+                                                    for (var i = 0; i < response._Fields.length; i++) {
+                                                        findFields.push({
+                                                            'value': response._Fields[i].Name,
+                                                            'text': response._Fields[i].Name,
+                                                            'type': response._Fields[i].DataType
+                                                        })
+                                                    }
+                                                    findFields.sort(function (a, b) { return (a.text > b.text) ? 1 : ((b.text > a.text) ? -1 : 0); });
+                                                    window['FwFormField_select'].loadItems($browse.find('.datafieldselect'), findFields, false);
+                                                    window['FwFormField_select'].loadItems($browse.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
+                                                    window['FwFormField_select'].loadItems(booleanField, [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
+                                                    $browse.find('.datafieldselect').on('change', function () {
+                                                        let datatype = jQuery(this).find(':selected').data('type');
+                                                        dateField.hide();
+                                                        textField.hide();
+                                                        booleanField.hide();
+                                                        switch (datatype) {
+                                                            case 'Text':
+                                                                textField.show();
+                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), textComparisonFields, true);
+                                                                break;
+                                                            case 'Integer':
+                                                            case 'Decimal':
+                                                            case 'Float':
+                                                                textField.show();
+                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), numericComparisonFields, true);
+                                                                break;
+                                                            case 'True/False':
+                                                            case 'Boolean':
+                                                                booleanField.show();
+                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), booleanComparisonFields, true);
+                                                                break;
+                                                            case 'Date':
+                                                                dateField.show();
+                                                                window['FwFormField_select'].loadItems(jQuery($browse.find('.datafieldcomparison')[0]), dateComparisonFields, true);
+                                                                break;
+                                                        }
+                                                    })
+                                                }, function onError(response) {
+                                                    FwFunc.showError(response);
+                                                }, null);
+
+                                                loaded = true
+                                            }
 
                                             if (!$this.hasClass('active')) {
                                                 maxZIndex = FwFunc.getMaxZ('*');
@@ -408,6 +496,138 @@
                                                 });
                                             }
                                         });
+
+                                        $browse.find('.add-query').on('click', function cloneRow() {
+                                            let $newRow = jQuery(this).closest('.queryrow').clone();
+                                            FwControl.renderRuntimeHtml($newRow.find('.fwcontrol'));
+                                            window['FwFormField_select'].loadItems($newRow.find('.datafieldselect'), findFields, false);
+                                            window['FwFormField_select'].loadItems($newRow.find('.andor'), [{ value: 'and', text: 'And' }, { value: 'or', text: 'Or' }], true);
+                                            window['FwFormField_select'].loadItems($newRow.find('.booleanquery'), [{ value: 'T', text: 'true' }, { value: 'F', text: 'false' }], true);
+                                            let dateField = $newRow.find('.datequery');
+                                            let textField = $newRow.find('.textquery');
+                                            let booleanField = $newRow.find('.booleanquery');
+
+                                            $newRow.find('.datafieldselect').on('change', function () {
+                                                let datatype = jQuery(this).find(':selected').data('type');
+                                                dateField.hide();
+                                                textField.hide();
+                                                booleanField.hide();
+                                                switch (datatype) {
+                                                    case 'Text':
+                                                        textField.show();
+                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), textComparisonFields, true);
+                                                        break;
+                                                    case 'Integer':
+                                                    case 'Decimal':
+                                                    case 'Float':
+                                                        textField.show();
+                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), numericComparisonFields, true);
+                                                        break;
+                                                    case 'True/False':
+                                                    case 'Boolean':
+                                                        booleanField.show();
+                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), booleanComparisonFields, true);
+                                                        break;
+                                                    case 'Date':
+                                                        dateField.show();
+                                                        window['FwFormField_select'].loadItems($newRow.find('.datafieldcomparison'), dateComparisonFields, true);
+                                                        break;
+                                                }
+                                            });
+                                            $newRow.find('.delete-query').on('click', function () {
+                                                if ($newRow.find('.add-query').css('visibility') === 'visible') {
+                                                    $newRow.prev().find('.add-query').css('visibility', 'visible');
+                                                }
+                                                if ($newRow.find('.andor').css('visibility') === 'hidden') {
+                                                    $newRow.next().find('.andor').css('visibility', 'hidden');
+                                                }
+                                                if ($browse.find('.query').find('.queryrow').length === 2 && $newRow.next().length !== 0) {
+                                                    $newRow.next().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                                                }
+                                                if ($browse.find('.query').find('.queryrow').length === 2 && $newRow.prev().length !== 0) {
+                                                    $newRow.prev().find('.delete-query').removeAttr('style').css('visibility', 'hidden');
+                                                }
+                                                $newRow.remove();
+                                            }).css('visibility', 'visible');
+                                            $newRow.find('.andor').css('visibility', 'visible');
+                                            $newRow.find('.add-query').on('click', cloneRow);
+                                            $newRow.find('input').val('')
+                                            $newRow.appendTo($browse.find('.query'));
+                                            if ($browse.find('.query').find('.queryrow').length > 1) {
+                                                jQuery($browse.find('.query').find('.queryrow')[0]).find('.delete-query').on('click', function () {
+                                                    jQuery(this).closest('.queryrow').next().find('.andor').css('visibility', 'hidden');
+                                                    jQuery(this).closest('.queryrow').remove();
+                                                }).css('visibility', 'visible');
+                                            }
+                                            jQuery(this).css('cursor', 'default');
+                                            jQuery(this).css('visibility', 'hidden');
+                                        })
+
+                                        $browse.find('.querysearch').on('click', function (e) {
+                                            let request = FwBrowse.getRequest($browse);
+                                            let queryRows = $browse.find('.query').find('.queryrow');
+                                            let $find = jQuery(this).closest('.btn');
+                                            request.searchfieldoperators = [];
+                                            request.searchfieldtypes = [];
+                                            request.searchfields = [];
+                                            request.searchfieldvalues = [];
+                                            request.searchcondition = [];
+                                            request.searchseparators = [];
+                                            request.searchconjunctions = [];
+
+                                            for (var i = 0; i < queryRows.length; i++) {
+                                                let type = jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type')
+                                                if (FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')) !== '') {
+                                                    request.searchfieldtypes.unshift(jQuery(queryRows[i]).find('.datafieldselect').find(':selected').data('type'));
+                                                    request.searchfields.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="Datafield"]')));
+                                                    switch (type) {
+                                                        case 'True/False':
+                                                        case 'Boolean':
+                                                            let bool = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="BooleanFieldQuery"]'));
+                                                            let comp = FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]'));
+                                                            if (bool === 'F' && comp === '=') {
+                                                                request.searchfieldvalues.unshift('T');
+                                                                request.searchfieldoperators.unshift('<>');
+                                                            } else if (bool === 'F' && comp === '<>') {
+                                                                request.searchfieldvalues.unshift('T');
+                                                                request.searchfieldoperators.unshift('=');
+                                                            } else {
+                                                                request.searchfieldvalues.unshift(bool);
+                                                                request.searchfieldoperators.unshift(comp);
+                                                            }
+                                                            break;
+                                                        case 'Date':
+                                                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DateFieldQuery"]')));
+                                                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                                                            break;
+                                                        default:
+                                                            request.searchfieldvalues.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldQuery"]')));
+                                                            request.searchfieldoperators.unshift(FwFormField.getValue2(jQuery(queryRows[i]).find('div[data-datafield="DatafieldComparison"]')));
+                                                            break;
+                                                    }
+                                                    request.searchseparators.unshift(',');
+                                                }
+                                                if (i === 0) {
+                                                    request.searchconjunctions.push(' ');
+                                                } else {
+                                                    request.searchconjunctions.push(FwFormField.getValue2(jQuery(queryRows[i]).find('.andor')));
+                                                }
+                                            }
+
+                                            FwServices.module.method(request, request.module, 'Browse', $browse, function (response) {
+                                                try {
+                                                    FwBrowse.beforeDataBindCallBack($browse, request, response);
+                                                } catch (ex) {
+                                                    FwFunc.showError(ex);
+                                                }
+                                            })
+
+                                            $find.removeClass('active');
+                                            $find.find('.findbutton-dropdown').css('z-index', '0');
+                                            jQuery(document).off('click');
+                                            $browse.data('advancedsearchrequest', request);
+                                            e.stopPropagation();
+                                        })
 
                                         $menubarbutton.append(`
                                         <div class="findbutton-dropdown">
