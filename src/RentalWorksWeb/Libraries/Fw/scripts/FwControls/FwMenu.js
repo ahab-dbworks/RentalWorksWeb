@@ -187,15 +187,61 @@ class FwMenuClass {
         btnHtml.push('  </div>');
         btnHtml.push('</div>');
         $btn = jQuery(btnHtml.join(''));
+        let selectedFilterValues = [];
         for (var i = 0; i < subitems.length; i++) {
             $ddBtn = subitems[i];
             if (allowMultiple) {
                 $ddBtn.prepend(`<input type="checkbox">`);
             }
-            $ddBtn.on('click', function (e) {
-                var $this;
-                $this = jQuery(this);
-                $btn.find('.ddviewbtn-select-value').empty().html($this.find('.ddviewbtn-dropdown-btn-caption').html());
+            $ddBtn.on('click', e => {
+                const $this = jQuery(e.currentTarget);
+                let caption = $this.find('.ddviewbtn-dropdown-btn-caption').html();
+                if (allowMultiple) {
+                    e.stopPropagation();
+                    let isSelectAllFilters = $this.hasClass('select-all-filters');
+                    let isChecked = $this.find('input[type="checkbox"]').prop('checked');
+                    if (jQuery(e.target).attr('type') != 'checkbox') {
+                        $this.find('input[type="checkbox"]').prop('checked', !isChecked);
+                        isChecked = !isChecked;
+                    }
+                    if (isSelectAllFilters) {
+                        if (isChecked) {
+                            jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
+                            selectedFilterValues = ["All"];
+                        }
+                        else {
+                            selectedFilterValues = [];
+                        }
+                    }
+                    else {
+                        jQuery($this).siblings('.select-all-filters').find('input[type="checkbox"]').prop('checked', false);
+                        let indexOfAll = selectedFilterValues.indexOf("All");
+                        if (indexOfAll != -1) {
+                            selectedFilterValues.splice(indexOfAll, 1);
+                            const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
+                            for (let i = 0; i <= checkedFilters.length; i++) {
+                                let filterCaption = jQuery(checkedFilters[i]).siblings('.ddviewbtn-dropdown-btn-caption').html();
+                                selectedFilterValues.push(filterCaption);
+                            }
+                        }
+                        if (isChecked) {
+                            if (selectedFilterValues.indexOf(caption) == -1) {
+                                selectedFilterValues.push(caption);
+                            }
+                        }
+                        else if (isChecked === false) {
+                            selectedFilterValues.splice(selectedFilterValues.indexOf(caption), 1);
+                        }
+                        if (selectedFilterValues.length <= 3) {
+                            caption = selectedFilterValues.join(', ');
+                        }
+                        else {
+                            let firstThreeFilters = selectedFilterValues.slice(0, 3);
+                            caption = `${firstThreeFilters.join(", ")} + ${selectedFilterValues.length - 3} more`;
+                        }
+                    }
+                }
+                $btn.find('.ddviewbtn-select-value').empty().html(caption);
                 $this.siblings('.ddviewbtn-dropdown-btn.active').removeClass('active');
                 $this.addClass('active');
             });
@@ -223,20 +269,6 @@ class FwMenuClass {
             else {
                 $this.removeClass('active');
                 $this.find('.ddviewbtn-dropdown').css('z-index', '0');
-            }
-        });
-        $btn.on('click', '.ddviewbtn-dropdown-btn', e => {
-            if (allowMultiple) {
-                e.stopPropagation();
-                let $this = jQuery(e.currentTarget);
-                if (jQuery(e.target).attr('type') != 'checkbox') {
-                    $this.find('input[type="checkbox"]').prop('checked', !$this.find('input[type="checkbox"]').prop('checked'));
-                }
-                if ($this.hasClass('select-all-filters')) {
-                    if ($this.find('input[type="checkbox"]').prop('checked') === true) {
-                        jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
-                    }
-                }
             }
         });
         $control.find('.buttonbar').append($btn);
