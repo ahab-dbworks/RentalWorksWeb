@@ -62,6 +62,7 @@ namespace FwStandard.Reporting
 
         public async static Task EmailPdfAsync(string fromusersid, string uniqueid, string title, string from, string to, string cc, string subject, string body, string pdfPath, FwApplicationConfig appConfig)
         {
+            from = "justin@dbworks.com"; // temporary fix to get email working again
             var message = new MailMessage(from, to, subject, body);
             message.IsBodyHtml = true;
             message.Attachments.Add(new Attachment(pdfPath, "application/pdf"));
