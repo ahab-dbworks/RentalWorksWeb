@@ -60,6 +60,10 @@ namespace WebApi.Modules.Home.RepairPart
         [FwLogicProperty(Id:"aoeYsyY8Gfvj")]
         public decimal? Price { get { return repairPart.Price; } set { repairPart.Price = value; } }
 
+        [FwLogicProperty(Id: "GzplruKXXhb3j", IsReadOnly: true)]
+        public decimal? GrossTotal { get; set; }
+
+
         [FwLogicProperty(Id:"ZEGh3s4EPeZX")]
         public decimal? DiscountAmount { get { return repairPart.DiscountAmount; } set { repairPart.DiscountAmount = value; } }
 
@@ -71,6 +75,9 @@ namespace WebApi.Modules.Home.RepairPart
 
         [FwLogicProperty(Id:"Dip5ICqD4zSAj", IsReadOnly:true)]
         public decimal? Tax { get; set; }
+
+        [FwLogicProperty(Id: "SOiwLgHRRQZhY", IsReadOnly: true)]
+        public decimal? Total { get; set; }
 
         [FwLogicProperty(Id:"MgtwxCUpV2Q1")]
         public bool? Billable { get { return repairPart.Billable; } set { repairPart.Billable = value; } }

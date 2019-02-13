@@ -49,6 +49,9 @@ namespace WebApi.Modules.Home.RepairPart
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "grosstotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? GrossTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "discountamt", modeltype: FwDataTypes.Decimal)]
         public decimal? DiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -60,6 +63,9 @@ namespace WebApi.Modules.Home.RepairPart
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
         public decimal? Tax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "total", modeltype: FwDataTypes.Decimal)]
+        public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billable", modeltype: FwDataTypes.Boolean)]
         public bool? Billable { get; set; }
