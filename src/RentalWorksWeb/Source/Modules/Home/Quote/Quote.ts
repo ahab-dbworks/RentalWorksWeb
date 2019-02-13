@@ -259,6 +259,7 @@ class Quote extends OrderBase {
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderFrames($form);
+        this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
         return $form;
     };
 
@@ -266,7 +267,7 @@ class Quote extends OrderBase {
     loadForm(uniqueids: any) {
         var $form;
 
-        $form = this.openForm('EDIT');
+        $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="QuoteId"] input').val(uniqueids.QuoteId);
         FwModule.loadForm(this.Module, $form);
 
@@ -524,6 +525,19 @@ class Quote extends OrderBase {
         let $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         let status = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
+        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'),
+            salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'),
+            miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]'),
+            laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'),
+            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'),
+            lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
+
+        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+        $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? lossDamageTab.show() : lossDamageTab.hide();
+        $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
 
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
             FwModule.setFormReadOnly($form);
@@ -638,7 +652,6 @@ class Quote extends OrderBase {
             FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
         }
 
-        this.dynamicColumns($form);
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
 
@@ -653,8 +666,7 @@ class Quote extends OrderBase {
         this.disableWithTaxCheckbox($form);
 
         let rentalActivity = FwFormField.getValueByDataField($form, 'Rental'),
-            usedSaleActivity = FwFormField.getValueByDataField($form, 'RentalSale'),
-            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+            usedSaleActivity = FwFormField.getValueByDataField($form, 'RentalSale')
         if (rentalActivity) {
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             usedSaleTab.hide();
