@@ -392,10 +392,15 @@ namespace FwStandard.DataLayer
                 {
                     FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
                     string sqlColumnName = property.Name;
-                    columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
-                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.CalculatedColumnSql))
                     {
-                        sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                        columns[sqlColumnName] = sqlDataFieldAttribute.CalculatedColumnSql;
+                        fullFieldName = sqlDataFieldAttribute.CalculatedColumnSql;
+                    }
+                    else
+                    {
+                        columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
+                        fullFieldName = "[" + TableAlias + "].[" + sqlDataFieldAttribute.ColumnName + "]";
                     }
                     string prefix = "";
                     if (colNo > 0)
@@ -403,7 +408,6 @@ namespace FwStandard.DataLayer
                         prefix = ",\n      ";
                     }
                     qry.AddColumn(property.Name, property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                    fullFieldName = "[" + TableAlias + "].[" + sqlColumnName + "]";
                     sb.Append(prefix + " " + fullFieldName.PadRight(maxFieldNameLength, ' ') + " as [" + property.Name + "]");
 
                     colNo++;
@@ -792,10 +796,15 @@ namespace FwStandard.DataLayer
                 {
                     FwSqlDataFieldAttribute sqlDataFieldAttribute = property.GetCustomAttribute<FwSqlDataFieldAttribute>();
                     string sqlColumnName = property.Name;
-                    columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
-                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                    if (!string.IsNullOrEmpty(sqlDataFieldAttribute.CalculatedColumnSql))
                     {
-                        sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                        columns[sqlColumnName] = sqlDataFieldAttribute.CalculatedColumnSql;
+                        fullFieldName = sqlDataFieldAttribute.CalculatedColumnSql;
+                    }
+                    else
+                    {
+                        columns[sqlColumnName] = sqlDataFieldAttribute.ColumnName;
+                        fullFieldName = "[" + TableAlias + "].[" + sqlDataFieldAttribute.ColumnName + "]";
                     }
                     string prefix = "";
                     if (colNo > 0)
@@ -803,7 +812,6 @@ namespace FwStandard.DataLayer
                         prefix = ",\n      ";
                     }
                     qry.AddColumn(property.Name, property.Name, sqlDataFieldAttribute.ModelType, sqlDataFieldAttribute.IsVisible, sqlDataFieldAttribute.IsPrimaryKey, false);
-                    fullFieldName = "[" + TableAlias + "].[" + sqlColumnName + "]";
                     sb.Append(prefix + " " + fullFieldName.PadRight(maxFieldNameLength, ' ') + " as [" + property.Name + "]");
 
                     colNo++;
