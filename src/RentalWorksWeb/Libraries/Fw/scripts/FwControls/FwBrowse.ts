@@ -3265,16 +3265,22 @@
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRowsStr} Records" data-datafield="" style="float:left;width:100px;"></div>`);
             html.push('  </div>');
-            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start; align-items:center">');
+            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
             html.push('  </div>');
-            html.push('  <span style="margin:22px 0px 0px 0px;">First</span>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">First</span>');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
             html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
             html.push('  </div>');
-            html.push('  <span style="margin:22px 0px 0px 0px;">Records</span>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">Records</span>');
             html.push(' </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield color-col" data-caption="Include Color columns" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
             html.push('</div>');
 
             FwConfirmation.addControls($confirmation, html.join(''));
@@ -3284,6 +3290,7 @@
 
             $confirmation.find('.user-defined-records-input input').val(request.pagesize);
             $confirmation.find('.all-records input').prop('checked', true);
+
             let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
 
             $confirmation.find('.all-records input').on('change', function () {
@@ -3312,13 +3319,15 @@
             });
 
             $yes.on('click', () => {
-                if ($confirmation.find('.all-records input').prop('checked') === true) {
-                    userDefinedNumberofRows = totalNumberofRows;
-                } else {
-                    userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
-                }
+                $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
+                request.pagesize = userDefinedNumberofRows;
+                let includeIdColumns: boolean;
+                $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
+                request.IncludeIdColumns = includeIdColumns;
+                let includeColorColumns: boolean;
+                $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
+                request.IncludeColorColumns = includeColorColumns;
 
-                request.pagesize = userDefinedNumberofRows
                 const module = window[controller].Module;
                 const apiurl = window[controller].apiurl;
 
