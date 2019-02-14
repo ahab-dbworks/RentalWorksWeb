@@ -189,6 +189,7 @@
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridBrowse.htm" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js" />
     <Content Include="Source\Grids\InvoiceReceiptGrid\InvoiceReceiptGridBrowse.htm" />
+    <Content Include="Source\Grids\TransferOrderItemGrid\TransferOrderItemGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoiceNoteGrid\VendorInvoiceNoteGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoiceStatusHistoryGrid\VendorInvoiceStatusHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\VendorInvoicePaymentGrid\VendorInvoicePaymentGridBrowse.htm" />
@@ -323,6 +324,7 @@
     <TypeScriptCompile Include="Source\Grids\InvoiceNoteGrid\InvoiceNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InvoiceReceiptGrid\InvoiceReceiptGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\TransferOrderItemGrid\TransferOrderItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceNoteGrid\VendorInvoiceNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoiceStatusHistoryGrid\VendorInvoiceStatusHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorInvoicePaymentGrid\VendorInvoicePaymentGridController.ts" />

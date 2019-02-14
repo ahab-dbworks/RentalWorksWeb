@@ -432,6 +432,7 @@ namespace WebLibrary.Security
             AddGrid("Pending Items",                          "{28DA22B8-D429-4751-B97D-8210D78C9402}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
             AddGrid("Sub Category",                           "{070EBAE0-903E-48CE-9285-BDC3ECC07C68}", lv1menuGrids.Id, "SubCategoryGridController");
             AddGrid("Sub Purchase Order Item Grid",           "{27A93B3D-4E30-4854-88C0-292783E778B3}", lv1menuGrids.Id, "SubPurchaseOrderItemGridController");
+            AddGrid("Transfer Order Item Grid",               "{521D83C6-DEA4-4723-A7F3-25C00F940B75}", lv1menuGrids.Id, "TransferOrderItemGridController");
             AddGrid("Fiscal Year",                            "{F273F7A6-357E-4616-B84E-28D4C321ACF4}", lv1menuGrids.Id, "FiscalYearGridController");
             AddGrid("Fiscal Month",                           "{EB2DCCD4-0747-4055-87A4-0C60D811AFB5}", lv1menuGrids.Id, "FiscalMonthGridController");
             AddGrid("Vehicle Type Warehouse",                 "{51707760-645D-452C-A545-37A4C861B139}", lv1menuGrids.Id, "VehicleTypeWarehouseGridController");
