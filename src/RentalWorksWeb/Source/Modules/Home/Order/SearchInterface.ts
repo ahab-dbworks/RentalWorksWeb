@@ -56,6 +56,7 @@ class SearchInterface {
 
         let addToButton;
         switch (type) {
+            case 'Transfer':
             case 'Order':
                 addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 120px;">Add to Order</div>`;
                 break;
@@ -174,6 +175,7 @@ class SearchInterface {
         previewhtml.push('                  <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
         previewhtml.push('              </div>');
         switch (type) {
+            case 'Transfer':
             case 'Order':
                 previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
                 break;
@@ -210,7 +212,13 @@ class SearchInterface {
         }
 
         FwFormField.setValueByDataField($popup, 'ParentFormId', id);
-        let warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        let warehouseId;
+        if (type == 'Transfer') {
+            let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            warehouseId = warehouse.warehouseid;
+        } else {
+            warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        }
         FwFormField.setValueByDataField($popup, 'WarehouseId', warehouseId);
 
         let userId = JSON.parse(sessionStorage.getItem('userid'));
@@ -921,7 +929,7 @@ class SearchInterface {
         const $options = $popup.find('.options');
         userId = JSON.parse(sessionStorage.getItem('userid'));
         hasItemInGrids = false;
-        warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+        warehouseId = FwFormField.getValueByDataField($popup, 'WarehouseId');
         request = {};
         $searchpopup = jQuery('#searchpopup');
 
@@ -1602,7 +1610,7 @@ class SearchInterface {
                 for (let i = 0; i < columnOrder.length; i++) {
                     $popup.find(`.accContainer [data-column="${columnOrder[i]}"]`).css('order', i);
                 };
-              
+
                 $popup.find('.accItem:even').css('background-color', '#F9F9F9');
             }
         }, null, null);

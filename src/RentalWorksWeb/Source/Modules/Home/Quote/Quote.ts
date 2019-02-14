@@ -86,13 +86,13 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, true);
-        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true, true);
-        var $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false, true);
-        var $reserved: JQuery = FwMenu.generateDropDownViewBtn('Reserved', false, true);
-        var $ordered: JQuery = FwMenu.generateDropDownViewBtn('Ordered', false, true);
-        var $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false, true);
-        var $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false, true);
+        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
+        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true);
+        var $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false);
+        var $reserved: JQuery = FwMenu.generateDropDownViewBtn('Reserved', false);
+        var $ordered: JQuery = FwMenu.generateDropDownViewBtn('Ordered', false);
+        var $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false);
+        var $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false);
 
         $all.on('click', function () {
             var $browse;

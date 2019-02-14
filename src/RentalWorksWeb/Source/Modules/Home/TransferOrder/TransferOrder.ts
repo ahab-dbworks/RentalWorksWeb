@@ -99,13 +99,83 @@ class TransferOrder {
         FwBrowse.init($picklistGridControl);
         FwBrowse.renderRuntimeHtml($picklistGridControl);
         // ----------
+        const $orderItemRentalGrid = $form.find('.rentalItemGrid div[data-grid="TransferOrderItemGrid"]');
+        const $orderItemRentalGridControl = FwBrowse.loadGridFromTemplate('TransferOrderItemGrid');
+        $orderItemRentalGrid.empty().append($orderItemRentalGridControl);
+        $orderItemRentalGrid.addClass('R');
+        $orderItemRentalGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+                , Rectype: 'R'
+            };
+        });
+        FwBrowse.init($orderItemRentalGridControl);
+        FwBrowse.renderRuntimeHtml($orderItemRentalGridControl);
+        // ----------
+        const $orderItemSalesGrid = $form.find('.salesItemGrid div[data-grid="TransferOrderItemGrid"]');
+        const $orderItemSalesGridControl = FwBrowse.loadGridFromTemplate('TransferOrderItemGrid');
+        $orderItemSalesGrid.empty().append($orderItemSalesGridControl);
+        $orderItemSalesGrid.addClass('S');
+        $orderItemSalesGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+                , Rectype: 'S'
+            };
+        });
+        FwBrowse.init($orderItemSalesGridControl);
+        FwBrowse.renderRuntimeHtml($orderItemSalesGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
+        const $orderItemRentalGrid = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
+        FwBrowse.search($orderItemRentalGrid);
+
+        const $orderItemSalesGrid = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
+        FwBrowse.search($orderItemSalesGrid);
+
+        const isRental = FwFormField.getValueByDataField($form, 'Rental');
+        const rentalTab = $form.find('.rentalTab');
+        isRental ? rentalTab.show() : rentalTab.hide();
+
+        const isSales = FwFormField.getValueByDataField($form, 'Sales');
+        const salesTab = $form.find('.salesTab');
+        isSales ? salesTab.show() : salesTab.hide();
     };
     //----------------------------------------------------------------------------------------------
     events($form: JQuery) {
     };
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $form, request) {
+        const validationName = request.module;
+        const warehouse = FwFormField.getValueByDataField($form, 'FromWarehouseId');
+
+        switch (validationName) {
+            case 'UserValidation':
+                request.uniqueids = {
+                    WarehouseId: warehouse
+                };
+                break;
+        };
+    }
+};
+
+//-----------------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{16CD0101-28D7-49E2-A3ED-43C03152FEE6}'] = function (event) {
+    let search, $form, transferId;
+    $form = jQuery(this).closest('.fwform');
+    transferId = FwFormField.getValueByDataField($form, 'TransferId');
+
+    if ($form.attr('data-mode') === 'NEW') {
+        TransferOrderController.saveForm($form, { closetab: false });
+        return;
+    }
+
+    if (transferId == "") {
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+    } else {
+        search = new SearchInterface();
+        search.renderSearchPopup($form, transferId, 'Transfer');
+    }
 };
 //----------------------------------------------------------------------------------------------
 var TransferOrderController = new TransferOrder();
