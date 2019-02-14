@@ -12,6 +12,9 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
     public class ReturnOnAssetPrecalculatedReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ReturnOnAssetKey", modeltype: FwDataTypes.Integer)]
         public int? ReturnOnAssetKey { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -175,19 +178,29 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
                     //addStringFilterToSelect("filter2fieldname", request.FiterValue2, select); 
                     //addDateFilterToSelect("datefieldname1", request.DateValue1, select, "^>=", "dateparametername(optional)"); 
                     //addDateFilterToSelect("datefieldname2", request.DateValue2, select, "^<=", "dateparametername(optional)"); 
-                    //if (!request.BooleanField.GetValueOrDefault(false)) 
-                    //{ 
-                    //    select.AddWhere("somefield ^<^> 'T'"); 
-                    //} 
-                    select.AddOrderBy("Warehouse");
+                    if (!request.IncludeZeroCurrentOwned.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("CurrentOwnedQty <> 0");
+                    }
+                    if (!request.IncludeZeroAverageOwned.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("AverageOwnedQty <> 0");
+                    }
+                    select.AddOrderBy("Warehouse, Department, Category, SubCategory, ICode");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
+
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-            //string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-            //dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-            //dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
-            //dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+                string[] totalFields = new string[] { "CurrentOwnedQuantity", "AverageOwnedQuantity", "AverageWeeklyAmount", "OwnedRevenueAmount", "VendorRevenueAmount", "VendorCostAmount", "TotalReplacementCostAmount", "AssetUnitValueCostAmount" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertSubTotalRows("SubCategory", "RowType", totalFields);
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 

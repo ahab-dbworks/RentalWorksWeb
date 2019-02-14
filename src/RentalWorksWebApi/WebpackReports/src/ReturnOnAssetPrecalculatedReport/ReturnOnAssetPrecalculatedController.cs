@@ -25,6 +25,8 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         public string InventoryId { get; set; }
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public bool? IncludeZeroCurrentOwned { get; set; }
+        public bool? IncludeZeroAverageOwned { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
