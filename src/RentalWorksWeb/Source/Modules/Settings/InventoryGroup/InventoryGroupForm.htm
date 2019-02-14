@@ -7,24 +7,27 @@
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory Group">
-            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Inventory Group" data-datafield="InventoryGroup" style="float:left;width:250px;"></div>
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
-            </div>
-
-            <div class="formrow" style="width:100%;">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="RecType" style="float:left;width:150px;">
-                <div data-caption="Rental" data-value="R"></div>
-                <div data-caption="Sales" data-value="S"></div>
-                <div data-caption="Parts" data-value="P"></div>
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:0 1 315px;">
+              <div class="flexrow">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Inventory Group">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Inventory Group" data-datafield="InventoryGroup" style="flex: 0 1 250px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="flex: 0 1 150px;"></div>
+                  </div>
+                </div>
+                <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="RecType" style="flex: 0 1 150px;padding-top:43px;">
+                  <div data-caption="Rental" data-value="R"></div>
+                  <div data-caption="Sales" data-value="S"></div>
+                  <div data-caption="Parts" data-value="P"></div>
+                </div>
               </div>
             </div>
-            <div class="formrow" style="width:100%;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="I-Codes" style="width:800px;">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwGrid" data-grid="InventoryGroupInvGrid" data-securitycaption="I-Code"></div>
-                </div>
+          </div>
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="I-Codes">
+              <div class="flexrow">
+                <div data-control="FwGrid" data-grid="InventoryGroupInvGrid" data-securitycaption="I-Code"></div>
               </div>
             </div>
           </div>

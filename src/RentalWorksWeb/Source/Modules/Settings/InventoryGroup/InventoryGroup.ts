@@ -1,24 +1,20 @@
 class RwInventoryGroup {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'InventoryGroup';
-        this.apiurl = 'api/v1/inventorygroup';
-    }
-
+    Module: string = 'InventoryGroup';
+    apiurl: string = 'api/v1/inventorygroup';
+    caption: string = 'Inventory Group';
+    nav: string = 'module/inventorygroup';
+    id: string = '43AF2FBA-69FB-46A8-8E5A-2712486B66F3';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Inventory Group', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,22 +24,17 @@ class RwInventoryGroup {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $inventoryGroupInvGrid: any;
-        var $inventoryGroupInvGridControl: any;
-
-        $inventoryGroupInvGrid = $form.find('div[data-grid="InventoryGroupInvGrid"]');
-        $inventoryGroupInvGridControl = jQuery(jQuery('#tmpl-grids-InventoryGroupInvGridBrowse').html());
+        const $inventoryGroupInvGrid = $form.find('div[data-grid="InventoryGroupInvGrid"]');
+        const $inventoryGroupInvGridControl = FwBrowse.loadGridFromTemplate('InventoryGroupInvGrid');
         $inventoryGroupInvGrid.empty().append($inventoryGroupInvGridControl);
         $inventoryGroupInvGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -54,55 +45,46 @@ class RwInventoryGroup {
         $inventoryGroupInvGridControl.data('beforesave', function (request) {
             request.InventoryGroupId = FwFormField.getValueByDataField($form, 'InventoryGroupId');
         });
-
-        $form.find('[data-datafield="RecType"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.val() === "S") {
-                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "SalesInventoryValidation");
-            }
-            else {
-                $form.find('div.field[data-formdatafield="ICode"]').attr("data-formvalidationname", "RentalInventoryValidation");
-            }
-        });
-
         FwBrowse.init($inventoryGroupInvGridControl);
         FwBrowse.renderRuntimeHtml($inventoryGroupInvGridControl);
+        // ----------
+ 
+        this.events($form); // Here for a grid specific event
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val(uniqueids.InventoryGroupId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val();
+        const uniqueid = $form.find('div.fwformfield[data-datafield="InventoryGroupId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $inventoryGroupInvGrid: any;
-
-        $inventoryGroupInvGrid = $form.find('[data-name="InventoryGroupInvGrid"]');
+        const $inventoryGroupInvGrid: JQuery = $form.find('[data-name="InventoryGroupInvGrid"]');
         FwBrowse.search($inventoryGroupInvGrid);
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: JQuery): void {
+        $form.find('[data-datafield="RecType"] .fwformfield-value').on('change', function () {
+            const value = FwFormField.getValueByDataField($form, "RecType");
+            value === "S" ? $form.find('div.field[data-formdatafield="InventoryId"]').attr("data-formvalidationname", "SalesInventoryValidation") : $form.find('div.field[data-formdatafield="InventoryId"]').attr("data-formvalidationname", "RentalInventoryValidation");
+        });
     }
 }
 
