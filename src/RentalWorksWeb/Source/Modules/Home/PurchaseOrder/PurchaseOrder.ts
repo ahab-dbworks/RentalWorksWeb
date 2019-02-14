@@ -801,8 +801,8 @@ class PurchaseOrder {
                 <!--<div data-type="tab" id="alltab" class="combinedtab tab" data-tabpageid="alltabpage" data-caption="Items"></div>
                 <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>-->
                 <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-                  <div data-type="tab" id="vendorinvoicetab" class="tab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
-<div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+                <div data-type="tab" id="vendorinvoicetab" class="tab" data-tabpageid="vendorinvoicetabpage" data-caption="Vendor Invoice"></div>
+                <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
                 <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
                 <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>    
                 <div data-type="tab" id="notetab" class="tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
@@ -900,7 +900,7 @@ class PurchaseOrder {
                     </div>-->
                     <!-- Personnel -->
                     <div class="flexrow">
-                      <div class="flexcolumn" style="flex:1 1 600px;">
+                      <div class="flexcolumn" style="flex:0 1 600px;">
                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Personnel">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-enabled="true" data-required="true" data-validationname="UserValidation" style="flex:1 1 185px;"></div>
