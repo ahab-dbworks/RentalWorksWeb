@@ -50,15 +50,17 @@ class OrderBase {
         }        
     };
     //----------------------------------------------------------------------------------------------
-    dynamicColumns($form, orderTypeId) {
+    dynamicColumns($form, orderTypeId?) {
         let self = this;
-        let orderType = orderTypeId,
+        let orderType,
             $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
             fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
             fieldNames = [];
         let hiddenRentals, hiddenSales, hiddenLabor, hiddenMisc, hiddenUsedSale, hiddenLossDamage, hiddenCombined;
 
-
+        if (typeof orderTypeId !== 'undefined') {
+            orderType = orderTypeId
+        }
         for (var i = 3; i < fields.length; i++) {
             var name = jQuery(fields[i]).attr('data-mappedfield');
             if (name != "QuantityOrdered") {

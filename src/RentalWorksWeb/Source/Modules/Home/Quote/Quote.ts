@@ -258,8 +258,11 @@ class Quote extends OrderBase {
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
-        this.renderFrames($form, parentModuleInfo.OrderId);
-        this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
+        if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
+            this.renderFrames($form, parentModuleInfo.OrderId);
+            this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
+        }
+
         return $form;
     };
 
@@ -738,6 +741,8 @@ class Quote extends OrderBase {
             $form.find('.generaltab').click();
         }
         this.renderGrids($form);
+        this.renderFrames($form, FwFormField.getValueByDataField($form, 'OrderId'));
+        this.dynamicColumns($form, FwFormField.getValueByDataField($form, 'OrderTypeId'));
     };
 };
 
