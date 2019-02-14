@@ -1,24 +1,19 @@
 class RentalCategory {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'RentalCategory';
-        this.apiurl = 'api/v1/rentalcategory';
-    }
-
+    Module: string = 'RentalCategory';
+    apiurl: string = 'api/v1/rentalcategory';
+    caption: string = 'Rental Category';
+    nav: string = 'module/rentalcategory';
+    id: string = '91079439-A188-4637-B733-A7EF9A9DFC22';
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
-
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Rental Category', false, 'BROWSE', true);
+        const $browse = this.openBrowse();
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -28,15 +23,14 @@ class RentalCategory {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.on('change', '.overridecheck input[type=checkbox]', (e) => {
-            var $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
-
+            const $overrideCheck = jQuery(e.currentTarget), $categoryValidation = $form.find('.catvalidation');
             this.toggleEnabled($overrideCheck, $categoryValidation);
         });
     }
-
+    //----------------------------------------------------------------------------------------------
     toggleEnabled($checkbox: JQuery, $validation: JQuery): void {
         if ($checkbox.is(':checked')) {
             $validation.attr('data-enabled', 'true');
@@ -44,12 +38,10 @@ class RentalCategory {
             $validation.attr('data-enabled', 'false');
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $subCategoryGrid, $subCategoryControl;
-
-        $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
-        $subCategoryControl = jQuery(jQuery('#tmpl-grids-SubCategoryGridBrowse').html());
+        const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
+        const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
         $subCategoryGrid.empty().append($subCategoryControl);
         $subCategoryControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -62,20 +54,16 @@ class RentalCategory {
         FwBrowse.init($subCategoryControl);
         FwBrowse.renderRuntimeHtml($subCategoryControl);
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
-
-        $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         this.events($form);
@@ -123,30 +111,26 @@ class RentalCategory {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="CategoryId"] input').val(uniqueids.CategoryId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="RentalCategoryId"] input').val();
+        const uniqueid = $form.find('div.fwformfield[data-datafield="RentalCategoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $laborCategoryGrid;
-        $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+        const $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);
 
         if ($form.find('[data-datafield="CatalogCategory"] .fwformfield-value').prop('checked')) {
@@ -157,7 +141,7 @@ class RentalCategory {
             FwFormField.enable($form.find('.barcodetype'))
         }
     }
-
+    //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         request.uniqueids = {
             Rental: true
