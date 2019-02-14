@@ -30,9 +30,9 @@ class SubWorksheet {
         let $form, me = this, worksheetRequest, errorMsg, createNew, modifyExisting, newPo, existingPo;
         this.OrderId = parentmoduleinfo.OrderId;
         this.RecType = parentmoduleinfo.RecType;
-        errorMsg = $form.find('.error-msg:not(.qty)');
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+        errorMsg = $form.find('.error-msg:not(.qty)');
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
