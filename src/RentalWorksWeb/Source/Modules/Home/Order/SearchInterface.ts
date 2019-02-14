@@ -1253,6 +1253,8 @@ class SearchInterface {
                         $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
                         $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
                         $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                    let $transferItemGridRental = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
+                    let $transferItemGridSales = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
                     if ($form.find('.combinedtab').css('display') != 'none') {
                         FwBrowse.search($combinedGrid);
                     }
@@ -1262,6 +1264,8 @@ class SearchInterface {
                         FwBrowse.search($orderItemGridMisc);
                         FwBrowse.search($orderItemGridLabor);
                         FwBrowse.search($orderItemGridSales);
+                        FwBrowse.search($transferItemGridRental);
+                        FwBrowse.search($transferItemGridSales);
                     }
                 }, null, $searchpopup, id);
             }

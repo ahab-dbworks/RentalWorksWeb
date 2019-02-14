@@ -85,92 +85,66 @@ class Quote extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
-        var $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true);
-        var $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false);
-        var $reserved: JQuery = FwMenu.generateDropDownViewBtn('Reserved', false);
-        var $ordered: JQuery = FwMenu.generateDropDownViewBtn('Ordered', false);
-        var $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false);
-        var $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false);
+        const $browse = $menuObject.closest('.fwbrowse');
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
+        const $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true);
+        const $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false);
+        const $reserved: JQuery = FwMenu.generateDropDownViewBtn('Reserved', false);
+        const $ordered: JQuery = FwMenu.generateDropDownViewBtn('Ordered', false);
+        const $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false);
+        const $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false);
 
-        $all.on('click', function () {
-            var $browse;
+        $all.on('click', e => {
             $all.addClass('select-all-filters');
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
+            this.ActiveView = 'ALL';
             FwBrowse.search($browse);
         });
-        $prospect.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'PROSPECT';
+        $prospect.on('click', e => {
+            this.ActiveView = 'PROSPECT';
             FwBrowse.search($browse);
         });
-        $active.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ACTIVE';
+        $active.on('click', e => {
+            this.ActiveView = 'ACTIVE';
             FwBrowse.search($browse);
         });
-        $reserved.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'RESERVED';
+        $reserved.on('click', e => {
+            this.ActiveView = 'RESERVED';
             FwBrowse.search($browse);
         });
-        $ordered.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ORDERED';
+        $ordered.on('click', e => {
+            this.ActiveView = 'ORDERED';
             FwBrowse.search($browse);
         });
-        $cancelled.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CANCELLED';
+        $cancelled.on('click', e => {
+            this.ActiveView = 'CANCELLED';
             FwBrowse.search($browse);
         });
-        $closed.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CLOSED';
+        $closed.on('click', e => {
+            this.ActiveView = 'CLOSED';
             FwBrowse.search($browse);
         });
 
         FwMenu.addVerticleSeparator($menuObject);
 
-        var viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all);
-        viewSubitems.push($prospect);
-        viewSubitems.push($active);
-        viewSubitems.push($reserved);
-        viewSubitems.push($ordered);
-        viewSubitems.push($cancelled);
-        viewSubitems.push($closed);
+        let viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all, $prospect, $active, $reserved, $ordered, $cancelled, $closed);
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true);
 
         //Location Filter
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
         $allLocations.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
+            this.ActiveView = 'LocationId=ALL';
             FwBrowse.search($browse);
         });
         $userLocation.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
+            this.ActiveView = 'LocationId=' + location.locationid;
             FwBrowse.search($browse);
         });
-        var viewLocation = [];
-        viewLocation.push($userLocation);
-        viewLocation.push($allLocations);
-        var $locationView;
-        $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        let viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
 
         return $menuObject;
     };
