@@ -237,7 +237,7 @@
 
         FwControl.renderRuntimeControls($browse.find('.fwcontrol').addBack());
         FwModule.addBrowseMenu($browse);
-        
+
 
         return $browse;
     }
@@ -416,7 +416,7 @@
                                             { value: '>=', text: 'Later Than or Equals' },
                                             { value: '<>    ', text: 'Does Not Equal' },
                                         ];
-                                        
+
                                         $menubarbutton.on('click', function (e) {
                                             controller = $browse.attr('data-controller');
                                             let maxZIndex;

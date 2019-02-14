@@ -169,16 +169,8 @@ namespace FwStandard.SqlServer
                         }
                         else
                         {
-                            FwDataTypes[] numericTypes = { FwDataTypes.Decimal, FwDataTypes.Percentage, FwDataTypes.Integer, FwDataTypes.CurrencyStringNoDollarSign, FwDataTypes.CurrencyString, FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces };
-                            if (Array.Exists(numericTypes, element => element == col.DataType))
-                            {
-                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDecimal();
-                                worksheetcol++;
-                            } else
-                            {
-                                worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
-                                worksheetcol++;
-                            }
+                            worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToString();
+                            worksheetcol++;
                         }
                     }
                 }
