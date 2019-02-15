@@ -8,6 +8,7 @@ class Quote extends OrderBase {
     caption: string = 'Quote';
     nav: string = 'module/quote';
     id: string = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
+    ActiveViewFields: any = {};
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
@@ -62,6 +63,7 @@ class Quote extends OrderBase {
 
         $browse.data('ondatabind', function (request) {
             request.activeview = self.ActiveView;
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         FwBrowse.addLegend($browse, 'Locked', '#ff704d');
@@ -85,7 +87,28 @@ class Quote extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
+        const self = this;
         const $browse = $menuObject.closest('.fwbrowse');
+
+        function updateActiveViewFields($btn: JQuery, field: string, value: string) {
+            let fields = self.ActiveViewFields[field];
+            if (value == "ALL") {
+                fields = ["ALL"];
+            } else {
+                const isChecked: boolean = $btn.find('input').prop('checked');
+                const valueIndex = fields.indexOf(value);
+                fields = fields.filter(val => val !== "ALL");
+                if (!isChecked) {
+                    if (valueIndex == -1) {
+                        fields.push(value);
+                    }
+                } else {
+                    fields = fields.filter(val => val !== value);
+                }
+            }
+            self.ActiveViewFields[field] = fields;
+        };
+
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
         const $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true);
         const $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false);
@@ -94,33 +117,41 @@ class Quote extends OrderBase {
         const $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false);
         const $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false);
 
+        this.ActiveViewFields.Status = ["ALL"];
         $all.on('click', e => {
             $all.addClass('select-all-filters');
-            this.ActiveView = 'ALL';
+            //this.ActiveView = 'ALL';
+            updateActiveViewFields($all, "Status", "ALL");
             FwBrowse.search($browse);
         });
         $prospect.on('click', e => {
-            this.ActiveView = 'PROSPECT';
+            //this.ActiveView = 'PROSPECT';
+            updateActiveViewFields($prospect, "Status", "PROSPECT");
             FwBrowse.search($browse);
         });
         $active.on('click', e => {
-            this.ActiveView = 'ACTIVE';
+            //this.ActiveView = 'ACTIVE';
+            updateActiveViewFields($active, "Status", "ACTIVE");
             FwBrowse.search($browse);
         });
         $reserved.on('click', e => {
-            this.ActiveView = 'RESERVED';
+            //this.ActiveView = 'RESERVED';
+            updateActiveViewFields($reserved, "Status", "RESERVED");
             FwBrowse.search($browse);
         });
         $ordered.on('click', e => {
-            this.ActiveView = 'ORDERED';
+            //this.ActiveView = 'ORDERED';
+            updateActiveViewFields($ordered, "Status", "ORDERED");
             FwBrowse.search($browse);
         });
         $cancelled.on('click', e => {
-            this.ActiveView = 'CANCELLED';
+            //this.ActiveView = 'CANCELLED';
+            updateActiveViewFields($cancelled, "Status", "CANCELLED");
             FwBrowse.search($browse);
         });
         $closed.on('click', e => {
-            this.ActiveView = 'CLOSED';
+            //this.ActiveView = 'CLOSED';
+            updateActiveViewFields($closed, "Status", "CLOSED");
             FwBrowse.search($browse);
         });
 
@@ -134,12 +165,15 @@ class Quote extends OrderBase {
         const location = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+
+        this.ActiveViewFields.LocationId = [location.locationid];
         $allLocations.on('click', function () {
-            this.ActiveView = 'LocationId=ALL';
+            //this.ActiveView = 'LocationId=ALL';
+            updateActiveViewFields($allLocations, "LocationId", "ALL");
             FwBrowse.search($browse);
         });
         $userLocation.on('click', function () {
-            this.ActiveView = 'LocationId=' + location.locationid;
+            updateActiveViewFields($userLocation, "LocationId", location.locationid);
             FwBrowse.search($browse);
         });
         let viewLocation = [];
