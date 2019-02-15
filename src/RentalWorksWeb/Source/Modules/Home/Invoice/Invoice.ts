@@ -511,93 +511,59 @@ class Invoice {
 
         this.dynamicColumns($form);
     };
-    //----------------------------------------------------------------------------------------------
-    activityCheckboxEvents($form: JQuery, mode: string): void {
-        const rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
-        $form.find('[data-datafield="Rental"] input').on('change', e => {
-            if (mode == "NEW") {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    rentalTab.show();
-                } else {
-                    rentalTab.hide();
-                }
-            } else {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    rentalTab.show();
-                    FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
-                } else {
-                    rentalTab.hide();
-                    FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
-                }
-            }
-        });
-
-        const salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-        $form.find('[data-datafield="Sales"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? salesTab.show() : salesTab.hide();
-        });
-        const miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
-        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? miscTab.show() : miscTab.hide();
-        });
-        const laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
-        $form.find('[data-datafield="Labor"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? laborTab.show() : laborTab.hide();
-        });
-        const rentalSaleTab = $form.find('[data-type="tab"][data-caption="Rental Sale"]');
-        $form.find('[data-datafield="RentalSale"] input').on('change', e => {
-            jQuery(e.currentTarget).prop('checked') ? rentalSaleTab.show() : rentalSaleTab.hide();
-        });
-    };
+   
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: JQuery): void {
-        let $rentalGrid = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]'),
-            $salesGrid = $form.find('.salesgrid [data-name="InvoiceItemGrid"]'),
-            $laborGrid = $form.find('.laborgrid [data-name="InvoiceItemGrid"]'),
-            $miscGrid = $form.find('.miscgrid [data-name="InvoiceItemGrid"]'),
-            $rentalSaleGrid = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]'),
-            fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
-            fieldNames = [],
-            rentalShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Rate", "Cost", "DaysPerWeek", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
-            salesShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
-            laborShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Cost", "DiscountAmount", "Extended", "Taxable"],
-            miscShowFields: Array<string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Cost", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"],
-            rentalSaleShowFields: Array<string> = ["OrderNumber", "SerialNumber", "BarCode", "ICode", "Description", "Quantity", "Cost", "Unit", "Rate", "DiscountAmount", "Extended", "Taxable"];
-
+        const $rentalGrid = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
+        const fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
+        const fieldNames = [];
         for (let i = 3; i < fields.length; i++) {
             let name = jQuery(fields[i]).attr('data-mappedfield');
             if (name != "Quantity") {
                 fieldNames.push(name);
             }
         }
-        let hiddenRentals: Array<string> = fieldNames.filter(function (field) {
+        // ----------
+        const rentalShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Days", "Rate", "Cost", "DaysPerWeek", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        const hiddenRentals: Array<string> = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(rentalShowFields))
-        let hiddenSales = fieldNames.filter(function (field) {
-            return !this.has(field)
-        }, new Set(salesShowFields))
-        let hiddenLabor = fieldNames.filter(function (field) {
-            return !this.has(field)
-        }, new Set(laborShowFields))
-        let hiddenMisc = fieldNames.filter(function (field) {
-            return !this.has(field)
-        }, new Set(miscShowFields))
-        let hiddenRentalSale = fieldNames.filter(function (field) {
-            return !this.has(field)
-        }, new Set(rentalSaleShowFields))
-
         for (let i = 0; i < hiddenRentals.length; i++) {
             jQuery($rentalGrid.find(`[data-mappedfield="${hiddenRentals[i]}"]`)).parent().hide();
         }
+        // ----------
+        const salesShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "Unit", "Cost", "Rate", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        const hiddenSales = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(salesShowFields))
+        const $salesGrid = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
         for (let i = 0; i < hiddenSales.length; i++) {
             jQuery($salesGrid.find(`[data-mappedfield="${hiddenSales[i]}"]`)).parent().hide();
         }
+        // ----------
+        const laborShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "FromTime", "ToDate", "ToTime", "Days", "Unit", "Rate", "Cost", "DiscountAmount", "Extended", "Taxable"];
+        const hiddenLabor = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(laborShowFields))
+        const $laborGrid = $form.find('.laborgrid [data-name="InvoiceItemGrid"]');
         for (let i = 0; i < hiddenLabor.length; i++) {
             jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide();
         }
+        // ----------
+        const miscShowFields: Array <string> = ["OrderNumber", "ICode", "Description", "Quantity", "FromDate", "ToDate", "Unit", "Days", "Rate", "Cost", "DiscountPercent", "DiscountAmount", "Extended", "Taxable"];
+        const hiddenMisc = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(miscShowFields))
+        const $miscGrid = $form.find('.miscgrid [data-name="InvoiceItemGrid"]');
         for (let i = 0; i < hiddenMisc.length; i++) {
             jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide();
         }
+        // ----------
+        const rentalSaleShowFields: Array<string> = ["OrderNumber", "SerialNumber", "BarCode", "ICode", "Description", "Quantity", "Cost", "Unit", "Rate", "DiscountAmount", "Extended", "Taxable"];
+        const hiddenRentalSale = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(rentalSaleShowFields))
+        const $rentalSaleGrid = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]');
         for (let i = 0; i < hiddenRentalSale.length; i++) {
             jQuery($rentalSaleGrid.find(`[data-mappedfield="${hiddenRentalSale[i]}"]`)).parent().hide();
         }
@@ -651,21 +617,20 @@ class Invoice {
         });
         //Open Print Invoice Report
         $form.find('.print-invoice').on('click', e => {
-            let $report, invoiceNumber, invoiceId, recordTitle, printTab, module, hideModule;
-            module = this.Module;
             try {
-                invoiceNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-                invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-                recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                $report = RwInvoiceReportController.openForm();
+                const module = this.Module;
+                const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+                const $report = RwInvoiceReportController.openForm();
 
                 FwModule.openSubModuleTab($form, $report);
 
+                const invoiceId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
                 $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(invoiceId);
+                const invoiceNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
                 $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(invoiceNumber);
                 jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
 
-                printTab = jQuery('.tab.submodule.active');
+                const printTab = jQuery('.tab.submodule.active');
                 printTab.find('.caption').html(`Print ${module}`);
                 printTab.attr('data-caption', `${module} ${recordTitle}`);
             }
@@ -683,65 +648,68 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     checkBillingDateRange($form: JQuery, event: any): void {
-        let parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-        let parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
+        try {
+            const parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
+            const parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
 
-        if (parsedToDate < parsedFromDate) {
-            $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
-            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
-        } else {
-            $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
+            if (parsedToDate < parsedFromDate) {
+                $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
+                FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+            } else {
+                $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
         }
     };
     //----------------------------------------------------------------------------------------------
     voidInvoice($form: JQuery): void {
-        var self = this;
-        let $confirmation, $yes, $no;
-        $confirmation = FwConfirmation.renderConfirmation('Void', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        let html = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Void Invoice?</div>');
-        html.push('  </div>');
-        html.push('</div>');
+        try {
+            const $confirmation = FwConfirmation.renderConfirmation('Void', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push('    <div>Void Invoice?</div>');
+            html.push('  </div>');
+            html.push('</div>');
 
-        FwConfirmation.addControls($confirmation, html.join(''));
-        $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
-        $yes.on('click', makeVoid);
+            $yes.on('click', makeVoid);
 
-        function makeVoid() {
-            let request: any = {};
-            const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            function makeVoid() {
+                FwFormField.disable($confirmation.find('.fwformfield'));
+                FwFormField.disable($yes);
+                $yes.text('Voiding...');
+                $yes.off('click');
 
-            FwFormField.disable($confirmation.find('.fwformfield'));
-            FwFormField.disable($yes);
-            $yes.text('Voiding...');
-            $yes.off('click');
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
-                FwConfirmation.destroyConfirmation($confirmation);
-                FwModule.refreshForm($form, self);
-            }, function onError(response) {
-                $yes.on('click', makeVoid);
-                $yes.text('Void');
-                FwFunc.showError(response);
-                FwFormField.enable($confirmation.find('.fwformfield'));
-                FwFormField.enable($yes);
-                FwModule.refreshForm($form, self);
-            }, $form);
-        };
+                const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwModule.refreshForm($form, InvoiceController);
+                }, function onError(response) {
+                    $yes.on('click', makeVoid);
+                    $yes.text('Void');
+                    FwFunc.showError(response);
+                    FwFormField.enable($confirmation.find('.fwformfield'));
+                    FwFormField.enable($yes);
+                    FwModule.refreshForm($form, InvoiceController);
+                }, $form);
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
 };
 
 //----------------------------------------------------------------------------------------------
 // Void Invoice - Form
 FwApplicationTree.clickEvents['{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}'] = function (e) {
-    let $form;
-    $form = jQuery(this).closest('.fwform');
+    const $form = jQuery(this).closest('.fwform');
     try {
         InvoiceController.voidInvoice($form);
     }
@@ -752,16 +720,13 @@ FwApplicationTree.clickEvents['{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}'] = functi
 //----------------------------------------------------------------------------------------------
 // Void Invoice - Browse
 FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = function (e) {
-    let $browse;
-    $browse = jQuery(this).closest('.fwbrowse');
-
     try {
+        const $browse = jQuery(this).closest('.fwbrowse');
         const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
         if (invoiceId != null) {
-            let $confirmation, $yes, $no;
-            $confirmation = FwConfirmation.renderConfirmation('Void', '');
+            const $confirmation = FwConfirmation.renderConfirmation('Void', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
-            let html = [];
+            const html: Array<string> =[];
             html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
             html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
             html.push('    <div>Void Invoice?</div>');
@@ -769,20 +734,18 @@ FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = functi
             html.push('</div>');
 
             FwConfirmation.addControls($confirmation, html.join(''));
-            $yes = FwConfirmation.addButton($confirmation, 'Void', false);
-            $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            const $yes = FwConfirmation.addButton($confirmation, 'Void', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $yes.on('click', makeVoid);
 
             function makeVoid() {
-                let request: any = {};
-
                 FwFormField.disable($confirmation.find('.fwformfield'));
                 FwFormField.disable($yes);
                 $yes.text('Voiding...');
                 $yes.off('click');
 
-                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/void`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwNotification.renderNotification('SUCCESS', 'Invoice Successfully Voided');
                     FwConfirmation.destroyConfirmation($confirmation);
                     FwBrowse.databind($browse);
@@ -807,7 +770,7 @@ FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = functi
 //Print Invoice menu item
 FwApplicationTree.clickEvents['{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}'] = function (e) {
     try {
-        var $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         $form.find('.print-invoice').trigger('click');
     }
     catch (ex) {
@@ -817,39 +780,43 @@ FwApplicationTree.clickEvents['{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}'] = functi
 //----------------------------------------------------------------------------------------------
 //form approve
 FwApplicationTree.clickEvents['{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}'] = function (event) {
-    var $form, invoiceId;
-    $form = jQuery(this).closest('.fwform');
-    invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        if (response.success === true) {
-            FwModule.refreshForm($form, InvoiceController);
-        } else {
-            FwNotification.renderNotification('WARNING', response.msg);
-        }
-    }, null, $form);
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.success === true) {
+                FwModule.refreshForm($form, InvoiceController);
+            } else {
+                FwNotification.renderNotification('WARNING', response.msg);
+            }
+        }, null, $form);
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //----------------------------------------------------------------------------------------------
 //form unapprove
 FwApplicationTree.clickEvents['{F8C5F06C-4B9D-4495-B589-B44B02AE7915}'] = function (event) {
-    var $form, invoiceId;
-    $form = jQuery(this).closest('.fwform');
-    invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-    FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        if (response.success === true) {
-            FwModule.refreshForm($form, InvoiceController);
-        } else {
-            FwNotification.renderNotification('WARNING', response.msg);
-        }
-    }, null, $form);
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.success === true) {
+                FwModule.refreshForm($form, InvoiceController);
+            } else {
+                FwNotification.renderNotification('WARNING', response.msg);
+            }
+        }, null, $form);
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //----------------------------------------------------------------------------------------------
 //browse approve
 FwApplicationTree.clickEvents['{9D1A3607-EE4A-49E6-8EAE-DB3E0FF06EAE}'] = function (event) {
-    let $browse;
-    let invoiceId;
-    $browse = jQuery(this).closest('.fwbrowse');
     try {
-        invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
+        const $browse = jQuery(this).closest('.fwbrowse');
+        const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
         if (typeof invoiceId !== 'undefined') {
             FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/approve`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
@@ -868,11 +835,9 @@ FwApplicationTree.clickEvents['{9D1A3607-EE4A-49E6-8EAE-DB3E0FF06EAE}'] = functi
 //----------------------------------------------------------------------------------------------
 //browse unapprove
 FwApplicationTree.clickEvents['{F9D43CB6-2666-4AE0-B35C-77735561B9B9}'] = function (event) {
-    let $browse;
-    let invoiceId;
-    $browse = jQuery(this).closest('.fwbrowse');
     try {
-        invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
+        const $browse = jQuery(this).closest('.fwbrowse');
+        const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
         if (typeof invoiceId !== 'undefined') {
             FwAppData.apiMethod(true, 'POST', `api/v1/invoice/${invoiceId}/unapprove`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
