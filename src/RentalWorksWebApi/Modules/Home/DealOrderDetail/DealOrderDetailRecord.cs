@@ -53,6 +53,12 @@ namespace WebApi.Modules.Home.DealOrderDetail
         [FwSqlDataField(column: "poccprimarywhenemailbackup", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? CcPrimaryApproverWhenEmailingBackupApprover { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
+        public string ReceiveDate { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "receivetime", modeltype: FwDataTypes.Date, sqltype: "varchar", maxlength: 5)]
+        public string ReceiveTime { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "isreturntransferorder", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? IsReturnTransferOrder { get; set; }
         //------------------------------------------------------------------------------------

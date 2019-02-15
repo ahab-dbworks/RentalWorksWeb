@@ -60,8 +60,17 @@ namespace WebApi.Modules.Home.TransferOrder
         [FwSqlDataField(column: "picktime", modeltype: FwDataTypes.Text)]
         public string PickTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date)]
-        public string ReceiveDate { get; set; }
+        [FwSqlDataField(column: "shipdate", modeltype: FwDataTypes.Date)]
+        public string ShipDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "shiptime", modeltype: FwDataTypes.Text)]
+        public string ShipTime { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "requireddate", modeltype: FwDataTypes.Date)]
+        public string RequiredDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "requiredtime", modeltype: FwDataTypes.Text)]
+        public string RequiredTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }

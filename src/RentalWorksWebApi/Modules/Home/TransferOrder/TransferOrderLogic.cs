@@ -79,9 +79,20 @@ namespace WebApi.Modules.Home.TransferOrder
         public bool? IsReturnTransferOrder { get { return transferOrderDetail.IsReturnTransferOrder; } set { transferOrderDetail.IsReturnTransferOrder = value; } }
         [FwLogicProperty(Id: "EgZDjXm8CZKGD")]
         public string PickDate { get { return transferOrder.PickDate; } set { transferOrder.PickDate = value; } }
-
         [FwLogicProperty(Id: "nfDtDF2adG84y")]
         public string PickTime { get { return transferOrder.PickTime; } set { transferOrder.PickTime = value; } }
+
+
+        [FwLogicProperty(Id: "dgIJeuGQtj4l", IsReadOnly: true)]
+        public string ShipDate { get { return transferOrder.EstimatedStartDate; } set { transferOrder.EstimatedStartDate = value; outDelivery.TargetShipDate = value; } }
+        [FwLogicProperty(Id: "QW1dQRJ6eKsl5", IsReadOnly: true)]
+        public string ShipTime { get { return transferOrder.EstimatedStartTime; } set { transferOrder.EstimatedStartTime = value; outDelivery.TargetShipTime = value; } }
+
+        [FwLogicProperty(Id: "AjVkvBVuspGif", IsReadOnly: true)]
+        public string RequiredDate { get { return transferOrderDetail.ReceiveDate; } set { transferOrderDetail.ReceiveDate = value; } }
+        [FwLogicProperty(Id: "io1lEB0j5r3mo", IsReadOnly: true)]
+        public string RequiredTime { get { return transferOrderDetail.ReceiveTime; } set { transferOrderDetail.ReceiveTime = value; } }
+
 
 
 
@@ -105,10 +116,10 @@ namespace WebApi.Modules.Home.TransferOrder
         public string OutDeliveryRequiredTime { get { return outDelivery.RequiredTime; } set { outDelivery.RequiredTime = value; } }
 
         [FwLogicProperty(Id: "gZgOPA1duznsr")]
-        public string OutDeliveryTargetShipDate { get { return outDelivery.TargetShipDate; } set { outDelivery.TargetShipDate = value; } }
+        public string OutDeliveryTargetShipDate { get { return outDelivery.TargetShipDate; } set { outDelivery.TargetShipDate = value; transferOrder.EstimatedStartDate = value; } }
 
         [FwLogicProperty(Id: "0MSndu7T9XN3X")]
-        public string OutDeliveryTargetShipTime { get { return outDelivery.TargetShipTime; } set { outDelivery.TargetShipTime = value; } }
+        public string OutDeliveryTargetShipTime { get { return outDelivery.TargetShipTime; } set { outDelivery.TargetShipTime = value; transferOrder.EstimatedStartTime = value; } }
 
         [FwLogicProperty(Id: "9E3elcad0u6v9")]
         public string OutDeliveryDirection { get { return outDelivery.Direction; } set { outDelivery.Direction = value; } }
@@ -446,10 +457,6 @@ namespace WebApi.Modules.Home.TransferOrder
 
 
 
-        //[FwLogicProperty(Id: "dgIJeuGQtj4l", IsReadOnly: true)]
-        //public string ShipDate { get { return transferOrder.EstimatedStartDate; } set { transferOrder.EstimatedStartDate = value; } }
-        //[FwLogicProperty(Id: "QW1dQRJ6eKsl5", IsReadOnly: true)]
-        //public string ReceivDate { get; set; }
         //------------------------------------------------------------------------------------ 
         //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
         //{                   
