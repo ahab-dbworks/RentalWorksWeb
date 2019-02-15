@@ -65,9 +65,9 @@ class TransferOrder {
         $form = FwModule.openForm($form, mode);
 
         FwFormField.loadItems($form.find('.outtype'), [
-            { value: 'DELIVER', text: 'Deliver to Customer' },
-            { value: 'SHIP', text: 'Ship to Customer' },
-            { value: 'PICK UP', text: 'Customer Pick Up' }
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Pick Up' }
         ], true);
 
         this.events($form);
