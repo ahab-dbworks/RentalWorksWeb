@@ -1723,6 +1723,218 @@
 			]
 		},
 		{
+			"name": "Browse Active View Fields",
+			"item": [
+				{
+					"name": "Browse Active View Fields: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ModuleName\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"WebUserId\": \"B00294F7\"\n    \t\t\n    \t}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/browseactiveviewfields/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"browseactiveviewfields",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Browse Active View Fields: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/browseactiveviewfields",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"browseactiveviewfields"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Browse Active View Fields: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/browseactiveviewfields/00002WPC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"browseactiveviewfields",
+								"00002WPC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Browse Active View Fields: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"WebUserId\": \"B00294F7\",\n    \"ModuleName\": \"Order\",\n    \"ActiveViewFields\": \"{\\\"Status\\\": [\\\"CONFIRMED\\\", \\\"ACTIVE\\\"], \\\"LocationId\\\": [\\\"B001WH00\\\"]}\"\n}\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/browseactiveviewfields",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"browseactiveviewfields"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Browse Active View Fields: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"BrowseActiveViewFieldsId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/browseactiveviewfields",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"browseactiveviewfields"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Browse Active View Fields: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/browseactiveviewfields/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"browseactiveviewfields",
+								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Building",
 			"item": [
 				{
@@ -26142,7 +26354,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\":\"I00008PE\", \n    \t\t\"RecType\":\"F\",            \"RecTypeComment\": \"R=Rental, S=Sale, M=Miscellaneous, L=Labor, RS=RentalSale\",\n    \t\t\"Summary\": false,\n    \t\t\"Subs\": false,             \"SubsComment\": \"Send 'true' when requesting sub items of a Purchase Order (ie. Sub-Rental, or Sub-Sale)\"\n    \t}\n}\n\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"totalfields\": [\n    \t\t\"WeeklyExtendedNoDiscount\", \"WeeklyDiscountAmount\", \"WeeklyExtended\", \"WeeklyTax\", \"WeeklyTotal\",\n    \t\t\"MonthlyExtendedNoDiscount\", \"MonthlyDiscountAmount\", \"MonthlyExtended\", \"MonthlyTax\", \"MonthlyTotal\",\n    \t\t\"PeriodExtendedNoDiscount\", \"PeriodDiscountAmount\", \"PeriodExtended\", \"PeriodTax\", \"PeriodTotal\"\n    \t],\n    \t\"uniqueids\": {\n    \t\t\"OrderId\":\"I00008LA\", \n    \t\t\"RecType\":\"R\",            \"RecTypeComment\": \"R=Rental, S=Sale, M=Miscellaneous, L=Labor, RS=RentalSale\",\n    \t\t\"Summary\": false,\n    \t\t\"Subs\": false,             \"SubsComment\": \"Send 'true' when requesting sub items of a Purchase Order (ie. Sub-Rental, or Sub-Sale)\"\n    \t}\n}\n\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/orderitem/browse",
@@ -36859,7 +37071,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"QuoteNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": []\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"QuoteNumber\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"activeviewfields\": {\n    \t\t\"Status\": [\"PROSPECT\", \"ACTIVE\"],\n    \t\t\"LocationId\": [\"B001WH00\"]\n    \t}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/quote/browse",
@@ -39597,7 +39809,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"RepairId\": \"000016Q1\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"totalfields\": [\"GrossTotal\", \"DiscountAmount\", \"Extended\", \"Tax\", \"Total\"],\n    \t\"uniqueids\": {\"RepairId\": \"000016Q1\"}\n\t\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/repairpart/browse",
