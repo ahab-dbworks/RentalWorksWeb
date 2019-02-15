@@ -199,6 +199,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
                 dt.InsertSubTotalRows("SubCategory", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
 
             return dt;

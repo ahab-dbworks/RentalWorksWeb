@@ -2,17 +2,16 @@
 <div class="rpt-flexrow-ROA">
   <span class="rpt-title">{{Report}}</span>
 </div>
+<div class="rpt-flexrow-ROA">
+  <span class="rpt-title">{{ReportPeriod}} {{ReportYear}}</span>
+</div>
 <div class="rpt-flexrow-ROA" style="margin-top:40px;">
   <table>
     <thead>
       <tr>
-        <th class="text">Warehouse</th>
-        <th class="text">Inventory Type</th>
-        <th class="text">Category</th>
-        <th class="text">Sub Category</th>
-        <th class="text">ICode Rank</th>
         <th class="text">ICode</th>
         <th class="text">Description</th>
+        <th class="text">Rank</th>
         <th class="number">Owned Qty</th>
         <th class="number">Days Owned</th>
         <th class="number">Avg Owned Qty</th>
@@ -24,29 +23,37 @@
         <th class="number">Annual ROUV</th>
         <th class="number">Weeks Billed</th>
         <th class="number">Days Rented</th>
-        <th class="number">Owned Revenue Amt</th>
-        <th class="number">Vendor Revenue Amt</th>
+        <th class="number">Owned Revenue</th>
+        <th class="number">Vendor Revenue</th>
+        <th class="number">Vendor Cost</th>
         <th class="number">Average Cost</th>
         <th class="number">Asset Average Cost</th>
         <th class="number">Replacement Cost</th>
         <th class="number">Total Replacement Cost</th>
         <th class="number">Unit Value</th>
-        <th class="number">Total Unit Value</th>
-        <th class="number">Percent In Repair</th>
-        <th class="text">From</th>
-        <th class="text">To</th>
+        <th class="number">Asset Unit Value</th>
+        <th class="number">Repair Pct.</th>
       </tr>
     </thead>
     <tbody>
       {{#each rows}}
-      <tr>
-        <td class="text" data-value="{{Warehouse}}"></td>
-        <td class="text" data-value="{{InventoryType}}"></td>
-        <td class="text" data-value="{{Category}}"></td>
-        <td class="text" data-value="{{SubCategory}}"></td>
-        <td class="text" data-value="{{ICodeRank}}"></td>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="5" class="lower header-row">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "SubCategoryheader"}}
+        <td colspan="5" class="lower header-row">Sub Category: {{SubCategory}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
         <td class="text" data-value="{{ICode}}"></td>
         <td class="text" data-value="{{ICodeDescription}}"></td>
+        <td class="text" data-value="{{ICodeRank}}"></td>
         <td class="number" data-value="{{CurrentOwnedQuantity}}"></td>
         <td class="number" data-value="{{DaysOwned}}"></td>
         <td class="number" data-value="{{AverageOwnedQuantity}}"></td>
@@ -60,6 +67,7 @@
         <td class="number" data-value="{{DaysRented}}"></td>
         <td class="number" data-value="{{OwnedRevenueAmount}}"></td>
         <td class="number" data-value="{{VendorRevenueAmount}}"></td>
+        <td class="number" data-value="{{VendorCostAmount}}"></td>
         <td class="number" data-value="{{AverageCostAmount}}"></td>
         <td class="number" data-value="{{AssetAverageCostAmount}}"></td>
         <td class="number" data-value="{{ReplacementCostAmount}}"></td>
@@ -67,8 +75,62 @@
         <td class="number" data-value="{{UnitValueCostAmount}}"></td>
         <td class="number" data-value="{{AssetUnitValueCostAmount}}"></td>
         <td class="number" data-value="{{RepairPercent}}"></td>
-        <td class="text" data-value="{{FromDate}}"></td>
-        <td class="text" data-value="{{ToDate}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "SubCategoryfooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{SubCategory}}&nbsp;</td>
+        <td class="total-row number" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AverageOwnedQuantity}}"></td>
+        <td class="total-row number" data-value="{{AverageWeeklyAmount}}"></td>
+        <td colspan="8" class="total-row number" data-value="{{OwnedRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorCostAmount}}"></td>
+        <td colspan="4" class="total-row number" data-value="{{TotalReplacementCostAmount}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AssetUnitValueCostAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryfooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Category}}&nbsp;</td>
+        <td class="total-row number" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AverageOwnedQuantity}}"></td>
+        <td class="total-row number" data-value="{{AverageWeeklyAmount}}"></td>
+        <td colspan="8" class="total-row number" data-value="{{OwnedRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorCostAmount}}"></td>
+        <td colspan="4" class="total-row number" data-value="{{TotalReplacementCostAmount}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AssetUnitValueCostAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypefooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{InventoryType}}&nbsp;</td>
+        <td class="total-row number" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AverageOwnedQuantity}}"></td>
+        <td class="total-row number" data-value="{{AverageWeeklyAmount}}"></td>
+        <td colspan="8" class="total-row number" data-value="{{OwnedRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorCostAmount}}"></td>
+        <td colspan="4" class="total-row number" data-value="{{TotalReplacementCostAmount}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AssetUnitValueCostAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehousefooter"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Warehouse}}&nbsp;</td>
+        <td class="total-row number" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AverageOwnedQuantity}}"></td>
+        <td class="total-row number" data-value="{{AverageWeeklyAmount}}"></td>
+        <td colspan="8" class="total-row number" data-value="{{OwnedRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorCostAmount}}"></td>
+        <td colspan="4" class="total-row number" data-value="{{TotalReplacementCostAmount}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AssetUnitValueCostAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td class="total-row number" data-value="{{CurrentOwnedQuantity}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AverageOwnedQuantity}}"></td>
+        <td class="total-row number" data-value="{{AverageWeeklyAmount}}"></td>
+        <td colspan="8" class="total-row number" data-value="{{OwnedRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorRevenueAmount}}"></td>
+        <td class="total-row number" data-value="{{VendorCostAmount}}"></td>
+        <td colspan="4" class="total-row number" data-value="{{TotalReplacementCostAmount}}"></td>
+        <td colspan="2" class="total-row number" data-value="{{AssetUnitValueCostAmount}}"></td>
+        {{/ifEquals}}
       </tr>
       {{/each}}
     </tbody>

@@ -1,6 +1,6 @@
 ﻿/*Return on Asset Precalculated*/
 tbody {
-    tr:nth-child(odd) {
+    tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
 
@@ -23,10 +23,13 @@ thead {
     }
 }
 
-.name-row {
+.header-row {
     font-weight: bold;
-    padding-top: 15px;
     font-size: 12px;
+}
+
+.header-row:not(.lower) {
+    padding-top: 15px;
 }
 
 .total-row {

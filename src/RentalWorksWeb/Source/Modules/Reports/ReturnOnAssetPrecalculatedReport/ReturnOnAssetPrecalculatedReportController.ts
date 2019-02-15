@@ -17,10 +17,10 @@ var returnOnAssetPrecalculatedTemplateFrontEnd = `
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Year" data-datafield="Year" data-displayfield="Year" data-validationname="ReturnOnAssetYearValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Year" data-datafield="ReportYear" data-displayfield="Year" data-validationname="ReturnOnAssetYearValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Period" data-datafield="Period" data-displayfield="Label" data-validationname="ReturnOnAssetPeriodValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Period" data-datafield="ReportPeriod" data-displayfield="Label" data-validationname="ReturnOnAssetPeriodValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>
@@ -73,12 +73,12 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -89,7 +89,7 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -105,8 +105,8 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
         const date = new Date();
         const year = date.getFullYear();
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-        FwFormField.setValue($form, 'div[data-datafield="Period"]', 'FY', 'Full Year');
-        FwFormField.setValue($form, 'div[data-datafield="Year"]', year, year);
+        FwFormField.setValue($form, 'div[data-datafield="ReportPeriod"]', 'FY', 'Full Year');
+        FwFormField.setValue($form, 'div[data-datafield="ReportYear"]', year, year);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {
