@@ -1530,6 +1530,31 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
+        protected void AddActiveViewFieldToSelect(string activeViewFieldName, string databaseFieldName, FwSqlSelect select, BrowseRequest request = null)
+        {
+            if ((request != null) && (request.activeviewfields != null))
+            {
+                if (request.activeviewfields.ContainsKey(activeViewFieldName))
+                {
+                    List<string> values = request.activeviewfields[activeViewFieldName];
+                    if (values.Count == 1)
+                    {
+                        string value = values[0];
+                        if (!value.ToUpper().Equals("ALL"))
+                        {
+                            string parameterName = activeViewFieldName.ToLower();
+                            select.AddWhere("(" + databaseFieldName + " = @" + parameterName + ")");
+                            select.AddParameter("@" + parameterName, value);
+                        }
+                    }
+                    else if (values.Count > 1)
+                    {
+                        select.AddWhereIn(" and ", databaseFieldName, string.Join(",", values));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         protected string GetUniqueIdAsString(string uniqueIdFieldName, BrowseRequest request = null)
         {
             string fieldValue = null;
