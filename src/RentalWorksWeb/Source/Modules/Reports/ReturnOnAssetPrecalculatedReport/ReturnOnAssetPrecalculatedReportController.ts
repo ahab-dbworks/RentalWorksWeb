@@ -38,6 +38,14 @@ var returnOnAssetPrecalculatedTemplateFrontEnd = `
                 </div>
               </div>
             </div>
+            <div class="flexcolumn" style="max-width:285px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeZeroCurrentOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Zero Current Owned" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="IncludeZeroAverageOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Zero Average Owned" style="float:left;max-width:420px;"></div>
+                </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:300px;">
                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

@@ -19,6 +19,8 @@ export class ReturnOnAssetPrecalculatedReportRequest {
     CategoryId: string;
     SubCategoryId: string;
     InventoryId: string;
+    IncludeZeroCurrentOwned: string;
+    IncludeZeroAverageOwned: string;
 }
 
 export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
@@ -37,11 +39,13 @@ export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
             request.CategoryId = parameters.CategoryId;
             request.SubCategoryId = parameters.SubCategoryId;
             request.InventoryId = parameters.InventoryId;
+            request.IncludeZeroCurrentOwned = parameters.IncludeZeroCurrentOwned;
+            request.IncludeZeroAverageOwned = parameters.IncludeZeroAverageOwned;
 
-            let assetPrecalculated: any = {};
 
             let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetprecalculatedreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
+                    const assetPrecalculated: any = {};
                     assetPrecalculated.rows = DataTable.toObjectList(response);
                     assetPrecalculated.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     assetPrecalculated.Report = 'Return On Asset Precalculated Report';
