@@ -60,55 +60,55 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         [FwSqlDataField(column: "AverageOwnedQty", modeltype: FwDataTypes.Decimal)]
         public decimal? AverageOwnedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AverageWeeklyAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "AverageWeeklyAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AverageWeeklyAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "Utilization", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "Utilization", modeltype: FwDataTypes.Percentage)]
         public decimal? Utilization { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "OutUtilization", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "OutUtilization", modeltype: FwDataTypes.Percentage)]
         public decimal? OutUtilization { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AnnualROA", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "AnnualROA", modeltype: FwDataTypes.Percentage)]
         public decimal? AnnualROA { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AnnualROR", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "AnnualROR", modeltype: FwDataTypes.Percentage)]
         public decimal? AnnualROR { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AnnualROUV", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "AnnualROUV", modeltype: FwDataTypes.Percentage)]
         public decimal? AnnualROUV { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "WeeksBilled", modeltype: FwDataTypes.Integer)]
         public int? WeeksBilled { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "OwnedRevenueAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "OwnedRevenueAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? OwnedRevenueAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "VendorRevenueAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "VendorRevenueAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? VendorRevenueAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "VendorCostAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "VendorCostAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? VendorCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AverageCostAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "AverageCostAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AverageCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AssetAverageCostAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "AssetAverageCostAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AssetAverageCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ReplacementCostAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "ReplacementCostAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "TotalReplacementCostAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "TotalReplacementCostAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TotalReplacementCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "UnitValueCostAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "UnitValueCostAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitValueCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "AssetUnitValueCostAmt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "AssetUnitValueCostAmt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AssetUnitValueCostAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "RepairPct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "RepairPct", modeltype: FwDataTypes.Percentage)]
         public decimal? RepairPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "DaysRented", modeltype: FwDataTypes.Integer)]
@@ -120,7 +120,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         [FwSqlDataField(column: "EffectiveDate", modeltype: FwDataTypes.Date)]
         public string EffectiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "MaxDailyRate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "MaxDailyRate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? MaxDailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ExportDate", modeltype: FwDataTypes.Date)]
