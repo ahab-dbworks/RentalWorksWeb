@@ -10,6 +10,7 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
         public BrowseActiveViewFieldsLogic()
         {
             dataRecords.Add(browseActiveViewFields);
+            HasAudit = false;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "wAsUeb8VpiUq", IsPrimaryKey: true)]

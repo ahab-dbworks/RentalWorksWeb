@@ -9,7 +9,7 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
     public class BrowseActiveViewFieldsRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
         public int? Id { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
