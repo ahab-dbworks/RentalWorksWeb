@@ -165,6 +165,9 @@ namespace FwStandard.BusinessLogic
         [JsonIgnore]
         public bool LoadOriginalBeforeSaving { get; set; } = true;
 
+        [JsonIgnore]
+        public bool HasAudit { get; set; } = true;
+
         //static Mutex CustomFieldMutex = new Mutex(false, "LoadCustomFields");
         static Mutex CustomFieldMutex = new Mutex();
 
