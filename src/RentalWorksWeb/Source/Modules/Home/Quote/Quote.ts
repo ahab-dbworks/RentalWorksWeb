@@ -9,6 +9,7 @@ class Quote extends OrderBase {
     nav: string = 'module/quote';
     id: string = '4D785844-BE8A-4C00-B1FA-2AA5B05183E5';
     ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
@@ -107,6 +108,23 @@ class Quote extends OrderBase {
                 }
             }
             self.ActiveViewFields[field] = fields;
+
+            let request = {
+                WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+                , ModuleName: self.Module
+                , ActiveViewFields: JSON.stringify(self.ActiveViewFields)
+            };
+
+            if (typeof self.ActiveViewFieldsId == 'undefined') {
+                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    self.ActiveViewFieldsId = response.Id;
+                }, null, null);
+            } else {
+                request["ActiveViewFieldsId"] = self.ActiveViewFieldsId;
+                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                }, null, null);
+            }
+            
         };
 
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
@@ -117,7 +135,9 @@ class Quote extends OrderBase {
         const $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false);
         const $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false);
 
-        this.ActiveViewFields.Status = ["ALL"];
+        if (typeof this.ActiveViewFields["Status"] == 'undefined') {
+            this.ActiveViewFields.Status = ["ALL"];
+        }
         $all.on('click', e => {
             $all.addClass('select-all-filters');
             //this.ActiveView = 'ALL';
@@ -166,7 +186,9 @@ class Quote extends OrderBase {
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
 
-        this.ActiveViewFields.LocationId = [location.locationid];
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
         $allLocations.on('click', function () {
             //this.ActiveView = 'LocationId=ALL';
             updateActiveViewFields($allLocations, "LocationId", "ALL");

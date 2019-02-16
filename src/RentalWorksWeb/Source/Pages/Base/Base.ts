@@ -174,6 +174,20 @@ class Base {
                                                     }
                                                 }, function onError(response) {
                                                     FwFunc.showError(response);
+                                                    }, null);
+
+                                                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
+                                                    const moduleNameIndex = response.ColumnIndex.ModuleName;
+                                                    const activeViewFieldsIndex = response.ColumnIndex.ActiveViewFields;
+                                                    const idIndex = response.ColumnIndex.Id;
+                                                    for (let i = 0; i < response.Rows.length; i++) {
+                                                        let controller = `${response.Rows[i][moduleNameIndex]}Controller`;
+                                                        window[controller].ActiveViewFields = JSON.parse(response.Rows[i][activeViewFieldsIndex]);
+                                                        window[controller].ActiveViewFieldsId = response.Rows[i][idIndex];
+                                                    }
+                                                },
+                                                    function onError(response) {
+                                                    FwFunc.showError(response);
                                                 }, null);
 
                                             } else if (responseOriginalApi.errNo !== 0) {
