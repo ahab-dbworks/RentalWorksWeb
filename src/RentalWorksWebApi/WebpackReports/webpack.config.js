@@ -12,9 +12,9 @@ const getDirectories = source => fs.readdirSync(source).map(name => path.join(so
 let entries = {};
 let plugins = [];
 const reportSourceDirectories = getDirectories(path.resolve(__dirname, srcReportDir));
-reportSourceDirectories.forEach((dirPath, index, array) => {
+for (let dirPath = 0; reportSourceDirectories.length; i++) {
     const dirName = dirPath.substring(dirPath.lastIndexOf('\\') + 1, dirPath.length);
-    const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${dirName}/index.ts`);;
+    const tsFilePath = path.resolve(__dirname, `${srcReportDir}/${dirName}/index.ts`);
     if (fs.existsSync(tsFilePath)) {
         entries[dirName] = `./${srcReportDir}/${dirName}/index.ts`;
         plugins.push(new HtmlWebpackPlugin({
@@ -25,7 +25,8 @@ reportSourceDirectories.forEach((dirPath, index, array) => {
             chunks: [dirName]
         }));
     }
-});
+
+}
 
 module.exports = {
     entry: entries,
