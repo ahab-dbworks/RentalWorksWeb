@@ -63,42 +63,46 @@ namespace WebApi.Modules.Home.Inventory
             addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
 
-            if ((request != null) && (request.activeview != null))
-            {
-                switch (request.activeview)
-                {
-                    case "ITEM":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "I");
-                        break;
-                    case "ACCESSORY":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "A");
-                        break;
-                    case "COMPLETE":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "C");
-                        break;
-                    case "KIT":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "K");
-                        break;
-                    case "KITSET":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "K");
-                        break;
-                    case "MISC":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "M");
-                        break;
-                    case "CONTAINER":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", "N");
-                        break;
-                    case "ALL":
-                        break;
-                }
-            }
+
+            AddActiveViewFieldToSelect("Classification", "classification", select, request);
+
+
+            //if ((request != null) && (request.activeview != null))
+            //{
+            //    switch (request.activeview)
+            //    {
+            //        case "ITEM":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", "I");
+            //            break;
+            //        case "ACCESSORY":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", "A");
+            //            break;
+            //        case "COMPLETE":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", "C");
+            //            break;
+            //        case "KIT":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", "K");
+            //            break;
+            //        case "KITSET":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", "K");
+            //            break;
+            //        case "MISC":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", "M");
+            //            break;
+            //        case "CONTAINER":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", "N");
+            //            break;
+            //        case "ALL":
+            //            break;
+            //    }
+            //}
         }
         //------------------------------------------------------------------------------------ 
     }

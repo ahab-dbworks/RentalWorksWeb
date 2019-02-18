@@ -134,76 +134,79 @@ namespace WebApi.Modules.Home.Project
             addFilterToSelect("CustomerId", "customerid", select, request);
 
 
-            if ((request != null) && (request.activeview != null))
-            {
-                //switch (request.activeview)
-                //{
-                //    case "PROSPECT":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "PROSPECT");
-                //        break;
-                //    case "RESERVED":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "RESERVED");
-                //        break;
-                //    case "CONFIRMED":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "CONFIRMED");
-                //        break;
-                //    case "HOLD":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "HOLD");
-                //        break;
-                //    case "ORDERED":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "ORDERED");
-                //        break;
-                //    case "ACTIVE":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "ACTIVE");
-                //        break;
-                //    case "COMPLETE":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "COMPLETE");
-                //        break;
-                //    case "CLOSED":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "CLOSED");
-                //        break;
-                //    case "CANCELLED":
-                //        select.AddWhere("(status = @orderstatus)");
-                //        select.AddParameter("@orderstatus", "CANCELLED");
-                //        break;
-                //    case "ALL":
-                //        break;
-                //}
+            AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
+            AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
-                if (request.activeview.Contains("WarehouseId="))
-                {
-                    string whId = request.activeview.Replace("WarehouseId=", "");
-                    if (!whId.Equals("ALL"))
-                    {
-                        select.AddWhere("(warehouseid = @whid)");
-                        select.AddParameter("@whid", whId);
-                    }
-                }
+            //if ((request != null) && (request.activeview != null))
+            //{
+            //    //switch (request.activeview)
+            //    //{
+            //    //    case "PROSPECT":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "PROSPECT");
+            //    //        break;
+            //    //    case "RESERVED":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "RESERVED");
+            //    //        break;
+            //    //    case "CONFIRMED":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "CONFIRMED");
+            //    //        break;
+            //    //    case "HOLD":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "HOLD");
+            //    //        break;
+            //    //    case "ORDERED":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "ORDERED");
+            //    //        break;
+            //    //    case "ACTIVE":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "ACTIVE");
+            //    //        break;
+            //    //    case "COMPLETE":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "COMPLETE");
+            //    //        break;
+            //    //    case "CLOSED":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "CLOSED");
+            //    //        break;
+            //    //    case "CANCELLED":
+            //    //        select.AddWhere("(status = @orderstatus)");
+            //    //        select.AddParameter("@orderstatus", "CANCELLED");
+            //    //        break;
+            //    //    case "ALL":
+            //    //        break;
+            //    //}
 
-                string locId = "ALL";
-                if (request.activeview.Contains("OfficeLocationId="))
-                {
-                    locId = request.activeview.Replace("OfficeLocationId=", "");
-                }
-                else if (request.activeview.Contains("LocationId="))
-                {
-                    locId = request.activeview.Replace("LocationId=", "");
-                }
-                if (!locId.Equals("ALL"))
-                {
-                    select.AddWhere("(locationid = @locid)");
-                    select.AddParameter("@locid", locId);
-                }
+            //    if (request.activeview.Contains("WarehouseId="))
+            //    {
+            //        string whId = request.activeview.Replace("WarehouseId=", "");
+            //        if (!whId.Equals("ALL"))
+            //        {
+            //            select.AddWhere("(warehouseid = @whid)");
+            //            select.AddParameter("@whid", whId);
+            //        }
+            //    }
 
-            }
+            //    string locId = "ALL";
+            //    if (request.activeview.Contains("OfficeLocationId="))
+            //    {
+            //        locId = request.activeview.Replace("OfficeLocationId=", "");
+            //    }
+            //    else if (request.activeview.Contains("LocationId="))
+            //    {
+            //        locId = request.activeview.Replace("LocationId=", "");
+            //    }
+            //    if (!locId.Equals("ALL"))
+            //    {
+            //        select.AddWhere("(locationid = @locid)");
+            //        select.AddParameter("@locid", locId);
+            //    }
+
+            //}
 
         }
         //------------------------------------------------------------------------------------ 

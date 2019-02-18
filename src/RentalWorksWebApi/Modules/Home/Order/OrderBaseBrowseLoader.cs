@@ -183,81 +183,81 @@ namespace WebApi.Modules.Home.Order
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(lossAndDamageWarehouseId) ? "" : " and mi.warehouseid = @ldwhid") + ")");
             }
 
-            if ((request != null) && (request.activeview != null))
-            {
-                switch (request.activeview)
-                {
-                    case "PROSPECT":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_PROSPECT);
-                        break;
-                    case "RESERVED":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_RESERVED);
-                        break;
-                    case "CONFIRMED":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CONFIRMED);
-                        break;
-                    case "HOLD":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_HOLD);
-                        break;
-                    case "ORDERED":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_ORDERED);
-                        break;
-                    case "ACTIVE":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_ACTIVE);
-                        break;
-                    case "COMPLETE":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_COMPLETE);
-                        break;
-                    case "CLOSED":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CLOSED);
-                        break;
-                    case "CANCELLED":
-                        select.AddWhere("(status = @orderstatus)");
-                        select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CANCELLED);
-                        break;
-                    case "ALL":
-                        break;
-                }
-
-                if (request.activeview.Contains("WarehouseId="))
-                {
-                    string whId = request.activeview.Replace("WarehouseId=", "");
-                    if (!whId.Equals("ALL"))
-                    {
-                        select.AddWhere("(warehouseid = @whid)");
-                        select.AddParameter("@whid", whId);
-                    }
-                }
-
-                string locId = "ALL";
-                if (request.activeview.Contains("OfficeLocationId="))
-                {
-                    locId = request.activeview.Replace("OfficeLocationId=", "");
-                }
-                else if (request.activeview.Contains("LocationId="))
-                {
-                    locId = request.activeview.Replace("LocationId=", "");
-                }
-                if (!locId.Equals("ALL"))
-                {
-                    select.AddWhere("(locationid = @locid)");
-                    select.AddParameter("@locid", locId);
-                }
-
-            }
-
-
-
             AddActiveViewFieldToSelect("Status", "status", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+            AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
+
+            //if ((request != null) && (request.activeview != null))
+            //{
+            //    switch (request.activeview)
+            //    {
+            //        case "PROSPECT":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_PROSPECT);
+            //            break;
+            //        case "RESERVED":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_RESERVED);
+            //            break;
+            //        case "CONFIRMED":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CONFIRMED);
+            //            break;
+            //        case "HOLD":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_HOLD);
+            //            break;
+            //        case "ORDERED":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.QUOTE_STATUS_ORDERED);
+            //            break;
+            //        case "ACTIVE":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_ACTIVE);
+            //            break;
+            //        case "COMPLETE":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_COMPLETE);
+            //            break;
+            //        case "CLOSED":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CLOSED);
+            //            break;
+            //        case "CANCELLED":
+            //            select.AddWhere("(status = @orderstatus)");
+            //            select.AddParameter("@orderstatus", RwConstants.ORDER_STATUS_CANCELLED);
+            //            break;
+            //        case "ALL":
+            //            break;
+            //    }
+
+            //    if (request.activeview.Contains("WarehouseId="))
+            //    {
+            //        string whId = request.activeview.Replace("WarehouseId=", "");
+            //        if (!whId.Equals("ALL"))
+            //        {
+            //            select.AddWhere("(warehouseid = @whid)");
+            //            select.AddParameter("@whid", whId);
+            //        }
+            //    }
+
+            //    string locId = "ALL";
+            //    if (request.activeview.Contains("OfficeLocationId="))
+            //    {
+            //        locId = request.activeview.Replace("OfficeLocationId=", "");
+            //    }
+            //    else if (request.activeview.Contains("LocationId="))
+            //    {
+            //        locId = request.activeview.Replace("LocationId=", "");
+            //    }
+            //    if (!locId.Equals("ALL"))
+            //    {
+            //        select.AddWhere("(locationid = @locid)");
+            //        select.AddParameter("@locid", locId);
+            //    }
+
+            //}
+
 
 
         }

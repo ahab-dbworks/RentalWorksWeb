@@ -124,44 +124,46 @@ namespace WebApi.Modules.Home.Master
             addFilterToSelect("Classification", "class", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
             addFilterToSelect("CategoryId", "categoryid", select, request); 
-            addFilterToSelect("SubCategoryId", "subcategoryid", select, request); 
+            addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
 
-            if ((request != null) && (request.activeview != null))
-            {
-                switch (request.activeview)
-                {
-                    case "ITEM":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ITEM);
-                        break;
-                    case "ACCESSORY":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY);
-                        break;
-                    case "COMPLETE":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_COMPLETE);
-                        break;
-                    case "KIT":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
-                        break;
-                    case "KITSET":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
-                        break;
-                    case "MISC":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_MISCELLAENOUS);
-                        break;
-                    case "CONTAINER":
-                        select.AddWhere("(class = @classification)");
-                        select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_CONTAINER);
-                        break;
-                    case "ALL":
-                        break;
-                }
-            }
+            AddActiveViewFieldToSelect("Classification", "classification", select, request);
+
+            //if ((request != null) && (request.activeview != null))
+            //{
+            //    switch (request.activeview)
+            //    {
+            //        case "ITEM":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ITEM);
+            //            break;
+            //        case "ACCESSORY":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY);
+            //            break;
+            //        case "COMPLETE":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_COMPLETE);
+            //            break;
+            //        case "KIT":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
+            //            break;
+            //        case "KITSET":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
+            //            break;
+            //        case "MISC":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_MISCELLAENOUS);
+            //            break;
+            //        case "CONTAINER":
+            //            select.AddWhere("(class = @classification)");
+            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_CONTAINER);
+            //            break;
+            //        case "ALL":
+            //            break;
+            //    }
+            //}
 
 
 

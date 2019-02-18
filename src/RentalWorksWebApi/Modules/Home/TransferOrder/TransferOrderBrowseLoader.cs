@@ -97,34 +97,37 @@ namespace WebApi.Modules.Home.TransferOrder
             addFilterToSelect("DepartmentId", "departmentid", select, request);
 
 
-            if ((request != null) && (request.activeview != null))
-            {
+            AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
+            AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
-                if (request.activeview.Contains("WarehouseId="))
-                {
-                    string whId = request.activeview.Replace("WarehouseId=", "");
-                    if (!whId.Equals("ALL"))
-                    {
-                        select.AddWhere("(warehouseid = @whid)");
-                        select.AddParameter("@whid", whId);
-                    }
-                }
+            //if ((request != null) && (request.activeview != null))
+            //{
 
-                string locId = "ALL";
-                if (request.activeview.Contains("OfficeLocationId="))
-                {
-                    locId = request.activeview.Replace("OfficeLocationId=", "");
-                }
-                else if (request.activeview.Contains("LocationId="))
-                {
-                    locId = request.activeview.Replace("LocationId=", "");
-                }
-                if (!locId.Equals("ALL"))
-                {
-                    select.AddWhere("(locationid = @locid)");
-                    select.AddParameter("@locid", locId);
-                }
-            }
+            //    if (request.activeview.Contains("WarehouseId="))
+            //    {
+            //        string whId = request.activeview.Replace("WarehouseId=", "");
+            //        if (!whId.Equals("ALL"))
+            //        {
+            //            select.AddWhere("(warehouseid = @whid)");
+            //            select.AddParameter("@whid", whId);
+            //        }
+            //    }
+
+            //    string locId = "ALL";
+            //    if (request.activeview.Contains("OfficeLocationId="))
+            //    {
+            //        locId = request.activeview.Replace("OfficeLocationId=", "");
+            //    }
+            //    else if (request.activeview.Contains("LocationId="))
+            //    {
+            //        locId = request.activeview.Replace("LocationId=", "");
+            //    }
+            //    if (!locId.Equals("ALL"))
+            //    {
+            //        select.AddWhere("(locationid = @locid)");
+            //        select.AddParameter("@locid", locId);
+            //    }
+            //}
 
 
         }

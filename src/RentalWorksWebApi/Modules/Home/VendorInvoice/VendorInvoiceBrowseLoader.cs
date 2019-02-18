@@ -74,28 +74,30 @@ namespace WebApi.Modules.Home.VendorInvoice
             select.Parse();
             select.AddWhere("(invno <> '" + RwConstants.VENDOR_INVOICE_NUMBER_ACCRUAL + "')");
             addFilterToSelect("PurchaseOrderId", "orderid", select, request); 
-            addFilterToSelect("VendorId", "vendorid", select, request); 
+            addFilterToSelect("VendorId", "vendorid", select, request);
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
 
-            if ((request != null) && (request.activeview != null))
-            {
-                string locId = "ALL";
-                if (request.activeview.Contains("OfficeLocationId="))
-                {
-                    locId = request.activeview.Replace("OfficeLocationId=", "");
-                }
-                else if (request.activeview.Contains("LocationId="))
-                {
-                    locId = request.activeview.Replace("LocationId=", "");
-                }
-                if (!locId.Equals("ALL"))
-                {
-                    select.AddWhere("(locationid = @locid)");
-                    select.AddParameter("@locid", locId);
-                }
-            }
+            AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+
+            //if ((request != null) && (request.activeview != null))
+            //{
+            //    string locId = "ALL";
+            //    if (request.activeview.Contains("OfficeLocationId="))
+            //    {
+            //        locId = request.activeview.Replace("OfficeLocationId=", "");
+            //    }
+            //    else if (request.activeview.Contains("LocationId="))
+            //    {
+            //        locId = request.activeview.Replace("LocationId=", "");
+            //    }
+            //    if (!locId.Equals("ALL"))
+            //    {
+            //        select.AddWhere("(locationid = @locid)");
+            //        select.AddParameter("@locid", locId);
+            //    }
+            //}
         }
         //------------------------------------------------------------------------------------ 
     }
