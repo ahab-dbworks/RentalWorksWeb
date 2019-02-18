@@ -7,10 +7,10 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
     public class InventoryAvailabilityDateLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        InventoryAvailabilityDateLoader inventoryAvailabilityDateLoader = new InventoryAvailabilityDateLoader();
+        //InventoryAvailabilityDateLoader inventoryAvailabilityDateLoader = new InventoryAvailabilityDateLoader();
         public InventoryAvailabilityDateLogic()
         {
-            dataLoader = inventoryAvailabilityDateLoader;
+            //dataLoader = inventoryAvailabilityDateLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"fY7YdB63IfAX")]
