@@ -70,6 +70,22 @@ class TransferOrder {
             { value: 'PICK UP', text: 'Pick Up' }
         ], true);
 
+        if (mode === 'NEW') {
+            const department = JSON.parse(sessionStorage.getItem('department'));
+            FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid, department.department);
+
+            const userId = sessionStorage.getItem('usersid');
+            const userName = sessionStorage.getItem('name');
+            FwFormField.setValueByDataField($form, 'AgentId', userId, userName);
+
+            const today = FwFunc.getDate();
+            FwFormField.setValueByDataField($form, 'PickDate', today);
+            FwFormField.setValueByDataField($form, 'ShipDate', today);
+
+            $form.find('[data-datafield="Rental"]').prop('checked', true);
+
+        }
+
         this.events($form);
         return $form;
     };
@@ -143,6 +159,11 @@ class TransferOrder {
     };
     //----------------------------------------------------------------------------------------------
     events($form: JQuery) {
+        $form.on('change', '[data-datafield="Sales"] input', e => {
+            const $this = jQuery(e.currentTarget);
+            const salesTab = $form.find('.salesTab');
+            $this.prop('checked') === true ? salesTab.show() : salesTab.hide();
+        });
     };
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {

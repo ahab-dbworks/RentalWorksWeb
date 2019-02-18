@@ -3,7 +3,7 @@
   <div id="transferorderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="General"></div>
-      <div data-type="tab" id="salestab" class="salesTab tab" data-tabpageid="salestabpage" data-caption="Sales"></div>
+      <div data-type="tab" id="salestab" class="salesTab tab" data-tabpageid="salestabpage" data-caption="Sales" style="display:none;"></div>
       <div data-type="tab" id="picklisttab" class="tab" data-tabpageid="picklisttabpage" data-caption="Pick List"></div>
       <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
     </div>
@@ -12,37 +12,47 @@
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="flexrow">
           <div class="flexcolumn" style="flex:0 1 900px;">
-            <div class="flexrow">
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No." data-datafield="TransferNumber" data-enabled="false" style="margin-left:10px;"></div>
-              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation"></div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Transfer">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No." data-datafield="TransferNumber" data-enabled="false" style="flex:1 1 50px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-required="true"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-required="true" data-validationname="DepartmentValidation" style="flex:1 1 50px;"></div>
+              </div>
             </div>
             <div class="flexrow">
               <div class="flexcolumn">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Transfer Out">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="From" data-datafield="FromWarehouseId" data-displayfield="FromWarehouse" data-validationname="WarehouseValidation"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="From" data-datafield="FromWarehouseId" data-displayfield="FromWarehouse" data-required="true" data-validationname="WarehouseValidation"></div>
                   <div class="flexrow">
                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="PickDate"></div>
-                    <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="PickTime"></div>
+                    <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="PickTime"></div>
                   </div>
                   <div class="flexrow">
-                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Ship Date" data-datafield="ShipDate"></div>
-                    <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Ship Time" data-datafield="ShipTime"></div>
+                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Ship Date" data-datafield="ShipDate" data-required="true"></div>
+                    <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="Ship Time" data-datafield="ShipTime"></div>
                   </div>
                   <div class="flexrow">
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Send Request To" data-datafield="" data-displayfield="Agent" data-formbeforevalidate="beforeValidate" data-validationname="UserValidation"></div>
                   </div>
                   <div class="flexrow">
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Request Sent" data-datafield="" style="flex:1 1 75px;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Request Sent" data-datafield="" style="flex:1 1 75px;" data-enabled="false"></div>
                   </div>
                 </div>
               </div>
               <div class="flexcolumn">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Transfer In">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="To" data-datafield="ToWarehouseId" data-displayfield="ToWarehouse" data-validationname="WarehouseValidation"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="To" data-datafield="ToWarehouseId" data-displayfield="ToWarehouse" data-required="true" data-validationname="WarehouseValidation"></div>
                   <div class="flexrow">
                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Required By Date" data-datafield="RequiredDate"></div>
-                    <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Required By Time" data-datafield="RequiredTime"></div>
+                    <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="Required By Time" data-datafield="RequiredTime"></div>
+                  </div>
+                </div>
+                <div class="flexcolumn" style="max-width:300px; margin-top:60px;">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental"></div>
+                      <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales"></div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -51,7 +61,7 @@
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Return Transfer" data-datafield="" data-displayfield="" data-validationname="" data-enabled="false"></div>
                   <div>
                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Ship Date/Time" data-datafield="" data-enabled="false"></div>
-                    <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Required By" data-datafield="" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="Required By" data-datafield="" data-enabled="false"></div>
                   </div>
                 </div>
               </div>
@@ -61,20 +71,8 @@
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" data-enabled="false" style="flex:1 1 75px;"></div>
               <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="TransferDate" data-enabled="false" style="flex:1 1 75px;"></div>
+              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" data-required="true"></div>
             </div>
-          </div>
-        </div>
-        <div class="flexrow">
-          <div class="flexcolumn" style="max-width:300px">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="Rental"></div>
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="Sales"></div>
-              </div>
-            </div>
-          </div>
-          <div class="flexcolumn" style="max-width:300px">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" style="margin-top:30px;"></div>
           </div>
         </div>
         <div class="flexrow rentalItemGrid rentalTab">
