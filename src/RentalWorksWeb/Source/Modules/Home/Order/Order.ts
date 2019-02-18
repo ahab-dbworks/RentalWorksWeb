@@ -874,7 +874,7 @@ class Order extends OrderBase {
           <div class="column" data-width="100px" data-visible="true">
             <div class="field" data-caption="Deal No." data-datafield="DealNumber" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column" data-width="150px" data-visible="true">
+          <div class="column" data-width="0" data-visible="true">
             <div class="field" data-caption="Status" data-datafield="Status" data-cellcolor="StatusColor" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
@@ -2097,12 +2097,12 @@ class Order extends OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     addLossDamage($form: JQuery, event: any): void {
-        let HTML: Array<string> = [], $popupHtml, $popup, $orderBrowse, sessionId, userWarehouseId, dealId, $lossAndDamageItemGridControl;
-        userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
-        dealId = FwFormField.getValueByDataField($form, 'DealId');
-        let errorSound, successSound;
-        errorSound = new Audio(this.errorSoundFileName);
-        successSound = new Audio(this.successSoundFileName);
+        let sessionId, $lossAndDamageItemGridControl;
+        const userWarehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+        const dealId = FwFormField.getValueByDataField($form, 'DealId');
+        const errorSound = new Audio(this.errorSoundFileName);
+        const successSound = new Audio(this.successSoundFileName);
+        const HTML: Array<string> = [];
         HTML.push(
             `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
               <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -2140,8 +2140,7 @@ class Order extends OrderBase {
         );
 
         const addOrderBrowse = () => {
-            let $browse;
-            $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+            let $browse = jQuery(this.getBrowseTemplate());
             $browse.attr('data-hasmultirowselect', 'true');
             $browse.attr('data-type', 'Browse');
             $browse.attr('data-showsearch', 'false');
@@ -2150,12 +2149,7 @@ class Order extends OrderBase {
                     $tr.css('color', '#aaaaaa');
                 }
             });
-            //var location = JSON.parse(sessionStorage.getItem('location'));
-            //self.ActiveView = 'LocationId=' + location.locationid;
 
-            //$browse.data('ondatabind', function (request) {
-            //    request.activeview = self.ActiveView;
-            //});
             $browse = FwModule.openBrowse($browse);
             $browse.find('.fwbrowse-menu').hide();
 
@@ -2174,9 +2168,9 @@ class Order extends OrderBase {
 
         const startLDSession = (): void => {
             let $browse = jQuery($popup).children().find('.fwbrowse');
-            let orderId, $selectedCheckBoxes: any, orderIds: string = '', request: any = {};
+            let orderId, $selectedCheckBoxes: any, orderIds: string = '';
             $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
-            if ($selectedCheckBoxes.length !== 0) { 
+            if ($selectedCheckBoxes.length !== 0) {
                 for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                     orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
                     if (orderId) {
@@ -2185,6 +2179,7 @@ class Order extends OrderBase {
                 }
                 orderIds = orderIds.substring(2);
 
+                const request: any = {};
                 request.OrderIds = orderIds;
                 request.DealId = dealId;
                 request.WarehouseId = userWarehouseId;
@@ -2196,8 +2191,7 @@ class Order extends OrderBase {
                         $popup.find('.add-button').hide();
                         $popup.find('.sub-header').hide();
                         $popup.find('.session-buttons').show();
-                        let $lossAndDamageItemGrid
-                        $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                        const $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
                         $lossAndDamageItemGridControl = jQuery(jQuery('#tmpl-grids-LossAndDamageItemGridBrowse').html());
                         $lossAndDamageItemGrid.data('sessionId', sessionId);
                         $lossAndDamageItemGrid.data('orderId', orderId);
@@ -2242,18 +2236,16 @@ class Order extends OrderBase {
                         FwPopup.destroyPopup($popup);
                         FwBrowse.search($orderItemGridLossDamage);
                     } else {
-                        //FwConfirmation.renderConfirmation('ERROR', 'Error')
                         FwNotification.renderNotification('ERROR', response.msg); //justin 01/31/2019
                     }
                 }, null, $lossAndDamageItemGrid)
             });
             // Select All
             $popup.find('.selectall').on('click', e => {
-                let request: any = {};
                 let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
                 $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
-                //const orderId = FwFormField.getValueByDataField($form, 'OrderId');
-                //request.OrderId = orderId;
+
+                const request: any = {};
                 request.SessionId = this.lossDamageSessionId; //justin 01/31/2019
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
@@ -2270,11 +2262,10 @@ class Order extends OrderBase {
             });
             // Select None
             $popup.find('.selectnone').on('click', e => {
-                let request: any = {};
                 let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
                 $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
-                //const orderId = FwFormField.getValueByDataField($form, 'OrderId');
-                //request.OrderId = orderId;
+
+                const request: any = {};
                 request.SessionId = this.lossDamageSessionId; //justin 01/31/2019
                 FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('.error-msg').html('');
@@ -2295,20 +2286,20 @@ class Order extends OrderBase {
                 $popup.find('div.formrow.option-list').toggle();
             });
         }
-        $popupHtml = HTML.join('');
-        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        const $popupHtml = HTML.join('');
+        const $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
         FwPopup.showPopup($popup);
-        $orderBrowse = addOrderBrowse();
+        const $orderBrowse = addOrderBrowse();
         $popup.find('.container').append($orderBrowse);
         FwBrowse.search($orderBrowse);
         events();
     }
     //----------------------------------------------------------------------------------------------
     retireLossDamage($form: JQuery): void {
-        let $confirmation, $yes, $no, html: Array<string> = [];;
-        $confirmation = FwConfirmation.renderConfirmation('Confirm?', '');
+        const $confirmation = FwConfirmation.renderConfirmation('Confirm?', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
 
+        const html: Array<string> = [];;
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div>Create a Lost Contract and Retire the Items?</div>');
@@ -2316,14 +2307,14 @@ class Order extends OrderBase {
         html.push('</div>');
 
         FwConfirmation.addControls($confirmation, html.join(''));
-        $yes = FwConfirmation.addButton($confirmation, 'Retire', false);
-        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        const $yes = FwConfirmation.addButton($confirmation, 'Retire', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
         $yes.on('click', retireLD);
 
         function retireLD() {
-            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-            let request: any = {}
+            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const request: any = {}
             request.OrderId = orderId;
             FwFormField.disable($confirmation.find('.fwformfield'));
             FwFormField.disable($yes);
@@ -2333,11 +2324,11 @@ class Order extends OrderBase {
 
             FwAppData.apiMethod(true, 'POST', `api/v1/lossanddamage/retire`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
-                    let uniqueids: any = {};
+                    const uniqueids: any = {};
                     uniqueids.ContractId = response.ContractId;
                     FwNotification.renderNotification('SUCCESS', 'Order Successfully Retired');
                     FwConfirmation.destroyConfirmation($confirmation);
-                    let $contractForm = ContractController.loadForm(uniqueids);
+                    const $contractForm = ContractController.loadForm(uniqueids);
                     FwModule.openModuleTab($contractForm, "", true, 'FORM', true)
                     FwModule.refreshForm($form, OrderController);
                 }
