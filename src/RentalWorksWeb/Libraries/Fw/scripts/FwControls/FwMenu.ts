@@ -189,7 +189,7 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    addViewBtn($control, caption, subitems, allowMultiple?: boolean) {
+    addViewBtn($control, caption, subitems, allowMultiple?: boolean, filterField?: string) {
         var $btn, btnHtml, btnId, id, $ddBtn;
         id = program.uniqueId(8);
         btnId = 'btn' + id;
@@ -205,52 +205,71 @@ class FwMenuClass {
 
         $btn = jQuery(btnHtml.join(''));
 
+        const controller = $control.closest('.fwbrowse').attr('data-controller');
         let selectedFilterValues: Array<string> = [];
         for (var i = 0; i < subitems.length; i++) {
             $ddBtn = subitems[i];
-
             if (allowMultiple) {
                 $ddBtn.prepend(`<input type="checkbox">`);
             }
+
             $ddBtn.on('click', e => {
                 const $this = jQuery(e.currentTarget);
+                const $browse = $this.closest('.fwbrowse');
                 let caption = $this.find('.ddviewbtn-dropdown-btn-caption').html();
                 if (allowMultiple) {
                     e.stopPropagation();
+                    const value = $this.attr('data-value');
+                    let fields = window[controller].ActiveViewFields[filterField];
+                    if (value === "ALL") $this.addClass('select-all-filters');
                     let isSelectAllFilters: boolean = $this.hasClass('select-all-filters');
                     let isChecked: boolean = $this.find('input[type="checkbox"]').prop('checked');
+
                     //toggle checkboxes
                     if (jQuery(e.target).attr('type') != 'checkbox') {
                         $this.find('input[type="checkbox"]').prop('checked', !isChecked);
                         isChecked = !isChecked; //updates bool val after toggling checkbox
                     }
-                    //check all checkboxes if "ALL" is checked & set caption
+
+                    //check all checkboxes if "ALL" is checked & set caption & update ActiveViewFields
+                    let indexOfAll = selectedFilterValues.indexOf("All");
                     if (isSelectAllFilters) {
                         if (isChecked) {
                             jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
                             selectedFilterValues = ["All"];
+                            fields = ["ALL"];
                         } else {
                             selectedFilterValues = [];
+                            const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
+                            for (let i = 0; i < checkedFilters.length; i++) {
+                                let filterCaption = jQuery(checkedFilters[i]).siblings('.ddviewbtn-dropdown-btn-caption').html();
+                                let filterValue = jQuery(checkedFilters[i]).parents('.ddviewbtn-dropdown-btn').attr('data-value');
+                                selectedFilterValues.push(filterCaption);
+                                fields.push(filterValue);
+                            }
                         }
                     } else {
                         jQuery($this).siblings('.select-all-filters').find('input[type="checkbox"]').prop('checked', false);
-                        let indexOfAll = selectedFilterValues.indexOf("All");
                         if (indexOfAll != -1) {
                             selectedFilterValues.splice(indexOfAll, 1);
+                            fields = [];
                             const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
-                            for (let i = 0; i <= checkedFilters.length; i++) {
+                            for (let i = 0; i < checkedFilters.length; i++) {
                                 let filterCaption = jQuery(checkedFilters[i]).siblings('.ddviewbtn-dropdown-btn-caption').html();
+                                let filterValue = jQuery(checkedFilters[i]).parents('.ddviewbtn-dropdown-btn').attr('data-value');
                                 selectedFilterValues.push(filterCaption);
+                                fields.push(filterValue);
                             }
                         }
                         if (isChecked) {
                             if (selectedFilterValues.indexOf(caption) == -1) {
                                 selectedFilterValues.push(caption);
+                                fields.push(value);
                             }
                         } else if (isChecked === false) {
-                            selectedFilterValues.splice(selectedFilterValues.indexOf(caption), 1);
+                            selectedFilterValues = selectedFilterValues.filter(val => val !== caption);
+                            fields = fields.filter(val => val !== value);
                         }
-
                         if (selectedFilterValues.length <= 3) {
                             caption = selectedFilterValues.join(', ');
                         } else {
@@ -258,15 +277,62 @@ class FwMenuClass {
                             caption = `${firstThreeFilters.join(", ")} + ${selectedFilterValues.length - 3} more`;
                         }
                     }
+
+                    window[controller].ActiveViewFields[filterField] = fields;
+
+                        let request = {
+                            WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+                            , ModuleName: window[controller].Module
+                            , ActiveViewFields: JSON.stringify(window[controller].ActiveViewFields)
+                        };
+
+                    if (typeof window[controller].ActiveViewFieldsId == 'undefined') {
+                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                                window[controller].ActiveViewFieldsId = response.Id;
+                            }, null, null);
+                        } else {
+                        request["Id"] = window[controller].ActiveViewFieldsId;
+                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                            }, null, null);
+                        }
                 }
+
                 $btn.find('.ddviewbtn-select-value').empty().html(caption);
                 $this.siblings('.ddviewbtn-dropdown-btn.active').removeClass('active');
                 $this.addClass('active');
+                FwBrowse.search($browse);
             });
 
             $btn.find('.ddviewbtn-dropdown').append($ddBtn);
         }
-        $btn.find('.ddviewbtn-select-value').html($btn.find('.ddviewbtn-dropdown-btn.active .ddviewbtn-dropdown-btn-caption').html());
+
+        //set caption and check checkboxes upon loading
+          if (typeof filterField !== 'undefined' && typeof window[controller].ActiveViewFields[filterField] !== 'undefined') {
+            for (let i = 0; i < window[controller].ActiveViewFields[filterField].length; i++) {
+                const $this = window[controller].ActiveViewFields[filterField][i];
+                const $ddbtn = $btn.find(`[data-value="${$this}"]`);
+                const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
+                if ($this == 'ALL') {
+                    $ddbtn.addClass('select-all-filters');
+                    $btn.find('input').prop('checked', true);
+                    selectedFilterValues = ["All"];
+                } else {
+                    $ddbtn.find('input').prop('checked', true);
+                    selectedFilterValues.push(caption);
+                }
+            }
+
+            let filterCaption: string;
+              if (selectedFilterValues.length <= 3) {
+                  filterCaption = selectedFilterValues.join(', ');
+            } else {
+                  let firstThreeFilters = selectedFilterValues.slice(0, 3);
+                  filterCaption = `${firstThreeFilters.join(", ")} + ${selectedFilterValues.length - 3} more`;
+            }
+              $btn.find('.ddviewbtn-select-value').empty().html(filterCaption);
+        } else {
+            $btn.find('.ddviewbtn-select-value').html($btn.find('.ddviewbtn-dropdown-btn.active .ddviewbtn-dropdown-btn-caption').html());
+        }
 
         $btn.on('click', '.ddviewbtn-select', function (e) {
             var $this, maxZIndex;
@@ -295,10 +361,14 @@ class FwMenuClass {
         return $btn;
     };
     //---------------------------------------------------------------------------------
-    generateDropDownViewBtn(caption, active) {
+    generateDropDownViewBtn(caption, active, value?) {
         var btnHtml, $ddBtn;
         btnHtml = [];
-        btnHtml.push(`<div class="ddviewbtn-dropdown-btn ${active ? ' active' : ''}">`);
+        if (typeof value !== 'undefined') {
+            btnHtml.push(`<div class="ddviewbtn-dropdown-btn ${active ? ' active' : ''}" data-value="${value}">`);
+        } else {
+            btnHtml.push(`<div class="ddviewbtn-dropdown-btn ${active ? ' active' : ''}">`);
+        }
         btnHtml.push(`<div class="ddviewbtn-dropdown-btn-caption">${caption}</div>`);
         btnHtml.push(`</div>`);
 
