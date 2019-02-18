@@ -6,7 +6,7 @@
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -27,7 +27,6 @@
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
-        let today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'Process', true);
 
         this.events($form);
@@ -35,7 +34,6 @@
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
-        var self = this;
         $form
             .on('click', '.create-batch', e => {
                 let request;
@@ -50,9 +48,7 @@
                         var batch = response.Batch;
                         var batchId = batch.BatchId;
                         var batchNumber = batch.BatchNumber
-                        request = {
-                            BatchId: batchId
-                        }
+ 
                         FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
                         exportBatch();
                     } else {
@@ -124,15 +120,14 @@
                     if ((response.success === true) && (response.batch !== null)) {
                         let batch = response.batch;
                         let batchNumber = batch.BatchNumber
-                        let downloadUrl = response.downloadUrl;
-                        let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
+                        let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
                         setTimeout(function () {
                             $iframe.remove();
                         }, 500);
 
                         $form.find('.export-success').show();
-                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Created Successfully.</span>`);
+                        $form.find('.success-msg').html(`<div style="margin-left:0;><span>Batch ${batchNumber} Created Successfully.</span><div>`);
                     } else {
                         FwNotification.renderNotification('WARNING', 'Batch could not be exported.');
                     }

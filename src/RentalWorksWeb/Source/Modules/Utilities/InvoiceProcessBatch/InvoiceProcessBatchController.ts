@@ -1,19 +1,19 @@
 ﻿class InvoiceProcessBatch {
     Module: string = 'InvoiceProcessBatch';
-    caption: string = 'Process Deal Invoices';
+    caption: string = 'Charge Processing - Invoices';
     nav: string = 'module/invoiceprocessbatch';
     id: string = '5DB3FB9C-6F86-4696-867A-9B99AB0D6647';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Charge Processing - Invoices', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -27,7 +27,7 @@
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
-        let today = FwFunc.getDate();
+        const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'AsOfDate', today);
         FwFormField.setValueByDataField($form, 'ProcessInvoices', true);
 
@@ -36,7 +36,6 @@
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
-        var self = this;
         $form
             .on('click', '.create-batch', e => {
                 let request;
@@ -52,9 +51,6 @@
                         var batch = response.Batch;
                         var batchId = batch.BatchId;
                         var batchNumber = batch.BatchNumber
-                        request = {
-                            BatchId: batchId
-                        }
                         FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
                         exportBatch();
                     } else {
@@ -118,25 +114,23 @@
             })
 
         function exportBatch() {
-            let batchId = FwFormField.getValueByDataField($form, 'BatchId');
+            const batchId = FwFormField.getValueByDataField($form, 'BatchId');
             if (batchId !== '') {
-                let request: any = {};
-                request = {
+                const request: any = {
                     BatchId: batchId
                 }
                 FwAppData.apiMethod(true, 'POST', `api/v1/invoiceprocessbatch/export`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     if ((response.success === true) && (response.batch !== null)) {
                         let batch = response.batch;
                         let batchNumber = batch.BatchNumber
-                        let downloadUrl = response.downloadUrl;
-                        let $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${downloadUrl}" style="display:none;"></iframe>`);
+                        const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
                         setTimeout(function () {
                             $iframe.remove();
                         }, 500);
 
                         $form.find('.export-success').show();
-                        $form.find('.batch-success-message').html(`<span style="background-color: green; color:white; font-size:1.3em;">Batch ${batchNumber} Created Successfully.</span>`);
+                        $form.find('.success-msg').html(`<div style="margin-left:0;><span>Batch ${batchNumber} Created Successfully.</span><div>`);
                     }
                 }, null, $form);
             }
@@ -144,7 +138,7 @@
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $grid, request) {
-        let location = JSON.parse(sessionStorage.getItem('location'));
+        const location = JSON.parse(sessionStorage.getItem('location'));
 
         request.uniqueids = {
             LocationId: location.locationid

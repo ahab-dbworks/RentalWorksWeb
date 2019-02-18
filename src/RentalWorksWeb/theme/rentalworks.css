@@ -313,11 +313,11 @@ Form tables
 }
 /* Styling for success message text */
 .fwform .success-msg span {
-  padding:0px 4px 3px 4px;
-  font-size:22px;
+  background-color: green;
+  color: white;
+  font-size: 1.4em;
+  padding: 0px 4px 3px 4px;
   border-radius:2px;
-  background-color:green;
-  color:white;
 }
 .fwform .success-msg div {
     margin-left:8px;
