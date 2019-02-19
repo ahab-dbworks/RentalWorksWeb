@@ -29,6 +29,7 @@ namespace WebLibrary
         public const string MODULE_REPAIR = "REPAIR";
         public const string MODULE_PROJECT = "PROJECT";
         public const string MODULE_PURCHASE_ORDER = "PO";
+        public const string MODULE_TRANSFER = "TRANSFER";
 
 
         //QUOTE/ORDER
@@ -36,6 +37,7 @@ namespace WebLibrary
         public const string ORDER_TYPE_ORDER = "O";
         public const string ORDER_TYPE_PROJECT = "PROJECT";
         public const string ORDER_TYPE_PURCHASE_ORDER = "C";
+        public const string ORDER_TYPE_TRANSFER = "T";
 
         public const string QUOTE_STATUS_PROSPECT = "PROSPECT";
         public const string QUOTE_STATUS_RESERVED = "RESERVED";
@@ -52,6 +54,13 @@ namespace WebLibrary
         public const string ORDER_STATUS_CLOSED = "CLOSED";
         public const string ORDER_STATUS_CANCELLED = "CANCELLED";
         public const string ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
+
+        public const string TRANSFER_STATUS_NEW = "NEW";
+        public const string TRANSFER_STATUS_CONFIRMED = "CONFIRMED";
+        public const string TRANSFER_STATUS_ACTIVE = "ACTIVE";
+        public const string TRANSFER_STATUS_COMPLETE = "COMPLETE";
+        public const string TRANSFER_STATUS_CLOSED = "CLOSED";
+        public const string TRANSFER_STATUS_CANCELLED = "CANCELLED";
 
         public const string ORDER_STATUS_FILTER_STAGED_ONLY = "STAGEDONLY";
         public const string ORDER_STATUS_FILTER_NOT_YET_STAGED = "NOTYETSTAGED";

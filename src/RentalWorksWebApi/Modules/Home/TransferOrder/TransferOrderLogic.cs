@@ -4,6 +4,10 @@ using WebApi.Modules.Home.DealOrder;
 using WebApi.Modules.Home.DealOrderDetail;
 using WebApi.Modules.Home.Delivery;
 using FwStandard.BusinessLogic;
+using WebLibrary;
+using System;
+using FwStandard.SqlServer;
+using Newtonsoft.Json;
 
 namespace WebApi.Modules.Home.TransferOrder
 {
@@ -27,13 +31,23 @@ namespace WebApi.Modules.Home.TransferOrder
             dataLoader = transferOrderLoader;
             browseLoader = transferOrderBrowseLoader;
 
+            Type = RwConstants.ORDER_TYPE_TRANSFER;
+
+            transferOrder.BeforeSave += OnBeforeSaveTransferOrder;
+
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
-
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "SGlehEEeuOjZO", IsPrimaryKey: true)]
         public string TransferId { get { return transferOrder.OrderId; } set { transferOrder.OrderId = value; } }
+
+
+        [JsonIgnore]
+        [FwLogicProperty(Id: "WBixPxC9V26zF")]
+        public string Type { get { return transferOrder.Type; } set { transferOrder.Type = value; } }
+
+
         [FwLogicProperty(Id: "MLLWReJbTVSv", IsRecordTitle: true)]
         public string TransferNumber { get { return transferOrder.OrderNumber; } set { transferOrder.OrderNumber = value; } }
         [FwLogicProperty(Id: "ZDlV73IYEcvy")]
@@ -42,7 +56,8 @@ namespace WebApi.Modules.Home.TransferOrder
         public string Description { get { return transferOrder.Description; } set { transferOrder.Description = value; } }
         [FwLogicProperty(Id: "v6W1vhrrWm2k")]
         public string Status { get { return transferOrder.Status; } set { transferOrder.Status = value; } }
-
+        [FwLogicProperty(Id: "ATnCWGYBdRofG")]
+        public string StatusDate { get { return transferOrder.StatusDate; } set { transferOrder.StatusDate = value; } }
 
         [FwLogicProperty(Id: "PC4LY7FVRbyx")]
         public string FromWarehouseId { get { return transferOrder.FromWarehouseId; } set { transferOrder.FromWarehouseId = value; } }
@@ -466,10 +481,22 @@ namespace WebApi.Modules.Home.TransferOrder
         //}                    
         //-------------------- ---------------------------------------------------------------- 
 
+        public void OnBeforeSaveTransferOrder(object sender, BeforeSaveDataRecordEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                bool x = transferOrder.SetNumber().Result;
+                Status = RwConstants.TRANSFER_STATUS_NEW;
+                StatusDate = FwConvert.ToString(DateTime.Today);
+                TransferDate = FwConvert.ToString(DateTime.Today);
+            }
+        }
+        //------------------------------------------------------------------------------------
+
 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
-            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            if (e.SaveMode == TDataRecordSaveMode.smUpdate)
             {
                 if (e.Original != null)
                 {
