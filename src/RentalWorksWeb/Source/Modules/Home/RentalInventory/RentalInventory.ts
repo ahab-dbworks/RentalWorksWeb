@@ -493,7 +493,7 @@ class RentalInventory extends InventoryBase {
         inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
 
         $browse.data('ondatabind', request => {
-            request.ActiveView = AssetController.ActiveView;
+            request.activeviewfields = AssetController.ActiveViewFields;
             request.uniqueids = {
                 InventoryId: inventoryId
             }

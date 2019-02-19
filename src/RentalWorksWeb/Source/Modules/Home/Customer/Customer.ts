@@ -180,7 +180,7 @@ class Customer {
         let $browse;
         $browse = ContractController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = ContractController.ActiveView;
+            request.activeviewfields = ContractController.ActiveViewFields;
             request.uniqueids = {
                 CustomerId: customerId
             };
@@ -193,7 +193,7 @@ class Customer {
         let $browse;
         $browse = InvoiceController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = InvoiceController.ActiveView;
+            request.activeviewfields = InvoiceController.ActiveViewFields;
             request.uniqueids = {
                 CustomerId: customerId
             };
@@ -206,7 +206,7 @@ class Customer {
         let $browse;
         $browse = ReceiptController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = ReceiptController.ActiveView;
+            request.activeviewfields = ReceiptController.ActiveViewFields;
             request.uniqueids = {
                 CustomerId: customerId
             };
@@ -1796,7 +1796,7 @@ class Customer {
         $browse = QuoteController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = QuoteController.ActiveView;
+            request.activeviewfields = QuoteController.ActiveViewFields;
             request.uniqueids = {
                 CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
             }
@@ -1810,7 +1810,7 @@ class Customer {
         $browse = OrderController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = OrderController.ActiveView;
+            request.activeviewfields = OrderController.ActiveViewFields;
             request.uniqueids = {
                 CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
             }

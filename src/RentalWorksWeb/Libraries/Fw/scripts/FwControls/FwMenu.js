@@ -193,6 +193,11 @@ class FwMenuClass {
             $ddBtn = subitems[i];
             if (allowMultiple) {
                 $ddBtn.prepend(`<input type="checkbox">`);
+                if (typeof filterField !== 'undefined') {
+                    if (typeof window[controller].ActiveViewFields[filterField] == 'undefined') {
+                        window[controller].ActiveViewFields[filterField] = ["ALL"];
+                    }
+                }
             }
             $ddBtn.on('click', e => {
                 const $this = jQuery(e.currentTarget);
@@ -210,7 +215,7 @@ class FwMenuClass {
                         $this.find('input[type="checkbox"]').prop('checked', !isChecked);
                         isChecked = !isChecked;
                     }
-                    let indexOfAll = selectedFilterValues.indexOf("All");
+                    let indexOfAll = fields.indexOf("ALL");
                     if (isSelectAllFilters) {
                         if (isChecked) {
                             jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
@@ -219,6 +224,7 @@ class FwMenuClass {
                         }
                         else {
                             selectedFilterValues = [];
+                            fields = [];
                             const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
                             for (let i = 0; i < checkedFilters.length; i++) {
                                 let filterCaption = jQuery(checkedFilters[i]).siblings('.ddviewbtn-dropdown-btn-caption').html();
@@ -231,7 +237,7 @@ class FwMenuClass {
                     else {
                         jQuery($this).siblings('.select-all-filters').find('input[type="checkbox"]').prop('checked', false);
                         if (indexOfAll != -1) {
-                            selectedFilterValues.splice(indexOfAll, 1);
+                            selectedFilterValues = [];
                             fields = [];
                             const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
                             for (let i = 0; i < checkedFilters.length; i++) {

@@ -7,7 +7,8 @@ class Project {
     caption: string = 'Project';
     nav: string = 'module/project';
     id: string = 'C6C8167A-C3B5-4915-8290-4520AF7EDB35';
-    ActiveView: string = 'ALL';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
 
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
         let screen: any = {};
@@ -47,31 +48,26 @@ class Project {
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        const self = this;
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
+        });
+
         return $browse;
     }
 
     addBrowseMenuItems($menuObject) {
-        var self = this;
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
-            FwBrowse.search($browse);
-        });
-        $userLocation.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
-            FwBrowse.search($browse);
-        });
-        var viewLocation = [];
-        viewLocation.push($userLocation);
-        viewLocation.push($allLocations);
-        var $locationView;
-        $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        let viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
 

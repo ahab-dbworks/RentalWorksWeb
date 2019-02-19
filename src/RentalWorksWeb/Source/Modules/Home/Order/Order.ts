@@ -11,6 +11,8 @@ class Order extends OrderBase {
     lossDamageSessionId: string = '';
     successSoundFileName: string;
     errorSoundFileName: string;
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //-----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var screen: any = {};
@@ -52,12 +54,10 @@ class Order extends OrderBase {
             }
         });
 
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        self.ActiveView = 'LocationId=' + location.locationid;
-
         $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+            request.activeviewfields = self.ActiveViewFields;
         });
+
         FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
         FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
         FwBrowse.addLegend($browse, 'Late', '#FFB3D9');
@@ -79,88 +79,30 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
-        var self = this;
-        var $all = FwMenu.generateDropDownViewBtn('All', true);
-        var $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false);
-        var $active = FwMenu.generateDropDownViewBtn('Active', false);
-        var $hold = FwMenu.generateDropDownViewBtn('Hold', false);
-        var $complete = FwMenu.generateDropDownViewBtn('Complete', false);
-        var $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false);
-        var $closed = FwMenu.generateDropDownViewBtn('Closed', false);
-        $all.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
-            FwBrowse.search($browse);
-        });
-        $confirmed.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CONFIRMED';
-            FwBrowse.search($browse);
-        });
-        $active.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ACTIVE';
-            FwBrowse.search($browse);
-        });
-        $hold.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'HOLD';
-            FwBrowse.search($browse);
-        });
-        $complete.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'COMPLETE';
-            FwBrowse.search($browse);
-        });
-        $cancelled.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CANCELLED';
-            FwBrowse.search($browse);
-        });
-        $closed.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CLOSED';
-            FwBrowse.search($browse);
-        });
-        var viewSubitems = [];
-        viewSubitems.push($all);
-        viewSubitems.push($confirmed);
-        viewSubitems.push($active);
-        viewSubitems.push($hold);
-        viewSubitems.push($complete);
-        viewSubitems.push($cancelled);
-        viewSubitems.push($closed);
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
+        const $active = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
+        const $hold = FwMenu.generateDropDownViewBtn('Hold', false, "HOLD");
+        const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
+        const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
+        const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+      
+        let viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
+        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
         //Location Filter
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=ALL';
-            FwBrowse.search($browse);
-        });
-        $userLocation.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'LocationId=' + location.locationid;
-            FwBrowse.search($browse);
-        });
-        var viewLocation = [];
-        viewLocation.push($userLocation);
-        viewLocation.push($allLocations);
-        var $locationView;
-        $locationView = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        let viewLocation: Array<JQuery> = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
 
@@ -281,7 +223,7 @@ class Order extends OrderBase {
         $browse = PickListController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = PickListController.ActiveView;
+            request.activeviewfields = PickListController.ActiveViewFields;
             request.uniqueids = {
                 OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
             }
@@ -296,7 +238,7 @@ class Order extends OrderBase {
         $browse = ContractController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = ContractController.ActiveView;
+            request.activeviewfields = ContractController.ActiveViewFields;
             request.uniqueids = {
                 OrderId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
             }
@@ -325,7 +267,7 @@ class Order extends OrderBase {
         let $browse;
         $browse = PurchaseOrderController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = PurchaseOrderController.ActiveView;
+            request.activeviewfields = PurchaseOrderController.ActiveViewFields;
             request.uniqueids = {
                 OrderId: orderId
             };
@@ -338,7 +280,7 @@ class Order extends OrderBase {
         let $browse;
         $browse = InvoiceController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = InvoiceController.ActiveView;
+            request.activeviewfields = InvoiceController.ActiveViewFields;
             request.uniqueids = {
                 OrderId: orderId
             };
@@ -2154,7 +2096,7 @@ class Order extends OrderBase {
             $browse.find('.fwbrowse-menu').hide();
 
             $browse.data('ondatabind', function (request) {
-                request.ActiveView = OrderController.ActiveView;
+                request.ActiveViewFields = OrderController.ActiveViewFields;
                 request.pagesize = 15;
                 request.orderby = 'OrderDate desc';
                 request.miscfields = {

@@ -7,9 +7,9 @@ class Receipt {
     caption: string = 'Receipts';
     nav: string = 'module/receipt';
     id: string = '57E34535-1B9F-4223-AD82-981CA34A6DEC';
-    ActiveView: string = 'ALL';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     thisModule: Receipt;
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
@@ -50,10 +50,9 @@ class Receipt {
         let $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        this.ActiveView = `LocationId=${location.locationid}`;
-        $browse.data('ondatabind', request => {
-            request.activeview = this.ActiveView;
+        const self = this;
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         FwBrowse.addLegend($browse, 'Overpayment', '#FFFF80');
@@ -68,22 +67,17 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
         //Location Filter
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        $allLocations.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'LocationId=ALL';
-            FwBrowse.search($browse);
-        });
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
         const location = JSON.parse(sessionStorage.getItem('location'));
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $userLocation.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = `LocationId=${location.locationid}`;
-            FwBrowse.search($browse);
-        });
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
         const viewLocation = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------

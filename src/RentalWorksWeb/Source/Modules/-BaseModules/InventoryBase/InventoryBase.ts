@@ -1,10 +1,10 @@
 ﻿class InventoryBase {
     Module: string = 'BaseInventory';
-    ActiveView: string = 'ALL';
     caption: string = 'Base Inventory';
     AvailableFor: string = '';
     yearData: any = [];
-
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse, self = this;
@@ -33,11 +33,10 @@
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        this.ActiveView = 'ALL'; // Resets view to all when revisting module page
-
         $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+            request.activeviewfields = self.ActiveViewFields;
         });
+
         FwBrowse.addLegend($browse, 'Item', '#ffffff');
         FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
         FwBrowse.addLegend($browse, 'Complete', '#0080ff');
@@ -142,7 +141,7 @@
         let $browse;
         $browse = RepairController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = RepairController.ActiveView;
+            request.activeviewfields = RepairController.ActiveViewFields;
             request.uniqueids = {
                 InventoryId: inventoryId
             };
@@ -406,72 +405,23 @@
     }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        var self = this;
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('All', true);
-        var $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true);
-        var $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false);
-        var $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false);
-        var $kitset: JQuery = FwMenu.generateDropDownViewBtn('Kit', false);
-        var $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false);
-        var $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false);
-
-        $all.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
-            FwBrowse.search($browse);
-        });
-        $item.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ITEM';
-            FwBrowse.search($browse);
-        });
-        $accessory.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ACCESSORY';
-            FwBrowse.search($browse);
-        });
-        $complete.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'COMPLETE';
-            FwBrowse.search($browse);
-        });
-        $kitset.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'KIT';
-            FwBrowse.search($browse);
-        });
-        $misc.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'MISC';
-            FwBrowse.search($browse);
-        });
-        $container.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'CONTAINER';
-            FwBrowse.search($browse);
-        });
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $item: JQuery = FwMenu.generateDropDownViewBtn('Item', true, "I");
+        const $accessory: JQuery = FwMenu.generateDropDownViewBtn('Accessory', false, "A");
+        const $complete: JQuery = FwMenu.generateDropDownViewBtn('Complete', false, "C");
+        const $kit: JQuery = FwMenu.generateDropDownViewBtn('Kit', false, "K");
+        const $set: JQuery = FwMenu.generateDropDownViewBtn('Set', false, "S");
+        const $misc: JQuery = FwMenu.generateDropDownViewBtn('Misc', false, "M");
+        const $container: JQuery = FwMenu.generateDropDownViewBtn('Container', false, "N");
 
         FwMenu.addVerticleSeparator($menuObject);
 
         var viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all);
-        viewSubitems.push($item);
-        viewSubitems.push($accessory);
-        viewSubitems.push($complete);
-        viewSubitems.push($kitset);
-        viewSubitems.push($misc);
+        viewSubitems.push($all, $item, $accessory, $complete, $kit, $set, $misc);
         if (this.AvailableFor === "R") {
             viewSubitems.push($container);
         }
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Classification");
 
         return $menuObject;
     };

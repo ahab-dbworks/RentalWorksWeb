@@ -8,7 +8,8 @@ class Container {
     id: string = '28A49328-FFBD-42D5-A492-EDF540DF7011';
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
     nameItemQcGrid: string = 'ItemQcGrid';
-    ActiveView: string = 'ALL';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var self = this;
@@ -32,15 +33,12 @@ class Container {
     };
     //---------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
+        const self = this;
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
-
         $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -56,44 +54,15 @@ class Container {
     };
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        var self = this;
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        var $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        var $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
-        var view = [];
-        view[0] = 'WarehouseId=' + warehouse.warehouseid;
-
-        $all.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=ALL';
-
-            view[0] = self.ActiveView;
-            if (view.length > 1) {
-                self.ActiveView = view.join(', ');
-            }
-
-            FwBrowse.search($browse);
-        });
-        $userWarehouse.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'WarehouseId=' + warehouse.warehouseid;
-
-            view[0] = self.ActiveView;
-            if (view.length > 1) {
-                self.ActiveView = view.join(', ');
-            }
-
-            FwBrowse.search($browse);
-        });
-
-        var viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($userWarehouse);
-        viewSubitems.push($all);
-
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems);
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
+        let viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($userWarehouse, $all);
+        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems, true, "WarehouseId");
 
         return $menuObject;
     };

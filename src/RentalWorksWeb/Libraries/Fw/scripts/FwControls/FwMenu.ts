@@ -211,6 +211,12 @@ class FwMenuClass {
             $ddBtn = subitems[i];
             if (allowMultiple) {
                 $ddBtn.prepend(`<input type="checkbox">`);
+
+                if (typeof filterField !== 'undefined') {
+                    if (typeof window[controller].ActiveViewFields[filterField] == 'undefined') {
+                        window[controller].ActiveViewFields[filterField] = ["ALL"];
+                    }
+                }
             }
 
             $ddBtn.on('click', e => {
@@ -232,7 +238,7 @@ class FwMenuClass {
                     }
 
                     //check all checkboxes if "ALL" is checked & set caption & update ActiveViewFields
-                    let indexOfAll = selectedFilterValues.indexOf("All");
+                    let indexOfAll = fields.indexOf("ALL");
                     if (isSelectAllFilters) {
                         if (isChecked) {
                             jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
@@ -240,6 +246,7 @@ class FwMenuClass {
                             fields = ["ALL"];
                         } else {
                             selectedFilterValues = [];
+                            fields = [];
                             const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
                             for (let i = 0; i < checkedFilters.length; i++) {
                                 let filterCaption = jQuery(checkedFilters[i]).siblings('.ddviewbtn-dropdown-btn-caption').html();
@@ -251,7 +258,7 @@ class FwMenuClass {
                     } else {
                         jQuery($this).siblings('.select-all-filters').find('input[type="checkbox"]').prop('checked', false);
                         if (indexOfAll != -1) {
-                            selectedFilterValues.splice(indexOfAll, 1);
+                            selectedFilterValues = [];
                             fields = [];
                             const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
                             for (let i = 0; i < checkedFilters.length; i++) {
@@ -280,21 +287,21 @@ class FwMenuClass {
 
                     window[controller].ActiveViewFields[filterField] = fields;
 
-                        let request = {
-                            WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                            , ModuleName: window[controller].Module
-                            , ActiveViewFields: JSON.stringify(window[controller].ActiveViewFields)
-                        };
+                    let request = {
+                        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+                        , ModuleName: window[controller].Module
+                        , ActiveViewFields: JSON.stringify(window[controller].ActiveViewFields)
+                    };
 
                     if (typeof window[controller].ActiveViewFieldsId == 'undefined') {
-                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                                window[controller].ActiveViewFieldsId = response.Id;
-                            }, null, null);
-                        } else {
+                        FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                            window[controller].ActiveViewFieldsId = response.Id;
+                        }, null, null);
+                    } else {
                         request["Id"] = window[controller].ActiveViewFieldsId;
-                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                            }, null, null);
-                        }
+                        FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                        }, null, null);
+                    }
                 }
 
                 $btn.find('.ddviewbtn-select-value').empty().html(caption);
@@ -307,7 +314,7 @@ class FwMenuClass {
         }
 
         //set caption and check checkboxes upon loading
-          if (typeof filterField !== 'undefined' && typeof window[controller].ActiveViewFields[filterField] !== 'undefined') {
+        if (typeof filterField !== 'undefined' && typeof window[controller].ActiveViewFields[filterField] !== 'undefined') {
             for (let i = 0; i < window[controller].ActiveViewFields[filterField].length; i++) {
                 const $this = window[controller].ActiveViewFields[filterField][i];
                 const $ddbtn = $btn.find(`[data-value="${$this}"]`);
@@ -323,13 +330,13 @@ class FwMenuClass {
             }
 
             let filterCaption: string;
-              if (selectedFilterValues.length <= 3) {
-                  filterCaption = selectedFilterValues.join(', ');
+            if (selectedFilterValues.length <= 3) {
+                filterCaption = selectedFilterValues.join(', ');
             } else {
-                  let firstThreeFilters = selectedFilterValues.slice(0, 3);
-                  filterCaption = `${firstThreeFilters.join(", ")} + ${selectedFilterValues.length - 3} more`;
+                let firstThreeFilters = selectedFilterValues.slice(0, 3);
+                filterCaption = `${firstThreeFilters.join(", ")} + ${selectedFilterValues.length - 3} more`;
             }
-              $btn.find('.ddviewbtn-select-value').empty().html(filterCaption);
+            $btn.find('.ddviewbtn-select-value').empty().html(filterCaption);
         } else {
             $btn.find('.ddviewbtn-select-value').html($btn.find('.ddviewbtn-dropdown-btn.active .ddviewbtn-dropdown-btn-caption').html());
         }

@@ -8,8 +8,8 @@ class Invoice {
     caption: string = 'Invoice';
     nav: string = 'module/invoice';
     id: string = '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F';
-    ActiveView: string = 'ALL';
-
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
@@ -42,12 +42,11 @@ class Invoice {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        this.ActiveView = `LocationId=${location.locationid}`;
-
-        $browse.data('ondatabind', request => {
-            request.activeview = this.ActiveView;
+        const self = this;
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
         });
+
         // Changes text color to light gray if void
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
             if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'VOID') {
@@ -70,108 +69,29 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         const location = JSON.parse(sessionStorage.getItem('location'));
-        let view = [];
-        view[0] = `LocationId=${location.locationid}`;
-
-        const $new = FwMenu.generateDropDownViewBtn('New', false);
-        $new.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'Status=NEW';
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        const $approved = FwMenu.generateDropDownViewBtn('Approved', false);
-        $approved.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'Status=APPROVED';
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        const $newapproved = FwMenu.generateDropDownViewBtn('New & Approved', false);
-        $newapproved.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'Status=NEWAPPROVED';
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        const $processed = FwMenu.generateDropDownViewBtn('Processed', false);
-        $processed.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'Status=PROCESSED';
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        const $closed = FwMenu.generateDropDownViewBtn('Closed', false);
-        $closed.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'Status=CLOSED';
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        const $void = FwMenu.generateDropDownViewBtn('Void', false);
-        $void.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'Status=VOID';
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        const $all = FwMenu.generateDropDownViewBtn('All', true);
-        $all.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'Status=ALL';
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
+        const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
+        const $approved = FwMenu.generateDropDownViewBtn('Approved', false, "APPROVED");
+        const $newapproved = FwMenu.generateDropDownViewBtn('New & Approved', false, "NEWAPPROVED");
+        const $processed = FwMenu.generateDropDownViewBtn('Processed', false, "PROCESSED");
+        const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+        const $void = FwMenu.generateDropDownViewBtn('Void', false, "VOID");
+        const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
 
         const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $new, $approved, $newapproved, $processed, $closed, $void);
-        FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
         //Location Filter
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        $allLocations.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'LocationId=ALL';
-            view[0] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $userLocation.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = `LocationId=${location.locationid}`;
-            view[0] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
         const viewLocation = [];
         viewLocation.push($allLocations, $userLocation);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------

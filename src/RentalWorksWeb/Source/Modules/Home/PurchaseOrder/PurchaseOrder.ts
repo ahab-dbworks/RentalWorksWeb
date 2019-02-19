@@ -8,10 +8,10 @@ class PurchaseOrder {
     caption: string = 'Purchase Order';
     nav: string = 'module/purchaseorder';
     id: string = '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0';
-    ActiveView: string = 'ALL';
     DefaultPurchasePoType: string;
     DefaultPurchasePoTypeId: string;
-
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var screen: any = {};
@@ -44,7 +44,6 @@ class PurchaseOrder {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
         let location = JSON.parse(sessionStorage.getItem('location'));
-        this.ActiveView = `LocationId=${location.locationid}`;
 
         FwAppData.apiMethod(true, 'GET', `api/v1/officelocation/${location.locationid}`, null, FwServices.defaultTimeout, response => {
             this.DefaultPurchasePoType = response.DefaultPurchasePoType;
@@ -59,8 +58,9 @@ class PurchaseOrder {
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
 
-        $browse.data('ondatabind', request => {
-            request.activeview = this.ActiveView;
+        const self = this;
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         //FwBrowse.search($browse);
@@ -68,79 +68,30 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        let $all = FwMenu.generateDropDownViewBtn('All', true);
-        let $new = FwMenu.generateDropDownViewBtn('New', false);
-        let $open = FwMenu.generateDropDownViewBtn('Open', false);
-        let $received = FwMenu.generateDropDownViewBtn('Received', false);
-        let $complete = FwMenu.generateDropDownViewBtn('Complete', false);
-        let $void = FwMenu.generateDropDownViewBtn('Void', false);
-        let $closed = FwMenu.generateDropDownViewBtn('Closed', false);
-        $all.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'ALL';
-            FwBrowse.search($browse);
-        });
-        $new.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'NEW';
-            FwBrowse.search($browse);
-        });
-        $open.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'OPEN';
-            FwBrowse.search($browse);
-        });
-        $received.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'RECEIVED';
-            FwBrowse.search($browse);
-        });
-        $complete.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'COMPLETE';
-            FwBrowse.search($browse);
-        });
-        $void.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'VOID';
-            FwBrowse.search($browse);
-        });
-        $closed.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'CLOSED';
-            FwBrowse.search($browse);
-        });
-        let viewSubitems = [];
+        const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $new = FwMenu.generateDropDownViewBtn('New', false, "NEW");
+        const $open = FwMenu.generateDropDownViewBtn('Open', false, "OPEN");
+        const $received = FwMenu.generateDropDownViewBtn('Received', false, "RECEIVED");
+        const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
+        const $void = FwMenu.generateDropDownViewBtn('Void', false, "VOID");
+        const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+        
+        let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $new, $open, $received, $complete, $void, $closed);
-        let $view;
-        $view = FwMenu.addViewBtn($menuObject, 'View', viewSubitems);
+        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
         //Location Filter
-        let location = JSON.parse(sessionStorage.getItem('location'));
-        let $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        let $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $allLocations.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'LocationId=ALL';
-            FwBrowse.search($browse);
-        });
-        $userLocation.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = `LocationId=${location.locationid}`;
-            FwBrowse.search($browse);
-        });
-        let viewLocation = [];
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+        
+        let viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
@@ -268,7 +219,6 @@ class PurchaseOrder {
         let $browse;
         $browse = ContractController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = ContractController.ActiveView;
             request.uniqueids = {
                 PurchaseOrderId: poId
             };
@@ -281,7 +231,6 @@ class PurchaseOrder {
         $browse = VendorInvoiceController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = VendorInvoiceController.ActiveView;
             request.uniqueids = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
             }

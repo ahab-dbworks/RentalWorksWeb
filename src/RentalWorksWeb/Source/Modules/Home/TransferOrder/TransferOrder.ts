@@ -6,7 +6,8 @@ class TransferOrder {
     caption: string = 'Transfer Order';
     nav: string = 'module/transferorder';
     id: string = 'F089C9A9-554D-40BF-B1FA-015FEDE43591';
-    ActiveView: string = 'ALL';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var screen: any = {};
@@ -29,11 +30,9 @@ class TransferOrder {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
-
-        $browse.data('ondatabind', request => {
-            request.activeview = this.ActiveView;
+        const self = this;
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         return $browse;
@@ -42,21 +41,29 @@ class TransferOrder {
     addBrowseMenuItems($menuObject) {
         //warehouse filter
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
-        $userWarehouse.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
-            FwBrowse.search($browse);
-        });
-        const $allWarehouses = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        $allWarehouses.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'WarehouseId=ALL';
-            FwBrowse.search($browse);
-        });
-        const viewLocation = [];
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
+        const $allWarehouses = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
+
+        let viewLocation: Array<JQuery> = [];
         viewLocation.push($userWarehouse, $allWarehouses);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewLocation);
+        FwMenu.addViewBtn($menuObject, 'Warehouse', viewLocation, true, "WarehouseId");
+
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $userLoc: JQuery = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+        const $allLoc = FwMenu.generateDropDownViewBtn('ALL', false, "ALL");
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        let view: Array<JQuery> = [];
+        view.push($userLoc, $allLoc);
+        FwMenu.addViewBtn($menuObject, 'Location', view, true, "LocationId");
+
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------

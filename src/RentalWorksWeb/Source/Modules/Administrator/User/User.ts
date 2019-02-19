@@ -4,7 +4,8 @@ class User {
     caption: string = 'User';
     nav: string = 'module/user';
     id: string = '79E93B21-8638-483C-B377-3F4D561F1243';
-    ActiveView: string = 'ALL';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var self = this;
@@ -28,43 +29,29 @@ class User {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
+        const self = this;
         //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        self.ActiveView = 'OfficeLocationId=' + location.locationid;
-
         $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
-        var self = this;
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        var $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        var $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', false);
-        $allLocations.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'ALL';
-            FwBrowse.search($browse);
-        });
-        $userLocation.on('click', function () {
-            var $browse;
-            $browse = jQuery(this).closest('.fwbrowse');
-            self.ActiveView = 'OfficeLocationId=' + location.locationid;
-            FwBrowse.search($browse);
-        });
-        var viewLocation = [];
-        viewLocation.push($userLocation);
-        viewLocation.push($allLocations);
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Offices', false, "ALL");
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+        let viewLocation = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------

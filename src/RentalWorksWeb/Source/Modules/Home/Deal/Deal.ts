@@ -164,7 +164,7 @@ class Deal {
         let $browse;
         $browse = ContractController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = ContractController.ActiveView;
+            request.activeviewfields = ContractController.ActiveViewFields;
             request.uniqueids = {
                 DealId: dealId
             };
@@ -177,7 +177,7 @@ class Deal {
         let $browse;
         $browse = InvoiceController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = InvoiceController.ActiveView;
+            request.activeviewfields = InvoiceController.ActiveViewFields;
             request.uniqueids = {
                 DealId: dealId
             };
@@ -190,7 +190,7 @@ class Deal {
         let $browse;
         $browse = ReceiptController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = ReceiptController.ActiveView;
+            request.activeviewfields = ReceiptController.ActiveViewFields;
             request.uniqueids = {
                 DealId: dealId
             };
@@ -834,7 +834,7 @@ class Deal {
         $browse = QuoteController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = QuoteController.ActiveView;
+            request.activeviewfields = QuoteController.ActiveViewFields;
             request.uniqueids = {
                 DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
             }
@@ -848,7 +848,7 @@ class Deal {
         $browse = OrderController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = OrderController.ActiveView;
+            request.activeviewfields = OrderController.ActiveViewFields;
             request.uniqueids = {
                 DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
             }

@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.Inventory
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
 
 
-            AddActiveViewFieldToSelect("Classification", "classification", select, request);
+            AddActiveViewFieldToSelect("Classification", "class", select, request);
 
 
             //if ((request != null) && (request.activeview != null))

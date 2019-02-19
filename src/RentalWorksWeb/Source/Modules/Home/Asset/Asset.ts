@@ -8,7 +8,8 @@ class RwAsset {
     id: string = '1C45299E-F8DB-4AE4-966F-BE142295E3D6';
     nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
     nameItemQcGrid: string = 'ItemQcGrid';
-    ActiveView: string = 'ALL';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -35,11 +36,9 @@ class RwAsset {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
-
-        $browse.data('ondatabind', request => {
-            request.activeview = this.ActiveView;
+        const self = this;
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -52,98 +51,27 @@ class RwAsset {
     };
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        let $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false);
-        let $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true);
-        let view = [];
-        view[0] = `WarehouseId=${warehouse.warehouseid}`;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
+        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
 
-        $all.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'WarehouseId=ALL';
+        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
+            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
+        }
 
-            view[0] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-
-            FwBrowse.search($browse);
-        });
-        $userWarehouse.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = `WarehouseId=${warehouse.warehouseid}`;
-
-            view[0] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-
-            FwBrowse.search($browse);
-        });
-
-        var viewSubitems: Array<JQuery> = [];
+        let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($userWarehouse, $all);
-
-        var $view;
-        $view = FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems);
+        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems, true, "WarehouseId");
 
         //Tracked By Filter
-        let $trackAll = FwMenu.generateDropDownViewBtn('ALL', true);
-        let $trackBarcode = FwMenu.generateDropDownViewBtn('Bar Code', false);
-        let $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false);
-        let $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false);
+        const $trackAll = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $trackBarcode = FwMenu.generateDropDownViewBtn('Bar Code', false, "BARCODE");
+        const $trackSerialNumber = FwMenu.generateDropDownViewBtn('Serial Number', false, "SERIALNO");
+        const $trackRFID = FwMenu.generateDropDownViewBtn('RFID', false, "RFID");
 
-        $trackAll.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'TrackedBy=ALL';
-
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        $trackBarcode.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'TrackedBy=BARCODE';
-
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        $trackSerialNumber.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'TrackedBy=SERIALNO';
-
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        $trackRFID.on('click', e => {
-            let $browse;
-            $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'TrackedBy=RFID';
-
-            view[1] = this.ActiveView;
-            if (view.length > 1) {
-                this.ActiveView = view.join(', ');
-            }
-            FwBrowse.search($browse);
-        });
-        var viewTrack = [];
+        let viewTrack: Array<JQuery> = [];
         viewTrack.push($trackAll, $trackBarcode, $trackSerialNumber, $trackRFID);
-
-        var $trackByView;
-        $trackByView = FwMenu.addViewBtn($menuObject, 'Tracked By', viewTrack);
+        FwMenu.addViewBtn($menuObject, 'Tracked By', viewTrack, true, "TrackedBy");
         return $menuObject;
     };
     //---------------------------------------------------------------------------------------------
@@ -170,7 +98,7 @@ class RwAsset {
         let $browse;
         $browse = RepairController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = RepairController.ActiveView;
+            request.activeviewfields = RepairController.ActiveViewFields;
             request.uniqueids = {
                 ItemId: itemId
             };

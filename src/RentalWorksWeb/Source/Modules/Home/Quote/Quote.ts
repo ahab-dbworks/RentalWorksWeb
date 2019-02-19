@@ -47,7 +47,6 @@ class Quote extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
         var $browse;
 
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -59,11 +58,8 @@ class Quote extends OrderBase {
             }
         });
 
-        var location = JSON.parse(sessionStorage.getItem('location'));
-        self.ActiveView = 'LocationId=' + location.locationid;
-
+        const self = this;
         $browse.data('ondatabind', function (request) {
-            request.activeview = self.ActiveView;
             request.activeviewfields = self.ActiveViewFields;
         });
 
@@ -88,8 +84,6 @@ class Quote extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        const self = this;
-        const $browse = $menuObject.closest('.fwbrowse');
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true, "PROSPECT");
         const $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
@@ -97,10 +91,6 @@ class Quote extends OrderBase {
         const $ordered: JQuery = FwMenu.generateDropDownViewBtn('Ordered', false, "ORDERED");
         const $cancelled: JQuery = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
         const $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
-
-        if (typeof this.ActiveViewFields["Status"] == 'undefined') {
-            this.ActiveViewFields.Status = ["ALL"];
-        }
 
         FwMenu.addVerticleSeparator($menuObject);
 
@@ -110,21 +100,16 @@ class Quote extends OrderBase {
 
         //Location Filter
         const location = JSON.parse(sessionStorage.getItem('location'));
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
         if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
             this.ActiveViewFields.LocationId = [location.locationid];
         }
-        $allLocations.on('click', function () {
-            FwBrowse.search($browse);
-        });
-        $userLocation.on('click', function () {
-            FwBrowse.search($browse);
-        });
-        let viewLocation = [];
+
+        let viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
 
         return $menuObject;
     };

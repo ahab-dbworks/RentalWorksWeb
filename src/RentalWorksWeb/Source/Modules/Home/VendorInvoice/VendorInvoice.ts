@@ -6,7 +6,8 @@ class VendorInvoice {
     caption: string = 'Vendor Invoice';
     nav: string = 'module/vendorinvoice';
     id: string = '854B3C59-7040-47C4-A8A3-8A336FC970FE';
-    ActiveView: string = 'ALL';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         var screen: any = {};
@@ -30,11 +31,9 @@ class VendorInvoice {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        this.ActiveView = `LocationId=${location.locationid}`;
-
-        $browse.data('ondatabind', request => {
-            request.activeview = this.ActiveView;
+        const self = this;
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
         });
 
         return $browse;
@@ -43,21 +42,16 @@ class VendorInvoice {
     addBrowseMenuItems($menuObject) {
         //Location Filter
         const location = JSON.parse(sessionStorage.getItem('location'));
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false);
-        $allLocations.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = 'LocationId=ALL';
-            FwBrowse.search($browse);
-        });
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true);
-        $userLocation.on('click', e => {
-            const $browse = jQuery(e.currentTarget).closest('.fwbrowse');
-            this.ActiveView = `LocationId=${location.locationid}`;
-            FwBrowse.search($browse);
-        });
-        const viewLocation = [];
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
@@ -92,7 +86,7 @@ class VendorInvoice {
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
-        const $vendorInvoiceItemGrid:JQuery = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
+        const $vendorInvoiceItemGrid: JQuery = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
         const $vendorInvoiceItemGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceItemGrid');
         $vendorInvoiceItemGrid.empty().append($vendorInvoiceItemGridControl);
         $vendorInvoiceItemGridControl.data('ondatabind', request => {
@@ -105,7 +99,7 @@ class VendorInvoice {
         FwBrowse.addEventHandler($vendorInvoiceItemGridControl, 'afterdatabindcallback', ($vendorInvoiceItemGridControl, response) => {
             FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemGrossTotal"]', response.Totals.LineTotal);
             FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTax"]', response.Totals.Tax);
-            FwFormField.setValue($form,  'div[data-totalfield="InvoiceItemTotal"]', response.Totals.LineTotalWithTax);
+            FwFormField.setValue($form, 'div[data-totalfield="InvoiceItemTotal"]', response.Totals.LineTotalWithTax);
         })
         FwBrowse.init($vendorInvoiceItemGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);

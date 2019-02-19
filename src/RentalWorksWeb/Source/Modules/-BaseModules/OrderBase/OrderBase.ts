@@ -1,6 +1,5 @@
 //----------------------------------------------------------------------------------------------
 class OrderBase {
-    ActiveView: string = 'ALL';
     DefaultOrderType: string;
     DefaultOrderTypeId: string;
     CombineActivity: string;

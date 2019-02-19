@@ -74,7 +74,7 @@ class Vendor {
         let $browse;
         $browse = PurchaseOrderController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = PurchaseOrderController.ActiveView;
+            request.activeviewfields = PurchaseOrderController.ActiveViewFields;
             request.uniqueids = {
                 VendorId: vendorId
             };
@@ -88,7 +88,7 @@ class Vendor {
         let $browse;
         $browse = VendorInvoiceController.openBrowse();
         $browse.data('ondatabind', function (request) {
-            request.ActiveView = VendorInvoiceController.ActiveView;
+            request.activeviewfields = VendorInvoiceController.ActiveViewFields;
             request.uniqueids = {
                 VendorId: vendorId
             };
