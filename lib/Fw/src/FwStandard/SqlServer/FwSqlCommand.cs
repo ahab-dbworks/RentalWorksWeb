@@ -2131,7 +2131,6 @@ namespace FwStandard.SqlServer
                 string methodName = "InsertAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 
-                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -2140,7 +2139,6 @@ namespace FwStandard.SqlServer
                 var insertParameterNames = new StringBuilder();
                 var i = 0;
                 var propertyInfos = businessObject.GetType().GetProperties();
-                //bool hasIdentity = false;
                 PropertyInfo identityProperty = null;
                 foreach (var propertyInfo in propertyInfos)
                 {
@@ -2165,8 +2163,9 @@ namespace FwStandard.SqlServer
                         if (isIdentity)
                         {
                             identityProperty = propertyInfo;
+                            this.AddParameter("@" + propertyInfo.Name, SqlDbType.Int, ParameterDirection.Output);
                         }
-                        if (!isIdentity)
+                        else // !isIdentity
                         {
                             if (sqlColumnName.ToLower() == "datestamp" || propertyValue != null)
                             {
@@ -2199,17 +2198,25 @@ namespace FwStandard.SqlServer
 
                 this.sqlCommand.CommandText = "insert into " + tablename + "(" + insertColumnsNames + ")\nvalues (" + insertParameterNames + ")";
 
-                //jh 09/29/2017 - need to capture the identify value here and update the property on this object
-                //if (hasIdentity)
-                //{
-                //    this.sqlCommand.CommandText += " SELECT SCOPE_IDENTITY()";
-                //    identityProperty.SetValue(XX);
-                //}
+                if (identityProperty != null)
+                {
+                    this.sqlCommand.CommandText += "\nset @" + identityProperty.Name + " = scope_identity()";
+                }
 
-                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
+
+                //jh 02/19/2019 - need to capture the identity value here and update the property on this object
+                if (identityProperty != null)
+                {
+                    object identityValue = this.sqlCommand.Parameters["@" + identityProperty.Name].Value;
+                    if (identityValue == DBNull.Value)
+                    {
+                        identityValue = 0;
+                    }
+                    identityProperty.SetValue(businessObject, identityValue);
+                }
             }
             finally
             {
@@ -2218,7 +2225,6 @@ namespace FwStandard.SqlServer
                 {
                     this.sqlConnection.Close();
                 }
-                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
             }
 
             return this.RowCount;
@@ -2231,7 +2237,6 @@ namespace FwStandard.SqlServer
                 string methodName = "UpdateAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 
-                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -2311,7 +2316,6 @@ namespace FwStandard.SqlServer
                 sql.AppendLine("where");
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
-                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
@@ -2323,7 +2327,6 @@ namespace FwStandard.SqlServer
                 {
                     this.sqlConnection.Close();
                 }
-                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
             }
 
             return this.RowCount;
@@ -2336,7 +2339,6 @@ namespace FwStandard.SqlServer
                 string methodName = "DeleteAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 
-                //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
                 if (openAndCloseConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -2379,7 +2381,6 @@ namespace FwStandard.SqlServer
                 sql.AppendLine("where");
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
-                //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 this.RowCount = await this.sqlCommand.ExecuteNonQueryAsync();
@@ -2391,7 +2392,6 @@ namespace FwStandard.SqlServer
                 {
                     this.sqlConnection.Close();
                 }
-                //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
             }
 
             return this.RowCount;
