@@ -77,7 +77,6 @@ class CompleteQc {
                 FwFormField.setValueByDataField($form, 'Description', '');
                 FwFormField.setValueByDataField($form, 'Condition', '');
                 FwFormField.setValueByDataField($form, 'Note', '');
-                response.success = true
                 if (response.success) {
                     $completed.show();
                     $form.find('.code').removeClass('error');
