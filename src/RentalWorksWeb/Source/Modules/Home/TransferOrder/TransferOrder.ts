@@ -82,8 +82,10 @@ class TransferOrder {
             FwFormField.setValueByDataField($form, 'PickDate', today);
             FwFormField.setValueByDataField($form, 'ShipDate', today);
 
-            $form.find('[data-datafield="Rental"]').prop('checked', true);
+            $form.find('[data-datafield="Rental"] input').prop('checked', true);
 
+            const location = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValueByDataField($form, 'OfficeLocationId', location.locationid, location.location);
         }
 
         this.events($form);
