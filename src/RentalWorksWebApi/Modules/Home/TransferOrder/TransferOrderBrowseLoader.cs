@@ -51,6 +51,9 @@ namespace WebApi.Modules.Home.TransferOrder
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "isreturntransferorder", modeltype: FwDataTypes.Boolean)]
         public bool? IsReturnTransferOrder { get; set; }
         //------------------------------------------------------------------------------------ 

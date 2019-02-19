@@ -58,12 +58,10 @@ namespace WebApi.Modules.Home.TransferOrder
         public string Status { get { return transferOrder.Status; } set { transferOrder.Status = value; } }
         [FwLogicProperty(Id: "ATnCWGYBdRofG")]
         public string StatusDate { get { return transferOrder.StatusDate; } set { transferOrder.StatusDate = value; } }
-
         [FwLogicProperty(Id: "PC4LY7FVRbyx")]
         public string FromWarehouseId { get { return transferOrder.FromWarehouseId; } set { transferOrder.FromWarehouseId = value; } }
         [FwLogicProperty(Id: "pAJbBxN0u0iu", IsReadOnly: true)]
         public string FromWarehouse { get; set; }
-
         [FwLogicProperty(Id: "4Z71LHyG45F3j")]
         public string ToWarehouseId { get { return transferOrder.WarehouseId; } set { transferOrder.WarehouseId = value; } }
         [FwLogicProperty(Id: "hEaKt19UKcRz", IsReadOnly: true)]
@@ -72,50 +70,35 @@ namespace WebApi.Modules.Home.TransferOrder
         public string DepartmentId { get { return transferOrder.DepartmentId; } set { transferOrder.DepartmentId = value; } }
         [FwLogicProperty(Id: "Ei1ou8nWqGxd", IsReadOnly: true)]
         public string Department { get; set; }
-
         [FwLogicProperty(Id: "cAw9W17inqZBr")]
         public bool? Rental { get { return transferOrder.Rental; } set { transferOrder.Rental = value; } }
         [FwLogicProperty(Id: "2KGlQTb3nceEL")]
         public bool? Sales { get { return transferOrder.Sales; } set { transferOrder.Sales = value; } }
-
-
         [FwLogicProperty(Id: "6EcHrt37R4zIA")]
         public string AgentId { get { return transferOrder.AgentId; } set { transferOrder.AgentId = value; } }
-        [FwLogicProperty(Id: "xxxx", IsReadOnly: true)]
+        [FwLogicProperty(Id: "veS3S3InSvQDS", IsReadOnly: true)]
         public string Agent { get; set; }
-
-
         public string RelatedToOrderId { get; set; }
         [FwLogicProperty(Id: "dCW5zlMgVqQs", IsReadOnly: true)]
         public string RelatedToOrderNumber { get; set; }
         [FwLogicProperty(Id: "SZosgj3Ktskim")]
         public string OfficeLocationId { get { return transferOrder.OfficeLocationId; } set { transferOrder.OfficeLocationId = value; } }
+        [FwLogicProperty(Id: "YqNC9HI9TjfyP", IsReadOnly: true)]
+        public string OfficeLocation { get; set; }
         [FwLogicProperty(Id: "kBx2hobWvMgT")]
         public bool? IsReturnTransferOrder { get { return transferOrderDetail.IsReturnTransferOrder; } set { transferOrderDetail.IsReturnTransferOrder = value; } }
         [FwLogicProperty(Id: "EgZDjXm8CZKGD")]
         public string PickDate { get { return transferOrder.PickDate; } set { transferOrder.PickDate = value; } }
         [FwLogicProperty(Id: "nfDtDF2adG84y")]
         public string PickTime { get { return transferOrder.PickTime; } set { transferOrder.PickTime = value; } }
-
-
         [FwLogicProperty(Id: "dgIJeuGQtj4l", IsReadOnly: true)]
         public string ShipDate { get { return transferOrder.EstimatedStartDate; } set { transferOrder.EstimatedStartDate = value; outDelivery.TargetShipDate = value; } }
         [FwLogicProperty(Id: "QW1dQRJ6eKsl5", IsReadOnly: true)]
         public string ShipTime { get { return transferOrder.EstimatedStartTime; } set { transferOrder.EstimatedStartTime = value; outDelivery.TargetShipTime = value; } }
-
         [FwLogicProperty(Id: "AjVkvBVuspGif", IsReadOnly: true)]
         public string RequiredDate { get { return transferOrderDetail.ReceiveDate; } set { transferOrderDetail.ReceiveDate = value; } }
         [FwLogicProperty(Id: "io1lEB0j5r3mo", IsReadOnly: true)]
         public string RequiredTime { get { return transferOrderDetail.ReceiveTime; } set { transferOrderDetail.ReceiveTime = value; } }
-
-
-
-
-
-
-
-
-
 
 
         [FwLogicProperty(Id: "CaQAkkrCbFg8g")]
@@ -282,9 +265,6 @@ namespace WebApi.Modules.Home.TransferOrder
 
         [FwLogicProperty(Id: "RY8gqerc3GqRx")]
         public string OutDeliveryDateStamp { get { return outDelivery.DateStamp; } set { outDelivery.DateStamp = value; } }
-
-
-
 
 
 
@@ -460,14 +440,9 @@ namespace WebApi.Modules.Home.TransferOrder
 
 
 
-
         [FwLogicProperty(Id: "crH6wTINbMj9z")]
         public string DateStamp { get { return transferOrder.DateStamp; } set { transferOrder.DateStamp = value; transferOrderDetail.DateStamp = value; } }
-
         //------------------------------------------------------------------------------------
-
-
-
 
 
 
