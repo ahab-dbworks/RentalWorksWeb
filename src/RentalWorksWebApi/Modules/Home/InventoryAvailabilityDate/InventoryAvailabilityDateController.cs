@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using System;
-using Microsoft.AspNetCore.Http;
 using WebApi.Modules.Home.InventoryAvailabilityFunc;
 
 namespace WebApi.Modules.Home.InventoryAvailabilityDate
@@ -32,9 +31,6 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         [FwControllerMethod(Id: "bi563cSFahD")]
         public async Task<ActionResult<InventoryAvailabilityDateLogic>> GetCalendarAsync(string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
         {
-            //return await DoGetAsync<InventoryAvailabilityDateLogic>(id);
-
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -84,8 +80,8 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                     iAvail.WarehouseId = WarehouseId;
                     iAvail.start = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     iAvail.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    iAvail.text = "Available " + d.Value.AvailableQuantityOwned.ToString();
-                    if (d.Value.AvailableQuantityOwned < 0)
+                    iAvail.text = "Available " + d.Value.Available.Total.ToString();
+                    if (d.Value.Available.Total < 0)
                     {
                         iAvail.backColor = FwConvert.OleColorToHtmlColor(16711680); //red
                     }
@@ -97,7 +93,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                     data.Add(iAvail);
 
                     //reserved
-                    if (d.Value.ReservedQuantityOwned != 0)
+                    if (d.Value.Reserved.Total != 0)
                     {
                         id++;
                         InventoryAvailabilityDateLogic iReserve = new InventoryAvailabilityDateLogic();
@@ -106,14 +102,14 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                         iReserve.WarehouseId = WarehouseId;
                         iReserve.start = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                         iReserve.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                        iReserve.text = "Reserved " + d.Value.ReservedQuantityOwned.ToString();
+                        iReserve.text = "Reserved " + d.Value.Reserved.Total.ToString();
                         iReserve.backColor = FwConvert.OleColorToHtmlColor(15132390); //gray
                         iReserve.textColor = FwConvert.OleColorToHtmlColor(0); //black
                         data.Add(iReserve);
                     }
 
                     //returning
-                    if (d.Value.ReturningQuantityOwned != 0)
+                    if (d.Value.Returning.Total != 0)
                     {
                         id++;
                         InventoryAvailabilityDateLogic iReturn = new InventoryAvailabilityDateLogic();
@@ -122,7 +118,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                         iReturn.WarehouseId = WarehouseId;
                         iReturn.start = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                         iReturn.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                        iReturn.text = "Returning " + d.Value.ReturningQuantityOwned.ToString();
+                        iReturn.text = "Returning " + d.Value.Returning.Total.ToString();
                         iReturn.backColor = FwConvert.OleColorToHtmlColor(618726); //blue
                         iReturn.textColor = FwConvert.OleColorToHtmlColor(16777215); //white
                         data.Add(iReturn);
@@ -136,15 +132,6 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
             }
             catch (Exception ex)
             {
-                //FwApiException jsonException = new FwApiException();
-                //jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                //jsonException.Message = ex.Message;
-                //if (ex.InnerException != null)
-                //{
-                //    jsonException.Message += $"\n\nInnerException: \n{ex.InnerException.Message}";
-                //}
-                //jsonException.StackTrace = ex.StackTrace;
-                //return StatusCode(jsonException.StatusCode, jsonException);
                 return GetApiExceptionResult(ex);
             }
 

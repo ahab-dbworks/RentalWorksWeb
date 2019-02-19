@@ -7,6 +7,7 @@ using WebApi.Logic;
 using WebLibrary;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 {
@@ -16,40 +17,45 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         public int PercentComplete { get; set; } = 0;
     }
     //-------------------------------------------------------------------------------------------------------
+    public class TInventoryWarehouseAvailabilityQuantity
+    {
+        public decimal Owned { get; set; } = 0;
+        public decimal Consigned { get; set; } = 0;
+        public decimal Total { get; set; } = 0;
+    }
     public class TInventoryWarehouseAvailabilityReservation
     {
         public string OrderId { get; set; }
         public string OrderItemId { get; set; }
         public DateTime FromDateTime { get; set; }
         public DateTime ToDateTime { get; set; }
-        public decimal ResevedQuantity { get; set; } = 0;
         public decimal QuantityOrdered { get; set; } = 0;
+        public decimal QuantitySub { get; set; } = 0;
+        public decimal QuantityConsigned { get; set; } = 0;
+        public TInventoryWarehouseAvailabilityQuantity QuantityReserved { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityStaged { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityOut { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityIn { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
     }
     //-------------------------------------------------------------------------------------------------------
     public class TInventoryWarehouseAvailabilityDate
     {
         public DateTime AvailabilityDate { get; set; }
-        public decimal AvailableQuantityOwned { get; set; } = 0;
-        public decimal AvailableQuantityConsigned { get; set; } = 0;
-        public decimal AvailableQuantityTotal { get; set; } = 0;
-
-
-        public decimal ReservedQuantityOwned { get; set; } = 0;
-        public decimal ReservedQuantityConsigned { get; set; } = 0;
-        public decimal ReservedQuantityTotal { get; set; } = 0;
-
-        public decimal ReturningQuantityOwned { get; set; } = 0;
-        public decimal ReturningQuantityConsigned { get; set; } = 0;
-        public decimal ReturningQuantityTotal { get; set; } = 0;
+        public TInventoryWarehouseAvailabilityQuantity Available { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity Reserved { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity Returning { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
     }
     //-------------------------------------------------------------------------------------------------------
-    public class TInventoryWarehouseAvailability
+    public class TInventoryWarehouseAvailabilityKey
     {
         public string InventoryId { get; set; } = "";
         public string WarehouseId { get; set; } = "";
-        public decimal CurrentOwnedQuantity { get; set; } = 0;
-        public decimal CurrentConsignedQuantity { get; set; } = 0;
-        public decimal CurrentTotalQuantity { get; set; } = 0;
+    }
+    public class TInventoryWarehouseAvailability
+    {
+        //public TInventoryWarehouseAvailabilityKey Key = new TInventoryWarehouseAvailabilityKey();
+        public TInventoryWarehouseAvailabilityQuantity Current { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+
         public List<TInventoryWarehouseAvailabilityReservation> Reservations = new List<TInventoryWarehouseAvailabilityReservation>();
         public Dictionary<DateTime, TInventoryWarehouseAvailabilityDate> Dates = new Dictionary<DateTime, TInventoryWarehouseAvailabilityDate>();
     }
@@ -59,7 +65,8 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
     {
         //-------------------------------------------------------------------------------------------------------
         private static Dictionary<string, TAvailabilityProgress> AvailabilitySessions = new Dictionary<string, TAvailabilityProgress>();
-        private static Dictionary<string, TInventoryWarehouseAvailability> AvailabilityCache = new Dictionary<string, TInventoryWarehouseAvailability>();
+        private static List<TInventoryWarehouseAvailabilityKey> AvailabilityNeedRecalc = new List<TInventoryWarehouseAvailabilityKey>();
+        private static Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> AvailabilityCache = new Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability>();
         //-------------------------------------------------------------------------------------------------------
         public static TAvailabilityProgress GetAvailabilityProgress(string sessionId)
         {
@@ -80,72 +87,94 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             AvailabilitySessions.Remove(sessionId);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static bool DumpAvailabilityToFile(string InventoryId = "", string WarehouseId = "", DateTime? theDate = null)
+        public static bool DumpAvailabilityToFile(string inventoryId = "", string warehouseId = "")
         {
             bool success = true;
             StringBuilder sb = new StringBuilder();
-            foreach (KeyValuePair<string, TInventoryWarehouseAvailability> availEntry in AvailabilityCache)
+
+            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in AvailabilityCache)
             {
-                TInventoryWarehouseAvailability inventoryWarehouseAvailability = (TInventoryWarehouseAvailability)availEntry.Value;
-                sb.Append("InventoryId: ");
-                sb.Append(inventoryWarehouseAvailability.InventoryId);
-                sb.Append(", ");
-                sb.Append("WarehouseId: ");
-                sb.Append(inventoryWarehouseAvailability.WarehouseId);
-                sb.Append(", ");
-                sb.AppendLine();
-                sb.Append("   ");
-                sb.Append("Current Owned Quantity: ");
-                sb.Append(inventoryWarehouseAvailability.CurrentOwnedQuantity.ToString());
-                sb.Append(", ");
-                sb.Append("Current Consigned Quantity: ");
-                sb.Append(inventoryWarehouseAvailability.CurrentConsignedQuantity.ToString());
-                sb.Append(", ");
-                sb.Append("Current Total Quantity: ");
-                sb.Append(inventoryWarehouseAvailability.CurrentTotalQuantity.ToString());
-                sb.AppendLine();
-                sb.Append("   ");
-                sb.AppendLine("------- RESERVATIONS ------------------------------------");
-                foreach (TInventoryWarehouseAvailabilityReservation reservation in inventoryWarehouseAvailability.Reservations)
+                bool includeInFile = true;
+
+                if (includeInFile)
                 {
+                    if (string.IsNullOrEmpty(inventoryId))
+                    {
+                        includeInFile = (availEntry.Key.InventoryId.Equals(inventoryId));
+                    }
+                }
+
+                if (includeInFile)
+                {
+                    if (string.IsNullOrEmpty(warehouseId))
+                    {
+                        includeInFile = (availEntry.Key.WarehouseId.Equals(warehouseId));
+                    }
+                }
+
+                if (includeInFile)
+                {
+                    TInventoryWarehouseAvailability inventoryWarehouseAvailability = (TInventoryWarehouseAvailability)availEntry.Value;
+                    sb.Append("InventoryId: ");
+                    sb.Append(availEntry.Key.InventoryId);
+                    sb.Append(", ");
+                    sb.Append("WarehouseId: ");
+                    sb.Append(availEntry.Key.WarehouseId);
+                    sb.Append(", ");
+                    sb.AppendLine();
                     sb.Append("   ");
-                    sb.Append("OrderId: ");
-                    sb.Append(reservation.OrderId.PadLeft(8));
-                    sb.Append(" ");
-                    sb.Append("OrderItemId: ");
-                    sb.Append(reservation.OrderItemId.PadLeft(8));
-                    sb.Append(" ");
-                    sb.Append("From Date/Time: ");
-                    sb.Append(reservation.FromDateTime.ToString().PadLeft(26));
-                    sb.Append(" ");
-                    sb.Append("To Date/Time: ");
-                    sb.Append(reservation.ToDateTime.ToString().PadLeft(26));
-                    sb.Append(" ");
-                    sb.Append("Quantity Ordered: ");
-                    sb.Append(reservation.QuantityOrdered.ToString().PadLeft(26));
+                    sb.Append("Current Owned Quantity: ");
+                    sb.Append(inventoryWarehouseAvailability.Current.Owned.ToString());
+                    sb.Append(", ");
+                    sb.Append("Current Consigned Quantity: ");
+                    sb.Append(inventoryWarehouseAvailability.Current.Consigned.ToString());
+                    sb.Append(", ");
+                    sb.Append("Current Total Quantity: ");
+                    sb.Append(inventoryWarehouseAvailability.Current.Total.ToString());
+                    sb.AppendLine();
+                    sb.Append("   ");
+                    sb.AppendLine("------- RESERVATIONS ------------------------------------");
+                    foreach (TInventoryWarehouseAvailabilityReservation reservation in inventoryWarehouseAvailability.Reservations)
+                    {
+                        sb.Append("   ");
+                        sb.Append("OrderId: ");
+                        sb.Append(reservation.OrderId.PadLeft(8));
+                        sb.Append(" ");
+                        sb.Append("OrderItemId: ");
+                        sb.Append(reservation.OrderItemId.PadLeft(8));
+                        sb.Append(" ");
+                        sb.Append("From Date/Time: ");
+                        sb.Append(reservation.FromDateTime.ToString().PadLeft(26));
+                        sb.Append(" ");
+                        sb.Append("To Date/Time: ");
+                        sb.Append(reservation.ToDateTime.ToString().PadLeft(26));
+                        sb.Append(" ");
+                        sb.Append("Quantity Ordered: ");
+                        sb.Append(reservation.QuantityOrdered.ToString().PadLeft(26));
+                        sb.AppendLine();
+                    }
+                    sb.AppendLine();
+                    sb.Append("   ");
+                    sb.AppendLine("------- DATES ------------------------------------");
+                    foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDateEntry in inventoryWarehouseAvailability.Dates)
+                    {
+                        TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = (TInventoryWarehouseAvailabilityDate)availDateEntry.Value;
+                        sb.Append("   ");
+                        sb.Append("Date: ");
+                        sb.Append(inventoryWarehouseAvailabilityDate.AvailabilityDate.ToShortDateString().PadLeft(10));
+                        sb.Append(" ");
+                        sb.Append("Owned Available: ");
+                        sb.Append(inventoryWarehouseAvailabilityDate.Available.Owned.ToString());
+                        sb.Append(" ");
+                        sb.Append("Consigned Available: ");
+                        sb.Append(inventoryWarehouseAvailabilityDate.Available.Consigned.ToString());
+                        sb.Append(" ");
+                        sb.Append("Total Available: ");
+                        sb.Append(inventoryWarehouseAvailabilityDate.Available.Total.ToString());
+                        sb.AppendLine();
+                    }
                     sb.AppendLine();
                 }
-                sb.AppendLine();
-                sb.Append("   ");
-                sb.AppendLine("------- DATES ------------------------------------");
-                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDateEntry in inventoryWarehouseAvailability.Dates)
-                {
-                    TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = (TInventoryWarehouseAvailabilityDate)availDateEntry.Value;
-                    sb.Append("   ");
-                    sb.Append("Date: ");
-                    sb.Append(inventoryWarehouseAvailabilityDate.AvailabilityDate.ToShortDateString().PadLeft(10));
-                    sb.Append(" ");
-                    sb.Append("Owned Available: ");
-                    sb.Append(inventoryWarehouseAvailabilityDate.AvailableQuantityOwned.ToString());
-                    sb.Append(" ");
-                    sb.Append("Consigned Available: ");
-                    sb.Append(inventoryWarehouseAvailabilityDate.AvailableQuantityConsigned.ToString());
-                    sb.Append(" ");
-                    sb.Append("Total Available: ");
-                    sb.Append(inventoryWarehouseAvailabilityDate.AvailableQuantityTotal.ToString());
-                    sb.AppendLine();
-                }
-                sb.AppendLine();
             }
             System.IO.File.WriteAllText(@"C:\temp\availability.txt", sb.ToString());
             return success;
@@ -154,9 +183,11 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         private static async Task<bool> RefreshAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, string inventoryId, string warehouseId, DateTime toDate)
         {
             bool success = false;
+            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey();
+            availKey.InventoryId = inventoryId;
+            availKey.WarehouseId = warehouseId;
+
             TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability();
-            availData.InventoryId = inventoryId;
-            availData.WarehouseId = warehouseId;
 
             if (toDate < DateTime.Today)
             {
@@ -176,9 +207,9 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
                 if (dt.Rows.Count > 0)
                 {
-                    availData.CurrentTotalQuantity = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("qty")].ToString());
-                    availData.CurrentConsignedQuantity = 0;  // temporary
-                    availData.CurrentOwnedQuantity = (availData.CurrentTotalQuantity - availData.CurrentConsignedQuantity);
+                    availData.Current.Total = FwConvert.ToDecimal(dt.Rows[0][dt.GetColumnNo("qty")].ToString());
+                    availData.Current.Consigned = 0;  // temporary
+                    availData.Current.Owned = (availData.Current.Total - availData.Current.Consigned);
                 }
             }
 
@@ -216,62 +247,40 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = new TInventoryWarehouseAvailabilityDate();
                 inventoryWarehouseAvailabilityDate.AvailabilityDate = theDate;
 
-                decimal availableQuantityOwned = availData.CurrentOwnedQuantity;
-                decimal availableQuantityConsigned = availData.CurrentConsignedQuantity;
-                decimal availableQuantityTotal = availData.CurrentTotalQuantity;
-
-                decimal reservedQuantityOwned = 0;
-                decimal reservedQuantityConsigned = 0;
-                decimal reservedQuantityTotal = 0;
-
-                decimal returningQuantityOwned = 0;
-                decimal returningQuantityConsigned = 0;
-                decimal returningQuantityTotal = 0;
+                TInventoryWarehouseAvailabilityQuantity available = new TInventoryWarehouseAvailabilityQuantity();
+                TInventoryWarehouseAvailabilityQuantity reserved = new TInventoryWarehouseAvailabilityQuantity();
+                TInventoryWarehouseAvailabilityQuantity returning = new TInventoryWarehouseAvailabilityQuantity();
 
                 foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
                 {
                     if ((reservation.FromDateTime <= theDate) && (theDate <= reservation.ToDateTime))
                     {
-                        availableQuantityOwned = (availableQuantityOwned - reservation.QuantityOrdered);
-                        availableQuantityConsigned = 0;
-                        availableQuantityTotal = availableQuantityOwned;
+                        available.Owned = (available.Owned - reservation.QuantityOrdered);
+                        available.Consigned = 0;
+                        available.Total = available.Owned;
 
-                        reservedQuantityOwned = (reservedQuantityOwned + reservation.QuantityOrdered);
-                        reservedQuantityConsigned = 0;
-                        reservedQuantityTotal = reservedQuantityOwned;
+                        reserved.Owned = (reserved.Owned + reservation.QuantityOrdered);
+                        reserved.Consigned = 0;
+                        reserved.Total = reserved.Owned;
 
 
                     }
                     if (reservation.ToDateTime == theDate)
                     {
-                        returningQuantityOwned = (returningQuantityOwned - reservation.QuantityOrdered);
-                        returningQuantityConsigned = 0;
-                        returningQuantityTotal = returningQuantityOwned;
+                        returning.Owned = (returning.Owned - reservation.QuantityOrdered);
+                        returning.Consigned = 0;
+                        returning.Total = returning.Owned;
                     }
                 }
 
-                //available
-                inventoryWarehouseAvailabilityDate.AvailableQuantityOwned = availableQuantityOwned;
-                inventoryWarehouseAvailabilityDate.AvailableQuantityConsigned = availableQuantityConsigned;
-                inventoryWarehouseAvailabilityDate.AvailableQuantityTotal = availableQuantityTotal;
-
-                //reserved
-                inventoryWarehouseAvailabilityDate.ReservedQuantityOwned = reservedQuantityOwned;
-                inventoryWarehouseAvailabilityDate.ReservedQuantityConsigned = reservedQuantityConsigned;
-                inventoryWarehouseAvailabilityDate.ReservedQuantityTotal = reservedQuantityTotal;
-
-                //returning
-                inventoryWarehouseAvailabilityDate.ReturningQuantityOwned = returningQuantityOwned;
-                inventoryWarehouseAvailabilityDate.ReturningQuantityConsigned = returningQuantityConsigned;
-                inventoryWarehouseAvailabilityDate.ReturningQuantityTotal = returningQuantityTotal;
-
+                inventoryWarehouseAvailabilityDate.Available = available;
+                inventoryWarehouseAvailabilityDate.Reserved = reserved;
+                inventoryWarehouseAvailabilityDate.Returning = returning;
 
                 availData.Dates.Add(theDate, inventoryWarehouseAvailabilityDate);
                 theDate = theDate.AddDays(1);
             }
-            //AvailabilityCache.Remove(inventoryId + warehouseId);
-            //AvailabilityCache.Add(inventoryId + warehouseId, availData);
-            AvailabilityCache[inventoryId + warehouseId] = availData;
+            AvailabilityCache[availKey] = availData;
 
             success = true;
 
@@ -280,7 +289,10 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         //-------------------------------------------------------------------------------------------------------
         public static void DeleteAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string inventoryId, string warehouseId)
         {
-            AvailabilityCache.Remove(inventoryId + warehouseId);
+            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey();
+            availKey.InventoryId = inventoryId;
+            availKey.WarehouseId = warehouseId;
+            AvailabilityCache.Remove(availKey);
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<Dictionary<DateTime, TInventoryWarehouseAvailabilityDate>> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate)
@@ -298,9 +310,12 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 toDate = DateTime.Today;
             }
 
-            string availabilityKey = inventoryId + warehouseId;
+            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey();
+            availKey.InventoryId = inventoryId;
+            availKey.WarehouseId = warehouseId;
+
             TInventoryWarehouseAvailability inventoryWarehouseAvailability = null;
-            if (AvailabilityCache.TryGetValue(availabilityKey, out inventoryWarehouseAvailability))
+            if (AvailabilityCache.TryGetValue(availKey, out inventoryWarehouseAvailability))
             {
                 DateTime theDate = fromDate;
                 TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = null;

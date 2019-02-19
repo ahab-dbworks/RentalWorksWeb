@@ -20,9 +20,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
         // POST api/v1/inventoryavailability/dumptofile
         [HttpPost("dumptofile")]
         [FwControllerMethod(Id: "VFmuS509if2Vc")]
-        public async Task<ActionResult<bool>> DumpToFile()
+        public async Task<ActionResult<bool>> DumpToFile(string inventoryId, string warehouseId)  // inventoryId and warehouseId are optional filters here
         {
-            return InventoryAvailabilityFunc.InventoryAvailabilityFunc.DumpAvailabilityToFile();
+            return InventoryAvailabilityFunc.InventoryAvailabilityFunc.DumpAvailabilityToFile(inventoryId, warehouseId);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryavailability/getavailability
