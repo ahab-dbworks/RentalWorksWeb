@@ -14,7 +14,6 @@ export class PartsInventoryTransactionReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            console.log('params: ', parameters)
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventorytransactionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const partsInventoryTransaction: any = DataTable.toObjectList(response);
