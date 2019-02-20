@@ -3257,7 +3257,6 @@
         const totalNumberofRows = FwBrowse.getTotalRowCount($control);
         const totalNumberofRowsStr = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         if (totalNumberofRows >= 1) {
-
             const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
             $confirmation.find('.fwconfirmationbox').css('width', '450px');
             const html: Array<string> = [];
@@ -3288,10 +3287,13 @@
             const $no = FwConfirmation.addButton($confirmation, 'Cancel');
             const request: any = FwBrowse.getRequest($control);
 
-            $confirmation.find('.user-defined-records-input input').val(request.pagesize);
-            $confirmation.find('.all-records input').prop('checked', true);
+            if (request.pagesize > totalNumberofRows) {
+                $confirmation.find('.user-defined-records-input input').val(totalNumberofRows);
+            } else {
+                $confirmation.find('.user-defined-records-input input').val(request.pagesize);
+            }
 
-            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
+            $confirmation.find('.all-records input').prop('checked', true);
 
             $confirmation.find('.all-records input').on('change', function () {
                 const $this = jQuery(this);
@@ -3318,6 +3320,7 @@
                 $confirmation.find('.all-records input').prop('checked', false);
             });
 
+            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
             $yes.on('click', () => {
                 $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
                 request.pagesize = userDefinedNumberofRows;

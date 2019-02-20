@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------------------------
-class FwWebApiReport {
+abstract class FwWebApiReport {
     Module: string;
     reportName: string = '';
     apiurl: string = '';
@@ -26,9 +26,10 @@ class FwWebApiReport {
             HasDownloadExcel: true
         };
     }
+    abstract convertParameters(parameters: any);
     //----------------------------------------------------------------------------------------------
     getFrontEnd() {
-        let $form = jQuery(this.frontEndHtml);
+        const $form = jQuery(this.frontEndHtml);
         $form.attr('data-reportname', this.reportName);
         $form.on('change', '.fwformfield[data-required="true"].error', function () {
             const $this = jQuery(this);
@@ -46,17 +47,17 @@ class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getRenderRequest($form) {
         let request = new RenderRequest();
-        if (typeof $form.data('getRenderRequest') === 'function') {     // This method is not being called in any reports and might be able to be removed
+        if (typeof $form.data('getRenderRequest') === 'function') {
             request = $form.data('getRenderRequest')(request);
         }
         return request;
     }
     //----------------------------------------------------------------------------------------------
     load($form: JQuery, reportOptions) {
-        let formid = program.uniqueId(8);
-        let $fwcontrols = $form.find('.fwcontrol').addBack();
+        const $fwcontrols = $form.find('.fwcontrol').addBack();
         FwControl.renderRuntimeControls($fwcontrols);
-        FwControl.setIds($fwcontrols, formid);
+        const formId = program.uniqueId(8);
+        FwControl.setIds($fwcontrols, formId);
         this.addReportMenu($form, reportOptions);
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
         $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
@@ -75,13 +76,9 @@ class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnPreview.on('click', (event: JQuery.Event) => {
                 try {
-                    //let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Preview...');
                     let request = this.getRenderRequest($form);
                     request.renderMode = 'Html';
-                    request.parameters = this.getParameters($form);
-                    //if (typeof request.uniqueid === 'undefined' || request.uniqueid === null) {
-                    //    throw 'request.uniqueid is required.'; // you need to implement: $form.data('getRenderRequest', function() {});
-                    //}
+                    request.parameters = this.convertParameters(this.getParameters($form));
                     let win = window.open(urlHtmlReport);
                     if (!win) {
                         throw 'Please disable your popup blocker for this site!';
@@ -107,16 +104,14 @@ class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnPrintPdf.on('click', (event: JQuery.Event) => {
                 try {
-                    //let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Preview...');
-                    let request = this.getRenderRequest($form);
+                    const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Html';
-                    request.parameters = this.getParameters($form);
-                    const $iframe = jQuery('<iframe style="display:none;" />');
+                    request.parameters = this.convertParameters(this.getParameters($form));
+                    const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                     jQuery('.application').append($iframe);
-                    $iframe.attr('src', urlHtmlReport);
                     $iframe.on('load', () => {
                         setTimeout(() => {
-                            let message = new ReportPageMessage();
+                            const message: any = new ReportPageMessage();
                             message.action = 'PrintHtml';
                             message.apiUrl = apiUrl;
                             message.authorizationHeader = authorizationHeader;
@@ -156,7 +151,7 @@ class FwWebApiReport {
                     const $yes = FwConfirmation.addButton($confirmation, 'Download', false);
                     const $no = FwConfirmation.addButton($confirmation, 'Cancel');
                     $confirmation.find('.sub-headings input').prop('checked', false);
-                    let request = this.getRenderRequest($form);
+                    const request: any = this.getRenderRequest($form);
                     request.downloadPdfAsAttachment = true;
                     $yes.on('click', () => {
                         $confirmation.find('.sub-headings input').prop('checked') === true ? request.IncludeSubHeadingsAndSubTotals = true : request.IncludeSubHeadingsAndSubTotals = false;
@@ -167,9 +162,9 @@ class FwWebApiReport {
                         $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
                         request.IncludeColorColumns = includeColorColumns;
 
-                        const parameters = this.getParameters($form);
-                        for (let key in parameters) {
-                            request[key] = parameters[key];
+                        const convertedparameters = this.convertParameters(this.getParameters($form));
+                        for (let key in convertedparameters) {
+                            request[key] = convertedparameters[key];
                         }
                         FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
                             (successResponse) => {
@@ -202,16 +197,18 @@ class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnOpenPdf.on('click', (event: JQuery.Event) => {
                 try {
-                    const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = this.getRenderRequest($form);
+                    const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Pdf';
                     request.downloadPdfAsAttachment = false;
-                    request.parameters = this.getParameters($form);
+                    request.parameters = this.convertParameters(this.getParameters($form));
                     const win = window.open('about:blank', 'newtab');
+                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+                    //document.appendChild($notification)
                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
                                 win.location.href = successResponse.pdfReportUrl;
+                                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
                                 if (win == null) throw 'Unable to open the report in a new window. Check your popup blocker.'
                                 var setWindowTitle = () => {
                                     if (win.document) // If loaded
@@ -294,14 +291,14 @@ class FwWebApiReport {
             $btnEmailMePdf.on('click', (event: JQuery.Event) => {
                 try {
                     const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    let request = this.getRenderRequest($form);
+                    const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Email';
                     request.email.from = '[me]';
                     request.email.to = '[me]';
                     request.email.cc = '';
                     request.email.subject = '[reportname]';
                     request.email.body = '';
-                    request.parameters = this.getParameters($form);
+                    request.parameters = this.convertParameters(this.getParameters($form));
                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
@@ -360,13 +357,13 @@ class FwWebApiReport {
                     $btnSend.click((event: JQuery.Event) => {
                         try {
                             const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                            const requestEmailPdf = this.getRenderRequest($form);
+                            const requestEmailPdf: any = this.getRenderRequest($form);
                             requestEmailPdf.renderMode = 'Email';
                             requestEmailPdf.email.to = '[me]';
                             requestEmailPdf.email.cc = '';
                             requestEmailPdf.email.subject = '[reportname]';
                             requestEmailPdf.email.body = '';
-                            requestEmailPdf.parameters = this.getParameters($form);
+                            requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
                             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
                                 (successResponse) => {
                                     try {
@@ -433,23 +430,25 @@ class FwWebApiReport {
         $form.find('.fwform-menu').append($menuObject);
     }
     //----------------------------------------------------------------------------------------------
-    getParameters($form: JQuery) {
-        let parameters: any = null;
-        const isvalid = FwModule.validateForm($form);
-        if (isvalid) {
-            parameters = {};
-            const $fields = $form.find('div[data-control="FwFormField"]');
-            $fields.each(function (index, element) {
-                const $field = jQuery(element);
-                if (typeof $field.attr('data-datafield') === 'string') {
-                    parameters[$field.attr('data-datafield')] = FwFormField.getValue2($field);
-                }
-            });
-        } else {
-            throw 'Please fill in the required fields.';
+    getParameters($form: JQuery): any {
+        try {
+            const parameters: any = {};
+            const isvalid = FwModule.validateForm($form);
+            if (isvalid) {
+                const $fields = $form.find('div[data-control="FwFormField"]');
+                $fields.each(function (index, element) {
+                    const $field = jQuery(element);
+                    if (typeof $field.attr('data-datafield') === 'string') {
+                        parameters[$field.attr('data-datafield')] = FwFormField.getValue2($field);
+                    }
+                });
+            } else {
+                throw 'Please fill in the required fields.';
+            }
+            return parameters;
+        } catch (ex) {
+            FwFunc.showError(ex)
         }
-
-        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     getEmailTemplate() {
@@ -518,7 +517,7 @@ class RenderRequest {
     email = new EmailInfo();
     uniqueid: string = '';
     downloadPdfAsAttachment: boolean = false;
-    IncludeSubHeadingsAndSubTotals: boolean = true;
+    IncludeSubHeadingsAndSubTotals: boolean;
     IncludeColorColumns: boolean;
     IncludeIdColumns: boolean;
 }
