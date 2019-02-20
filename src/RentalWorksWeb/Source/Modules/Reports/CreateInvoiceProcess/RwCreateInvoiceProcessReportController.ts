@@ -24,7 +24,7 @@ const createInvoiceProcessTemplate = `
             <div class="flexcolumn" style="max-width:300px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Exceptions Only" data-datafield="ShowExceptions" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Exceptions Only" data-datafield="ExceptionsOnly" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>
@@ -56,8 +56,7 @@ class RwCreateInvoiceProcessReportClass extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
@@ -68,16 +67,10 @@ class RwCreateInvoiceProcessReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.InvoiceCreationBatchId = parameters.InvoiceCreationBatchId;
-        convertedParams.ExceptionsOnly = parameters.ShowExceptions;
-        return convertedParams;
+        return parameters;
     }
 };
 
