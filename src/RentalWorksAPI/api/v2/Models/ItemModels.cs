@@ -30,6 +30,7 @@ namespace RentalWorksAPI.api.v2.Models
         public string daysinwk              { get; set; }
         public string notes                 { get; set; }
         public string parentid              { get; set; }
+        public string nestedmasteritemid    { get; set; }
         public string unitextended          { get; set; }
         public string weeklyextended        { get; set; }
         public string periodextended        { get; set; }

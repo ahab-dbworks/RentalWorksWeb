@@ -369,6 +369,7 @@ namespace RentalWorksAPI.api.v1.Data
                 orderitem.daysinwk             = dt.Rows[i][dt.ColumnIndex["daysinwk"]].ToString().TrimEnd();
                 orderitem.notes                = dt.Rows[i][dt.ColumnIndex["notes"]].ToString().TrimEnd();
                 orderitem.parentid             = dt.Rows[i][dt.ColumnIndex["parentid"]].ToString().TrimEnd();
+                orderitem.nestedmasteritemid   = dt.Rows[i][dt.ColumnIndex["nestedmasteritemid"]].ToString().TrimEnd();
 
                 orderitem.unitextended         = dt.Rows[i][dt.ColumnIndex["unitextended"]].ToString().TrimEnd();
                 orderitem.periodextended       = dt.Rows[i][dt.ColumnIndex["periodextended"]].ToString().TrimEnd();

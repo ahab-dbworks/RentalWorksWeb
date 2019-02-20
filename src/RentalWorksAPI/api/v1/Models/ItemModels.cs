@@ -110,6 +110,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string inactive            { get; set; }
         public string itemorder           { get; set; }
         public string packageitemid       { get; set; }
+        public string nestedmasteritemid  { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
     public class HighlyUsedItem

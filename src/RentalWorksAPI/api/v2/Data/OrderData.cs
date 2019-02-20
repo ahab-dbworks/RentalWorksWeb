@@ -281,6 +281,7 @@ namespace RentalWorksAPI.api.v2.Data
                 item.daysinwk              = FwConvert.ToString(qryresult[i].daysinweeks);
                 item.notes                 = qryresult[i].notes;
                 item.parentid              = qryresult[i].parentid;
+                item.nestedmasteritemid    = qryresult[i].nestedmasteritemid;
                 item.unitextended          = qryresult[i].unitextended;
                 item.weeklyextended        = qryresult[i].weeklyextended;
                 item.periodextended        = qryresult[i].periodextended;
