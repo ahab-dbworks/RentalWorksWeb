@@ -18,18 +18,10 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
     {
         public InventoryAvailabilityDateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(InventoryAvailabilityDateLogic); }
         //------------------------------------------------------------------------------------ 
-        //// POST api/v1/inventoryavailabilitydate/browse 
-        //[HttpPost("browse")]
-        //[FwControllerMethod(Id: "rlxdkpyctbA")]
-        //public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
-        //{
-        //    return await DoBrowseAsync(browseRequest);
-        //}
-        ////------------------------------------------------------------------------------------ 
-        // GET api/v1/inventoryavailabilitydate?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
+        // GET api/v1/inventoryavailabilitydate?SessionId=ABCDEFG&InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
         [HttpGet("")]
         [FwControllerMethod(Id: "bi563cSFahD")]
-        public async Task<ActionResult<InventoryAvailabilityDateLogic>> GetCalendarAsync(string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
+        public async Task<ActionResult<InventoryAvailabilityDateLogic>> GetCalendarAsync(string SessionId, string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
         {
             if (!ModelState.IsValid)
             {
@@ -37,40 +29,10 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
             }
             try
             {
-                //BrowseRequest request = new BrowseRequest();
-                //request.pageno = 0;
-                //request.pagesize = 0;
-                //request.orderby = string.Empty;
-
-                //IDictionary<string, object> uniqueIds = new Dictionary<string, object>();
-                //if (!string.IsNullOrEmpty(InventoryId))
-                //{
-                //    uniqueIds.Add("InventoryId", InventoryId);
-                //}
-                //if (!string.IsNullOrEmpty(WarehouseId))
-                //{
-                //    uniqueIds.Add("WarehouseId", WarehouseId);
-                //}
-                //if (FromDate != null)
-                //{
-                //    uniqueIds.Add("FromDate", FromDate);
-                //}
-                //if (ToDate != null)
-                //{
-                //    uniqueIds.Add("ToDate", ToDate);
-                //}
-                //request.uniqueids = uniqueIds;
-
-                //InventoryAvailabilityDateLogic l = new InventoryAvailabilityDateLogic();
-                //l.SetDependencies(this.AppConfig, this.UserSession);
-                //IEnumerable<InventoryAvailabilityDateLogic> records = await l.SelectAsync<InventoryAvailabilityDateLogic>(request);
-                //return new OkObjectResult(records);
-
-
-                Dictionary<DateTime, TInventoryWarehouseAvailabilityDate> dates = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, "", InventoryId, WarehouseId, FromDate, ToDate);
+                TInventoryWarehouseAvailability availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, SessionId, InventoryId, WarehouseId, FromDate, ToDate, true);
                 List<InventoryAvailabilityDateLogic> data = new List<InventoryAvailabilityDateLogic>();
                 int id = 0;
-                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> d in dates)
+                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> d in availData.Dates)
                 {
                     //available
                     id++;
@@ -89,7 +51,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                     {
                         iAvail.backColor = FwConvert.OleColorToHtmlColor(1176137); //green
                     }
-                    iAvail.textColor = FwConvert.OleColorToHtmlColor(16777215); //white
+                    iAvail.fontColor = FwConvert.OleColorToHtmlColor(16777215); //white
                     data.Add(iAvail);
 
                     //reserved
@@ -104,7 +66,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                         iReserve.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
                         iReserve.text = "Reserved " + d.Value.Reserved.Total.ToString();
                         iReserve.backColor = FwConvert.OleColorToHtmlColor(15132390); //gray
-                        iReserve.textColor = FwConvert.OleColorToHtmlColor(0); //black
+                        iReserve.fontColor = FwConvert.OleColorToHtmlColor(0); //black
                         data.Add(iReserve);
                     }
 
@@ -120,21 +82,17 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                         iReturn.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
                         iReturn.text = "Returning " + d.Value.Returning.Total.ToString();
                         iReturn.backColor = FwConvert.OleColorToHtmlColor(618726); //blue
-                        iReturn.textColor = FwConvert.OleColorToHtmlColor(16777215); //white
+                        iReturn.fontColor = FwConvert.OleColorToHtmlColor(16777215); //white
                         data.Add(iReturn);
                     }
 
                 }
                 return new OkObjectResult(data);
-
-
-
             }
             catch (Exception ex)
             {
                 return GetApiExceptionResult(ex);
             }
-
         }
         //------------------------------------------------------------------------------------ 
     }

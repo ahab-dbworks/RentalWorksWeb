@@ -25,10 +25,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
             return InventoryAvailabilityFunc.InventoryAvailabilityFunc.DumpAvailabilityToFile(inventoryId, warehouseId);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/inventoryavailability/getavailability
-        [HttpPost("getavailability")]
+        // POST api/v1/inventoryavailability/getinventoryavailability
+        [HttpPost("getinventoryavailability")]
         [FwControllerMethod(Id: "48MUJoECV6L9f")]
-        public async Task<ActionResult<Dictionary<DateTime, TInventoryWarehouseAvailabilityDate>>> GetAvailability(string sessionId, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate)
+        public async Task<ActionResult<TInventoryWarehouseAvailability>> GetAvailability([FromBody] AvailabilityInventoryWarehouseRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -36,8 +36,28 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                Dictionary<DateTime, TInventoryWarehouseAvailabilityDate> dates = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, sessionId, inventoryId, warehouseId, fromDate, toDate);
-                return new OkObjectResult(dates);
+                TInventoryWarehouseAvailability availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, request.InventoryId, request.WarehouseId, request.FromDate, request.ToDate, request.RefreshIfNeeded);
+                return new OkObjectResult(availData);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
+        // POST api/v1/inventoryavailability/getorderavailability
+        [HttpPost("getorderavailability")]
+        [FwControllerMethod(Id: "5NmGcYnixLAIX")]
+        public async Task<ActionResult<TAvailabilityCache>> GetAvailability([FromBody] AvailabilityOrderRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TAvailabilityCache availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, request.OrderId, request.RefreshIfNeeded);
+                return new OkObjectResult(availData);
             }
             catch (Exception ex)
             {

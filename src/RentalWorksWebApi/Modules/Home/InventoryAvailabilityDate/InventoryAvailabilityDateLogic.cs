@@ -32,7 +32,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
         public string backColor { get; set; }
 
         [FwLogicProperty(Id:"mIVMwsfmZHVl")]
-        public string textColor { get; set; }
+        public string fontColor { get; set; }
 
         [FwLogicProperty(Id:"SjtUQ8nyCYsr")]
         public string id { get; set; } = "";
