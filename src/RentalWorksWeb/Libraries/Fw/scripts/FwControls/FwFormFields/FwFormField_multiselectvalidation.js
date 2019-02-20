@@ -90,13 +90,21 @@ FwFormField_multiselectvalidation.setValue = function ($fwformfield, value, text
     $inputvalue.val(value);
     $fwformfield.data('browse').removeData('selectedrows');
     if (value !== '') {
-        let valueArr = value.split(',');
-        let textArr = text.split(',');
+        let valueArr;
+        if ($fwformfield.hasClass('email')) {
+            valueArr = value.split(';');
+        } else {
+            valueArr = value.split(',');
+        }
+        let textArr;
+        if (typeof text !== 'undefined') {
+            textArr = text.split(',');
+        }
+
         let multiselectfield = $fwformfield.find('.multiselectitems');
 
-
         for (let i = 0; i < valueArr.length; i++) {
-            multiselectfield.append(`
+            multiselectfield.prepend(`
                 <div contenteditable="false" class="multiitem" data-multivalue="${valueArr[i]}">
                     <span>${textArr[i]}</span>
                     <i class="material-icons">clear</i>

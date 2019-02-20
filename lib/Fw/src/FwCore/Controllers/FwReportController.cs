@@ -24,7 +24,8 @@ namespace FwCore.Controllers
             string baseUrl = this.GetFullyQualifiedBaseUrl();
             Console.WriteLine($"baseurl: {baseUrl}");
             string guid = Guid.NewGuid().ToString().Replace("-", string.Empty);
-            string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
+            //string baseFileName = $"{this.GetReportFileName()}{this.UserSession.WebUsersId}_{guid}";
+            string baseFileName = $"{this.GetReportFileName()}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss")}";
             string htmlFileName = $"{baseFileName}.html";
             //string pathHtmlReport = Path.Combine(FwDownloadController.GetDownloadsDirectory(), htmlFileName);
             string urlHtmlReport = $"{baseUrl}/Reports/{this.GetReportFileName()}/index.html?nocache={Guid.NewGuid().ToString().Replace("-", "")}";
@@ -47,20 +48,20 @@ namespace FwCore.Controllers
                 {
                     if (System.IO.File.Exists(pathPdfReport))
                     {
-                        if (request.email.from == "[me]")
-                        {
-                            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                            {
-                                request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
-                            }
-                        }
-                        if (request.email.to == "[me]")
-                        {
-                            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
-                            {
-                                request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
-                            }
-                        }
+                        //if (request.email.from == "[me]")
+                        //{
+                        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                        //    {
+                        //        request.email.from = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
+                        //    }
+                        //}
+                        //if (request.email.to == "[me]")
+                        //{
+                        //    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                        //    {
+                        //        request.email.to = await FwSqlCommand.GetStringDataAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", this.UserSession.WebUsersId, "email");
+                        //    }
+                        //}
                         if (request.email.subject == "[reportname]")
                         {
                             request.email.subject = GetReportFriendlyName();

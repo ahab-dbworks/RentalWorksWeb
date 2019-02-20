@@ -264,6 +264,9 @@ class FwMultiSelectValidationClass {
                 try {
                     switch (code) {
                         case 9: //TAB key
+                            if (jQuery(e.currentTarget).find('.addItem').text().length === 0) {
+                                break;
+                            }
                         case 13://Enter Key
                             e.preventDefault();
                             let $container = $control.find('div.multiselectitems');
@@ -366,7 +369,13 @@ class FwMultiSelectValidationClass {
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
         let multiselectfield = $control.find('.multiselectitems');
-        let fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
+        let fieldToDisplay;
+        if ($control.hasClass('email')) {
+            fieldToDisplay = "Email";
+        } else {
+            fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
+        }
+         
         let $inputField = multiselectfield.find('span.addItem');
 
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
@@ -376,6 +385,7 @@ class FwMultiSelectValidationClass {
             $browse.data('selectedrowsuniqueids', []);
         }
         let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+        let selectedRowText: Array<JQuery> = [];
         $trs = $browse.find('tbody > tr');
         for (let i = 0; i < $trs.length; i++) {
             var $tr, uniqueIdValue;
@@ -390,6 +400,7 @@ class FwMultiSelectValidationClass {
                     <i class="material-icons">clear</i>
                 </div>`);
                 selectedRowUniqueIds.push(uniqueIdValue);
+                selectedRowText.push(textValue);
             }
         }
         multiselectfield.append($inputField);
@@ -397,6 +408,9 @@ class FwMultiSelectValidationClass {
         $valuefield.val(uniqueid).change();
         $inputField.text('');
         $searchfield.val('');
+
+        const $textField = $valuefield.siblings('.fwformfield-text');
+        $textField.val(selectedRowText.join(';'));
 
         if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['loadRelatedValidationFields'] === 'function')) {
             window[controller]['loadRelatedValidationFields'](validationName, $valuefield, $tr);
