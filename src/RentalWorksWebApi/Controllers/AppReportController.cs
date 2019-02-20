@@ -17,6 +17,8 @@ namespace WebApi.Controllers
     public class AppReportRequest
     {
         public bool IncludeSubHeadingsAndSubTotals { get; set; } = true;
+        public bool IncludeIdColumns { get; set; } = true;
+        public bool IncludeColorColumns { get; set; } = true;
     }
 
     public abstract class AppReportController : FwReportController
