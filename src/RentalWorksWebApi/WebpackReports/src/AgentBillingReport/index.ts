@@ -1,50 +1,23 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class AgentBillingReportRequest {
-    FromDate: Date;
-    ToDate: Date;
-    DateType: string;
-    IncludeNoCharge: boolean;
-    OfficeLocationId: string;
-    DepartmentId: string;
-    AgentId: string;
-    CustomerId: string;
-    DealId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class AgentBillingReport extends WebpackReport {
-
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
 
-            let request = new AgentBillingReportRequest();
-            request.DateType = parameters.DateType;
-            request.ToDate = parameters.ToDate;
-            request.FromDate = parameters.FromDate;
-            request.IncludeNoCharge = parameters.IncludeNoCharge;
-            request.OfficeLocationId = parameters.OfficeLocationId;
-            request.DepartmentId = parameters.DepartmentId;
-            request.DealId = parameters.DealId;
-            request.AgentId = parameters.UserId;
-            request.CustomerId = parameters.CustomerId;
-
-            let agentBilling: any = {};
-
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    agentBilling = DataTable.toObjectList(response);
+                    const agentBilling: any = DataTable.toObjectList(response);
                     agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;

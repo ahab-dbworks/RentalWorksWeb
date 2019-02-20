@@ -4,7 +4,7 @@
     }
 });
 
-var templateBillingProgressFrontEnd = `
+const templateBillingProgressFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport billingprogressreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Billing Progress" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwBillingProgressReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -81,12 +81,12 @@ class RwBillingProgressReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -97,7 +97,7 @@ class RwBillingProgressReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -112,7 +112,7 @@ class RwBillingProgressReport extends FwWebApiReport {
         const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
 
-        let today = FwFunc.getDate();
+        const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'ToDate', today);
 
         FwFormField.setValue($form, 'div[data-datafield="ExcludeOrders"]', 'T')
@@ -129,15 +129,28 @@ class RwBillingProgressReport extends FwWebApiReport {
                 , { value: "CLOSED", text: "Closed", selected: "F" }]);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateDeal($browse: any, $form: any, request: any) {
-        let customerId
-            , dealTypeId
-            , dealCsrId;
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
 
+        convertedParams.AsOfDate = parameters.ToDate;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.AgentId = parameters.AgentId;
+        convertedParams.IncludeCredits = parameters.CreditInvoices;
+        convertedParams.DealCsrId = parameters.CsrId;
+        convertedParams.CustomerId = parameters.CustomerId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.DealTypeId = parameters.DealTypeId;
+        convertedParams.ExcludeBilled100 = parameters.ExcludeOrders;
+        convertedParams.Statuses = parameters.Statuses;
+        return convertedParams;
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateDeal($browse: any, $form: any, request: any) {
         request.uniqueids = {};
-        customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        const dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
 
         if (customerId) {
             request.uniqueids.CustomerId = customerId;

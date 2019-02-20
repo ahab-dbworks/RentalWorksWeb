@@ -117,6 +117,21 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="ReportYear"]', year, year);
     }
     //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+
+        convertedParams.DateType = parameters.DateType;
+        convertedParams.ToDate = parameters.ToDate;
+        convertedParams.FromDate = parameters.FromDate;
+        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.AgentId = parameters.UserId;
+        convertedParams.CustomerId = 'Testing';
+        return convertedParams;
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {
         var validationName = request.module;
         if (validationName != null) {

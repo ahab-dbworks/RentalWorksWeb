@@ -54,16 +54,16 @@ class RwArAgingReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('ArAgingReport', 'api/v1/aragingreport', templateArAgingFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -74,7 +74,7 @@ class RwArAgingReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -85,20 +85,27 @@ class RwArAgingReport extends FwWebApiReport {
 
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-        let today = FwFunc.getDate();
+        const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'ToDate', today);
     };
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any): any {
+        const convertedParams: any = {};
 
+        convertedParams.AsOfDate = parameters.ToDate;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DealCsrId = parameters.CsrId;
+        convertedParams.CustomerId = parameters.CustomerId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.DealTypeId = parameters.DealTypeId;
+        return convertedParams;
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidateDeal($browse: any, $form: any, request: any) {
-        let customerId
-            , dealTypeId
-            , dealCsrId;
-
         request.uniqueids = {};
-        customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
+        const dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
 
         if (customerId) {
             request.uniqueids.CustomerId = customerId;

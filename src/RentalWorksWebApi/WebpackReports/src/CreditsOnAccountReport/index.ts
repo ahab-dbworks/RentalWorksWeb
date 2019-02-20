@@ -1,35 +1,27 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class CreditsOnAccountReportRequest {
-    OnlyRemaining: boolean;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class CreditsOnAccountReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            let data: any = {};
-            let request = new CreditsOnAccountReportRequest();
-            request.OnlyRemaining = parameters.IncludeRemainingBalance;
-            let promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
+                    const data: any = {};
                     data.Rows = DataTable.toObjectList(response);
-                    this.renderFooterHtml(data);
-
                     data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     data.Report = 'Credits on Account Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

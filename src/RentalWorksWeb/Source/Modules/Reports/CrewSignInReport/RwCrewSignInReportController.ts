@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^module\/crewsigninreport$/, action: function (match: RegExpExecArray) { return RwCrewSignInReportController.getModuleScreen(); } });
 
-var templateCrewSignInReportFrontEnd = `
+const templateCrewSignInReportFrontEnd = `
     <div class="fwcontrol fwcontainer fwform fwreport crewsigninreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Crew Sign-in" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCrewSignInReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
@@ -44,8 +44,7 @@ var templateCrewSignInReportFrontEnd = `
           </div>
         </div>
       </div>
-    </div>
-`;
+    </div>`;
 
 class RwCrewSignInReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
@@ -54,12 +53,12 @@ class RwCrewSignInReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -70,7 +69,7 @@ class RwCrewSignInReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -82,6 +81,10 @@ class RwCrewSignInReportClass extends FwWebApiReport {
 
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
 }

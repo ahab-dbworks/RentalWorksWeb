@@ -4,7 +4,7 @@
     }
 });
 
-var invoiceDiscountTemplateFrontEnd = `
+const invoiceDiscountTemplateFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport invoicediscountreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwInvoiceDiscountReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -72,16 +72,16 @@ class RwInvoiceDiscountReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('InvoiceDiscountReport', 'api/v1/invoicediscountreport', invoiceDiscountTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -92,14 +92,12 @@ class RwInvoiceDiscountReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         $form.find('div[data-datafield="DiscountPercent"] .fwformfield-caption').css('margin-bottom', "2em");
         const department = JSON.parse(sessionStorage.getItem('department'));
@@ -107,6 +105,10 @@ class RwInvoiceDiscountReportClass extends FwWebApiReport {
 
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {

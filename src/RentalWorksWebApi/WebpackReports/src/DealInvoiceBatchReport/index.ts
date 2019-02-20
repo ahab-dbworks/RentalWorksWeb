@@ -1,39 +1,30 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class DealInvoiceBatchReportRequest {
-    BatchId: string;
-    BatchNumber: string;
-    BatchDate: Date;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class DealInvoiceBatchReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            let report: any = {};
-            let request = new DealInvoiceBatchReportRequest();
-            request.BatchId = parameters.BatchId;
 
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/dealinvoicebatchreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/dealinvoicebatchreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
+                    const report: any = {};
                     report.Items = DataTable.toObjectList(response);
-                    this.renderFooterHtml(report);
                     report.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     report.Date = parameters.BatchDate;
                     report.Report = 'Charge Batch Report';
                     report.System = 'RENTALWORKS';
                     report.Company = '4WALL ENTERTAINMENT';
                     report.BatchNumber = parameters.BatchNumber;
+                    this.renderFooterHtml(report);
 
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

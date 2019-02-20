@@ -4,7 +4,7 @@
     }
 });
 
-var dealOutstandingItemsTemplateFrontEnd = `
+const dealOutstandingItemsTemplateFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport dealoutstandingitems" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal Outstanding Items" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwDealOutstandingItemsReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -94,16 +94,16 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('DealOutstandingItemsReport', 'api/v1/dealoutstandingitemsreport', dealOutstandingItemsTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -114,7 +114,7 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
 
         // Mutually exclusive Image settings
         $form.on('change', '.include-full-images input[type=checkbox]', e => {
@@ -142,8 +142,6 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         const department = JSON.parse(sessionStorage.getItem('department'));
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -153,6 +151,11 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
+    }
+
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;

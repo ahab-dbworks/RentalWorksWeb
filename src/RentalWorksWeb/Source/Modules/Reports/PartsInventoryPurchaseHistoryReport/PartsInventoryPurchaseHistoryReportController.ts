@@ -4,7 +4,7 @@
     }
 });
 
-var partsInventoryPurchaseHistoryTemplateFrontEnd = `
+const partsInventoryPurchaseHistoryTemplateFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Parts Inventory Purchase History" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwPartsInventoryPurchaseHistoryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -79,16 +79,16 @@ class RwPartsInventoryPurchaseHistoryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('PartsInventoryPurchaseHistoryReport', 'api/v1/partsinventorypurchasehistoryreport', partsInventoryPurchaseHistoryTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -105,16 +105,18 @@ class RwPartsInventoryPurchaseHistoryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
         this.loadLists($form);
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
     }
     //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {
-        var validationName = request.module;
+        const validationName = request.module;
         if (validationName != null) {
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');

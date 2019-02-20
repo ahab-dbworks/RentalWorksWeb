@@ -1,37 +1,23 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class GlDistributionReportRequest {
-    FromDate: Date;
-    ToDate: Date;
-    OfficeLocationId: string;
-    GlAccountId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class GLDistributionReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            let glDistribution: any = {};
-            let request = new GlDistributionReportRequest();
-            request.FromDate = parameters.FromDate;
-            request.ToDate = parameters.ToDate;
-            request.OfficeLocationId = parameters.OfficeLocationId;
-            request.GlAccountId = parameters.GlAccountId;
 
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
+                    const glDistribution: any = {};
                     glDistribution.GLItems = DataTable.toObjectList(response);
-                    this.renderFooterHtml(glDistribution);
                     glDistribution.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     glDistribution.FromDate = parameters.FromDate;
                     glDistribution.ToDate = parameters.ToDate;
@@ -39,6 +25,7 @@ export class GLDistributionReport extends WebpackReport {
                     glDistribution.Report = 'G/L Distribution Report';
                     glDistribution.System = 'RENTALWORKS';
                     glDistribution.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(glDistribution);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

@@ -4,7 +4,7 @@
     }
 });
 
-var createInvoiceProcessTemplateFrontEnd = `
+const createInvoiceProcessTemplateFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport createinvoiceprocessreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Create Invoice Process" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCreateInvoiceProcessReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -42,16 +42,16 @@ class RwCreateInvoiceProcessReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('CreateInvoiceProcessReport', 'api/v1/createinvoiceprocessreport', createInvoiceProcessTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -62,7 +62,7 @@ class RwCreateInvoiceProcessReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -72,6 +72,13 @@ class RwCreateInvoiceProcessReportClass extends FwWebApiReport {
         var request: any = { method: "LoadForm" };
     }
     //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+
+        convertedParams.InvoiceCreationBatchId = parameters.InvoiceCreationBatchId;
+        convertedParams.ExceptionsOnly = parameters.ShowExceptions;
+        return convertedParams;
+    }
 };
 
 var RwCreateInvoiceProcessReportController: any = new RwCreateInvoiceProcessReportClass();

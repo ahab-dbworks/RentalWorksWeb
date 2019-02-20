@@ -4,9 +4,9 @@ import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import './index.scss';
-var hbHeader = require("./hbHeader.hbs"); 
-var hbReport = require("./hbReport.hbs"); 
-var hbFooter = require("./hbFooter.hbs"); 
+const hbHeader = require("./hbHeader.hbs"); 
+const hbReport = require("./hbReport.hbs"); 
+const hbFooter = require("./hbFooter.hbs"); 
 
 export class OutContractReport extends WebpackReport {
     contract: OutContract = null;
@@ -15,17 +15,12 @@ export class OutContractReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
-            // experimental
-            this.renderProgress = 50;
-            this.renderStatus = 'Runninng';
-
             HandlebarsHelpers.registerHelpers();
-            let contract = new OutContract();
 
             // get the Contract
-            let contractPromise = Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
+            Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
                 .then((response: OutContract) => {
-                    contract = response;
+                    const contract: any = response;
                     contract.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     contract.ContractTime = moment(contract.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderHeaderHtml(contract);

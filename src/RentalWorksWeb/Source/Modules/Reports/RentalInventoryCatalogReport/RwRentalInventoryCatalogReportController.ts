@@ -109,7 +109,22 @@ class RwRentalInventoryCatalogReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
         this.loadLists($form);
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+
+        convertedParams.DateType = parameters.DateType;
+        convertedParams.ToDate = parameters.ToDate;
+        convertedParams.FromDate = parameters.FromDate;
+        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.AgentId = parameters.UserId;
+        convertedParams.CustomerId = 'Testing';
+        return convertedParams;
+    }
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
         FwFormField.loadItems($form.find('div[data-datafield="Classifications"]'), [{ value: "I", text: "Item", selected: "T" }, { value: "A", text: "Accessory", selected: "T" }, { value: "C", text: "Complete", selected: "T" }, { value: "K", text: "Kit", selected: "T" }, { value: "N", text: "Container", selected: "T" }, { value: "M", text: "Miscellaneous", selected: "F" }]);

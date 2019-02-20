@@ -4,7 +4,7 @@
     }
 });
 
-var templateOutContractReportFrontEnd = `
+const templateOutContractReportFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwOutContractReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
@@ -31,21 +31,19 @@ class RwOutContractReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('OutContractReport', 'api/v1/outcontractreport', templateOutContractReportFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     };
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
-            $form.find('.contractid').data('onchange', ($tr) => {
-            });
         };
         screen.unload = function () {
         };
@@ -53,13 +51,16 @@ class RwOutContractReportClass extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
-        return $form;
+        return this.getFrontEnd();
     };
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
     };
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;

@@ -4,7 +4,7 @@
     }
 });
 
-var templateGLDistributionFrontEnd = `
+const templateGLDistributionFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport gldistributionreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="G/L Distribution" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwGLDistributionReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -46,16 +46,16 @@ class RwGLDistributionReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('GLDistributionReport', 'api/v1/gldistributionreport', templateGLDistributionFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -66,17 +66,19 @@ class RwGLDistributionReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
 };

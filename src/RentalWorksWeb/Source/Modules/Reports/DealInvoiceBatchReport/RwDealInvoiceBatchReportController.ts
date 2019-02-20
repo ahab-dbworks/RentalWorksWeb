@@ -4,8 +4,8 @@
     }
 });
 
-var dealInvoiceBatchTemplateFrontEnd = `
-    <div class="fwcontrol fwcontainer fwform fwreport dealinvoicebatchreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal Invoice Batch" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwDealInvoiceBatchReportController">
+const dealInvoiceBatchTemplateFrontEnd = `
+<div class="fwcontrol fwcontainer fwform fwreport dealinvoicebatchreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal Invoice Batch" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwDealInvoiceBatchReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -40,16 +40,16 @@ class RwDealInvoiceBatchReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('DealInvoiceBatchReport', 'api/v1/dealinvoicebatchreport', dealInvoiceBatchTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -60,10 +60,10 @@ class RwDealInvoiceBatchReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         $form.find('[data-datafield="BatchId"]').data('onchange', e => {
-            let batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
-            let batchDate = jQuery(e).find('[data-browsedatafield="BatchDate"]').attr('data-originalvalue');
+            const batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
+            const batchDate = jQuery(e).find('[data-browsedatafield="BatchDate"]').attr('data-originalvalue');
             FwFormField.setValueByDataField($form, 'BatchNumber', batchNumber);
             FwFormField.setValueByDataField($form, 'BatchDate', batchDate);
         })
@@ -72,12 +72,12 @@ class RwDealInvoiceBatchReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
     }
     //----------------------------------------------------------------------------------------------
-
-
+    convertParameters(parameters: any) {
+        return parameters;
+    }
+    //----------------------------------------------------------------------------------------------
 };
 
 var RwDealInvoiceBatchReportController: any = new RwDealInvoiceBatchReportClass();

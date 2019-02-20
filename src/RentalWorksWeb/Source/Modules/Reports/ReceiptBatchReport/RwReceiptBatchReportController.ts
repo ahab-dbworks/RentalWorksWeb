@@ -76,6 +76,21 @@ class RwReceiptBatchReportClass extends FwWebApiReport {
         var request: any = { method: "LoadForm" };
     }
     //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+
+        convertedParams.DateType = parameters.DateType;
+        convertedParams.ToDate = parameters.ToDate;
+        convertedParams.FromDate = parameters.FromDate;
+        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.AgentId = parameters.UserId;
+        convertedParams.CustomerId = 'Testing';
+        return convertedParams;
+    }
+    //----------------------------------------------------------------------------------------------
 };
 
 var RwReceiptBatchReportController: any = new RwReceiptBatchReportClass();

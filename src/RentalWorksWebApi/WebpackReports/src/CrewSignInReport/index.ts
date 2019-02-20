@@ -1,24 +1,13 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
 
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class CrewSignInReportRequest {
-    FromDate: Date;
-    ToDate: Date;
-    OfficeLocationId: string;
-    DepartmentId: string;
-    CustomerId: string;
-    DealId: string;
-    OrderId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class CrewSignInReport extends WebpackReport {
 
@@ -27,25 +16,16 @@ export class CrewSignInReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let crewSignIn: any = {};
-            let request = new CrewSignInReportRequest();
-            request.FromDate = parameters.FromDate;
-            request.ToDate = parameters.ToDate;
-            request.OfficeLocationId = parameters.OfficeLocationId;
-            request.DepartmentId = parameters.DepartmentId;
-            request.CustomerId = parameters.CustomerId;
-            request.DealId = parameters.DealId;
-            request.OrderId = parameters.OrderId;
-            let crewSignInPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/crewsigninreport/runreport`, authorizationHeader, request)
+   
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/crewsigninreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    crewSignIn = DataTable.toObjectList(response);
+                    const crewSignIn: any = DataTable.toObjectList(response);
                     crewSignIn.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     crewSignIn.FromDate = parameters.FromDate;
                     crewSignIn.ToDate = parameters.ToDate;
                     crewSignIn.Report = 'Crew Sign-In Report';
                     crewSignIn.System = 'RENTALWORKS';
                     crewSignIn.Company = '4WALL ENTERTAINMENT';
-                    console.log('crewSignIn:', crewSignIn);
 
                     this.renderFooterHtml(crewSignIn);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

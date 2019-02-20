@@ -1,64 +1,25 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class DealOutstandingReportRequest {
-    FromDate: string;
-    ToDate: string;
-    DateType: string;
-    IncludeBlankPages: boolean;
-    IncludeFullImages: boolean;
-    IncludeThumbnailImages: boolean;
-    OfficeLocationId: string;
-    DepartmentId: string;
-    CustomerId: string;
-    DealId: string;
-    OrderUnitId: string;
-    OrderTypeId: string;
-    OrderId: string;
-    ContractId: string;
-    InventoryTypeId: string;
-    CategoryId: string;
-    SubCategoryId: string;
-    InventoryId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class DealOutstandingReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log('parameters: ',parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new DealOutstandingReportRequest();
 
-            request.ToDate = parameters.ToDate;
-            request.FromDate = parameters.FromDate;
-            request.IncludeBlankPages = parameters.IncludeBlankPages;
-            request.IncludeFullImages = parameters.IncludeFullImages;
-            request.IncludeThumbnailImages = parameters.IncludeThumbnailImages;
-            request.OfficeLocationId = parameters.OfficeLocationId;
-            request.OrderUnitId = parameters.OrderUnitId;
-            request.OrderTypeId = parameters.OrderTypeId;
-            request.DepartmentId = parameters.DepartmentId;
-            request.CustomerId = parameters.CustomerId;
-            request.DealId = parameters.DealId;
-            request.InventoryTypeId = parameters.InventoryTypeId;
-            request.CategoryId = parameters.CategoryId;
-
-            let dealOutstanding: any = {};
-            dealOutstanding.trimmedRows = [];
-            dealOutstanding.IncludeFullImages = false;
-
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/dealoutstandingitemsreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/dealoutstandingitemsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
+                    const dealOutstanding: any = {};
+                    dealOutstanding.trimmedRows = [];
+                    dealOutstanding.IncludeFullImages = false;
                     dealOutstanding.rows = DataTable.toObjectList(response);
                     if (parameters.ShowResponsiblePerson === true) {
                         dealOutstanding.ShowResponsiblePerson = true;

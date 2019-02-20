@@ -129,7 +129,22 @@ class RwRentalInventoryValueReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'IncludeConsigned', 'T');
 
         this.loadLists($form);
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+
+        convertedParams.DateType = parameters.DateType;
+        convertedParams.ToDate = parameters.ToDate;
+        convertedParams.FromDate = parameters.FromDate;
+        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.AgentId = parameters.UserId;
+        convertedParams.CustomerId = 'Testing';
+        return convertedParams;
+    }
     //----------------------------------------------------------------------------------------------
     loadLists($form) {
         FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }]);

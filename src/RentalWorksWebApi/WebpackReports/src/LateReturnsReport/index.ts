@@ -1,13 +1,12 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss'; 
-var hbReport = require("./hbReport.hbs"); 
-var hbFooter = require("./hbFooter.hbs"); 
+const hbReport = require("./hbReport.hbs"); 
+const hbFooter = require("./hbFooter.hbs"); 
 
 export class LateReturnsReportRequest {
     ReportType: string;
@@ -34,7 +33,6 @@ export class LateReturnDueBackReport extends WebpackReport {
             let headerText: string;
             let headerNode: HTMLDivElement = document.createElement('div');
 
-            //request.uniqueids.IsSummary = false;
             request.DueBack = parameters.DueBackDate;
             if (parameters.LateReturns) {
                 globals.Type = 'PASTDUE'
@@ -66,7 +64,7 @@ export class LateReturnDueBackReport extends WebpackReport {
             if (parameters.ShowBarCode) { globals.ShowBarCode = 'true' };
             if (parameters.ShowSerial) { globals.ShowSerial = 'true' };
 
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/runreport`, authorizationHeader, request)
                 .then((response: DataTable) => {
                     lateReturnDueBack = DataTable.toObjectList(response); 
                     

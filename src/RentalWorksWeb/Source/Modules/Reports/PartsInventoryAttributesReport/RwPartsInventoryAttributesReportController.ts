@@ -4,7 +4,7 @@
     }
 });
 
-var partsInventoryAttributesTemplateFrontEnd = `
+const partsInventoryAttributesTemplateFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Parts Inventory Attributes Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwPartsInventoryAttributesReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -52,16 +52,16 @@ class RwPartsInventoryAttributesReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('PartsInventoryAttributesReport', 'api/v1/partsinventoryattributesreport', partsInventoryAttributesTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -72,15 +72,16 @@ class RwPartsInventoryAttributesReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
-        return $form;
+        return this.getFrontEnd();
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
         this.loadLists($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = ($browse, $form, request) => {

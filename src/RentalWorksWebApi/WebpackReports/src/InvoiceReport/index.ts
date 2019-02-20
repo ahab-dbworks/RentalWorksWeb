@@ -1,17 +1,13 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class InvoiceReportRequest {
-    InvoiceId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class InvoiceReport extends WebpackReport {
     invoice: Invoice = null;
@@ -19,17 +15,13 @@ export class InvoiceReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            let request = new InvoiceReportRequest();
-            let invoice = new Invoice();
-            let controlObject: any = {}
-            request.InvoiceId = parameters.InvoiceId;
             // Report rendering and Logo
-            let Promise = Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+            Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
                 .then((response: DataTable) => {
-                    controlObject = response;
-                    Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, request)
+                    const controlObject: any = response;
+                    Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, parameters)
                     .then((response: Invoice) => {
-                        invoice = response;
+                        const invoice: any = response;
                         invoice.Items = DataTable.toObjectList(response.Items);
                         invoice.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                         invoice.System = 'RENTALWORKS';
@@ -38,7 +30,6 @@ export class InvoiceReport extends WebpackReport {
                         if (controlObject.ReportLogoImage != '') {
                             invoice.Logosrc = controlObject.ReportLogoImage;
                         } 
-                         console.log('invoice:', invoice)
                         this.renderFooterHtml(invoice);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;

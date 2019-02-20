@@ -4,7 +4,7 @@
     }
 });
 
-var templateCreditsOnAccountFrontEnd = `
+const templateCreditsOnAccountFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport creditsonaccount" data-control="FwContainer" data-type="form" data-version="1" data-caption="Credits On Account" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCreditsOnAccountReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -36,12 +36,12 @@ class RwCreditsOnAccountReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -52,17 +52,23 @@ class RwCreditsOnAccountReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         FwFormField.setValue($form, 'div[data-datafield="IncludeRemainingBalance"]', 'T');
     };
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+
+        convertedParams.OnlyRemaining = parameters.IncludeRemainingBalance;
+
+        return convertedParams;
+    }
     //----------------------------------------------------------------------------------------------
 };
 

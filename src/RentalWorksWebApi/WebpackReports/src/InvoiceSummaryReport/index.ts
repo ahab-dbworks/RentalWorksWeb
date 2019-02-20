@@ -1,24 +1,12 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class InvoiceSummaryReportRequest {
-    FromDate: Date;
-    ToDate: Date;
-    DateType: string;
-    Statuses: Array<any> = [];
-    OfficeLocationId: string;
-    DepartmentId: string;
-    CustomerId: string;
-    DealId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class InvoiceSummaryReport extends WebpackReport {
 
@@ -27,22 +15,10 @@ export class InvoiceSummaryReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new InvoiceSummaryReportRequest();
 
-            request.DateType = parameters.DateType;
-            request.ToDate = parameters.ToDate;
-            request.FromDate = parameters.FromDate;
-            request.Statuses = parameters.Statuses;
-            request.OfficeLocationId = parameters.OfficeLocationId;
-            request.DepartmentId = parameters.DepartmentId;
-            request.CustomerId = parameters.CustomerId;
-            request.DealId = parameters.DealId;
-
-            let invoiceSummary: any = {};
-
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/invoicesummaryreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/invoicesummaryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    invoiceSummary = DataTable.toObjectList(response);
+                    const invoiceSummary: any = DataTable.toObjectList(response);
                     invoiceSummary.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     invoiceSummary.FromDate = parameters.FromDate;
                     invoiceSummary.ToDate = parameters.ToDate;

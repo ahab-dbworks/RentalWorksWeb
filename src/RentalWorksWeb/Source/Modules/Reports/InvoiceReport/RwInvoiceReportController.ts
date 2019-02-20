@@ -4,7 +4,7 @@
     }
 });
 
-var invoiceTemplateFrontEnd = `
+const invoiceTemplateFrontEnd = `
 <div class="fwcontrol fwcontainer fwform fwreport print-invoice" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Invoice" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwInvoiceReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -37,12 +37,12 @@ class RwInvoiceReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -53,14 +53,15 @@ class RwInvoiceReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
-        return $form;
+        return this.getFrontEnd();
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
 };

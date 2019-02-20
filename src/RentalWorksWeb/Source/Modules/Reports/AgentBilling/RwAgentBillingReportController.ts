@@ -72,16 +72,16 @@ class RwAgentBillingReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('AgentBillingReport', 'api/v1/agentbillingreport', agentBillingTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -89,6 +89,21 @@ class RwAgentBillingReportClass extends FwWebApiReport {
         screen.unload = function () {
         };
         return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any): any {
+        const convertedParams: any = {};
+        
+        convertedParams.DateType = parameters.DateType;
+        convertedParams.ToDate = parameters.ToDate;
+        convertedParams.FromDate = parameters.FromDate;
+        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.AgentId = parameters.UserId;
+        convertedParams.CustomerId = parameters.CustomerId;
+        return convertedParams;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
@@ -119,10 +134,10 @@ class RwAgentBillingReportClass extends FwWebApiReport {
                     request.uniqueids.CustomerId = customerId;
                 }
                 break;
-        };
-    };
+        }
+    }
     //----------------------------------------------------------------------------------------------
-};
+}
 
 var RwAgentBillingReportController: any = new RwAgentBillingReportClass();
 //----------------------------------------------------------------------------------------------

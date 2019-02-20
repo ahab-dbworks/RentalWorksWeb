@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^reports\/latereturnduebackreport$/, action: function (match: RegExpExecArray) { return RwLateReturnDueBackReportController.getModuleScreen(); } });
 
-var lateReturnDueBackFrontEnd = `
+const lateReturnDueBackFrontEnd = `
     <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Late Return / Due Back" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwLateReturnDueBackReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
@@ -92,13 +92,12 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $form;
-        screen = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
@@ -109,26 +108,15 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
-        return $form;
+        return this.getFrontEnd();
     };
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
-        var lateReturn, dueBack, dueBackOn;
-        let today = FwFunc.getDate();
-
-        const department = JSON.parse(sessionStorage.getItem('department'));
-        const location = JSON.parse(sessionStorage.getItem('location'));
-
-        lateReturn = $form.find('div[data-datafield="LateReturns"] input');
-        dueBack = $form.find('div[data-datafield="DueBack"] input');
-        dueBackOn = $form.find('div[data-datafield="DueBackOn"] input');
 
         FwFormField.setValueByDataField($form, 'DaysPastDue', 1);
         FwFormField.setValueByDataField($form, 'DueBackFewer', 0);
+        const today = FwFunc.getDate();
         FwFormField.setValueByDataField($form, 'DueBackDate', today)
 
         FwFormField.setValueByDataField($form, 'ShowUnit', 'T');
@@ -136,6 +124,9 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'ShowBarCode', 'T');
         FwFormField.setValueByDataField($form, 'ShowSerial', 'T');
 
+        const lateReturn = $form.find('div[data-datafield="LateReturns"] input');
+        const dueBack = $form.find('div[data-datafield="DueBack"] input');
+        const dueBackOn = $form.find('div[data-datafield="DueBackOn"] input');
         lateReturn.on('change', (e) => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 dueBack.prop('checked', false);
@@ -169,9 +160,26 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
         lateReturn.prop('checked', true);
         FwFormField.disable($form.find('.duebackon'));
         FwFormField.disable($form.find('.dueback'));
+        const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     };
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+
+        convertedParams.DateType = parameters.DateType;
+        convertedParams.ToDate = parameters.ToDate;
+        convertedParams.FromDate = parameters.FromDate;
+        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
+        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
+        convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.DealId = parameters.DealId;
+        convertedParams.AgentId = parameters.UserId;
+        convertedParams.CustomerId = 'Testing';
+        return convertedParams;
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
