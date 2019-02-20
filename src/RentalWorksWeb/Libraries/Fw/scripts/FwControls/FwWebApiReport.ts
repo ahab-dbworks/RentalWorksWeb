@@ -351,7 +351,7 @@ abstract class FwWebApiReport {
                             requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-text').val();
                             requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                             requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
-                            requestEmailPdf.parameters = this.getParameters($form);
+                            requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
                             FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
                                 (successResponse) => {
                                     try {
