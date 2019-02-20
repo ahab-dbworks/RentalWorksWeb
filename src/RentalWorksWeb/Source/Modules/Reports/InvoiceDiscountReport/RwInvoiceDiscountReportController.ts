@@ -4,7 +4,7 @@
     }
 });
 
-const invoiceDiscountTemplateFrontEnd = `
+const invoiceDiscountTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport invoicediscountreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwInvoiceDiscountReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -71,7 +71,7 @@ const invoiceDiscountTemplateFrontEnd = `
 class RwInvoiceDiscountReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('InvoiceDiscountReport', 'api/v1/invoicediscountreport', invoiceDiscountTemplateFrontEnd);
+        super('InvoiceDiscountReport', 'api/v1/invoicediscountreport', invoiceDiscountTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

@@ -4,8 +4,8 @@
     }
 });
 
-var receiptBatchTemplateFrontEnd = `
-    <div class="fwcontrol fwcontainer fwform fwreport receiptbatchreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Receipt Invoice Batch" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwReceiptBatchReportController">
+const receiptBatchTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport receiptbatchreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Receipt Invoice Batch" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwReceiptBatchReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -39,56 +39,41 @@ var receiptBatchTemplateFrontEnd = `
 class RwReceiptBatchReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ReceiptBatchReport', 'api/v1/receiptbatchreport', receiptBatchTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('ReceiptBatchReport', 'api/v1/receiptbatchreport', receiptBatchTemplate);
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
-
+        const $form = this.openForm();
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
-        $form.find('[data-datafield="BatchId"]').data('onchange', e => {
-            let batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
-            let batchDate = jQuery(e).find('[data-browsedatafield="BatchDate"]').attr('data-originalvalue');
-            FwFormField.setValueByDataField($form, 'BatchNumber', batchNumber);
-            FwFormField.setValueByDataField($form, 'BatchDate', batchDate);
-        })
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
+        $form.find('[data-datafield="BatchId"]').data('onchange', e => {
+            const batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
+            FwFormField.setValueByDataField($form, 'BatchNumber', batchNumber);
+            const batchDate = jQuery(e).find('[data-browsedatafield="BatchDate"]').attr('data-originalvalue');
+            FwFormField.setValueByDataField($form, 'BatchDate', batchDate);
+        })
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
 };

@@ -4,7 +4,7 @@
     }
 });
 
-const templateGLDistributionFrontEnd = `
+const GLDistributionTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport gldistributionreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="G/L Distribution" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwGLDistributionReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -45,7 +45,7 @@ const templateGLDistributionFrontEnd = `
 class RwGLDistributionReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('GLDistributionReport', 'api/v1/gldistributionreport', templateGLDistributionFrontEnd);
+        super('GLDistributionReport', 'api/v1/gldistributionreport', GLDistributionTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -60,8 +60,7 @@ class RwGLDistributionReport extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------

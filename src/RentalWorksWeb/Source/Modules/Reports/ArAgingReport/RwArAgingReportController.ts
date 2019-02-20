@@ -4,7 +4,7 @@
     }
 });
 
-var templateArAgingFrontEnd = `
+const ArAgingTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport aragingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="A/R Aging" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwArAgingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -17,7 +17,7 @@ var templateArAgingFrontEnd = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="As Of Date">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of Date" data-datafield="ToDate" data-required="true" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of Date" data-datafield="AsOfDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
@@ -33,7 +33,7 @@ var templateArAgingFrontEnd = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal Type" data-datafield="DealTypeId" data-displayfield="DealType" data-validationname="DealTypeValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal CSR" data-datafield="CsrId" data-displayfield="Csr" data-validationname="UserValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal CSR" data-datafield="DealCsrId" data-displayfield="Csr" data-validationname="UserValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-formbeforevalidate="beforeValidateDeal" style="float:left;max-width:300px;"></div>
@@ -47,13 +47,13 @@ var templateArAgingFrontEnd = `
       </div>
     </div>
   </div>
-</div>
-`;
+</div>`;
+
 //----------------------------------------------------------------------------------------------
 class RwArAgingReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ArAgingReport', 'api/v1/aragingreport', templateArAgingFrontEnd);
+        super('ArAgingReport', 'api/v1/aragingreport', ArAgingTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -68,8 +68,7 @@ class RwArAgingReport extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
@@ -80,32 +79,22 @@ class RwArAgingReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
         const today = FwFunc.getDate();
-        FwFormField.setValueByDataField($form, 'ToDate', today);
+        FwFormField.setValueByDataField($form, 'AsOfDate', today);
     };
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any): any {
-        const convertedParams: any = {};
-
-        convertedParams.AsOfDate = parameters.ToDate;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DealCsrId = parameters.CsrId;
-        convertedParams.CustomerId = parameters.CustomerId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.DealTypeId = parameters.DealTypeId;
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateDeal($browse: any, $form: any, request: any) {
         request.uniqueids = {};
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        const dealCsrId = FwFormField.getValueByDataField($form, 'CsrId');
+        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
 
         if (customerId) {
             request.uniqueids.CustomerId = customerId;

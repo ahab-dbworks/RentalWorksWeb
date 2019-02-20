@@ -4,7 +4,7 @@
     }
 });
 
-var projectManagerBillingTemplateFrontEnd = `
+const projectManagerBillingTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport projectmanagerbillingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Project Manager Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwProjectManagerBillingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -47,7 +47,7 @@ var projectManagerBillingTemplateFrontEnd = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Project Manager" data-datafield="UserId" data-displayfield="User" data-validationname="UserValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Project Manager" data-datafield="ProjectManagerId" data-displayfield="User" data-validationname="UserValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="float:left;max-width:300px;"></div>
@@ -71,35 +71,31 @@ var projectManagerBillingTemplateFrontEnd = `
 class RwProjectManagerBillingReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ProjectManagerBillingReport', 'api/v1/projectmanagerbillingreport', projectManagerBillingTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('ProjectManagerBillingReport', 'api/v1/projectmanagerbillingreport', projectManagerBillingTemplate);
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl('Rw' + this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
-
+        const $form = this.openForm();
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         const department = JSON.parse(sessionStorage.getItem('department'));
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -109,18 +105,7 @@ class RwProjectManagerBillingReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {

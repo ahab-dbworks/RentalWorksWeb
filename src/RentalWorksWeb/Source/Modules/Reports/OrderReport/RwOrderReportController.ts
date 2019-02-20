@@ -4,7 +4,7 @@
     }
 });
 
-const orderTemplateFrontEnd = `
+const orderTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwOrderReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -32,7 +32,7 @@ const orderTemplateFrontEnd = `
 class RwOrderReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('OrderReport', 'api/v1/orderreport', orderTemplateFrontEnd);
+        super('OrderReport', 'api/v1/orderreport', orderTemplate);
         this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
@@ -47,13 +47,13 @@ class RwOrderReportClass extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        return  this.getFrontEnd();
+        const $form = this.getFrontEnd();
+        return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
@@ -61,18 +61,7 @@ class RwOrderReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
 };

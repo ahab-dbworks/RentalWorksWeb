@@ -4,7 +4,7 @@
     }
 });
 
-var quoteTemplateFrontEnd = `
+const quoteTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Quote" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwQuoteReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -31,49 +31,38 @@ var quoteTemplateFrontEnd = `
 class RwQuoteReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('OrderReport', 'api/v1/orderreport', quoteTemplateFrontEnd);
+        super('OrderReport', 'api/v1/orderreport', quoteTemplate);
         this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         const convertedParams: any = {};
-
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
+        convertedParams.OrderId = parameters.QuoteId;
+        convertedParams.isQuote = true;
         return convertedParams;
     }
     //----------------------------------------------------------------------------------------------

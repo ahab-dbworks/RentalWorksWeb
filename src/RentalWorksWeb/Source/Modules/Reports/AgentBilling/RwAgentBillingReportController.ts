@@ -4,7 +4,7 @@
     }
 });
 
-var agentBillingTemplateFrontEnd = `
+const agentBillingTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport agentbillingreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwAgentBillingReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -47,7 +47,7 @@ var agentBillingTemplateFrontEnd = `
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="UserId" data-displayfield="User" data-validationname="UserValidation" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="User" data-validationname="UserValidation" style="float:left;max-width:300px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="float:left;max-width:300px;"></div>
@@ -71,7 +71,7 @@ var agentBillingTemplateFrontEnd = `
 class RwAgentBillingReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('AgentBillingReport', 'api/v1/agentbillingreport', agentBillingTemplateFrontEnd);
+        super('AgentBillingReport', 'api/v1/agentbillingreport', agentBillingTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -82,39 +82,24 @@ class RwAgentBillingReportClass extends FwWebApiReport {
         screen.properties = {};
 
         const $form = this.openForm();
-
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any): any {
-        const convertedParams: any = {};
-        
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = parameters.CustomerId;
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         const department = JSON.parse(sessionStorage.getItem('department'));
         const location = JSON.parse(sessionStorage.getItem('location'));

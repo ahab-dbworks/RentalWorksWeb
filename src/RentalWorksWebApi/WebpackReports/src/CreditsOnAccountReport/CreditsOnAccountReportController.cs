@@ -43,7 +43,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
             return "CreditsOnAccount";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/creditsonaccount/render 
+        // POST api/v1/creditsonaccountreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "11WQfeFM3RBp")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
             return await DoExportExcelXlsxFileAsync(dt);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/creditsonaccount/runreport 
+        // POST api/v1/creditsonaccountreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "IKvvPD6VZArB")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CreditsOnAccountReportRequest request)

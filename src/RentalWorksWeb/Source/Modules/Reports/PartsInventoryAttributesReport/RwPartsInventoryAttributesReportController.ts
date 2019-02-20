@@ -4,7 +4,7 @@
     }
 });
 
-const partsInventoryAttributesTemplateFrontEnd = `
+const partsInventoryAttributesTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Parts Inventory Attributes Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwPartsInventoryAttributesReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -51,7 +51,7 @@ const partsInventoryAttributesTemplateFrontEnd = `
 class RwPartsInventoryAttributesReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('PartsInventoryAttributesReport', 'api/v1/partsinventoryattributesreport', partsInventoryAttributesTemplateFrontEnd);
+        super('PartsInventoryAttributesReport', 'api/v1/partsinventoryattributesreport', partsInventoryAttributesTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -72,7 +72,8 @@ class RwPartsInventoryAttributesReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        return this.getFrontEnd();
+        const $form = this.getFrontEnd();
+        return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {

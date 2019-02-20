@@ -1,49 +1,23 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs"); 
-
-export class SalesRepresentativeBillingReportRequest {
-    FromDate: Date;
-    ToDate: Date;
-    DateType: string;
-    IncludeNoCharge: boolean;
-    OfficeLocationId: string;
-    DepartmentId: string;
-    SalesRepresentativeId: string;
-    CustomerId: string;
-    DealId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs"); 
 
 export class SalesRepresentativeBillingReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-
-            let SalesRepresentativeBilling: any = {};
             HandlebarsHelpers.registerHelpers();
 
-            let request = new SalesRepresentativeBillingReportRequest();
-            request.DateType = parameters.DateType;
-            request.FromDate = parameters.FromDate;
-            request.ToDate = parameters.ToDate;
-            request.IncludeNoCharge = parameters.IncludeNoCharge;
-            request.OfficeLocationId = parameters.OfficeLocationId;
-            request.DepartmentId = parameters.DepartmentId;
-            request.DealId = parameters.DealId;
-            request.SalesRepresentativeId = parameters.UserId;
-            request.CustomerId = parameters.CustomerId;
-
-            let salesRepPromise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    SalesRepresentativeBilling = DataTable.toObjectList(response);
+                    const SalesRepresentativeBilling: any = DataTable.toObjectList(response);
                     SalesRepresentativeBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     SalesRepresentativeBilling.FromDate = parameters.FromDate;
                     SalesRepresentativeBilling.ToDate = parameters.ToDate;

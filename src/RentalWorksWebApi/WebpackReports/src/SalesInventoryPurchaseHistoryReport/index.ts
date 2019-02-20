@@ -1,54 +1,22 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class SalesInventoryPurchaseHistoryRequest {
-    PurchasedFromDate: Date;
-    PurchasedToDate: Date;
-    ReceivedFromDate: Date;
-    ReceivedToDate: Date;
-    Ranks: any;
-    TrackedBys: any;
-    WarehouseId: string;
-    InventoryTypeId: string;
-    CategoryId: string;
-    SubCategoryId: string;
-    InventoryId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class SalesInventoryPurchaseHistoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log('parameters: ', parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-
             HandlebarsHelpers.registerHelpers();
-            let request = new SalesInventoryPurchaseHistoryRequest();
 
-            request.PurchasedFromDate = parameters.PurchasedFromDate;
-            request.PurchasedToDate = parameters.PurchasedToDate;
-            request.ReceivedFromDate = parameters.ReceivedFromDate;
-            request.ReceivedToDate = parameters.ReceivedToDate;
-            request.Ranks = parameters.Ranks;
-            request.TrackedBys = parameters.TrackedBys;
-            request.WarehouseId = parameters.WarehouseId;
-            request.InventoryTypeId = parameters.InventoryTypeId;
-            request.CategoryId = parameters.CategoryId;
-            request.SubCategoryId = parameters.SubCategoryId;
-            request.InventoryId = parameters.InventoryId;
-
-            let salesInventoryPurchaseHistory: any = {};
-
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorypurchasehistoryreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorypurchasehistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    salesInventoryPurchaseHistory = DataTable.toObjectList(response);
+                    const salesInventoryPurchaseHistory: any = DataTable.toObjectList(response);
                     salesInventoryPurchaseHistory.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     salesInventoryPurchaseHistory.PurchasedFromDate = parameters.PurchasedFromDate;
                     salesInventoryPurchaseHistory.PurchasedToDate = parameters.PurchasedToDate;

@@ -4,7 +4,7 @@
     }
 });
 
-const templateCreditsOnAccountFrontEnd = `
+const creditsOnAccountTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport creditsonaccount" data-control="FwContainer" data-type="form" data-version="1" data-caption="Credits On Account" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCreditsOnAccountReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -17,7 +17,7 @@ const templateCreditsOnAccountFrontEnd = `
             <div class="flexcolumn" style="max-width:410px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Credits On Account">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include Customers and Deals with Remaining Balance" data-datafield="IncludeRemainingBalance" style="float:left;max-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include Customers and Deals with Remaining Balance" data-datafield="OnlyRemaining" style="float:left;max-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -32,7 +32,7 @@ const templateCreditsOnAccountFrontEnd = `
 class RwCreditsOnAccountReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('CreditsOnAccount', 'api/v1/creditsonaccountreport', templateCreditsOnAccountFrontEnd);
+        super('CreditsOnAccountReport', 'api/v1/creditsonaccountreport', creditsOnAccountTemplate);
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -46,8 +46,7 @@ class RwCreditsOnAccountReport extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
@@ -59,15 +58,11 @@ class RwCreditsOnAccountReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
-        FwFormField.setValue($form, 'div[data-datafield="IncludeRemainingBalance"]', 'T');
+        FwFormField.setValue($form, 'div[data-datafield="OnlyRemaining"]', 'T');
     };
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.OnlyRemaining = parameters.IncludeRemainingBalance;
-
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
 };

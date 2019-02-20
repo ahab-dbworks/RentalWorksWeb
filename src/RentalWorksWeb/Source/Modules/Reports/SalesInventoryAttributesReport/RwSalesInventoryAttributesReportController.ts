@@ -4,7 +4,7 @@
     }
 });
 
-var salesInventoryAttributesTemplateFrontEnd = `
+const salesInventoryAttributesTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Inventory Attributes Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesInventoryAttributesReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -51,51 +51,37 @@ var salesInventoryAttributesTemplateFrontEnd = `
 class RwSalesInventoryAttributesReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('SalesInventoryAttributesReport', 'api/v1/salesinventoryattributesreport', salesInventoryAttributesTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('SalesInventoryAttributesReport', 'api/v1/salesinventoryattributesreport', salesInventoryAttributesTemplate);
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
         this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = ($browse, $form, request) => {

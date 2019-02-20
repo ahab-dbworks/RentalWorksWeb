@@ -1,51 +1,29 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class SalesInventoryAttributesReportRequest {
-    AttributeId: string;
-    InventoryTypeId: string;
-    CategoryId: string;
-    SubCategoryId: string;
-    InventoryId: string;
-    SortBy: Array<any>;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class SalesInventoryAttributesReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
-        console.log('parameters: ', parameters)
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-
             HandlebarsHelpers.registerHelpers();
-            let request = new SalesInventoryAttributesReportRequest();
-            request.SortBy = parameters.SortBy;
-            request.AttributeId = parameters.AttributeId;
-            request.InventoryTypeId = parameters.InventoryTypeId;
-            request.CategoryId = parameters.CategoryId;
-            request.SubCategoryId = parameters.SubCategoryId;
-            request.InventoryId = parameters.InventoryId;
 
-            let salesInventoryAttributes: any = {};
-
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventoryattributesreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventoryattributesreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    salesInventoryAttributes = DataTable.toObjectList(response);
+                    const salesInventoryAttributes: any = DataTable.toObjectList(response);
                     salesInventoryAttributes.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     salesInventoryAttributes.Report = 'Sales Inventory Attributes Report';
                     salesInventoryAttributes.System = 'RENTALWORKS';
                     salesInventoryAttributes.Company = '4WALL ENTERTAINMENT';
                     salesInventoryAttributes.Today = moment().format('LL');
 
-                    console.log('salesInventoryAttributes:', salesInventoryAttributes)
                     this.renderFooterHtml(salesInventoryAttributes);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

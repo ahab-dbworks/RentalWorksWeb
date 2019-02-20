@@ -4,7 +4,7 @@
     }
 });
 
-var salesInventoryPurchaseHistoryTemplateFrontEnd = `
+const salesInventoryPurchaseHistoryTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Inventory Purchase History" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesInventoryPurchaseHistoryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -78,35 +78,32 @@ var salesInventoryPurchaseHistoryTemplateFrontEnd = `
 class RwSalesInventoryPurchaseHistoryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('SalesInventoryPurchaseHistoryReport', 'api/v1/salesinventorypurchasehistoryreport', salesInventoryPurchaseHistoryTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('SalesInventoryPurchaseHistoryReport', 'api/v1/salesinventorypurchasehistoryreport', salesInventoryPurchaseHistoryTemplate);
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm();
+        const $form = this.openForm();
 
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
         this.loadLists($form);
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -114,22 +111,11 @@ class RwSalesInventoryPurchaseHistoryReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {
-        var validationName = request.module;
+        const validationName = request.module;
         if (validationName != null) {
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');

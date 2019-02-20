@@ -4,7 +4,7 @@
     }
 });
 
-const partsInventoryPurchaseHistoryTemplateFrontEnd = `
+const partsInventoryPurchaseHistoryTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Parts Inventory Purchase History" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwPartsInventoryPurchaseHistoryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -78,13 +78,13 @@ const partsInventoryPurchaseHistoryTemplateFrontEnd = `
 class RwPartsInventoryPurchaseHistoryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('PartsInventoryPurchaseHistoryReport', 'api/v1/partsinventorypurchasehistoryreport', partsInventoryPurchaseHistoryTemplateFrontEnd);
+        super('PartsInventoryPurchaseHistoryReport', 'api/v1/partsinventorypurchasehistoryreport', partsInventoryPurchaseHistoryTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -93,13 +93,12 @@ class RwPartsInventoryPurchaseHistoryReportClass extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        let $form = this.getFrontEnd();
+        const $form = this.getFrontEnd();
         return $form;
     }
     //----------------------------------------------------------------------------------------------

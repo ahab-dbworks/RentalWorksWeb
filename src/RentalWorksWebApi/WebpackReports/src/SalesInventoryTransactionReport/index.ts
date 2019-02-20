@@ -1,24 +1,12 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class SalesInventoryTransactionReportRequest {
-    FromDate: Date;
-    ToDate: Date;
-    TransactionTypes: Array<any> = [];
-    WarehouseId: string;
-    InventoryTypeId: string;
-    CategoryId: string;
-    SubCategoryId: string;
-    InventoryId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class SalesInventoryTransactionReport extends WebpackReport {
 
@@ -27,21 +15,10 @@ export class SalesInventoryTransactionReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new SalesInventoryTransactionReportRequest();
-            request.ToDate = parameters.ToDate;
-            request.FromDate = parameters.FromDate;
-            request.TransactionTypes = parameters.TransactionTypes;
-            request.WarehouseId = parameters.WarehouseId;
-            request.InventoryTypeId = parameters.InventoryTypeId;
-            request.CategoryId = parameters.CategoryId;
-            request.SubCategoryId = parameters.SubCategoryId;
-            request.InventoryId = parameters.InventoryId;
-
-            let salesInventoryTransaction: any = {};
-
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorytransactionreport/runreport`, authorizationHeader, request)
+            console.log('params:', parameters)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorytransactionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    salesInventoryTransaction = DataTable.toObjectList(response);
+                    const salesInventoryTransaction: any = DataTable.toObjectList(response);
                     salesInventoryTransaction.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     salesInventoryTransaction.FromDate = parameters.FromDate;
                     salesInventoryTransaction.ToDate = parameters.ToDate;

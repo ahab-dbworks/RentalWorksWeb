@@ -4,7 +4,7 @@
     }
 });
 
-const dealInvoiceBatchTemplateFrontEnd = `
+const dealInvoiceBatchTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport dealinvoicebatchreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal Invoice Batch" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwDealInvoiceBatchReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -39,7 +39,7 @@ const dealInvoiceBatchTemplateFrontEnd = `
 class RwDealInvoiceBatchReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('DealInvoiceBatchReport', 'api/v1/dealinvoicebatchreport', dealInvoiceBatchTemplateFrontEnd);
+        super('DealInvoiceBatchReport', 'api/v1/dealinvoicebatchreport', dealInvoiceBatchTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

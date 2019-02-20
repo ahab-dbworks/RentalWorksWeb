@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^reports\/latereturnduebackreport$/, action: function (match: RegExpExecArray) { return RwLateReturnDueBackReportController.getModuleScreen(); } });
 
-const lateReturnDueBackFrontEnd = `
+const lateReturnDueBackTemplate = `
     <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Late Return / Due Back" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwLateReturnDueBackReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
@@ -87,7 +87,7 @@ const lateReturnDueBackFrontEnd = `
 
 class RwLateReturnDueBackReport extends FwWebApiReport {
     constructor() {
-        super('LateReturnsReport', 'api/v1/latereturnsreport', lateReturnDueBackFrontEnd);
+        super('LateReturnsReport', 'api/v1/latereturnsreport', lateReturnDueBackTemplate);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -102,13 +102,13 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     };
     //----------------------------------------------------------------------------------------------
     openForm() {
-        return this.getFrontEnd();
+        const $form = this.getFrontEnd();
+        return $form;
     };
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
@@ -169,15 +169,35 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
     convertParameters(parameters: any) {
         const convertedParams: any = {};
 
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
+        if (parameters.LateReturns) {
+            convertedParams.Type = 'PASTDUE'
+            convertedParams.ReportType = 'PAST_DUE';
+            convertedParams.Days = parameters.DaysPastDue;
+            convertedParams.headerText = `${parameters.DaysPastDue} Days Past Due`;
+        }
+        if (parameters.DueBack) {
+            convertedParams.Type = 'DUEBACK'
+            convertedParams.ReportType = 'DUE_IN';
+            convertedParams.Days = parameters.DueBackFewer;
+            convertedParams.headerText = `Due Back in ${parameters.DueBackFewer} Days`;
+        }
+        if (parameters.DueBackOn) {
+            convertedParams.Type = 'DUEBACK'
+            convertedParams.ReportType = 'DUE_DATE';
+            convertedParams.headerText = `Due Back on ${parameters.DueBackDate}`;
+            convertedParams.DueBackDate = parameters.DueBackDate;
+        }
+        convertedParams.OrderedByContactId = parameters.ContactId;
         convertedParams.OfficeLocationId = parameters.OfficeLocationId;
         convertedParams.DepartmentId = parameters.DepartmentId;
+        convertedParams.CustomerId = parameters.CustomerId;
         convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
+        convertedParams.InventoryTypeId = parameters.InventoryTypeId;
+        convertedParams.ShowUnit = parameters.ShowUnit;
+        convertedParams.ShowReplacement = parameters.ShowReplacement;
+        convertedParams.ShowBarCode = parameters.ShowBarCode;
+        convertedParams.ShowSerial = parameters.ShowSerial;
+
         return convertedParams;
     }
     //----------------------------------------------------------------------------------------------
@@ -188,7 +208,7 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
 
         switch (validationName) {
             case 'DealValidation':
-                if (customerId != '') {
+                if (customerId !== '') {
                     request.uniqueids.CustomerId = customerId;
                 }
                 break;

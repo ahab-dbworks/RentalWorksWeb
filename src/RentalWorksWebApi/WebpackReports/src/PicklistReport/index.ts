@@ -1,17 +1,13 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn, BrowseRequest } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class PickListReportRequest {
-    PickListId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class PickListReport extends WebpackReport {
     picklist: Picklist = null;
@@ -20,20 +16,16 @@ export class PickListReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-            let request = new PickListReportRequest();
-            let picklist = new Picklist();
 
-            request.PickListId = parameters.PickListId;
-
-            let Promise = Ajax.post<Picklist>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, request)
+            Ajax.post<Picklist>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, parameters)
                 .then((response: Picklist) => {
+                    let picklist = new Picklist();
                     picklist = response;
                     picklist.Items = DataTable.toObjectList(response.Items);
                     picklist.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     picklist.Report = 'PICK LIST';
                     picklist.System = 'RENTALWORKS';
                     picklist.Company = '4WALL ENTERTAINMENT';
-                    console.log('pickList: ', picklist )
                     this.renderFooterHtml(picklist);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

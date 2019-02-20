@@ -14,13 +14,11 @@ using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.LateReturnsReport
 {
-
-
     public class LateReturnsReportRequest : AppReportRequest
     {
         public string ReportType { get; set; }
-        public int? Days{ get; set; }
-        public DateTime DueBack { get; set; }
+        public int? Days { get; set; }
+        public DateTime DueBackDate { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public string CustomerId { get; set; }
@@ -28,8 +26,6 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         public string InventoryTypeId { get; set; }
         public string OrderedByContactId { get; set; }
     }
-
-       
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

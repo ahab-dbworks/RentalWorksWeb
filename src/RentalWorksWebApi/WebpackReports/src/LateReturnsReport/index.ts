@@ -8,67 +8,17 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs"); 
 const hbFooter = require("./hbFooter.hbs"); 
 
-export class LateReturnsReportRequest {
-    ReportType: string;
-    Days: any;
-    DueBack: Date;
-    OfficeLocationId: string;
-    DepartmentId: string;
-    CustomerId: string;
-    DealId: string;
-    InventoryTypeId: string;
-    OrderedByContactId: string;
-}
-
 export class LateReturnDueBackReport extends WebpackReport {
 
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            let request = new LateReturnsReportRequest();
-            let globals:any = {};
-       
             HandlebarsHelpers.registerHelpers();
-            let lateReturnDueBack: any = {};
-            let headerText: string;
-            let headerNode: HTMLDivElement = document.createElement('div');
 
-            request.DueBack = parameters.DueBackDate;
-            if (parameters.LateReturns) {
-                globals.Type = 'PASTDUE'
-                request.ReportType = 'PAST_DUE';
-                request.Days = parameters.DaysPastDue;
-                headerText = parameters.DaysPastDue + ' Days Past Due'
-
-            }
-            if (parameters.DueBack) {
-                globals.Type = 'DUEBACK'
-                request.ReportType = 'DUE_IN';
-                request.Days = parameters.DueBackFewer;
-                headerText = 'Due Back in ' + parameters.DueBackFewer + ' Days'
-            }
-            if (parameters.DueBackOn) {
-                globals.Type = 'DUEBACK'
-                request.ReportType = 'DUE_DATE';
-                request.DueBack = parameters.DueBackDate;
-                headerText = 'Due Back on ' + parameters.DueBackDate;
-            }
-            request.OrderedByContactId = parameters.ContactId;
-            request.OfficeLocationId = parameters.OfficeLocationId ;
-            request.DepartmentId = parameters.DepartmentId ;
-            request.CustomerId = parameters.CustomerId ;
-            request.DealId = parameters.DealId ;
-            request.InventoryTypeId = parameters.InventoryTypeId ;
-            if (parameters.ShowUnit) { globals.ShowUnit = 'true' };
-            if (parameters.ShowReplacement) { globals.ShowReplacement = 'true' };
-            if (parameters.ShowBarCode) { globals.ShowBarCode = 'true' };
-            if (parameters.ShowSerial) { globals.ShowSerial = 'true' };
-
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    lateReturnDueBack = DataTable.toObjectList(response); 
-                    
-                    for (var i = 0; i < lateReturnDueBack.length; i++) {
+                    const lateReturnDueBack:any = DataTable.toObjectList(response); 
+                    for (let i = 0; i < lateReturnDueBack.length; i++) {
                         if (lateReturnDueBack[i].RowType === 'OrderNumberheader') {
                             lateReturnDueBack[i].OrderDate = lateReturnDueBack[i + 1].OrderDate;
                             lateReturnDueBack[i].OrderDescription = lateReturnDueBack[i + 1].OrderDescription;
@@ -82,16 +32,24 @@ export class LateReturnDueBackReport extends WebpackReport {
                             lateReturnDueBack[i].OrderPastDue = lateReturnDueBack[i + 1].OrderPastDue;
                         }
                     }
+                    const globals:any = {};
                     globals.data = lateReturnDueBack;
-
+                    globals.Type = parameters.Type;
+                    globals.headerText = parameters.headerText;
                     globals.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     globals.ContractTime = moment(globals.ContractTime, 'h:mm a').format('h:mm a');
+                    if (parameters.ShowUnit) { globals.ShowUnit = 'true' };
+                    if (parameters.ShowReplacement) { globals.ShowReplacement = 'true' };
+                    if (parameters.ShowBarCode) { globals.ShowBarCode = 'true' };
+                    if (parameters.ShowSerial) { globals.ShowSerial = 'true' };
+
                     this.renderFooterHtml(globals.data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(globals);
-                    headerNode.innerHTML = headerText;
+                    const headerNode: HTMLDivElement = document.createElement('div');
+                    headerNode.innerHTML = globals.headerText;
                     headerNode.style.cssText = 'text-align:center;font-weight:bold;margin:0 auto;font-size:12px;';
                     document.getElementsByClassName('Header')[0].appendChild(headerNode);
 

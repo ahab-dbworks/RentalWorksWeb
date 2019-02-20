@@ -11,61 +11,61 @@
     <br /><br />
     <div class="tblLateReturns">
       <table>
-          <tr class="columnheadings">
-            <td>
-              <div>Customer / Deal / Order</div>
-            </td>
-            <td>
-              <div>Date</div>
-            </td>
-            <td>
-              <div>Description</div>
-            </td>
-            <td>
-              <div>Agent</div>
-            </td>
-            <td>
-              <div></div>
-            </td>
-            <td>
-              <div>Ordered By</div>
-            </td>
-            <td>
-              <div></div>
-            </td>
-            <td>
-              <div>Billing Dates</div>
-            </td>
-            {{#ifEquals ShowUnit "true"}}
-            <td>
-              <div>Unit Value</div>
-            </td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            {{#ifEquals ShowReplacement "true"}}
-            <td>
-              <div>Replacement Cost</div>
-            </td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            <td>
-              <div>Rent From</div>
-            </td>
-            <td>
-              <div>Rent To</div>
-            </td>
-            {{#ifEquals Type "PASTDUE"}}
-            <td>
-              <div>Days Past Due</div>
-            </td>
-            {{else}}
-            <td>
-              <div>Due In Days</div>
-            </td>
-            {{/ifEquals}}
-          </tr>
+        <tr class="columnheadings">
+          <td>
+            <div>Customer / Deal / Order</div>
+          </td>
+          <td>
+            <div>Date</div>
+          </td>
+          <td>
+            <div>Description</div>
+          </td>
+          <td>
+            <div>Agent</div>
+          </td>
+          <td>
+            <div></div>
+          </td>
+          <td>
+            <div>Ordered By</div>
+          </td>
+          <td>
+            <div></div>
+          </td>
+          <td>
+            <div>Billing Dates</div>
+          </td>
+          {{#ifEquals ShowUnit "true"}}
+          <td>
+            <div>Unit Value</div>
+          </td>
+          {{else}}
+          <td></td>
+          {{/ifEquals}}
+          {{#ifEquals ShowReplacement "true"}}
+          <td>
+            <div>Replacement Cost</div>
+          </td>
+          {{else}}
+          <td></td>
+          {{/ifEquals}}
+          <td>
+            <div>Rent From</div>
+          </td>
+          <td>
+            <div>Rent To</div>
+          </td>
+          {{#ifEquals Type "PASTDUE"}}
+          <td>
+            <div>Days Past Due</div>
+          </td>
+          {{else}}
+          <td>
+            <div>Due In Days</div>
+          </td>
+          {{/ifEquals}}
+        </tr>
         <tbody>
           {{#each this.data}}
           <tr data-rowtype="{{RowType}}">
@@ -76,46 +76,19 @@
             <td class="DealHeader" colspan="4">{{Deal}}</td>
             {{/ifEquals}}
             {{#ifEquals RowType "OrderNumberheader"}}
-              <td class="first-order">{{OrderNumber}}</td>
-              <td class="OrderNumberHeader">{{OrderDate}}</td>
-              <td class="OrderNumberHeader">{{OrderDescription}}</td>
-              <td class="OrderNumberHeader" colspan="2">{{Agent}}</td>
-              <td class="OrderNumberHeader">{{OrderedByName}}</td>
-              <td class="OrderNumberHeader"></td>
-              <td class="OrderNumberHeader" colspan="2">{{BillDateRange}}</td>
-              <td class="OrderNumberHeader number">{{OrderReplacementCost}}</td>
-              <td class="OrderNumberHeader number">{{OrderFromDate}}</td>
-              <td class="OrderNumberHeader number">{{OrderToDate}}</td>
-              <td class="OrderNumberHeader number">{{OrderPastDue}}</td>
-            </tr>
+            <td class="first-order">{{OrderNumber}}</td>
+            <td class="OrderNumberHeader">{{OrderDate}}</td>
+            <td class="OrderNumberHeader">{{OrderDescription}}</td>
+            <td class="OrderNumberHeader" colspan="2">{{Agent}}</td>
+            <td class="OrderNumberHeader">{{OrderedByName}}</td>
+            <td class="OrderNumberHeader"></td>
+            <td class="OrderNumberHeader" colspan="2">{{BillDateRange}}</td>
+            <td class="OrderNumberHeader number">{{OrderReplacementCost}}</td>
+            <td class="OrderNumberHeader number">{{OrderFromDate}}</td>
+            <td class="OrderNumberHeader number">{{OrderToDate}}</td>
+            <td class="OrderNumberHeader number">{{OrderPastDue}}</td>
+          </tr>
           <tr>
-            <!--<td colspan="8">
-    <table>
-      <tr class="columnheadings">
-        <td>
-          <div>I-Code</div>
-        </td>
-        <td>
-          <div>Description</div>
-        </td>
-        <td>
-          <div>Quantity</div>
-        </td>
-        <td>
-          <div>Unit Value</div>
-        </td>
-        <td>
-          <div>Replacement Cost</div>
-        </td>
-        <td>
-          <div>Unit Value Extended</div>
-        </td>
-        <td>
-          <div>Replacement Cost Extended</div>
-        </td>
-      </tr>
-    </table>
-  </td>-->
             <td class="first-order-icode">
               <div>I-Code</div>
             </td>

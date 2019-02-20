@@ -4,7 +4,7 @@
     }
 });
 
-const createInvoiceProcessTemplateFrontEnd = `
+const createInvoiceProcessTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport createinvoiceprocessreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Create Invoice Process" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCreateInvoiceProcessReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -41,7 +41,7 @@ const createInvoiceProcessTemplateFrontEnd = `
 class RwCreateInvoiceProcessReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('CreateInvoiceProcessReport', 'api/v1/createinvoiceprocessreport', createInvoiceProcessTemplateFrontEnd);
+        super('CreateInvoiceProcessReport', 'api/v1/createinvoiceprocessreport', createInvoiceProcessTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

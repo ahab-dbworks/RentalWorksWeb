@@ -6,12 +6,8 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/Handleb
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class OrderReportRequest {
-    OrderId: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class OrderReport extends WebpackReport {
     order: Order = null;
@@ -19,23 +15,14 @@ export class OrderReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            let request = new OrderReportRequest();
-            let order = new Order();
-            let controlObject: any = {}
-            let isOrder = true;
-            if (parameters.OrderId) {
-                request.OrderId = parameters.OrderId;
-            } else {
-                request.OrderId = parameters.QuoteId;
-                isOrder = false;
-            }
+
             // Report rendering and Logo
-            let Promise = Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+            Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
                 .then((response: DataTable) => {
-                    controlObject = response;
-                    Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, request)
-                    .then((response: Order) => {
-                        order = response;
+                    const controlObject: any = response;
+                    Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
+                        .then((response: Order) => {
+                        const order: any = response;
                         order.Items = DataTable.toObjectList(response.Items);
                         order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                         order.System = 'RENTALWORKS';
@@ -43,12 +30,13 @@ export class OrderReport extends WebpackReport {
                         if (controlObject.ReportLogoImage != '') {
                             order.Logosrc = controlObject.ReportLogoImage;
                         } 
-                        if (isOrder) {
-                            order.Report = 'ORDER';
-                        } else {
+                        if (parameters.isQuote) {
                             order.Report = 'QUOTE';
                             document.title = 'Quote Report'
+                        } else {
+                            order.Report = 'ORDER';
                         }
+
                         this.renderFooterHtml(order);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;

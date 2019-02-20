@@ -1,27 +1,12 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
-import { DataTable, DataTableColumn } from '../../lib/FwReportLibrary/src/scripts/Browse';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-var hbReport = require("./hbReport.hbs");
-var hbFooter = require("./hbFooter.hbs");
-
-export class ReturnOnAssetPrecalculatedReportRequest {
-    ReportYear: string;
-    ReportPeriod: string;
-    Ranks: any;
-    TrackedBys: any;
-    WarehouseId: string;
-    InventoryTypeId: string;
-    CategoryId: string;
-    SubCategoryId: string;
-    InventoryId: string;
-    IncludeZeroCurrentOwned: string;
-    IncludeZeroAverageOwned: string;
-}
+const hbReport = require("./hbReport.hbs");
+const hbFooter = require("./hbFooter.hbs");
 
 export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
 
@@ -29,21 +14,8 @@ export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            let request = new ReturnOnAssetPrecalculatedReportRequest();
-            request.ReportYear = parameters.ReportYear;
-            request.ReportPeriod = parameters.ReportPeriod;
-            request.Ranks = parameters.Ranks;
-            request.TrackedBys = parameters.TrackedBys;
-            request.WarehouseId = parameters.WarehouseId;
-            request.InventoryTypeId = parameters.InventoryTypeId;
-            request.CategoryId = parameters.CategoryId;
-            request.SubCategoryId = parameters.SubCategoryId;
-            request.InventoryId = parameters.InventoryId;
-            request.IncludeZeroCurrentOwned = parameters.IncludeZeroCurrentOwned;
-            request.IncludeZeroAverageOwned = parameters.IncludeZeroAverageOwned;
 
-
-            let Promise = Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetprecalculatedreport/runreport`, authorizationHeader, request)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetprecalculatedreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const assetPrecalculated: any = {};
                     assetPrecalculated.rows = DataTable.toObjectList(response);
@@ -110,7 +82,6 @@ export class ReturnOnAssetPrecalculatedReport extends WebpackReport {
                     if (parameters.ReportPeriod === "S2") {
                         assetPrecalculated.ReportPeriod = "Second Semester";
                     }
-
 
                     this.renderFooterHtml(assetPrecalculated);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

@@ -4,7 +4,7 @@
     }
 });
 
-var returnOnAssetPrecalculatedTemplateFrontEnd = `
+const returnOnAssetPrecalculatedTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Return On Asset Precalculated Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwReturnOnAssetPrecalculatedReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -76,13 +76,13 @@ var returnOnAssetPrecalculatedTemplateFrontEnd = `
 class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ReturnOnAssetPrecalculatedReport', 'api/v1/returnonassetprecalculatedreport', returnOnAssetPrecalculatedTemplateFrontEnd);
-        //this.reportOptions.HasDownloadExcel = true;
+        super('ReturnOnAssetPrecalculatedReport', 'api/v1/returnonassetprecalculatedreport', returnOnAssetPrecalculatedTemplate);
+        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -91,8 +91,7 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     }
     //----------------------------------------------------------------------------------------------
@@ -102,34 +101,20 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
-
         this.load($form, this.reportOptions);
-        var appOptions: any = program.getApplicationOptions();
-        var request: any = { method: "LoadForm" };
 
         this.loadLists($form);
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const date = new Date();
-        const year = date.getFullYear();
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
         FwFormField.setValue($form, 'div[data-datafield="ReportPeriod"]', 'FY', 'Full Year');
+        const date = new Date();
+        const year = date.getFullYear();
         FwFormField.setValue($form, 'div[data-datafield="ReportYear"]', year, year);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-
-        convertedParams.DateType = parameters.DateType;
-        convertedParams.ToDate = parameters.ToDate;
-        convertedParams.FromDate = parameters.FromDate;
-        convertedParams.IncludeNoCharge = parameters.IncludeNoCharge;
-        convertedParams.OfficeLocationId = parameters.OfficeLocationId;
-        convertedParams.DepartmentId = parameters.DepartmentId;
-        convertedParams.DealId = parameters.DealId;
-        convertedParams.AgentId = parameters.UserId;
-        convertedParams.CustomerId = 'Testing';
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {

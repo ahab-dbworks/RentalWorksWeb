@@ -4,7 +4,7 @@
     }
 });
 
-const templateOutContractReportFrontEnd = `
+const outContractReportTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwOutContractReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
@@ -30,7 +30,7 @@ const templateOutContractReportFrontEnd = `
 class RwOutContractReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('OutContractReport', 'api/v1/outcontractreport', templateOutContractReportFrontEnd);
+        super('OutContractReport', 'api/v1/outcontractreport', outContractReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
     };
     //----------------------------------------------------------------------------------------------
@@ -45,13 +45,13 @@ class RwOutContractReportClass extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     };
     //----------------------------------------------------------------------------------------------
     openForm() {
-        return this.getFrontEnd();
+        const $form = this.getFrontEnd();
+        return $form;
     };
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {

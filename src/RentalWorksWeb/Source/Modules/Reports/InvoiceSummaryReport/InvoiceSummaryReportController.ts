@@ -4,7 +4,7 @@
     }
 });
 
-const invoiceSummaryTemplateFrontEnd = `
+const invoiceSummaryTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport invoicesummaryreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwInvoiceSummaryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -75,7 +75,7 @@ const invoiceSummaryTemplateFrontEnd = `
 class RwInvoiceSummaryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('InvoiceSummaryReport', 'api/v1/invoicesummaryreport', invoiceSummaryTemplateFrontEnd);
+        super('InvoiceSummaryReport', 'api/v1/invoicesummaryreport', invoiceSummaryTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -96,7 +96,8 @@ class RwInvoiceSummaryReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
-        return this.getFrontEnd();
+        const $form = this.getFrontEnd();
+        return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {

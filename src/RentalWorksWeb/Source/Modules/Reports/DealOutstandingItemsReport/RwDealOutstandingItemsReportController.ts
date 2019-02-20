@@ -4,7 +4,7 @@
     }
 });
 
-const dealOutstandingItemsTemplateFrontEnd = `
+const dealOutstandingItemsTemplate = `
 <div class="fwcontrol fwcontainer fwform fwreport dealoutstandingitems" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal Outstanding Items" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwDealOutstandingItemsReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
@@ -93,7 +93,7 @@ const dealOutstandingItemsTemplateFrontEnd = `
 class RwDealOutstandingItemsReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('DealOutstandingItemsReport', 'api/v1/dealoutstandingitemsreport', dealOutstandingItemsTemplateFrontEnd);
+        super('DealOutstandingItemsReport', 'api/v1/dealoutstandingitemsreport', dealOutstandingItemsTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

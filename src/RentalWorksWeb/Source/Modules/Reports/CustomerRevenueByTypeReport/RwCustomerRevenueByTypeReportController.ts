@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^reports\/customerrevenuebytypereport$/, action: function (match: RegExpExecArray) { return RwCustomerRevenueByTypeReportController.getModuleScreen(); } });
 
-const customerRevenueByTypeFrontEnd = `
+const customerRevenueByTypeTemplate = `
     <div class="fwcontrol fwcontainer fwform fwreport revenuebytypereport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Revenue By Type" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwCustomerRevenueByTypeReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
@@ -63,7 +63,7 @@ const customerRevenueByTypeFrontEnd = `
 
 class RwCustomerRevenueByTypeReport extends FwWebApiReport {
     constructor() {
-        super('CustomerRevenueByTypeReport', 'api/v1/customerrevenuebytypereport', customerRevenueByTypeFrontEnd);
+        super('CustomerRevenueByTypeReport', 'api/v1/customerrevenuebytypereport', customerRevenueByTypeTemplate);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -78,8 +78,7 @@ class RwCustomerRevenueByTypeReport extends FwWebApiReport {
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
         return screen;
     };
     //----------------------------------------------------------------------------------------------

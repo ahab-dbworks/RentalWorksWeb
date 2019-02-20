@@ -175,9 +175,6 @@ namespace WebApi.Modules.Reports.LateReturnsReport
         //public decimal? OrderReplacementCost { get; set; }
         ////------------------------------------------------------------------------------------ 
 
-
-
-
         public async Task<FwJsonDataTable> RunReportAsync(LateReturnsReportRequest request)
         {
             FwJsonDataTable dt = null;
@@ -187,9 +184,9 @@ namespace WebApi.Modules.Reports.LateReturnsReport
                 {
                     qry.AddParameter("@reporttype", SqlDbType.Text, ParameterDirection.Input, request.ReportType);
                     qry.AddParameter("@days", SqlDbType.Int, ParameterDirection.Input, request.Days);
-                    if (request.DueBack != DateTime.MinValue)
+                    if (request.DueBackDate != DateTime.MinValue)
                     {
-                        qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, request.DueBack);
+                        qry.AddParameter("@dueback", SqlDbType.Date, ParameterDirection.Input, request.DueBackDate);
                     }
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
@@ -213,6 +210,5 @@ namespace WebApi.Modules.Reports.LateReturnsReport
             return dt;
         }
         //------------------------------------------------------------------------------------    
-
     }
 }
