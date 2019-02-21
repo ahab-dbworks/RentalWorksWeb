@@ -61,21 +61,11 @@ namespace WebApi.Controllers
                 // Delete any existing excel files belonginng to this user
                 FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
 
-                if (!includeIdColumns)
+                if (!includeIdColumns || !includeColorColumns)
                 {
                     foreach (FwJsonDataTableColumn col in dt.Columns)
                     {
-                        if (col.DataField.EndsWith("Id") || col.DataField.EndsWith("Key"))
-                        {
-                            col.IsVisible = false;
-                        }
-                    }
-                }
-                if (!includeColorColumns)
-                {
-                    foreach (FwJsonDataTableColumn col in dt.Columns)
-                    {
-                        if (col.DataType.Equals(FwDataTypes.OleToHtmlColor))
+                        if (col.DataField.EndsWith("Id") || col.DataField.EndsWith("Key") || col.DataType.Equals(FwDataTypes.OleToHtmlColor))
                         {
                             col.IsVisible = false;
                         }

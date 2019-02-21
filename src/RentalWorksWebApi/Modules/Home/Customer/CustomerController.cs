@@ -35,7 +35,7 @@ namespace WebApi.Modules.Home.Customer
         [FwControllerMethod(Id:"Pl5KjtaY6zH0")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoExportExcelXlsxFileAsync(browseRequest);
+            return await DoExportExcelXlsxFileAsync(browseRequest, includeColorColumns: browseRequest.IncludeColorColumns, includeIdColumns: browseRequest.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customer
