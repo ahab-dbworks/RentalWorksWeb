@@ -1,5 +1,6 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Modules.Home.OrderItem;
@@ -164,6 +165,28 @@ namespace WebApi.Modules.Home.Order
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<CopyTemplateResponse> CopyTemplateAsync(FwApplicationConfig appConfig, FwUserSession userSession, CopyTemplateRequest request)
+        {
+            CopyTemplateResponse response = new CopyTemplateResponse();
+            List<string> templateIds = request.TemplateIds;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                for (int i = 0; i <= templateIds.Count - 1; i++)
+                {
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, "copymasteritems", appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.AddParameter("@fromorderid", SqlDbType.NVarChar, ParameterDirection.Input, templateIds[i]);
+                        qry.AddParameter("@frominvoiceid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                        qry.AddParameter("@toorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                        qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
+                        qry.AddParameter("@combinesubs", SqlDbType.NVarChar, ParameterDirection.Input, "T");
+                        await qry.ExecuteNonQueryAsync(true);
+                    }
+                }
             }
             return response;
         }

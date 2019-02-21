@@ -1,5 +1,5 @@
 using FwStandard.AppManager;
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -58,7 +58,16 @@ namespace WebApi.Modules.Home.Order
         public double? Total;
     }
 
-    
+    public class CopyTemplateRequest
+    {
+        public List<string> TemplateIds { get; set; } = new List<string>();
+        public string OrderId { get; set; }
+        public string RecType { get; set; }
+    }
+
+    public class CopyTemplateResponse : TSpStatusReponse
+    {
+    }
 
 
 
@@ -83,6 +92,30 @@ namespace WebApi.Modules.Home.Order
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/order/copytemplate
+        [HttpPost("copytemplate")]
+        [FwControllerMethod(Id: "ABZ5hvc8H5P")]
+        public async Task<ActionResult<CopyTemplateResponse>> CopyTemplate([FromBody] CopyTemplateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CopyTemplateResponse response = await OrderFunc.CopyTemplateAsync(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/order/copytoquote/A0000001
