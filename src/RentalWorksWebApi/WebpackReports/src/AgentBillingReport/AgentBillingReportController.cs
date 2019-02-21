@@ -72,7 +72,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt);
+            return await DoExportExcelXlsxFileAsync(dt, includeColorColumns: request.IncludeColorColumns, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/agentbillingreport/runreport 

@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             return StatusCode(jsonException.StatusCode, jsonException);
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "")
+        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(FwJsonDataTable dt, string worksheetName = "", bool includeIdColumns  = true, bool includeColorColumns = true)
         {
             if (!ModelState.IsValid)
             {
@@ -60,6 +60,27 @@ namespace WebApi.Controllers
 
                 // Delete any existing excel files belonginng to this user
                 FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
+
+                if (!includeIdColumns)
+                {
+                    foreach (FwJsonDataTableColumn col in dt.Columns)
+                    {
+                        if (col.DataField.EndsWith("Id") || col.DataField.EndsWith("Key"))
+                        {
+                            col.IsVisible = false;
+                        }
+                    }
+                }
+                if (!includeColorColumns)
+                {
+                    foreach (FwJsonDataTableColumn col in dt.Columns)
+                    {
+                        if (col.DataType.Equals(FwDataTypes.OleToHtmlColor))
+                        {
+                            col.IsVisible = false;
+                        }
+                    }
+                }
 
                 dt.ToExcelXlsxFile(worksheetName, path);
                 DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
