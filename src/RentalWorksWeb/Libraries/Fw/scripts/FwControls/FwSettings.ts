@@ -574,7 +574,7 @@ class FwSettingsClass {
             }
         }
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '" data-showDelete=' + showDelete.toString() + ' data-showEdit=' + showEdit.toString() +'">');
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '" data-showDelete=' + showDelete.toString() + ' data-showEdit=' + showEdit.toString() + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');

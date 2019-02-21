@@ -326,51 +326,51 @@ abstract class FwWebApiReport {
                 try {
                     const isValid = FwModule.validateForm($form);
                     if (isValid) {
-                    const $confirmation = FwConfirmation.renderConfirmation(FwLanguages.translate('E-mail PDF'), '');
-                    FwConfirmation.addControls($confirmation, this.getEmailTemplate());
-                    const $btnSend = FwConfirmation.addButton($confirmation, 'Send');
-                    FwConfirmation.addButton($confirmation, 'Cancel');
+                        const $confirmation = FwConfirmation.renderConfirmation(FwLanguages.translate('E-mail PDF'), '');
+                        FwConfirmation.addControls($confirmation, this.getEmailTemplate());
+                        const $btnSend = FwConfirmation.addButton($confirmation, 'Send');
+                        FwConfirmation.addButton($confirmation, 'Cancel');
 
-                    let email = '[me]';
-                    if (sessionStorage.getItem('email') !== null && sessionStorage.getItem('email') !== '') {
-                        email = sessionStorage.getItem('email');
-                    } else {
-                        FwNotification.renderNotification('ERROR', 'Add an email to your account to enable this function.');
-                        $btnSend.css({ 'pointer-events': 'none', 'background-color': 'light-gray'});
-                    }
-                    FwFormField.setValueByDataField($confirmation, 'from', email);
-                    FwFormField.setValueByDataField($confirmation, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
-                   
-                    $btnSend.click((event: JQuery.Event) => {
-                        try {
-                            const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                            const requestEmailPdf: any = this.getRenderRequest($form);
-                            requestEmailPdf.renderMode = 'Email';
-                            requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
-                            requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-text').val();
-                            requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-text').val();
-                            requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
-                            requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
-                            requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
-                            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
-                                (successResponse) => {
-                                    try {
-                                        FwNotification.renderNotification('SUCCESS', 'Email Sent');
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    } finally {
-                                        FwNotification.closeNotification($notification);
-                                    }
-                                },
-                                (errorResponse) => {
-                                    FwNotification.closeNotification($notification);
-                                    if (errorResponse !== 'abort') {
-                                        FwFunc.showError(errorResponse);
-                                    }
-                                }, $form);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
+                        let email = '[me]';
+                        if (sessionStorage.getItem('email') !== null && sessionStorage.getItem('email') !== '') {
+                            email = sessionStorage.getItem('email');
+                        } else {
+                            FwNotification.renderNotification('ERROR', 'Add an email to your account to enable this function.');
+                            $btnSend.css({ 'pointer-events': 'none', 'background-color': 'light-gray' });
                         }
+                        FwFormField.setValueByDataField($confirmation, 'from', email);
+                        FwFormField.setValueByDataField($confirmation, 'subject', FwTabs.getTabByElement($form).attr('data-caption'));
+
+                        $btnSend.click((event: JQuery.Event) => {
+                            try {
+                                const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+                                const requestEmailPdf: any = this.getRenderRequest($form);
+                                requestEmailPdf.renderMode = 'Email';
+                                requestEmailPdf.email.from = FwFormField.getValueByDataField($confirmation, 'from');
+                                requestEmailPdf.email.to = $confirmation.find('[data-datafield="tousers"] input.fwformfield-text').val();
+                                requestEmailPdf.email.cc = $confirmation.find('[data-datafield="ccusers"] input.fwformfield-text').val();
+                                requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
+                                requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
+                                requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
+                                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
+                                    (successResponse) => {
+                                        try {
+                                            FwNotification.renderNotification('SUCCESS', 'Email Sent');
+                                        } catch (ex) {
+                                            FwFunc.showError(ex);
+                                        } finally {
+                                            FwNotification.closeNotification($notification);
+                                        }
+                                    },
+                                    (errorResponse) => {
+                                        FwNotification.closeNotification($notification);
+                                        if (errorResponse !== 'abort') {
+                                            FwFunc.showError(errorResponse);
+                                        }
+                                    }, $form);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
                         });
                     }
                     //$confirmation.on('change', '[data-datafield="tousers"] .fwformfield-value',

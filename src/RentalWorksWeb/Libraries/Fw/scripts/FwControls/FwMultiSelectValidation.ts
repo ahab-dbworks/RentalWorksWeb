@@ -375,7 +375,7 @@ class FwMultiSelectValidationClass {
         } else {
             fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
         }
-         
+
         let $inputField = multiselectfield.find('span.addItem');
 
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {

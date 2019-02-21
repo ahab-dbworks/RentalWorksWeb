@@ -70,13 +70,13 @@ namespace FwCore.Controllers
                         await FwReport.EmailPdfAsync(
                             fromusersid: this.UserSession.UsersId,
                             uniqueid: uniqueid,
-                            title: GetReportFriendlyName(), 
-                            from: request.email.from, 
-                            to: request.email.to, 
+                            title: GetReportFriendlyName(),
+                            from: request.email.from,
+                            to: request.email.to,
                             cc: request.email.cc,
                             subject: request.email.subject,
-                            body: request.email.body, 
-                            pdfPath: pathPdfReport, 
+                            body: request.email.body,
+                            pdfPath: pathPdfReport,
                             appConfig: this.AppConfig);
                     }
                 }
