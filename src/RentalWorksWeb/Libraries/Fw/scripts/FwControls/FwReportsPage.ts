@@ -280,6 +280,7 @@
             if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Reports') {
                 switch (nodeLv1MenuItem.properties.nodetype) {
                     case 'Lv1ReportsMenu':
+                        this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
                         for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                             var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                             if (nodeLv2MenuItem.properties.visible === 'T') {
@@ -309,7 +310,7 @@
     };
     //----------------------------------------------------------------------------------------------
     generateDropDownModuleBtn($menu, $control, securityid, caption, imgurl, subitems) {
-        var $modulebtn, $reports, btnHtml, subitemHtml, $subitem, version;
+        var $modulebtn, $reports, btnHtml, version;
 
         version = $menu.closest('.fwfilemenu').attr('data-version');
         securityid = (typeof securityid === 'string') ? securityid : '';
@@ -328,34 +329,6 @@
                 btnHtml.push('<div class="ddmodulebtn-dropdown" style="display:none"></div>');
                 btnHtml.push('</div>');
                 $modulebtn = jQuery(btnHtml.join(''));
-
-                subitemHtml = [];
-                subitemHtml.push('<div id="" class="ddmodulebtn-dropdown-btn">');
-                subitemHtml.push('<div class="ddmodulebtn-dropdown-btn-text"></div>');
-                subitemHtml.push('</div>');
-                jQuery.each(subitems, function (index, value) {
-                    if (index === 0) {
-                        $modulebtn.data('firstmodule', subitems[index].moduleName);
-                    }
-                    $subitem = jQuery(subitemHtml.join(''));
-                    $subitem.attr('data-securityid', subitems[index].id);
-                    $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
-
-                    $subitem.on('click', function () {
-                        try {
-                            if ($control.find('#' + value.moduleName + ' > div > div.panel-collapse').is(':hidden')) {
-                                $control.find('#' + value.moduleName + ' > div > div.panel-heading').click();
-                            }
-                            jQuery('html, body').animate({
-                                scrollTop: $control.find('#' + value.moduleName).offset().top
-                            }, 1);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-
-                    $modulebtn.find('.ddmodulebtn-dropdown').append($subitem);
-                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -368,7 +341,13 @@
                 try {
                     let navigationCaption = $modulebtn.data('navigation');
                     let panels = $control.find('.panel-group');
-                    if (navigationCaption != '') {
+                    if (navigationCaption === 'All Reports') {
+                        let event = jQuery.Event('keypress');
+                        event.which = 13;
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#reportsSearch').val('').trigger(event);
+                        jQuery(this).addClass('selected');
+                    } else if (navigationCaption != '') {
                         $control.find('.selected').removeClass('selected');
                         $control.find('#reportsSearch').val('')
                         jQuery(this).addClass('selected');

@@ -574,7 +574,7 @@ class FwSettingsClass {
             }
         }
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + ' data-showDelete=' + showDelete.toString() + ' data-showEdit=' + showEdit.toString() +'">');
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '" data-showDelete=' + showDelete.toString() + ' data-showEdit=' + showEdit.toString() +'">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');
@@ -1216,6 +1216,7 @@ class FwSettingsClass {
             if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Settings') {
                 switch (nodeLv1MenuItem.properties.nodetype) {
                     case 'Lv1SettingsMenu':
+                        this.generateDropDownModuleBtn($view, $control, 'All Settings ID', 'All Settings', null, null);
                         for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                             var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                             if (nodeLv2MenuItem.properties.visible === 'T') {
@@ -1264,21 +1265,6 @@ class FwSettingsClass {
                 btnHtml.push('<div class="ddmodulebtn-dropdown" style="display:none"></div>');
                 btnHtml.push('</div>');
                 $modulebtn = jQuery(btnHtml.join(''));
-
-                subitemHtml = [];
-                subitemHtml.push('<div id="" class="ddmodulebtn-dropdown-btn">');
-                subitemHtml.push('<div class="ddmodulebtn-dropdown-btn-text"></div>');
-                subitemHtml.push('</div>');
-                jQuery.each(subitems, function (index, value) {
-                    if (index === 0) {
-                        $modulebtn.data('firstmodule', subitems[index].moduleName);
-                    }
-                    $subitem = jQuery(subitemHtml.join(''));
-                    $subitem.attr('data-securityid', subitems[index].id);
-                    $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
-
-                    $modulebtn.find('.ddmodulebtn-dropdown').append($subitem);
-                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -1290,7 +1276,13 @@ class FwSettingsClass {
                 try {
                     let navigationCaption = $modulebtn.data('navigation');
                     let panels = $control.find('.panel-group');
-                    if (navigationCaption != '') {
+                    if (navigationCaption === 'All Settings') {
+                        let event = jQuery.Event('keypress');
+                        event.which = 13;
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#settingsSearch').val('').trigger(event);
+                        jQuery(this).addClass('selected');
+                    } else if (navigationCaption != '') {
                         $control.find('.selected').removeClass('selected');
                         $control.find('#settingsSearch').val('')
                         jQuery(this).addClass('selected');
