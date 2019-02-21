@@ -73,6 +73,11 @@
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
+                    for (var i = 0; i < response.length; i++) {
+                        if (response[i].textColor !== 'rgb(0,0,0') {
+                            response[i].html = `<div style="color:${response[i].textColor}">${response[i].text}</div>`
+                        }
+                    }
                     FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], response);
                 }, function onError(response) {
                     FwFunc.showError(response);

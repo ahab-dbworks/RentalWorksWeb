@@ -550,6 +550,8 @@ class FwSettingsClass {
     renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
         var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, filter = [], me = this;
         let showNew = false;
+        let showDelete = false;
+        let showEdit = false;
         $modulecontainer = $control.find('#' + moduleName);
         apiurl = window[moduleName + 'Controller'].apiurl;
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
@@ -562,11 +564,17 @@ class FwSettingsClass {
                     if (tree.children[i].children[0].children[j].properties.nodetype === 'NewMenuBarButton') {
                         showNew = true;
                     }
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'DeleteMenuBarButton') {
+                        showDelete = true;
+                    }
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'EditMenuBarButton') {
+                        showEdit = true;
+                    }
                 }
             }
         }
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + ' data-showDelete=' + showDelete.toString() + ' data-showEdit=' + showEdit.toString() +'">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');
@@ -912,7 +920,9 @@ class FwSettingsClass {
                     $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
-                    $form.find('div.fwmenu.default > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    if (jQuery(this).closest('.panel-group').attr('data-showDelete')) {
+                        $form.find('div.fwmenu.default > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    }
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {
@@ -951,6 +961,9 @@ class FwSettingsClass {
 
                     }
                     FwModule.loadForm(moduleName, $form);
+                    if (jQuery(this).closest('.panel-group').attr('data-showEdit')) {
+                        FwModule.setFormReadOnly($form);
+                    }
                 }
 
 
