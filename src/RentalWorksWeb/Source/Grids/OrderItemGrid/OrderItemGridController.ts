@@ -1,4 +1,4 @@
-﻿class OrderItemGrid {
+﻿﻿class OrderItemGrid {
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
@@ -679,5 +679,50 @@ FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = functi
 
     FwBrowse.search($templateBrowse);
 };
+//----------------------------------------------------------------------------------------------
+//Refresh Availability
+FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = function (e) {
+    const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
+    const $form = jQuery(this).closest('.fwform');
+    const module = $form.attr('data-controller').replace('Controller', '');
+    let recType;
+    recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
+    if (recType.hasClass('R')) {
+        recType = 'R';
+    } else if (recType.hasClass('S')) {
+        recType = 'S';
+    } else if (recType.hasClass('L')) {
+        recType = 'L';
+    } else if (recType.hasClass('M')) {
+        recType = 'M';
+    } else if (recType.hasClass('P')) {
+        recType = 'P';
+    } else if (recType.hasClass('A')) {
+        recType = '';
+    } else if (recType.hasClass('RS')) {
+        recType = 'RS'
+    }
+
+    if (module === 'Order') {
+        $orderItemGrid.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `OrderId`),
+                RecType: recType
+            };
+            request.pagesize = 9999;
+            request.RefreshAvailability = true
+        });
+    } else {
+        $orderItemGrid.data('ondatabind', function (request) {
+            request.uniqueids = {
+                QuoteId: FwFormField.getValueByDataField($form, `QuoteId`),
+                RecType: recType
+            };
+            request.pagesize = 9999;
+            request.RefreshAvailability = true
+        });
+    }
+    FwBrowse.search($orderItemGrid);
+}
 //----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();
