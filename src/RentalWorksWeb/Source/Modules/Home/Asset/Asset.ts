@@ -146,6 +146,19 @@ class RwAsset {
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
+        const availFor = FwFormField.getValueByDataField($form, 'AvailFor');
+        switch (availFor) {
+            case 'S':
+                $form.find('[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
+                break;
+            case 'P':
+                $form.find('[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
+                break;
+            case 'R':
+            default:
+                break;
+        }
+
         var $itemAttributeValueGrid: JQuery = $form.find('[data-name="' + this.nameItemAttributeValueGrid + '"]');
         FwBrowse.search($itemAttributeValueGrid);
 
@@ -224,7 +237,8 @@ class RwAsset {
                     <div class="formcolumn" style="width:675px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Asset">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-enabled="false" style="float:left;width:125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="display:none;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="float:left;width:500px;"></div>
                         </div>
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
