@@ -1120,7 +1120,7 @@ class OrderBase {
         }, $form);
     };
     //----------------------------------------------------------------------------------------------
-    calculateOrderItemGridTotals($form: any, gridType: string): void {
+    calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
         let extendedTotal = new Decimal(0);
         let discountTotal = new Decimal(0);
@@ -1129,38 +1129,57 @@ class OrderBase {
         let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
         switch (rateValue) {
             case 'W':
-                rateType = 'Weekly';
+                subTotal = totals.WeeklyExtended;
+                discount = totals.WeeklyDiscountAmount;
+                salesTax = totals.WeeklyTax;
+                grossTotal = totals.WeeklyExtendedNoDiscount;
+                total = totals.WeeklyTotal;
                 break;
             case 'P':
+                subTotal = totals.PeriodExtended;
+                discount = totals.PeriodDiscountAmount;
+                salesTax = totals.PeriodTax;
+                grossTotal = totals.PeriodExtendedNoDiscount;
+                total = totals.PeriodTotal;
                 rateType = 'Period';
                 break;
             case 'M':
+                subTotal = totals.MonthlyExtended;
+                discount = totals.MonthlyDiscountAmount;
+                salesTax = totals.MonthlyTax;
+                grossTotal = totals.MonthlyExtendedNoDiscount;
+                total = totals.MonthlyTotal;
                 rateType = 'Monthly';
                 break;
             default:
+                subTotal = totals.PeriodExtended;
+                discount = totals.PeriodDiscountAmount;
+                salesTax = totals.PeriodTax;
+                grossTotal = totals.PeriodExtendedNoDiscount;
+                total = totals.PeriodTotal;
                 rateType = 'Period';
         }
-        const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
-        const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
-        const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
+        //const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
+        //const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
+        //const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
 
-        for (let i = 1; i < extendedColumn.length; i++) {
-            // Extended Column
-            let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
-            extendedTotal = extendedTotal.plus(inputValueFromExtended);
-            // DiscountAmount Column
-            let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
-            discountTotal = discountTotal.plus(inputValueFromDiscount);
-            // Tax Column
-            let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
-            taxTotal = taxTotal.plus(inputValueFromTax);
-        };
+        //for (let i = 1; i < extendedColumn.length; i++) {
+        //    // Extended Column
+        //    let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
+        //    extendedTotal = extendedTotal.plus(inputValueFromExtended);
+        //    // DiscountAmount Column
+        //    let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
+        //    discountTotal = discountTotal.plus(inputValueFromDiscount);
+        //    // Tax Column
+        //    let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
+        //    taxTotal = taxTotal.plus(inputValueFromTax);
+        //};
 
-        subTotal = extendedTotal.toFixed(2);
-        discount = discountTotal.toFixed(2);
-        salesTax = taxTotal.toFixed(2);
-        grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
-        total = taxTotal.plus(extendedTotal).toFixed(2);
+        //subTotal = extendedTotal.toFixed(2);
+        //discount = discountTotal.toFixed(2);
+        //salesTax = taxTotal.toFixed(2);
+        //grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
+        //total = taxTotal.plus(extendedTotal).toFixed(2);
 
         $form.find(`.${gridType}totals [data-totalfield="SubTotal"] input`).val(subTotal);
         $form.find(`.${gridType}totals [data-totalfield="Discount"] input`).val(discount);
