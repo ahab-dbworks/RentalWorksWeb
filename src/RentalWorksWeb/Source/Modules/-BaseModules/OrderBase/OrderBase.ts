@@ -436,9 +436,11 @@ class OrderBase {
                 var uniqueids: any = {};
                 if (request.CopyToType == "O") {
                     uniqueids.OrderId = response.OrderId;
+                    uniqueids.OrderTypeId = response.OrderTypeId;
                     var $form = OrderController.loadForm(uniqueids);
                 } else if (request.CopyToType == "Q") {
                     uniqueids.QuoteId = response.QuoteId;
+                    uniqueids.OrderTypeId = response.OrderTypeId;
                     var $form = QuoteController.loadForm(uniqueids);
                 }
                 FwModule.openModuleTab($form, "", true, 'FORM', true);
