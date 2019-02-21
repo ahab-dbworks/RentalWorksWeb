@@ -46,12 +46,13 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                     if (d.Value.Available.Total < 0)
                     {
                         iAvail.backColor = FwConvert.OleColorToHtmlColor(16711680); //red
+                        iAvail.textColor = FwConvert.OleColorToHtmlColor(16777215); //white
                     }
                     else
                     {
                         iAvail.backColor = FwConvert.OleColorToHtmlColor(1176137); //green
+                        iAvail.textColor = FwConvert.OleColorToHtmlColor(0); //black
                     }
-                    iAvail.fontColor = FwConvert.OleColorToHtmlColor(16777215); //white
                     data.Add(iAvail);
 
                     //reserved
@@ -66,7 +67,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                         iReserve.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
                         iReserve.text = "Reserved " + d.Value.Reserved.Total.ToString();
                         iReserve.backColor = FwConvert.OleColorToHtmlColor(15132390); //gray
-                        iReserve.fontColor = FwConvert.OleColorToHtmlColor(0); //black
+                        iReserve.textColor = FwConvert.OleColorToHtmlColor(0); //black
                         data.Add(iReserve);
                     }
 
@@ -82,7 +83,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityDate
                         iReturn.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
                         iReturn.text = "Returning " + d.Value.Returning.Total.ToString();
                         iReturn.backColor = FwConvert.OleColorToHtmlColor(618726); //blue
-                        iReturn.fontColor = FwConvert.OleColorToHtmlColor(16777215); //white
+                        iReturn.textColor = FwConvert.OleColorToHtmlColor(16777215); //white
                         data.Add(iReturn);
                     }
 
