@@ -18,7 +18,6 @@ namespace WebApi.Controllers
     {
         public bool IncludeSubHeadingsAndSubTotals { get; set; } = true;
         public bool IncludeIdColumns { get; set; } = true;
-        public bool IncludeColorColumns { get; set; } = true;
     }
 
     public abstract class AppReportController : FwReportController
@@ -65,12 +64,8 @@ namespace WebApi.Controllers
                 {
                     foreach (FwJsonDataTableColumn col in dt.Columns)
                     {
-                        if ((!includeIdColumns) && (col.DataField.EndsWith("Id") || col.DataField.EndsWith("Key")))
-                        {
-                            col.IsVisible = false;
-                        }
-
-                        if ((!includeColorColumns) && (col.DataType.Equals(FwDataTypes.OleToHtmlColor)))
+                        string dataField = col.DataField.ToUpper();
+                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
                         {
                             col.IsVisible = false;
                         }

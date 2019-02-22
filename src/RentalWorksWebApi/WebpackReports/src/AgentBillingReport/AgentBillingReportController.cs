@@ -14,7 +14,6 @@ using static FwCore.Controllers.FwDataController;
 
 namespace WebApi.Modules.Reports.AgentBillingReport
 {
-
     public class AgentBillingReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
@@ -27,7 +26,6 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         public string CustomerId { get; set; }
         public string DealId { get; set; }
     }
-
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
@@ -72,7 +70,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt, includeColorColumns: request.IncludeColorColumns, includeIdColumns: request.IncludeIdColumns);
+            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/agentbillingreport/runreport 
