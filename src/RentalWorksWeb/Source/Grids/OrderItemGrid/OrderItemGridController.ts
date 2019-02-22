@@ -716,7 +716,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
     } else {
         $orderItemGrid.data('ondatabind', function (request) {
             request.uniqueids = {
-                QuoteId: FwFormField.getValueByDataField($form, `QuoteId`),
+                OrderId: FwFormField.getValueByDataField($form, `QuoteId`),
                 RecType: recType,
                 RefreshAvailability: true
             };
@@ -724,6 +724,25 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
         });
     }
     FwBrowse.search($orderItemGrid);
+    //sets refreshavailability back to its default
+    if (module === 'Order') {
+        $orderItemGrid.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `OrderId`),
+                RecType: recType
+            };
+            request.pagesize = 9999;
+        });
+    } else {
+        $orderItemGrid.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `QuoteId`),
+                RecType: recType
+            };
+            request.pagesize = 9999;
+        });
+    }
+
 }
 //----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();
