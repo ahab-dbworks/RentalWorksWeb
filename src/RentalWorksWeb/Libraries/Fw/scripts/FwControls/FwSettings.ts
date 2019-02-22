@@ -561,20 +561,20 @@ class FwSettingsClass {
         for (var i = 0; i < tree.children.length; i++) {
             if (tree.children[i].properties.caption === 'Browse' && tree.children[i].children[0].properties.nodetype === 'MenuBar') {
                 for (var j = 0; j < tree.children[i].children[0].children.length; j++) {
-                    if (tree.children[i].children[0].children[j].properties.nodetype === 'NewMenuBarButton') {
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'NewMenuBarButton' && tree.children[i].children[0].children[j].properties.visible === 'T') {
                         showNew = true;
                     }
-                    if (tree.children[i].children[0].children[j].properties.nodetype === 'DeleteMenuBarButton') {
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'DeleteMenuBarButton' && tree.children[i].children[0].children[j].properties.visible === 'T') {
                         showDelete = true;
                     }
-                    if (tree.children[i].children[0].children[j].properties.nodetype === 'EditMenuBarButton') {
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'EditMenuBarButton' && tree.children[i].children[0].children[j].properties.visible === 'T') {
                         showEdit = true;
                     }
                 }
             }
         }
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '" data-showDelete=' + showDelete.toString() + ' data-showEdit=' + showEdit.toString() + '">');
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '" data-showDelete=' + showDelete.toString() + ' data-showEdit="' + showEdit.toString() + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');
@@ -920,7 +920,7 @@ class FwSettingsClass {
                     $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
-                    if (jQuery(this).closest('.panel-group').attr('data-showDelete')) {
+                    if (jQuery(this).closest('.panel-group').attr('data-showDelete') === 'true') {
                         $form.find('div.fwmenu.default > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
                     }
 
@@ -961,7 +961,7 @@ class FwSettingsClass {
 
                     }
                     FwModule.loadForm(moduleName, $form);
-                    if (jQuery(this).closest('.panel-group').attr('data-showEdit')) {
+                    if (jQuery(this).closest('.panel-group').attr('data-showEdit') === 'false') {
                         FwModule.setFormReadOnly($form);
                     }
                 }
