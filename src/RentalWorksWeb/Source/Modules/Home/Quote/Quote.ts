@@ -232,8 +232,9 @@ class Quote extends OrderBase {
     renderGrids($form: any) {
         var $orderStatusHistoryGrid: any;
         var $orderStatusHistoryGridControl: any;
-        var max = 9999;
         let self = this;
+        var defaultRows = sessionStorage.getItem('browsedefaultrows');
+        var totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
 
         $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
         $orderStatusHistoryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusHistoryGridBrowse').html());
@@ -259,14 +260,15 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'R'
             };
-            request.pagesize = max;
+            request.pagesize = defaultRows;
+            request.totalfields = totalFields;
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
             request.RecType = 'R';
         });
-        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'rental');
+        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'rental', dt.Totals);
 
             let rentalItems = $form.find('.rentalgrid tbody').children();
             rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
@@ -290,14 +292,15 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'S'
             };
-            request.pagesize = max;
+            request.pagesize = defaultRows;
+            request.totalfields = totalFields;
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
             request.RecType = 'S';
         });
-        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'sales');
+        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
             let salesItems = $form.find('.salesgrid tbody').children();
             salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
         });
@@ -317,14 +320,15 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'L'
             };
-            request.pagesize = max;
+            request.pagesize = defaultRows;
+            request.totalfields = totalFields;
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
             request.RecType = 'L';
         });
-        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'labor');
+        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
             let laborItems = $form.find('.laborgrid tbody').children();
             laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
         });
@@ -344,15 +348,15 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'M'
             };
-            request.pagesize = max;
+            request.pagesize = defaultRows;
+            request.totalfields = totalFields;
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
             request.RecType = 'M';
         });
-        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'misc');
-
+        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
             let miscItems = $form.find('.miscgrid tbody').children();
             miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
         });
@@ -372,7 +376,8 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'RS'
             };
-            request.pagesize = max;
+            request.pagesize = defaultRows;
+            request.totalfields = totalFields;
         });
         $orderItemGridUsedSaleControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
@@ -395,14 +400,15 @@ class Quote extends OrderBase {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId')
             };
-            request.pagesize = max;
+            request.pagesize = defaultRows;
+            request.totalfields = totalFields;
         });
         $allOrderItemGridControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
         }
         );
-        FwBrowse.addEventHandler($allOrderItemGridControl, 'afterdatabindcallback', () => {
-            this.calculateOrderItemGridTotals($form, 'combined');
+        FwBrowse.addEventHandler($allOrderItemGridControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'combined', dt.Totals);
         });
 
         FwBrowse.init($allOrderItemGridControl);

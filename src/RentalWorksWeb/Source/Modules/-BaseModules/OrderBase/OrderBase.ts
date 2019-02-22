@@ -767,38 +767,7 @@ class OrderBase {
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
-        });
-
-        $form.find(".totalType input").on('change', e => {
-            let $target = jQuery(e.currentTarget),
-                gridType = $target.parents('.totalType').attr('data-gridtype'),
-                rateType = $target.val(),
-                adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'),
-                adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'),
-                adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
-            switch (rateType) {
-                case 'W':
-                    adjustmentsPeriod.hide();
-                    adjustmentsWeekly.show();
-                    break;
-                case 'M':
-                    adjustmentsPeriod.hide();
-                    adjustmentsMonthly.show();
-                    break;
-                case 'P':
-                    adjustmentsWeekly.hide();
-                    adjustmentsMonthly.hide();
-                    adjustmentsPeriod.show();
-                    break;
-            }
-            let total = FwFormField.getValue($form, '.' + gridType + 'OrderItemTotal:visible');
-            if (total === '0.00') {
-                FwFormField.disable($form.find('.' + gridType + 'TotalWithTax:visible'));
-            } else {
-                FwFormField.enable($form.find('.' + gridType + 'TotalWithTax:visible'));
-            }
-            this.calculateOrderItemGridTotals($form, gridType);
-        });
+        });      
 
         $form.find('.allFrames').css('display', 'none');
         $form.find('.hideFrames').css('display', 'none');
@@ -1121,10 +1090,7 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
-        let subTotal, discount, salesTax, grossTotal, total, rateType;
-        let extendedTotal = new Decimal(0);
-        let discountTotal = new Decimal(0);
-        let taxTotal = new Decimal(0);
+        let subTotal, discount, salesTax, grossTotal, total;
 
         let rateValue = $form.find(`.${gridType}grid .totalType input:checked`).val();
         switch (rateValue) {
@@ -1141,7 +1107,6 @@ class OrderBase {
                 salesTax = totals.PeriodTax;
                 grossTotal = totals.PeriodExtendedNoDiscount;
                 total = totals.PeriodTotal;
-                rateType = 'Period';
                 break;
             case 'M':
                 subTotal = totals.MonthlyExtended;
@@ -1149,7 +1114,6 @@ class OrderBase {
                 salesTax = totals.MonthlyTax;
                 grossTotal = totals.MonthlyExtendedNoDiscount;
                 total = totals.MonthlyTotal;
-                rateType = 'Monthly';
                 break;
             default:
                 subTotal = totals.PeriodExtended;
@@ -1157,8 +1121,39 @@ class OrderBase {
                 salesTax = totals.PeriodTax;
                 grossTotal = totals.PeriodExtendedNoDiscount;
                 total = totals.PeriodTotal;
-                rateType = 'Period';
         }
+
+        $form.find(".totalType input").on('change', e => {
+            let $target = jQuery(e.currentTarget),
+                gridType = $target.parents('.totalType').attr('data-gridtype'),
+                rateType = $target.val(),
+                adjustmentsPeriod = $form.find('.' + gridType + 'AdjustmentsPeriod'),
+                adjustmentsWeekly = $form.find('.' + gridType + 'AdjustmentsWeekly'),
+                adjustmentsMonthly = $form.find('.' + gridType + 'AdjustmentsMonthly');
+            switch (rateType) {
+                case 'W':
+                    adjustmentsPeriod.hide();
+                    adjustmentsWeekly.show();
+                    break;
+                case 'M':
+                    adjustmentsPeriod.hide();
+                    adjustmentsMonthly.show();
+                    break;
+                case 'P':
+                    adjustmentsWeekly.hide();
+                    adjustmentsMonthly.hide();
+                    adjustmentsPeriod.show();
+                    break;
+            }
+            let total = FwFormField.getValue($form, '.' + gridType + 'OrderItemTotal:visible');
+            if (total === '0.00') {
+                FwFormField.disable($form.find('.' + gridType + 'TotalWithTax:visible'));
+            } else {
+                FwFormField.enable($form.find('.' + gridType + 'TotalWithTax:visible'));
+            }
+            this.calculateOrderItemGridTotals($form, gridType, totals);
+        });
+
         //const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Extended"]`);
         //const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}DiscountAmount"]`);
         //const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="${rateType}Tax"]`);
