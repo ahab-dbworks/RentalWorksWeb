@@ -33,7 +33,7 @@ class RwPickListReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('PickListReport', 'api/v1/picklistreport', pickListTemplate);
-        this.reportOptions.HasDownloadExcel = true;
+        this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
