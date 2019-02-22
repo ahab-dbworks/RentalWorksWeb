@@ -900,13 +900,43 @@ namespace WebApi.Modules.Home.OrderItem
                 FwJsonDataTable dt = e.DataTable;
                 if (dt.Rows.Count > 0)
                 {
-                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, _orderId, _orderId, _refreshAvailability).Result;
-                    foreach (List<object> row in e.DataTable.Rows)
+
+                    DateTime batchFromDateTime = DateTime.MinValue;
+                    DateTime batchToDateTime = DateTime.MaxValue;
+                    int i = 0;
+
+                    TInventoryWarehouseAvailabilityKeys availKeys = new TInventoryWarehouseAvailabilityKeys();
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                        string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                        DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
+                        DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
+
+                        if (i == 0)
+                        {
+                            batchFromDateTime = fromDateTime;
+                            batchToDateTime = toDateTime;
+                        }
+                        else
+                        {
+                            batchFromDateTime = ((DateTime.Compare(fromDateTime, batchFromDateTime) < 0) ? fromDateTime : batchFromDateTime);
+                            batchToDateTime = ((DateTime.Compare(toDateTime, batchToDateTime) < 0) ? batchToDateTime : toDateTime);
+                        }
+
+                        TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                        availKeys.Add(availKey);
+                        i++;
+                    }
+
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, _orderId, availKeys, batchFromDateTime, batchToDateTime, _refreshAvailability).Result;
+
+                    foreach (List<object> row in dt.Rows)
                     {
                         string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
                         string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
                         DateTime availFromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());  // not accurate
-                        DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());     // not accurate
+                        DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());      // not accurate
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
                         row[dt.GetColumnNo("AvailableQuantityColor")] = null;

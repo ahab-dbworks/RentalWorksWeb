@@ -144,13 +144,22 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         {
             //jh wip
             decimal minimumAvailableQuantity = 0;
+            bool firstDateFound = false;
             foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDate in Dates)
             {
                 DateTime theDate = availDate.Key;
                 TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = availDate.Value;
                 if ((fromDateTime <= theDate) && (theDate <= toDateTime))
                 {
-                    minimumAvailableQuantity = (minimumAvailableQuantity < inventoryWarehouseAvailabilityDate.Available.Total) ? minimumAvailableQuantity : inventoryWarehouseAvailabilityDate.Available.Total;
+                    if (firstDateFound)
+                    {
+                        minimumAvailableQuantity = (minimumAvailableQuantity < inventoryWarehouseAvailabilityDate.Available.Total) ? minimumAvailableQuantity : inventoryWarehouseAvailabilityDate.Available.Total;
+                    }
+                    else
+                    {
+                        minimumAvailableQuantity = inventoryWarehouseAvailabilityDate.Available.Total;
+                    }
+                    firstDateFound = true;
                 }
             }
             return minimumAvailableQuantity;
@@ -697,12 +706,12 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             AvailabilityCache.Remove(availKey);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TInventoryWarehouseAvailability> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate, bool refreshIfNeeded)
+
+        public static async Task<TAvailabilityCache> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, TInventoryWarehouseAvailabilityKeys availKeys, DateTime fromDate, DateTime toDate, bool refreshIfNeeded)
 
         {
-            bool foundInCache = false;
-            bool stale = false;
-            TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability();
+            TAvailabilityCache availCache = new TAvailabilityCache();
+            TInventoryWarehouseAvailabilityKeys availKeysToRefresh = new TInventoryWarehouseAvailabilityKeys();
 
             if (fromDate < DateTime.Today)
             {
@@ -714,51 +723,77 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 toDate = DateTime.Today;
             }
 
-            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+            foreach (TInventoryWarehouseAvailabilityKey availKey in availKeys)
+            {
+                bool foundInCache = false;
+                bool stale = false;
+
+                if (AvailabilityNeedRecalc.Contains(availKey))
+                {
+                    stale = true;
+                }
+
+                TInventoryWarehouseAvailability availData = null;
+                if (AvailabilityCache.TryGetValue(availKey, out availData))
+                {
+                    foundInCache = true;
+                    DateTime theDate = availData.AvailDataFromDateTime;
+                    while (theDate <= availData.AvailDataToDateTime)
+                    {
+                        if ((theDate < fromDate) || (toDate < theDate))
+                        {
+                            availData.Dates.Remove(theDate);
+                        }
+                        theDate = theDate.AddDays(1);
+                    }
+
+                    theDate = fromDate;
+                    while (theDate <= toDate)
+                    {
+                        if (!availData.Dates.ContainsKey(theDate))
+                        {
+                            foundInCache = false;
+                            break;
+                        }
+                        theDate = theDate.AddDays(1);
+                    }
+                    availCache.Add(availKey, availData);
+                }
+
+                if ((stale) || (!foundInCache))
+                {
+                    if (refreshIfNeeded)
+                    {
+                        availKeysToRefresh.Add(availKey);
+                    }
+                }
+            }
+
+            if (availKeysToRefresh.Count > 0)
+            {
+                await RefreshAvailability(appConfig, userSession, sessionId, availKeysToRefresh, toDate);
+                availCache = await GetAvailability(appConfig, userSession, sessionId, availKeys, fromDate, toDate, false);
+            }
+
+
+            return availCache;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
+
+        public static async Task<TInventoryWarehouseAvailability> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate, bool refreshIfNeeded)
+
+        {
+
+            TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability();
             TInventoryWarehouseAvailabilityKeys availKeys = new TInventoryWarehouseAvailabilityKeys();
+            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
             availKeys.Add(availKey);
-
-            if (AvailabilityNeedRecalc.Contains(availKey))
-            {
-                stale = true;
-            }
-
-            if (AvailabilityCache.TryGetValue(availKey, out availData))
-            {
-                foundInCache = true;
-                DateTime theDate = availData.AvailDataFromDateTime;
-                while (theDate <= availData.AvailDataToDateTime)
-                {
-                    if ((theDate < fromDate) || (toDate < theDate))
-                    {
-                        availData.Dates.Remove(theDate);
-                    }
-                    theDate = theDate.AddDays(1);
-                }
-
-                theDate = fromDate;
-                while (theDate <= toDate)
-                {
-                    if (!availData.Dates.ContainsKey(theDate))
-                    {
-                        foundInCache = false;
-                        break;
-                    }
-                    theDate = theDate.AddDays(1);
-                }
-
-            }
-
-            if ((stale) || (!foundInCache))
-            {
-                if (refreshIfNeeded)
-                {
-                    await RefreshAvailability(appConfig, userSession, sessionId, availKeys, toDate);
-                    availData = await GetAvailability(appConfig, userSession, sessionId, inventoryId, warehouseId, fromDate, toDate, false);
-                }
-            }
-
+            TAvailabilityCache availCache = await GetAvailability(appConfig, userSession, sessionId, availKeys, fromDate, toDate, refreshIfNeeded);
+            availCache.TryGetValue(availKey, out availData);
             return availData;
+
         }
         //-------------------------------------------------------------------------------------------------------
 
