@@ -605,7 +605,7 @@ FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = functi
     let module = $form.attr('data-controller').replace('Controller', '');
     const HTML: Array<string> = [];
     HTML.push(
-        `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form">
+        `<div class="fwcontrol fwcontainer fwform popup template-popup" data-control="FwContainer" data-type="form">
               <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
                 <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                 <div class="tabpages">
@@ -646,6 +646,7 @@ FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = functi
     FwPopup.showPopup($popup);
     const $templateBrowse = addTemplateBrowse();
     $popup.find('.container').append($templateBrowse);
+    const $templatePopup = $popup.find('.template-popup');
 
     $popup.find('.close-modal').one('click', e => {
         FwPopup.destroyPopup($popup);
@@ -673,7 +674,7 @@ FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = functi
         FwAppData.apiMethod(true, 'POST', `api/v1/order/copytemplate`, request, FwServices.defaultTimeout, function onSuccess(response) {
             $popup.find('.close-modal').click();
             FwBrowse.search($grid);
-        }, null, null);
+        }, null, $templatePopup);
 
     });
 
