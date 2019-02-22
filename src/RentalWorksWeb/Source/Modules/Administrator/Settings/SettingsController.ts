@@ -34,15 +34,17 @@
             //console.log(moduleMenu);
 
             for (var i = 0; i < node.children.length; i++) {
-                if (node.children[i].properties.nodetype === 'SettingsModule') {
+                if (node.children[i].properties.nodetype === 'SettingsModule' && node.children[i].properties.visible === 'T') {
                     var moduleObj = [];
                     moduleObj.push(node.children[i].properties.caption, node.children[i].properties.controller.slice(0, -10), node.children[i].properties.caption, node.children[i].properties.description);
                     moduleArray.push(moduleObj);
                 } else {
                     for (var j = 0; j < node.children[i].children.length; j++) {
-                        var moduleObj = [];
-                        moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption.slice(0, -9), node.children[i].children[j].properties.description, node.children[i].properties.caption);
-                        moduleArray.push(moduleObj);
+                        if (node.children[i].children[j].properties.visible === 'T') {
+                            var moduleObj = [];
+                            moduleObj.push(node.children[i].children[j].properties.caption, node.children[i].children[j].properties.controller.slice(0, -10), node.children[i].properties.caption.slice(0, -9), node.children[i].children[j].properties.description, node.children[i].properties.caption);
+                            moduleArray.push(moduleObj);
+                        }
                     }
                 }
             }
