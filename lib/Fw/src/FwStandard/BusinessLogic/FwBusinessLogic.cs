@@ -187,44 +187,26 @@ namespace FwStandard.BusinessLogic
 
         protected virtual void OnBeforeSave(BeforeSaveEventArgs e)
         {
-            EventHandler<BeforeSaveEventArgs> handler = BeforeSave;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            BeforeSave?.Invoke(this, e);
         }
         protected virtual void OnAfterSave(AfterSaveEventArgs e)
         {
-            EventHandler<AfterSaveEventArgs> handler = AfterSave;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            AfterSave?.Invoke(this, e);
         }
         protected virtual void OnBeforeValidate(BeforeValidateEventArgs e)
         {
-            EventHandler<BeforeValidateEventArgs> handler = BeforeValidate;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            BeforeValidate?.Invoke(this, e);
         }
         protected virtual void OnBeforeDelete(BeforeDeleteEventArgs e)
         {
-            EventHandler<BeforeDeleteEventArgs> handler = BeforeDelete;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            BeforeDelete?.Invoke(this, e);
         }
         protected virtual void OnAfterDelete(AfterDeleteEventArgs e)
         {
-            EventHandler<AfterDeleteEventArgs> handler = AfterDelete;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            AfterDelete?.Invoke(this, e);
         }
+
+
         //------------------------------------------------------------------------------------
         public FwBusinessLogic() { }
         //------------------------------------------------------------------------------------
@@ -269,7 +251,7 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request)
         {
-            FwJsonDataTable browse = null;
+            FwJsonDataTable dt = null;
 
             LoadCustomFields();
 
@@ -321,22 +303,23 @@ namespace FwStandard.BusinessLogic
             if (useBrowseLoader)
             {
                 browseLoader.UserSession = this.UserSession;
-                browse = await browseLoader.BrowseAsync(request, _Custom.CustomFields);
+                dt = await browseLoader.BrowseAsync(request, _Custom.CustomFields);
             }
             else if (dataLoader != null)
             {
                 dataLoader.UserSession = this.UserSession;
-                browse = await dataLoader.BrowseAsync(request, _Custom.CustomFields);
+                dt = await dataLoader.BrowseAsync(request, _Custom.CustomFields);
             }
             else
             {
                 if (dataRecords.Count > 0)
                 {
                     dataRecords[0].UserSession = this.UserSession;
-                    browse = await dataRecords[0].BrowseAsync(request, _Custom.CustomFields);
+                    dt = await dataRecords[0].BrowseAsync(request, _Custom.CustomFields);
                 }
             }
-            return browse;
+
+            return dt;
 
         }
         //------------------------------------------------------------------------------------
@@ -938,10 +921,7 @@ namespace FwStandard.BusinessLogic
             AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
             afterSaveArgs.SaveMode = saveMode;
             afterSaveArgs.Original = original;
-            if (BeforeSave != null)
-            {
-                BeforeSave(this, beforeSaveArgs);
-            }
+            BeforeSave?.Invoke(this, beforeSaveArgs);
             if (beforeSaveArgs.PerformSave)
             {
                 int r = 0;
@@ -978,10 +958,7 @@ namespace FwStandard.BusinessLogic
                 }
                 if (savePerformed)
                 {
-                    if (AfterSave != null)
-                    {
-                        AfterSave(this, afterSaveArgs);
-                    }
+                    AfterSave?.Invoke(this, afterSaveArgs);
                 }
             }
             return rowsAffected;

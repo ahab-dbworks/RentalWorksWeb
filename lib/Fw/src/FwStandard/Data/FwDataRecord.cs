@@ -15,6 +15,18 @@ using System.Threading.Tasks;
 
 namespace FwStandard.DataLayer
 {
+
+    public class BeforeBrowseEventArgs : EventArgs
+    {
+        public BrowseRequest Request { get; set; }
+    }
+    public class AfterBrowseEventArgs : EventArgs
+    {
+        public BrowseRequest Request { get; set; }
+        public FwJsonDataTable DataTable { get; set; }
+    }
+
+
     public class FwDataRecord : FwBaseRecord
     {
         [JsonIgnore]
@@ -35,6 +47,20 @@ namespace FwStandard.DataLayer
         [JsonIgnore]
         public bool ReloadOnSave { get { return reloadOnSave; } set { reloadOnSave = value; } }
 
+        public event EventHandler<BeforeBrowseEventArgs> BeforeBrowse;
+        public event EventHandler<AfterBrowseEventArgs> AfterBrowse;
+
+        public delegate void BeforeBrowseEventHandler(BeforeBrowseEventArgs e);
+        public delegate void AfterBrowseEventHandler(AfterBrowseEventArgs e);
+
+        protected virtual void OnBeforeBrowse(BeforeBrowseEventArgs e)
+        {
+            BeforeBrowse?.Invoke(this, e);
+        }
+        protected virtual void OnAfterBrowse(AfterBrowseEventArgs e)
+        {
+            AfterBrowse?.Invoke(this, e);
+        }
 
         //------------------------------------------------------------------------------------
         public FwDataRecord() : base() { }
@@ -1256,6 +1282,11 @@ namespace FwStandard.DataLayer
         public virtual async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             FwJsonDataTable dt = null;
+
+            BeforeBrowseEventArgs beforeBrowseArgs = new BeforeBrowseEventArgs();
+            beforeBrowseArgs.Request = request;
+            BeforeBrowse?.Invoke(this, beforeBrowseArgs);
+
             if (request.emptyobject)
             {
                 dt = new FwJsonDataTable();
@@ -1300,6 +1331,12 @@ namespace FwStandard.DataLayer
                     }
                 }
             }
+
+            AfterBrowseEventArgs afterBrowseArgs = new AfterBrowseEventArgs();
+            afterBrowseArgs.Request = request;
+            afterBrowseArgs.DataTable = dt;
+            AfterBrowse?.Invoke(this, afterBrowseArgs);
+
             return dt;
         }
         //------------------------------------------------------------------------------------
