@@ -57,7 +57,7 @@ namespace WebApi.Modules.Reports.PartsInventoryPurchaseHistoryReport
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt);
+            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------
         // POST api/v1/partsinventorypurchasehistoryreport/runreport 
