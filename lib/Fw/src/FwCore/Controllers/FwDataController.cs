@@ -61,7 +61,7 @@ namespace FwCore.Controllers
             public string downloadUrl = "";
         }
         //------------------------------------------------------------------------------------
-        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(BrowseRequest browseRequest, Type type = null, string worksheetName = "", bool includeIdColumns = true, bool includeColorColumns = true)
+        protected virtual async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> DoExportExcelXlsxFileAsync(BrowseRequest browseRequest, Type type = null, string worksheetName = "")
         {
             if (!ModelState.IsValid)
             {
@@ -90,6 +90,9 @@ namespace FwCore.Controllers
 
                 // Delete any existing excel files belonginng to this user
                 FwDownloadController.DeleteCurrentWebUserDownloads(this.UserSession.WebUsersId);
+
+                bool includeColorColumns = browseRequest.includecolorcolumns;
+                bool includeIdColumns = browseRequest.includeidcolumns;
 
                 if (!includeIdColumns || !includeColorColumns)
                 {
