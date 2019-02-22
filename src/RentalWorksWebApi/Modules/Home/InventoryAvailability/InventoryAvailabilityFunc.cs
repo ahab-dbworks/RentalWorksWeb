@@ -140,6 +140,21 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         public DateTime AvailDataToDateTime { get; set; }
         public List<TInventoryWarehouseAvailabilityReservation> Reservations { get; set; } = new List<TInventoryWarehouseAvailabilityReservation>();
         public Dictionary<DateTime, TInventoryWarehouseAvailabilityDate> Dates { get; set; } = new Dictionary<DateTime, TInventoryWarehouseAvailabilityDate>();
+        public decimal GetMinimumAvailableQuantity(DateTime fromDateTime, DateTime toDateTime)
+        {
+            //jh wip
+            decimal minimumAvailableQuantity = 0;
+            foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDate in Dates)
+            {
+                DateTime theDate = availDate.Key;
+                TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = availDate.Value;
+                if ((fromDateTime <= theDate) && (theDate <= toDateTime))
+                {
+                    minimumAvailableQuantity = (minimumAvailableQuantity < inventoryWarehouseAvailabilityDate.Available.Total) ? minimumAvailableQuantity : inventoryWarehouseAvailabilityDate.Available.Total;
+                }
+            }
+            return minimumAvailableQuantity;
+        }
     }
     //-------------------------------------------------------------------------------------------------------
     public class TAvailabilityCache : Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability>

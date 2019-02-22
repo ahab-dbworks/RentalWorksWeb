@@ -1,5 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Home.Master;
 using WebApi.Modules.Home.MasterItem;
@@ -17,10 +18,12 @@ namespace WebApi.Modules.Home.OrderItem
         //------------------------------------------------------------------------------------ 
         MasterItemRecord orderItem = new MasterItemRecord();
         OrderItemLoader orderItemLoader = new OrderItemLoader();
+
         public OrderItemLogic()
         {
             dataRecords.Add(orderItem);
             dataLoader = orderItemLoader;
+
             orderItem.AfterSave += OnAfterSaveOrderItem;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
@@ -96,7 +99,7 @@ namespace WebApi.Modules.Home.OrderItem
         public decimal? AvailableQuantity { get; set; }
 
         [FwLogicProperty(Id:"9GCGUd4nSEzY", IsReadOnly:true)]
-        public int? AvailableQuantityColor { get; set; }
+        public string AvailableQuantityColor { get; set; }
 
         [FwLogicProperty(Id:"72nuyMc1ObMF", IsReadOnly:true)]
         public decimal? AvailableAllWarehousesQuantity { get; set; }

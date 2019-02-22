@@ -7,12 +7,22 @@ using Newtonsoft.Json;
 using WebApi.Logic;
 using System.Collections.Generic;
 using System.Text;
+using WebApi.Modules.Home.InventoryAvailabilityFunc;
+using System;
 
 namespace WebApi.Modules.Home.OrderItem
 {
     [FwSqlTable("orderitemwebview")]
     public class OrderItemLoader : AppDataLoadRecord
     {
+        private string _orderId = "";                // pupulated during SetBaseSelectQuery, reused later
+        private bool _refreshAvailability = false;   // pupulated during SetBaseSelectQuery, reused later
+
+        public OrderItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderItemId { get; set; }
@@ -86,8 +96,8 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "availqty", modeltype: FwDataTypes.Decimal)]
         public decimal? AvailableQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.Integer)]
-        public int? AvailableQuantityColor { get; set; }
+        [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string AvailableQuantityColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqtyallwh", modeltype: FwDataTypes.Decimal)]
         public decimal? AvailableAllWarehousesQuantity { get; set; }
@@ -806,6 +816,7 @@ namespace WebApi.Modules.Home.OrderItem
             string orderId = OrderId;
             bool summaryMode = false;
             bool subs = false;
+            bool refreshAvailability = false;
 
             if (string.IsNullOrEmpty(orderId))
             {
@@ -827,21 +838,34 @@ namespace WebApi.Modules.Home.OrderItem
                 orderId = "~xx~";
             }
 
+            summaryMode = GetUniqueIdAsBoolean("Summary", request).GetValueOrDefault(false);
+
+            if (!subs)
+            {
+                subs = GetUniqueIdAsBoolean("Subs", request).GetValueOrDefault(false);
+            }
+
+            refreshAvailability = GetUniqueIdAsBoolean("RefreshAvailability", request).GetValueOrDefault(false);
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-            if ((request != null) && (request.uniqueids != null))
-            {
-                IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                if (uniqueIds.ContainsKey("Summary"))
-                {
-                    summaryMode = (bool)uniqueIds["Summary"];
-                }
-                if (uniqueIds.ContainsKey("Subs"))
-                {
-                    subs = (bool)uniqueIds["Subs"];
-                }
-            }
+
+            //if ((request != null) && (request.uniqueids != null))
+            //{
+            //    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+            //    if (uniqueIds.ContainsKey("Summary"))
+            //    {
+            //        summaryMode = (bool)uniqueIds["Summary"];
+            //    }
+            //    if (uniqueIds.ContainsKey("Subs"))
+            //    {
+            //        subs = (bool)uniqueIds["Subs"];
+            //    }
+            //}
+
+
+
             if (summaryMode)
             {
                 StringBuilder summaryWhere = new StringBuilder();
@@ -858,14 +882,48 @@ namespace WebApi.Modules.Home.OrderItem
 
             select.AddWhere("poorderid " + (subs ? ">" : "=") + "''");
 
-
-            //addFilterToSelect("OrderId", "orderid", select, request);
             addFilterToSelect("RecType", "rectype", select, request);
 
             select.AddWhere("orderid = @orderid");
             select.AddParameter("@orderid", orderId);
 
+            // saved here for AfterBrowse
+            _orderId = orderId;
+            _refreshAvailability = refreshAvailability;
+
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, _orderId, _orderId, _refreshAvailability).Result;
+                    foreach (List<object> row in e.DataTable.Rows)
+                    {
+                        string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                        string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                        DateTime availFromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());  // not accurate
+                        DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());     // not accurate
+                        TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                        TInventoryWarehouseAvailability availData = null;
+                        row[dt.GetColumnNo("AvailableQuantityColor")] = null;
+                        if (availCache.TryGetValue(availKey, out availData))
+                        {
+                            decimal availQty = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
+                            row[dt.GetColumnNo("AvailableQuantity")] = availQty;
+                            if (availQty < 0)
+                            {
+                                row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(16711684); //red
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

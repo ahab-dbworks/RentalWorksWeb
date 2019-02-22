@@ -707,19 +707,19 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
         $orderItemGrid.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `OrderId`),
-                RecType: recType
+                RecType: recType,
+                RefreshAvailability: true
             };
             request.pagesize = 9999;
-            request.RefreshAvailability = true
         });
     } else {
         $orderItemGrid.data('ondatabind', function (request) {
             request.uniqueids = {
                 QuoteId: FwFormField.getValueByDataField($form, `QuoteId`),
-                RecType: recType
+                RecType: recType,
+                RefreshAvailability: true
             };
             request.pagesize = 9999;
-            request.RefreshAvailability = true
         });
     }
     FwBrowse.search($orderItemGrid);
