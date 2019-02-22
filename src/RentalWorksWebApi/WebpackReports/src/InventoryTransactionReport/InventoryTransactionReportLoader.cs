@@ -31,6 +31,9 @@ namespace WebApi.Modules.Reports.InventoryTransactionReport
     {
         protected string AvailableForFilter = "X";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        public string RowType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "transtype", modeltype: FwDataTypes.Text)]
         public string TransactionType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -121,10 +124,9 @@ namespace WebApi.Modules.Reports.InventoryTransactionReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
-                //string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-                //dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                //dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
-                //dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+                string[] totalFields = new string[] { "Quantity" };
+                dt.InsertSubTotalRows("ICode", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
         }
