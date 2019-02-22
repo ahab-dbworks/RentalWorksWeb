@@ -95,7 +95,8 @@ namespace FwCore.Controllers
                 {
                     foreach (FwJsonDataTableColumn col in dt.Columns)
                     {
-                        if ((!includeIdColumns) && (col.DataField.EndsWith("Id") || col.DataField.EndsWith("Key")))
+                        string dataField = col.DataField.ToUpper();
+                        if ((!includeIdColumns) && (dataField.EndsWith("ID") || dataField.EndsWith("KEY")))
                         {
                             col.IsVisible = false;
                         }

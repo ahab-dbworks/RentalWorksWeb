@@ -65,26 +65,26 @@ abstract class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     addReportMenu($form, reportOptions) {
         let $menuObject = FwMenu.getMenuControl('default');
-        let timeout = 7200; // 2 hour timeout for the ajax request
-        let urlHtmlReport = `${applicationConfig.apiurl}Reports/${this.reportName}/index.html`;
-        let apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
-        let authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
+        const timeout = 7200; // 2 hour timeout for the ajax request
+        const urlHtmlReport = `${applicationConfig.apiurl}Reports/${this.reportName}/index.html`;
+        const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
+        const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
 
         // Preview Button
         if ((typeof reportOptions.HasExportHtml === 'undefined') || (reportOptions.HasExportHtml === true)) {
-            let $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
+            const $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
             FwMenu.addVerticleSeparator($menuObject);
             $btnPreview.on('click', (event: JQuery.Event) => {
                 try {
-                    let request = this.getRenderRequest($form);
+                    const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Html';
                     request.parameters = this.convertParameters(this.getParameters($form));
-                    let win = window.open(urlHtmlReport);
+                    const win = window.open(urlHtmlReport);
                     if (!win) {
-                        throw 'Please disable your popup blocker for this site!';
+                        throw 'Disable your popup blocker for this site.';
                     } else {
                         setTimeout(() => {
-                            let message = new ReportPageMessage();
+                            const message = new ReportPageMessage();
                             message.action = 'Preview';
                             message.apiUrl = apiUrl;
                             message.authorizationHeader = authorizationHeader;
@@ -136,14 +136,11 @@ abstract class FwWebApiReport {
 
                     const html: Array<string> = [];
                     html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
-                    html.push(`  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">`);
-                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield sub-headings" data-caption="Include Sub Headings and Sub Totals" data-datafield="" style="float:left;width:100px;"></div>`);
+                    html.push(`  <div class="flexrow">`);
+                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield sub-headings" data-caption="Include Sub Headings and Sub Totals" data-datafield="" style="flex: 0 1 200px;"></div>`);
                     html.push(`  </div>`);
-                    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="float:left;width:100px;"></div>`);
-                    html.push('  </div>');
-                    html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield color-col" data-caption="Include Color columns" data-datafield="" style="float:left;width:100px;"></div>`);
+                    html.push(`  <div class="flexrow">`);
+                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="flex: 0 1 200px;margin-top:-5px;"></div>`);
                     html.push('  </div>');
                     html.push(`</div>`);
 
@@ -158,10 +155,6 @@ abstract class FwWebApiReport {
                         let includeIdColumns: boolean;
                         $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
                         request.IncludeIdColumns = includeIdColumns;
-                        let includeColorColumns: boolean;
-                        $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
-                        request.IncludeColorColumns = includeColorColumns;
-
                         const convertedparameters = this.convertParameters(this.getParameters($form));
                         for (let key in convertedparameters) {
                             request[key] = convertedparameters[key];
@@ -202,15 +195,13 @@ abstract class FwWebApiReport {
                     request.downloadPdfAsAttachment = false;
                     request.parameters = this.convertParameters(this.getParameters($form));
                     const win = window.open('about:blank', 'newtab');
-                    let $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    //document.appendChild($notification)
+                    const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
                                 win.location.href = successResponse.pdfReportUrl;
-                                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
                                 if (win == null) throw 'Unable to open the report in a new window. Check your popup blocker.'
-                                var setWindowTitle = () => {
+                                const setWindowTitle = () => {
                                     if (win.document) // If loaded
                                     {
                                         win.document.title = "Report (PDF)";
@@ -221,7 +212,7 @@ abstract class FwWebApiReport {
                                     }
                                 }
                                 setWindowTitle();
-                                if (!win) throw 'Disable your popup blocker for this site!';
+                                if (!win) throw 'Disable your popup blocker for this site.';
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             } finally {
@@ -460,8 +451,7 @@ abstract class FwWebApiReport {
                   <div data-datafield="body" data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield message" data-caption="Message" data-enabled="true"></div>
                 </div>
               </div>
-            </div>
-        `;
+            </div>`;
     }
     //----------------------------------------------------------------------------------------------
 }
@@ -483,7 +473,6 @@ class RenderRequest {
     uniqueid: string = '';
     downloadPdfAsAttachment: boolean = false;
     IncludeSubHeadingsAndSubTotals: boolean;
-    IncludeColorColumns: boolean;
     IncludeIdColumns: boolean;
 }
 
