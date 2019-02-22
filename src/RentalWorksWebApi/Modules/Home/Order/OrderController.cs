@@ -91,7 +91,7 @@ namespace WebApi.Modules.Home.Order
         [FwControllerMethod(Id:"5ceamSTDb0ao")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
-            return await DoExportExcelXlsxFileAsync(browseRequest, includeColorColumns: browseRequest.IncludeColorColumns, includeIdColumns: browseRequest.IncludeIdColumns);
+            return await DoExportExcelXlsxFileAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/order/copytemplate
