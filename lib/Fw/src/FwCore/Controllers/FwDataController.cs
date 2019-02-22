@@ -95,7 +95,12 @@ namespace FwCore.Controllers
                 {
                     foreach (FwJsonDataTableColumn col in dt.Columns)
                     {
-                        if (col.DataField.EndsWith("Id") || col.DataField.EndsWith("Key") || col.DataType.Equals(FwDataTypes.OleToHtmlColor))
+                        if ((!includeIdColumns) && (col.DataField.EndsWith("Id") || col.DataField.EndsWith("Key")))
+                        {
+                            col.IsVisible = false;
+                        }
+
+                        if ((!includeColorColumns) && (col.DataType.Equals(FwDataTypes.OleToHtmlColor)))
                         {
                             col.IsVisible = false;
                         }
