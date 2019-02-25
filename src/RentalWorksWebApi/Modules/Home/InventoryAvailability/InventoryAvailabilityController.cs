@@ -56,8 +56,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                TAvailabilityCache availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, request.OrderId, request.RefreshIfNeeded);
-                return new OkObjectResult(availData);
+                //TAvailabilityCache availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, request.OrderId, request.RefreshIfNeeded);
+                //return new OkObjectResult(availData);
+
+                TAvailabilityCache availCache = new TAvailabilityCache();
+                return new OkObjectResult(availCache);
             }
             catch (Exception ex)
             {

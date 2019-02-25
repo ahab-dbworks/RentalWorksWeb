@@ -903,33 +903,33 @@ namespace WebApi.Modules.Home.OrderItem
 
                     DateTime batchFromDateTime = DateTime.MinValue;
                     DateTime batchToDateTime = DateTime.MaxValue;
-                    int i = 0;
+                    //int i = 0;
 
-                    TInventoryWarehouseAvailabilityKeys availKeys = new TInventoryWarehouseAvailabilityKeys();
+                    TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
                     foreach (List<object> row in dt.Rows)
                     {
                         string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
                         string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
                         DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
                         DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
+                        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        //if (i == 0)
+                        //{
+                        //    batchFromDateTime = fromDateTime;
+                        //    batchToDateTime = toDateTime;
+                        //}
+                        //else
+                        //{
+                        //    batchFromDateTime = ((DateTime.Compare(fromDateTime, batchFromDateTime) < 0) ? fromDateTime : batchFromDateTime);
+                        //    batchToDateTime = ((DateTime.Compare(toDateTime, batchToDateTime) < 0) ? batchToDateTime : toDateTime);
+                        //}
 
-                        if (i == 0)
-                        {
-                            batchFromDateTime = fromDateTime;
-                            batchToDateTime = toDateTime;
-                        }
-                        else
-                        {
-                            batchFromDateTime = ((DateTime.Compare(fromDateTime, batchFromDateTime) < 0) ? fromDateTime : batchFromDateTime);
-                            batchToDateTime = ((DateTime.Compare(toDateTime, batchToDateTime) < 0) ? batchToDateTime : toDateTime);
-                        }
-
-                        TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-                        availKeys.Add(availKey);
-                        i++;
+                        //TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                        //availKeys.Add(availKey);
+                        //i++;
                     }
 
-                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, _orderId, availKeys, batchFromDateTime, batchToDateTime, _refreshAvailability).Result;
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, _orderId, availRequestItems, _refreshAvailability).Result;
 
                     foreach (List<object> row in dt.Rows)
                     {
@@ -939,14 +939,19 @@ namespace WebApi.Modules.Home.OrderItem
                         DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());      // not accurate
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                         TInventoryWarehouseAvailability availData = null;
-                        row[dt.GetColumnNo("AvailableQuantityColor")] = null;
+                        row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
                         if (availCache.TryGetValue(availKey, out availData))
                         {
-                            decimal availQty = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
-                            row[dt.GetColumnNo("AvailableQuantity")] = availQty;
-                            if (availQty < 0)
+                            row[dt.GetColumnNo("AvailableQuantityColor")] = null;
+                            TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
+                            row[dt.GetColumnNo("AvailableQuantity")] = minAvail.MinimumAvailalbe;
+                            if (minAvail.MinimumAvailalbe < 0)
                             {
                                 row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(16711684); //red
+                            }
+                            if (minAvail.IsStale)
+                            {
+                                row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
                             }
 
                         }
