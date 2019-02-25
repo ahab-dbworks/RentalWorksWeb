@@ -30,6 +30,10 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwLogicProperty(Id:"6p0D6azvkZIA")]
         public bool? DisableAccessoryAutoExpand { get { return userSearchSettings.DisableAccessoryAutoExpand; } set { userSearchSettings.DisableAccessoryAutoExpand = value; } }
 
+        [FwLogicProperty(Id: "g16kb6OfLBMxB")]
+        public bool? ShowZeroQuantity { get { return userSearchSettings.ShowZeroQuantity; } set { userSearchSettings.ShowZeroQuantity = value; } }
+
+
         //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {

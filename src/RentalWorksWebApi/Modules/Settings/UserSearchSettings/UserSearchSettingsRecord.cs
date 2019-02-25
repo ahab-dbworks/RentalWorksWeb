@@ -23,6 +23,9 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwSqlDataField(column: "disableaccessoryautoexpand", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? DisableAccessoryAutoExpand { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "showzeroqty", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? ShowZeroQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
