@@ -244,7 +244,7 @@ class FwMultiSelectValidationClass {
                             return value !== itemvalue;
                         })
                         .join(',');
-                    $valuefield.val(value);
+                    $valuefield.val(value).change();
                     $item.remove();
                     if ($item.attr('data-customvalue') != "true" && $selectedRows !== undefined && selectedRowUniqueIds !== undefined) {
                         if (typeof $selectedRows[itemvalue] !== 'undefined') {

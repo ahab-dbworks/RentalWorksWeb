@@ -249,38 +249,35 @@ class OrderStatus {
             FwBrowse.search($orderStatusSalesDetailGridControl);
         });
 
-        var $filterValidations = $form.find('#filters [data-type="validation"] input.fwformfield-value');
-
-        $filterValidations.on("change", function () {
-            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-
-            var validationName = jQuery(jQuery(this).closest('[data-type="validation"]')).attr('data-validationname');
-
-            var InventoryTypeId = $form.find('[data-type="validation"][data-datafield="InventoryTypeId"] input.fwformfield-value').val();
-            var WarehouseId = $form.find('[data-type="validation"][data-datafield="WarehouseId"] input.fwformfield-value').val();
-            var CategoryId = $form.find('[data-type="validation"][data-datafield="CategoryId"] input.fwformfield-value').val();
-            var InventoryId = $form.find('[data-type="validation"][data-datafield="ICode"] input.fwformfield-value').val();
-            var SubCategoryId = $form.find('[data-type="validation"][data-datafield="SubCategoryId"] input.fwformfield-value').val();
+        //Filter field events
+        const $filterValidations = $form.find('#filters [data-type="multiselectvalidation"] input.fwformfield-value');
+        $filterValidations.on("change", e => {
+            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+            const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+            const inventoryId = FwFormField.getValueByDataField($form, 'ICode');
+            const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
 
             $orderStatusSummaryGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
                     OrderId: orderId
                 };
                 request.pagesize = max;
-                if (InventoryTypeId !== "") {
-                    var invObj = { InventoryTypeId: InventoryTypeId }
+                if (inventoryTypeId !== "") {
+                    var invObj = { InventoryTypeId: inventoryTypeId }
                 }
-                if (WarehouseId !== "") {
-                    var whObj = { WarehouseId: WarehouseId }
+                if (warehouseId !== "") {
+                    var whObj = { WarehouseId: warehouseId }
                 }
-                if (CategoryId !== "") {
-                    var catObj = { CategoryId: CategoryId }
+                if (categoryId !== "") {
+                    var catObj = { CategoryId: categoryId }
                 }
-                if (InventoryId !== "") {
-                    var iObj = { InventoryId: InventoryId }
+                if (inventoryId !== "") {
+                    var iObj = { InventoryId: inventoryId }
                 }
-                if (SubCategoryId !== "") {
-                    var subObj = { SubCategoryId: SubCategoryId }
+                if (subCategoryId !== "") {
+                    var subObj = { SubCategoryId: subCategoryId }
                 }
                 request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
             })
@@ -292,20 +289,20 @@ class OrderStatus {
                     RecType: "R"
                 };
                 request.pagesize = max;
-                if (InventoryTypeId !== "") {
-                    var invObj = { InventoryTypeId: InventoryTypeId }
+                if (inventoryTypeId !== "") {
+                    var invObj = { InventoryTypeId: inventoryTypeId }
                 }
-                if (WarehouseId !== "") {
-                    var whObj = { WarehouseId: WarehouseId }
+                if (warehouseId !== "") {
+                    var whObj = { WarehouseId: warehouseId }
                 }
-                if (CategoryId !== "") {
-                    var catObj = { CategoryId: CategoryId }
+                if (categoryId !== "") {
+                    var catObj = { CategoryId: categoryId }
                 }
-                if (InventoryId !== "") {
-                    var iObj = { InventoryId: InventoryId }
+                if (inventoryId !== "") {
+                    var iObj = { InventoryId: inventoryId }
                 }
-                if (SubCategoryId !== "") {
-                    var subObj = { SubCategoryId: SubCategoryId }
+                if (subCategoryId !== "") {
+                    var subObj = { SubCategoryId: subCategoryId }
                 }
                 request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
             })
@@ -317,46 +314,45 @@ class OrderStatus {
                     RecType: "S"
                 };
                 request.pagesize = max;
-                if (InventoryTypeId !== "") {
-                    var invObj = { InventoryTypeId: InventoryTypeId }
+                if (inventoryTypeId !== "") {
+                    var invObj = { InventoryTypeId: inventoryTypeId }
                 }
-                if (WarehouseId !== "") {
-                    var whObj = { WarehouseId: WarehouseId }
+                if (warehouseId !== "") {
+                    var whObj = { WarehouseId: warehouseId }
                 }
-                if (CategoryId !== "") {
-                    var catObj = { CategoryId: CategoryId }
+                if (categoryId !== "") {
+                    var catObj = { CategoryId: categoryId }
                 }
-                if (InventoryId !== "") {
-                    var iObj = { InventoryId: InventoryId }
+                if (inventoryId !== "") {
+                    var iObj = { InventoryId: inventoryId }
                 }
-                if (SubCategoryId !== "") {
-                    var subObj = { SubCategoryId: SubCategoryId }
+                if (subCategoryId !== "") {
+                    var subObj = { SubCategoryId: subCategoryId }
                 }
                 request.filterfields = jQuery.extend(invObj, whObj, catObj, iObj, subObj);
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
         });
 
-        var $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
-        $textFilter.on("blur", function () {
-            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-
-            var Description = $form.find('.textfilter[data-caption="Description"] input.fwformfield-value').val();
-            var BarCode = $form.find('.textfilter[data-caption^="Bar Code"] input.fwformfield-value').val();
+        const $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
+        $textFilter.on("change", function () {
+            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const description = FwFormField.getValueByDataField($form, 'FilterDescription');
+            const barCode = FwFormField.getValueByDataField($form, 'FilterBarCode');
 
             $orderStatusSummaryGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
                     OrderId: orderId
                 };
                 request.pagesize = max;
-                if (Description !== "" || null) {
+                if (description !== "") {
                     request.searchfieldoperators.push("like");
                     request.searchfields.push("Description");
-                    request.searchfieldvalues.push(Description);
+                    request.searchfieldvalues.push(description);
                 };
 
                 //justin 02/11/2018 (commmented - Bar Code column not present in data set)
-                //if (BarCode !== "" || null) {
+                //if (BarCode !== "") {
                 //    request.searchfieldoperators.push("like");
                 //    request.searchfields.push("BarCode");
                 //    request.searchfieldvalues.push(BarCode);
@@ -370,16 +366,16 @@ class OrderStatus {
                     RecType: "R"
                 };
                 request.pagesize = max;
-                if (Description !== "" || null) {
+                if (description !== "") {
                     request.searchfieldoperators.push("like");
                     request.searchfields.push("Description");
-                    request.searchfieldvalues.push(Description);
+                    request.searchfieldvalues.push(description);
                 };
-                if (BarCode !== "" || null) {
+                if (barCode !== "") {
                     request.searchfieldoperators.push("like");
                     //request.searchfields.push("BarCode");
                     request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
-                    request.searchfieldvalues.push(BarCode);
+                    request.searchfieldvalues.push(barCode);
                 };
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
@@ -390,16 +386,16 @@ class OrderStatus {
                     RecType: "S"
                 };
                 request.pagesize = max;
-                if (Description !== "" || null) {
+                if (description !== "") {
                     request.searchfieldoperators.push("like");
                     request.searchfields.push("Description");
-                    request.searchfieldvalues.push(Description);
+                    request.searchfieldvalues.push(description);
                 };
-                if (BarCode !== "" || null) {
+                if (barCode !== "") {
                     request.searchfieldoperators.push("like");
                     //request.searchfields.push("BarCode");
                     request.searchfields.push("BarCodeSerialRfid");  //justin 02/11/2018 replaced with correct field name
-                    request.searchfieldvalues.push(BarCode);
+                    request.searchfieldvalues.push(barCode);
                 };
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
@@ -479,24 +475,24 @@ class OrderStatus {
                       <div class="flexrow">
                         <div id="filters" class="flexcolumn">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 200px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="RentalCategoryValidation" style="flex:1 1 200px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" style="flex:1 1 200px;"></div>
+                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 200px;"></div>
+                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="RentalCategoryValidation" style="flex:1 1 200px;"></div>
+                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" style="flex:1 1 200px;"></div>
                           </div>
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:1 1 200px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Description" data-datafield="" style="flex:1 1 400px;"></div>
+                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:1 1 200px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Description" data-datafield="FilterDescription" style="flex:1 1 400px;"></div>
                           </div>
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Bar Code No." data-datafield="" style="flex:1 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="flex:1 1 225px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Bar Code No." data-datafield="FilterBarCode" style="flex:1 1 250px;"></div>
+                            <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="flex:1 1 225px;"></div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="flexrow" style="max-width:1300px;">
+                <div class="flexrow" style="max-width:1400px;">
                   <div class="flexcolumn summaryview">
                     <div class="flexrow">
                       <div data-control="FwGrid" data-grid="OrderStatusSummaryGrid" data-securitycaption="Order Status Summary"></div>
