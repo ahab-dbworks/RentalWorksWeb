@@ -521,6 +521,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "vendorno", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? Vendorno { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "capslock", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? CapsLock { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

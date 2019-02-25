@@ -565,6 +565,9 @@ namespace WebApi.Modules.Administrator.Control
         //[FwLogicProperty(Id:"KJI3jkYmTOM01")]
         //public bool? Includenonbillable { get { return sysControl.Includenonbillable; } set { sysControl.Includenonbillable = value; } }
 
+        [FwLogicProperty(Id: "FAUWH9brrKpvy")]
+        public bool? CapsLock { get { return sysControl.CapsLock; } set { sysControl.CapsLock = value; } }
+
 
         //------------------------------------------------------------------------------------ 
 
