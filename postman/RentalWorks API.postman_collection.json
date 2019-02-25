@@ -17291,6 +17291,252 @@
 			]
 		},
 		{
+			"name": "Inventory Availability Date",
+			"item": [
+				{
+					"name": "Inventory Availability Date: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"11/01/2018\",\n    \t\t\"ToDate\": \"11/30/2018\"\n    \t}\n\t\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailabilitydate",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Availability Date: Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate?InventoryId=D00BYW35&WarehouseId=B0029AY5&FromDate=02/17/2019&ToDate=03/30/2019",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailabilitydate"
+							],
+							"query": [
+								{
+									"key": "InventoryId",
+									"value": "D00BYW35"
+								},
+								{
+									"key": "WarehouseId",
+									"value": "B0029AY5"
+								},
+								{
+									"key": "FromDate",
+									"value": "02/17/2019"
+								},
+								{
+									"key": "ToDate",
+									"value": "03/30/2019"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory Availability",
+			"item": [
+				{
+					"name": "Inventory Availability: Dump To File",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"11/01/2018\",\n    \t\t\"ToDate\": \"11/30/2018\"\n    \t}\n\t\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailability/dumptofile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailability",
+								"dumptofile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Availability: Get Availability (Inventory + Warehouse)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n   \"InventoryId\":\"B003PPCL\",\r\n   \"WarehouseId\":\"B0029AY6\",\r\n   \"FromDate\":\"03/01/2019\",\r\n   \"ToDate\":\"03/15/2019\",\r\n   \"refreshIfNeeded\":true\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailability/getinventoryavailability",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailability",
+								"getinventoryavailability"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Availability: Get Availability (Order)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{  \r\n   \"OrderId\":\"I000OWBO\",\r\n   \"xFromDate\":\"03/01/2019\",\r\n   \"xToDate\":\"03/15/2019\",\r\n   \"refreshIfNeeded\":true\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailability/getorderavailability",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailability",
+								"getorderavailability"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Inventory Availability: Delete Availability",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"11/01/2018\",\n    \t\t\"ToDate\": \"11/30/2018\"\n    \t}\n\t\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/inventoryavailability?InventoryId=F0007P71&WarehouseId=B0029AY5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"inventoryavailability"
+							],
+							"query": [
+								{
+									"key": "InventoryId",
+									"value": "F0007P71"
+								},
+								{
+									"key": "WarehouseId",
+									"value": "B0029AY5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Inventory Condition",
 			"item": [
 				{
@@ -21320,98 +21566,6 @@
 								"v1",
 								"inventorysearch",
 								"addto"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Inventory Availability Date",
-			"item": [
-				{
-					"name": "Inventory Availability Date: Browse",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"11/01/2018\",\n    \t\t\"ToDate\": \"11/30/2018\"\n    \t}\n\t\n}\n\n"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate/browse",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"inventoryavailabilitydate",
-								"browse"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Inventory Availability Date: Get",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&ToDate=11/30/2018",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"inventoryavailabilitydate"
-							],
-							"query": [
-								{
-									"key": "InventoryId",
-									"value": "F010F3BN"
-								},
-								{
-									"key": "WarehouseId",
-									"value": "B0029AY5"
-								},
-								{
-									"key": "FromDate",
-									"value": "11/01/2018"
-								},
-								{
-									"key": "ToDate",
-									"value": "11/30/2018"
-								}
 							]
 						}
 					},
@@ -27517,7 +27671,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\"OrderId\":\"F01R0988\",\"RecType\":\"S\"}\n\t\n}"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\":{\n    \t\t\"OrderId\":\"I000098D\",\"RecType\":\"R\"\n    \t},\n    \t\"filterfields\": {\n    \t\t\"InventoryTypeId\": \"B005L3OH,AAA,BBB\"\n    \t\t\n    \t}\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/orderstatusdetail/browse",
@@ -38495,6 +38649,218 @@
 								"v1",
 								"region",
 								"00003APH"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Report Settings",
+			"item": [
+				{
+					"name": "Report Settings: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/reportsettings/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"reportsettings",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report Settings: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/reportsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"reportsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report Settings: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/reportsettings/00002WPC",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"reportsettings",
+								"00002WPC"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report Settings: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ReportName\": \"Agent Billing Report\",\n    \"Description\": \"MY FIRST SETTINGS\",\n    \"WebUserId\": \"ABC\",\n    \"Settings\": \"some stuff here\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/reportsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"reportsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report Settings: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"ReportSettingsId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/reportsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"reportsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Report Settings: Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/reportsettings/00003EOV",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"reportsettings",
+								"00003EOV"
 							]
 						}
 					},
