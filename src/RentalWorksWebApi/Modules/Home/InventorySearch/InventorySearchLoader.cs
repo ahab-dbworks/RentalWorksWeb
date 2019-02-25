@@ -1,5 +1,5 @@
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public string ClassificationColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityAvailable{ get; set; }
+        public decimal? QuantityAvailable { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
@@ -134,7 +134,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@classification", SqlDbType.NVarChar, ParameterDirection.Input, request.Classification);
                     qry.AddParameter("@searchtext", SqlDbType.NVarChar, ParameterDirection.Input, request.SearchText);
-                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability?"T":"F"));
+                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability.GetValueOrDefault(false) ? "T" : "F"));
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {
                         qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
@@ -143,7 +143,8 @@ namespace WebApi.Modules.Home.InventorySearch
                     {
                         qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
                     }
-                    qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages?"T":"F"));
+                    qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages.GetValueOrDefault(false) ? "T" : "F"));
+                    qry.AddParameter("@showzeroqty", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowInventoryWithZeroQuantity.GetValueOrDefault(true) ? "T" : "F"));
                     qry.AddParameter("@sortby", SqlDbType.NVarChar, ParameterDirection.Input, request.SortBy);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
@@ -164,7 +165,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
-                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability ? "T" : "F"));
+                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability.GetValueOrDefault(false) ? "T" : "F"));
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {
                         qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
@@ -173,7 +174,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     {
                         qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
                     }
-                    qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages ? "T" : "F"));
+                    qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages.GetValueOrDefault(false) ? "T" : "F"));
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }

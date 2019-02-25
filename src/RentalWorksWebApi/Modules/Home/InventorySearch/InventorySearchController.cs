@@ -34,10 +34,11 @@ namespace WebApi.Modules.Home.InventorySearch
         public string SubCategoryId;
         public string Classification;
         public string SearchText;
-        public bool ShowAvailability;
+        public bool? ShowAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
-        public bool ShowImages;
+        public bool? ShowImages;
+        public bool? ShowInventoryWithZeroQuantity;
         public string SortBy;
     }
     //------------------------------------------------------------------------------------ 
@@ -47,10 +48,10 @@ namespace WebApi.Modules.Home.InventorySearch
         public string OrderId;
         public string ParentId;
         public string WarehouseId;
-        public bool ShowAvailability;
+        public bool? ShowAvailability;
         public DateTime FromDate;
         public DateTime ToDate;
-        public bool ShowImages;
+        public bool? ShowImages;
     }
     //------------------------------------------------------------------------------------ 
     public class InventorySearchAddToRequest
