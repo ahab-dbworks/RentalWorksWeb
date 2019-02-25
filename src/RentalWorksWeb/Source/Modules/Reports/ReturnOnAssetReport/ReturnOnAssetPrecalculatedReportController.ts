@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/returnonassetprecalculatedreport/, action: function (match: RegExpExecArray) {
-        return RwReturnOnAssetPrecalculatedReportController.getModuleScreen();
+    pattern: /^reports\/returnonassetreport/, action: function (match: RegExpExecArray) {
+        return RwReturnOnAssetReportController.getModuleScreen();
     }
 });
 
-const returnOnAssetPrecalculatedTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Return On Asset Precalculated Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwReturnOnAssetPrecalculatedReportController">
+const returnOnAssetTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Return On Asset Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwReturnOnAssetReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -73,10 +73,10 @@ const returnOnAssetPrecalculatedTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
+class RwReturnOnAssetReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ReturnOnAssetPrecalculatedReport', 'api/v1/returnonassetprecalculatedreport', returnOnAssetPrecalculatedTemplate);
+        super('ReturnOnAssetReport', 'api/v1/returnonassetreport', returnOnAssetTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -165,5 +165,5 @@ class RwReturnOnAssetPrecalculatedReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwReturnOnAssetPrecalculatedReportController: any = new RwReturnOnAssetPrecalculatedReportClass();
+var RwReturnOnAssetReportController: any = new RwReturnOnAssetReportClass();
 //----------------------------------------------------------------------------------------------

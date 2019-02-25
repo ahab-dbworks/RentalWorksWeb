@@ -12,9 +12,9 @@ using Microsoft.AspNetCore.Http;
 using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 
-namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
+namespace WebApi.Modules.Reports.ReturnOnAssetReport
 {
-    public class ReturnOnAssetPrecalculatedReportRequest : AppReportRequest
+    public class ReturnOnAssetReportRequest : AppReportRequest
     {
         public string ReportYear { get; set; }
         public string ReportPeriod { get; set; }
@@ -31,12 +31,12 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "15TIjoDzY09G")]
-    public class ReturnOnAssetPrecalculatedReportController : AppReportController
+    public class ReturnOnAssetReportController : AppReportController
     {
-        public ReturnOnAssetPrecalculatedReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "ReturnOnAssetPrecalculatedReport"; }
+        public ReturnOnAssetReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "ReturnOnAssetReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Return On Asset Precalculated"; }
+        protected override string GetReportFriendlyName() { return "Return On Asset"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -49,10 +49,10 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "ReturnOnAssetPrecalculatedReport";
+            return "ReturnOnAssetReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/returnonassetprecalculatedreport/render 
+        // POST api/v1/returnonassetreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "vxkDs5fdH9xK")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -65,17 +65,17 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "aMbLEDkTPeSs")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ReturnOnAssetPrecalculatedReportRequest request)
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]ReturnOnAssetReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/returnonassetprecalculatedreport/runreport 
+        // POST api/v1/returnonassetreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "ZoQDFHjFP2pe")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ReturnOnAssetPrecalculatedReportRequest request)
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]ReturnOnAssetReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace WebApi.Modules.Reports.ReturnOnAssetPrecalculatedReport
             }
             try
             {
-                ReturnOnAssetPrecalculatedReportLoader l = new ReturnOnAssetPrecalculatedReportLoader();
+                ReturnOnAssetReportLoader l = new ReturnOnAssetReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);

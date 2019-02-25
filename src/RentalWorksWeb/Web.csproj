@@ -492,7 +492,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\UnretiredRentalInventoryReport\RwUnretiredRentalInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InvoiceDiscountReport\RwInvoiceDiscountReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryChangeReport\RentalInventoryChangeReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\ReturnOnAssetPrecalculatedReport\ReturnOnAssetPrecalculatedReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ReturnOnAssetReport\ReturnOnAssetPrecalculatedReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RetiredRentalInventoryReport\RwRetiredRentalInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\DealOutstandingItemsReport\RwDealOutstandingItemsReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InvoiceReport\RwInvoiceReportController.ts" />
