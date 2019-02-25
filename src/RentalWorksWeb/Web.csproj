@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -1194,6 +1194,7 @@
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Source\Controls\" />
+    <Folder Include="theme\audio\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
     <Folder Include="theme\fwfonts\" />
@@ -1397,11 +1398,13 @@
     <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)" Condition="!Exists('$(FwDeploymentDirectory)')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme" Condition="!Exists('$(FwDeploymentDirectory)\theme')" ContinueOnError="false" />
+    <MakeDir Directories="$(FwDeploymentDirectory)\theme\audio" Condition="!Exists('$(FwDeploymentDirectory)\theme\audio')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwaudio" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwaudio')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwcursors" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwcursors')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwfonts" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwfonts')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\fwimages" Condition="!Exists('$(FwDeploymentDirectory)\theme\fwimages')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\theme\images" Condition="!Exists('$(FwDeploymentDirectory)\theme\images')" ContinueOnError="false" />
+    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\theme\audio&quot; &quot;$(FwDeploymentDirectory)\theme\audio&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwaudio&quot; &quot;$(FwDeploymentDirectory)\theme\fwaudio&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwDeploymentDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
