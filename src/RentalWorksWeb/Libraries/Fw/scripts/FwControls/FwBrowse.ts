@@ -1085,7 +1085,13 @@
                     html.push($advancedoptions.wrap('<div/>').parent().html());       //MY 2/26/2015: Hack to get parent .advancedoption div as well as content
                 }
                 html.push('<div class="fwbrowsefilter" style="display:none;"></div>');
-                html.push('<div class="tablewrapper">');
+
+                if ($control.attr('data-tableheight')) {
+                    const height = $control.attr('data-tableheight');
+                    html.push(`<div class="tablewrapper" style="height:${height};">`);
+                } else {
+                    html.push('<div class="tablewrapper">');
+                }
                 html.push('<table>');
                 html.push('<thead>');
                 // header row
