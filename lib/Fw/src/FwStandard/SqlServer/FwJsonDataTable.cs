@@ -119,7 +119,8 @@ namespace FwStandard.SqlServer
                 col = this.Columns[colno];
                 if ((!col.IsUniqueId) && (col.IsVisible))
                 {
-                    worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].Name;
+                    //worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].Name;
+                    worksheet.Cells[1, worksheetcol].Value = this.Columns[colno].DataField; //justin 02/24/2019
                     worksheet.Cells[1, worksheetcol].Style.Font.Bold = true;
                     worksheet.Cells[1, worksheetcol].Style.Border.Bottom.Style = OfficeOpenXml.Style.ExcelBorderStyle.Thin;
                     worksheetcol++;
