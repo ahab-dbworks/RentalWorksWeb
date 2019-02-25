@@ -688,6 +688,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
     const module = $form.attr('data-controller').replace('Controller', '');
     let recType;
     recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
+    var defaultRows = sessionStorage.getItem('browsedefaultrows');
     if (recType.hasClass('R')) {
         recType = 'R';
     } else if (recType.hasClass('S')) {
@@ -711,7 +712,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
                 RecType: recType,
                 RefreshAvailability: true
             };
-            request.pagesize = 9999;
+            request.pagesize = defaultRows;
         });
     } else {
         $orderItemGrid.data('ondatabind', function (request) {
@@ -720,7 +721,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
                 RecType: recType,
                 RefreshAvailability: true
             };
-            request.pagesize = 9999;
+            request.pagesize = defaultRows;
         });
     }
     FwBrowse.search($orderItemGrid);
@@ -731,7 +732,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
                 OrderId: FwFormField.getValueByDataField($form, `OrderId`),
                 RecType: recType
             };
-            request.pagesize = 9999;
+            request.pagesize = defaultRows;
         });
     } else {
         $orderItemGrid.data('ondatabind', function (request) {
@@ -739,7 +740,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
                 OrderId: FwFormField.getValueByDataField($form, `QuoteId`),
                 RecType: recType
             };
-            request.pagesize = 9999;
+            request.pagesize = defaultRows;
         });
     }
 
