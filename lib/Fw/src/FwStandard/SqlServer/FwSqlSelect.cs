@@ -358,6 +358,7 @@ namespace FwStandard.SqlServer
             //cmd.Parameters.Clear();
             if (!query.Equals(string.Empty))
             {
+                cmd.Clear();
                 cmd.Add(query);
             }
             foreach (KeyValuePair<string, SqlParameter> item in Parameters)
