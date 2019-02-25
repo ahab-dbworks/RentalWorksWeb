@@ -594,7 +594,7 @@ namespace FwStandard.DataLayer
                             }
                         }
 
-                        if  ((searchFieldType.ToLower().Equals("boolean")) || (searchFieldType.ToLower().Equals("true/false")))
+                        if ((searchFieldType.ToLower().Equals("boolean")) || (searchFieldType.ToLower().Equals("true/false")))
                         {
                             if ((searchFieldValue.ToLower().Equals("true")) || (searchFieldValue.ToLower().Equals("t")))
                             {
@@ -959,7 +959,7 @@ namespace FwStandard.DataLayer
                         switch (sqlDataFieldAttribute.ModelType)
                         {
                             case FwDataTypes.Boolean:
-                                switch(filter.Value.FieldValue.ToLower())
+                                switch (filter.Value.FieldValue.ToLower())
                                 {
                                     case "true":
                                         fieldSqlValue = "T";
@@ -1014,7 +1014,7 @@ namespace FwStandard.DataLayer
                                         }
                                         else if (c == ',' && !inAQuote && !inAFilterValue)
                                         {
-                                                
+
                                         }
                                         else
                                         {
@@ -1047,7 +1047,7 @@ namespace FwStandard.DataLayer
                                                     }
                                                     else
                                                     {
-                                                        throw new ArgumentException($"In filter expression for: {propInfo.Name}, double quote (character: {i+1}) must be escaped with a double quote.");
+                                                        throw new ArgumentException($"In filter expression for: {propInfo.Name}, double quote (character: {i + 1}) must be escaped with a double quote.");
                                                         //if (isAtTheEndOfTheFilter)
                                                         //{
                                                         //    throw new ArgumentException($"In filter expression for: {propInfo.Name}, double quote (character: {i+1}) must be escaped with a double quote.");
@@ -1252,8 +1252,8 @@ namespace FwStandard.DataLayer
                     var recordPropInfo = recordProperties.Where<PropertyInfo>(p => p.Name == sortField).FirstOrDefault<PropertyInfo>();
                     var requestPropInfo = request.GetType().GetProperties()
                         .Where<PropertyInfo>(
-                            p => p.Name == sortField && 
-                            p.GetCustomAttribute<GetManyRequestPropertyAttribute>() != null && 
+                            p => p.Name == sortField &&
+                            p.GetCustomAttribute<GetManyRequestPropertyAttribute>() != null &&
                             p.GetCustomAttribute<GetManyRequestPropertyAttribute>().EnableSorting == true)
                         .FirstOrDefault<PropertyInfo>();
                     if (recordPropInfo == null && requestPropInfo == null)
@@ -1385,7 +1385,7 @@ namespace FwStandard.DataLayer
                     return response;
                 }
             }
-            
+
         }
         //------------------------------------------------------------------------------------
         public virtual async Task<dynamic> GetAsync<T>(object[] primaryKeyValues, FwCustomFields customFields = null)
@@ -1554,15 +1554,33 @@ namespace FwStandard.DataLayer
                 Dictionary<string, string> filterfields = ((Dictionary<string, string>)request.filterfields);
                 if (filterfields.ContainsKey(filterFieldName))
                 {
-                    select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
-                    if (filterfields[filterFieldName] == "true" || filterfields[filterFieldName] == "false")
+                    string value = filterfields[filterFieldName];
+                    //select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                    //if (filterfields[filterFieldName] == "true" || filterfields[filterFieldName] == "false")
+                    //{
+                    //    select.AddParameter("@" + databaseFieldName, (filterfields[filterFieldName] == "true" ? "T" : "F"));
+                    //}
+                    //else
+                    //{
+                    //    select.AddParameter("@" + databaseFieldName, filterfields[filterFieldName].ToString());
+                    //}
+
+                    //justin 02/24/2019 added support for multiple values separated by comma
+                    if (value.ToLower().Equals("true") || value.ToLower().Equals("false"))
                     {
-                        select.AddParameter("@" + databaseFieldName, (filterfields[filterFieldName] == "true" ? "T" : "F"));
+                        select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                        select.AddParameter("@" + databaseFieldName, (value.ToLower().Equals("true") ? "T" : "F"));
+                    }
+                    else if (value.Contains(","))
+                    {
+                        select.AddWhereIn(" and ", databaseFieldName, value);
                     }
                     else
                     {
-                        select.AddParameter("@" + databaseFieldName, filterfields[filterFieldName].ToString());
+                        select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                        select.AddParameter("@" + databaseFieldName, value);
                     }
+
                 }
             }
         }
