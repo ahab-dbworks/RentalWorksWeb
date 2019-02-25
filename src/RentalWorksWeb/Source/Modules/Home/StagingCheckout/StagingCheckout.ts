@@ -154,7 +154,7 @@ class StagingCheckout {
                         res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
                         res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
                         res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
-                        res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
+                        //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
                         res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
                     }, function onError(ex) {
                         FwFunc.showError(ex)
@@ -288,16 +288,16 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the Staged Item Grid controller
     moveStagedItemToOut($form: JQuery): void {
-        let $selectedCheckBoxes, $stagedItemGrid, orderId, barCodeFieldValue, quantityFieldValue, barCode, iCode, quantity, orderItemId, vendorId, $checkedOutItemGrid, successSound, errorMsg, errorSound, request: any = {};
-        successSound = new Audio(this.successSoundFileName);
-        errorSound = new Audio(this.errorSoundFileName);
-        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-        $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
-        $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
-        barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
-        quantityFieldValue = $form.find('.partial-contract-quantity input').val();
-        orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        errorMsg = $form.find('.error-msg:not(.qty)');
+        let barCode, iCode, quantity, orderItemId, vendorId, request: any = {};
+        const successSound = new Audio(this.successSoundFileName);
+        const errorSound = new Audio(this.errorSoundFileName);
+        const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+        const $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
+        const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
+        const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
+        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        const errorMsg = $form.find('.error-msg:not(.qty)');
 
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
             request.ContractId = this.contractId;
