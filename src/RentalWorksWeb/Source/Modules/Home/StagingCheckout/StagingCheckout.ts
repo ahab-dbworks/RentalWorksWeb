@@ -129,7 +129,7 @@ class StagingCheckout {
     }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
-        const maxPageSize = 200;
+        const maxPageSize = 20;
 
         $form.find('[data-datafield="OrderId"]').on('change', function () {
             try {
@@ -176,7 +176,7 @@ class StagingCheckout {
                     request.uniqueids = {
                         OrderId: orderId
                     }
-                    request.pagesize = 10;
+                    request.pagesize = 20;
                 })
                 FwBrowse.search($stageQuantityItemGridControl);
                 // ----------
@@ -235,8 +235,8 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     startPartialCheckoutItems = ($form: JQuery, event): void => {
         $form.find('.error-msg:not(.qty)').html('');
-        const MAX_PAGE_SIZE = 9999;
-        let requestBody: any = {}, $checkedOutItemGridControl, $stagedItemGridControl: any;
+        const maxPageSize = 20;
+        let requestBody: any = {};
         let orderId = FwFormField.getValueByDataField($form, 'OrderId');
         requestBody.OrderId = orderId;
         if (orderId != '') {
@@ -252,18 +252,18 @@ class StagingCheckout {
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
                 try {
                     this.contractId = response.ContractId;
-                    $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
+                    const $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
                     $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
                     $checkedOutItemGridControl.data('ondatabind', request => {
                         request.uniqueids = {
                             ContractId: this.contractId
                         }
                         request.orderby = 'OrderBy';
-                        request.pagesize = 10;
+                        request.pagesize = 20;
                     })
                     FwBrowse.search($checkedOutItemGridControl);
 
-                    $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
+                    const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
                     $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
                     $stagedItemGridControl.data('ondatabind', function (request) {
                         request.orderby = "ItemOrder";
@@ -271,7 +271,7 @@ class StagingCheckout {
                             OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                             WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
                         };
-                        request.pagesize = MAX_PAGE_SIZE;
+                        request.pagesize = maxPageSize;
                     })
 
                     FwBrowse.search($stagedItemGridControl);
@@ -544,15 +544,11 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any): void {
-        let $stagedItemGrid: any, $stagedItemGridControl: any;
-        let $checkedOutItemGrid: any, $checkedOutItemGridControl: any;
-        let $stageQuantityItemGrid: any, $stageQuantityItemGridControl: any;
-        let $stageHoldingItemGrid: any, $stageHoldingItemGridControl: any;
-        let $checkOutPendingItemGrid: any, $checkOutPendingItemGridControl: any;
+        // ----------
+        const $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
+        const $stagedItemGridControl = FwBrowse.loadGridFromTemplate('StagedItemGrid');
+        $stagedItemGridControl.attr('data-tableheight', '735px');
 
-        //----------------------------------------------------------------------------------------------
-        $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
-        $stagedItemGridControl = jQuery(jQuery('#tmpl-grids-StagedItemGridBrowse').html());
         $stagedItemGrid.empty().append($stagedItemGridControl);
 
         $stagedItemGridControl.data('ondatabind', function (request) {
@@ -560,13 +556,15 @@ class StagingCheckout {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
-            request.pagesize = 250;
+            request.pagesize = 20;
         })
         FwBrowse.init($stagedItemGridControl);
         FwBrowse.renderRuntimeHtml($stagedItemGridControl);
-        //----------------------------------------------------------------------------------------------
-        $checkedOutItemGrid = $form.find('div[data-grid="CheckedOutItemGrid"]');
-        $checkedOutItemGridControl = jQuery(jQuery('#tmpl-grids-CheckedOutItemGridBrowse').html());
+        // ----------
+        const $checkedOutItemGrid = $form.find('div[data-grid="CheckedOutItemGrid"]');
+        const $checkedOutItemGridControl = FwBrowse.loadGridFromTemplate('CheckedOutItemGrid');
+        $checkedOutItemGridControl.attr('data-tableheight', '735px');
+
         $checkedOutItemGrid.empty().append($checkedOutItemGridControl);
         $checkedOutItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -575,64 +573,62 @@ class StagingCheckout {
         })
         FwBrowse.init($checkedOutItemGridControl);
         FwBrowse.renderRuntimeHtml($checkedOutItemGridControl);
-        //----------------------------------------------------------------------------------------------
-        $stageQuantityItemGrid = $form.find('div[data-grid="StageQuantityItemGrid"]');
-        $stageQuantityItemGridControl = jQuery(jQuery('#tmpl-grids-StageQuantityItemGridBrowse').html());
+        // ----------
+        const $stageQuantityItemGrid = $form.find('div[data-grid="StageQuantityItemGrid"]');
+        const $stageQuantityItemGridControl = FwBrowse.loadGridFromTemplate('StageQuantityItemGrid');
         $stageQuantityItemGrid.empty().append($stageQuantityItemGridControl);
         $stageQuantityItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
             };
-            request.pagesize = 10;
+            request.pagesize = 20;
             request.orderby = 'ItemOrder';
         });
         FwBrowse.init($stageQuantityItemGridControl);
         FwBrowse.renderRuntimeHtml($stageQuantityItemGridControl);
-        //----------------------------------------------------------------------------------------------
-        $stageHoldingItemGrid = $form.find('div[data-grid="StageHoldingItemGrid"]');
-        $stageHoldingItemGridControl = jQuery(jQuery('#tmpl-grids-StageHoldingItemGridBrowse').html());
+        // ----------
+        const $stageHoldingItemGrid = $form.find('div[data-grid="StageHoldingItemGrid"]');
+        const $stageHoldingItemGridControl = FwBrowse.loadGridFromTemplate('StageHoldingItemGrid');
         $stageHoldingItemGrid.empty().append($stageHoldingItemGridControl);
         $stageHoldingItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
             };
-            request.pagesize = 10;
+            request.pagesize = 20;
             request.orderby = 'ItemOrder';
         });
         FwBrowse.init($stageHoldingItemGridControl);
         FwBrowse.renderRuntimeHtml($stageHoldingItemGridControl);
-        //----------------------------------------------------------------------------------------------
-        $checkOutPendingItemGrid = $form.find('div[data-grid="CheckOutPendingItemGrid"]');
-        $checkOutPendingItemGridControl = jQuery(jQuery('#tmpl-grids-CheckOutPendingItemGridBrowse').html());
+        // ----------
+        const $checkOutPendingItemGrid = $form.find('div[data-grid="CheckOutPendingItemGrid"]');
+        const $checkOutPendingItemGridControl = FwBrowse.loadGridFromTemplate('CheckOutPendingItemGrid');
         $checkOutPendingItemGrid.empty().append($checkOutPendingItemGridControl);
         $checkOutPendingItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
-            //request.pagesize = 10;
-            request.pagesize = 999;
+            request.pagesize = 20;
             request.orderby = 'ItemOrder';
         });
         FwBrowse.init($checkOutPendingItemGridControl);
         FwBrowse.renderRuntimeHtml($checkOutPendingItemGridControl);
-        //----------------------------------------------------------------------------------------------
+        // ----------
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any): void {
-        let $stagedItemGrid, $stageQuantityItemGrid, $stageHoldingItemGrid, $checkOutPendingItemGrid;
-        $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+        const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
         FwBrowse.search($stagedItemGrid);
         //----------------------------------------------------------------------------------------------
-        $stageHoldingItemGrid = $form.find('[data-name="StageHoldingItemGrid"]');
+        const $stageHoldingItemGrid = $form.find('[data-name="StageHoldingItemGrid"]');
         FwBrowse.search($stageHoldingItemGrid);
         //----------------------------------------------------------------------------------------------
-        $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
+        const $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
         FwBrowse.search($stageQuantityItemGrid);
         //----------------------------------------------------------------------------------------------
-        $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+        const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
         FwBrowse.search($checkOutPendingItemGrid);
     };
     //----------------------------------------------------------------------------------------------
@@ -843,7 +839,7 @@ class StagingCheckout {
                     OrderId: orderId,
                     IncludeZeroRemaining: includeZeroRemaining
                 };
-                request.pagesize = 10;
+                request.pagesize = 20;
                 request.orderby = 'ItemOrder';
             });
             FwBrowse.search($stageQuantityItemGrid);
