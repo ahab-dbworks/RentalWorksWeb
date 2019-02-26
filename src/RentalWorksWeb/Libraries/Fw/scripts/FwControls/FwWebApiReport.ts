@@ -433,63 +433,76 @@ abstract class FwWebApiReport {
         FwBrowse.init($reportSettingsGridControl);
         FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
 
-        $formTabControl.on('click', `#${settingsTabId.tabid}`, e => {
-            FwBrowse.search($reportSettingsGridControl);
+        //$formTabControl.on('click', `#${settingsTabId.tabid}`, e => {
+        //    FwBrowse.search($reportSettingsGridControl);
+        //});
+
+        //load default settings
+        FwBrowse.search($reportSettingsGridControl);
+        $reportSettingsGridControl.data('afterdatabindcallback', function () {
+            $form.find('.load-settings').click();
         });
 
         $settingsTabPage
             //Save settings
             .on('click', '.save-settings', e => {
-                const description = FwFormField.getValueByDataField($settingsTabPage, 'Description');
-                if (description !== '') {
-                    const $settingsControls = $form.find('.fwformfield');
-                    let $settingsObj: any = [];
-                    for (let i = 0; i < $settingsControls.length; i++) {
-                        let $this = jQuery($settingsControls[i]);
-                        const datafield = $this.attr('data-datafield')
-                        $settingsObj.push({
-                            DataField: datafield
-                            , Value: FwFormField.getValue2($this)
-                            , Text: FwFormField.getTextByDataField($form, datafield)
-                        });
-                    }
-                    $settingsObj = JSON.stringify($settingsObj);
-
-                    let request: any = {};
-                    request = {
-                        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                        , ReportName: $form.attr('data-reportname')
-                        , Settings: $settingsObj
-                        , Description: description
-                    }
-
-                    FwAppData.apiMethod(true, 'POST', `api/v1/reportsettings`, request, FwServices.defaultTimeout,
-                        (successResponse) => {
-                            try {
-                                FwBrowse.search($reportSettingsGridControl);
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        },
-                        null, $form);
-                } else {
-                    FwNotification.renderNotification('WARNING', 'A description must be added before saving current report settings.');
+                let description = FwFormField.getValueByDataField($settingsTabPage, 'Description');
+                if (description === '') description = "(default)";
+                const $settingsControls = $form.find('.fwformfield');
+                let $settingsObj: any = [];
+                for (let i = 0; i < $settingsControls.length; i++) {
+                    let $this = jQuery($settingsControls[i]);
+                    const datafield = $this.attr('data-datafield')
+                    $settingsObj.push({
+                        DataField: datafield
+                        , Value: FwFormField.getValue2($this)
+                        , Text: FwFormField.getTextByDataField($form, datafield)
+                    });
                 }
+                $settingsObj = JSON.stringify($settingsObj);
+
+                let request: any = {};
+                request = {
+                    WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+                    , ReportName: $form.attr('data-reportname')
+                    , Settings: $settingsObj
+                    , Description: description
+                }
+                const $tr = $reportSettingsGridControl.find(`tr [data-originalvalue="${description}"]`);
+                if ($tr.length !== 0) request.Id = $tr.parents('tr').find('[data-browsedatafield="Id"]').attr('data-originalvalue');
+                FwAppData.apiMethod(true, 'POST', `api/v1/reportsettings`, request, FwServices.defaultTimeout,
+                    (successResponse) => {
+                        try {
+                            FwBrowse.search($reportSettingsGridControl);
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    },
+                    null, $form);
             })
             //Load settings
             .on('click', '.load-settings', e => {
-                const $tr = $reportSettingsGridControl.find('tr.selected');
+                let $tr = $reportSettingsGridControl.find('tr.selected');
+                let $settings: any;
+                if ($tr.length === 0) { //if none are selected, choose default
+                    $tr = $reportSettingsGridControl.find(`tr [data-originalvalue="(default)"]`).parents('tr');
+                }
                 if ($tr.length !== 0) {
-                    let $settings: any = $tr.find('[data-browsedatafield="Settings"]').attr('data-originalvalue');
+                    $settings = $tr.find('[data-browsedatafield="Settings"]').attr('data-originalvalue');
                     $settings = JSON.parse($settings);
                     for (let i = 0; i < $settings.length; i++) {
                         FwFormField.setValueByDataField($form, $settings[i].DataField, $settings[i].Value, $settings[i].Text);
                     }
-                } else {
-                    FwNotification.renderNotification('WARNING', 'Select a report setting to load.');
                 }
+                //else {
+                //    FwNotification.renderNotification('WARNING', 'Select a report setting to load.');
+                //}
             });
 
+        //save to "default" when opening a report
+        $form.on('click', '.fwform-menu .buttonbar .btn', e => {
+            $form.find('.save-settings').click();
+        });
     }
     //----------------------------------------------------------------------------------------------
     getParameters($form: JQuery): any {
