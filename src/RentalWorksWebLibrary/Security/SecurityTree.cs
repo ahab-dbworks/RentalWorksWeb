@@ -418,6 +418,7 @@ namespace WebLibrary.Security
             AddGrid("Repair Release",                         "{06BFFEEF-632D-4DBE-9DFC-E64309784D44}", lv1menuGrids.Id, "RepairReleaseGridController");
             AddGrid("Repair Part",                            "{D3EB3232-9976-4607-A86F-7D64DF2AD4F8}", lv1menuGrids.Id, "RepairPartGridController");
             AddGrid("Rate Warehouse",                         "{2EC39399-B731-4B22-A5F3-1919A275AA56}", lv1menuGrids.Id, "RateWarehouseGridController");
+            AddGrid("Report Settings",                        "{0B524E5D-0644-445D-B9FA-9E15A827F1B2}", lv1menuGrids.Id, "ReportSettingsGridController");
             AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
             AddGrid("Vendor Invoice Item",                    "{C4887310-2572-458F-9691-1ABECB622862}", lv1menuGrids.Id, "VendorInvoiceItemGridController");
             AddGrid("Vendor Note",                            "{60704925-2642-4864-A5E8-272313978CE3}", lv1menuGrids.Id, "VendorNoteGridController");

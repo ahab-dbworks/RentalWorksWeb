@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -185,6 +185,7 @@
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridBrowse.htm" />
+    <Content Include="Source\Grids\ReportSettingsGrid\ReportSettingsGridBrowse.htm" />
     <Content Include="Source\Grids\InvoiceNoteGrid\InvoiceNoteGridBrowse.htm" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridBrowse.htm" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js" />
@@ -321,6 +322,7 @@
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormGroupGrid\CustomFormGroupGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ReportSettingsGrid\ReportSettingsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InvoiceNoteGrid\InvoiceNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InvoiceReceiptGrid\InvoiceReceiptGridController.ts" />
@@ -1194,7 +1196,6 @@
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Source\Controls\" />
-    <Folder Include="theme\audio\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
     <Folder Include="theme\fwfonts\" />
