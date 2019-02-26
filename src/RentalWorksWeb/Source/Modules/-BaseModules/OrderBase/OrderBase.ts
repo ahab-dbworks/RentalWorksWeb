@@ -334,12 +334,10 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     copyOrderOrQuote($form: any) {
-        let $confirmation, $yes, $no, module;
-        module = this.Module;
-
-        $confirmation = FwConfirmation.renderConfirmation(`Copy ${module}`, '');
+        const module = this.Module;
+        const $confirmation = FwConfirmation.renderConfirmation(`Copy ${module}`, '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        let html = [];
+        const html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Type" data-datafield="" style="width:90px;float:left;"></div>');
@@ -363,21 +361,18 @@ class OrderBase {
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
         html.push('</div>');
 
-        let copyConfirmation = html.join('');
-        let orderId = FwFormField.getValueByDataField($form, `${module}Id`);
 
         FwConfirmation.addControls($confirmation, html.join(''));
 
-        let orderNumber, deal, description, dealId;
         $confirmation.find('div[data-caption="Type"] input').val(module);
-        orderNumber = FwFormField.getValueByDataField($form, `${module}Number`);
+        const orderNumber = FwFormField.getValueByDataField($form, `${module}Number`);
         $confirmation.find('div[data-caption="No"] input').val(orderNumber);
-        deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
+        const deal = $form.find('[data-datafield="DealId"] input.fwformfield-text').val();
         $confirmation.find('div[data-caption="Deal"] input').val(deal);
-        description = FwFormField.getValueByDataField($form, 'Description');
+        const description = FwFormField.getValueByDataField($form, 'Description');
         $confirmation.find('div[data-caption="Description"] input').val(description);
         $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-text').val(deal);
-        dealId = $form.find('[data-datafield="DealId"] input.fwformfield-value').val();
+        const dealId = $form.find('[data-datafield="DealId"] input.fwformfield-value').val();
         $confirmation.find('div[data-datafield="CopyToDealId"] input.fwformfield-value').val(dealId);
 
         if (module === 'Order') {
@@ -395,13 +390,13 @@ class OrderBase {
         $confirmation.find('div[data-datafield="CombineSubs"] input').prop('checked', true);
         $confirmation.find('div[data-datafield="CopyDocuments"] input').prop('checked', true);
 
-        $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
-        $no = FwConfirmation.addButton($confirmation, 'Cancel');
+        const $yes = FwConfirmation.addButton($confirmation, 'Copy', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
         $yes.on('click', makeACopy);
 
         function makeACopy() {
-            let request: any = {};
+            const request: any = {};
             request.CopyToType = $confirmation.find('[data-type="radio"] input:checked').val();
             request.CopyToDealId = FwFormField.getValueByDataField($confirmation, 'CopyToDealId');
             request.CopyRatesFromInventory = FwFormField.getValueByDataField($confirmation, 'CopyRatesFromInventory');
@@ -414,7 +409,7 @@ class OrderBase {
                 request.CopyRatesFromInventory = "False"
             };
 
-            for (var key in request) {
+            for (let key in request) {
                 if (request.hasOwnProperty(key)) {
                     if (request[key] == "T") {
                         request[key] = "True";
@@ -428,22 +423,23 @@ class OrderBase {
             FwFormField.disable($yes);
             $yes.text('Copying...');
             $yes.off('click');
-            var $confirmationbox = jQuery('.fwconfirmationbox');
-            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copyto` + (request.CopyToType === "Q" ? "quote" : "order") + `/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            const $confirmationbox = jQuery('.fwconfirmationbox');
+            const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+            FwAppData.apiMethod(true, 'POST', `api/v1/${module}/copyto${(request.CopyToType === "Q" ? "quote" : "order")}/${orderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwNotification.renderNotification('SUCCESS', `${module} Successfully Copied`);
                 FwConfirmation.destroyConfirmation($confirmation);
-
-                var uniqueids: any = {};
+                let $control;
+                const uniqueids: any = {};
                 if (request.CopyToType == "O") {
                     uniqueids.OrderId = response.OrderId;
                     uniqueids.OrderTypeId = response.OrderTypeId;
-                    var $form = OrderController.loadForm(uniqueids);
+                    $control = OrderController.loadForm(uniqueids);
                 } else if (request.CopyToType == "Q") {
                     uniqueids.QuoteId = response.QuoteId;
                     uniqueids.OrderTypeId = response.OrderTypeId;
-                    var $form = QuoteController.loadForm(uniqueids);
+                    $control = QuoteController.loadForm(uniqueids);
                 }
-                FwModule.openModuleTab($form, "", true, 'FORM', true);
+                FwModule.openModuleTab($control, "", true, 'FORM', true);
             }, function onError(response) {
                 $yes.on('click', makeACopy);
                 $yes.text('Copy');
@@ -1602,17 +1598,17 @@ class OrderBase {
     afterLoad($form) {
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            let $tab = jQuery(e.currentTarget);
-            let tabname = $tab.attr('id');
-            let lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
-            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
+            const $tab = jQuery(e.currentTarget);
+            const tabname = $tab.attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
 
             if ($tab.hasClass('audittab') == false) {
-                let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-                if (($tab.hasClass('tabGridsLoaded') == false) && $gridControls.length > 0) {
+                const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
                     for (let i = 0; i < $gridControls.length; i++) {
                         try {
-                            let $gridcontrol = jQuery($gridControls[i]);
+                            const $gridcontrol = jQuery($gridControls[i]);
                             FwBrowse.search($gridcontrol);
                         } catch (ex) {
                             FwFunc.showError(ex);
@@ -1620,10 +1616,10 @@ class OrderBase {
                     }
                 }
 
-                let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-                if (($tab.hasClass('tabGridsLoaded') == false) && $browseControls.length > 0) {
+                const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
                     for (let i = 0; i < $browseControls.length; i++) {
-                        let $browseControl = jQuery($browseControls[i]);
+                        const $browseControl = jQuery($browseControls[i]);
                         FwBrowse.search($browseControl);
                     }
                 }

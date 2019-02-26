@@ -549,22 +549,22 @@
     afterLoad($form: any) {
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            let tabname = jQuery(e.currentTarget).attr('id');
-            let lastIndexOfTab = tabname.lastIndexOf('tab');
-            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
 
-            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
             if ($gridControls.length > 0) {
                 for (let i = 0; i < $gridControls.length; i++) {
-                    let $gridcontrol = jQuery($gridControls[i]);
+                    const $gridcontrol = jQuery($gridControls[i]);
                     FwBrowse.search($gridcontrol);
                 }
             }
 
-            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
             if ($browseControls.length > 0) {
                 for (let i = 0; i < $browseControls.length; i++) {
-                    let $browseControl = jQuery($browseControls[i]);
+                    const $browseControl = jQuery($browseControls[i]);
                     FwBrowse.search($browseControl);
                 }
             }

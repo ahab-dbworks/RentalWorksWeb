@@ -278,22 +278,22 @@ class Deal {
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            let tabname = jQuery(e.currentTarget).attr('id');
-            let lastIndexOfTab = tabname.lastIndexOf('tab');
-            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
 
-            let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
             if ($gridControls.length > 0) {
                 for (let i = 0; i < $gridControls.length; i++) {
-                    let $gridcontrol = jQuery($gridControls[i]);
+                    const $gridcontrol = jQuery($gridControls[i]);
                     FwBrowse.search($gridcontrol);
                 }
             }
 
-            let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
             if ($browseControls.length > 0) {
                 for (let i = 0; i < $browseControls.length; i++) {
-                    let $browseControl = jQuery($browseControls[i]);
+                    const $browseControl = jQuery($browseControls[i]);
                     FwBrowse.search($browseControl);
                 }
             }
@@ -644,19 +644,9 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $resaleGrid,
-            $resaleControl,
-            $taxOptionGrid,
-            $taxOptionControl,
-            $contactGrid,
-            $contactControl,
-            $dealNoteGrid,
-            $dealNoteControl,
-            $vendorGrid,
-            $vendorControl;
-
-        $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
-        $resaleControl = jQuery(jQuery('#tmpl-grids-CompanyResaleGridBrowse').html());
+        // ----------
+        const $resaleGrid = $form.find('div[data-grid="CompanyResaleGrid"]');
+        const $resaleControl = FwBrowse.loadGridFromTemplate('CompanyResaleGrid');
         $resaleGrid.empty().append($resaleControl);
         $resaleControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -668,9 +658,9 @@ class Deal {
         });
         FwBrowse.init($resaleControl);
         FwBrowse.renderRuntimeHtml($resaleControl);
-
-        $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
-        $taxOptionControl = jQuery(jQuery('#tmpl-grids-CompanyTaxOptionGridBrowse').html());
+        // ----------
+        const $taxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
+        const $taxOptionControl = FwBrowse.loadGridFromTemplate('CompanyTaxOptionGrid');
         $taxOptionGrid.empty().append($taxOptionControl);
         $taxOptionControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -679,9 +669,9 @@ class Deal {
         });
         FwBrowse.init($taxOptionControl);
         FwBrowse.renderRuntimeHtml($taxOptionControl);
-
-        $contactGrid = $form.find('div[data-grid="ContactGrid"]');
-        $contactControl = jQuery(jQuery('#tmpl-grids-ContactGridBrowse').html());
+        // ----------
+        const $contactGrid = $form.find('div[data-grid="ContactGrid"]');
+        const $contactControl = FwBrowse.loadGridFromTemplate('ContactGrid');
         $contactGrid.empty().append($contactControl);
         $contactControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -690,9 +680,9 @@ class Deal {
         });
         FwBrowse.init($contactControl);
         FwBrowse.renderRuntimeHtml($contactControl);
-
-        $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
-        $dealNoteControl = FwBrowse.loadGridFromTemplate('DealNoteGrid');
+        // ----------
+        const $dealNoteGrid = $form.find('div[data-grid="DealNoteGrid"]');
+        const $dealNoteControl = FwBrowse.loadGridFromTemplate('DealNoteGrid');
         $dealNoteGrid.empty().append($dealNoteControl);
         $dealNoteControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -704,26 +694,24 @@ class Deal {
         })
         FwBrowse.init($dealNoteControl);
         FwBrowse.renderRuntimeHtml($dealNoteControl);
-
-        $vendorGrid = $form.find('div[data-grid="DealShipperGrid"]');
-        $vendorControl = jQuery(jQuery('#tmpl-grids-DealShipperGridBrowse').html());
-        $vendorGrid.empty().append($vendorControl);
-        $vendorControl.data('ondatabind', function (request) {
+        // ----------
+        const $dealShipperGrid = $form.find('div[data-grid="DealShipperGrid"]');
+        const $dealShipperGridControl = FwBrowse.loadGridFromTemplate('DealShipperGrid');
+        $dealShipperGrid.empty().append($dealShipperGridControl);
+        $dealShipperGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 DealId: $form.find('div.fwformfield[data-datafield="DealId"] input').val()
             }
         });
-        $vendorControl.data('beforesave', function (request) {
+        $dealShipperGridControl.data('beforesave', function (request) {
             request.DealId = FwFormField.getValueByDataField($form, 'DealId')
         });
 
-        FwBrowse.init($vendorControl);
-        FwBrowse.renderRuntimeHtml($vendorControl);
-
+        FwBrowse.init($dealShipperGridControl);
+        FwBrowse.renderRuntimeHtml($dealShipperGridControl);
         // ----------
-        var nameCompanyContactGrid: string = 'CompanyContactGrid'
-        var $companyContactGrid: any = $companyContactGrid = $form.find(`div[data-grid="${nameCompanyContactGrid}"]`);
-        var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+        const $companyContactGrid: any = $form.find(`div[data-grid="CompanyContactGrid"]`);
+        const $companyContactControl: any = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
         $companyContactGrid.empty().append($companyContactControl);
         $companyContactControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -830,8 +818,7 @@ class Deal {
     }
     //----------------------------------------------------------------------------------------------
     openQuoteBrowse($form) {
-        var $browse;
-        $browse = QuoteController.openBrowse();
+        const $browse = QuoteController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = QuoteController.ActiveViewFields;
@@ -844,8 +831,7 @@ class Deal {
     };
     //----------------------------------------------------------------------------------------------
     openOrderBrowse($form) {
-        var $browse;
-        $browse = OrderController.openBrowse();
+        const $browse = OrderController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = OrderController.ActiveViewFields;

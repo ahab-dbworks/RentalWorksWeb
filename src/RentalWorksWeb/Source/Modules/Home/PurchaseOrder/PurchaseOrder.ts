@@ -632,17 +632,17 @@ class PurchaseOrder {
 
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            let $tab = jQuery(e.currentTarget);
-            let tabname = $tab.attr('id');
-            let lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
-            let tabpage = tabname.substring(0, lastIndexOfTab) + 'tabpage' + tabname.substring(lastIndexOfTab + 3);
+            const $tab = jQuery(e.currentTarget);
+            const tabname = $tab.attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
 
             if ($tab.hasClass('audittab') == false) {
-                let $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-                if (($tab.hasClass('tabGridsLoaded') == false) && $gridControls.length > 0) {
+                const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
                     for (let i = 0; i < $gridControls.length; i++) {
                         try {
-                            let $gridcontrol = jQuery($gridControls[i]);
+                            const $gridcontrol = jQuery($gridControls[i]);
                             FwBrowse.search($gridcontrol);
                         } catch (ex) {
                             FwFunc.showError(ex);
@@ -650,10 +650,10 @@ class PurchaseOrder {
                     }
                 }
 
-                let $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-                if (($tab.hasClass('tabGridsLoaded') == false) && $browseControls.length > 0) {
+                const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+                if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
                     for (let i = 0; i < $browseControls.length; i++) {
-                        let $browseControl = jQuery($browseControls[i]);
+                        const $browseControl = jQuery($browseControls[i]);
                         FwBrowse.search($browseControl);
                     }
                 }

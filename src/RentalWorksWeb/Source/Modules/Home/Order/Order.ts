@@ -15,11 +15,11 @@ class Order extends OrderBase {
     ActiveViewFieldsId: string;
     //-----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
-        var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
-        var $browse = this.openBrowse();
+        const $browse = this.openBrowse();
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Order', false, 'BROWSE', true);
 
@@ -29,7 +29,7 @@ class Order extends OrderBase {
 
             if (typeof filter !== 'undefined') {
                 filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find('div[data-browsedatafield="' + filter.datafield + '"]').find('input').val(filter.search);
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             }
 
             FwBrowse.databind($browse);
@@ -43,7 +43,6 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
         //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
@@ -54,8 +53,8 @@ class Order extends OrderBase {
             }
         });
 
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request =>  {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
@@ -66,12 +65,12 @@ class Order extends OrderBase {
         FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
         FwBrowse.addLegend($browse, 'L&D', '#400040');
 
-        var department = JSON.parse(sessionStorage.getItem('department'));;
-        var location = JSON.parse(sessionStorage.getItem('location'));;
+        const department = JSON.parse(sessionStorage.getItem('department'));;
+        const location = JSON.parse(sessionStorage.getItem('location'));;
 
-        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
-            self.DefaultOrderType = response.DefaultOrderType;
-            self.DefaultOrderTypeId = response.DefaultOrderTypeId;
+        FwAppData.apiMethod(true, 'GET', `api/v1/departmentlocation/${department.departmentid}~${location.locationid}`, null, FwServices.defaultTimeout, response => {
+            this.DefaultOrderType = response.DefaultOrderType;
+            this.DefaultOrderTypeId = response.DefaultOrderTypeId;
         }, null, null);
 
         return $browse;
@@ -108,17 +107,14 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
-        var $form, $submodulePickListBrowse, $submoduleContractBrowse;
-        var self = this;
-
         //$form = FwModule.loadFormFromTemplate(this.Module);
-        $form = jQuery(this.getFormTemplate());
+        let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $submodulePickListBrowse = this.openPickListBrowse($form);
+        const $submodulePickListBrowse = this.openPickListBrowse($form);
         $form.find('.picklist').append($submodulePickListBrowse);
 
-        $submoduleContractBrowse = this.openContractBrowse($form);
+        const $submoduleContractBrowse = this.openContractBrowse($form);
         $form.find('.contract').append($submoduleContractBrowse);
 
         if (mode === 'NEW') {
@@ -126,28 +122,26 @@ class Order extends OrderBase {
             $form.find('.OrderId').attr('data-hasBeenCanceled', 'false');
             $form.find('.combinedtab').hide();
             $form.data('data-hasBeenCanceled', false)
-            var today = FwFunc.getDate();
-            var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-            var office = JSON.parse(sessionStorage.getItem('location'));
-            var department = JSON.parse(sessionStorage.getItem('department'));
 
             const usersid = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
             const name = sessionStorage.getItem('name');
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
 
+            const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'PickDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
             FwFormField.setValueByDataField($form, 'BillingMonths', '0');
 
-            $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
-            $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-            $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+            $form.find('div[data-datafield="PickTime"]').attr('data-required', 'false');
 
+            const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            const office = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
             $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
@@ -172,8 +166,8 @@ class Order extends OrderBase {
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
 
-        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
 
         FwFormField.loadItems($form.find('.outtype'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
@@ -198,8 +192,7 @@ class Order extends OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
         }
 
-        var $orderItemGridLossDamage;
-        $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+        const $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
         //FwBrowse.search($orderItemGridLossDamage);
 
         // Hides Add, Search, and Sub-Worksheet buttons on grid
@@ -219,8 +212,7 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     openPickListBrowse($form) {
-        var $browse;
-        $browse = PickListController.openBrowse();
+        const $browse = PickListController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = PickListController.ActiveViewFields;
@@ -234,8 +226,7 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     openContractBrowse($form) {
-        var $browse;
-        $browse = ContractController.openBrowse();
+        const $browse = ContractController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = ContractController.ActiveViewFields;
@@ -249,8 +240,7 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids) {
-        var $form;
-        $form = this.openForm('EDIT', uniqueids);
+        const $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
         FwModule.loadForm(this.Module, $form);
 
@@ -263,9 +253,8 @@ class Order extends OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     openPurchaseOrderBrowse($form) {
-        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        let $browse;
-        $browse = PurchaseOrderController.openBrowse();
+        const $browse = PurchaseOrderController.openBrowse();
+        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = PurchaseOrderController.ActiveViewFields;
             request.uniqueids = {
@@ -276,9 +265,8 @@ class Order extends OrderBase {
     }
    //---------------------------------------------------------------------------------------------
     openInvoiceBrowse($form) {
-        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        let $browse;
-        $browse = InvoiceController.openBrowse();
+        const $browse = InvoiceController.openBrowse();
+        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = InvoiceController.ActiveViewFields;
             request.uniqueids = {
@@ -293,14 +281,11 @@ class Order extends OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        var $orderPickListGrid;
-        var $orderPickListGridControl;
-        var self = this;
-        var defaultRows = sessionStorage.getItem('browsedefaultrows');
-        var totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
-
-        $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
-        $orderPickListGridControl = jQuery(jQuery('#tmpl-grids-OrderPickListGridBrowse').html());
+        const defaultRows = sessionStorage.getItem('browsedefaultrows');
+        const totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
+        // ----------
+        const $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
+        const $orderPickListGridControl = FwBrowse.loadGridFromTemplate('OrderPickListGrid');
         $orderPickListGrid.empty().append($orderPickListGridControl);
         $orderPickListGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -309,11 +294,9 @@ class Order extends OrderBase {
         });
         FwBrowse.init($orderPickListGridControl);
         FwBrowse.renderRuntimeHtml($orderPickListGridControl);
-
-        var $orderStatusHistoryGrid;
-        var $orderStatusHistoryGridControl;
-        $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
-        $orderStatusHistoryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusHistoryGridBrowse').html());
+        // ----------
+        const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
+        const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
         $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
         $orderStatusHistoryGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -322,11 +305,9 @@ class Order extends OrderBase {
         });
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
-
-        var $orderSnapshotGrid;
-        var $orderSnapshotGridControl;
-        $orderSnapshotGrid = $form.find('div[data-grid="OrderSnapshotGrid"]');
-        $orderSnapshotGridControl = jQuery(jQuery('#tmpl-grids-OrderSnapshotGridBrowse').html());
+        // ----------
+        const $orderSnapshotGrid = $form.find('div[data-grid="OrderSnapshotGrid"]');
+        const $orderSnapshotGridControl = FwBrowse.loadGridFromTemplate('OrderSnapshotGrid');
         $orderSnapshotGrid.empty().append($orderSnapshotGridControl);
         $orderSnapshotGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -335,11 +316,9 @@ class Order extends OrderBase {
         });
         FwBrowse.init($orderSnapshotGridControl);
         FwBrowse.renderRuntimeHtml($orderSnapshotGridControl);
-
-        var $orderItemGridRental;
-        var $orderItemGridRentalControl;
-        $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        // ----------
+        const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
@@ -366,11 +345,9 @@ class Order extends OrderBase {
 
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
-
-        var $orderItemGridSales;
-        var $orderItemGridSalesControl;
-        $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridSalesControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        // ----------
+        const $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
         $orderItemGridSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
@@ -399,11 +376,9 @@ class Order extends OrderBase {
 
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
-
-        var $orderItemGridLabor;
-        var $orderItemGridLaborControl;
-        $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridLaborControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        // ----------
+        const $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
         $orderItemGridLabor.addClass('L');
         $orderItemGridLaborControl.data('isSummary', false);
@@ -429,11 +404,9 @@ class Order extends OrderBase {
 
         FwBrowse.init($orderItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
-
-        var $orderItemGridMisc;
-        var $orderItemGridMiscControl;
-        $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridMiscControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        // ----------
+        const $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
         $orderItemGridMisc.addClass('M');
         $orderItemGridMiscControl.data('isSummary', false);
@@ -461,11 +434,9 @@ class Order extends OrderBase {
 
         FwBrowse.init($orderItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
-
-        var $orderItemGridUsedSale;
-        var $orderItemGridUsedSaleControl;
-        $orderItemGridUsedSale = $form.find('.usedsalegrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridUsedSaleControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        // ----------
+        const $orderItemGridUsedSale = $form.find('.usedsalegrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridUsedSaleControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridUsedSale.empty().append($orderItemGridUsedSaleControl);
         $orderItemGridUsedSale.addClass('RS');
         $orderItemGridUsedSaleControl.data('isSummary', false);
@@ -484,11 +455,9 @@ class Order extends OrderBase {
         });
         FwBrowse.init($orderItemGridUsedSaleControl);
         FwBrowse.renderRuntimeHtml($orderItemGridUsedSaleControl);
-
-        var $combinedOrderItemGrid;
-        var $combinedOrderItemGridControl;
-        $combinedOrderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
-        $combinedOrderItemGridControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        // ----------
+        const $combinedOrderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
+        const $combinedOrderItemGridControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $combinedOrderItemGridControl.find('.combined').attr('data-visible', 'true');
         $combinedOrderItemGridControl.find('.individual').attr('data-visible', 'false');
         $combinedOrderItemGrid.empty().append($combinedOrderItemGridControl);
@@ -512,11 +481,9 @@ class Order extends OrderBase {
 
         FwBrowse.init($combinedOrderItemGridControl);
         FwBrowse.renderRuntimeHtml($combinedOrderItemGridControl);
-
-        var $orderItemGridLossDamage;
-        var $orderItemGridLossDamageControl;
-        $orderItemGridLossDamage = $form.find('.lossdamagegrid div[data-grid="OrderItemGrid"]');
-        $orderItemGridLossDamageControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        // ----------
+        const $orderItemGridLossDamage = $form.find('.lossdamagegrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridLossDamageControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
         $orderItemGridLossDamageControl.data('isSummary', false);
         $orderItemGridLossDamage.addClass('F');
@@ -548,11 +515,9 @@ class Order extends OrderBase {
 
         FwBrowse.init($orderItemGridLossDamageControl);
         FwBrowse.renderRuntimeHtml($orderItemGridLossDamageControl);
-
-        var $orderNoteGrid;
-        var $orderNoteGridControl;
-        $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
-        $orderNoteGridControl = jQuery(jQuery('#tmpl-grids-OrderNoteGridBrowse').html());
+        // ----------
+        const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
+        const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
         $orderNoteGrid.empty().append($orderNoteGridControl);
         $orderNoteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -564,11 +529,9 @@ class Order extends OrderBase {
         });
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
-
-        var $orderContactGrid;
-        var $orderContactGridControl;
-        $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
-        $orderContactGridControl = jQuery(jQuery('#tmpl-grids-OrderContactGridBrowse').html());
+        // ----------
+        const $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
+        const $orderContactGridControl = FwBrowse.loadGridFromTemplate('OrderContactGrid');
         $orderContactGrid.empty().append($orderContactGridControl);
         $orderContactGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -582,13 +545,13 @@ class Order extends OrderBase {
         FwBrowse.init($orderContactGridControl);
         FwBrowse.renderRuntimeHtml($orderContactGridControl);
 
-        let itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
+        const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
         if ($form.attr('data-mode') === 'NEW') {
-            for (var i = 0; i < itemGrids.length; i++) {                
+            for (let i = 0; i < itemGrids.length; i++) {                
                 itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
                     .off()
-                    .on('click', function() {
-                        self.saveForm($form, { closetab: false });
+                    .on('click', () => {
+                        this.saveForm($form, { closetab: false });
                     })
             }
         }
@@ -602,7 +565,7 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     loadAudit($form) {
-        var uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
+        const uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
@@ -690,13 +653,6 @@ class Order extends OrderBase {
         if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
             $orderItemGridRental.find('.rates').attr('data-formreadonly', true);
         }
-
-        //var $pickListBrowse = $form.find('#PickListBrowse');
-        //FwBrowse.search($pickListBrowse);
-
-        //var $contractBrowse = $form.find('#ContractBrowse');
-        //FwBrowse.search($contractBrowse);
-
         if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         }
