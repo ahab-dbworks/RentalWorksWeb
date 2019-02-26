@@ -59,6 +59,7 @@ abstract class FwWebApiReport {
         const formId = program.uniqueId(8);
         FwControl.setIds($fwcontrols, formId);
         this.addReportMenu($form, reportOptions);
+        this.addSettingsTab($form);
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
         $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
     }
@@ -410,6 +411,87 @@ abstract class FwWebApiReport {
         $form.find('.fwform-menu').append($menuObject);
     }
     //----------------------------------------------------------------------------------------------
+    addSettingsTab($form: JQuery): any {
+        //create new "Settings" tab and tabpage
+        const $formTabControl = $form.find('.fwtabs');
+        const settingsTabId = FwTabs.addTab($formTabControl, 'Settings', false, 'SETTINGS', false);
+        const $settingsPage = jQuery(this.getSettingsTemplate());
+        const $settingsTabPage = $formTabControl.find(`#${settingsTabId.tabpageid}`);
+        FwControl.renderRuntimeControls($settingsPage.find('.fwcontrol'));
+        $settingsTabPage.append($settingsPage);
+
+        //render grid
+        const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
+        const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
+        $reportSettingsGrid.empty().append($reportSettingsGridControl);
+        $reportSettingsGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+                , ReportName: $form.attr('data-reportname')
+            }
+        })
+        FwBrowse.init($reportSettingsGridControl);
+        FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
+
+        $formTabControl.on('click', `#${settingsTabId.tabid}`, e => {
+            FwBrowse.search($reportSettingsGridControl);
+        });
+
+        $settingsTabPage
+            //Save settings
+            .on('click', '.save-settings', e => {
+                const description = FwFormField.getValueByDataField($settingsTabPage, 'Description');
+                if (description !== '') {
+                    const $settingsControls = $form.find('.fwformfield');
+                    let $settingsObj: any = [];
+                    for (let i = 0; i < $settingsControls.length; i++) {
+                        let $this = jQuery($settingsControls[i]);
+                        const datafield = $this.attr('data-datafield')
+                        $settingsObj.push({
+                            DataField: datafield
+                            , Value: FwFormField.getValue2($this)
+                            , Text: FwFormField.getTextByDataField($form, datafield)
+                        });
+                    }
+                    $settingsObj = JSON.stringify($settingsObj);
+
+                    let request: any = {};
+                    request = {
+                        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+                        , ReportName: $form.attr('data-reportname')
+                        , Settings: $settingsObj
+                        , Description: description
+                    }
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/reportsettings`, request, FwServices.defaultTimeout,
+                        (successResponse) => {
+                            try {
+                                FwBrowse.search($reportSettingsGridControl);
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        },
+                        null, $form);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'A description must be added before saving current report settings.');
+                }
+            })
+            //Load settings
+            .on('click', '.load-settings', e => {
+                const $tr = $reportSettingsGridControl.find('tr.selected');
+                if ($tr.length !== 0) {
+                    let $settings: any = $tr.find('[data-browsedatafield="Settings"]').attr('data-originalvalue');
+                    $settings = JSON.parse($settings);
+                    for (let i = 0; i < $settings.length; i++) {
+                        FwFormField.setValueByDataField($form, $settings[i].DataField, $settings[i].Value, $settings[i].Text);
+                    }
+                } else {
+                    FwNotification.renderNotification('WARNING', 'Select a report setting to load.');
+                }
+            });
+
+    }
+    //----------------------------------------------------------------------------------------------
     getParameters($form: JQuery): any {
         try {
             const parameters: any = {};
@@ -429,6 +511,26 @@ abstract class FwWebApiReport {
         } catch (ex) {
             FwFunc.showError(ex)
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    getSettingsTemplate() {
+        return `
+            <div style="width:700px;">
+                <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Save current report settings as:" data-datafield="Description" style="max-width:400px; margin:10px;"></div>
+                    <div class="fwformcontrol save-settings" data-type="button" style="max-width:60px; margin-top:20px; margin-left:10px;">
+                        <i class="material-icons" style="padding-top:5px; margin:0px -10px;">save</i>
+                        <span style="float:right; padding-left:10px;">Save</span>
+                    </div>
+                </div>
+                <div class="flexrow settings-grid">
+                    <div data-control="FwGrid" data-grid="ReportSettingsGrid"></div>
+                    <div class="fwformcontrol load-settings" data-type="button" style="max-width:60px; margin-top:15px; margin-left:10px;">
+                        <i class="material-icons" style="padding-top:5px; margin:0px -10px;">open_in_browser</i>
+                        <span style="float:right; padding-left:10px;">Load</span>
+                    </div>
+                </div>
+            </div>`;
     }
     //----------------------------------------------------------------------------------------------
     getEmailTemplate() {

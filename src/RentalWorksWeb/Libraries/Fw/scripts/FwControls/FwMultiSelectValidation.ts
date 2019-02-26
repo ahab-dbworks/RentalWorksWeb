@@ -4,7 +4,6 @@ class FwMultiSelectValidationClass {
         var $browse, $popup, $form, controller, formbeforevalidate, control_boundfields, boundfields, hasselectall;
         hasselectall = ((typeof $control.attr('data-hasselectall') !== 'string') || ($control.attr('data-hasselectall') === 'true'));
         if (hasselectall) $searchfield.attr('placeholder', 'ALL');
-        $searchfield
         $browse = jQuery(jQuery('#tmpl-validations-' + validationName + 'Browse').html());
         $control.data('browse', $browse);
         $browse.attr('data-multiselectvalidation', 'true');
@@ -96,8 +95,6 @@ class FwMultiSelectValidationClass {
         $btnvalidate.on('click', function () {
             try {
                 if ((typeof $control.attr('data-enabled') !== 'undefined') && ($control.attr('data-enabled') !== 'false')) {
-                    let $input = $btnvalidate.siblings('div.multiselectitems').find('span.addItem');
-                    $searchfield.val($input.text());
                     if ((<string>$searchfield.val()).length > 0) {
                         FwMultiSelectValidation.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                         FwBrowse.selectRowByIndex($browse, 0);
@@ -230,27 +227,41 @@ class FwMultiSelectValidationClass {
         });
 
         $control
+            //remove item
             .on('click', '.multiselectitems i', e => {
                 let $this = jQuery(e.currentTarget);
                 try {
-                    let $item = $this.parent('div.multiitem');
-                    let itemvalue = $item.attr('data-multivalue');
+                    const $selectedRows = $browse.data('selectedrows');
+                    const selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
+                    const $item = $this.parent('div.multiitem');
+                    //removes item from values
+                    const itemValue = $item.attr('data-multivalue');
                     let value: any = $valuefield.val();
-                    let $selectedRows = $browse.data('selectedrows');
-                    let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
                     value = value
                         .split(',')
                         .filter((value) => {
-                            return value !== itemvalue;
+                            return value !== itemValue;
                         })
                         .join(',');
                     $valuefield.val(value).change();
+                    //removes item from text
+                    const itemText = $item.find('span').text();
+                    const $textField = $valuefield.siblings('.fwformfield-text');
+                    let text: any = $textField.val();
+                    text = text
+                        .split(',')
+                        .filter((text) => {
+                            return text !== itemText;
+                        })
+                        .join(',');
+                    $textField.val(text);
+
                     $item.remove();
                     if ($item.attr('data-customvalue') != "true" && $selectedRows !== undefined && selectedRowUniqueIds !== undefined) {
-                        if (typeof $selectedRows[itemvalue] !== 'undefined') {
-                            delete $selectedRows[itemvalue];
+                        if (typeof $selectedRows[itemValue] !== 'undefined') {
+                            delete $selectedRows[itemValue];
                         }
-                        let index = selectedRowUniqueIds.indexOf(itemvalue);
+                        let index = selectedRowUniqueIds.indexOf(itemValue);
                         if (index != -1) {
                             selectedRowUniqueIds.splice(index, 1);
                         }
@@ -269,9 +280,9 @@ class FwMultiSelectValidationClass {
                             }
                         case 13://Enter Key
                             e.preventDefault();
-                            let $container = $control.find('div.multiselectitems');
-                            let $input = $container.find('span.addItem');
-                            let value = $input.text();
+                            const $container = $control.find('div.multiselectitems');
+                            const $input = $container.find('span.addItem');
+                            const value = $input.text();
                             $searchfield.val(value);
                             this.validate(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, true);
                             if (value.length === 0) {
@@ -281,31 +292,13 @@ class FwMultiSelectValidationClass {
                             };
                             break;
                         case 8:  //Backspace
-                            let inputLength = $control.find('span.addItem').text().length;
-                            let $this = jQuery(e.currentTarget);
-                            let $item = $this.find('div.multiitem:last');
+                            const inputLength = $control.find('span.addItem').text().length;
+                            const $this = jQuery(e.currentTarget);
+                            const $item = $this.find('div.multiitem:last');
                             if (inputLength === 0) {
                                 e.preventDefault();
                                 if ($item.length > 0) {
-                                    let itemvalue = $item.attr('data-multivalue');
-                                    let $selectedRows = $browse.data('selectedrows');
-                                    if (typeof $selectedRows[itemvalue] !== 'undefined') {
-                                        delete $selectedRows[itemvalue];
-                                    }
-                                    let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
-                                    let index = selectedRowUniqueIds.indexOf(itemvalue);
-                                    if (index != -1) {
-                                        selectedRowUniqueIds.splice(index, 1);
-                                    }
-                                    let value: any = $valuefield.val();
-                                    value = value
-                                        .split(',')
-                                        .filter((value) => {
-                                            return value !== itemvalue;
-                                        })
-                                        .join(',');
-                                    $valuefield.val(value);
-                                    $item.remove();
+                                    $item.find('i').click();
                                 }
                             }
                             break;
@@ -368,7 +361,7 @@ class FwMultiSelectValidationClass {
     //---------------------------------------------------------------------------------
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
-        let multiselectfield = $control.find('.multiselectitems');
+        const multiselectfield = $control.find('.multiselectitems');
         let fieldToDisplay;
         if ($control.hasClass('email')) {
             fieldToDisplay = "Email";
@@ -376,8 +369,8 @@ class FwMultiSelectValidationClass {
             fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
         }
 
-        let $inputField = multiselectfield.find('span.addItem');
-
+        const $inputField = multiselectfield.find('span.addItem');
+        const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
             let values: any = $valuefield.val();
             $browse.data('selectedrowsuniqueids', values.split(','));
@@ -385,8 +378,9 @@ class FwMultiSelectValidationClass {
             $browse.data('selectedrowsuniqueids', []);
         }
         let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
-        let selectedRowText: Array<JQuery> = [];
-        $trs = $browse.find('tbody > tr');
+        let selectedRowText: any = $textField.val();
+        selectedRowText = selectedRowText.split(',');
+            $trs = $browse.find('tbody > tr');
         for (let i = 0; i < $trs.length; i++) {
             var $tr, uniqueIdValue;
             $tr = jQuery($trs[i]);
@@ -408,9 +402,7 @@ class FwMultiSelectValidationClass {
         $valuefield.val(uniqueid).change();
         $inputField.text('');
         $searchfield.val('');
-
-        const $textField = $valuefield.siblings('.fwformfield-text');
-        $textField.val(selectedRowText.join(';'));
+        $textField.val(selectedRowText.join(','));
 
         if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['loadRelatedValidationFields'] === 'function')) {
             window[controller]['loadRelatedValidationFields'](validationName, $valuefield, $tr);
