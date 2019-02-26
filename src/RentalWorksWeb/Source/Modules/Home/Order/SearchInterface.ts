@@ -84,7 +84,7 @@ class SearchInterface {
             </div>
           </div>
         </div>
-        <div class="flexcolumn formoptions" style="max-width:1450px; overflow:hidden; min-height:600px;">
+        <div class="flexcolumn formoptions" style="max-width:1450px; overflow:hidden; min-height:800px;">
           <div class="flexrow" style="max-width:100%;">
             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
@@ -100,7 +100,7 @@ class SearchInterface {
               Options &#8675;
               <div class="options" style="display:none;">
                 <div class="flexcolumn">
-                    <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="margin-top: 10px; max-height:360px;"></div>
+                    <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="margin-top: 10px;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol show-zero-quantity" data-caption="Show Inventory with Zero Quantity" data-datafield="ShowZeroQuantity"></div>
                     <div>
@@ -1003,7 +1003,6 @@ class SearchInterface {
             let columnOrder = selectedColumns.map(a => a.value);
             FwFormField.setValueByDataField($popup, 'ColumnOrder', columnOrder.join(','));
 
-
             request.ResultFields = JSON.stringify(selectedColumns);
             request.WebUserId = userId.webusersid;
             request.DisableAccessoryAutoExpand = expandAccessories;
@@ -1012,12 +1011,37 @@ class SearchInterface {
                 let columnsToHide = notSelectedColumns.map(a => a.value);
                 FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
 
-                let $inventory = $popup.find('div.card');
-                let gridView = $popup.find('#inventoryView').val();
+                //perform search again with new settings
+                let request: any = {
+                    OrderId: id,
+                    SessionId: id,
+                    AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
+                    WarehouseId: warehouseId,
+                    ShowAvailability: true,
+                    ShowImages: true,
+                    SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
+                    Classification: FwFormField.getValueByDataField($popup, 'Select'),
+                    ShowInventoryWithZeroQuantity: showZeroQuantity,
+                    SearchText: FwFormField.getValueByDataField($popup, 'SearchBox'),
+                }
+
+                const toDate = FwFormField.getValueByDataField($popup, 'ToDate');
+                if (toDate != "") request.ToDate = toDate;
+                const fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+                if (fromDate != "") request.FromDate = fromDate;
+                const categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
+                if (typeof categoryId !== "undefined") request.CategoryId = categoryId;
+                const inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
+                if (typeof inventoryTypeId !== "undefined") request.InventoryTypeId = inventoryTypeId;
+
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    $popup.find('#inventory').empty();
+                    SearchInterfaceController.renderInventory($popup, response);
+                }, null, $searchpopup);
+
                 if (expandAccessories) {
                     $popup.find('.accContainer').css('display', 'none');
                 }
-                self.listGridView($inventory, gridView);
             }, null, $searchpopup);
         });
 
