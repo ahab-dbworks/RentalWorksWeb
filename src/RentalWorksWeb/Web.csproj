@@ -1108,6 +1108,7 @@
     <Content Include="theme\images\icons\administrator\placeholder.png" />
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
+    <Content Include="theme\images\no-image.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
     <Content Include="theme\rentalworks.css" />
     <Content Include="version.txt" />

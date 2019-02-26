@@ -716,11 +716,15 @@ class SearchInterface {
                       <input value="${response.Rows[i][inventoryId]}">
                     </div>
                     <div class="desccontainer columnorder" data-column="Description">
-                      <div class="invdescription">${response.Rows[i][descriptionIndex]}</div>
-                      <div class="invimage">
-                        <img src="${response.Rows[i][thumbnail]}" data-value="${response.Rows[i][appImageId]}" alt="Image" class="image">
-                      </div>
-                    </div>
+                      <div class="invdescription">${response.Rows[i][descriptionIndex]}</div>`
+            );
+            if (response.Rows[i][thumbnail]) {
+                html.push(`<div class="invimage"><img src="${response.Rows[i][thumbnail]}" data-value="${response.Rows[i][appImageId]}" alt="Image" class="image"></div>`);
+            } else {
+                const noImageSrc = './theme/images/no-image.jpg';
+                html.push(`<div class="invimage"><img src="${noImageSrc}" data-value="" alt="Image" class="image"></div>`);
+            }
+            html.push(`</div>
                     <div data-control="FwFormField" data-type="number" data-column="Quantity" data-datafield="Quantity" data-caption="Qty" class="columnorder fwcontrol fwformfield" style="text-align:center">
                       <span>Qty</span>
                       <div style="float:left; border:1px solid #bdbdbd;">
