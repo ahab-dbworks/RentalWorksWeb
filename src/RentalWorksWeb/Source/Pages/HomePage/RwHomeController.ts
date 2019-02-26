@@ -601,13 +601,13 @@
     };
 
     commaDelimitedData = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
     }
 
     commaDelimitedDataPie = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}`
     }
@@ -622,7 +622,7 @@
     };
 
     commaTwoDecimalData = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         if (value.indexOf('.') === -1) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '.00'
@@ -632,7 +632,7 @@
     }
 
     commaTwoDecimalDataPie = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         if (value.indexOf('.') === -1) {
             return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}.00`
@@ -651,7 +651,7 @@
     };
 
     commaTwoDecimalPercentData = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         if (value.indexOf('.') === -1) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
@@ -661,7 +661,7 @@
     }
 
     commaTwoDecimalPercentDataPie = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         if (value.indexOf('.') === -1) {
             return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}`
@@ -680,13 +680,13 @@
     };
 
     commaDelimitedPercentData = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '%'
     }
 
     commaDelimitedPercentDataPie = function (tooltipItem, data) {
-        var value = data.datasets[0].data[tooltipItem.index];
+        var value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
         value = value.toString();
         return `${data.labels[tooltipItem.index]} : ${value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")}%`
     }
