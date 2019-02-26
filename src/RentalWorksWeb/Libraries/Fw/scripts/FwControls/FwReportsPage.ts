@@ -54,27 +54,29 @@
         var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
         for (var i = 0; i < modules.length; i++) {
             var moduleName = modules[i].properties.controller;
-            var $form = window[moduleName].openForm();
-            var $fwformfields = $form.find('.fwformfield[data-caption]');
-            for (var j = 0; j < $fwformfields.length; j++) {
-                var $field = $fwformfields.eq(j);
-                var caption = $field.attr('data-caption').toUpperCase();
-                if ($field.attr('data-type') === 'radio') {
-                    var radioCaptions = $field.find('div');
-                    for (var k = 0; k < radioCaptions.length; k++) {
-                        var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
-                        screen.moduleCaptions[radioCaption] = {};
-                        screen.moduleCaptions[radioCaption][moduleName] = [];
-                        screen.moduleCaptions[radioCaption][moduleName].push($field);
+            if (typeof window[moduleName].openForm === 'function') {
+                var $form = window[moduleName].openForm();
+                var $fwformfields = $form.find('.fwformfield[data-caption]');
+                for (var j = 0; j < $fwformfields.length; j++) {
+                    var $field = $fwformfields.eq(j);
+                    var caption = $field.attr('data-caption').toUpperCase();
+                    if ($field.attr('data-type') === 'radio') {
+                        var radioCaptions = $field.find('div');
+                        for (var k = 0; k < radioCaptions.length; k++) {
+                            var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                            screen.moduleCaptions[radioCaption] = {};
+                            screen.moduleCaptions[radioCaption][moduleName] = [];
+                            screen.moduleCaptions[radioCaption][moduleName].push($field);
+                        }
                     }
+                    if (typeof screen.moduleCaptions[caption] === 'undefined') {
+                        screen.moduleCaptions[caption] = {};
+                    }
+                    if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
+                        screen.moduleCaptions[caption][moduleName] = [];
+                    }
+                    screen.moduleCaptions[caption][moduleName].push($field);
                 }
-                if (typeof screen.moduleCaptions[caption] === 'undefined') {
-                    screen.moduleCaptions[caption] = {};
-                }
-                if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
-                    screen.moduleCaptions[caption][moduleName] = [];
-                }
-                screen.moduleCaptions[caption][moduleName].push($field);
             }
         }
     }
