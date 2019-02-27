@@ -40,6 +40,16 @@ class VendorInvoice {
     };
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
+        const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $new: JQuery = FwMenu.generateDropDownViewBtn('New', true, "NEW");
+        const $approved: JQuery = FwMenu.generateDropDownViewBtn('Approved', false, "APPROVED");
+        const $processed: JQuery = FwMenu.generateDropDownViewBtn('Processed', false, "PROCESSED");
+        const $closed: JQuery = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+
+        let viewSubitems: Array<JQuery> = [];
+        viewSubitems.push($all, $new, $approved, $processed, $closed);
+        FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
+
         //Location Filter
         const location = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
@@ -52,6 +62,7 @@ class VendorInvoice {
         const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
