@@ -433,14 +433,14 @@ abstract class FwWebApiReport {
         FwBrowse.init($reportSettingsGridControl);
         FwBrowse.renderRuntimeHtml($reportSettingsGridControl);
 
-        //$formTabControl.on('click', `#${settingsTabId.tabid}`, e => {
-        //    FwBrowse.search($reportSettingsGridControl);
-        //});
-
         //load default settings
+        let loadDefaults: boolean = true;
         FwBrowse.search($reportSettingsGridControl);
         $reportSettingsGridControl.data('afterdatabindcallback', function () {
-            $form.find('.load-settings').click();
+            if (loadDefaults) {
+                $form.find('.load-settings').click();
+                loadDefaults = false;
+            }
         });
 
         $settingsTabPage
@@ -449,12 +449,17 @@ abstract class FwWebApiReport {
                 let description = FwFormField.getValueByDataField($settingsTabPage, 'Description');
                 if (description === '') description = "(default)";
                 const $settingsControls = $form.find('.fwformfield');
+
+                //const $settingsControls = $form.find('.fwformfield[data-savesetting="true"]');  //for future functionality
+
                 let $settingsObj: any = [];
                 for (let i = 0; i < $settingsControls.length; i++) {
                     let $this = jQuery($settingsControls[i]);
                     const datafield = $this.attr('data-datafield')
+                    const type = $this.attr('data-type');
                     $settingsObj.push({
                         DataField: datafield
+                        , DataType: type
                         , Value: FwFormField.getValue2($this)
                         , Text: FwFormField.getTextByDataField($form, datafield)
                     });
@@ -474,6 +479,10 @@ abstract class FwWebApiReport {
                     (successResponse) => {
                         try {
                             FwBrowse.search($reportSettingsGridControl);
+                            $reportSettingsGridControl.data('afterdatabindcallback', function () {
+                                FwBrowse.selectRow($reportSettingsGridControl,
+                                    $reportSettingsGridControl.find(`[data-browsedatafield="Id"][data-originalvalue="${successResponse.Id}"]`).parents('tr'));
+                            });
                         } catch (ex) {
                             FwFunc.showError(ex);
                         }
@@ -491,12 +500,25 @@ abstract class FwWebApiReport {
                     $settings = $tr.find('[data-browsedatafield="Settings"]').attr('data-originalvalue');
                     $settings = JSON.parse($settings);
                     for (let i = 0; i < $settings.length; i++) {
-                        FwFormField.setValueByDataField($form, $settings[i].DataField, $settings[i].Value, $settings[i].Text);
+                        let item = $settings[i];
+                        if (item.DataType === "checkboxlist") {
+                            const $checkBoxList = $form.find(`[data-type="checkboxlist"][data-datafield="${item.DataField}"] ol`);
+                            $checkBoxList.find('li').attr('data-selected', 'F');
+                            $checkBoxList.find('input[type="checkbox"]').prop('checked', false);
+                            const checkedValues = item.Value;
+                            for (let j = 0; j < checkedValues.length; j++) {
+                                $checkBoxList
+                                    .find(`li[data-value="${checkedValues[j].value}"]`)
+                                    .attr('data-selected', 'T');
+                                $checkBoxList
+                                    .find(`li[data-value="${checkedValues[j].value}"] input[type="checkbox"]`)
+                                    .prop('checked', true);
+                            }
+                        } else {
+                            FwFormField.setValueByDataField($form, $settings[i].DataField, $settings[i].Value, $settings[i].Text);
+                        }
                     }
                 }
-                //else {
-                //    FwNotification.renderNotification('WARNING', 'Select a report setting to load.');
-                //}
             });
 
         //save to "default" when opening a report
@@ -530,7 +552,7 @@ abstract class FwWebApiReport {
         return `
             <div style="width:700px;">
                 <div class="flexrow">
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Save current report settings as:" data-datafield="Description" style="max-width:400px; margin:10px;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Save current report settings as:" data-datafield="Description" style="max-width:600px; margin:10px;"></div>
                     <div class="fwformcontrol save-settings" data-type="button" style="max-width:60px; margin-top:20px; margin-left:10px;">
                         <i class="material-icons" style="padding-top:5px; margin:0px -10px;">save</i>
                         <span style="float:right; padding-left:10px;">Save</span>

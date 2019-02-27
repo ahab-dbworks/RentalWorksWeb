@@ -368,7 +368,6 @@ class FwMultiSelectValidationClass {
         } else {
             fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
         }
-
         const $inputField = multiselectfield.find('span.addItem');
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
@@ -379,7 +378,16 @@ class FwMultiSelectValidationClass {
         }
         let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
         let selectedRowText: any = $textField.val();
-        selectedRowText = selectedRowText.split(',');
+
+        if ($control.hasClass('email')) {
+            if (selectedRowText.length > 0) {
+                selectedRowText = selectedRowText.split(';');
+            } else {
+                selectedRowText = [];
+            }
+        } else {
+            selectedRowText = selectedRowText.split(',');
+        }
             $trs = $browse.find('tbody > tr');
         for (let i = 0; i < $trs.length; i++) {
             var $tr, uniqueIdValue;
@@ -402,7 +410,11 @@ class FwMultiSelectValidationClass {
         $valuefield.val(uniqueid).change();
         $inputField.text('');
         $searchfield.val('');
-        $textField.val(selectedRowText.join(','));
+        if ($control.hasClass('email')) {
+            $textField.val(selectedRowText.join(';'));
+        } else {
+            $textField.val(selectedRowText.join(','));
+        }
 
         if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['loadRelatedValidationFields'] === 'function')) {
             window[controller]['loadRelatedValidationFields'](validationName, $valuefield, $tr);
