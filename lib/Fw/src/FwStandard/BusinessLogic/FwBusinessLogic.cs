@@ -802,7 +802,8 @@ namespace FwStandard.BusinessLogic
                                 bool pkFound = true;
                                 foreach (object id in ids)
                                 {
-                                    int indexOfId = Array.IndexOf(dtToArray, id);
+                                    string idString = id.ToString();
+                                    int indexOfId = Array.IndexOf(dtToArray, idString);
                                     pkFound = (indexOfId >= 0);
                                     if (!pkFound)
                                     {
