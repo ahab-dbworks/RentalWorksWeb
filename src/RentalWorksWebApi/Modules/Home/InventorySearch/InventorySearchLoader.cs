@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using System;
+using WebApi.Modules.Home.InventoryAvailabilityFunc;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
@@ -65,6 +67,12 @@ namespace WebApi.Modules.Home.InventorySearch
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityAvailable { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuantityAvailableColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availisstale", modeltype: FwDataTypes.Boolean)]
+        public bool? QuantityAvailableIsStale { get; set; } = true;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
@@ -134,7 +142,6 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@subcategoryid", SqlDbType.NVarChar, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@classification", SqlDbType.NVarChar, ParameterDirection.Input, request.Classification);
                     qry.AddParameter("@searchtext", SqlDbType.NVarChar, ParameterDirection.Input, request.SearchText);
-                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability.GetValueOrDefault(false) ? "T" : "F"));
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {
                         qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
@@ -150,6 +157,64 @@ namespace WebApi.Modules.Home.InventorySearch
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            if (request.ShowAvailability.GetValueOrDefault(false))
+            {
+                DateTime fromDateTime = DateTime.MinValue;
+                DateTime toDateTime = DateTime.MinValue;
+
+                if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
+                {
+                    fromDateTime = request.FromDate;
+                }
+                if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
+                {
+                    toDateTime = request.ToDate;
+                }
+
+                if ((fromDateTime != null) && (toDateTime != null))
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        }
+
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, availRequestItems, request.RefreshAvailability.GetValueOrDefault(false));
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                            TInventoryWarehouseAvailability availData = null;
+                            row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
+                            row[dt.GetColumnNo("QuantityAvailableIsStale")] = true;
+                            if (availCache.TryGetValue(availKey, out availData))
+                            {
+                                row[dt.GetColumnNo("QuantityAvailableColor")] = null;
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
+                                row[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailalbe;
+                                row[dt.GetColumnNo("QuantityAvailableIsStale")] = minAvail.IsStale;
+                                if (minAvail.MinimumAvailalbe < 0)
+                                {
+                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(16711684); //red
+                                }
+                                if (minAvail.IsStale)
+                                {
+                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------
@@ -165,7 +230,6 @@ namespace WebApi.Modules.Home.InventorySearch
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, request.ParentId);
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.WarehouseId);
-                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability.GetValueOrDefault(false) ? "T" : "F"));
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {
                         qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);

@@ -20,7 +20,8 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         public class InventorySearchPreviewBrowseRequest : BrowseRequest
         {
             public string SessionId;
-            public bool ShowAvailability;
+            public bool? ShowAvailability;
+            public bool? RefreshAvailability;
             public DateTime FromDate;
             public DateTime ToDate;
         }

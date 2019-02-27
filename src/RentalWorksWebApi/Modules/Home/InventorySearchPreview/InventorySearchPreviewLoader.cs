@@ -6,6 +6,8 @@ using System.Data;
 using System.Reflection;
 using System;
 using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewController;
+using WebApi.Modules.Home.InventoryAvailabilityFunc;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Home.InventorySearchPreview
 {
@@ -73,6 +75,12 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityAvailable{ get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string QuantityAvailableColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availisstale", modeltype: FwDataTypes.Boolean)]
+        public bool? QuantityAvailableIsStale { get; set; } = true;
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -133,7 +141,6 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventorysearchpreview", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-                    qry.AddParameter("@showavail", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowAvailability ? "T" : "F"));
                     if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                     {
                         qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
@@ -146,6 +153,64 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            if (request.ShowAvailability.GetValueOrDefault(false))
+            {
+                DateTime fromDateTime = DateTime.MinValue;
+                DateTime toDateTime = DateTime.MinValue;
+
+                if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
+                {
+                    fromDateTime = request.FromDate;
+                }
+                if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
+                {
+                    toDateTime = request.ToDate;
+                }
+
+                if ((fromDateTime != null) && (toDateTime != null))
+                {
+                    if (dt.Rows.Count > 0)
+                    {
+                        TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        }
+
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, availRequestItems, request.RefreshAvailability.GetValueOrDefault(false));
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                            TInventoryWarehouseAvailability availData = null;
+                            row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
+                            row[dt.GetColumnNo("QuantityAvailableIsStale")] = true;
+                            if (availCache.TryGetValue(availKey, out availData))
+                            {
+                                row[dt.GetColumnNo("QuantityAvailableColor")] = null;
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
+                                row[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailalbe;
+                                if (minAvail.MinimumAvailalbe < 0)
+                                {
+                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(16711684); //red
+                                }
+                                row[dt.GetColumnNo("QuantityAvailableIsStale")] = minAvail.IsStale;
+                                if (minAvail.IsStale)
+                                {
+                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------
