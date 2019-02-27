@@ -53,24 +53,24 @@
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="8" style="font-weight:bold;text-align:right;padding-top:11px">{{Deal}}&nbsp;</td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td colspan="8" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="8" style="font-weight:bold;text-align:right;padding-top:11px">{{Customer}}&nbsp;</td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td colspan="8" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="8" style="font-weight:bold;text-align:right;padding-top:11px">{{Department}}&nbsp;</td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td colspan="8" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="8" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td colspan="8" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="8" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td colspan="8" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

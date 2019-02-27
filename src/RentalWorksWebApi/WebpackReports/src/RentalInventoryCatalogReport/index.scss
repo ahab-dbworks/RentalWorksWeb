@@ -1,166 +1,23 @@
-﻿$page-width: 768px;
-$line-height: 16px;
-$normal-text: 1em;
+﻿tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
+    }
 
-@page {
-    /*margin: 130px 32px 96px 32px;*/
-    /*margin: 48px 24px 48px 24px;*/
-    /*size: auto;*/
-    size: landscape;
-}
+    td:after {
+        content: attr(data-value);
+    }
 
-html {
-}
-
-body {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-}
-
-html.preview {
-    #pageno {
-        visibility: hidden;
+    td {
+        padding: 3px;
     }
 }
 
-html.pdf {
-    body {
-        /*margin: 130px 24px 96px 24px;*/
-    }
-}
-
-@media only screen {
-    .parameters {
-        display: block;
-    }
-}
-
-@media only print {
-    .parameters {
-        display: none;
-    }
-}
-
-@mixin flexfield($captionwidth) {
-    display: flex;
-    height: $line-height;
-    line-height: $line-height;
-    @content;
-
-    .caption {
-        flex: 0 0 $captionwidth;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
         font-weight: bold;
+        padding: 5px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .value {
-        flex: 1 1 0;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-.label {
-    line-height: $line-height;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: $normal-text;
-}
-
-.data {
-    border-collapse: collapse;
-    margin: 20px 0 0 0;
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-
-        thead {
-            th {
-                border-top: 2px solid #000000;
-                border-bottom: 2px solid #000000;
-                border-collapse: collapse;
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-                text-align:center;
-            }
-
-            th.number{
-                text-align:right;
-            }
-        }
-
-        tbody {
-            tr[data-rowtype="detail"]:nth-child(odd) {
-                background-color: #DCDCDC;
-            }
-
-            tr[data-rowtype="Warehouseheader"] td {
-                font-size: 1.1em;
-                font-weight: bold;
-                text-decoration: underline;
-            }
-
-            tr[data-rowtype="InventoryTypeheader"] td,
-            tr[data-rowtype="Categoryheader"] td {
-                padding-bottom: .5em;
-                font-weight: bold;
-            }
-
-            tr[data-rowtype="Categoryfooter"] td.totals {
-                border-top: 2px solid black;
-            }
-
-            tr[data-rowtype="Categoryfooter"] td,
-            tr[data-rowtype="InventoryTypefooter"] td,
-            tr[data-rowtype="Warehousefooter"] td {
-                font-weight: bold;
-            }
-
-            td {
-                padding: 2px 5px;
-                font-size: .9em;
-            }
-            /*td:after {
-                content: attr(data-value);
-                font-weight: bold;
-            }
-
-            td[data-value="0.00"]:after, td[data-value="0.00%"]:after {
-                content: "";
-            }*/
-            td.totals {
-                text-align: right;
-            }
-
-            tr[data-rowtype="grandtotal"] td {
-                font-weight: bold;
-                border-top: 2px solid black;
-            }
-        }
-    }
-}
-
-#pageContainer {
-    #pageHeader {
-    }
-
-    #contract {
-    }
-
-    #pageFooter {
-        margin: $line-height 0 0 0;
     }
 }

@@ -15,8 +15,7 @@ export class CreditsOnAccountReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             Ajax.post<DataTable>(`${apiUrl}/api/v1/creditsonaccountreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = {};
-                    data.Rows = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response);
                     data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
                     data.Report = 'Credits on Account Report';
                     data.System = 'RENTALWORKS';

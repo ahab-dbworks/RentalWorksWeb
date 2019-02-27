@@ -10,94 +10,84 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="data rpt-flexrow">
-  <table id="tbldata">
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
     <thead>
-      <tr class="columnheadings">
-        <th class="text">Office</th>
-        <th class="text">Customer</th>
-        <th class="text">Deal</th>
-        <th class="number"><div>Depleting</div> <div>Deposits</div></th>
-        <th class="number"><div>Credit</div> <div>Memos</div></th>
+      <tr>
+        <th class="empty"></th>
+        <th class="number">Depleting Deposits</th>
+        <th class="number">Credit Memos</th>
         <th class="number">Overpayments</th>
-        <th class="number"><div>Total</div> <div>Deposits</div></th>
-        <th class="number"><div>Total</div> <div>Applied</div></th>
-        <th class="number"><div>Total</div> <div>Refunded</div></th>
+        <th class="number">Total Deposits</th>
+        <th class="number">Total Applied</th>
+        <th class="number">Total Refunded</th>
         <th class="number">Remaining</th>
       </tr>
     </thead>
     <tbody>
-      {{#with Rows}}
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="10">Office Location: {{OfficeLocation}}</td>
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerheader"}}
-        <td colspan="10">Customer: {{Customer}}</td>
+        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="10">Deal: {{Deal}}</td>
+        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text">{{OfficeLocation}}</td>
-        <td class="text">{{Customer}}</td>
-        <td class="text">{{Deal}}</td>
-        <td class="number">{{TotalDepletingDeposit}}</td>
-        <td class="number">{{TotalCredit}}</td>
-        <td class="number">{{TotalOverpayment}}</td>
-        <td class="number">{{TotalDeposit}}</td>
-        <td class="number">{{TotalApplied}}</td>
-        <td class="number">{{TotalRefunded}}</td>
-        <td class="number">{{Remaining}}</td>
+        <td class="empty"></td>
+        <td class="number" data-value="{{TotalDepletingDeposit}}"></td>
+        <td class="number" data-value="{{TotalCredit}}"></td>
+        <td class="number" data-value="{{TotalOverpayment}}"></td>
+        <td class="number" data-value="{{TotalDeposit}}"></td>
+        <td class="number" data-value="{{TotalApplied}}"></td>
+        <td class="number" data-value="{{TotalRefunded}}"></td>
+        <td class="number" data-value="{{Remaining}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="1"></td>
-        <td colspan="2" style="text-align:right;">{{Deal}}: </td>
-        <td class="number totals">{{TotalDepletingDeposit}}</td>
-        <td class="number totals">{{TotalCredit}}</td>
-        <td class="number totals">{{TotalOverpayment}}</td>
-        <td class="number totals">{{TotalDeposit}}</td>
-        <td class="number totals">{{TotalApplied}}</td>
-        <td class="number totals">{{TotalRefunded}}</td>
-        <td class="number totals">{{Remaining}}</td>
+        <td class="total-name">{{Deal}}</td>
+        <td class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalCredit}}"></td>
+        <td class="total-val" data-value="{{TotalOverpayment}}"></td>
+        <td class="total-val" data-value="{{TotalDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalApplied}}"></td>
+        <td class="total-val" data-value="{{TotalRefunded}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="1"></td>
-        <td colspan="2" style="text-align:right;">{{Customer}}: </td>
-        <td class="number totals">{{TotalDepletingDeposit}}</td>
-        <td class="number totals">{{TotalCredit}}</td>
-        <td class="number totals">{{TotalOverpayment}}</td>
-        <td class="number totals">{{TotalDeposit}}</td>
-        <td class="number totals">{{TotalApplied}}</td>
-        <td class="number totals">{{TotalRefunded}}</td>
-        <td class="number totals">{{Remaining}}</td>
+        <td class="total-name">{{Customer}}</td>
+        <td class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalCredit}}"></td>
+        <td class="total-val" data-value="{{TotalOverpayment}}"></td>
+        <td class="total-val" data-value="{{TotalDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalApplied}}"></td>
+        <td class="total-val" data-value="{{TotalRefunded}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="1"></td>
-        <td colspan="2" style="text-align:right;">{{OfficeLocation}}: </td>
-        <td class="number totals">{{TotalDepletingDeposit}}</td>
-        <td class="number totals">{{TotalCredit}}</td>
-        <td class="number totals">{{TotalOverpayment}}</td>
-        <td class="number totals">{{TotalDeposit}}</td>
-        <td class="number totals">{{TotalApplied}}</td>
-        <td class="number totals">{{TotalRefunded}}</td>
-        <td class="number totals">{{Remaining}}</td>
+        <td class="total-name">{{OfficeLocation}}</td>
+        <td class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalCredit}}"></td>
+        <td class="total-val" data-value="{{TotalOverpayment}}"></td>
+        <td class="total-val" data-value="{{TotalDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalApplied}}"></td>
+        <td class="total-val" data-value="{{TotalRefunded}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="1"></td>
-        <td colspan="2" style="text-align:right;">Grand Total: </td>
-        <td class="number totals">{{TotalDepletingDeposit}}</td>
-        <td class="number totals">{{TotalCredit}}</td>
-        <td class="number totals">{{TotalOverpayment}}</td>
-        <td class="number totals">{{TotalDeposit}}</td>
-        <td class="number totals">{{TotalApplied}}</td>
-        <td class="number totals">{{TotalRefunded}}</td>
-        <td class="number totals">{{Remaining}}</td>
+        <td class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{TotalDepletingDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalCredit}}"></td>
+        <td class="total-val" data-value="{{TotalOverpayment}}"></td>
+        <td class="total-val" data-value="{{TotalDeposit}}"></td>
+        <td class="total-val" data-value="{{TotalApplied}}"></td>
+        <td class="total-val" data-value="{{TotalRefunded}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
-      {{/with}}
     </tbody>
   </table>
 </div>

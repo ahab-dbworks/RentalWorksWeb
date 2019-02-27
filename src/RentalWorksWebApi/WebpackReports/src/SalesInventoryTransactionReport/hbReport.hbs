@@ -31,7 +31,11 @@
     </thead>
     <tbody>
       {{#each this}}
-      <tr>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "ICodeheader"}}
+        <td colspan="5" class="header-row">I-Code: {{ICode}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
         <td class="text" data-value="{{WarehouseCode}}"></td>
         <td class="text" data-value="{{ICode}}"></td>
         <td class="text" data-value="{{Description}}"></td>
@@ -44,6 +48,15 @@
         <td class="number" data-value="{{CostExtended}}"></td>
         <td class="number" data-value="{{UnitPrice}}"></td>
         <td class="number" data-value="{{PriceExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "ICodefooter"}}
+        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{ICode}}&nbsp;</td>
+        <td class="total-row number" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td class="total-row number" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
       </tr>
       {{/each}}
     </tbody>

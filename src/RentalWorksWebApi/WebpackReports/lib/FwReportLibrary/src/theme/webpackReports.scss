@@ -125,6 +125,28 @@
     font-weight: bold;
 }
 
+.total-val {
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding-top: 10px;
+    text-align: right;
+}
+
+.total-name {
+    font-weight: bold;
+    text-align: right;
+    padding-top: 11px
+}
+
+.header-row {
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.top-header-row:not(.lower) {
+    padding-top: 15px;
+}
+
 table {
     border-collapse: collapse;
 }
