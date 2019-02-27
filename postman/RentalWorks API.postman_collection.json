@@ -11542,6 +11542,183 @@
 			]
 		},
 		{
+			"name": "Email Settings",
+			"item": [
+				{
+					"name": "Email Settings: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/emailsettings/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"emailsettings",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Email Settings: Get Many",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/emailsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"emailsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Email Settings: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/emailsettings/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"emailsettings",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Email Settings: Insert",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Field1\": \"1\",\n    \"Field2\": \"2\",\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/emailsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"emailsettings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Email Settings: Update",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t \"EmailSettingsId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/emailsettings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"emailsettings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Exchange",
 			"item": [
 				{
