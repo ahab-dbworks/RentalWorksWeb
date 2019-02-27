@@ -224,6 +224,10 @@
                         let startIndex = 0, index, indicies = [];
                         let htmlStringBuilder = [];
                         search = search.toUpperCase();
+                        if (search === '') {
+                            element.innerHTML = element.textContent;
+                            return
+                        }
                         while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
                             indicies.push(index);
                             startIndex = index + searchStrLen;
@@ -240,6 +244,9 @@
                                 element.innerHTML = htmlStringBuilder.join('');
                             }
                         }
+                        if (indicies.length === 0 || search === '') {
+                            element.innerHTML = element.textContent;
+                        }
                     }
 
                     for (var i = 0; i < results.length; i++) {
@@ -253,11 +260,12 @@
                         let title = module.find('a#title');
                         let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
 
-                        if (panel.length > 0) {
+                        if (panel.length > 0 && description.length === 0) {
                             description = panel.find('small#description-text');
                             title = panel.find('a#title');
                             panel.show();
                         }
+                        module.show();
 
                         for (var j = 0; j < description.length; j++) {
                             if (description[j] !== undefined) {
@@ -265,13 +273,16 @@
                                 let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
                                 if (descriptionIndex > -1) {
                                     highlightSearch(description[j], val);
+                                } else {
+                                    highlightSearch(description[j], '');
                                 }
                                 if (titleIndex > -1) {
                                     highlightSearch(title[j], val);
+                                } else {
+                                    highlightSearch(title[j], '');
                                 }
                             }
                         }
-                        module.show();
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
