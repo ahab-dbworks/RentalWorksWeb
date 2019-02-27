@@ -113,11 +113,15 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             [FwLogicProperty(Id: "hRvFdpdIUPtbM")]
             public DateTime? toDate { get; set; }
             [FwLogicProperty(Id: "IeEt7jOpL7PAi")]
-            public string OfficeLocationId { get; set; }
+            public string officeLocationId { get; set; }
             [FwLogicProperty(Id: "h1oiCe9vWJnTg")]
-            public string OfficeLocation { get; set; }
+            public string officeLocation { get; set; }
             [FwLogicProperty(Id: "s7rkkN7Gajmol")]
-            public string OfficeLocationCode { get; set; }
+            public string officeLocationCode { get; set; }
+            [FwLogicProperty(Id: "B9aPJM7TeyjFG")]
+            public bool? defaultStacked { get; set; }
+            [FwLogicProperty(Id: "Fl99kdJF50cB3")]
+            public bool? stacked { get; set; }
         }
 
         //public class AvailableWidget : WidgetLogic { }
@@ -215,7 +219,9 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("locationid");                    //33
                 qry.AddColumn("location");                      //34
                 qry.AddColumn("locationcode");                  //35
-                qry.AddColumn("orderby");                       //36
+                qry.AddColumn("defaultstacked");                //36
+                qry.AddColumn("stacked");                       //37
+                qry.AddColumn("orderby");                       //38
                 qry.AddParameter("@webusersid", UserId);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
@@ -273,6 +279,8 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string locationid = table.Rows[r][33].ToString();
                     string location = table.Rows[r][34].ToString();
                     string locationcode = table.Rows[r][35].ToString();
+                    bool defaultStacked = FwConvert.ToBoolean(table.Rows[r][36].ToString());
+                    bool stacked = FwConvert.ToBoolean(table.Rows[r][37].ToString());
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
@@ -309,9 +317,11 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     w.fromDate = fromdate;
                     w.defaultToDate = defaulttodate;
                     w.toDate = todate;
-                    w.OfficeLocationId = locationid;
-                    w.OfficeLocation = location;
-                    w.OfficeLocationCode = locationcode;
+                    w.officeLocationId = locationid;
+                    w.officeLocation = location;
+                    w.officeLocationCode = locationcode;
+                    w.defaultStacked = defaultStacked;
+                    w.stacked = stacked;
 
                     UserWidgets.Add(w);
                     loaded = true;

@@ -70,12 +70,12 @@ namespace WebApi.Modules.Settings.Widget
         // GET api/v1/widget/loadbyname/ordersbystatus
         [HttpGet("loadbyname/{widgetApiName}")]
         [FwControllerMethod(Id: "CSCjPzhW5pIbB")]
-        public async Task<ActionResult<Widget>> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId, string dateBehaviorId, string dateField, DateTime? fromDate, DateTime? toDate)
+        public async Task<ActionResult<Widget>> LoadByName([FromRoute]string widgetApiName, int dataPoints, string locationId, string warehouseId, string departmentId, string dateBehaviorId, string dateField, DateTime? fromDate, DateTime? toDate, bool? stacked)
         {
-            return await DoGetWidget(widgetApiName, dataPoints: dataPoints, locationId: locationId, dateBehaviorId: dateBehaviorId, dateField: dateField, fromDate: fromDate, toDate: toDate);
+            return await DoGetWidget(widgetApiName, dataPoints: dataPoints, locationId: locationId, dateBehaviorId: dateBehaviorId, dateField: dateField, fromDate: fromDate, toDate: toDate, stacked: stacked);
         }
         //------------------------------------------------------------------------------------
-        private async Task<ActionResult<Widget>> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "", string dateBehaviorId = "", string dateField = "", DateTime? fromDate = null, DateTime? toDate = null)
+        private async Task<ActionResult<Widget>> DoGetWidget(string widgetName, int dataPoints = 0, string locationId = "", string warehouseId = "", string departmentId = "", string dateBehaviorId = "", string dateField = "", DateTime? fromDate = null, DateTime? toDate = null, bool? stacked = false)
         {
             try
             {
@@ -95,6 +95,8 @@ namespace WebApi.Modules.Settings.Widget
                 w.locationId = locationId;
                 w.warehouseId = warehouseId;
                 w.departmentId = departmentId;
+                //w.stacked = stacked.GetValueOrDefault(false);
+                w.stacked = true;
                 bool b = w.LoadAsync().Result;
                 return new OkObjectResult(w);
             }

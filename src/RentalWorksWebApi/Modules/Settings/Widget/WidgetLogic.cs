@@ -83,6 +83,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwLogicProperty(Id: "csSIjXVFEkh0a")]
         public string DefaultToDate { get { return widget.DefaultToDate; } set { widget.DefaultToDate = value; } }
 
+        [FwLogicProperty(Id: "KUKHZiEtDT8uq")]
+        public bool? DefaultStacked { get { return widget.DefaultStacked; } set { widget.DefaultStacked = value; } }
+
         [FwLogicProperty(Id: "ukHI6jdx08K")]
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }
 

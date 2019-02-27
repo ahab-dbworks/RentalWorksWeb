@@ -67,9 +67,11 @@ namespace WebApi.Modules.Settings.Widget
     public class WidgetAxis
     {
         public WidgetAxisTicks ticks { get; set; }
+        public bool stacked { get; set; }
         public WidgetAxis()
         {
             ticks = new WidgetAxisTicks();
+            stacked = false;
         }
     }
     //------------------------------------------------------------------------------------
@@ -120,6 +122,7 @@ namespace WebApi.Modules.Settings.Widget
         public string backgroundColorFieldName { get; set; } = "backgroundcolor";
         public string borderColorFieldName { get; set; } = "bordercolor";
         public double opacity { get; set; } = 0.75;
+        public bool stacked { get { return options.scales.yAxes[0].stacked; } set { options.scales.yAxes[0].stacked = value; options.scales.xAxes[0].stacked = value; } }
 
 
         private int counterFieldIndex;

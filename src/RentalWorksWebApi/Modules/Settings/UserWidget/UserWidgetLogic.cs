@@ -124,6 +124,15 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwLogicProperty(Id: "ol7Rnkn7YH35b", IsReadOnly: true)]
         public string OfficeLocationCode { get; set; }
 
+
+        [FwLogicProperty(Id: "gb1hYGnT0hW6H", IsReadOnly: true)]
+        public bool? DefaultStacked { get; set; }
+
+
+        [FwLogicProperty(Id: "zecSx1uaNUfmN")]
+        public bool? Stacked { get { return userWidget.Stacked; } set { userWidget.Stacked = value; } }
+
+
         [FwLogicProperty(Id: "jX6rdY9ENpKO")]
         public bool? Disabled { get { return userWidget.Disabled; } set { userWidget.Disabled = value; } }
 

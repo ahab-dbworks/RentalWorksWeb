@@ -62,6 +62,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "defaulttodate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string DefaultToDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultstacked", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? DefaultStacked { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
