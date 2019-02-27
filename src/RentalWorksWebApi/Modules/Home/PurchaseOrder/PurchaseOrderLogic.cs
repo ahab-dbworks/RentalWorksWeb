@@ -507,6 +507,19 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
 
 
+
+        [FwLogicProperty(Id: "EJHdP3FGL75fJ", IsReadOnly: true)]
+        public string CurrencyColor { get; set; }
+        [FwLogicProperty(Id: "mbfCIKAk0BI79", IsReadOnly: true)]
+        public string StatusColor { get; set; }
+        [FwLogicProperty(Id: "WHeeHTlDkTL7P", IsReadOnly: true)]
+        public string PurchaseOrderNumberColor { get; set; }
+        [FwLogicProperty(Id: "7Np3MnmdfipuR", IsReadOnly: true)]
+        public string VendorColor { get; set; }
+        [FwLogicProperty(Id: "4RDOWSMI7rlpm", IsReadOnly: true)]
+        public string DescriptionColor { get; set; }
+
+
         //------------------------------------------------------------------------------------ 
 
 

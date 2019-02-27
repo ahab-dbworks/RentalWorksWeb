@@ -8,7 +8,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.PurchaseOrder
 {
-    [FwSqlTable("poview")]
+    [FwSqlTable("powebview")]
     public class PurchaseOrderLoader : PurchaseOrderBrowseLoader
     {
         //------------------------------------------------------------------------------------ 

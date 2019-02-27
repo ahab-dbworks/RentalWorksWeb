@@ -46,6 +46,22 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "currencycolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "statuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StatusColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PurchaseOrderNumberColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "orderdesccolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor { get; set; }
+        //------------------------------------------------------------------------------------
+
 
 
         //------------------------------------------------------------------------------------ 
@@ -110,69 +126,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
-
-            //if ((request != null) && (request.activeview != null))
-            //{
-            //    switch (request.activeview)
-            //    {
-            //        case "NEW":
-            //            select.AddWhere("(status = @orderstatus)");
-            //            select.AddParameter("@orderstatus", RwConstants.PURCHASE_ORDER_STATUS_NEW);
-            //            break;
-            //        case "OPEN":
-            //            select.AddWhere("(status = @orderstatus)");
-            //            select.AddParameter("@orderstatus", RwConstants.PURCHASE_ORDER_STATUS_OPEN);
-            //            break;
-            //        case "RECEIVED":
-            //            select.AddWhere("(status = @orderstatus)");
-            //            select.AddParameter("@orderstatus", RwConstants.PURCHASE_ORDER_STATUS_RECEIVED);
-            //            break;
-            //        case "COMPLETE":
-            //            select.AddWhere("(status = @orderstatus)");
-            //            select.AddParameter("@orderstatus", RwConstants.PURCHASE_ORDER_STATUS_COMPLETE);
-            //            break;
-            //        case "CLOSED":
-            //            select.AddWhere("(status = @orderstatus)");
-            //            select.AddParameter("@orderstatus", RwConstants.PURCHASE_ORDER_STATUS_CLOSED);
-            //            break;
-            //        case "SNAPSHOT":
-            //            select.AddWhere("(status = @orderstatus)");
-            //            select.AddParameter("@orderstatus", RwConstants.PURCHASE_ORDER_STATUS_SNAPSHOT);
-            //            break;
-            //        case "VOID":
-            //            select.AddWhere("(status = @orderstatus)");
-            //            select.AddParameter("@orderstatus", RwConstants.PURCHASE_ORDER_STATUS_VOID);
-            //            break;
-            //        case "ALL":
-            //            break;
-            //    }
-
-            //    if (request.activeview.Contains("WarehouseId="))
-            //    {
-            //        string whId = request.activeview.Replace("WarehouseId=", "");
-            //        if (!whId.Equals("ALL"))
-            //        {
-            //            select.AddWhere("(warehouseid = @whid)");
-            //            select.AddParameter("@whid", whId);
-            //        }
-            //    }
-
-            //    string locId = "ALL";
-            //    if (request.activeview.Contains("OfficeLocationId="))
-            //    {
-            //        locId = request.activeview.Replace("OfficeLocationId=", "");
-            //    }
-            //    else if (request.activeview.Contains("LocationId="))
-            //    {
-            //        locId = request.activeview.Replace("LocationId=", "");
-            //    }
-            //    if (!locId.Equals("ALL"))
-            //    {
-            //        select.AddWhere("(locationid = @locid)");
-            //        select.AddParameter("@locid", locId);
-            //    }
-
-            //}
         }
         //------------------------------------------------------------------------------------    
     }
