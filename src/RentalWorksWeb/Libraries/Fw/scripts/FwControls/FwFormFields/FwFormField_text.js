@@ -17,6 +17,9 @@ FwFormField_text.renderRuntimeHtml = function($control, html) {
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
         html.push('<input class="fwformfield-value" type="text"');
+        if (applicationConfig.allCaps) {
+            html.push(' style="text-transform:uppercase"');
+        }
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }

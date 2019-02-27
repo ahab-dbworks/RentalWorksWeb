@@ -1,7 +1,7 @@
 ﻿class FwBrowseColumn_textClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-    
+
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
@@ -25,7 +25,7 @@
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
-        var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
+        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         $field.data('autoselect', false);
         // this only works if there is no spaces or other illegal css characters in the originalvalue
@@ -35,7 +35,7 @@
                 $tr.addClass(rowclassmapping[originalvalue]);
             }
         }
-        $field.on('click', function() {
+        $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }
@@ -43,10 +43,13 @@
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
-        var formmaxlength = (typeof $field.attr('data-formmaxlength')  === 'string') ? $field.attr('data-formmaxlength') : '';
+        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
         let html = [];
         html.push('<input class="value" type="text"');
+        if (applicationConfig.allCaps) {
+            html.push(' style="text-transform:uppercase"');
+        }
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }

@@ -16,7 +16,10 @@ FwFormField_textarea.renderDesignerHtml = function($control, html) {
 FwFormField_textarea.renderRuntimeHtml = function($control, html) {
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
-        html.push('<textarea class="fwformfield-value"');
+    html.push('<textarea class="fwformfield-value"');
+        if (applicationConfig.allCaps) {
+            html.push(' style="text-transform:uppercase"');
+        }
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }

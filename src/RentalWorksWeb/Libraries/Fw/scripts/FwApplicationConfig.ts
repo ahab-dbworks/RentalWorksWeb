@@ -11,4 +11,5 @@
     photoQuality = 100;
     photoWidth = 1024;
     photoHeight = 1024;
+    allCaps: boolean;
 }
