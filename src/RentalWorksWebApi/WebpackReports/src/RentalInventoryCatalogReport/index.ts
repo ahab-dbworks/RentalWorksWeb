@@ -20,7 +20,7 @@ export class RentalInventoryCatalogReport extends WebpackReport {
                     data.Report = 'Rental Inventory Catalog Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
-                    data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

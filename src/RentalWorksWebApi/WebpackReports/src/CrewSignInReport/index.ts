@@ -20,7 +20,7 @@ export class CrewSignInReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/crewsigninreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const crewSignIn: any = DataTable.toObjectList(response);
-                    crewSignIn.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    crewSignIn.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     crewSignIn.FromDate = parameters.FromDate;
                     crewSignIn.ToDate = parameters.ToDate;
                     crewSignIn.Report = 'Crew Sign-In Report';

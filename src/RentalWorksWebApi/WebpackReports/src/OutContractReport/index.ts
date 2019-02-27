@@ -21,8 +21,7 @@ export class OutContractReport extends WebpackReport {
             Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
                 .then((response: OutContract) => {
                     const contract: any = response;
-                    contract.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    contract.ContractTime = moment(contract.ContractTime, 'h:mm a').format('h:mm a');
+                    contract.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     this.renderHeaderHtml(contract);
                     this.renderFooterHtml(contract);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -60,7 +59,6 @@ class OutContract {
     ContractNumber = '';
     ContractType = '';
     ContractDate = '';
-    ContractTime = '';
     LocationId = '';
     LocationCode = '';
     Location = '';

@@ -24,7 +24,7 @@ export class OrderReport extends WebpackReport {
                         .then((response: Order) => {
                         const order: any = response;
                         order.Items = DataTable.toObjectList(response.Items);
-                        order.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                        order.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                         order.System = 'RENTALWORKS';
                         order.Company = '4WALL ENTERTAINMENT';
                         if (controlObject.ReportLogoImage != '') {

@@ -1,4 +1,15 @@
-﻿.rpt-flexrow {
+﻿table {
+    border-collapse: collapse;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+}
+// Report specific flex row with width for PDF and Preview
+.rpt-flexrow {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -14,37 +25,32 @@
     display: flex;
     flex-direction: column;
 }
-
+// Top-level title for most reports
 .rpt-title {
     align-self: center;
-    font-family: Arial, sans-serif;
     font-size: 17px;
     font-weight: bold;
 }
-
+// Top-level sub title
 .rpt-header-center {
     align-self: center;
-    font-family: Arial, sans-serif;
     font-size: 12px;
     margin-top: 5px;
 }
-
+// Top-level right
 .rpt-header-right {
-    font-family: Arial, sans-serif;
     align-self: flex-end;
     font-size: 12px;
     font-weight: bold;
 }
-
+// Top-level left
 .rpt-header-left {
-    font-family: Arial, sans-serif;
     align-self: flex-start;
     font-size: 12px;
     font-weight: bold;
 }
-
+// Print time footer on all reports
 .rpt-footer {
-    font-family: Arial, sans-serif;
     align-self: flex-start;
     font-size: 12px;
     font-weight: bold;
@@ -110,52 +116,41 @@
     border-top: 1.5px solid black;
     padding-top: 10px;
 }
-
+// Large title for Order, Invoice report
 .title {
     align-self: center;
     font-family: Arial, sans-serif;
     font-size: 38px;
     font-weight: bold;
 }
-
+// sub title for Order, Invoice report
 .sub-title {
     align-self: center;
     font-family: Arial, sans-serif;
     font-size: 15px;
     font-weight: bold;
 }
-
+// Footer total value served
 .total-val {
     font-weight: bold;
     border-top: 1.5px solid black;
     padding-top: 10px;
     text-align: right;
 }
-
+// footer description text
 .total-name {
     font-weight: bold;
     text-align: right;
     padding-top: 11px
 }
-
+// section header row
 .header-row {
     font-weight: bold;
     font-size: 12px;
 }
-
-.top-header-row:not(.lower) {
+// top most section header
+.header-row:not(.lower) {
     padding-top: 15px;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
-    margin: 0;
-    padding: 0;
 }
 
 // Type settings can be applied to both th and td on all reports

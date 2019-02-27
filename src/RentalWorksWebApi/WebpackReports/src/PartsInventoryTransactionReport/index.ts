@@ -17,7 +17,7 @@ export class PartsInventoryTransactionReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventorytransactionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const partsInventoryTransaction: any = DataTable.toObjectList(response);
-                    partsInventoryTransaction.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    partsInventoryTransaction.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     partsInventoryTransaction.FromDate = parameters.FromDate;
                     partsInventoryTransaction.ToDate = parameters.ToDate;
                     partsInventoryTransaction.Report = 'Parts Inventory Transaction Report';

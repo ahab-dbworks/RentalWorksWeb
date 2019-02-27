@@ -18,7 +18,7 @@ export class AgentBillingReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const agentBilling: any = DataTable.toObjectList(response);
-                    agentBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    agentBilling.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     agentBilling.FromDate = parameters.FromDate;
                     agentBilling.ToDate = parameters.ToDate;
                     agentBilling.Report = 'Agent Billing Report';

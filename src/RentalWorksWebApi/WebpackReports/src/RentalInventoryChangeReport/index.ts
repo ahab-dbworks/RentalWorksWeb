@@ -19,7 +19,7 @@ export class RentalInventoryChangeReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const rentalInventoryChange: any = {};
                     rentalInventoryChange.rows = DataTable.toObjectList(response);
-                    rentalInventoryChange.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    rentalInventoryChange.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     rentalInventoryChange.Report = 'Rental Inventory Change Report';
                     rentalInventoryChange.System = 'RENTALWORKS';
                     rentalInventoryChange.Company = '4WALL ENTERTAINMENT';

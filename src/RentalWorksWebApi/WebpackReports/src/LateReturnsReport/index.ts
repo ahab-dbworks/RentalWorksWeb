@@ -36,8 +36,7 @@ export class LateReturnDueBackReport extends WebpackReport {
                     globals.data = lateReturnDueBack;
                     globals.Type = parameters.Type;
                     globals.headerText = parameters.headerText;
-                    globals.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
-                    globals.ContractTime = moment(globals.ContractTime, 'h:mm a').format('h:mm a');
+                    globals.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     if (parameters.ShowUnit) { globals.ShowUnit = 'true' };
                     if (parameters.ShowReplacement) { globals.ShowReplacement = 'true' };
                     if (parameters.ShowBarCode) { globals.ShowBarCode = 'true' };
@@ -79,6 +78,5 @@ class globals {
     ShowSerial = '';
     Type = '';
     PrintTime = '';
-    ContractTime = '';
     data: DataTable;
 }

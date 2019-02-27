@@ -29,7 +29,7 @@ export class CreateInvoiceProcessReport extends WebpackReport {
                     const createInvoiceProcess: any = DataTable.toObjectList(response);
                     createInvoiceProcess.BatchNumber = batchNumber;
                     createInvoiceProcess.Today = moment().format('LL');
-                    createInvoiceProcess.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    createInvoiceProcess.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     createInvoiceProcess.Report = 'Create Invoice Process Report';
                     createInvoiceProcess.System = 'RENTALWORKS';
                     createInvoiceProcess.Company = '4WALL ENTERTAINMENT';

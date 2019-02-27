@@ -54,7 +54,7 @@ export class DealOutstandingReport extends WebpackReport {
                         dealOutstanding.IncludeValue = true;
                     }
               
-                    dealOutstanding.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    dealOutstanding.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     dealOutstanding.FromDate = parameters.FromDate;
                     dealOutstanding.ToDate = parameters.ToDate;
                     dealOutstanding.Report = 'Deal Outstanding Items Report';

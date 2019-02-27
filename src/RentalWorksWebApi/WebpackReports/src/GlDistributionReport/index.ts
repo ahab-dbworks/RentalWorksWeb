@@ -18,7 +18,7 @@ export class GLDistributionReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const glDistribution: any = {};
                     glDistribution.GLItems = DataTable.toObjectList(response);
-                    glDistribution.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    glDistribution.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     glDistribution.FromDate = parameters.FromDate;
                     glDistribution.ToDate = parameters.ToDate;
                     glDistribution.Location = parameters.Location;

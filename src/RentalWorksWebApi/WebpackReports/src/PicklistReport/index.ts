@@ -22,7 +22,7 @@ export class PickListReport extends WebpackReport {
                     let picklist = new Picklist();
                     picklist = response;
                     picklist.Items = DataTable.toObjectList(response.Items);
-                    picklist.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    picklist.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     picklist.Report = 'PICK LIST';
                     picklist.System = 'RENTALWORKS';
                     picklist.Company = '4WALL ENTERTAINMENT';

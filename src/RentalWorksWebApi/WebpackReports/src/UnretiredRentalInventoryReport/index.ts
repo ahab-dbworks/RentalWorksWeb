@@ -18,7 +18,7 @@ export class UnretiredRentalInventoryReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/UnretiredRentalInventoryReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const unretiredRentalInventory: any = DataTable.toObjectList(response);
-                    unretiredRentalInventory.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    unretiredRentalInventory.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     unretiredRentalInventory.FromDate = parameters.FromDate;
                     unretiredRentalInventory.ToDate = parameters.ToDate;
                     unretiredRentalInventory.Report = 'Unretired Rental Inventory Report';

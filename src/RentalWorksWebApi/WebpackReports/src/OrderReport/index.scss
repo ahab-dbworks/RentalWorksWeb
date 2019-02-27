@@ -29,33 +29,23 @@ tbody[data-rowtype="detail"]:nth-child(even) {
     align-self: flex-end;
 }
 
-.title {
-    align-self: center;
-    font-family: Arial, sans-serif;
-    font-size: 35px;
-    font-weight: bold;
-}
 .header-center {
     align-self: center;
-    font-family: Arial, sans-serif;
     font-size: 15px;
     margin-top: 5px;
 }
 
 .header-right {
-    font-family: Arial, sans-serif;
     align-self: flex-end;
     font-size: 15px;
 }
 
 .header-left {
-    font-family: Arial, sans-serif;
     align-self: flex-start;
     font-size: 15px;
 }
 
 body {
-    font-family: Arial, sans-serif;
     font-size: 15px;
     margin: 0;
     padding: 0;
@@ -75,15 +65,6 @@ thead {
     border-top: 2px solid #027cc5;
     border-bottom: 2px solid #027cc5;
     background-color: #DCDCDC;
-}
-
-.header-row {
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.top-header-row:not(.lower) {
-    padding-top: 15px;
 }
 
 .total-row {

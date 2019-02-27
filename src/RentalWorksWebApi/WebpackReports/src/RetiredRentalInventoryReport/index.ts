@@ -18,7 +18,7 @@ export class RetiredRentalInventoryReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const retiredRentalInventory: any = {};
                     retiredRentalInventory.Items = DataTable.toObjectList(response);
-                    retiredRentalInventory.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    retiredRentalInventory.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     retiredRentalInventory.FromDate = parameters.FromDate;
                     retiredRentalInventory.ToDate = parameters.ToDate;
                     retiredRentalInventory.Report = 'Retired Rental Inventory Report';

@@ -18,7 +18,7 @@ export class ReceiptBatchReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const report: any = {};
                     report.Items = DataTable.toObjectList(response);
-                    report.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     report.Date = parameters.BatchDate;
                     report.Report = 'Receipt Batch Report';
                     report.System = 'RENTALWORKS';

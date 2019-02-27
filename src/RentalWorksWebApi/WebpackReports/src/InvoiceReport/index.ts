@@ -23,7 +23,7 @@ export class InvoiceReport extends WebpackReport {
                     .then((response: Invoice) => {
                         const invoice: any = response;
                         invoice.Items = DataTable.toObjectList(response.Items);
-                        invoice.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                        invoice.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                         invoice.System = 'RENTALWORKS';
                         invoice.Company = '4WALL ENTERTAINMENT';
                         invoice.Report = 'INVOICE';

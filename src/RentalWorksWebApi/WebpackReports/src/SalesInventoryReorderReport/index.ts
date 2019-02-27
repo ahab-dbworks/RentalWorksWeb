@@ -19,7 +19,7 @@ export class SalesInventoryReorderReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const salesInventoryReorder: any = DataTable.toObjectList(response);
                     salesInventoryReorder.PrintDate = moment().format('MM/DD/YYYY');
-                    salesInventoryReorder.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    salesInventoryReorder.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     salesInventoryReorder.FromDate = parameters.FromDate;
                     salesInventoryReorder.ToDate = parameters.ToDate;
                     salesInventoryReorder.Report = 'Sales Inventory Reorder Report';

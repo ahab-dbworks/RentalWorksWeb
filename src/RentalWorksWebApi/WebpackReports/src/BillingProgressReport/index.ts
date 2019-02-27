@@ -18,7 +18,7 @@ export class BillingProgressReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const data: any = {};
                     data.Rows = DataTable.toObjectList(response);
-                    data.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Billing Progress Report';
                     data.System = 'RENTALWORKS';

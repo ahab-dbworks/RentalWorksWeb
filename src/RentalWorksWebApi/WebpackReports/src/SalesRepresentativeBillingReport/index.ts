@@ -18,7 +18,7 @@ export class SalesRepresentativeBillingReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const SalesRepresentativeBilling: any = DataTable.toObjectList(response);
-                    SalesRepresentativeBilling.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    SalesRepresentativeBilling.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     SalesRepresentativeBilling.FromDate = parameters.FromDate;
                     SalesRepresentativeBilling.ToDate = parameters.ToDate;
                     SalesRepresentativeBilling.Report = 'Sales Representative Billing Report';

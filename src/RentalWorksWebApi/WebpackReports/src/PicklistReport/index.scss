@@ -20,26 +20,22 @@ tbody {
 
 .title {
     align-self: center;
-    font-family: Arial, sans-serif;
     font-size: 27px;
     font-weight: bold;
 }
 
 .header-center {
     align-self: center;
-    font-family: Arial, sans-serif;
     font-size: 17px;
     margin-top: 5px;
 }
 
 .header-right {
-    font-family: Arial, sans-serif;
     align-self: flex-end;
     font-size: 17px;
 }
 
 .header-left {
-    font-family: Arial, sans-serif;
     align-self: flex-start;
     font-size: 17px;
 }
@@ -62,7 +58,6 @@ tbody {
 }
 
 body {
-    font-family: Arial, sans-serif;
     font-size: 15px;
     margin: 0;
     padding: 0;
@@ -76,15 +71,6 @@ thead {
         padding: 5px;
         white-space: nowrap;
     }
-}
-
-.header-row {
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.top-header-row:not(.lower) {
-    padding-top: 15px;
 }
 
 .total-row {

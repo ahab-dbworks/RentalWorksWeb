@@ -19,7 +19,7 @@ export class InvoiceSummaryReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/invoicesummaryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const invoiceSummary: any = DataTable.toObjectList(response);
-                    invoiceSummary.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    invoiceSummary.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     invoiceSummary.FromDate = parameters.FromDate;
                     invoiceSummary.ToDate = parameters.ToDate;
                     invoiceSummary.Report = 'Invoice Summary Report';

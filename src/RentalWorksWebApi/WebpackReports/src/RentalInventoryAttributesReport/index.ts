@@ -18,7 +18,7 @@ export class RentalInventoryAttributesReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryattributesreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const rentalInventoryAttributes: any = DataTable.toObjectList(response);
-                    rentalInventoryAttributes.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    rentalInventoryAttributes.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     rentalInventoryAttributes.Report = 'Rental Inventory Attributes Report';
                     rentalInventoryAttributes.System = 'RENTALWORKS';
                     rentalInventoryAttributes.Company = '4WALL ENTERTAINMENT';

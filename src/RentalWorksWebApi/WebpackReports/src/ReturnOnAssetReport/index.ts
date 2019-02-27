@@ -19,7 +19,7 @@ export class ReturnOnAssetReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const returnAsset: any = {};
                     returnAsset.rows = DataTable.toObjectList(response);
-                    returnAsset.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    returnAsset.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     returnAsset.Report = 'Return On Asset Report';
                     returnAsset.System = 'RENTALWORKS';
                     returnAsset.ReportYear = parameters.ReportYear;

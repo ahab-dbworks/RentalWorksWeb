@@ -17,7 +17,7 @@ export class RentalInventoryValueReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryvaluereport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const rentalInventoryValue: any = DataTable.toObjectList(response);
-                    rentalInventoryValue.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    rentalInventoryValue.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     rentalInventoryValue.FromDate = parameters.FromDate;
                     rentalInventoryValue.ToDate = parameters.ToDate;
                     rentalInventoryValue.Report = 'Rental Inventory Value Report';

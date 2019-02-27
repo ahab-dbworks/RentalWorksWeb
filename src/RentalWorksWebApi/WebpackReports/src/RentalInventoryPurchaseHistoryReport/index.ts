@@ -17,7 +17,7 @@ export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorypurchasehistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const rentalInventoryPurchaseHistory: any = DataTable.toObjectList(response);
-                    rentalInventoryPurchaseHistory.PrintTime = moment().format('YYYY-MM-DD h:mm:ss A');
+                    rentalInventoryPurchaseHistory.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     rentalInventoryPurchaseHistory.PurchasedFromDate = parameters.PurchasedFromDate;
                     rentalInventoryPurchaseHistory.PurchasedToDate = parameters.PurchasedToDate;
                     rentalInventoryPurchaseHistory.ReceivedFromDate = parameters.ReceivedFromDate;
