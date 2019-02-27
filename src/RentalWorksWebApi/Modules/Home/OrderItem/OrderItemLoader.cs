@@ -900,11 +900,6 @@ namespace WebApi.Modules.Home.OrderItem
                 FwJsonDataTable dt = e.DataTable;
                 if (dt.Rows.Count > 0)
                 {
-
-                    DateTime batchFromDateTime = DateTime.MinValue;
-                    DateTime batchToDateTime = DateTime.MaxValue;
-                    //int i = 0;
-
                     TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
                     foreach (List<object> row in dt.Rows)
                     {
@@ -913,20 +908,6 @@ namespace WebApi.Modules.Home.OrderItem
                         DateTime fromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());   // not accurate
                         DateTime toDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());       // not accurate
                         availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
-                        //if (i == 0)
-                        //{
-                        //    batchFromDateTime = fromDateTime;
-                        //    batchToDateTime = toDateTime;
-                        //}
-                        //else
-                        //{
-                        //    batchFromDateTime = ((DateTime.Compare(fromDateTime, batchFromDateTime) < 0) ? fromDateTime : batchFromDateTime);
-                        //    batchToDateTime = ((DateTime.Compare(toDateTime, batchToDateTime) < 0) ? batchToDateTime : toDateTime);
-                        //}
-
-                        //TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-                        //availKeys.Add(availKey);
-                        //i++;
                     }
 
                     TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, _orderId, availRequestItems, _refreshAvailability).Result;
