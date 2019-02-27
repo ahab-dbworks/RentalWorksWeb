@@ -63,6 +63,9 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
         let html = [];
         html.push('<input class="value" type="hidden" />');
         html.push('<input class="text" type="text"');
+        if (applicationConfig.allCaps) {
+            html.push(' style="text-transform:uppercase"');
+        }
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }

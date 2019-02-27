@@ -33,7 +33,7 @@ FwFormField_multiselectvalidation.renderRuntimeHtml = function ($control, html) 
     $control.html(html.join(''));
     validationName = $control.attr('data-validationname');
     $valuefield = $control.find('> .fwformfield-control > .fwformfield-value');
-    $searchfield = $control.find('> .fwformfield-control > .fwformfield-text');
+    $searchfield = $control.find('> .fwformfield-control .addItem');
     $btnvalidate = $control.find('> .fwformfield-control > .btnvalidate');
     FwMultiSelectValidation.init($control, validationName, $valuefield, $searchfield, $btnvalidate);
 };
@@ -82,13 +82,47 @@ FwFormField_multiselectvalidation.getValue2 = function ($fwformfield) {
     return value;
 };
 //---------------------------------------------------------------------------------
+FwFormField_multiselectvalidation.getText2 = function ($fwformfield) {
+    var text = $fwformfield.find('.fwformfield-text').val();
+    return text;
+};
+//---------------------------------------------------------------------------------
 FwFormField_multiselectvalidation.setValue = function ($fwformfield, value, text, firechangeevent) {
     // this is really only useful for clearing the value, otherwise it will be out of sync with the selected rows
-    var $inputvalue = $fwformfield.find('.fwformfield-value');
-    var $inputtext = $fwformfield.find('.fwformfield-text');
+    const $inputvalue = $fwformfield.find('.fwformfield-value');
+    const $inputtext = $fwformfield.find('.fwformfield-text');
     $inputtext.val(text);
     $inputvalue.val(value);
-    $fwformfield.data('browse').removeData('selectedrows');
+
+    //clears previous selected row values
+    const $browse = $fwformfield.data('browse');
+    if (typeof $browse.data('selectedrows') === 'undefined') {
+        $browse.data('selectedrows', {});
+    } else {
+        $browse.removeData('selectedrows');
+    }
+    const multiselectfield = $fwformfield.find('.multiselectitems');
+    multiselectfield.find('.multiitem').remove();
+    if (value !== '') {
+        let valueArr;
+        if ($fwformfield.hasClass('email')) {
+            valueArr = value.split(';');
+        } else {
+            valueArr = value.split(',');
+        }
+        let textArr;
+        if (typeof text !== 'undefined') {
+            textArr = text.split(',');
+        }
+
+        for (let i = 0; i < valueArr.length; i++) {
+            multiselectfield.prepend(`
+                <div contenteditable="false" class="multiitem" data-multivalue="${valueArr[i]}">
+                    <span>${textArr[i]}</span>
+                    <i class="material-icons">clear</i>
+                </div>`);
+        }
+    }
     if (firechangeevent) $inputvalue.change();
 };
 //---------------------------------------------------------------------------------

@@ -16,6 +16,9 @@ FwFormField_checkboxlist.renderRuntimeHtml = function ($control, html) {
     if ($control.attr('data-share') === 'true') {
         options.group = 'shared';
         options.onAdd = function (evt) {
+            if (jQuery(evt.item).parent().children().length === 1) {
+                jQuery(evt.item).parent().parent().find('.empty-message').hide();
+            }
             jQuery(evt.item).find('.checkbox').prop('checked', true).show();
         }
     }
@@ -163,6 +166,11 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
         }
     }
     $fwformfield.find('ol').html(html.join(''));
+
+    if (value.length === 0) {
+        $fwformfield.find('.fwformfield-control').append('<div class="empty-message" style="position:fixed;">You have no widgets yet - Drag and drop them here to get started!</div>');
+    }
+
     $fwformfield.find('ol .checkbox').on('change', function () {
         var $this, $li;
         $this = jQuery(this);

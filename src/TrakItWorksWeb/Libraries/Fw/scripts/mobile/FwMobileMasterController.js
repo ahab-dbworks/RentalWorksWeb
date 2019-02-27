@@ -103,10 +103,9 @@ FwMobileMasterController.getMasterView = function(viewModel, properties) {
         return $tab;
     };
 
-    //if (typeof FwMobileMasterController.menu == 'undefined') {
-        FwMobileMasterController.generateMenu();
-    //}
+    FwMobileMasterController.generateDeviceStatusIcons($view);
 
+    FwMobileMasterController.generateMenu();
     $view.append(FwMobileMasterController.menu);
 
     return $view;
@@ -118,20 +117,20 @@ FwMobileMasterController.generateMenu = function() {
     html = [];
 
     html.push('<div class="menu">');
-        html.push('<div class="menu-body">');
-            html.push('<div class="menu-body-top">');
-                html.push('<div class="apptitle center" style="padding-top:10px 0;background-color:rgba(0,0,0,.4);font-size:20px;">' + program.htmlname + '</div>');
-                html.push('<div class="" style="padding:5px;background-color:rgba(0,0,0,.4);overflow:auto;font-size:12px;">');
-                    html.push('<div class="username" style="float:left;"><div class="caption" style="float:left;">User:</div><div class="value" style="float:left;margin-left:5px;">' + FwFunc.fixCaps(sessionStorage.getItem('fullname')) + '</div></div>');
-                    if (program.name === 'GateWorks') {
-                        html.push('<div class="gate" style="float:right"><div class="caption" style="float:left;">Gate:</div><div class="value" style="float:left;margin-left:5px;">' + localStorage.getItem('gate') + '</div></div>');
-                    }
-                html.push('</div>');
-            html.push('</div>');
-            html.push('<div class="menu-body-links"></div>');
-            html.push('<div class="menu-body-footer center" style="font-size:10px;padding:5px 0;background-color:rgba(0,0,0,.4);width:100%;">' + program.name + ' v' + applicationConfig.version + '</div>');
-        html.push('</div>');
-        html.push('<div class="menu-close"></div>');
+    html.push('  <div class="menu-body">');
+    html.push('    <div class="menu-body-top">');
+    html.push('      <div class="apptitle center" style="padding-top:10px 0;background-color:rgba(0,0,0,.4);font-size:20px;">' + program.htmlname + '</div>');
+    html.push('      <div class="menu-top-controls" style="padding:5px;background-color:rgba(0,0,0,.4);overflow:auto;font-size:12px;">');
+    html.push('        <div class="username" style="overflow:auto;"><div class="caption" style="float:left;">User:</div><div class="value" style="float:left;margin-left:5px;">' + FwFunc.fixCaps(sessionStorage.getItem('fullname')) + '</div></div>');
+    if (program.name === 'GateWorks') {
+        html.push('        <div class="gate" style="float:right"><div class="caption" style="float:left;">Gate:</div><div class="value" style="float:left;margin-left:5px;">' + localStorage.getItem('gate') + '</div></div>');
+    }
+    html.push('      </div>');
+    html.push('    </div>');
+    html.push('    <div class="menu-body-links"></div>');
+    html.push('    <div class="menu-body-footer center" style="font-size:10px;padding:5px 0;background-color:rgba(0,0,0,.4);width:100%;">' + program.name + ' v' + applicationConfig.version + '</div>');
+    html.push('  </div>');
+    html.push('  <div class="menu-close"></div>');
     html.push('</div>');
     $menu = jQuery(html.join(''));
 
@@ -139,6 +138,59 @@ FwMobileMasterController.generateMenu = function() {
 
     FwMobileMasterController.menu = $menu;
 };
+//----------------------------------------------------------------------------------------------
+FwMobileMasterController.generateDeviceStatusIcons = function ($containgelement) {
+    var $devicestatusicons;
+    if (typeof $containgelement !== 'undefined') {
+        $devicestatusicons = $containgelement.find('#device-status-icons');
+    } else {
+        $devicestatusicons = jQuery('#device-status-icons');
+    }
+    var html = [];
+    if (program.name === 'RentalWorks') {
+        if (program.runningInCordova === true) {
+            // Network Connection
+            html.push('<div class="device-status-icon net">');
+            if (program.online === true) {
+                html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1D8;</i></div>');
+            } else {
+                html.push('  <div style="text-align:center;"><i class="material-icons" style="color:#ff0000;">&#xE1DA;</i></div>');
+            }
+            html.push('  <div class="caption">NET</div>');
+            html.push('</div>');
+
+            //RFID
+            if (typeof program.showRfidStatusIcon !== 'undefined' && program.showRfidStatusIcon === true) {
+                html.push('<div class="device-status-icon rfid">');
+                if (RwRFID.isConnected === true) {
+                    html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1A7;</i></div>');
+                } else {
+                    html.push('  <div class="icon"><i class="material-icons" style="color:#ff0000;">&#xE1A9;</i></div>');
+                }
+                html.push('  <div class="caption">RFID</div>')
+                html.push('</div>');
+            }
+
+            //Battery
+            //html.push('<div class="device-status-icon battery">');
+            //if (program.lineaPro_BatteryStatus_Status === 'unknown') {
+            //    html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1A6;</i></div>');
+            //}
+            //else if (program.lineaPro_BatteryStatus_Status === 'critical') {
+            //    html.push('  <div class="icon"><i class="material-icons" style="color:#ff0000;">&#xE19C;</i></div>');
+            //}
+            //else if (program.lineaPro_BatteryStatus_Status === 'low') {
+            //    html.push('  <div class="icon"><i class="material-icons" style="color:#ffff00;">&#xE19C;</i></div>');
+            //}
+            //else { //ok and anything else
+            //    html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1A4;</i></div>');
+            //}
+            //html.push('  <div class="caption">' + program.lineaPro_BatteryStatus_Level + '</div>')
+            //html.push('</div>');
+        }
+    }
+    $devicestatusicons.empty().append(html.join('\n'));
+}
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.generateMenuLinks = function($menu) {
     var html, $link, $linkgroup, appOptions;

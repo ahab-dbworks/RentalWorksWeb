@@ -47,6 +47,9 @@
         var formmaxlength = (typeof $field.attr('data-formmaxlength')  === 'string') ? $field.attr('data-formmaxlength') : '';
         let html = [];
         html.push('<input class="value" type="text"');
+        if (applicationConfig.allCaps) {
+            html.push(' style="text-transform:uppercase"');
+        }
         if ($browse.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }

@@ -1,4 +1,4 @@
-class FwBrowseClass {
+﻿class FwBrowseClass {
     //---------------------------------------------------------------------------------
     upgrade($control) {
         var properties, i, data_type;
@@ -193,6 +193,9 @@ class FwBrowseClass {
                                     compositekey.push($keyfield.html());
                                 });
                                 compositekey = compositekey.join(',');
+                                if (typeof $control.data('selectedrows') === 'undefined') {
+                                    $control.data('selectedrows', {});
+                                }
                                 selectedrows = $control.data('selectedrows');
                                 if (typeof selectedrows[compositekey] !== 'undefined') {
                                     $tr.removeClass('selected');
@@ -1082,17 +1085,25 @@ class FwBrowseClass {
                     html.push($advancedoptions.wrap('<div/>').parent().html());       //MY 2/26/2015: Hack to get parent .advancedoption div as well as content
                 }
                 html.push('<div class="fwbrowsefilter" style="display:none;"></div>');
-                html.push('<div class="tablewrapper">');
+
+                if ($control.attr('data-tableheight')) {
+                    const height = $control.attr('data-tableheight');
+                    html.push(`<div class="tablewrapper" style="height:${height};">`);
+                } else {
+                    html.push('<div class="tablewrapper">');
+                }
                 html.push('<table>');
                 html.push('<thead>');
                 // header row
                 html.push('<tr class="fieldnames">');
                 if (($control.attr('data-type') === 'Grid') || (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true'))) {
-                    var cbuniqueId = FwApplication.prototype.uniqueId(10);
-                    html.push('<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow"/><label for="' + cbuniqueId + '" class="lblselectrow"></label></div></td>');
-                    html.push('<td class="column gridspacer" style="display:none;"></td>');
+                    let cbuniqueId = FwApplication.prototype.uniqueId(10);
+                    if ($control.attr('data-hasmultirowselect') !== 'false') {
+                        html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
+                        html.push('<td class="column gridspacer" style="display:none;"></td>');
+                    }
                 }
-                for (var colno = 0; colno < $columns.length; colno++) {
+                for (let colno = 0; colno < $columns.length; colno++) {
                     var $column = $columns.eq(colno);
                     var width = $column.attr('data-width');
                     var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
@@ -1460,10 +1471,10 @@ class FwBrowseClass {
                             $submenubtn = FwGridMenu.addSubMenu($menu);
                         }
                         if ($submenubtn !== null) {
-                            var $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
-                            var $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
+                            const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
+                            const $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
                             if (nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T') {
-                                var $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
+                                const $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
                                 $submenuitem.on('click', function (e: JQuery.Event) {
                                     try {
                                         if ($browse.attr('data-enabled') !== 'false') {
@@ -1498,27 +1509,42 @@ class FwBrowseClass {
                                 });
                             }
                             if (gridSubMenu !== null) {
-                                for (var gridSubMenuGroupIndex = 0; gridSubMenuGroupIndex < gridSubMenu.children.length; gridSubMenuGroupIndex++) {
-                                    var gridSubMenuGroup = gridSubMenu.children[gridSubMenuGroupIndex];
+                                for (let gridSubMenuGroupIndex = 0; gridSubMenuGroupIndex < gridSubMenu.children.length; gridSubMenuGroupIndex++) {
+                                    const gridSubMenuGroup = gridSubMenu.children[gridSubMenuGroupIndex];
                                     if ((gridSubMenuGroup && gridSubMenuGroup.properties.nodetype === 'SubMenuGroup') && (gridSubMenuGroup.properties.visible === 'T')) {
-                                        var $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
-                                        var $optiongroup = FwGridMenu.addSubMenuGroup($submenucolumn, gridSubMenuGroup.properties.caption, gridSubMenuGroup.id);
-                                        for (var gridSubMenuItemIndex = 0; gridSubMenuItemIndex < gridSubMenuGroup.children.length; gridSubMenuItemIndex++) {
-                                            var gridSubMenuItem = gridSubMenuGroup.children[gridSubMenuItemIndex];
-                                            if ((gridSubMenuItem && gridSubMenuItem.properties.nodetype === 'SubMenuItem') && (gridSubMenuItem.properties.visible === 'T')) {
-                                                var $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                $submenuitem.on('click', function (e: JQuery.Event) {
-                                                    try {
-                                                        e.stopPropagation();
-                                                        let securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
-                                                        let func = FwApplicationTree.clickEvents['{' + securityid + '}'];
-                                                        func.apply(this, [e]);
-                                                    } catch (ex) {
-                                                        FwFunc.showError(ex);
-                                                    }
-                                                });
-                                                let $form = $control.closest('.fwform');
-                                                let mode = $form.attr('data-mode');
+                                        const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
+                                        const $optiongroup = FwGridMenu.addSubMenuGroup($submenucolumn, gridSubMenuGroup.properties.caption, gridSubMenuGroup.id);
+                                        for (let gridSubMenuItemIndex = 0; gridSubMenuItemIndex < gridSubMenuGroup.children.length; gridSubMenuItemIndex++) {
+                                            const gridSubMenuItem = gridSubMenuGroup.children[gridSubMenuItemIndex];
+                                            if ((gridSubMenuItem && gridSubMenuItem.properties.nodetype === 'SubMenuItem') || (gridSubMenuItem && gridSubMenuItem.properties.nodetype === 'DownloadExcelSubMenuItem') && (gridSubMenuItem.properties.visible === 'T')) {
+                                                let $submenuitem;
+                                                switch (FwApplicationTree.getNodeType(gridSubMenuItem)) {
+                                                    case 'SubMenuItem':
+                                                        $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
+                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                            try {
+                                                                e.stopPropagation();
+                                                                const securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
+                                                                const func = FwApplicationTree.clickEvents[`{${securityid}}`];
+                                                                func.apply(this, [e]);
+                                                            } catch (ex) {
+                                                                FwFunc.showError(ex);
+                                                            }
+                                                        });
+                                                        break;
+                                                    case 'DownloadExcelSubMenuItem':
+                                                        $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
+                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                            try {
+                                                                FwBrowse.downloadExcelWorkbook($browse, controller);
+                                                            } catch (ex) {
+                                                                FwFunc.showError(ex);
+                                                            }
+                                                        });
+                                                        break;
+                                                }
+                                                const $form = $control.closest('.fwform');
+                                                const mode = $form.attr('data-mode');
                                                 if (gridSubMenuItem.properties.allowonnewform === 'False' && mode === 'NEW') {
                                                     $submenuitem.css({ 'pointerEvents': 'none', 'color': 'lightgray' });
                                                 }
@@ -1724,7 +1750,7 @@ class FwBrowseClass {
     }
     //---------------------------------------------------------------------------------
     getRequest($control: JQuery): BrowseRequest {
-        var $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype, searchSeparator;
+        var $fields, orderby, $field, $txtSearch, browsedatafield, value, sort, module, controller, fieldtype, searchSeparator, sortSequence;
         orderby = [];
         let request = new BrowseRequest();
         request.module = '';
@@ -1762,6 +1788,7 @@ class FwBrowseClass {
             $txtSearch = $field.find('> div.search > input');
             value = $txtSearch.val();
             sort = $field.attr('data-sort');
+            sortSequence = $field.attr('data-sortsequence');
             fieldtype = $field.attr('data-browsedatatype');
             if (typeof $field.attr('data-datafield') !== 'undefined') {
                 browsedatafield = $field.attr('data-datafield');
@@ -1798,12 +1825,18 @@ class FwBrowseClass {
                 }
                 request.searchfieldvalues.push(value);
             }
-            if (sort === 'asc') {
-                orderby.push(browsedatafield + ' asc');
-            }
-            if (sort === 'desc') {
-                orderby.push(browsedatafield + ' desc');
-            }
+
+            if (sort === 'asc' || sort === 'desc') {
+                orderby.push({
+                    Field: `${browsedatafield} ${sort}`
+                    , SortSequence: sortSequence
+                });
+            } else if (typeof sortSequence != 'undefined') {
+                orderby.push({
+                    Field: `${browsedatafield}`
+                    , SortSequence: sortSequence
+                });
+            };
         });
         if (typeof $control.attr('data-hasinactive') === 'string' && $control.attr('data-hasinactive') === 'true') {
             if (typeof $control.attr('data-activeinactiveview') !== 'string') {
@@ -1846,8 +1879,12 @@ class FwBrowseClass {
             request.searchseparators = advancedSearch.searchseparators;
             request.searchconjunctions = advancedSearch.searchconjunctions;
         }
-        orderby = orderby.join(',');
-        request.orderby = orderby;
+        //sort orderby list by sequence, map to return only the field, and join into a string
+        request.orderby = orderby
+            .sort((a, b) => (a.SortSequence > b.SortSequence) ? 1 : ((b.SortSequence > a.SortSequence) ? -1 : 0))
+            .map(a => a.Field)
+            .join();
+
         if (typeof $control.data('ondatabind') === 'function') {
             $control.data('ondatabind')(request);  // you can attach an ondatabind function to the browse control if you need to add custom parameters to the request
         }
@@ -2503,18 +2540,21 @@ class FwBrowseClass {
         }
 
         if (($control.attr('data-type') === 'Browse') && ($control.attr('data-hasmultirowselect') === 'true')) {
-            var cbuniqueId = FwApplication.prototype.uniqueId(10);
-            $tr.find('.tdselectrow').append('<div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow" /><label for="' + cbuniqueId + '" class="lblselect"></label><div>');
+            let cbuniqueId = FwApplication.prototype.uniqueId(10);
+            $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
         }
 
         if ($control.attr('data-type') === 'Grid') {
-            var cbuniqueId = FwApplication.prototype.uniqueId(10);
-            $tr.find('.tdselectrow').append('<div class="divselectrow"><input id="' + cbuniqueId + '" type="checkbox" class="cbselectrow" /><label for="' + cbuniqueId + '" class="lblselect"></label><div>');
+            let cbuniqueId = FwApplication.prototype.uniqueId(10);
+
+            if ($control.attr('data-hasmultirowselect') !== 'false') {
+                $tr.find('.tdselectrow').append(`<div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow" /><label for="${cbuniqueId}" class="lblselect"></label><div>`);
+            }
             $tr.find('.browsecontextmenucell').append('<div class="browsecontextmenu"><i class="material-icons">more_vert</i><div>');
         }
 
         if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-            var controller = $control.attr('data-controller');
+            let controller = $control.attr('data-controller');
             if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['generateRow'] === 'function') {
                 window[controller]['generateRow']($control, $tr);
@@ -2948,8 +2988,26 @@ class FwBrowseClass {
             }
 
             if ($field.data('customfield') !== undefined && $field.data('customfield') === true) {
+                switch (formdatatype) {
+                    case "text":
+                        formdatatype = "Text";
+                        break;
+                    case "date":
+                        formdatatype = "Date";
+                        break;
+                    case "checkbox":
+                        formdatatype = "True/False";
+                        break;
+                    case "number":
+                        formdatatype = "Integer";
+                        break;
+                    case "decimal":
+                        formdatatype = "Float";
+                        break;
+                }
                 field = {
                     FieldName: formdatafield,
+                    FieldType: formdatatype,
                     FieldValue: field.value
                 }
                 fields._Custom.push(field);
@@ -3201,6 +3259,106 @@ class FwBrowseClass {
         FwAppData.jsonPost(true, webserviceurl, request, FwServices.defaultTimeout, responseFunc, null, $object);
     }
     //----------------------------------------------------------------------------------------------
+    downloadExcelWorkbook($control: JQuery, controller: any): void {
+        const totalNumberofRows = FwBrowse.getTotalRowCount($control);
+        const totalNumberofRowsStr = totalNumberofRows.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        if (totalNumberofRows >= 1) {
+            const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
+            $confirmation.find('.fwconfirmationbox').css('width', '450px');
+            const html: Array<string> = [];
+            html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield all-records" data-caption="Download all ${totalNumberofRowsStr} Records" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push(' <div class="formrow" style="width:100%;display:flex;align-content:flex-start;align-items:center;padding-bottom:13px;">');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield user-defined-records" data-caption="" data-datafield="" style="float:left;width:30px;"></div>`);
+            html.push('  </div>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">First</span>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow" style="margin:0px 0px 0px 0px;">');
+            html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield user-defined-records-input" data-caption="" data-datafield="" style="width:80px;float:left;margin:0px 0px 0px 0px;"></div>');
+            html.push('  </div>');
+            html.push('  <span style="margin:18px 0px 0px 0px;">Records</span>');
+            html.push(' </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+            html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield color-col" data-caption="Include Color columns" data-datafield="" style="float:left;width:100px;"></div>`);
+            html.push('  </div>');
+            html.push('</div>');
+
+            FwConfirmation.addControls($confirmation, html.join(''));
+            const $yes = FwConfirmation.addButton($confirmation, 'Download', false);
+            const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+            const request: any = FwBrowse.getRequest($control);
+
+            if (request.pagesize > totalNumberofRows) {
+                $confirmation.find('.user-defined-records-input input').val(totalNumberofRows);
+            } else {
+                $confirmation.find('.user-defined-records-input input').val(request.pagesize);
+            }
+
+            $confirmation.find('.all-records input').prop('checked', true);
+
+            $confirmation.find('.all-records input').on('change', function () {
+                const $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    $confirmation.find('.user-defined-records input').prop('checked', false);
+                }
+                else {
+                    $confirmation.find('.user-defined-records input').prop('checked', true);
+                }
+            });
+
+            $confirmation.find('.user-defined-records input').on('change', function () {
+                const $this = jQuery(this);
+                if ($this.prop('checked') === true) {
+                    $confirmation.find('.all-records input').prop('checked', false);
+                }
+                else {
+                    $confirmation.find('.all-records input').prop('checked', true);
+                }
+            });
+
+            $confirmation.find('.user-defined-records-input input').keypress(function () {
+                $confirmation.find('.user-defined-records input').prop('checked', true);
+                $confirmation.find('.all-records input').prop('checked', false);
+            });
+
+            let userDefinedNumberofRows = +$confirmation.find('.user-defined-records input').val();
+            $yes.on('click', () => {
+                $confirmation.find('.all-records input').prop('checked') === true ? userDefinedNumberofRows = totalNumberofRows : userDefinedNumberofRows = +$confirmation.find('.user-defined-records-input input').val();
+                request.pagesize = userDefinedNumberofRows;
+                let includeIdColumns: boolean;
+                $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
+                request.IncludeIdColumns = includeIdColumns;
+                let includeColorColumns: boolean;
+                $confirmation.find('.color-col input').prop('checked') === true ? includeColorColumns = true : includeColorColumns = false;
+                request.IncludeColorColumns = includeColorColumns;
+
+                const module = window[controller].Module;
+                const apiurl = window[controller].apiurl;
+
+                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
+                    try {
+                        const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
+                        jQuery('#application').append($iframe);
+                        setTimeout(function () {
+                            $iframe.remove();
+                        }, 500);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, null, null);
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+            });
+        } else {
+            FwNotification.renderNotification('WARNING', 'There are no records to export.');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     disableGrid($control: JQuery) {
         $control.attr('data-enabled', 'false');
     }
@@ -3395,8 +3553,10 @@ class FwBrowseClass {
             if (customGrids.length > 0) {
                 $control = jQuery(jQuery(`#tmpl-custom-${modulename}Browse`)[0].innerHTML);
             } else {
-                var $control = jQuery(jQuery('#tmpl-grids-' + modulename + 'Browse').html());
+                var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
             }
+        } else {
+            var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
         }
         return $control;
     }

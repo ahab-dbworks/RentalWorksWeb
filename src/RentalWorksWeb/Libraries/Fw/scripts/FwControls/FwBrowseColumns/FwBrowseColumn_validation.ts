@@ -48,7 +48,7 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
         }
         let htmlString = html.join('');
         $field.html(originaltext + htmlString);
-        $field.on('click', function () {
+        $field.on('click', function() {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }

@@ -64,6 +64,11 @@ Master
 #master #master-header #master-header-row1 #btnmenu {width:30px;padding:10px;float:left;cursor:pointer;}
 #master #master-header #master-header-row1 #btnmenu #btnmenu-icon {background-size:30px 30px;background-image:url("fwimages/icons/128/menu.001.png");height:30px;width:30px;}
 #master #master-header #master-header-row1 #master-header-caption {line-height:50px;float:left;margin-left:5px;font-size:20px;color:#f2f2f2;}
+#master #master-header #master-header-row1 #device-status-icons {float:right;padding:6px 0;height:30px;}
+#master #master-header #master-header-row1 #device-status-icons .device-status-icon {float:left;overflow:hidden;margin:0 4px;}
+#master #master-header #master-header-row1 #device-status-icons .device-status-icon .icon {text-align:center;}
+#master #master-header #master-header-row1 #device-status-icons .device-status-icon .caption {text-align:center;font-size:10px;}
+#master #master-header #master-header-row1 #device-status-icons .material-icons {font-size:16px;}
 #master #master-header #master-header-row1 #module-controls {float:right;padding:10px;height:30px;}
 #master #master-header #master-header-row1 #module-controls i {font-size:30px;}
 #master #master-header #master-header-row1 #module-controls:not(:empty) {cursor:pointer;}

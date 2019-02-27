@@ -549,13 +549,32 @@ class FwSettingsClass {
     //---------------------------------------------------------------------------------------------- 
     renderModuleHtml($control, title, moduleName, description, menu, menuCaption, moduleId) {
         var html = [], $settingsPageModules, $rowBody, $modulecontainer, apiurl, $body, $form, browseKeys = [], rowId, filter = [], me = this;
-
+        let showNew = false;
+        let showDelete = false;
+        let showEdit = false;
         $modulecontainer = $control.find('#' + moduleName);
         apiurl = window[moduleName + 'Controller'].apiurl;
         $form = jQuery(jQuery('#tmpl-modules-' + moduleName + 'Form').html());
         $body = $control.find('#' + moduleName + '.panel-body');
 
-        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '">');
+        let tree = FwApplicationTree.getNodeByController(moduleName + 'Controller');
+        for (var i = 0; i < tree.children.length; i++) {
+            if (tree.children[i].properties.caption === 'Browse' && tree.children[i].children[0].properties.nodetype === 'MenuBar') {
+                for (var j = 0; j < tree.children[i].children[0].children.length; j++) {
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'NewMenuBarButton' && tree.children[i].children[0].children[j].properties.visible === 'T') {
+                        showNew = true;
+                    }
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'DeleteMenuBarButton' && tree.children[i].children[0].children[j].properties.visible === 'T') {
+                        showDelete = true;
+                    }
+                    if (tree.children[i].children[0].children[j].properties.nodetype === 'EditMenuBarButton' && tree.children[i].children[0].children[j].properties.visible === 'T') {
+                        showEdit = true;
+                    }
+                }
+            }
+        }
+
+        html.push('<div class="panel-group" id="' + moduleName + '" data-id="' + moduleId + '" data-navigation="' + menuCaption + '" data-showDelete=' + showDelete.toString() + ' data-showEdit="' + showEdit.toString() + '">');
         html.push('  <div class="panel panel-primary">');
         html.push('    <div data-toggle="collapse" data-target="' + moduleName + '" href="' + moduleName + '" class="panel-heading">');
         html.push('      <div class="flexrow" style="max-width:none;">');
@@ -563,7 +582,9 @@ class FwSettingsClass {
         html.push('        <h4 class="panel-title">');
         html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
         html.push('        <div id="myDropdown" class="dropdown-content">');
-        html.push('          <a class="new-row-menu">New Item</a>');
+        if (showNew) {
+            html.push('          <a class="new-row-menu">New Item</a>');
+        }
         html.push('          <a class="show-inactive">Show Inactive</a>');
         html.push('          <a class="hide-inactive" style="display:none;">Hide Inactive</a>');
         html.push('          <a class="pop-out">Pop Out Module</a>');
@@ -899,7 +920,9 @@ class FwSettingsClass {
                     $formSections = $form.find('.fwform-section-title');
                     $form.find('.highlighted').removeClass('highlighted');
                     $form.find('div[data-type="NewMenuBarButton"]').off();
-                    $form.find('div.fwmenu.default > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    if (jQuery(this).closest('.panel-group').attr('data-showDelete') === 'true') {
+                        $form.find('div.fwmenu.default > .buttonbar').append('<div class="btn-delete" data-type="DeleteMenuBarButton"><i class="material-icons"></i><div class="btn-text">Delete</div></div>');
+                    }
 
                     for (var key in recordData) {
                         for (var i = 0; i < me.filter.length; i++) {
@@ -938,6 +961,9 @@ class FwSettingsClass {
 
                     }
                     FwModule.loadForm(moduleName, $form);
+                    if (jQuery(this).closest('.panel-group').attr('data-showEdit') === 'false') {
+                        FwModule.setFormReadOnly($form);
+                    }
                 }
 
 
@@ -1073,9 +1099,34 @@ class FwSettingsClass {
                     me.sectionFilter = sectionFilter;
                     me.customFilter = customFilter;
                     me.searchValue = val;
+
+                    var highlightSearch = function (element, search) {
+                        let searchStrLen = search.length;
+                        let startIndex = 0, index, indicies = [];
+                        let htmlStringBuilder = [];
+                        search = search.toUpperCase();
+                        while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
+                            indicies.push(index);
+                            startIndex = index + searchStrLen;
+                        }
+                        for (var i = 0; i < indicies.length; i++) {
+                            if (i === 0) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(0, indicies[0]));
+                            } else {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i - 1] + searchStrLen, indicies[i]))
+                            }
+                            htmlStringBuilder.push('<span class="highlighted">' + jQuery(element).text().substring(indicies[0], indicies[0] + searchStrLen) + '</span>');
+                            if (i === indicies.length - 1) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i] + searchStrLen, jQuery(element).text().length));
+                                element.innerHTML = htmlStringBuilder.join('');
+                            }
+                        }
+                    }
+
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
                         var module: any = [];
+
                         for (var k = 0; k < $module.length; k++) {
                             // match results
                             if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
@@ -1091,30 +1142,30 @@ class FwSettingsClass {
                             }
                         }
                         module = jQuery(module);
+                    }
 
-                        let description = module.find('small#description-text');
-                        let title = module.find('a#title');
+                    let description = module.find('small#description-text');
+                    let title = module.find('a#title');
 
-                        for (var j = 0; j < description.length; j++) {
-                            if (description[j] !== undefined) {
-                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
-                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
-                                if (descriptionIndex > -1) {
-                                    description[j].innerHTML = jQuery(description[j]).text().substring(0, descriptionIndex) + '<span class="highlighted">' + jQuery(description[j]).text().substring(descriptionIndex, descriptionIndex + val.length) + '</span>' + jQuery(description[j]).text().substring(descriptionIndex + val.length);
-                                }
-                                if (titleIndex > -1) {
-                                    title[j].innerHTML = jQuery(title[j]).text().substring(0, titleIndex) + '<span class="highlighted">' + jQuery(title[j]).text().substring(titleIndex, titleIndex + val.length) + '</span>' + jQuery(title[j]).text().substring(titleIndex + val.length);
-                                }
+                    for (var j = 0; j < description.length; j++) {
+                        if (description[j] !== undefined) {
+                            let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                            let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                            if (descriptionIndex > -1) {
+                                highlightSearch(description[j], val);
+                            }
+                            if (titleIndex > -1) {
+                                highlightSearch(title[j], val);
                             }
                         }
-
-                        if (module.length === 0) {
-                            $settings.filter(function () {
-                                return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                            }).closest('div.panel-group').show();
-                        }
-                        module.show().find('#searchId').hide();;
                     }
+
+                    if (module.length === 0) {
+                        $settings.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
+                        }).closest('div.panel-group').show();
+                    }
+                    module.show().find('#searchId').hide();;
 
                     let searchResults = $control.find('.panel-heading:visible');
 
@@ -1190,6 +1241,7 @@ class FwSettingsClass {
             if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Settings') {
                 switch (nodeLv1MenuItem.properties.nodetype) {
                     case 'Lv1SettingsMenu':
+                        this.generateDropDownModuleBtn($view, $control, 'All Settings ID', 'All Settings', null, null);
                         for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                             var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                             if (nodeLv2MenuItem.properties.visible === 'T') {
@@ -1238,21 +1290,6 @@ class FwSettingsClass {
                 btnHtml.push('<div class="ddmodulebtn-dropdown" style="display:none"></div>');
                 btnHtml.push('</div>');
                 $modulebtn = jQuery(btnHtml.join(''));
-
-                subitemHtml = [];
-                subitemHtml.push('<div id="" class="ddmodulebtn-dropdown-btn">');
-                subitemHtml.push('<div class="ddmodulebtn-dropdown-btn-text"></div>');
-                subitemHtml.push('</div>');
-                jQuery.each(subitems, function (index, value) {
-                    if (index === 0) {
-                        $modulebtn.data('firstmodule', subitems[index].moduleName);
-                    }
-                    $subitem = jQuery(subitemHtml.join(''));
-                    $subitem.attr('data-securityid', subitems[index].id);
-                    $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
-
-                    $modulebtn.find('.ddmodulebtn-dropdown').append($subitem);
-                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -1264,7 +1301,13 @@ class FwSettingsClass {
                 try {
                     let navigationCaption = $modulebtn.data('navigation');
                     let panels = $control.find('.panel-group');
-                    if (navigationCaption != '') {
+                    if (navigationCaption === 'All Settings') {
+                        let event = jQuery.Event('keypress');
+                        event.which = 13;
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#settingsSearch').val('').trigger(event);
+                        jQuery(this).addClass('selected');
+                    } else if (navigationCaption != '') {
                         $control.find('.selected').removeClass('selected');
                         $control.find('#settingsSearch').val('')
                         jQuery(this).addClass('selected');

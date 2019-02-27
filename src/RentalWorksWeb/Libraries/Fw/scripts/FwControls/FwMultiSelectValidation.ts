@@ -388,7 +388,7 @@ class FwMultiSelectValidationClass {
         } else {
             selectedRowText = selectedRowText.split(',');
         }
-            $trs = $browse.find('tbody > tr');
+        $trs = $browse.find('tbody > tr');
         for (let i = 0; i < $trs.length; i++) {
             var $tr, uniqueIdValue;
             $tr = jQuery($trs[i]);

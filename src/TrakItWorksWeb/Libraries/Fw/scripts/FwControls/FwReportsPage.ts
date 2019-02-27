@@ -54,27 +54,29 @@
         var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
         for (var i = 0; i < modules.length; i++) {
             var moduleName = modules[i].properties.controller;
-            var $form = window[moduleName].openForm();
-            var $fwformfields = $form.find('.fwformfield[data-caption]');
-            for (var j = 0; j < $fwformfields.length; j++) {
-                var $field = $fwformfields.eq(j);
-                var caption = $field.attr('data-caption').toUpperCase();
-                if ($field.attr('data-type') === 'radio') {
-                    var radioCaptions = $field.find('div');
-                    for (var k = 0; k < radioCaptions.length; k++) {
-                        var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
-                        screen.moduleCaptions[radioCaption] = {};
-                        screen.moduleCaptions[radioCaption][moduleName] = [];
-                        screen.moduleCaptions[radioCaption][moduleName].push($field);
+            if (typeof window[moduleName].openForm === 'function') {
+                var $form = window[moduleName].openForm();
+                var $fwformfields = $form.find('.fwformfield[data-caption]');
+                for (var j = 0; j < $fwformfields.length; j++) {
+                    var $field = $fwformfields.eq(j);
+                    var caption = $field.attr('data-caption').toUpperCase();
+                    if ($field.attr('data-type') === 'radio') {
+                        var radioCaptions = $field.find('div');
+                        for (var k = 0; k < radioCaptions.length; k++) {
+                            var radioCaption = jQuery(radioCaptions[k]).attr('data-caption').toUpperCase()
+                            screen.moduleCaptions[radioCaption] = {};
+                            screen.moduleCaptions[radioCaption][moduleName] = [];
+                            screen.moduleCaptions[radioCaption][moduleName].push($field);
+                        }
                     }
+                    if (typeof screen.moduleCaptions[caption] === 'undefined') {
+                        screen.moduleCaptions[caption] = {};
+                    }
+                    if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
+                        screen.moduleCaptions[caption][moduleName] = [];
+                    }
+                    screen.moduleCaptions[caption][moduleName].push($field);
                 }
-                if (typeof screen.moduleCaptions[caption] === 'undefined') {
-                    screen.moduleCaptions[caption] = {};
-                }
-                if (typeof screen.moduleCaptions[caption][moduleName] === 'undefined') {
-                    screen.moduleCaptions[caption][moduleName] = [];
-                }
-                screen.moduleCaptions[caption][moduleName].push($field);
             }
         }
     }
@@ -216,6 +218,30 @@
                         }
                     }
                     me.filter = filter;
+
+                    var highlightSearch = function (element, search) {
+                        let searchStrLen = search.length;
+                        let startIndex = 0, index, indicies = [];
+                        let htmlStringBuilder = [];
+                        search = search.toUpperCase();
+                        while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
+                            indicies.push(index);
+                            startIndex = index + searchStrLen;
+                        }
+                        for (var i = 0; i < indicies.length; i++) {
+                            if (i === 0) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(0, indicies[0]));
+                            } else {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i - 1] + searchStrLen, indicies[i]))
+                            }
+                            htmlStringBuilder.push('<span class="highlighted">' + jQuery(element).text().substring(indicies[0], indicies[0] + searchStrLen) + '</span>');
+                            if (i === indicies.length - 1) {
+                                htmlStringBuilder.push(jQuery(element).text().substring(indicies[i] + searchStrLen, jQuery(element).text().length));
+                                element.innerHTML = htmlStringBuilder.join('');
+                            }
+                        }
+                    }
+
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
                         var module = $reports.filter(function () {
@@ -232,20 +258,22 @@
                             title = panel.find('a#title');
                             panel.show();
                         }
+
                         for (var j = 0; j < description.length; j++) {
                             if (description[j] !== undefined) {
                                 let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
                                 let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
                                 if (descriptionIndex > -1) {
-                                    description[j].innerHTML = jQuery(description[j]).text().substring(0, descriptionIndex) + '<span class="highlighted">' + jQuery(description[j]).text().substring(descriptionIndex, descriptionIndex + val.length) + '</span>' + jQuery(description[j]).text().substring(descriptionIndex + val.length);
+                                    highlightSearch(description[j], val);
                                 }
                                 if (titleIndex > -1) {
-                                    title[j].innerHTML = jQuery(title[j]).text().substring(0, titleIndex) + '<span class="highlighted">' + jQuery(title[j]).text().substring(titleIndex, titleIndex + val.length) + '</span>' + jQuery(title[j]).text().substring(titleIndex + val.length);
+                                    highlightSearch(title[j], val);
                                 }
                             }
                         }
                         module.show();
                     }
+
                     let searchResults = $control.find('.panel-heading:visible');
 
                     if (searchResults.length === 1 && searchResults.parent().find('.panel-body').is(':empty')) {
@@ -280,6 +308,7 @@
             if (nodeLv1MenuItem.properties.visible === 'T' && nodeLv1MenuItem.properties.caption === 'Reports') {
                 switch (nodeLv1MenuItem.properties.nodetype) {
                     case 'Lv1ReportsMenu':
+                        this.generateDropDownModuleBtn($view, $control, 'All Reports ID', 'All Reports', null, null);
                         for (var lv2childno = 0; lv2childno < nodeLv1MenuItem.children.length; lv2childno++) {
                             var nodeLv2MenuItem = nodeLv1MenuItem.children[lv2childno];
                             if (nodeLv2MenuItem.properties.visible === 'T') {
@@ -309,7 +338,7 @@
     };
     //----------------------------------------------------------------------------------------------
     generateDropDownModuleBtn($menu, $control, securityid, caption, imgurl, subitems) {
-        var $modulebtn, $reports, btnHtml, subitemHtml, $subitem, version;
+        var $modulebtn, $reports, btnHtml, version;
 
         version = $menu.closest('.fwfilemenu').attr('data-version');
         securityid = (typeof securityid === 'string') ? securityid : '';
@@ -328,34 +357,6 @@
                 btnHtml.push('<div class="ddmodulebtn-dropdown" style="display:none"></div>');
                 btnHtml.push('</div>');
                 $modulebtn = jQuery(btnHtml.join(''));
-
-                subitemHtml = [];
-                subitemHtml.push('<div id="" class="ddmodulebtn-dropdown-btn">');
-                subitemHtml.push('<div class="ddmodulebtn-dropdown-btn-text"></div>');
-                subitemHtml.push('</div>');
-                jQuery.each(subitems, function (index, value) {
-                    if (index === 0) {
-                        $modulebtn.data('firstmodule', subitems[index].moduleName);
-                    }
-                    $subitem = jQuery(subitemHtml.join(''));
-                    $subitem.attr('data-securityid', subitems[index].id);
-                    $subitem.find('.ddmodulebtn-dropdown-btn-text').html(value.caption);
-
-                    $subitem.on('click', function () {
-                        try {
-                            if ($control.find('#' + value.moduleName + ' > div > div.panel-collapse').is(':hidden')) {
-                                $control.find('#' + value.moduleName + ' > div > div.panel-heading').click();
-                            }
-                            jQuery('html, body').animate({
-                                scrollTop: $control.find('#' + value.moduleName).offset().top
-                            }, 1);
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-
-                    $modulebtn.find('.ddmodulebtn-dropdown').append($subitem);
-                });
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -368,7 +369,13 @@
                 try {
                     let navigationCaption = $modulebtn.data('navigation');
                     let panels = $control.find('.panel-group');
-                    if (navigationCaption != '') {
+                    if (navigationCaption === 'All Reports') {
+                        let event = jQuery.Event('keypress');
+                        event.which = 13;
+                        $control.find('.selected').removeClass('selected');
+                        $control.find('#reportsSearch').val('').trigger(event);
+                        jQuery(this).addClass('selected');
+                    } else if (navigationCaption != '') {
                         $control.find('.selected').removeClass('selected');
                         $control.find('#reportsSearch').val('')
                         jQuery(this).addClass('selected');

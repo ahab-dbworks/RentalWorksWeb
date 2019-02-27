@@ -3,6 +3,16 @@
     //----------------------------------------------------------------------------------------------
     static renderNotification(type, message, options?) {
         var html, $notification, maxZIndex;
+        jQuery('.fwnotification').each((index: number, element: HTMLElement) => {
+            let $this = jQuery(element);
+            let top: number = parseInt($this.css('top').substr(0, $this.css('top').length - 2));
+            let bottom: number = parseInt($this.css('bottom').substr(0, $this.css('bottom').length - 2));
+            $this.css({
+                top: (top - 60) + 'px',
+                bottom: (bottom + 60) + 'px'
+            });
+        });
+        //FwNotification.closeNotification(jQuery('.fwnotification'));
 
         html = [];
         html.push('<div class="fwnotification');
@@ -23,7 +33,7 @@
         }
         html.push('">');
         html.push('<div class="message">' + message + '</div>');
-        html.push('<div class="messageclose"><i class="material-icons">close</i></div>');
+        html.push('<div class="messageclose"><i class="material-icons">&#xE5CD;</i></div>');
         html.push('</div>');
         html = html.join('');
         $notification = jQuery(html);
