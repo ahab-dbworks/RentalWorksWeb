@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using System;
 using WebApi.Modules.Home.InventoryAvailabilityFunc;
 
@@ -15,7 +14,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
     [FwController(Id: "BDwvPyfcT8iY9")]
     public class InventoryAvailabilityController : AppDataController
     {
-        public InventoryAvailabilityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) {/* logicType = typeof(InventoryAvailabilityDateLogic);*/ }
+        public InventoryAvailabilityController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryavailability/dumptofile
         [HttpPost("dumptofile")]
@@ -68,6 +67,26 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
         }
         //------------------------------------------------------------------------------------       
+        // GET api/v1/inventoryavailability/getcalendarandscheduledata?SessionId=ABCDEFG&InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
+        [HttpGet("getcalendarandscheduledata")]
+        [FwControllerMethod(Id: "bi563cSFahD")]
+        public async Task<ActionResult<TInventoryAvailabilityCalendarAndScheduleResponse>> GetCalendarDataAsync(string SessionId, string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TInventoryAvailabilityCalendarAndScheduleResponse response = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetCalendarAndScheduleData(AppConfig, UserSession, SessionId, InventoryId, WarehouseId, FromDate, ToDate);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // DELETE api/v1/inventoryavailability
         [HttpDelete()]
         [FwControllerMethod(Id: "FcTkG3wwcgwQQ")]

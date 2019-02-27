@@ -71,14 +71,15 @@
                 startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
-                    for (var i = 0; i < response.length; i++) {
-                        if (response[i].textColor !== 'rgb(0,0,0') {
-                            response[i].html = `<div style="color:${response[i].textColor}">${response[i].text}</div>`
+                    var calendarevents = response.InventoryAvailabilityCalendarEvents;
+                    for (var i = 0; i < calendarevents.length; i++) {
+                        if (calendarevents[i].textColor !== 'rgb(0,0,0') {
+                            calendarevents[i].html = `<div style="color:${calendarevents[i].textColor}">${calendarevents[i].text}</div>`
                         }
                     }
-                    FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], response);
+                    FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], calendarevents);
                 }, function onError(response) {
                     FwFunc.showError(response);
                     }, $calendar)
