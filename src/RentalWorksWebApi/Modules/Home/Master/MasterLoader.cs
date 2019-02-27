@@ -1,8 +1,8 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using System.Collections.Generic;
 using WebLibrary;
 
@@ -119,57 +119,15 @@ namespace WebApi.Modules.Home.Master
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("AvailFor", "availfor", select, request); 
-            addFilterToSelect("TrackedBy", "trackedby", select, request); 
+            addFilterToSelect("AvailFor", "availfor", select, request);
+            addFilterToSelect("TrackedBy", "trackedby", select, request);
             addFilterToSelect("Classification", "class", select, request);
             addFilterToSelect("InventoryTypeId", "inventorydepartmentid", select, request);
-            addFilterToSelect("CategoryId", "categoryid", select, request); 
+            addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
 
             AddActiveViewFieldToSelect("Classification", "classification", select, request);
-
-            //if ((request != null) && (request.activeview != null))
-            //{
-            //    switch (request.activeview)
-            //    {
-            //        case "ITEM":
-            //            select.AddWhere("(class = @classification)");
-            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ITEM);
-            //            break;
-            //        case "ACCESSORY":
-            //            select.AddWhere("(class = @classification)");
-            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY);
-            //            break;
-            //        case "COMPLETE":
-            //            select.AddWhere("(class = @classification)");
-            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_COMPLETE);
-            //            break;
-            //        case "KIT":
-            //            select.AddWhere("(class = @classification)");
-            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
-            //            break;
-            //        case "KITSET":
-            //            select.AddWhere("(class = @classification)");
-            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_KIT);
-            //            break;
-            //        case "MISC":
-            //            select.AddWhere("(class = @classification)");
-            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_MISCELLAENOUS);
-            //            break;
-            //        case "CONTAINER":
-            //            select.AddWhere("(class = @classification)");
-            //            select.AddParameter("@classification", RwConstants.INVENTORY_CLASSIFICATION_CONTAINER);
-            //            break;
-            //        case "ALL":
-            //            break;
-            //    }
-            //}
-
-
-
-
-
+        }
+        //------------------------------------------------------------------------------------ 
     }
-    //------------------------------------------------------------------------------------ 
-}
 }

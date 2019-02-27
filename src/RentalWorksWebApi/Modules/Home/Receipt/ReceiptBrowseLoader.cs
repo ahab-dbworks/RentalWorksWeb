@@ -69,24 +69,6 @@ namespace WebApi.Modules.Home.Receipt
 
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
-
-            //if ((request != null) && (request.activeview != null))
-            //{
-            //    string locId = "ALL";
-            //    if (request.activeview.Contains("OfficeLocationId="))
-            //    {
-            //        locId = request.activeview.Replace("OfficeLocationId=", "");
-            //    }
-            //    else if (request.activeview.Contains("LocationId="))
-            //    {
-            //        locId = request.activeview.Replace("LocationId=", "");
-            //    }
-            //    if (!locId.Equals("ALL"))
-            //    {
-            //        select.AddWhere("(locationid = @locid)");
-            //        select.AddParameter("@locid", locId);
-            //    }
-            //}
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -70,35 +70,6 @@ namespace WebApi.Modules.Home.Item
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("TrackedBy", "trackedby", select, request);
 
-
-            //if ((request != null) && (request.activeview != null))
-            //{
-            //    List<string> activeView = new List<string>(request.activeview.Split(','));
-
-            //    foreach (string s in activeView)
-            //    {
-
-            //        if (s.Contains("WarehouseId="))
-            //        {
-            //            string whId = s.Replace("WarehouseId=", "").Trim();
-            //            if (!whId.Equals("ALL"))
-            //            {
-            //                select.AddWhere("(warehouseid = @whid)");
-            //                select.AddParameter("@whid", whId);
-            //            }
-            //        }
-            //        if (s.Contains("TrackedBy="))
-            //        {
-            //            string trackedBy = s.Replace("TrackedBy=", "").Trim();
-            //            if (!trackedBy.Equals("ALL"))
-            //            {
-            //                select.AddWhere("(trackedby = @trackedby)");
-            //                select.AddParameter("@trackedby", trackedBy);
-            //            }
-            //        }
-            //    }
-            //}
-
         }
         //------------------------------------------------------------------------------------ 
     }

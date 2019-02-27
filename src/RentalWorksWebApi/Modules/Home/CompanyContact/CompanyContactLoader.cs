@@ -118,19 +118,6 @@ namespace WebApi.Modules.Home.CompanyContact
             addFilterToSelect("ContactId", "contactid", select, request);
 
             AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
-
-            //if ((request != null) && (request.activeview != null) && (!request.activeview.Equals(string.Empty)))
-            //{
-            //    switch (request.activeview)
-            //    {
-            //        case "ALL":
-            //            break;
-            //        default:
-            //            select.AddWhere("(companytype = @companytype)");
-            //            select.AddParameter("@companytype", request.activeview);
-            //            break;
-            //    }
-            //}
         }
         //------------------------------------------------------------------------------------ 
     }

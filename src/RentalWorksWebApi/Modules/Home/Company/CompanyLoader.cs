@@ -29,24 +29,7 @@ namespace WebApi.Modules.Home.Company
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-
             AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
-
-            //if ((request != null) && (request.activeview != null) && (!request.activeview.Equals(string.Empty)))
-            //{
-            //    switch (request.activeview)
-            //    {
-            //        case "ALL":
-            //            break;
-            //        default:
-            //            select.AddWhere("(companytype = @companytype)");
-            //            select.AddParameter("@companytype", request.activeview);
-            //            break;
-            //    }
-            //}
-
         }
         //------------------------------------------------------------------------------------ 
     }

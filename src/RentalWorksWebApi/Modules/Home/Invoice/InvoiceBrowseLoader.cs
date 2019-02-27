@@ -143,67 +143,7 @@ namespace WebApi.Modules.Home.Invoice
             AddActiveViewFieldToSelect("Status", "status", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
-            //if ((request != null) && (request.activeview != null))
-            //{
-            //    List<string> activeView = new List<string>(request.activeview.Split(','));
 
-            //    foreach (string s in activeView)
-            //    {
-            //        if (s.Contains("Status="))
-            //        {
-            //            string status = s.Replace("Status=", "").Trim();
-
-            //            switch (status)
-            //            {
-            //                case "NEW":
-            //                    select.AddWhere("(status = @invoicestatus)");
-            //                    select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_NEW);
-            //                    break;
-            //                case "APPROVED":
-            //                    select.AddWhere("(status = @invoicestatus)");
-            //                    select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_APPROVED);
-            //                    break;
-            //                case "NEWAPPROVED":
-            //                    select.AddWhere("(status in (@invoicestatus0, @invoicestatus1))");
-            //                    select.AddParameter("@invoicestatus0", RwConstants.INVOICE_STATUS_NEW);
-            //                    select.AddParameter("@invoicestatus1", RwConstants.INVOICE_STATUS_APPROVED);
-            //                    break;
-            //                case "PROCESSED":
-            //                    select.AddWhere("(status = @invoicestatus)");
-            //                    select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_PROCESSED);
-            //                    break;
-            //                case "CLOSED":
-            //                    select.AddWhere("(status = @invoicestatus)");
-            //                    select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_CLOSED);
-            //                    break;
-            //                case "VOID":
-            //                    select.AddWhere("(status = @invoicestatus)");
-            //                    select.AddParameter("@invoicestatus", RwConstants.INVOICE_STATUS_VOID);
-            //                    break;
-            //                case "ALL":
-            //                    break;
-            //            }
-            //        }
-
-            //        if (s.Contains("OfficeLocationId=") || s.Contains("LocationId="))
-            //        {
-            //            string locId = "ALL";
-            //            if (s.Contains("OfficeLocationId="))
-            //            {
-            //                locId = s.Replace("OfficeLocationId=", "").Trim();
-            //            }
-            //            else if (s.Contains("LocationId="))
-            //            {
-            //                locId = s.Replace("LocationId=", "").Trim();
-            //            }
-            //            if (!locId.Equals("ALL"))
-            //            {
-            //                select.AddWhere("(locationid = @locid)");
-            //                select.AddParameter("@locid", locId);
-            //            }
-            //        }
-            //    }
-            //}
         }
     }
     //------------------------------------------------------------------------------------    
