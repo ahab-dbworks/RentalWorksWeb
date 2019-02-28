@@ -611,37 +611,51 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    qry.Add("delete ");
+                    qry.Add(" from  tmpsearchsession ");
+                    qry.Add(" where sessionid = @sessionid ");
+                    qry.AddParameter("@sessionid", sessionId);
+                    await qry.ExecuteNonQueryAsync();
+                }
+
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    int i = 0;
+                    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+                    {
+                        qry.Add("if (not exists (select * ");
+                        qry.Add("                 from  tmpsearchsession t");
+                        qry.Add("                 where t.sessionid   = @sessionid");
+                        qry.Add("                 and   t.masterid    = @masterid" + i.ToString());
+                        qry.Add("                 and   t.warehouseid = @warehouseid" + i.ToString() + "))");
+                        qry.Add("begin");
+                        qry.Add("   insert into tmpsearchsession (sessionid, masterid, warehouseid)");
+                        qry.Add("    values (@sessionid, @masterid" + i.ToString() + ", @warehouseid" + i.ToString() + ")");
+                        qry.Add("end");
+                        qry.Add(" ");
+                        qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
+                        qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
+                        i++;
+                    }
+                    qry.AddParameter("@sessionid", sessionId);
+                    await qry.ExecuteNonQueryAsync();
+                }
+
+
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                     qry.Add("select a.masterid, a.warehouseid,");
                     qry.Add("       a.masterno, a.master, a.whcode, a.warehouse, a.availbyhour,");
                     qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit, a.ownedqtyinrepair, a.ownedqtyontruck, a.ownedqtyincontainer,");
                     qry.Add("       a.consignedqty, a.consignedqtyin, a.consignedqtystaged, a.consignedqtyout, a.consignedqtyintransit, a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer");
                     qry.Add(" from  availabilitymasterwhview a");
-                    if (availRequestItems.Count == 1)
-                    {
-                        TInventoryWarehouseAvailabilityRequestItem availRequestItem = availRequestItems[0];
-                        qry.Add(" where a.masterid    = @masterid");
-                        qry.Add(" and   a.warehouseid = @warehouseid");
-                        qry.AddParameter("@masterid", availRequestItem.InventoryId);
-                        qry.AddParameter("@warehouseid", availRequestItem.WarehouseId);
-                    }
-                    else if (availRequestItems.Count > 1)
-                    {
-                        qry.Add(" where ");
-                        int i = 0;
-                        foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                        {
-                            if (i > 0)
-                            {
-                                qry.Add(" or ");
-                            }
-                            qry.Add(" (a.masterid = @masterid" + i.ToString() + " and a.warehouseid = @warehouseid" + i.ToString() + ")");
-                            qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
-                            qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
-                            i++;
-                        }
-                    }
-
+                    qry.Add("             join tmpsearchsession t on (a.masterid = t.masterid and a.warehouseid = t.warehouseid)");
+                    qry.Add(" where t.sessionid = @sessionid");
+                    qry.AddParameter("@sessionid", sessionId);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
                     foreach (List<object> row in dt.Rows)
                     {
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(row[dt.GetColumnNo("masterid")].ToString(), row[dt.GetColumnNo("warehouseid")].ToString());
@@ -682,41 +696,30 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     }
                 }
 
+
+
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
+                    bool hasConsignment = false;  //jh 02/28/2019 place-holder.  will add system-wide option for consignment here
                     FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                     qry.Add("select a.masterid, a.warehouseid,");
                     qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime, ");
                     qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal, ");
-                    qry.Add("       a.qtyordered, a.subqty, a.consignqty, ");
-                    qry.Add("       a.qtystagedowned, a.qtyoutowned, a.qtyinowned, ");
-                    qry.Add("       a.qtystagedconsigned, a.qtyoutconsigned, a.qtyinconsigned ");
+                    qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,  ");
+                    qry.Add("       a.subqty, a.qtystagedsub, a.qtyoutsub, a.qtyinsub, ");
+                    if (hasConsignment)
+                    {
+                        //jh 02/28/2019 this is a bottleneck as the query must join in ordertranextended to get the consignorid.  Consider modving consignorid to the ordetran table
+                        qry.Add("       a.consignqty, a.qtystagedconsigned, a.qtyoutconsigned, a.qtyinconsigned ");
+                    }
+                    else
+                    {
+                        qry.Add("       consignqty = 0, qtystagedconsigned = 0, qtyoutconsigned = 0, qtyinconsigned = 0 ");
+                    }
                     qry.Add(" from  availabilityitemview a");
-                    if (availRequestItems.Count == 1)
-                    {
-                        TInventoryWarehouseAvailabilityRequestItem availRequestItem = availRequestItems[0];
-                        qry.Add(" where a.masterid    = @masterid");
-                        qry.Add(" and   a.warehouseid = @warehouseid");
-                        qry.AddParameter("@masterid", availRequestItem.InventoryId);
-                        qry.AddParameter("@warehouseid", availRequestItem.WarehouseId);
-                    }
-                    else if (availRequestItems.Count > 1)
-                    {
-                        qry.Add(" where ");
-                        int i = 0;
-                        foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                        {
-                            if (i > 0)
-                            {
-                                qry.Add(" or ");
-                            }
-                            qry.Add(" (a.masterid = @masterid" + i.ToString() + " and a.warehouseid = @warehouseid" + i.ToString() + ")");
-                            qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
-                            qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
-                            i++;
-                        }
-                    }
-
+                    qry.Add("             join tmpsearchsession t on (a.masterid = t.masterid and a.warehouseid = t.warehouseid)");
+                    qry.Add(" where t.sessionid = @sessionid");
+                    qry.AddParameter("@sessionid", sessionId);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
                     // load dt into availData.Reservations
@@ -759,7 +762,6 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                         reservation.QuantityReserved.Owned = (reservation.QuantityOrdered - reservation.QuantitySub - reservation.QuantityConsigned - reservation.QuantityStaged.Owned - reservation.QuantityOut.Owned - reservation.QuantityIn.Owned);
                         reservation.QuantityReserved.Consigned = (reservation.QuantityConsigned - reservation.QuantityOut.Consigned - reservation.QuantityIn.Consigned);
 
-                        //availData.Reservations.Add(reservation);
                         availCache[availKey].Reservations.Add(reservation);
                     }
                 }
