@@ -42,9 +42,8 @@ class Invoice {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const self = this;
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         // Changes text color to light gray if void
@@ -119,11 +118,6 @@ class Invoice {
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
-            //FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
-            //FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-
-            //FwFormField.disable($form.find('.frame'));
-            //$form.find(".frame .add-on").children().hide();
         } else {
             FwFormField.disable($form.find('.ifnew'));
         }
