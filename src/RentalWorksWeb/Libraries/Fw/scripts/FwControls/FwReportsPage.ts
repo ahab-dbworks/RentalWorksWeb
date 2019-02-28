@@ -252,21 +252,10 @@
                         }
                     }
 
-                    for (var i = 0; i < results.length; i++) {
-                        //check descriptions for match
-                        var module = $reports.filter(function () {
-                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
-                        }).closest('div.panel-group');
-                        module.find('.highlighted').removeClass('highlighted');
-                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
-
-                        if (panel.length > 0) {
-                            panel.show();
-                            module = panel;
-                        }
-                        for (var j = 0; j < module.length; j++) {
-                            let description = jQuery(module[j]).find('small#description-text');
-                            let title = jQuery(module[j]).find('a#title');
+                    var matchDescriptionTitle ($control) {
+                        for (var j = 0; j < $control.length; j++) {
+                            let description = jQuery($control[j]).find('small#description-text');
+                            let title = jQuery($control[j]).find('a#title');
                             let descriptionIndex = jQuery(description).text().toUpperCase().indexOf(val);
                             let titleIndex = jQuery(title).text().toUpperCase().indexOf(val);
                             if (descriptionIndex > -1) {
@@ -279,8 +268,20 @@
                             } else {
                                 highlightSearch(title, '');
                             }
-                            jQuery(module[j]).show();
                         }
+                        jQuery($control[j]).show();
+                    }
+
+                    for (var i = 0; i < results.length; i++) {
+                        //check descriptions for match
+                        var module = $reports.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
+                        }).closest('div.panel-group');
+                        module.find('.highlighted').removeClass('highlighted');
+                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
+
+                        matchDescriptionTitle(panel);
+                        matchDescriptionTitle(module);
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
