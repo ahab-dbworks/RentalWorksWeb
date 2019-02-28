@@ -53,6 +53,7 @@ namespace FwStandard.Modules.Administrator.WebAuditJson
                 addFilterToSelect("UniqueId2", "uniqueid2", select, request);
                 addFilterToSelect("UniqueId3", "uniqueid3", select, request);
             }
+            addFilterToSelect("ModuleName", "modulename", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }
