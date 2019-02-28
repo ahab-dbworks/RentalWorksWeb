@@ -220,6 +220,9 @@
                     me.filter = filter;
 
                     var highlightSearch = function (element, search) {
+                        if (element.length !== undefined) {
+                            element = element[0]
+                        }
                         let searchStrLen = search.length;
                         let startIndex = 0, index, indicies = [];
                         let htmlStringBuilder = [];
@@ -255,33 +258,28 @@
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
-
-                        let description = module.find('small#description-text');
-                        let title = module.find('a#title');
                         let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
 
-                        if (panel.length > 0 && description.length === 0) {
-                            description = panel.find('small#description-text');
-                            title = panel.find('a#title');
+                        if (panel.length > 0) {
                             panel.show();
+                            module = panel;
                         }
-                        module.show();
-
-                        for (var j = 0; j < description.length; j++) {
-                            if (description[j] !== undefined) {
-                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
-                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
-                                if (descriptionIndex > -1) {
-                                    highlightSearch(description[j], val);
-                                } else {
-                                    highlightSearch(description[j], '');
-                                }
-                                if (titleIndex > -1) {
-                                    highlightSearch(title[j], val);
-                                } else {
-                                    highlightSearch(title[j], '');
-                                }
+                        for (var j = 0; j < module.length; j++) {
+                            let description = jQuery(module[j]).find('small#description-text');
+                            let title = jQuery(module[j]).find('a#title');
+                            let descriptionIndex = jQuery(description).text().toUpperCase().indexOf(val);
+                            let titleIndex = jQuery(title).text().toUpperCase().indexOf(val);
+                            if (descriptionIndex > -1) {
+                                highlightSearch(description, val);
+                            } else {
+                                highlightSearch(description, '');
                             }
+                            if (titleIndex > -1) {
+                                highlightSearch(title, val);
+                            } else {
+                                highlightSearch(title, '');
+                            }
+                            jQuery(module[j]).show();
                         }
                     }
 
