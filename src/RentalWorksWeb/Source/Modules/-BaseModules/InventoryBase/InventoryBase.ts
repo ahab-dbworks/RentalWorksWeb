@@ -71,7 +71,7 @@
                 startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?SessionId=${inventoryId}&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     for (var i = 0; i < calendarevents.length; i++) {
