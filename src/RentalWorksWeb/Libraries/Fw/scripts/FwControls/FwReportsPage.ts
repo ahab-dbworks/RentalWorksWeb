@@ -252,7 +252,7 @@
                         }
                     }
 
-                    var matchDescriptionTitle = function($control) {
+                    var matchDescriptionTitle = function ($control) {
                         for (var j = 0; j < $control.length; j++) {
                             let description = jQuery($control[j]).find('small#description-text');
                             let title = jQuery($control[j]).find('a#title');
@@ -268,7 +268,7 @@
                             } else {
                                 highlightSearch(title, '');
                             }
-                        jQuery($control[j]).show();
+                            jQuery($control[j]).show();
                         }
                     }
 
