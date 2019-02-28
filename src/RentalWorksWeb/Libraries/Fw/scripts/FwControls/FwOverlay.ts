@@ -1,22 +1,19 @@
 ﻿class FwOverlay {
     //----------------------------------------------------------------------------------------------
     static showPleaseWaitOverlay($appendToElement, requestid) {
-        var html, $moduleoverlay, maxZIndex;
-
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="fwoverlay-center pleasewait">');
-        html.push('<img src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'theme/fwimages/icons/128/loading.001.gif" />');
+        html.push(`<img src="${applicationConfig.appbaseurl}${applicationConfig.appvirtualdirectory}theme/fwimages/icons/128/loading.001.gif" />`);
         html.push('<div class="message">Please Wait</div>');
         //if (typeof requestid === 'string') {
         //    html.push('<button class="btnCancel">Cancel</button>');
         //}
         html.push('</div>');
-        html = html.join('');
 
-        $moduleoverlay = jQuery('<div class="fwoverlay">');
+        const $moduleoverlay = jQuery('<div class="fwoverlay">');
+        const maxZIndex = FwFunc.getMaxZ('*');
+        $moduleoverlay.html(html.join(''));
         $moduleoverlay.css('z-index', maxZIndex);
-        maxZIndex = FwFunc.getMaxZ('*');
-        $moduleoverlay.html(html);
         $moduleoverlay.on('click', function () {
             $moduleoverlay.addClass('clicked');
         });
@@ -28,42 +25,38 @@
 
         return $moduleoverlay;
     }
-
     //----------------------------------------------------------------------------------------------
     static showProgressBarOverlay($appendToElement, progressBarSessionId) {
-        let html, $moduleoverlay, maxZIndex, progressCompleted, caption, percentage, handle, currentStep, totalSteps, fullurl;
-        currentStep = 100;
-        totalSteps = 100;
+        let currentStep: number = 100;
+        let totalSteps: number = 100;
+        let caption: string;
+        let percentage: any;
 
-        let request: any = {};
-        let url = `api/v1/progressmeter/${progressBarSessionId}`;
+        const fullurl = `${applicationConfig.apiurl}api/v1/progressmeter/${progressBarSessionId}`;
+        let progressCompleted: boolean = false;
 
-        fullurl = applicationConfig.apiurl + url;
-        progressCompleted = false;
-        html = [];
-
-        let ajaxOptions: JQuery.AjaxSettings<any> = {
+        const ajaxOptions: JQuery.AjaxSettings<any> = {
             method: 'GET',
             url: fullurl,
             contentType: 'application/json',
             dataType: 'json',
             headers: {
-                Authorization: 'Bearer ' + sessionStorage.getItem('apiToken')
+                Authorization: `Bearer ${sessionStorage.getItem('apiToken')}`
             },
             context: {
                 requestid: FwAppData.generateUUID()
             },
         };
-
+        const html: Array<string> = [];
         html.push(`<progress max="100" value="100"><span class="progress_span">0</span></progress>`);
         html.push(`<div class="progress_bar_text"></div>`);
         html.push(`<div class="progress_bar_caption">Initiating your request...</div>`);
 
-        $moduleoverlay = jQuery(`<div class="progress_bar">`);
+        const $moduleoverlay = jQuery(`<div class="progress_bar">`);
         $moduleoverlay.html(html.join(''));
         $appendToElement.css('position', 'relative').append($moduleoverlay);
 
-        handle = setInterval(() => {
+        let handle = setInterval(() => {
             jQuery.ajax(ajaxOptions)
                 .done(response => {
                     try {
@@ -88,14 +81,14 @@
                         }
                     }
                     catch (ex) {
-                        console.log('showProgressBarOverlay error: ', ex)
+                        FwFunc.showError(ex);
                     }
 
                     if (currentStep === totalSteps) {
                         progressCompleted = true;
                         if (progressCompleted) {
                             clearInterval(handle);
-                            handle = 0
+                            handle = 0;
                         }
                     }
                 });
@@ -103,13 +96,10 @@
 
         return $moduleoverlay;
     }
-
     //----------------------------------------------------------------------------------------------
     static showErrorOverlay($appendToElement) {
-        var html, overlayid, overlaycount;
-
-        overlayid = FwControl.generateControlId('overlay');
-        overlaycount = $appendToElement.data('overlayoutcount');
+        const overlayid = FwControl.generateControlId('overlay');
+        const overlaycount = $appendToElement.data('overlayoutcount');
         if (typeof overlaycount === 'undefined') {
             $appendToElement.data('overlayoutcount', 1);
             $appendToElement.attr('data-positionbeforeoverlay', $appendToElement.css('position'));
@@ -117,37 +107,27 @@
             $appendToElement.data('overlayoutcount', overlaycount + 1);
         }
 
-        html = [];
+        const html: Array<string> = [];
         html.push('<div class="fwoverlay-center error">');
         html.push('<div style="height:128px;"></div>');
         html.push('<div class="message">Error</div>');
         html.push('</div>');
-        html = html.join('');
 
-        var $moduleoverlay = $appendToElement.find('.fwoverlay');
+        let $moduleoverlay = $appendToElement.find('.fwoverlay');
         if ($moduleoverlay.length === 0) {
-            $moduleoverlay = jQuery('<div id="' + overlayid + '" class="fwoverlay">');
-            $moduleoverlay.html(html);
+            $moduleoverlay = jQuery(`<div id="${overlayid}" class="fwoverlay">`);
+            $moduleoverlay.html(html.join(''));
             $appendToElement.css('position', 'relative').append($moduleoverlay);
         } else {
-            $moduleoverlay.html(html);
+            $moduleoverlay.html(html.join(''));
             $appendToElement.css('position', 'relative').append(html);
         }
 
         return overlayid;
     }
     //----------------------------------------------------------------------------------------------
-    static hideOverlay($overlay) {
-        var overlayoutcount;
+    static hideOverlay($overlay): void {
         $overlay.remove();
-        //$hideFromElement.css('position', $hideFromElement.attr('data-positionbeforeoverlay'));
-        //overlaycount = $hideFromElement.data('overlayoutcount');
-        //if (overlaycount === 1) {
-        //    $hideFromElement.removeData('overlayoutcount');
-        //    $hideFromElement.removeAttr('data-positionbeforeoverlay');
-        //} else {
-        //    $hideFromElement.data('overlayoutcount', overlaycount - 1);
-        //}
     }
     //----------------------------------------------------------------------------------------------
 }

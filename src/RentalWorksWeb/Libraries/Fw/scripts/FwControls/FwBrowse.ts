@@ -1077,7 +1077,7 @@
                     html.push('<div class="gridmenu"></div>');
                 }
                 else if ($control.attr('data-type') === 'Validation') {
-                    html.push('<div class="browsecaption">Select ' + $control.attr('data-caption') + '...</div>');
+                    html.push(`<div class="browsecaption">Select ${$control.attr('data-caption')}...</div>`);
                 }
                 $advancedoptions = $control.find('.advancedoptions');
                 if ($advancedoptions.length > 0) {
@@ -1085,13 +1085,7 @@
                     html.push($advancedoptions.wrap('<div/>').parent().html());       //MY 2/26/2015: Hack to get parent .advancedoption div as well as content
                 }
                 html.push('<div class="fwbrowsefilter" style="display:none;"></div>');
-
-                if ($control.attr('data-tableheight')) {
-                    const height = $control.attr('data-tableheight');
-                    html.push(`<div class="tablewrapper" style="height:${height};">`);
-                } else {
-                    html.push('<div class="tablewrapper">');
-                }
+                html.push('<div class="tablewrapper">');
                 html.push('<table>');
                 html.push('<thead>');
                 // header row
@@ -1107,13 +1101,13 @@
                     var $column = $columns.eq(colno);
                     var width = $column.attr('data-width');
                     var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
-                    html.push('<td class="column" data-visible="' + visible + '" style="');
+                    html.push(`<td class="column" data-visible="${visible} style="`);
                     if (!visible) {
                         html.push('display:none;');
                     }
                     html.push('">');
                     var $theadfields = $column.find('> .field');
-                    for (var fieldno = 0; fieldno < $theadfields.length; fieldno++) {
+                    for (let fieldno = 0; fieldno < $theadfields.length; fieldno++) {
                         var $theadfield = $theadfields.eq(fieldno);
                         var $field = $theadfield.clone();
                         $field.empty();
@@ -1162,10 +1156,10 @@
                 html.push('<tbody>');
                 // empty body row
                 html.push('<tr class="empty">');
-                for (var colno = 0; colno < $columns.length; colno++) {
-                    var $column = $columns.eq(colno);
+                for (let colno = 0; colno < $columns.length; colno++) {
+                    const $column = $columns.eq(colno);
                     //var width = $column.attr('data-width');
-                    var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
+                    const visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
                     html.push('<td class="column"');
                     if (!visible) {
                         html.push(' style="display:none;"');
@@ -1178,7 +1172,7 @@
                 html.push('<tfoot>');
                 colspan = $columns.filter('*[data-visible="true"]').length;
                 html.push('<tr class="spacerrow">');
-                html.push('<td colspan="' + (colspan + 2) + '">');
+                html.push(`<td colspan="${(colspan + 2)}">`);
                 html.push('<div>&nbsp;</div>');
                 html.push('</td>');
                 html.push('</tr>');
