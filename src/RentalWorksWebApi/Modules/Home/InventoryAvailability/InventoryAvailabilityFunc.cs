@@ -1089,11 +1089,11 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     availScheduleEvent.resource = resourceId.ToString();
                     availScheduleEvent.start = reservation.FromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     availScheduleEvent.end = reservation.ToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    availScheduleEvent.text = "";
+                    availScheduleEvent.text = reservation.QuantityReserved.Total.ToString() + " " + reservation.OrderNumber + " " + reservation.OrderDescription + " (" + reservation.Deal + ")";
                     availScheduleEvent.orderNumber = reservation.OrderNumber;
                     availScheduleEvent.orderStatus = reservation.OrderStatus;
                     availScheduleEvent.deal = reservation.Deal;
-                    availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(618726); //blue   (temporary)
+                    //availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(618726); //blue   (temporary)
                     availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(16777215); //white  (temporary)
                     response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
 
