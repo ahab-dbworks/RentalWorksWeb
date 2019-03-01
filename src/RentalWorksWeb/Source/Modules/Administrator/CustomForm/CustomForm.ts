@@ -71,8 +71,26 @@ class CustomForm {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         $form.find('#codeEditor').change();
+        const $customForm = $form.find(`#designerContent`);
+        const $fields = $customForm.find('.fwformfield');
+        let hasDuplicates: boolean = false;
+        $fields.each(function (i, e) {
+            const $fwFormField = jQuery(e);
+            const dataField = $fwFormField.attr('data-datafield');
+            if (dataField != "") {
+                const $fieldFound = $customForm.find(`[data-datafield="${dataField}"][data-enabled="true"]`);
+                if ($fieldFound.length > 1) {
+                    $fieldFound.addClass('error');
+                    hasDuplicates = true;
+                    FwNotification.renderNotification('ERROR', 'Only one duplicate field can be active on a form.  Set the data-enabled property to false on duplicates.');
+                    return false;
+                } else {
+                    $customForm.find(`[data-datafield="${dataField}"]`).removeClass('error');
+                }
+            }
+        })
 
-        FwModule.saveForm(this.Module, $form, parameters);
+        if (!hasDuplicates) FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any) {
@@ -600,8 +618,8 @@ class CustomForm {
 
             let addPropertiesHtml =
                 `   <div class="addproperties" style="width:100%; display:flex;">
-                        <div class="addpropname" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property"></div>
-                        <div class="addpropval" style="border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
+                        <div class="addpropname" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add new property"></div>
+                        <div class="addpropval" style="padding:3px; border:.5px solid #efefef; width:50%; float:left; font-size:.9em;"><input placeholder="Add value"></div>
                     </div>
                  </div>`; //closing div for propertyContainer
 
@@ -878,7 +896,7 @@ class CustomForm {
                                 case "data-browsedisplayfield":
                                     html.push(`<div class="properties">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval"><select style="width:94%" class="datafields" value="${value}"></select></div>
+                                      <div class="propval"><select style="width:92%" class="datafields" value="${value}"></select></div>
                                    </div>
                                   `);
                                     break;
@@ -895,7 +913,7 @@ class CustomForm {
                                 case "data-enabled":
                                     html.push(`<div class="properties">
                                       <div class="propname">${name === "" ? "&#160;" : name}</div>
-                                      <div class="propval"><select style="width:94%" class="valueOptions" value="${value}"></select></div>
+                                      <div class="propval"><select style="width:92%" class="valueOptions" value="${value}"></select></div>
                                    </div>
                                   `);
                                     break;
@@ -1267,14 +1285,14 @@ class CustomForm {
                         $form.find('#controlProperties .propname:contains("data-datafield")')
                             .siblings('.propval')
                             .find('input')
-                            .replaceWith(`<select style="width:94%" class="datafields" value="">`);
+                            .replaceWith(`<select style="width:92%" class="datafields" value="">`);
 
                         addDatafields();
 
                         $form.find('#controlProperties .propname:contains("data-datatype")')
                             .siblings('.propval')
                             .find('input')
-                            .replaceWith(`<select style="width:94%" class="valueOptions" value="text">`);
+                            .replaceWith(`<select style="width:92%" class="valueOptions" value="text">`);
 
                         addValueOptions();
 
@@ -1338,14 +1356,14 @@ class CustomForm {
                         $form.find('#controlProperties .propname:contains("data-datafield")')
                             .siblings('.propval')
                             .find('input')
-                            .replaceWith(`<select style="width:94%" class="datafields" value="">`);
+                            .replaceWith(`<select style="width:92%" class="datafields" value="">`);
 
                         addDatafields();
 
                         $form.find('#controlProperties .propname:contains("data-type")')
                             .siblings('.propval')
                             .find('input')
-                            .replaceWith(`<select style="width:94%" class="valueOptions" value="text">`);
+                            .replaceWith(`<select style="width:92%" class="valueOptions" value="text">`);
 
                         addValueOptions();
                         lastIndex = newFieldIndex;
