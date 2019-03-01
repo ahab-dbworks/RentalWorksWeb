@@ -506,6 +506,18 @@ ul.fitText span:not(.downArrowNav){
     z-index: 2;
 }
 
+.card .available-color {
+    border-left: 20px solid;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    left: 50px;
+    top: -10px;
+    height: 0;
+    width: 0;
+    right: 0px;
+    position:relative;
+}
+
 .cardContainer .accContainer {
     float: left;
     height: auto;
