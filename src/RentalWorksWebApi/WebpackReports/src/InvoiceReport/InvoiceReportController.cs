@@ -37,8 +37,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
         //------------------------------------------------------------------------------------ 
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
-            //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "InvoiceReport";
+            return request.parameters["InvoiceId"].ToString().TrimEnd();
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderreport/render 

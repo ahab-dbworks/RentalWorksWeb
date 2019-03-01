@@ -38,8 +38,7 @@ namespace WebApi.Modules.Reports.PickListReport
         //------------------------------------------------------------------------------------ 
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
-            //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "PickListReport";
+            return request.parameters["PickListId"].ToString().TrimEnd();
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/picklistreport/render 
