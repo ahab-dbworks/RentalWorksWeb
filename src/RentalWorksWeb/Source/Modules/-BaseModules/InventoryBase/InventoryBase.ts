@@ -80,6 +80,7 @@
                         }
                     }
                     FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], calendarevents);
+                    self.loadScheduler($form, response.InventoryAvailabilityScheduleEvents, response.InventoryAvailabilityScheduleResources);
                 }, function onError(response) {
                     FwFunc.showError(response);
                     }, $calendar)
@@ -108,7 +109,6 @@
             this.setupNewMode($form);
         }
 
-        this.loadScheduler($form);
         controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
             window[controller]['openFormInventory']($form);
@@ -211,9 +211,9 @@
         });
     }
     //----------------------------------------------------------------------------------------------
-    loadScheduler($form) {
+    loadScheduler($form, events, resources) {
 
-        var dp = new DayPilot.Scheduler($form.find('#gantt')[0]);
+        var dp = new DayPilot.Scheduler($form.find('.fwscheduler.scheduler')[0]);
 
         // behavior and appearance
         dp.cellWidth = 40;
@@ -221,7 +221,7 @@
         dp.headerHeight = 25;
 
         // view
-        dp.startDate = moment('2018-12-09T00:00:00').format('YYYY-MM-DD');  // or just dp.startDate = "2013-03-25";
+        dp.startDate = moment().format('YYYY-MM-DD');  // or just dp.startDate = "2013-03-25";
         dp.days = 31;
         dp.scale = "Day";
         dp.timeHeaders = [
@@ -229,70 +229,71 @@
             { groupBy: "Day", format: "dddd" }
         ];
         dp.treeEnabled = true;
-        dp.resources = [
-            {
-                name: "200002-024", id: "A", expanded: true, children: [
-                    { name: "A", id: "A.1" },
-                    { name: "B", id: "A.2" }
-                ]
-            },
-            { name: "L300044", id: "B" },
-            { name: "L300230", id: "C" },
-            { name: "L300962", id: "D" }
-        ];
-        dp.events.list = [
-            {
-                start: "2018-11-30T00:00:00",
-                end: "2018-12-10T00:00:00",
-                id: "1",
-                resource: "A",
-                text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            },
-            {
-                start: "2018-12-13T00:00:00",
-                end: "2018-12-27T00:00:00",
-                id: "6",
-                resource: "A",
-                text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
-                orderNumber: "200002-024",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            },
-            {
-                start: "2018-11-30T00:00:00",
-                end: "2018-12-27T00:00:00",
-                id: "2",
-                resource: "B",
-                text: "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
-                orderNumber: "L300044",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            },
-            {
-                start: "2018-11-30T00:00:00",
-                end: "2018-12-27T00:00:00",
-                id: "2",
-                resource: "C",
-                text: "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
-                orderNumber: "L300230",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            },
-            {
-                start: "2018-11-30T00:00:00",
-                end: "2018-12-27T00:00:00",
-                id: "2",
-                resource: "D",
-                text: "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
-                orderNumber: "L300962",
-                orderStatus: "CONFIRMED",
-                deal: "Testing"
-            }
-        ];
-
+        dp.resources = resources;
+        dp.events.list = events;
+        //dp.resources = [
+        //    {
+        //        name: "200002-024", id: "A", expanded: true, children: [
+        //            { name: "A", id: "A.1" },
+        //            { name: "B", id: "A.2" }
+        //        ]
+        //    },
+        //    { name: "L300044", id: "B" },
+        //    { name: "L300230", id: "C" },
+        //    { name: "L300962", id: "D" }
+        //];
+        //dp.events.list = [
+        //    {
+        //        start: "2018-11-30T00:00:00",
+        //        end: "2018-12-10T00:00:00",
+        //        id: "1",
+        //        resource: "A",
+        //        text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
+        //        orderNumber: "200002-024",
+        //        orderStatus: "CONFIRMED",
+        //        deal: "Testing"
+        //    },
+        //    {
+        //        start: "2018-12-13T00:00:00",
+        //        end: "2018-12-27T00:00:00",
+        //        id: "6",
+        //        resource: "A",
+        //        text: "200002-024 PENDING EXCHANGE (DED RENTALS)",
+        //        orderNumber: "200002-024",
+        //        orderStatus: "CONFIRMED",
+        //        deal: "Testing"
+        //    },
+        //    {
+        //        start: "2018-11-30T00:00:00",
+        //        end: "2018-12-27T00:00:00",
+        //        id: "2",
+        //        resource: "B",
+        //        text: "L300044 SUB-RENTAL REPORT - SUBS (THE MOVIE HOUSE - 2014 RENTALS)",
+        //        orderNumber: "L300044",
+        //        orderStatus: "CONFIRMED",
+        //        deal: "Testing"
+        //    },
+        //    {
+        //        start: "2018-11-30T00:00:00",
+        //        end: "2018-12-27T00:00:00",
+        //        id: "2",
+        //        resource: "C",
+        //        text: "L300230 CROSS I-CODE EXCHANGE TEST (FELD RENTALS)",
+        //        orderNumber: "L300230",
+        //        orderStatus: "CONFIRMED",
+        //        deal: "Testing"
+        //    },
+        //    {
+        //        start: "2018-11-30T00:00:00",
+        //        end: "2018-12-27T00:00:00",
+        //        id: "2",
+        //        resource: "D",
+        //        text: "L300962 ORDER FOR STAGING A CONTAINER (ENDLESS3)",
+        //        orderNumber: "L300962",
+        //        orderStatus: "CONFIRMED",
+        //        deal: "Testing"
+        //    }
+        //];
         dp.bubble = new DayPilot.Bubble({
             cssClassPrefix: "bubble_default",
             onLoad: function (args) {
@@ -306,17 +307,6 @@
             }
         });
         dp.eventMoveHandling = "Disabled";
-        let editMode = $form.find('.editmode input');
-
-        editMode.on('change', function () {
-            if (this.checked) {
-                dp.eventMoveHandling = "Update";
-                dp.update();
-            } else {
-                dp.eventMoveHandling = "Disabled";
-                dp.update();
-            }
-        })
         dp.init();
 
         //dp.onBeforeEventRender = function (args) {
