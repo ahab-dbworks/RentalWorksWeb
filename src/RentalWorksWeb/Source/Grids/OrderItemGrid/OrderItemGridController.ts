@@ -705,45 +705,26 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
         recType = 'RS'
     }
 
-    if (module === 'Order') {
-        $orderItemGrid.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `OrderId`),
-                RecType: recType,
-                RefreshAvailability: true
-            };
-            request.pagesize = defaultRows;
-        });
-    } else {
-        $orderItemGrid.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `QuoteId`),
-                RecType: recType,
-                RefreshAvailability: true
-            };
-            request.pagesize = defaultRows;
-        });
-    }
+    const pageNumber = $orderItemGrid.attr('data-pageno');
+    $orderItemGrid.data('ondatabind', function (request) {
+        request.uniqueids = {
+            OrderId: FwFormField.getValueByDataField($form, `${module}Id`),
+            RecType: recType,
+            RefreshAvailability: true
+        };
+        request.pagesize = defaultRows;
+        request.pageno = pageNumber;
+    });
+
     FwBrowse.search($orderItemGrid);
     //sets refreshavailability back to its default
-    if (module === 'Order') {
-        $orderItemGrid.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `OrderId`),
-                RecType: recType
-            };
-            request.pagesize = defaultRows;
-        });
-    } else {
-        $orderItemGrid.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `QuoteId`),
-                RecType: recType
-            };
-            request.pagesize = defaultRows;
-        });
-    }
-
+    $orderItemGrid.data('ondatabind', function (request) {
+        request.uniqueids = {
+            OrderId: FwFormField.getValueByDataField($form, `${module}Id`),
+            RecType: recType
+        };
+        request.pagesize = defaultRows;
+    });
 }
 //----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();
