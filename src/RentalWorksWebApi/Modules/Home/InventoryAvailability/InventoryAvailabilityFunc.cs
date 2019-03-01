@@ -237,6 +237,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         public string end { get; set; }
         public string text { get; set; }
         public string backColor { get; set; }
+        public string barColor { get; set; }
         public string textColor { get; set; }
         public string id { get; set; } = "";
         public string resource { get; set; }
@@ -1069,8 +1070,47 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 
             }
 
-            // build up the schedule resources and events
+
+            // build up the top-line schedule events (available quantity)
             int resourceId = 0;
+
+            resourceId++;
+            TInventoryAvailabilityScheduleResource availResource = new TInventoryAvailabilityScheduleResource();
+            availResource.id = resourceId.ToString();
+            availResource.name = "Available";
+            response.InventoryAvailabilityScheduleResources.Add(availResource);
+
+            DateTime theDate = availData.AvailDataFromDateTime;
+            while (theDate <= availData.AvailDataToDateTime)
+            {
+                TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = null;
+                if (availData.Dates.TryGetValue(theDate, out inventoryWarehouseAvailabilityDate))
+                {
+                    eventId++;
+                    TInventoryAvailabilityScheduleEvent availEvent = new TInventoryAvailabilityScheduleEvent();
+                    availEvent.id = eventId.ToString(); ;
+                    availEvent.resource = resourceId.ToString();
+                    availEvent.InventoryId = InventoryId;
+                    availEvent.WarehouseId = WarehouseId;
+                    availEvent.start = theDate.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                    availEvent.end = theDate.ToString("yyyy-MM-ddTHH:mm:ss tt");
+                    availEvent.text = ((int)inventoryWarehouseAvailabilityDate.Available.Total).ToString();
+                    if (inventoryWarehouseAvailabilityDate.Available.Total < 0)
+                    {
+                        availEvent.backColor = FwConvert.OleColorToHtmlColor(16711680); //red
+                        availEvent.textColor = FwConvert.OleColorToHtmlColor(16777215); //white
+                    }
+                    else
+                    {
+                        availEvent.backColor = FwConvert.OleColorToHtmlColor(1176137); //green
+                        availEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black
+                    }
+                    response.InventoryAvailabilityScheduleEvents.Add(availEvent);
+                }
+                theDate = theDate.AddDays(1); //daily availability
+            }
+
+            // build up the schedule resources and events
             eventId = 0;
             foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
             {
@@ -1094,10 +1134,9 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     availScheduleEvent.orderStatus = reservation.OrderStatus;
                     availScheduleEvent.deal = reservation.Deal;
                     //availScheduleEvent.backColor = FwConvert.OleColorToHtmlColor(618726); //blue   (temporary)
-                    availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(16777215); //white  (temporary)
+                    availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(618726); //blue   (temporary)
+                    availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                     response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
-
-
                 }
             }
 
