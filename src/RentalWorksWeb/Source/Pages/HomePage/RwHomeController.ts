@@ -116,7 +116,7 @@
         let fullscreen = '<i id="' + widgetData.userWidgetId + 'fullscreen" class="chart-settings material-icons">fullscreen</i>';
         let dataPointCount = 0;
 
-        let container = jQuery($control).append('<div data-chart="' + widgetData.apiname + '" class="chart-container ' + widgetData.userWidgetId + '" style="height:' + widgetData.width + ';width:' + widgetData.width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + widgetData.userWidgetId + '"></canvas><div class="officebar">' + widgetData.OfficeLocationCode + '</div><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
+        let container = jQuery($control).append('<div data-chart="' + widgetData.apiname + '" class="chart-container ' + widgetData.userWidgetId + '" style="height:' + widgetData.width + ';width:' + widgetData.width + ';"><canvas style="display:inline-block;width:100%;padding:5px;" id="' + widgetData.userWidgetId + '"></canvas><div class="officebar">' + widgetData.officeLocationCode + '</div><div class="toolbar">' + fullscreen + refresh + settings + '</div></div>');
         self.buildWidgetSettings(jQuery($control).find('#' + widgetData.userWidgetId + 'settings'), widgetData.userWidgetId);
 
         if (widgetData.dataPoints > 0) {
@@ -124,7 +124,7 @@
         }
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'refresh').on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.fficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     widgetcanvas.siblings('.officebar').text(response.locationCodes);
                     let titleArray = [];
@@ -182,7 +182,7 @@
                 var $confirmation = FwConfirmation.renderConfirmation(widgetData.text, '');
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
-                html.push('<div class="flexrow" style="max-width:unset"><div class="flexcolumn" style="flex:5 1 0;"><div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.OfficeLocationCode + '</div></div></div><div class="flexcolumn fullscreen-fields">');
+                html.push('<div class="flexrow" style="max-width:unset"><div class="flexcolumn" style="flex:5 1 0;"><div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.officeLocationCode + '</div></div></div><div class="flexcolumn fullscreen-fields">');
                 html.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fullscreen Data">')
                 html.push(self.getSettingsHtml());
                 html.push('<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol apply-fullscreen" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">Apply</div></div>')
@@ -252,7 +252,7 @@
                 FwAppData.apiMethod(true, 'GET', 'api/v1/userwidget/' + widgetData.userWidgetId, null, FwServices.defaultTimeout, function onSuccess(response) {
                     self.loadSettingsFields($confirmation, response);
                 }, null, null);
-                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                     try {
                         widgetfullscreen.siblings('.officebar').text(response.locationCodes);
                         let titleArray = [];
@@ -298,7 +298,7 @@
             }
         })
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.OfficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
             try {
                 widgetcanvas.siblings('.officebar').text(response.locationCodes);
                 let titleArray = [];
