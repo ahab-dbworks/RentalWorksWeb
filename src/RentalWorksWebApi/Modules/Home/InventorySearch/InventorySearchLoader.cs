@@ -123,7 +123,77 @@ namespace WebApi.Modules.Home.InventorySearch
         public int? ImageWidth { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        //------------------------------------------------------------------------------------ 
+        private async Task<FwJsonDataTable> AddAvailabilityData(FwJsonDataTable dt, bool showAvailability, DateTime? fromDate, DateTime? toDate, string sessionId, bool refreshAvailability)
+        {
+            FwJsonDataTable dtOut = dt;
+            if (showAvailability)
+            {
+                DateTime fromDateTime = DateTime.MinValue;
+                DateTime toDateTime = DateTime.MinValue;
 
+                if ((fromDate != null) && (fromDate > DateTime.MinValue))
+                {
+                    fromDateTime = fromDate.GetValueOrDefault(DateTime.MinValue);
+                }
+                if ((toDate != null) && (toDate > DateTime.MinValue))
+                {
+                    toDateTime = toDate.GetValueOrDefault(DateTime.MinValue);
+                }
+
+                if ((fromDateTime != null) && (toDateTime != null))
+                {
+                    if (dtOut.Rows.Count > 0)
+                    {
+                        TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                        foreach (List<object> row in dtOut.Rows)
+                        {
+                            string inventoryId = row[dtOut.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dtOut.GetColumnNo("WarehouseId")].ToString();
+                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+                        }
+
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, sessionId, availRequestItems, refreshAvailability);
+
+                        foreach (List<object> row in dtOut.Rows)
+                        {
+                            string inventoryId = row[dtOut.GetColumnNo("InventoryId")].ToString();
+                            string warehouseId = row[dtOut.GetColumnNo("WarehouseId")].ToString();
+                            decimal qty = FwConvert.ToDecimal(row[dtOut.GetColumnNo("Quantity")]);
+
+                            decimal qtyAvailable = 0;
+                            int? availColor = 3211473; //dark blue (stale)
+                            bool isStale = true;
+
+                            TInventoryWarehouseAvailability availData = null;
+                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
+                            {
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
+
+                                qtyAvailable = minAvail.MinimumAvailalbe;
+                                isStale = minAvail.IsStale;
+                                if (!isStale)
+                                {
+                                    availColor = null;
+                                }
+                            }
+
+                            //qtyAvailable -= qty; // not sure on this yet
+
+                            if (qtyAvailable < 0)
+                            {
+                                availColor = 16711684; //red
+                            }
+
+                            row[dtOut.GetColumnNo("QuantityAvailable")] = qtyAvailable;
+                            row[dtOut.GetColumnNo("QuantityAvailableColor")] = (availColor == null) ? null : FwConvert.OleColorToHtmlColor(availColor.GetValueOrDefault(0));
+                            row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
+                        }
+                    }
+                }
+            }
+            return dtOut;
+        }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> SearchAsync(InventorySearchRequest request)
         {
@@ -157,72 +227,8 @@ namespace WebApi.Modules.Home.InventorySearch
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
-
-            if (request.ShowAvailability.GetValueOrDefault(false))
-            {
-                DateTime fromDateTime = DateTime.MinValue;
-                DateTime toDateTime = DateTime.MinValue;
-
-                if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
-                {
-                    fromDateTime = request.FromDate;
-                }
-                if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
-                {
-                    toDateTime = request.ToDate;
-                }
-
-                if ((fromDateTime != null) && (toDateTime != null))
-                {
-                    if (dt.Rows.Count > 0)
-                    {
-                        TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
-                        foreach (List<object> row in dt.Rows)
-                        {
-                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
-                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
-                        }
-
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, availRequestItems, request.RefreshAvailability.GetValueOrDefault(false));
-
-                        foreach (List<object> row in dt.Rows)
-                        {
-                            string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
-                            string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                            decimal qty = FwConvert.ToDecimal(row[dt.GetColumnNo("Quantity")]);
-
-                            decimal qtyAvailable = 0;
-                            int? availColor = 3211473; //dark blue (stale)
-                            bool isStale = true;
-
-                            TInventoryWarehouseAvailability availData = null;
-                            if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
-                            {
-                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
-
-                                qtyAvailable = minAvail.MinimumAvailalbe;
-                                isStale = minAvail.IsStale;
-                                if (!isStale)
-                                {
-                                    availColor = null;
-                                }
-                            }
-
-                            qtyAvailable -= qty; // not sure on this yet
-
-                            if (qtyAvailable < 0)
-                            {
-                                availColor = 16711684; //red
-                            }
-
-                            row[dt.GetColumnNo("QuantityAvailable")] = qtyAvailable;
-                            row[dt.GetColumnNo("QuantityAvailableColor")] = (availColor == null) ? null : FwConvert.OleColorToHtmlColor(availColor.GetValueOrDefault(0));
-                            row[dt.GetColumnNo("QuantityAvailableIsStale")] = isStale;
-                        }
-                    }
-                }
-            }
+            
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
 
             return dt;
         }
@@ -252,6 +258,9 @@ namespace WebApi.Modules.Home.InventorySearch
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            dt = await AddAvailabilityData(dt, request.ShowAvailability.GetValueOrDefault(false), request.FromDate, request.ToDate, request.SessionId, request.RefreshAvailability.GetValueOrDefault(false));
+
             return dt;
         }
         //------------------------------------------------------------------------------------
