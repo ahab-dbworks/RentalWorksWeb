@@ -1,200 +1,29 @@
-﻿$page-width: 768px;
-$line-height: 16px;
-$normal-text: 1em;
-
-@page {
-    /*margin: 130px 32px 96px 32px;*/
-    /*margin: 48px 24px 48px 24px;*/
-    /*size: auto;*/
-    size: portrait;
-}
-
-html.preview {
-    #pageno {
-        visibility: hidden;
+﻿tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
     }
-}
 
-html.pdf {
-    body {
-        /*margin: 130px 24px 96px 24px;*/
-    }
-}
-
-@media only screen {
-    .parameters {
-        display: block;
-    }
-}
-
-@media only print {
-    .parameters {
-        display: none;
-    }
-}
-
-@mixin flexfield($captionwidth) {
-    display: flex;
-    height: $line-height;
-    line-height: $line-height;
-    @content;
-
-    .caption {
-        flex: 0 0 $captionwidth;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
+    tr[data-rowtype="GroupHeadingheader"] td {
+        padding-bottom: .8em;
         font-weight: bold;
+        text-decoration: underline;
+    }
+
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+    }
+}
+
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
     }
-
-    .value {
-        flex: 1 1 0;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-
-.label {
-    line-height: $line-height;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: $normal-text;
-}
-.glItems {
-
-    border-collapse: collapse;
-    margin: 20px 0 0 0;
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-
-        colgroup {
-            .GLAccount {
-                flex: 1 1 0;
-            }
-
-            .Description {
-                flex: 1 1 0;
-            }
-
-            .Debit {
-                flex: 1 1 0;
-            }
-
-            .Credit {
-                flex: 1 1 0;
-            }
-        }
-
-        thead {
-            th {
-                border-top: 2px solid #000000;
-                border-bottom: 2px solid #000000;
-                border-collapse: collapse;
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-            }
-
-            .GLAccount {
-                text-align: left;
-            }
-
-            .Description {
-                text-align: left;
-            }
-
-            .Debit {
-                text-align: right;
-            }
-
-            .Credit {
-                text-align: right;
-            }
-        }
-
-        tbody {
-            tr[data-rowtype="detail"]:nth-child(odd) {
-                background-color: #DCDCDC;
-            }
-
-            tr.caption {
-                display: block;
-                text-align: center;
-                font-size: 1.5em;
-                font-weight: bold;
-            }
-
-            td {
-                padding: 2px 5px;
-                font-size: .9em;
-            }
-
-            td:after {
-                content: attr(data-value);
-            }
-
-            td[data-value="0.00"]:after {
-                content: "";
-            }
-
-            .GLAccount {
-                white-space: pre;
-                text-align: left;
-            }
-
-            .Description {
-                text-align: left;
-            }
-
-            .Debit {
-                text-align: right;
-            }
-
-            .Credit {
-                text-align: right;
-            }
-        }
-    }
-}
-
-#pageContainer {
-    #pageHeader {
-    }
-
-    #contract {
-    }
-
-    #pageFooter {
-        margin: $line-height 0 0 0;
-    }
-}
-
-tbody tr[data-rowtype="Locationheader"] td {
-    padding-top:.8em;
-    padding-bottom:.8em;
-    font-weight: bold;
-    font-size: 1.1em;
-    text-decoration: underline;
-}
-
-tbody tr[data-rowtype="GroupHeadingheader"] td {
-    padding-bottom: .8em;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-tbody tr[data-rowtype="GroupHeadingfooter"] td.totals,
-tbody tr[data-rowtype="Locationfooter"] td.totals {
-    border-top: 2px solid black;
-    font-weight: bold;
 }

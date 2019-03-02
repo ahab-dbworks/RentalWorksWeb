@@ -16,8 +16,7 @@ export class GLDistributionReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const glDistribution: any = {};
-                    glDistribution.GLItems = DataTable.toObjectList(response);
+                    const glDistribution: any = DataTable.toObjectList(response);
                     glDistribution.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     glDistribution.FromDate = parameters.FromDate;
                     glDistribution.ToDate = parameters.ToDate;
@@ -25,6 +24,7 @@ export class GLDistributionReport extends WebpackReport {
                     glDistribution.Report = 'G/L Distribution Report';
                     glDistribution.System = 'RENTALWORKS';
                     glDistribution.Company = '4WALL ENTERTAINMENT';
+                    console.log('report:', glDistribution)
                     this.renderFooterHtml(glDistribution);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

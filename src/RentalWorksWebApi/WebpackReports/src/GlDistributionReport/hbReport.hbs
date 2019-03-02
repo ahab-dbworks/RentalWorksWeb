@@ -11,54 +11,43 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow glItems" style="margin-top:40px;">
-  <table id="tblGLItems">
-    <colgroup>
-      <col class="GLAccount">
-      <col class="Description">
-      <col class="Debit">
-      <col class="Credit">
-    </colgroup>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
     <thead>
-      <tr class="columnheadings">
-        <th class="GLAccount">G/L Account</th>
-        <th class="Description">Description</th>
-        <th class="Debit">Debit</th>
-        <th class="Credit">Credit</th>
+      <tr>
+        <th class="text">G/L Account</th>
+        <th class="text">Description</th>
+        <th class="number">Debit</th>
+        <th class="number">Credit</th>
       </tr>
-
     </thead>
     <tbody>
-      {{#with GLItems}}
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
         {{#ifEquals RowType "Locationheader"}}
-        <td class="LocationHeader" colspan="4">Office Location: {{Location}}</td>
+        <td colspan="5" class="header-row">Location: {{Location}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "GroupHeadingheader"}}
         <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="GLAccount">{{AccountNumber}}</td>
-        <td class="Description">{{AccountDescription}}</td>
-        <td class="Debit" data-value="{{Debit}}"></td>
-        <td class="Credit" data-value="{{Credit}}"></td>
+        <td class="text" data-value="{{AccountNumber}}"></td>
+        <td class="text" data-value="{{AccountDescription}}"></td>
+        <td class="number" data-value="{{Debit}}"></td>
+        <td class="number" data-value="{{Credit}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "GroupHeadingfooter"}}
-        <td class="GLAccount"></td>
-        <td class="Description"></td>
-        <td class="Debit totals" data-value="{{Debit}}"></td>
-        <td class="Credit totals" data-value="{{Credit}}"></td>
+        <td colspan="2" class="total-name">{{GroupHeading}}&nbsp;</td>
+        <td class="total-val" data-value="{{Debit}}"></td>
+        <td class="total-val" data-value="{{Credit}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Locationfooter"}}
-        <td class="GLAccount"></td>
-        <td style="font-weight:bold; text-align:right;">{{Location}}:</td>
-        <td class="Debit totals" data-value="{{Debit}}"></td>
-        <td class="Credit totals" data-value="{{Credit}}"></td>
+        <td colspan="2" class="total-name">{{Location}}&nbsp;</td>
+        <td class="total-val" data-value="{{Debit}}"></td>
+        <td class="total-val" data-value="{{Credit}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
-      {{/with}}
     </tbody>
   </table>
 </div>
