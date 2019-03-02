@@ -788,7 +788,7 @@ class SearchInterface {
             });
 
             const $availableColor = $card.find('.available-color');
-            if (response.Rows[i][availableColor] == "") {
+            if ((response.Rows[i][availableColor] == null) || (response.Rows[i][availableColor] == "")) {
                 color = 'transparent';
             } else {
                 color = response.Rows[i][availableColor];
