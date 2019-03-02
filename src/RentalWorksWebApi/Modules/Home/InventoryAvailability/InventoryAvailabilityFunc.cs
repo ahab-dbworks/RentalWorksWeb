@@ -763,7 +763,12 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                         reservation.QuantityReserved.Owned = (reservation.QuantityOrdered - reservation.QuantitySub - reservation.QuantityConsigned - reservation.QuantityStaged.Owned - reservation.QuantityOut.Owned - reservation.QuantityIn.Owned);
                         reservation.QuantityReserved.Consigned = (reservation.QuantityConsigned - reservation.QuantityOut.Consigned - reservation.QuantityIn.Consigned);
 
-                        availCache[availKey].Reservations.Add(reservation);
+                        //availCache[availKey].Reservations.Add(reservation);
+                        TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability();
+                        if (availCache.TryGetValue(availKey, out availData))
+                        {
+                            availData.Reservations.Add(reservation);
+                        }
                     }
                 }
 
@@ -1080,8 +1085,8 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             availResource.name = "Available";
             response.InventoryAvailabilityScheduleResources.Add(availResource);
 
-            DateTime theDate = availData.AvailDataFromDateTime;
-            while (theDate <= availData.AvailDataToDateTime)
+            DateTime theDate = FromDate;
+            while (theDate <= ToDate)
             {
                 TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = null;
                 if (availData.Dates.TryGetValue(theDate, out inventoryWarehouseAvailabilityDate))
@@ -1122,14 +1127,21 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     resource.name = reservation.OrderNumber;
                     response.InventoryAvailabilityScheduleResources.Add(resource);
 
+                    DateTime reservationFromDateTime = reservation.FromDateTime;
+                    DateTime reservationToDateTime = reservation.ToDateTime;
+
+                    if (reservationToDateTime.Hour.Equals(0) && reservationToDateTime.Minute.Equals(0) && reservationToDateTime.Second.Equals(0))
+                    {
+                        reservationToDateTime = reservationToDateTime.AddDays(1).AddSeconds(-1);
+                    }
 
                     eventId++;
                     TInventoryAvailabilityScheduleEvent availScheduleEvent = new TInventoryAvailabilityScheduleEvent();
                     availScheduleEvent.id = eventId.ToString();
                     availScheduleEvent.resource = resourceId.ToString();
-                    availScheduleEvent.start = reservation.FromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
-                    availScheduleEvent.end = reservation.ToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    availScheduleEvent.text = reservation.QuantityReserved.Total.ToString() + " " + reservation.OrderNumber + " " + reservation.OrderDescription + " (" + reservation.Deal + ")";
+                    availScheduleEvent.start = reservationFromDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                    availScheduleEvent.end = reservationToDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
+                    availScheduleEvent.text = ((int)reservation.QuantityReserved.Total).ToString() + " " + reservation.OrderNumber + " " + reservation.OrderDescription + " (" + reservation.Deal + ")";
                     availScheduleEvent.orderNumber = reservation.OrderNumber;
                     availScheduleEvent.orderStatus = reservation.OrderStatus;
                     availScheduleEvent.deal = reservation.Deal;
