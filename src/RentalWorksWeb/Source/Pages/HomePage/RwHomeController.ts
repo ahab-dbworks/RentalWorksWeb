@@ -124,7 +124,7 @@
         }
 
         jQuery($control).off('click', '#' + widgetData.userWidgetId + 'refresh').on('click', '#' + widgetData.userWidgetId + 'refresh', function () {
-            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.fficeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/widget/loadbyname/${widgetData.apiname}?dataPoints=${dataPointCount}&locationId=${widgetData.officeLocationId}&warehouseId=${JSON.parse(sessionStorage.getItem('warehouse')).warehouseid}&departmentId=${JSON.parse(sessionStorage.getItem('department')).departmentid}&DateBehaviorId=${widgetData.dateBehaviorId}&fromDate=${widgetData.fromDate}&toDate=${widgetData.toDate}&datefield=${widgetData.dateField}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
                 try {
                     widgetcanvas.siblings('.officebar').text(response.locationCodes);
                     let titleArray = [];
