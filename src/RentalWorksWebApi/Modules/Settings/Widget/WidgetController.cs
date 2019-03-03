@@ -95,8 +95,7 @@ namespace WebApi.Modules.Settings.Widget
                 w.locationId = locationId;
                 w.warehouseId = warehouseId;
                 w.departmentId = departmentId;
-                //w.stacked = stacked.GetValueOrDefault(false);
-                w.stacked = true;
+                w.stacked = stacked.GetValueOrDefault(false);
                 bool b = w.LoadAsync().Result;
                 return new OkObjectResult(w);
             }
