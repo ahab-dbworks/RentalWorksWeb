@@ -321,6 +321,33 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------
+
+        //justin 03/04/2019 experimental
+        protected virtual async Task<List<ActionResult<T>>> DoPostAsync<T>(FwBusinessLogicList lList)
+        {
+            List<ActionResult<T>> results = new List<ActionResult<T>>();
+            if (!ModelState.IsValid)
+            {
+                results.Add(BadRequest(ModelState));
+            }
+            try
+            {
+                foreach (FwBusinessLogic l in lList)
+                {
+                    ActionResult<T> ar = await DoPostAsync<T>(l);
+                    results.Add(ar);
+                }
+            }
+            catch (Exception ex)
+            {
+                results.Add(GetApiExceptionResult(ex));
+            }
+            return results;
+        }
+        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------
+
         protected virtual async Task<IActionResult> DoSaveFormAsync<T>(SaveFormRequest request, Type type = null)
         {
             try

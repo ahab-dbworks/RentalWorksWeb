@@ -1371,4 +1371,7 @@ namespace FwStandard.BusinessLogic
 
 
     }
+
+    public class FwBusinessLogicList : List<FwBusinessLogic> { }
+
 }
