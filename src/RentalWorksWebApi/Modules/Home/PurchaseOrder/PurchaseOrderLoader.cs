@@ -27,7 +27,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "poorderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poneedsapproval", modeltype: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "needsapproval", modeltype: FwDataTypes.Boolean)]
         public bool? NeedsApproval { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approvedbyusersid", modeltype: FwDataTypes.Text)]
