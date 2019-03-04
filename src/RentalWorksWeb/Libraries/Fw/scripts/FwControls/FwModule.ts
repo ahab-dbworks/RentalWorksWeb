@@ -779,27 +779,19 @@
             $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
+                request.uniqueids.ModuleName = window[controller].Module;
                 for (let i = 0; i < 2; i++) {
                     let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
                         switch (i) {
                             case 0:
-                                request.uniqueids = {
-                                    UniqueId1: uniqueIdValue
-                                    , ModuleName: window[controller].Module
-                                }
+                                request.uniqueids.UniqueId1 = uniqueIdValue;
                                 break;
                             case 1:
-                                request.uniqueids = {
-                                    UniqueId2: uniqueIdValue
-                                    , ModuleName: window[controller].Module
-                                }
+                                request.uniqueids.UniqueId2 = uniqueIdValue;
                                 break;
                             case 2:
-                                request.uniqueids = {
-                                    UniqueId3: uniqueIdValue
-                                    , ModuleName: window[controller].Module
-                                }
+                                request.uniqueids.UniqueId3 = uniqueIdValue;
                                 break;
                         }
                     } else {
