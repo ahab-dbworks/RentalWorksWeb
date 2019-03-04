@@ -412,11 +412,11 @@ namespace WebApi.Modules.Home.Order
                     response.success = false;
                     response.msg = "OrderId is required.";
                 }
-                else if (string.IsNullOrEmpty(request.VendorId))
-                {
-                    response.success = false;
-                    response.msg = "Vendor is required.";
-                }
+                //else if (string.IsNullOrEmpty(request.VendorId))
+                //{
+                //    response.success = false;
+                //    response.msg = "Vendor is required.";
+                //}
                 else if (string.IsNullOrEmpty(request.RateType))
                 {
                     response.success = false;
