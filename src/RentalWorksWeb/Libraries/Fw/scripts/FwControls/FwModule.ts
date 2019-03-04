@@ -784,13 +784,22 @@
                     if (typeof uniqueIdValue !== 'undefined') {
                         switch (i) {
                             case 0:
-                                request.uniqueids.UniqueId1 = uniqueIdValue;
+                                request.uniqueids = {
+                                    UniqueId1: uniqueIdValue
+                                    , ModuleName: window[controller].Module
+                                }
                                 break;
                             case 1:
-                                request.uniqueids.UniqueId2 = uniqueIdValue;
+                                request.uniqueids = {
+                                    UniqueId2: uniqueIdValue
+                                    , ModuleName: window[controller].Module
+                                }
                                 break;
                             case 2:
-                                request.uniqueids.UniqueId3 = uniqueIdValue;
+                                request.uniqueids = {
+                                    UniqueId3: uniqueIdValue
+                                    , ModuleName: window[controller].Module
+                                }
                                 break;
                         }
                     } else {

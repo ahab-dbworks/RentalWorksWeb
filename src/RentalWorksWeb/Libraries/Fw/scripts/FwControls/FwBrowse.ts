@@ -1,4 +1,4 @@
-﻿class FwBrowseClass {
+class FwBrowseClass {
     //---------------------------------------------------------------------------------
     upgrade($control) {
         var properties, i, data_type;
@@ -3446,12 +3446,18 @@
         $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
         FwPopup.showPopup($popup);
 
+        const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
+        let module: string = window[controller].Module;
+        if (module.endsWith('Grid')) {
+            module = module.substring(0, module.length - 4);
+        }
         $auditHistoryGrid = $popup.find('div[data-grid="AuditHistoryGrid"]');
         $auditHistoryGridControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
         $auditHistoryGrid.empty().append($auditHistoryGridControl);
         $auditHistoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 UniqueId1: uniqueId
+                , ModuleName: module
             };
         });
         FwBrowse.init($auditHistoryGridControl);
