@@ -301,6 +301,12 @@ class SearchInterface {
 
         let mainTypeBreadCrumb = $popup.find('#breadcrumbs .basetype');
 
+        //Sets inventory type by active tab
+        if (typeof gridInventoryType == 'undefined') {
+            gridInventoryType = $form.find('.tabs .active[data-type="tab"]').attr('data-caption');
+            if (gridInventoryType == 'Miscellaneous') gridInventoryType = 'Misc';
+        }
+
         switch (gridInventoryType) {
             default:
             case 'Rental':

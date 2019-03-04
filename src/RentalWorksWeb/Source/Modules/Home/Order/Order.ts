@@ -2488,21 +2488,20 @@ FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = functi
 };
 
 //----------------------------------------------------------------------------------------------
+//Open Search Interface
 FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = function (e) {
-    let search, $form, orderId, $popup;
+    let search, $form, orderId;
     $form = jQuery(this).closest('.fwform');
     orderId = FwFormField.getValueByDataField($form, 'OrderId');
-
     if ($form.attr('data-mode') === 'NEW') {
         OrderController.saveForm($form, { closetab: false });
         return;
     }
-
     if (orderId == "") {
         FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         search = new SearchInterface();
-        $popup = search.renderSearchPopup($form, orderId, 'Order');
+        search.renderSearchPopup($form, orderId, 'Order');
     }
 };
 
