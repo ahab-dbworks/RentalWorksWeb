@@ -2531,6 +2531,7 @@ FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = functi
         } else {
             QuoteController.orderItemGridLockUnlock($browse, event);
         }
+        jQuery(document).trigger('click');
     }
     catch (ex) {
         FwFunc.showError(ex);
@@ -2551,6 +2552,7 @@ FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = functi
         } else {
             QuoteController.orderItemGridBoldUnbold($browse, event);
         }
+        jQuery(document).trigger('click');
     }
     catch (ex) {
         FwFunc.showError(ex);
