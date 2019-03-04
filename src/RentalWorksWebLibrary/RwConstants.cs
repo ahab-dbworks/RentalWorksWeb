@@ -233,6 +233,23 @@ namespace WebLibrary
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_TAX = "VENDOR INVOICE TAX";
 
 
+
+        //AVAILABILITY
+        public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 13429759; //aqua
+        public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0; //black
+        public const int AVAILABILITY_COLOR_NEGATIVE = 16711680; //red
+        public const int AVAILABILITY_COLOR_POSITIVE = 1176137; //green
+        public const int AVAILABILITY_TEXT_COLOR_NEGATIVE = 16777215; //white
+        public const int AVAILABILITY_TEXT_COLOR_POSITIVE = 0; //black
+        public const int AVAILABILITY_COLOR_RESERVED = 15132390; //gray
+        public const int AVAILABILITY_TEXT_COLOR_RESERVED = 0; //black
+        public const int AVAILABILITY_COLOR_RETURNING = 618726; //blue
+        public const int AVAILABILITY_TEXT_COLOR_RETURNING = 16777215; //white
+        public const int AVAILABILITY_COLOR_NEEDRECALC = 3211473; //dark blue
+        public const int AVAILABILITY_TEXT_COLOR_NEEDRECALC = 16777215; //white
+
+        public const int AVAILABILITY_COLOR_ORDER = 618726; //blue TEMPORARY
+
     }
 
     public class QuoteOrderCopyRequest

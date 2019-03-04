@@ -17468,98 +17468,6 @@
 			]
 		},
 		{
-			"name": "Inventory Availability Date",
-			"item": [
-				{
-					"name": "Inventory Availability Date: Browse",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"InventoryId\": \"F010F3BN\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"FromDate\": \"11/01/2018\",\n    \t\t\"ToDate\": \"11/30/2018\"\n    \t}\n\t\n}\n\n"
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate/browse",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"inventoryavailabilitydate",
-								"browse"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Inventory Availability Date: Get",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "{{jwttoken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
-						"url": {
-							"raw": "http://localhost:57949/api/v1/inventoryavailabilitydate?InventoryId=D00BYW35&WarehouseId=B0029AY5&FromDate=02/17/2019&ToDate=03/30/2019",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "57949",
-							"path": [
-								"api",
-								"v1",
-								"inventoryavailabilitydate"
-							],
-							"query": [
-								{
-									"key": "InventoryId",
-									"value": "D00BYW35"
-								},
-								{
-									"key": "WarehouseId",
-									"value": "B0029AY5"
-								},
-								{
-									"key": "FromDate",
-									"value": "02/17/2019"
-								},
-								{
-									"key": "ToDate",
-									"value": "03/30/2019"
-								}
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Inventory Availability",
 			"item": [
 				{
@@ -26789,7 +26697,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"OrderId\": \"I000006P\",\n    \"OrderItemId\": \"I000006Z\",\n    \"Bold\": true\n\n}"
+							"raw": "{\n    \"OrderItemId\": \"I000OWCI\",\n    \"OrderId\": \"I000OWBO\",\n    \"RecType\": \"\",\n    \"Description\": \"CONCENTRIC RING MAC QUANTUM WASH\",\n    \"QuantityOrdered\": 5\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/orderitem",
@@ -26802,6 +26710,41 @@
 								"api",
 								"v1",
 								"orderitem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Item: Update Many",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n   {\n    \"OrderItemId\": \"I000OWCI\",\n    \"OrderId\": \"I000OWBO\",\n    \"RecType\": \"\",\n    \"Description\": \"CONCENTRIC RING MAC QUANTUM WASHY\",\n    \"QuantityOrdered\": 7\n   },\t\n   {\n    \"OrderItemId\": \"I000OWCF\",\n    \"OrderId\": \"I000OWBO\",\n    \"Description\": \"BRACKETS MAC W- QUICK RELEASEX\",\n    \"QuantityOrdered\": 12\n   }\n]\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderitem/many",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderitem",
+								"many"
 							]
 						}
 					},

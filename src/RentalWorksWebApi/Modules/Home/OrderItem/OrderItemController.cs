@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Http;
 using WebLibrary;
+using FwStandard.BusinessLogic;
 
 namespace WebApi.Modules.Home.OrderItem
 {
@@ -50,6 +51,23 @@ namespace WebApi.Modules.Home.OrderItem
         {
             return await DoPostAsync<OrderItemLogic>(l);
         }
+        //------------------------------------------------------------------------------------ 
+
+
+        //justin 03/04/2019 experimental
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/orderitem/many
+        [HttpPost("many")]
+        [FwControllerMethod(Id: "MqUlSwrmvxSAK")]
+        public async Task<List<ActionResult<OrderItemLogic>>> PostAsync([FromBody]List<OrderItemLogic> l)
+        {
+            FwBusinessLogicList l2 = new FwBusinessLogicList();
+            l2.AddRange(l);
+            return await DoPostAsync<OrderItemLogic>(l2);
+        }
+        //------------------------------------------------------------------------------------ 
+
+
         //------------------------------------------------------------------------------------ 
         // DELETE api/v1/orderitem/A0000001
         [HttpDelete("{id}")]

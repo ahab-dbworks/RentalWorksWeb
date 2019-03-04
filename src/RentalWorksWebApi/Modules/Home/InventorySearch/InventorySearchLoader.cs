@@ -7,6 +7,7 @@ using System.Reflection;
 using System;
 using WebApi.Modules.Home.InventoryAvailabilityFunc;
 using System.Collections.Generic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
@@ -162,31 +163,34 @@ namespace WebApi.Modules.Home.InventorySearch
                             decimal qty = FwConvert.ToDecimal(row[dtOut.GetColumnNo("Quantity")]);
 
                             decimal qtyAvailable = 0;
-                            int? availColor = 3211473; //dark blue (stale)
+                            //int? availColor = RwConstants.AVAILABILITY_COLOR_NEEDRECALC;
                             bool isStale = true;
+                            string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
 
                             TInventoryWarehouseAvailability availData = null;
                             if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
                             {
                                 TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
 
-                                qtyAvailable = minAvail.MinimumAvailalbe;
+                                qtyAvailable = minAvail.MinimumAvailable;
                                 isStale = minAvail.IsStale;
-                                if (!isStale)
-                                {
-                                    availColor = null;
-                                }
+                                //if (!isStale)
+                                //{
+                                //    availColor = null;
+                                //}
+                                availColor = minAvail.Color;
                             }
 
                             //qtyAvailable -= qty; // not sure on this yet
 
-                            if (qtyAvailable < 0)
-                            {
-                                availColor = 16711684; //red
-                            }
+                            //if (qtyAvailable < 0)
+                            //{
+                            //    availColor = RwConstants.AVAILABILITY_COLOR_NEGATIVE;
+                            //}
 
                             row[dtOut.GetColumnNo("QuantityAvailable")] = qtyAvailable;
-                            row[dtOut.GetColumnNo("QuantityAvailableColor")] = (availColor == null) ? null : FwConvert.OleColorToHtmlColor(availColor.GetValueOrDefault(0));
+                            //row[dtOut.GetColumnNo("QuantityAvailableColor")] = (availColor == null) ? null : FwConvert.OleColorToHtmlColor(availColor.GetValueOrDefault(0));
+                            row[dtOut.GetColumnNo("QuantityAvailableColor")] = availColor;
                             row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
                         }
                     }

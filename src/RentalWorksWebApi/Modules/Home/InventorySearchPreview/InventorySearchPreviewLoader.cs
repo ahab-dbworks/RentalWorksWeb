@@ -8,6 +8,7 @@ using System;
 using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewController;
 using WebApi.Modules.Home.InventoryAvailabilityFunc;
 using System.Collections.Generic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.InventorySearchPreview
 {
@@ -188,21 +189,21 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                             string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
                             TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
                             TInventoryWarehouseAvailability availData = null;
-                            row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
+                            row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC); 
                             row[dt.GetColumnNo("QuantityAvailableIsStale")] = true;
                             if (availCache.TryGetValue(availKey, out availData))
                             {
                                 row[dt.GetColumnNo("QuantityAvailableColor")] = null;
                                 TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
-                                row[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailalbe;
-                                if (minAvail.MinimumAvailalbe < 0)
+                                row[dt.GetColumnNo("QuantityAvailable")] = minAvail.MinimumAvailable;
+                                if (minAvail.MinimumAvailable < 0)
                                 {
-                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(16711684); //red
+                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE); 
                                 }
                                 row[dt.GetColumnNo("QuantityAvailableIsStale")] = minAvail.IsStale;
                                 if (minAvail.IsStale)
                                 {
-                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
+                                    row[dt.GetColumnNo("QuantityAvailableColor")] = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC); 
                                 }
 
                             }
