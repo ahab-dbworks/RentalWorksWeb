@@ -129,6 +129,12 @@ class Program extends FwApplication {
                         });
                         if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
                             localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
+                        } else if (localStorage.getItem('barcodeScanMode') !== 'MODE_SINGLE_SCAN' && localStorage.getItem('barcodeScanMode') !== 'MODE_MULTI_SCAN_NO_DUPLICATES') {
+                            if (localStorage.getItem('barcodeScanMode') === 'MODE_MULTI_SCAN') {
+                                localStorage.setItem('barcodeScanMode', 'MODE_MULTI_SCAN_NO_DUPLICATES');
+                            } else {
+                                localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
+                            }
                         }
                         DTDevices.barcodeSetScanMode(localStorage.getItem('barcodeScanMode'));
 

@@ -15,7 +15,7 @@ RwAccountController.getPreferencesScreen = function() {
     var $scanmode = screen.$view.find('#preferencesView-scanMode');
     FwFormField.loadItems($scanmode, [
         {value:'MODE_SINGLE_SCAN',              text:'Single Scan'},
-        {value:'MODE_MULTI_SCAN',               text:'Multi-Scan'},
+        //{value:'MODE_MULTI_SCAN',               text:'Multi-Scan'},
         //{value:'MODE_MOTION_DETECT',            text:'Motion Detect'},
         //{value:'MODE_SINGLE_SCAN_RELEASE',      text:'Single Scan Release'},
         {value:'MODE_MULTI_SCAN_NO_DUPLICATES', text:'Multi-Scan No Duplicates'}
@@ -33,10 +33,17 @@ RwAccountController.getPreferencesScreen = function() {
             }
         })
     ;
-    screen.load = function() {
-        if (typeof localStorage.getItem('barcodeScanMode') !== 'string') {
+    screen.load = function () {
+        if (typeof localStorage.getItem('barcodeScanMode') === 'undefined') {
             localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
+        } else if (localStorage.getItem('barcodeScanMode') !== 'MODE_SINGLE_SCAN' && localStorage.getItem('barcodeScanMode') !== 'MODE_MULTI_SCAN_NO_DUPLICATES') {
+            if (localStorage.getItem('barcodeScanMode') === 'MODE_MULTI_SCAN') {
+                localStorage.setItem('barcodeScanMode', 'MODE_MULTI_SCAN_NO_DUPLICATES');
+            } else {
+                localStorage.setItem('barcodeScanMode', 'MODE_SINGLE_SCAN');
+            }
         }
+
         FwFormField.setValue(screen.$view, '#preferencesView-scanMode', localStorage.getItem('barcodeScanMode'));
 
         if (typeof window.TslReader === 'object' && typeof window.TslReader.getPowerLevel === 'function') {
