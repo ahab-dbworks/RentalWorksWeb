@@ -35,12 +35,14 @@ namespace FwStandard.BusinessLogic
     {
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwBusinessLogic Original { get; set; }
+        public int RecordsAffected { get; set; }
     }
 
     public class AfterSaveDataRecordEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwDataReadWriteRecord Original { get; set; }
+        public int RecordsAffected { get; set; }
     }
 
 
@@ -949,17 +951,31 @@ namespace FwStandard.BusinessLogic
                 }
                 bool savePerformed = ((rowsAffected > 0) || customFieldsSaved);
 
+                //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework.
+                //justin 03/05/2019 would like to automate the saving of "notes" data to the appnote table instead of hand-coding the save function in each inherited BusinessLogic.
                 if (!savePerformed)
                 {
-                    PropertyInfo p = this.GetType().GetProperty("Notes");
+                    PropertyInfo p = null;
+                    if (p == null)
+                    {
+                        p = this.GetType().GetProperty("Notes");
+                    }
+                    if (p == null)
+                    {
+                        p = this.GetType().GetProperty("Note");
+                    }
                     if (p != null)
                     {
-                        savePerformed = (p.GetValue(this, null) != null);  //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework
+                        savePerformed = (p.GetValue(this, null) != null);  
                     }
                 }
                 if (savePerformed)
                 {
                     AfterSave?.Invoke(this, afterSaveArgs);
+                    if (rowsAffected == 0)
+                    {
+                        rowsAffected = afterSaveArgs.RecordsAffected;
+                    }
                 }
             }
             return rowsAffected;
