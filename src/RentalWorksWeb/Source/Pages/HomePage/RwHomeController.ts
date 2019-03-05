@@ -596,7 +596,7 @@
     // TO DO - format these all functions below into more modularized code to input to widgets.
 
     commaDelimited = function (value, index, values) {
-        value = value.toString();
+        (value.toString().indexOf('.') !== -1) ? value = value.toFixed(1).toString() : value = value.toString();
         return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,")
     };
 
@@ -671,7 +671,7 @@
     }
 
     commaDelimitedPercent = function (value, index, values) {
-        value = value.toString();
+        (value.toString().indexOf('.') !== -1) ? value = value.toFixed(1).toString() : value = value.toString();
         if (value.charAt(value.length - 3) !== '.' && !isNaN(value)) {
             return value.replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,") + '%'
         } else {
