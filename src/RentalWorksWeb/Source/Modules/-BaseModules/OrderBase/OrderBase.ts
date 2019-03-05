@@ -103,6 +103,7 @@ class OrderBase {
                     hiddenCombined: hiddenCombined
                 }
                 self.columnLogic($form, self.CachedOrderTypes[orderType]);
+                self.afterLoad($form);
             }, null, null);
         }        
 

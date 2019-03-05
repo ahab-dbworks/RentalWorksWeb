@@ -579,13 +579,24 @@ class Order extends OrderBase {
             laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'),
             usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'),
             lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
-
-        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
-        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-        $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? lossDamageTab.show() : lossDamageTab.hide();
-        $form.find('[data-datafield="RentalSale"] input').prop('checked') ? usedSaleTab.show() : usedSaleTab.hide();
+        if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {
+            if ($form.find('[data-datafield="Rental"] input').prop('checked')) {
+                FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+                usedSaleTab.hide();
+            } else {
+                rentalTab.hide();
+            }
+            $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+            $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+            $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+            $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? lossDamageTab.show() : lossDamageTab.hide();
+            if ($form.find('[data-datafield="RentalSale"] input').prop('checked')) {
+                FwFormField.disable($form.find('[data-datafield="Rental"]'));
+                rentalTab.show();
+            } else {
+                usedSaleTab.hide();
+            }
+        }
 
         if (status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
@@ -730,23 +741,6 @@ class Order extends OrderBase {
         //}
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
-
-        let rentalActivity = FwFormField.getValueByDataField($form, 'Rental'),
-            usedSaleActivity = FwFormField.getValueByDataField($form, 'RentalSale'),
-            lossDamageActivity = FwFormField.getValueByDataField($form, 'LossAndDamage')
-        if (rentalActivity) {
-            FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
-            usedSaleTab.hide();
-        }
-        if (lossDamageActivity) {
-            $form.find('[data-type="tab"][data-caption="Loss and Damage"]').show();
-        } else {
-            $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide();
-        }
-        if (usedSaleActivity) {
-            FwFormField.disable($form.find('[data-datafield="Rental"]'));
-            usedSaleTab.show();
-        }
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
