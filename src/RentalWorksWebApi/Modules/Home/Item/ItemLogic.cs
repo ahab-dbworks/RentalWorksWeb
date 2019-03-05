@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.Item
             dataRecords.Add(item);
             dataLoader = itemLoader;
             browseLoader = itemBrowseLoader;
-            item.AfterSave += OnAfterSaveItem;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"ow9igbdLMgEw", IsPrimaryKey:true)]
@@ -504,10 +504,27 @@ namespace WebApi.Modules.Home.Item
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveItem(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = item.SaveNoteASync(ItemNotes).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                ItemLogic orig = (ItemLogic)e.Original;
+                doSaveNote = (!orig.ItemNotes.Equals(ItemNotes));
+            }
+            if (doSaveNote)
+            {
+                bool saved = item.SaveNoteASync(ItemNotes).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
-        //------------------------------------------------------------------------------------   
+        //------------------------------------------------------------------------------------
     }
 }

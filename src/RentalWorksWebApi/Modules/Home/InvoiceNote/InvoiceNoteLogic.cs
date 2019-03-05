@@ -14,7 +14,7 @@ namespace WebApi.Modules.Home.InvoiceNote
         {
             dataRecords.Add(invoiceNote);
             dataLoader = invoiceNoteLoader;
-            invoiceNote.AfterSave += OnAfterSaveInvoiceNote;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "ObrJarXm0xoG", IsPrimaryKey: true)]
@@ -38,17 +38,27 @@ namespace WebApi.Modules.Home.InvoiceNote
         [FwLogicProperty(Id: "Ccw2UPUSAfhgu")]
         public string DateStamp { get { return invoiceNote.DateStamp; } set { invoiceNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveInvoiceNote(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = invoiceNote.SaveNoteASync(Notes).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                InvoiceNoteLogic orig = (InvoiceNoteLogic)e.Original;
+                doSaveNote = (!orig.Notes.Equals(Notes));
+            }
+            if (doSaveNote)
+            {
+                bool saved = invoiceNote.SaveNoteASync(Notes).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
-        //------------------------------------------------------------------------------------ 
     }
 }

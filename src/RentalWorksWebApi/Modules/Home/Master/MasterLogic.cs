@@ -16,7 +16,7 @@ namespace WebApi.Modules.Home.Master
             dataRecords.Add(master);
 
             master.BeforeSave += OnBeforeSaveMaster;
-            master.AfterSave += OnAfterSaveMaster;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"5W33grkqpS7C", IsRecordTitle:true)]
@@ -140,9 +140,26 @@ namespace WebApi.Modules.Home.Master
             }
         }
         //------------------------------------------------------------------------------------ 
-        public virtual void OnAfterSaveMaster(object sender, AfterSaveDataRecordEventArgs e)
+        public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = master.SaveNoteASync(Note).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                MasterLogic orig = (MasterLogic)e.Original;
+                doSaveNote = (!orig.Note.Equals(Note));
+            }
+            if (doSaveNote)
+            {
+                bool saved = master.SaveNoteASync(Note).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }

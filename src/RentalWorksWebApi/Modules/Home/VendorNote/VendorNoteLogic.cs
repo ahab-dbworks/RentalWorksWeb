@@ -15,8 +15,9 @@ namespace WebApi.Modules.Home.VendorNote
         {
             dataRecords.Add(vendorNoteRecord);
             dataLoader = vendorNoteLoader;
-            vendorNoteRecord.AfterSave += OnAfterSaveVendorNote;
+            AfterSave += OnAfterSave;
         }
+        //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"Nvsn2c8YTejCk", IsPrimaryKey:true)]
         public string VendorNoteId { get { return vendorNoteRecord.VendorNoteId; } set { vendorNoteRecord.VendorNoteId = value; } }
 
@@ -45,10 +46,27 @@ namespace WebApi.Modules.Home.VendorNote
         public string DateStamp { get { return vendorNoteRecord.DateStamp; } set { vendorNoteRecord.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveVendorNote(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = vendorNoteRecord.SaveNoteASync(Notes).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                VendorNoteLogic orig = (VendorNoteLogic)e.Original;
+                doSaveNote = (!orig.Notes.Equals(Notes));
+            }
+            if (doSaveNote)
+            {
+                bool saved = vendorNoteRecord.SaveNoteASync(Notes).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
-        //------------------------------------------------------------------------------------    
+        //------------------------------------------------------------------------------------
     }
 }

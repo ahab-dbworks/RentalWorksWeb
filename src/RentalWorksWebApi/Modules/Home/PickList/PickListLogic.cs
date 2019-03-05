@@ -19,7 +19,7 @@ namespace WebApi.Modules.Home.PickList
             dataRecords.Add(pickList);
             dataLoader = pickListLoader;
             browseLoader = pickListBrowseLoader;
-            pickList.AfterSave += OnAfterSavePickList;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"2E6750mRpWk5", IsPrimaryKey:true)]
@@ -143,10 +143,26 @@ namespace WebApi.Modules.Home.PickList
         public string DateStamp { get { return pickList.DateStamp; } set { pickList.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-
-        public void OnAfterSavePickList(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = pickList.SaveNoteASync(Note).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                PickListLogic orig = (PickListLogic)e.Original;
+                doSaveNote = (!orig.Note.Equals(Note));
+            }
+            if (doSaveNote)
+            {
+                bool saved = pickList.SaveNoteASync(Note).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
         public async Task<bool> LoadFromSession(BrowseRequest browseRequest)

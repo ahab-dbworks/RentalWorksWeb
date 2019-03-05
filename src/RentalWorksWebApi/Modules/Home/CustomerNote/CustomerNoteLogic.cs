@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.CustomerNote
         {
             dataRecords.Add(customerNote);
             dataLoader = customerNoteLoader;
-            customerNote.AfterSave += OnAfterSaveCustomerNote;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"UtwcaRLZ1Fpv", IsPrimaryKey:true)]
@@ -46,9 +46,26 @@ namespace WebApi.Modules.Home.CustomerNote
         public string DateStamp { get { return customerNote.DateStamp; } set { customerNote.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveCustomerNote(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = customerNote.SaveNoteASync(Notes).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                CustomerNoteLogic orig = (CustomerNoteLogic)e.Original;
+                doSaveNote = (!orig.Notes.Equals(Notes));
+            }
+            if (doSaveNote)
+            {
+                bool saved = customerNote.SaveNoteASync(Notes).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }

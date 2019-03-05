@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.DealNote
         {
             dataRecords.Add(dealNote);
             dataLoader = dealNoteLoader;
-            dealNote.AfterSave += OnAfterSaveDealNote;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"XnGRG8WE0enx", IsPrimaryKey:true)]
@@ -46,9 +46,26 @@ namespace WebApi.Modules.Home.DealNote
         public string DateStamp { get { return dealNote.DateStamp; } set { dealNote.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveDealNote(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = dealNote.SaveNoteASync(Notes).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                DealNoteLogic orig = (DealNoteLogic)e.Original;
+                doSaveNote = (!orig.Notes.Equals(Notes));
+            }
+            if (doSaveNote)
+            {
+                bool saved = dealNote.SaveNoteASync(Notes).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }

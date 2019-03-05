@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.ProjectNote
         {
             dataRecords.Add(projectNote);
             dataLoader = projectNoteLoader;
-            projectNote.AfterSave += OnAfterSaveProjectNote;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"VpegZ8ChXtajH", IsPrimaryKey:true)]
@@ -46,9 +46,26 @@ namespace WebApi.Modules.Home.ProjectNote
         public string DateStamp { get { return projectNote.DateStamp; } set { projectNote.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveProjectNote(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = projectNote.SaveNoteASync(Notes).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                ProjectNoteLogic orig = (ProjectNoteLogic)e.Original;
+                doSaveNote = (!orig.Notes.Equals(Notes));
+            }
+            if (doSaveNote)
+            {
+                bool saved = projectNote.SaveNoteASync(Notes).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }

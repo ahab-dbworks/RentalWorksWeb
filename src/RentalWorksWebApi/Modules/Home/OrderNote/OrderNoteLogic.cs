@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.OrderNote
         {
             dataRecords.Add(orderNote);
             dataLoader = orderNoteLoader;
-            orderNote.AfterSave += OnAfterSaveOrderNote;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"KT9nCiwJUIPo", IsPrimaryKey:true)]
@@ -59,9 +59,26 @@ namespace WebApi.Modules.Home.OrderNote
         public string DateStamp { get { return orderNote.DateStamp; } set { orderNote.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-        public void OnAfterSaveOrderNote(object sender, AfterSaveDataRecordEventArgs e)
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = orderNote.SaveNoteASync(Notes).Result;
+            bool doSaveNote = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveNote = true;
+            }
+            else if (e.Original != null)
+            {
+                OrderNoteLogic orig = (OrderNoteLogic)e.Original;
+                doSaveNote = (!orig.Notes.Equals(Notes));
+            }
+            if (doSaveNote)
+            {
+                bool saved = orderNote.SaveNoteASync(Notes).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }

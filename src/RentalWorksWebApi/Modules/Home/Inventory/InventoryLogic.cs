@@ -23,7 +23,6 @@ namespace WebApi.Modules.Home.Inventory
             dataRecords.Add(secondaryDimension);
             browseLoader = inventoryBrowseLoader;
             BeforeSave += OnBeforeSave;
-            master.AfterSave += OnAfterSaveMaster;
         }
         //------------------------------------------------------------------------------------ 
 
@@ -360,10 +359,28 @@ namespace WebApi.Modules.Home.Inventory
             }
         }
         //------------------------------------------------------------------------------------
-        public override void OnAfterSaveMaster(object sender, AfterSaveDataRecordEventArgs e)
+        public override void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            base.OnAfterSaveMaster(sender, e);
-            bool saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
+            base.OnAfterSave(sender, e);
+
+            bool doSaveWardrobeDescription = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveWardrobeDescription = true;
+            }
+            else if (e.Original != null)
+            {
+                InventoryLogic orig = (InventoryLogic)e.Original;
+                doSaveWardrobeDescription = (!orig.WardrobeDetailedDescription.Equals(WardrobeDetailedDescription));
+            }
+            if (doSaveWardrobeDescription)
+            {
+                bool saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }
