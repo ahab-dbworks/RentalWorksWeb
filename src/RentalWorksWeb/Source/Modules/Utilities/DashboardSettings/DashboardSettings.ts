@@ -83,6 +83,9 @@ class DashboardSettings {
                     html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
+                    html.push('<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield stacked" data-caption="Stacked" data-datafield="Stacked"></div>');
+                    html.push('</div>');
+                    html.push('<div class="flexrow">');
                     html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
                     html.push('</div>');
                     html.push('<div class="flexrow">');
@@ -120,6 +123,12 @@ class DashboardSettings {
                         FwFormField.setValueByDataField($confirmation, 'AxisNumberFormatId', response.AxisNumberFormatId, response.AxisNumberFormat);
                     } else {
                         FwFormField.setValueByDataField($confirmation, 'AxisNumberFormatId', response.DefaultAxisNumberFormatId, response.DefaultAxisNumberFormat);
+                    }
+
+                    if (response.Stacked !== null) {
+                        FwFormField.setValueByDataField($confirmation, 'Stacked', response.Stacked);
+                    } else {
+                        FwFormField.setValueByDataField($confirmation, 'Stacked', response.DefaultStacked);
                     }
 
                     if (response.DataNumberFormat !== '') {
@@ -192,6 +201,7 @@ class DashboardSettings {
                         FwFormField.setValue2($confirmation.find('.axisformat'), request.AxisNumberFormatId, request.AxisNumberFormat);
                         FwFormField.setValue2($confirmation.find('.dataformat'), request.DataNumberFormatId, request.DataNumberFormat);
                         FwFormField.setValue2($confirmation.find('.widgettype'), request.WidgetType);
+                        FwFormField.setValue2($confirmation.find('.stacked'), request.Stacked);
                         FwFormField.setValue2($confirmation.find('.fromdate'), request.FromDate);
                         FwFormField.setValue2($confirmation.find('.todate'), request.ToDate);
                         FwFormField.setValue2($confirmation.find('.datefield'), request.DateField);
@@ -204,6 +214,7 @@ class DashboardSettings {
                             let label = li.find('label');
                             request.UserWidgetId = userWidgetId;
                             request.WidgetType = FwFormField.getValue($confirmation, '.widgettype');
+                            (FwFormField.getValue($confirmation, '.stacked') === 'T') ? request.Stacked = true : request.Stacked = false;
                             request.DataPoints = FwFormField.getValue($confirmation, '.defaultpoints');
                             request.AxisNumberFormatId = FwFormField.getValue($confirmation, '.axisformat');
                             request.DataNumberFormatId = FwFormField.getValue($confirmation, '.dataformat');
