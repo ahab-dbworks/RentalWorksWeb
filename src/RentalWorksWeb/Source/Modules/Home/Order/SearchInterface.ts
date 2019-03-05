@@ -1511,6 +1511,12 @@ class SearchInterface {
             }, null, $searchpopup);
         });
 
+        $popup.on('click', '.acc-refresh-avail', e => {
+            const inventoryId = jQuery(e.currentTarget).parents('.cardContainer').find('.card').find('[data-datafield="InventoryId"] input').val();
+            $popup.data('refreshaccessories', true);
+            this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+        })
+
         //Expand Categories button
         //$popup.on('click', '.expandcategorycolumns', e => {
         //    let $inventory = $popup.find('div.card');
@@ -1631,6 +1637,11 @@ class SearchInterface {
             request.ToDate = toDate;
         }
 
+        if ($popup.data('refreshaccessories') == true) {
+            request.RefreshAvailability = true;
+            $popup.data('refreshaccessories', false)
+        }
+
         html = [];
         if (!(accessoryContainer.find('.accColumns').length)) {
             html.push(`
@@ -1669,7 +1680,8 @@ class SearchInterface {
             const descriptionColorIndex = response.ColumnIndex.DescriptionColor;
             const quantityColorIndex = response.ColumnIndex.QuantityColor;
             const accQuantityColorIndex = response.ColumnIndex.QuantityAvailableColor;
-
+            const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
+              
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];
                 accHtml.push(`
@@ -1759,6 +1771,16 @@ class SearchInterface {
                 };
 
                 $popup.find('.accItem:even').css('background-color', '#F9F9F9');
+            }
+
+            let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
+            if (typeof obj != 'undefined') {
+                if (accessoryContainer.find('.acc-refresh-avail').length < 1) {
+                    accessoryContainer.prepend(`<div data-type="button" class="fwformcontrol acc-refresh-avail" style="max-width:165px; margin:12px 0px 0px 10px; float:right;">Refresh Availability</div>`);
+                }
+                accessoryContainer.find('.acc-refresh-avail').show();
+            } else {
+                accessoryContainer.find('.acc-refresh-avail').hide();
             }
         }, null, null);
     }
