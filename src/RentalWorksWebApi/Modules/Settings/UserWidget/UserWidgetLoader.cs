@@ -121,6 +121,12 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwSqlDataField(column: "locationcode", modeltype: FwDataTypes.Text)]
         public string OfficeLocationCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultstacked", modeltype: FwDataTypes.Boolean)]
+        public bool? DefaultStacked { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "stacked", modeltype: FwDataTypes.Boolean)]
+        public bool? Stacked { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "disabled", modeltype: FwDataTypes.Boolean)]
         public bool? Disabled { get; set; }
         //------------------------------------------------------------------------------------ 
