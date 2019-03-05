@@ -738,7 +738,7 @@ class SearchInterface {
                       <input value="${response.Rows[i][inventoryId]}">
                     </div>
                     <div class="desccontainer columnorder" data-column="Description">
-                      <div class="invdescription">${response.Rows[i][descriptionIndex]}</div>`
+                    <div class="invdescription">${response.Rows[i][descriptionIndex]}</div>`
             );
             if (response.Rows[i][thumbnail]) {
                 html.push(`<div class="invimage"><img src="${response.Rows[i][thumbnail]}" data-value="${response.Rows[i][appImageId]}" alt="Image" class="image"></div>`);
@@ -758,13 +758,12 @@ class SearchInterface {
                     <div data-control="FwFormField" data-column="Type" data-type="text" data-datafield="Type" data-caption="Type" class="columnorder showOnSearch fwcontrol fwformfield" data-enabled="false" style="display:none;text-align:center"><span>Type</span><br />${response.Rows[i][typeIndex]} </div>
                     <div data-control="FwFormField" data-column="Category" data-type="text" data-datafield="Category" data-caption="Category" class="columnorder showOnSearch fwcontrol fwformfield" data-enabled="false" style="display:none;text-align:center"><span>Category</span><br />${response.Rows[i][categoryIndex]}</div>
                     <div data-control="FwFormField" data-column="SubCategory" data-type="text" data-datafield="SubCategory" data-caption="SubCategory" class="columnorder showOnSearch fwcontrol fwformfield" data-enabled="false" style="display:none;text-align:center"><span>Sub Category</span><br />${response.Rows[i][subCategoryIndex]}</div>
-                    <div data-control="FwFormField" data-column="Available" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="columnorder hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><div class="available-color"></div><span>Available</span><br />${response.Rows[i][quantityAvailable]}</div>
+                    <div data-control="FwFormField" data-column="Available" data-type="number" data-datafield="QuantityAvailable" data-caption="Available" class="columnorder hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Available</span><br /><span class="available-color">${response.Rows[i][quantityAvailable]}</span></div>
                     <div data-control="FwFormField" data-column="ConflictDate" data-type="text" data-caption="Conflict Date" data-datafield="ConflictDate" class="columnorder hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>Conflict</span><br />${response.Rows[i][conflictDate] ? response.Rows[i][conflictDate] : "N/A"}</div>
                     <div data-control="FwFormField" data-column="AllWh" data-type="text" data-caption="All Wh" data-datafield="AllWh" class="columnorder hideColumns fwcontrol fwformfield" data-enabled="false" style="white-space:pre"><span>All Wh</span><br />&#160;</div>
                       <div data-control="FwFormField" data-type="number" data-column="In" data-datafield="QuantityIn" data-caption="In" class="columnorder hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>In</span><br />${response.Rows[i][quantityIn]}</div>
                       <div data-control="FwFormField" data-type="number" data-column="QC" data-datafield="QuantityQcRequired" data-caption="QC" class="columnorder hideColumns fwcontrol fwformfield" data-enabled="false" style="text-align:center"><span>QC</span><br />${response.Rows[i][quantityQcRequired]}</div>
              `);
-
             rate = Number(response.Rows[i][dailyRate]).toFixed(2);
 
             html.push(`
@@ -800,7 +799,6 @@ class SearchInterface {
                 color = response.Rows[i][availableColor];
             };
             $availableColor.css({
-                'float': 'left',
                 'border-left-color': color
             });
         }
@@ -875,7 +873,6 @@ class SearchInterface {
                 image.css({ 'max-height': '100%', 'max-width': '100%', 'width': 'auto', 'height': 'auto', 'position': 'absolute', 'top': '0', 'bottom': '0', 'left': '0', 'right': '0', 'margin': 'auto' });
                 //quantity
                 quantity.css({ 'float': 'right', 'width': '90px', 'position': 'absolute', 'bottom': '10px', 'right': '10px', 'padding-bottom': '' });
-
                 quantityAvailable.css({ 'float': 'right', 'width': '90px' });
                 $availablecolor.css({'left': '15px', 'top': '40px'});
                 conflictDate.css({ 'float': 'right', 'width': '90px' });
@@ -887,7 +884,7 @@ class SearchInterface {
             case 'LIST':
                 $inventory.length > 0 ? $columnDescriptions.css('display', 'flex') : $columnDescriptions.css('display', 'none');
                 $searchpopup.find('.accColumns').hide();
-                $inventory.find('span, br').hide();
+                $inventory.find('span:not(.available-color), br').hide();
                 $inventory.css({ 'cursor': 'pointer', 'width': '98%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
                 //description columns
                 descContainer.css({ 'flex': '1 0 250px', 'float': '' });
@@ -900,7 +897,7 @@ class SearchInterface {
                 category.css({ 'float': 'left', 'flex': '1 0 100px', 'min-height': '1px', 'padding-top': '.5em' });
                 subCategory.css({ 'float': 'left', 'flex': '1 0 100px', 'min-height': '1px', 'padding-top': '.5em' });
                 //available
-                $availablecolor.css({ 'left': '50px', 'top': '-10px' });
+                $availablecolor.css({ 'left': '', 'top': '' });
                 quantityAvailable.css({ 'float': 'left', 'flex': '1 0 80px', 'padding-top': '.5em' });
                 //conflict date
                 conflictDate.css({ 'float': 'left', 'flex': '1 0 100px', 'padding-top': '.5em' });
@@ -915,7 +912,7 @@ class SearchInterface {
                 break;
             case 'HYBRID':
                 $inventory.length > 0 ? $columnDescriptions.css('display', 'flex') : $columnDescriptions.css('display', 'none');
-                $inventory.find('span, br').hide();
+                $inventory.find('span:not(.available-color), br').hide();
                 $searchpopup.find('.accColumns').hide();
                 $inventory.css({ 'cursor': 'pointer', 'width': '98%', 'height': 'auto', 'float': 'left', 'padding': '5px', 'margin': '5px', 'position': 'relative' });
                 //description columns
@@ -931,7 +928,7 @@ class SearchInterface {
                 category.css({ 'float': 'left', 'flex': '1 0 100px', 'min-height': '1px', 'padding-top': '.5em' });
                 subCategory.css({ 'float': 'left', 'flex': '1 0 100px', 'min-height': '1px', 'padding-top': '.5em' });
                 //available
-                $availablecolor.css({ 'left': '50px', 'top': '-10px' });
+                $availablecolor.css({ 'left': '', 'top': '' });
                 quantityAvailable.css({ 'float': 'left', 'flex': '1 0 80px', 'padding-top': '1em' });
                 //conflict date
                 conflictDate.css({ 'float': 'left', 'flex': '1 0 100px', 'padding-top': '1em' });
@@ -1663,14 +1660,15 @@ class SearchInterface {
 
         jQuery(e.currentTarget).parents('.cardContainer').find('.accContainer .accItem').remove();
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
-            const descriptionIndex = response.ColumnIndex.Description,
-                qtyIndex = response.ColumnIndex.Quantity,
-                qtyInIndex = response.ColumnIndex.QuantityIn,
-                qtyAvailIndex = response.ColumnIndex.QuantityAvailable,
-                conflictIndex = response.ColumnIndex.ConflictDate,
-                inventoryIdIndex = response.ColumnIndex.InventoryId,
-                descriptionColorIndex = response.ColumnIndex.DescriptionColor,
-                quantityColorIndex = response.ColumnIndex.QuantityColor;
+            const descriptionIndex = response.ColumnIndex.Description;
+            const qtyIndex = response.ColumnIndex.Quantity;
+            const qtyInIndex = response.ColumnIndex.QuantityIn;
+            const qtyAvailIndex = response.ColumnIndex.QuantityAvailable;
+            const conflictIndex = response.ColumnIndex.ConflictDate;
+            const inventoryIdIndex = response.ColumnIndex.InventoryId;
+            const descriptionColorIndex = response.ColumnIndex.DescriptionColor;
+            const quantityColorIndex = response.ColumnIndex.QuantityColor;
+            const accQuantityColorIndex = response.ColumnIndex.QuantityAvailableColor;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];
@@ -1678,7 +1676,7 @@ class SearchInterface {
                 <div class="accItem" style="width:100%; float:left; padding:5px 0px;">
                      <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none">
                         <input value="${response.Rows[i][inventoryIdIndex]}"></input></div>
-                     <div data-column="Description" class="columnorder" style="float:left; flex: 1 0 250px; position:relative;"><div class="descriptionColor"></div>${response.Rows[i][descriptionIndex]}</div>
+                     <div data-column="Description" class="columnorder" style="float:left; flex: 1 0 250px; position:relative;"><span class="descriptionColor">${response.Rows[i][descriptionIndex]}</span></div>
                      <div data-control="FwFormField" data-column="Quantity" data-type="number" data-datafield="AccQuantity" data-caption="Qty" class="columnorder fwcontrol fwformfield" style="position:relative; text-align:center; float:left; flex: 0 0 90px;">
                          <div style="float:left; border:1px solid #bdbdbd;">
                              <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>
@@ -1686,7 +1684,7 @@ class SearchInterface {
                              <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>
                          </div>
                      </div>
-                     <div class="columnorder hideColumns" data-column="Available" style="text-align:center; float:left; flex: 1 0 80px;">${response.Rows[i][qtyAvailIndex]}</div>
+                     <div class="columnorder hideColumns" data-column="Available" style="text-align:center; float:left; flex: 1 0 80px;"><span class="acc-avail-color">${response.Rows[i][qtyAvailIndex]}</span></div>
                      <div class="columnorder hideColumns" data-column="ConflictDate" data-datafield="ConflictDate" style="text-align:center; float:left; flex:1 0 100px ">${response.Rows[i][conflictIndex] ? response.Rows[i][conflictIndex] : "N/A"}</div>
                      <div class="hideColumns columnorder" data-column="In" style="text-align:center; float:left; flex:1 0 50px;">${response.Rows[i][qtyInIndex]}</div>
                      <div class="columnorder" data-column="Type" style="text-align:center; float:left; flex: 1 0 100px; min-height: 1px"></div>
@@ -1714,25 +1712,32 @@ class SearchInterface {
                 }
 
                 $descriptionColor = $acc.find('.descriptionColor')
-                if (response.Rows[i][descriptionColorIndex] == "") {
+                if (response.Rows[i][descriptionColorIndex] == "" || response.Rows[i][descriptionColorIndex] == null) {
                     desccolor = 'transparent';
                 } else {
                     desccolor = response.Rows[i][descriptionColorIndex];
                 };
-
                 $descriptionColor.css('border-left-color', desccolor);
 
                 $qty = $acc.find('[data-datafield="AccQuantity"]');
                 $qty.append('<div class="quantityColor"></div>');
                 $quantityColorDiv = $qty.find('.quantityColor');
 
-                if (response.Rows[i][quantityColorIndex] == "") {
+                if (response.Rows[i][quantityColorIndex] == "" || response.Rows[i][quantityColorIndex] == null) {
                     qtycolor = 'transparent';
                 } else {
                     qtycolor = response.Rows[i][quantityColorIndex];
                 };
-
                 $quantityColorDiv.css('border-left-color', qtycolor);
+
+                const $accColor = $acc.find('.acc-avail-color');
+                let accQtyColor;
+                if (response.Rows[i][accQuantityColorIndex] == "" || response.Rows[i][accQuantityColorIndex] == null) {
+                    accQtyColor = 'transparent';
+                } else {
+                    accQtyColor = response.Rows[i][accQuantityColorIndex];
+                };
+                $accColor.css('border-left-color', accQtyColor);
 
                 let type = $popup.find('#type').text();
                 if (type === 'PurchaseOrder' || type === 'Template') {

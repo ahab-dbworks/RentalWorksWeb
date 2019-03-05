@@ -484,7 +484,7 @@ ul.fitText span:not(.downArrowNav){
     border: none;
 }
 
-.card span {
+.card span:not(.available-color) {
     text-decoration: underline;
     font-weight: bold;
 }
@@ -510,12 +510,9 @@ ul.fitText span:not(.downArrowNav){
     border-left: 20px solid;
     border-right: 20px solid transparent;
     border-bottom: 20px solid transparent;
-    left: 50px;
-    top: -10px;
-    height: 0;
-    width: 0;
-    right: 0px;
-    position:relative;
+    height: 0px;
+    display: inline-block;
+    line-height: 2em;
 }
 
 .cardContainer .accContainer {
@@ -537,13 +534,18 @@ ul.fitText span:not(.downArrowNav){
     border-left: 20px solid;
     border-right: 20px solid transparent;
     border-bottom: 20px solid transparent;
-    left: 0;
-    top: 0;
-    height: 0;
-    width: 0;
-    position: absolute;
-    right: 0px;
-    z-index: 2;
+    height: 0px;
+    display: inline-block;
+    line-height: 2em;
+}
+
+.accItem .acc-avail-color {
+    border-left: 20px solid;
+    border-right: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    height: 0px;
+    display:inline-block;
+    line-height:2em;
 }
 
 .accItem .quantityColor {
