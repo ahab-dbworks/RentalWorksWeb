@@ -286,7 +286,7 @@ class FwSchedulerDetailedClass {
     //---------------------------------------------------------------------------------
     // see http://api.daypilot.org/daypilot-event-data/ for info on how to create the evt object
     addEvent($control, evt) {
-        var  dpscheduler, e, action;
+        var dpscheduler, e, action;
         dpscheduler = $control.data('dpscheduler');
         action = dpscheduler.events.add(evt);
     }

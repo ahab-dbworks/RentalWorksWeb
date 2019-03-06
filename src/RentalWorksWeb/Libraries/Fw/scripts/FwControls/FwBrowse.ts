@@ -2504,7 +2504,7 @@
                         }
                     }
                     break;
-                case 'Grid': 
+                case 'Grid':
                     if ((rownoend === 0) && (dt.TotalRows === 0)) {
                         $control.find('.pager .count').text(dt.TotalRows + ' rows');
                     } else {
