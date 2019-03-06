@@ -1,4 +1,4 @@
-class FwBrowseClass {
+﻿class FwBrowseClass {
     //---------------------------------------------------------------------------------
     upgrade($control) {
         var properties, i, data_type;
@@ -1256,7 +1256,58 @@ class FwBrowseClass {
                         htmlPager.push('</div>');
                         break;
                     case 'Grid':
-                        htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                        if ($control.attr('data-paging') == 'true') {
+                            htmlPager.push('<div class="col1" style="width:33%;overflow:hidden;float:left;">');
+                            htmlPager.push('  <div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                            htmlPager.push('  <div class="count" style="float:left;"></div>');
+                            htmlPager.push('</div>');
+                            htmlPager.push('<div class="col2" style="width:34%;overflow:hidden;float:left;height:32px;text-align:center;">');
+                            htmlPager.push('  <div class="buttons">');
+                            htmlPager.push('    <div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                            htmlPager.push('    <div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
+                            htmlPager.push('    <div class="page" style="float:left;">');
+                            htmlPager.push('      <input class="txtPageNo" type="text" value="0"/>');
+                            htmlPager.push('      <div class="of">of</div>');
+                            htmlPager.push('      <div class="txtTotalPages">0 row(s)</div>');
+                            htmlPager.push('    </div>');
+                            htmlPager.push('    <div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                            htmlPager.push('    <div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                            htmlPager.push('  </div>');
+                            htmlPager.push('</div>');
+                            htmlPager.push('<div class="col3" style="width:33%;overflow:hidden;float:left;">');
+                            htmlPager.push('  <div class="pagesize">');
+                            htmlPager.push('    <select class="pagesize">');
+                            htmlPager.push('      <option value="5">5</option>');
+                            htmlPager.push('      <option value="10">10</option>');
+                            htmlPager.push('      <option value="15">15</option>');
+                            htmlPager.push('      <option value="20">20</option>');
+                            htmlPager.push('      <option value="25">25</option>');
+                            htmlPager.push('      <option value="30">30</option>');
+                            htmlPager.push('      <option value="35">35</option>');
+                            htmlPager.push('      <option value="40">40</option>');
+                            htmlPager.push('      <option value="45">45</option>');
+                            htmlPager.push('      <option value="50">50</option>');
+                            htmlPager.push('      <option value="100">100</option>');
+                            htmlPager.push('      <option value="200">200</option>');
+                            htmlPager.push('      <option value="500">500</option>');
+                            htmlPager.push('      <option value="1000">1000</option>');
+                            //htmlPager.push('      <option value="0">All</option>');
+                            htmlPager.push('    </select>');
+                            htmlPager.push('    <span class="caption">rows per page</span>');
+                            htmlPager.push('  </div>');
+                            htmlPager.push('</div>');
+                            if ((controlType === 'Grid') && (typeof $control.attr('data-activeinactiveview') === 'string') && (FwSecurity.isUser())) {
+                                htmlPager.push('<div class="activeinactiveview" style="float:right;">');
+                                htmlPager.push('  <select class="activeinactiveview">');
+                                htmlPager.push('    <option value="active">Show Active</option>');
+                                htmlPager.push('    <option value="inactive">Show Inactive</option>');
+                                htmlPager.push('    <option value="all">Show All</option>');
+                                htmlPager.push('</div>');
+                            }
+                            break;
+                        } else {
+                            htmlPager.push('  <div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                        }
                     case 'Validation':
                         htmlPager.push('<div class="buttons" style="float:left;">');
                         htmlPager.push('  <div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
@@ -2453,7 +2504,17 @@ class FwBrowseClass {
                         }
                     }
                     break;
-                case 'Grid':
+                case 'Grid': 
+                    if ((rownoend === 0) && (dt.TotalRows === 0)) {
+                        $control.find('.pager .count').text(dt.TotalRows + ' rows');
+                    } else {
+                        if (dt.TotalPages == 1) {
+                            $control.find('.pager .count').text(dt.TotalRows + ' rows');
+                        } else {
+                            $control.find('.pager .count').text(rownostart + ' to ' + rownoend + ' of ' + dt.TotalRows + ' rows');
+                        }
+                    }
+                    break;
                 case 'Validation':
                     $control.find('.pager .count').text(dt.TotalRows + ' row(s)');
                     break;
