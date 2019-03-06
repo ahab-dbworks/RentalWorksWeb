@@ -704,13 +704,14 @@ FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = functi
 };
 
 //-----------------------------------------------------------------------------------------------------
+//Open Search Interface
 FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = function (event) {
-    let search, $form, quoteId, $popup;
+    let search, $form, quoteId;
     $form = jQuery(this).closest('.fwform');
     quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
 
     if ($form.attr('data-mode') === 'NEW') {
-        OrderController.saveForm($form, { closetab: false });
+        QuoteController.saveForm($form, { closetab: false });
         return;
     }
 
@@ -718,7 +719,7 @@ FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = functi
         FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         search = new SearchInterface();
-        $popup = search.renderSearchPopup($form, quoteId, 'Quote');
+        search.renderSearchPopup($form, quoteId, 'Quote');
     }
 };
 //-----------------------------------------------------------------------------------------------------
