@@ -1,11 +1,12 @@
-﻿
-namespace WebLibrary
+﻿namespace WebLibrary
 {
     public static class RwConstants
     {
         //MISC/LABOR RATES
         public const string RATE_AVAILABLE_FOR_MISC = "M";
         public const string RATE_AVAILABLE_FOR_LABOR = "L";
+        public const string RATE_TYPE_SINGLE = "SINGLE";
+        public const string RATE_TYPE_RECURRING = "RECURRING";
 
         //DEPARTMENT TYPES
         public const string DEPARTMENT_TYPE_RENTAL = "R";
@@ -73,6 +74,7 @@ namespace WebLibrary
         public const string RATE_TYPE_3WEEK = "3WEEK";
         public const string RATE_TYPE_MONTHLY = "MONTHLY";
 
+        //QUOTE/ORDER LINE-ITEMS
         public const string RECTYPE_RENTAL = "R";
         public const string RECTYPE_SALE = "S";
         public const string RECTYPE_MISCELLANEOUS = "M";
@@ -83,6 +85,23 @@ namespace WebLibrary
         public const string TOTAL_TYPE_MONTHLY = "M";
         public const string TOTAL_TYPE_EPISODIC = "E";
         public const string TOTAL_TYPE_PERIOD = "P";
+
+        public const string ITEMCLASS_COMPLETE = "C";
+        public const string ITEMCLASS_COMPLETE_ITEM = "CI";
+        public const string ITEMCLASS_COMPLETE_OPTION = "CO";
+        public const string ITEMCLASS_KIT = "K";
+        public const string ITEMCLASS_KIT_ITEM = "KI";
+        public const string ITEMCLASS_KIT_OPTION = "KO";
+        public const string ITEMCLASS_CONTAINER = "N";
+        public const string ITEMCLASS_CONTAINER_ITEM = "NI";
+        public const string ITEMCLASS_CONTAINER_OPTION = "NO";
+        public const string ITEMCLASS_MISCELLANEOUS = "M";
+
+        public const int COMPLETE_COLOR = 6382847;        // blue
+        public const int KIT_COLOR = 65280;               // greeen
+        public const int MISCELLANEOUS_COLOR = 16711808;  // pink/choral
+        public const int ITEM_COLOR = 16777215;           // white
+        public const int ACCESSORY_COLOR = 16775680;      // yelow
 
 
         //CONTRACT
@@ -155,6 +174,7 @@ namespace WebLibrary
 
         public const string INVENTORY_STATUS_TYPE_IN = "IN";
         public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
+        public const string INVENTORY_STATUS_TYPE_INCONTAINER = "INCONTAINER";
 
         public const string INVENTORY_CLASSIFICATION_KIT = "K";
         public const string INVENTORY_CLASSIFICATION_COMPLETE = "C";
@@ -169,8 +189,6 @@ namespace WebLibrary
         public const string INVENTORY_SORT_BY_INVENTORY_MANAGEMENT = "INVENTORY";
 
 
-        public const string RATE_TYPE_SINGLE = "SINGLE";
-        public const string RATE_TYPE_RECURRING = "RECURRING";
 
 
         //ADDRESSES

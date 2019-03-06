@@ -275,5 +275,50 @@ namespace WebApi.Logic
             return companyTypeColor;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static string GetItemClassICodeColor(string itemClass)
+        {
+            string iCodeColor = null;
+            switch (itemClass)
+            {
+                case RwConstants.ITEMCLASS_COMPLETE:
+                case RwConstants.ITEMCLASS_COMPLETE_ITEM:
+                case RwConstants.ITEMCLASS_COMPLETE_OPTION:
+                    iCodeColor = RwGlobals.COMPLETE_COLOR;
+                    break;
+                case RwConstants.ITEMCLASS_KIT:
+                case RwConstants.ITEMCLASS_KIT_ITEM:
+                case RwConstants.ITEMCLASS_KIT_OPTION:
+                    iCodeColor = RwGlobals.KIT_COLOR;
+                    break;
+                case RwConstants.ITEMCLASS_CONTAINER:
+                case RwConstants.ITEMCLASS_CONTAINER_ITEM:
+                case RwConstants.ITEMCLASS_CONTAINER_OPTION:
+                    iCodeColor = RwGlobals.CONTAINER_COLOR;
+                    break;
+                case RwConstants.ITEMCLASS_MISCELLANEOUS:
+                    iCodeColor = RwGlobals.MISCELLANEOUS_COLOR;
+                    break;
+            }
+            return iCodeColor;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static string GetItemClassDescriptionColor(string itemClass)
+        {
+            string descriptionColor = null;
+            switch (itemClass)
+            {
+                case RwConstants.ITEMCLASS_COMPLETE:
+                    descriptionColor = RwGlobals.COMPLETE_COLOR;
+                    break;
+                case RwConstants.ITEMCLASS_KIT:
+                    descriptionColor = RwGlobals.KIT_COLOR;
+                    break;
+                case RwConstants.ITEMCLASS_CONTAINER:
+                    descriptionColor = RwGlobals.CONTAINER_COLOR;
+                    break;
+            }
+            return descriptionColor;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

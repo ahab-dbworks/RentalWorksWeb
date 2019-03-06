@@ -1,16 +1,21 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebApi.Modules.Home.Master;
 using System.Collections.Generic;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Inventory
 {
     [FwSqlTable("inventoryview")]
     public class InventoryBrowseLoader : AppDataLoadRecord
     {
+        public InventoryBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string InventoryId { get; set; } = "";
@@ -39,11 +44,24 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
+        public string Classification{ get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
         public string ClassificationDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "classcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ClassificationColor { get; set; }
+        //[FwSqlDataField(column: "classcolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        //public string ClassificationColor { get; set; }
+        ////------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ClassificationColor
+        {
+            get
+            {
+                return AppFunc.GetItemClassICodeColor(Classification);
+            }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
@@ -68,5 +86,21 @@ namespace WebApi.Modules.Home.Inventory
 
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string itemClass = row[dt.GetColumnNo("Classification")].ToString();
+                        row[dt.GetColumnNo("ClassificationColor")] = AppFunc.GetItemClassICodeColor(itemClass);
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

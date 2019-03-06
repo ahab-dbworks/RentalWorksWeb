@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebLibrary;
 using WebLibrary.Security;
 
 namespace WebApi
@@ -21,6 +22,7 @@ namespace WebApi
         {
             base.ConfigureServices(services);
             FwSecurityTree.Tree = new SecurityTree(ApplicationConfig.DatabaseSettings, "{94FBE349-104E-420C-81E9-1636EBAE2836}");
+            RwGlobals.SetGlobalColors(ApplicationConfig.DatabaseSettings);
         }
         //------------------------------------------------------------------------------------
         public override void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

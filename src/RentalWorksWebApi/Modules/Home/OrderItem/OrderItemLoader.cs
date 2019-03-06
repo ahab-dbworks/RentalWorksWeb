@@ -23,7 +23,6 @@ namespace WebApi.Modules.Home.OrderItem
         {
             AfterBrowse += OnAfterBrowse;
         }
-
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string OrderItemId { get; set; }
@@ -49,14 +48,28 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeColor { get; set; }
+        [FwSqlDataField(/*column: "masternocolor", */calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor
+        {
+            get
+            {
+                return AppFunc.GetItemClassICodeColor(ItemClass);
+            }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
+        [FwSqlDataField(/*column: "descriptioncolor",*/calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get
+            {
+                return AppFunc.GetItemClassDescriptionColor(ItemClass);
+            }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "pickdate", modeltype: FwDataTypes.Date)]
         public string PickDate { get; set; }
@@ -917,6 +930,7 @@ namespace WebApi.Modules.Home.OrderItem
                     {
                         string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
                         string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                        string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
                         DateTime availFromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());  // not accurate
                         DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());      // not accurate
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
@@ -938,6 +952,8 @@ namespace WebApi.Modules.Home.OrderItem
                             row[dt.GetColumnNo("AvailableQuantityColor")] = minAvail.Color;
 
                         }
+                        row[dt.GetColumnNo("ICodeColor")] = AppFunc.GetItemClassICodeColor(itemClass); ;
+                        row[dt.GetColumnNo("DescriptionColor")] = AppFunc.GetItemClassDescriptionColor(itemClass); ;
                     }
                 }
             }
