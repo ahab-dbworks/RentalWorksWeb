@@ -1503,6 +1503,8 @@ class SearchInterface {
             if (typeof categoryId !== "undefined") request.CategoryId = categoryId;
             const inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
             if (typeof inventoryTypeId !== "undefined") request.InventoryTypeId = inventoryTypeId;
+            const subCategoryId = $popup.find('#breadcrumbs .subcategory').attr('data-value');
+            if (typeof subCategoryId !== "undefined") request.SubCategoryId = subCategoryId;
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('#inventory').empty();
