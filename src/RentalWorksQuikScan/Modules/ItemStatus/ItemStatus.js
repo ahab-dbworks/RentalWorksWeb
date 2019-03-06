@@ -245,8 +245,42 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
     };
 
     screen.load = function() {
+        // setup Linea Pro Barcode Scanner
         program.setScanTarget('.fwmobilecontrol-value');
+
+        // setup TSL RFID Reader
         RwRFID.registerEvents(screen.rfidscan);
+
+        // setup Linea Pro HF RFID Reader
+        if (program.hasHfRfidApplicationOption === true) {
+            //alert('initing HF RFID...');
+            if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
+                DTDevices.rfInitWithFieldGain('ISO15', -1000,
+                    function () {
+                        FwNotification.renderNotification('SUCCESS', 'Enabled nearfield scanner.');
+                    },
+                    function () {
+                        FwNotification.renderNotification('ERROR', 'Can\'t enable nearfield scanner.');
+                    }
+                );
+            }
+            if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
+                DTDevices.registerListener('rfCardDetected', 'rfCardDetected_applicationjs',
+                    function (returnUid, returnType, cardIndex) {
+                        jQuery('.scanTarget').val(returnUid).change();
+                        FwNotification.renderNotification('INFO', returnUid);
+                        DTDevices.rfRemoveCard(cardIndex,
+                            function success() {
+                                FwNotification.renderNotification('SUCCESS', 'rfRemoveCard success');
+                            },
+                            function fail() {
+                                FwNotification.renderNotification('ERROR', 'rfRemoveCard failed');
+                            });
+                    }
+                );
+            }
+        }
+
         //if (typeof window.TslReader !== 'undefined') {
         //    window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen', function() {
         //        RwRFID.isConnected = true;
@@ -276,7 +310,14 @@ RwOrderController.getItemStatusScreen = function(viewModel, properties) {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getItemStatusScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getItemStatusScreen');
         }
+
         RwRFID.unregisterEvents();
+
+        // setup Linea Pro HF RFID Reader
+        if (program.hasHfRfidApplicationOption === true) {
+
+        }
+
         //if (typeof window.ZebraRFIDScanner !== 'undefined') {
         //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionEstablished', 'srfidEventCommunicationSessionEstablished_rwordercontrollerjs_getItemStatusScreen');
         //    window.ZebraRFIDScanner.unregisterListener('srfidEventCommunicationSessionTerminated', 'srfidEventCommunicationSessionTerminated_rwordercontrollerjs_getItemStatusScreen');

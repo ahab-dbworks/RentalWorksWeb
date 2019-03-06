@@ -22,8 +22,7 @@ var QCClass = (function () {
         $search = screen.$view.find('.qc-search');
         $item = screen.$view.find('.qc-item');
         $itemstatus = screen.$view.find('.qc-item-status');
-        var hasHfRfidApplicationOption = false;
-        if (hasHfRfidApplicationOption === true) {
+        if (program.hasHfRfidApplicationOption === true) {
             if (typeof window.DTDevices !== 'undefined' && typeof window.DTDevices.rfInitWithFieldGain === 'function') {
                 DTDevices.rfInitWithFieldGain('ISO15', -1000, function () {
                     FwNotification.renderNotification('SUCCESS', 'Enabled nearfield scanner.');

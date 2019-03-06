@@ -20,6 +20,7 @@ class Program extends FwApplication {
     lineaPro_BatteryStatus_IsPlugged: boolean = false;
     lineaPro_BatteryStatus_Status: 'unknown' | 'critical' | 'low' | 'ok' = 'unknown';
     showRfidStatusIcon: boolean = false;
+    hasHfRfidApplicationOption: boolean = false;
     //---------------------------------------------------------------------------------
     constructor() {
         super();

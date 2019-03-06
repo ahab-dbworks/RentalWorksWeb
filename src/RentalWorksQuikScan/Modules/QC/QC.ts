@@ -22,8 +22,7 @@
         $item       = screen.$view.find('.qc-item');
         $itemstatus = screen.$view.find('.qc-item-status');
 
-        var hasHfRfidApplicationOption:any = false;
-        if (hasHfRfidApplicationOption === true) {
+        if (program.hasHfRfidApplicationOption === true) {
             if (typeof (<any>window).DTDevices !== 'undefined' && typeof (<any>window).DTDevices.rfInitWithFieldGain === 'function') {
                 DTDevices.rfInitWithFieldGain('ISO15', -1000,
                     function () {
