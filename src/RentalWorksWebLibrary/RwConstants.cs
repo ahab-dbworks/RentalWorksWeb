@@ -3,13 +3,11 @@ namespace WebLibrary
 {
     public static class RwConstants
     {
-
-
-
+        //MISC/LABOR RATES
         public const string RATE_AVAILABLE_FOR_MISC = "M";
         public const string RATE_AVAILABLE_FOR_LABOR = "L";
 
-
+        //DEPARTMENT TYPES
         public const string DEPARTMENT_TYPE_RENTAL = "R";
         public const string DEPARTMENT_TYPE_SALES = "S";
         public const string DEPARTMENT_TYPE_PARTS = "P";
@@ -18,9 +16,9 @@ namespace WebLibrary
         public const string DEPARTMENT_TYPE_MISC = "M";
         public const string DEPARTMENT_TYPE_LABOR = "L";
 
+        //SELECT ALL/NONE
         public const string SELECT_ALL = "A";
         public const string SELECT_NONE = "N";
-
 
         //MODULES
         public const string MODULE_CUSTOMER = "CUSTOMER";
@@ -30,7 +28,6 @@ namespace WebLibrary
         public const string MODULE_PROJECT = "PROJECT";
         public const string MODULE_PURCHASE_ORDER = "PO";
         public const string MODULE_TRANSFER = "TRANSFER";
-
 
         //QUOTE/ORDER
         public const string ORDER_TYPE_QUOTE = "Q";
@@ -104,9 +101,10 @@ namespace WebLibrary
         public const string INVOICE_STATUS_CLOSED = "CLOSED";
         public const string INVOICE_STATUS_VOID = "VOID";
 
-
+        //BATCH PROCESSING
         public const string BATCH_TYPE_INVOICE = "INVOICE";
-
+        public const string BATCH_TYPE_VENDOR_INVOICE = "VENDORINVOICE";
+        public const string BATCH_TYPE_RECEIPT = "AR";
 
         //DELIVERY
         public const string ONLINE_DELIVERY_STATUS_PARTIAL = "PARTIAL";
@@ -117,7 +115,6 @@ namespace WebLibrary
         public const string PROJECT_STATUS_ACTIVE = "ACTIVE";
         public const string PROJECT_STATUS_CLOSED = "CLOSED";
 
-
         //PURCHASE ORDER
         public const string PURCHASE_ORDER_STATUS_NEW = "NEW";
         public const string PURCHASE_ORDER_STATUS_OPEN = "OPEN";
@@ -127,8 +124,6 @@ namespace WebLibrary
         public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
         public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
 
-
-
         //VENDOR INVOICE
         public const string VENDOR_INVOICE_NUMBER_ACCRUAL = "ACCRUAL";
 
@@ -137,16 +132,11 @@ namespace WebLibrary
         public const string VENDOR_INVOICE_STATUS_PROCESSED = "PROCESSED";
         public const string VENDOR_INVOICE_STATUS_CLOSED = "CLOSED";
 
-        public const string BATCH_TYPE_VENDOR_INVOICE = "VENDORINVOICE";
-
 
         //RECEIPT
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
         public const string RECEIPT_PAYMENT_BY_CUSTOMER = "CUSTOMER";
-
         public const string RECEIPT_RECTYPE_PAYMENT = "P";
-
-        public const string BATCH_TYPE_RECEIPT = "AR";
 
         //REPAIR
         public const string REPAIR_STATUS_NEW = "NEW";
@@ -212,8 +202,6 @@ namespace WebLibrary
 
 
         //EXPORTING
-
-
         public const string DATA_EXPORT_SETTINGS_TYPE_ONLINE_ORDER_TRACKING = "ONLINE ORDER TRACKING";
         public const string DATA_EXPORT_SETTINGS_TYPE_CUSTOMER = "CUSTOMER";
         public const string DATA_EXPORT_SETTINGS_TYPE_DEAL = "DEAL";
@@ -232,8 +220,6 @@ namespace WebLibrary
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_GL_SUMMARY = "VENDOR INVOICE G/L SUMMARY";
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_TAX = "VENDOR INVOICE TAX";
 
-
-
         //AVAILABILITY
         public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 13429759; //aqua
         public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0; //black
@@ -249,6 +235,19 @@ namespace WebLibrary
         public const int AVAILABILITY_TEXT_COLOR_NEEDRECALC = 16777215; //white
 
         public const int AVAILABILITY_COLOR_ORDER = 618726; //blue TEMPORARY
+
+
+        //CONTACTS / COMPANY
+        public const string COMPANY_TYPE_LEAD = "LEAD";
+        public const string COMPANY_TYPE_PROSPECT = "PROSPECT";
+        public const string COMPANY_TYPE_CUSTOMER = "CUSTOMER";
+        public const string COMPANY_TYPE_DEAL = "DEAL";
+        public const string COMPANY_TYPE_VENDOR = "VENDOR";
+        public const int COMPANY_TYPE_LEAD_COLOR = 16744512; // orange
+        public const int COMPANY_TYPE_PROSPECT_COLOR = 16711808; //pink/purple
+        public const int COMPANY_TYPE_CUSTOMER_COLOR = 16777088; // light yellow
+        public const int COMPANY_TYPE_DEAL_COLOR = 253498; //deal;
+        public const int COMPANY_TYPE_VENDOR_COLOR = 2144255; //light blue
 
     }
 

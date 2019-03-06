@@ -2,6 +2,7 @@
 using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
+using WebLibrary;
 
 namespace WebApi.Logic
 {
@@ -248,6 +249,30 @@ namespace WebApi.Logic
                 }
             }
             return str;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static string GetCompanyTypeColor(string companyType)
+        {
+            string companyTypeColor = null;
+            switch (companyType)
+            {
+                case RwConstants.COMPANY_TYPE_LEAD:
+                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_LEAD_COLOR);
+                    break;
+                case RwConstants.COMPANY_TYPE_PROSPECT:
+                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_PROSPECT_COLOR);
+                    break;
+                case RwConstants.COMPANY_TYPE_CUSTOMER:
+                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_CUSTOMER_COLOR);
+                    break;
+                case RwConstants.COMPANY_TYPE_DEAL:
+                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_DEAL_COLOR);
+                    break;
+                case RwConstants.COMPANY_TYPE_VENDOR:
+                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_VENDOR_COLOR);
+                    break;
+            }
+            return companyTypeColor;
         }
         //-------------------------------------------------------------------------------------------------------
     }

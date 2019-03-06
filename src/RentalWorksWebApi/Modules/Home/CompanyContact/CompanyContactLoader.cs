@@ -1,14 +1,21 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using System.Collections.Generic;
+using WebLibrary;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Home.CompanyContact
 {
     [FwSqlTable("compcontactview")]
     public class CompanyContactLoader : AppDataLoadRecord
     {
+        public CompanyContactLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "compcontactid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string CompanyContactId { get; set; } = "";
@@ -22,8 +29,14 @@ namespace WebApi.Modules.Home.CompanyContact
         [FwSqlDataField(column: "companytype", modeltype: FwDataTypes.Text)]
         public string CompanyType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "companytypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string CompanyTypeColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CompanyTypeColor
+        {
+            get
+            {
+                return AppFunc.GetCompanyTypeColor(CompanyType);
+            }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
         public string ContactId { get; set; }
@@ -114,11 +127,26 @@ namespace WebApi.Modules.Home.CompanyContact
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("CompanyId", "companyid", select, request); 
+            addFilterToSelect("CompanyId", "companyid", select, request);
             addFilterToSelect("ContactId", "contactid", select, request);
 
             AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
         }
         //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("CompanyTypeColor")] = AppFunc.GetCompanyTypeColor(row[dt.GetColumnNo("CompanyType")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }
