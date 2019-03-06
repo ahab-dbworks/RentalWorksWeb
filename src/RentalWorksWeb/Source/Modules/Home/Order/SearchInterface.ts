@@ -1611,8 +1611,8 @@ class SearchInterface {
         }
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             let $grid = $popup.find('[data-name="SearchPreviewGrid"]');
-            FwBrowse.databindcallback($grid, response);
-
+            //FwBrowse.databindcallback($grid, response);
+            FwBrowse.search($grid);
         }, null, $searchpopup);
     };
 
@@ -1782,7 +1782,7 @@ class SearchInterface {
             } else {
                 accessoryContainer.find('.acc-refresh-avail').hide();
             }
-        }, null, null);
+        }, null, $popup.find('#searchpopup'));
     }
 
     fitToParent(selector) {
