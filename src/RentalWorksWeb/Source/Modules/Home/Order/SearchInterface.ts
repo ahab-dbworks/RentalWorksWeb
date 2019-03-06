@@ -110,7 +110,7 @@ class SearchInterface {
                 </div>
               </div>
             </div>
-            <div data-type="button" class="fwformcontrol refresh-availability" style="max-width:165px; float:left; margin:12px 0px 0px 10px; display:none;">Refresh Availability</div>
+            <div data-type="button" class="fwformcontrol refresh-availability" style="max-width:165px; float:left; margin:12px 0px 0px 10px; display:none; background-color:rgb(49, 0, 209);">Refresh Availability</div>
           </div>
           <div class="flexrow" style="max-width:100%;">
             <div class="flexcolumn">
@@ -713,7 +713,7 @@ class SearchInterface {
             , typeIndex = response.ColumnIndex.InventoryType
             , categoryIndex = response.ColumnIndex.Category
             , subCategoryIndex = response.ColumnIndex.SubCategory
-            , availableColor = response.ColumnIndex.QuantityAvailableColor 
+            , availableColor = response.ColumnIndex.QuantityAvailableColor
             , $inventoryContainer
             , $cornerTriangle
             , color
@@ -874,7 +874,7 @@ class SearchInterface {
                 //quantity
                 quantity.css({ 'float': 'right', 'width': '90px', 'position': 'absolute', 'bottom': '10px', 'right': '10px', 'padding-bottom': '' });
                 quantityAvailable.css({ 'float': 'right', 'width': '90px' });
-                $availablecolor.css({'left': '15px', 'top': '40px'});
+                $availablecolor.css({ 'left': '15px', 'top': '40px' });
                 conflictDate.css({ 'float': 'right', 'width': '90px' });
                 quantityIn.css({ 'float': 'left', 'width': '45px', 'padding-top': '' });
                 quantityQcRequired.css({ 'float': 'right', 'width': '45px', 'padding-top': '' });
@@ -1681,7 +1681,7 @@ class SearchInterface {
             const quantityColorIndex = response.ColumnIndex.QuantityColor;
             const accQuantityColorIndex = response.ColumnIndex.QuantityAvailableColor;
             const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-              
+
             for (var i = 0; i < response.Rows.length; i++) {
                 let accHtml = [];
                 accHtml.push(`
@@ -1776,7 +1776,7 @@ class SearchInterface {
             let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
             if (typeof obj != 'undefined') {
                 if (accessoryContainer.find('.acc-refresh-avail').length < 1) {
-                    accessoryContainer.prepend(`<div data-type="button" class="fwformcontrol acc-refresh-avail" style="max-width:165px; margin:12px 0px 0px 10px; float:right;">Refresh Availability</div>`);
+                    accessoryContainer.append(`<div style="text-align:center;"><div data-type="button" class="fwformcontrol acc-refresh-avail" style="line-height:24px; height:24px; background-color:rgb(49, 0, 209);">Refresh Availability</div></div>`);
                 }
                 accessoryContainer.find('.acc-refresh-avail').show();
             } else {
