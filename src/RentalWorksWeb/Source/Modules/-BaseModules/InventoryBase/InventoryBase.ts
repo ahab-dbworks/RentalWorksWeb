@@ -50,7 +50,7 @@
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, uniqueids?) {
-        var $form, controller, $calendar, inventoryId;
+        var $form, controller, $calendar, inventoryId, $realScheduler;
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
@@ -67,20 +67,26 @@
         self.calculateYearly();
         $calendar = $form.find('.calendar');
         $calendar
-            .data('ongetevents', function (request) {
-                startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
-                endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
+            .data('ongetevents', function (calendarRequest) {
+                startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
+                endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?SessionId=${inventoryId}&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
+                    var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (var i = 0; i < calendarevents.length; i++) {
                         if (calendarevents[i].textColor !== 'rgb(0,0,0') {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor}">${calendarevents[i].text}</div>`
                         }
                     }
+                    //for (var i = 0; i < schedulerEvents.length; i++) {
+                    //    if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
+                    //        schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
+                    //    }
+                    //}
+                    //self.loadScheduler($form, response.InventoryAvailabilityScheduleEvents, response.InventoryAvailabilityScheduleResources);
                     FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], calendarevents);
-                    self.loadScheduler($form, response.InventoryAvailabilityScheduleEvents, response.InventoryAvailabilityScheduleResources);
                 }, function onError(response) {
                     FwFunc.showError(response);
                     }, $calendar)
@@ -103,8 +109,24 @@
                     FwFunc.showError(ex);
                 }
             });
+        $realScheduler = $form.find('.realscheduler');
+        $realScheduler
+            .data('ongetevents', function (request) {
+                startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
+                endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
 
-
+                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?SessionId=${inventoryId}&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
+                    for (var i = 0; i < schedulerEvents.length; i++) {
+                        if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
+                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
+                        }
+                    }
+                    FwSchedulerDetailed.loadEventsCallback($realScheduler, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $calendar)
+            })
         if (mode === 'NEW') {
             this.setupNewMode($form);
         }
@@ -119,7 +141,7 @@
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form, $calendar, schddate;
+        var $form, $calendar, schddate, $realScheduler;
 
         $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
@@ -131,6 +153,15 @@
                 schddate = FwScheduler.getTodaysDate();
                 FwScheduler.navigate($calendar, schddate);
                 FwScheduler.refresh($calendar);
+            }, 1);
+        }
+
+        $realScheduler = $form.find('.realscheduler');
+        if ($realScheduler.length > 0) {
+            setTimeout(function () {
+                schddate = FwSchedulerDetailed.getTodaysDate();
+                FwSchedulerDetailed.navigate($realScheduler, schddate);
+                FwSchedulerDetailed.refresh($realScheduler);
             }, 1);
         }
 
@@ -213,7 +244,7 @@
     //----------------------------------------------------------------------------------------------
     loadScheduler($form, events, resources) {
 
-        var dp = new DayPilot.Scheduler($form.find('.fwscheduler.scheduler')[0]);
+        var dp = new DayPilot.Scheduler($form.find('.realscheduler')[0]);
 
         // behavior and appearance
         dp.cellWidth = 40;

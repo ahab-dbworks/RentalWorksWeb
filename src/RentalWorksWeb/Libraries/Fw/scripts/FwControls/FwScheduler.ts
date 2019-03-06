@@ -544,8 +544,8 @@ class FwSchedulerClass {
         var dpscheduler;
         dpscheduler = new DayPilot.Scheduler($control.attr('data-dpschedulerid'));
         $control.data('dpscheduler', dpscheduler);
-        dpscheduler.cellWidth = 80;
-        dpscheduler.eventHeight = 25;
+        dpscheduler.cellWidth = 40;
+        dpscheduler.eventHeight = 30;
         dpscheduler.headerHeight = 25;
         dpscheduler.cellGroupBy = "Month";
         dpscheduler.startDate = dpscheduler.startDate.firstDayOfMonth();
