@@ -1,5 +1,5 @@
 ﻿class OrderTypeNoteGrid {
-    Module: string = 'Order Type Note Grid';
+    Module: string = 'OrderTypeNoteGrid';
     apiurl: string = 'api/v1/ordertypenote';
 }
 

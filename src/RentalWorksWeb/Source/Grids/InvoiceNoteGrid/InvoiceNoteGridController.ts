@@ -1,5 +1,5 @@
 ﻿class InvoiceNoteGrid {
-    Module: string = 'Invoice Note Grid';
+    Module: string = 'InvoiceNoteGrid';
     apiurl: string = 'api/v1/invoicenote';
 
     onRowNewMode($control: JQuery, $tr: JQuery) {

@@ -1,5 +1,5 @@
 ﻿class GeneratorTypeWarehouseGrid {
-    Module: string = 'Generator Type Warehouse';
+    Module: string = 'GeneratorTypeWarehouseGrid';
     apiurl: string = 'api/v1/generatortypewarehouse';
 }
 

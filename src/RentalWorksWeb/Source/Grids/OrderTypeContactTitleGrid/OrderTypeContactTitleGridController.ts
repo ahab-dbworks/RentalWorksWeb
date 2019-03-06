@@ -1,5 +1,5 @@
 ﻿class OrderTypeContactTitleGrid {
-    Module: string = 'Order Type Contact Title Grid';
+    Module: string = 'OrderTypeContactTitleGrid';
     apiurl: string = 'api/v1/ordertypecontacttitle';
 }
 

@@ -1,5 +1,5 @@
 ﻿class DealNoteGrid {
-    Module: string = 'Deal Note Grid';
+    Module: string = 'DealNoteGrid';
     apiurl: string = 'api/v1/dealnote';
 
     onRowNewMode($control: JQuery, $tr: JQuery) {

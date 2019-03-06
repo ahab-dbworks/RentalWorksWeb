@@ -1,5 +1,5 @@
 ﻿class VehicleTypeWarehouseGrid {
-    Module: string = 'Vehicle Type Warehouse';
+    Module: string = 'VehicleTypeWarehouseGrid';
     apiurl: string = 'api/v1/vehicletypewarehouse';
 }
 
