@@ -2098,41 +2098,70 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         ;
     };
 
+    screen.disableBarcodeField = function () {
+        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true);
+    };
+
+    screen.enableBarcodeField = function () {
+        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', false);
+    };
+
+    screen.isBarcodeFieldDisabled = function () {
+        return screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled');
+    };
+
     screen.$view
         .on('change', '#scanBarcodeView-txtBarcodeData', function() {
-            var requestStageItem, code;
             try {
-                code = RwAppData.stripBarcode(jQuery(this).val().toUpperCase());
-                //if ((code.length > 0) && (screen.$view.find('#staging-scan').attr('data-mode') == 'SCAN')) {
-                if (code.length > 0) {
-                    requestStageItem = {
-                        orderid:               screen.getOrderId(),
-                        code:                  code,
-                        masteritemid:          '',
-                        qty:                   0,
-                        additemtoorder:        false,
-                        addcompletetoorder:    false,
-                        releasefromrepair:     false,
-                        unstage:               false,
-                        vendorid:              '',
-                        meter:                 0,
-                        location:              '',
-                        spaceid:               '',
-                        addcontainertoorder:   false,
-                        overridereservation:   false,
-                        stageconsigned:        false,
-                        transferrepair:        false,
-                        removefromcontainer:   false,
-                        contractid:            screen.getContractId(),
-                        ignoresuspendedin:     false,
-                        consignorid:           '',
-                        consignoragreementid:  '',
-                        playStatus:            true
-                    };
-                    RwServices.order.pdastageitem(requestStageItem, function(responseStageItem) {
-                        properties.responseStageItem = responseStageItem;
-                        screen.pdastageitemCallback(responseStageItem);
-                    });
+                var $this = jQuery(this);
+                if (!screen.isBarcodeFieldDisabled()) {
+                    screen.disableBarcodeField();
+                    var code = RwAppData.stripBarcode(jQuery(this).val().toUpperCase());
+                    //if ((code.length > 0) && (screen.$view.find('#staging-scan').attr('data-mode') == 'SCAN')) {
+                    if (code.length > 0) {
+                        var requestStageItem = {
+                            orderid:               screen.getOrderId(),
+                            code:                  code,
+                            masteritemid:          '',
+                            qty:                   0,
+                            additemtoorder:        false,
+                            addcompletetoorder:    false,
+                            releasefromrepair:     false,
+                            unstage:               false,
+                            vendorid:              '',
+                            meter:                 0,
+                            location:              '',
+                            spaceid:               '',
+                            addcontainertoorder:   false,
+                            overridereservation:   false,
+                            stageconsigned:        false,
+                            transferrepair:        false,
+                            removefromcontainer:   false,
+                            contractid:            screen.getContractId(),
+                            ignoresuspendedin:     false,
+                            consignorid:           '',
+                            consignoragreementid:  '',
+                            playStatus:            true
+                        };
+                        //RwServices.order.pdastageitem(requestStageItem, function (responseStageItem) {
+                        //    screen.enableBarcodeField();
+                        //    properties.responseStageItem = responseStageItem;
+                        //    screen.pdastageitemCallback(responseStageItem);
+                        //});
+
+                        // trying to prevent duplicate scans
+                        FwAppData.jsonPost(true, 'services.ashx?path=/order/pdastageitem', requestStageItem, null,
+                            function success(responseStageItem) {
+                                screen.enableBarcodeField();
+                                properties.responseStageItem = responseStageItem;
+                                screen.pdastageitemCallback(responseStageItem);
+                            },
+                            function fail(response) {
+                                screen.enableBarcodeField();
+                                FwFunc.showError(response.exception);
+                            },
+                            null);
+                    }
                 }
             } catch(ex) {
                 FwFunc.showError(ex);

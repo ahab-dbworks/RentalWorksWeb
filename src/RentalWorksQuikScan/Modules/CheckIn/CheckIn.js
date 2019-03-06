@@ -1358,11 +1358,25 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
             //, exchangecontractid: screen.getExchangeContractId()
             //, getSuspenededSessions: true
         };
-        RwServices.callMethod("CheckIn", "CheckInItem", requestCheckInItem, function(responseCheckInItem) {
-            properties.responseCheckInItem = responseCheckInItem;
-            screen.toggleReconcileButton(responseCheckInItem.enablereconcile);
-            screen.checkInItemCallback(responseCheckInItem);
-        });
+        //RwServices.callMethod("CheckIn", "CheckInItem", requestCheckInItem, function(responseCheckInItem) {
+        //    screen.enableBarcodeField();
+        //    properties.responseCheckInItem = responseCheckInItem;
+        //    screen.toggleReconcileButton(responseCheckInItem.enablereconcile);
+        //    screen.checkInItemCallback(responseCheckInItem);
+        //});
+        // trying to prevent duplicate scans
+        FwAppData.jsonPost(true, 'services.ashx?path=/services/CheckIn/CheckInItem', requestCheckInItem, null,
+            function success(responseCheckInItem) {
+                screen.enableBarcodeField();
+                properties.responseCheckInItem = responseCheckInItem;
+                screen.toggleReconcileButton(responseCheckInItem.enablereconcile);
+                screen.checkInItemCallback(responseCheckInItem);
+            },
+            function fail(response) {
+                screen.enableBarcodeField();
+                FwFunc.showError(response.exception);
+            },
+            null);
     };
 
     screen.checkInItemCallback = function(responseCheckInItem) {
@@ -1604,34 +1618,50 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         }
     };
 
+    screen.disableBarcodeField = function () {
+        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true);
+    };
+
+    screen.enableBarcodeField = function () {
+        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', false);
+    };
+
+    screen.isBarcodeFieldDisabled = function () {
+        return screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled');
+    };
+
     screen.$view
         .on('change', '#scanBarcodeView-txtBarcodeData', function() {
             var barcode, $txtBarcodeData, requestCheckInItem, orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, isAisleShelfBarcode, trackedby;
             try {
-                $txtBarcodeData = jQuery(this);
-                barcode = $txtBarcodeData.val();
-                if (barcode.length > 0) {
-                    isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(barcode);  // Format: AAAA-SSSS
-                    if (isAisleShelfBarcode) {
-                        screen.properties.aisle = $txtBarcodeData.val().substring(0,4).toUpperCase();
-                        screen.properties.shelf = $txtBarcodeData.val().split('-')[1].toUpperCase();
-                        screen.$view.find('.aisle .value').html(screen.properties.aisle);
-                        screen.$view.find('.shelf .value').html(screen.properties.shelf);
-                        screen.$view.find('.aisleshelf').show();
-                        $txtBarcodeData.val('');
-                    } else {
-                        orderId         = screen.getOrderId();
-                        masterItemId    = '';
-                        masterId        = '';
-                        code            = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
-                        qty             = 0;
-                        newOrderAction  = '';
-                        aisle           = screen.properties.aisle;
-                        shelf           = screen.properties.shelf;
-                        playStatus      = true;
-                        vendorId        = '';
-                        trackedby       = '';
-                        screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
+                if (!screen.isBarcodeFieldDisabled()) {
+                    screen.disableBarcodeField();
+                    $txtBarcodeData = jQuery(this);
+                    barcode = $txtBarcodeData.val();
+                    if (barcode.length > 0) {
+                        isAisleShelfBarcode = /^[A-z0-9]{4}-[A-z0-9]{4}$/.test(barcode);  // Format: AAAA-SSSS
+                        if (isAisleShelfBarcode) {
+                            screen.properties.aisle = $txtBarcodeData.val().substring(0, 4).toUpperCase();
+                            screen.properties.shelf = $txtBarcodeData.val().split('-')[1].toUpperCase();
+                            screen.$view.find('.aisle .value').html(screen.properties.aisle);
+                            screen.$view.find('.shelf .value').html(screen.properties.shelf);
+                            screen.$view.find('.aisleshelf').show();
+                            $txtBarcodeData.val('');
+                            screen.enableBarcodeField();
+                        } else {
+                            orderId = screen.getOrderId();
+                            masterItemId = '';
+                            masterId = '';
+                            code = RwAppData.stripBarcode($txtBarcodeData.val().toUpperCase());
+                            qty = 0;
+                            newOrderAction = '';
+                            aisle = screen.properties.aisle;
+                            shelf = screen.properties.shelf;
+                            playStatus = true;
+                            vendorId = '';
+                            trackedby = '';
+                            screen.checkInItem(orderId, masterItemId, masterId, code, qty, newOrderAction, aisle, shelf, playStatus, vendorId, trackedby);
+                        }
                     }
                 }
             } catch(ex) {
