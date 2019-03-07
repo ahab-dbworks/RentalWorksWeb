@@ -13,7 +13,11 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            field.value = $field.find('input.value').val();
+            if (applicationConfig.allCaps && $field.attr('data-allcaps') !== 'false' && $field.find('input.value').val()) {
+                field.value = $field.find('input.value').val().toUpperCase();
+            } else {
+                field.value = $field.find('input.value').val();
+            }
         }
     }
     //---------------------------------------------------------------------------------
