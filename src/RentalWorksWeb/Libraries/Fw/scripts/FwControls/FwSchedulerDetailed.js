@@ -53,7 +53,7 @@ class FwSchedulerDetailedClass {
             try {
                 navscheduler = $control.data('dpscheduler');
                 currentDay = navscheduler.startDate;
-                nextMonth = currentDay.addMonths(1);
+                nextMonth = currentDay.addMonths(1).firstDayOfMonth();
                 FwSchedulerDetailed.navigate($control, nextMonth);
             }
             catch (ex) {
@@ -65,7 +65,7 @@ class FwSchedulerDetailedClass {
             try {
                 navscheduler = $control.data('dpscheduler');
                 currentDay = navscheduler.startDate;
-                previousMonth = currentDay.addMonths(-1);
+                previousMonth = currentDay.addMonths(-1).firstDayOfMonth();
                 FwSchedulerDetailed.navigate($control, previousMonth);
             }
             catch (ex) {
@@ -95,11 +95,11 @@ class FwSchedulerDetailedClass {
         var dpscheduler;
         dpscheduler = new DayPilot.Scheduler($control.find('.content')[0]);
         $control.data('dpscheduler', dpscheduler);
-        dpscheduler.cellWidth = 40;
+        dpscheduler.cellWidth = 50;
         dpscheduler.eventHeight = 30;
         dpscheduler.headerHeight = 25;
         dpscheduler.startDate = moment().format('YYYY-MM-DD');
-        dpscheduler.days = 31;
+        dpscheduler.days = moment().endOf('month').diff(moment().format('YYYY-MM-DD'), 'days');
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
             { groupBy: "Month" },
@@ -126,24 +126,14 @@ class FwSchedulerDetailedClass {
         }
         FwSchedulerDetailed.setSelectedDay($control, date);
         dpscheduler = $control.data('dpscheduler');
+        if (date.d.getDate() === 31 || date.d.getDate() === 30) {
+            dpscheduler.days = date.daysInMonth();
+        }
+        else {
+            dpscheduler.days = date.daysInMonth() - date.d.getDate();
+        }
         dpscheduler.startDate = date;
         FwSchedulerDetailed.loadEvents($control);
-    }
-    ;
-    showScheduleView($control) {
-        var navcalendar, selectedstartdate;
-        navcalendar = $control.data('navcalendar');
-        navcalendar.selectMode = "month";
-        navcalendar.update();
-        $control.find('.calendarcontainer').hide();
-        $control.find('.monthcontainer').hide();
-        $control.find('.schedulercontainer').show();
-        $control.find('.changeview').attr('data-selected', 'false');
-        $control.find('.btnSchedule').attr('data-selected', 'true');
-        if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
-            FwSchedulerDetailed.navigate($control, selectedstartdate);
-        }
     }
     ;
     refresh($control) {
@@ -157,7 +147,6 @@ class FwSchedulerDetailedClass {
             ongetevents = $control.data('ongetevents');
             request = {
                 start: dpscheduler.startDate,
-                days: dpscheduler.startDate.daysInMonth(),
                 mode: $control.find('div.changeview[data-selected="true"]').html()
             };
             ongetevents(request);
@@ -171,11 +160,7 @@ class FwSchedulerDetailedClass {
         var dpscheduler, start, end, request;
         dpscheduler = $control.data('dpscheduler');
         if (typeof dpscheduler !== 'undefined') {
-            switch ($control.find('div.changeview[data-selected="true"]').html()) {
-                case 'Schedule':
-                    FwSchedulerDetailed.setDateCallout($control, dpscheduler.startDate);
-                    break;
-            }
+            FwSchedulerDetailed.setDateCallout($control, dpscheduler.startDate);
             dpscheduler.resources = resources;
             dpscheduler.events.list = events;
             dpscheduler.update();
@@ -231,11 +216,7 @@ class FwSchedulerDetailedClass {
         var $datecallout, monthnames, firstdayofweek, lastdayofweek;
         monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         $datecallout = $control.find('.datecallout');
-        switch ($control.find('div.changeview[data-selected="true"]').html()) {
-            case 'Schedule':
-                $datecallout.html(monthnames[date.getMonth()] + ' ' + date.getYear());
-                break;
-        }
+        $datecallout.html(monthnames[date.getMonth()] + ' ' + date.getYear());
     }
     ;
     addEvent($control, evt) {

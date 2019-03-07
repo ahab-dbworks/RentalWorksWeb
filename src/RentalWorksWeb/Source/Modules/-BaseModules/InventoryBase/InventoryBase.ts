@@ -113,7 +113,7 @@
         $realScheduler
             .data('ongetevents', function (request) {
                 startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
-                endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
+                endOfMonth = moment(request.start.value).endOf('month').format('MM/DD/YYYY')
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?SessionId=${inventoryId}&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;

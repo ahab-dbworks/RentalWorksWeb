@@ -73,7 +73,7 @@ class FwSchedulerDetailedClass {
             try {
                 navscheduler = $control.data('dpscheduler');
                 currentDay = navscheduler.startDate;
-                nextMonth = currentDay.addMonths(1);
+                nextMonth = currentDay.addMonths(1).firstDayOfMonth()
                 FwSchedulerDetailed.navigate($control, nextMonth);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -84,7 +84,7 @@ class FwSchedulerDetailedClass {
             try {
                 navscheduler = $control.data('dpscheduler');
                 currentDay = navscheduler.startDate;
-                previousMonth = currentDay.addMonths(-1);
+                previousMonth = currentDay.addMonths(-1).firstDayOfMonth();
                 FwSchedulerDetailed.navigate($control, previousMonth);
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -113,13 +113,13 @@ class FwSchedulerDetailedClass {
         dpscheduler = new DayPilot.Scheduler($control.find('.content')[0]);
         $control.data('dpscheduler', dpscheduler);
         // behavior and appearance
-        dpscheduler.cellWidth = 40;
+        dpscheduler.cellWidth = 50;
         dpscheduler.eventHeight = 30;
         dpscheduler.headerHeight = 25;
 
         // view
         dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
-        dpscheduler.days = 31;
+        dpscheduler.days = moment().endOf('month').diff(moment().format('YYYY-MM-DD'), 'days');
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
             { groupBy: "Month" },
@@ -150,24 +150,13 @@ class FwSchedulerDetailedClass {
         }
         FwSchedulerDetailed.setSelectedDay($control, date);
         dpscheduler = $control.data('dpscheduler');
+        if (date.d.getDate() === 31 || date.d.getDate() === 30) {
+            dpscheduler.days = date.daysInMonth();
+        } else {
+            dpscheduler.days = date.daysInMonth() - date.d.getDate();
+        }
         dpscheduler.startDate = date;
         FwSchedulerDetailed.loadEvents($control)
-    };
-    //---------------------------------------------------------------------------------
-    showScheduleView($control) {
-        var navcalendar, selectedstartdate;
-        navcalendar = $control.data('navcalendar');
-        navcalendar.selectMode = "month";
-        navcalendar.update();
-        $control.find('.calendarcontainer').hide();
-        $control.find('.monthcontainer').hide();
-        $control.find('.schedulercontainer').show();
-        $control.find('.changeview').attr('data-selected', 'false');
-        $control.find('.btnSchedule').attr('data-selected', 'true');
-        if (typeof $control.data('selectedstartdate') !== 'undefined') {
-            selectedstartdate = $control.data('selectedstartdate');
-            FwSchedulerDetailed.navigate($control, selectedstartdate);
-        }
     };
     //---------------------------------------------------------------------------------
     refresh($control) {
@@ -184,7 +173,6 @@ class FwSchedulerDetailedClass {
             //days        = dpmonth.days + dpmonth.startDate.dayOfWeek() + (6 - dpmonth.startDate.addDays(dpmonth.days).dayOfWeek()) // add the first few days from the next month that are visible
             request = {
                 start: dpscheduler.startDate,
-                days: dpscheduler.startDate.daysInMonth(),
                 mode: $control.find('div.changeview[data-selected="true"]').html()
             };
             ongetevents(request);
@@ -198,11 +186,7 @@ class FwSchedulerDetailedClass {
         dpscheduler = $control.data('dpscheduler');
 
         if (typeof dpscheduler !== 'undefined') {
-            switch ($control.find('div.changeview[data-selected="true"]').html()) {
-                case 'Schedule':
-                    FwSchedulerDetailed.setDateCallout($control, dpscheduler.startDate);
-                    break;
-            }
+            FwSchedulerDetailed.setDateCallout($control, dpscheduler.startDate);
 
             dpscheduler.resources = resources;
             dpscheduler.events.list = events;
@@ -260,28 +244,7 @@ class FwSchedulerDetailedClass {
         var $datecallout, monthnames, firstdayofweek, lastdayofweek;
         monthnames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         $datecallout = $control.find('.datecallout');
-        switch ($control.find('div.changeview[data-selected="true"]').html()) {
-            //case 'Day':
-            //    $datecallout.html(monthnames[date.getMonth()] + ' ' + date.getDay() + ', ' + date.getYear());
-            //    break;
-            //case 'Week':
-            //    firstdayofweek = date.firstDayOfWeek();
-            //    lastdayofweek = firstdayofweek.addDays(6);
-            //    $datecallout.html(monthnames[firstdayofweek.getMonth()] + ' ' + firstdayofweek.getDay() + ' - ' + monthnames[lastdayofweek.getMonth()] + ' ' + lastdayofweek.getDay() + ', ' + lastdayofweek.getYear());
-            //    break;
-            //case '5 Week':
-            //    firstdayofweek = date.firstDayOfWeek();
-            //    lastdayofweek = firstdayofweek.addDays(34);
-            //    $datecallout.html(monthnames[firstdayofweek.getMonth()] + ' ' + firstdayofweek.getDay() + ' - ' + monthnames[lastdayofweek.getMonth()] + ' ' + lastdayofweek.getDay() + ', ' + lastdayofweek.getYear());
-            //    break;
-            //case 'Year':
-            //    $datecallout.html(date.getYear());
-            //    break;
-            //case 'Month':
-            case 'Schedule':
-                $datecallout.html(monthnames[date.getMonth()] + ' ' + date.getYear());
-                break;
-        }
+        $datecallout.html(monthnames[date.getMonth()] + ' ' + date.getYear());
     };
     //---------------------------------------------------------------------------------
     // see http://api.daypilot.org/daypilot-event-data/ for info on how to create the evt object
