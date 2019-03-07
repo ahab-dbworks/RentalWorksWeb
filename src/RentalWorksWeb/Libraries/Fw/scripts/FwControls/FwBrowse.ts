@@ -2826,45 +2826,86 @@
     setRowEditMode($control: JQuery, $tr: JQuery): void {
         let me = this;
         let rowIndex = $tr.index();
-        this.beforeNewOrEditRow($control, $tr)
-            .then(() => {
-                $tr = $control.find('tbody tr').eq(rowIndex);
-                $control.attr('data-mode', 'EDIT');
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                    $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-                    $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-                    //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-                    //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
-                    var controller;
-                    controller = $control.attr('data-controller');
-                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['beforeRowEditMode'] === 'function') {
-                        window[controller]['beforeRowEditMode']($control, $tr);
-                    }
+        if ($control.attr('data-multisave') == 'true') {
+            $tr = $control.find('tbody tr').eq(rowIndex);
+            $control.attr('data-mode', 'EDIT');
+            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+
+                var controller;
+                controller = $control.attr('data-controller');
+                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                if (typeof window[controller]['beforeRowEditMode'] === 'function') {
+                    window[controller]['beforeRowEditMode']($control, $tr);
                 }
+            }
 
-                $tr.find('> td > .field').each(function (index, element) {
-                    var $field;
-                    $field = jQuery(element);
-                    if ($field.attr('data-formreadonly') === 'true') {
-                        me.setFieldViewMode($control, $tr, $field);
-                    } else {
-                        me.setFieldEditMode($control, $tr, $field);
-                    }
-                });
-
-                me.addSaveAndCancelButtonToRow($control, $tr);
-
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                    var controller;
-                    controller = $control.attr('data-controller');
-                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['afterRowEditMode'] === 'function') {
-                        window[controller]['afterRowEditMode']($control, $tr);
-                    }
+            $tr.find('> td > .field').each(function (index, element) {
+                var $field;
+                $field = jQuery(element);
+                if ($field.attr('data-formreadonly') === 'true') {
+                    me.setFieldViewMode($control, $tr, $field);
+                } else {
+                    me.setFieldEditMode($control, $tr, $field);
                 }
             });
+
+            me.addMultiSaveAndCancelButtonToRow($control, $tr);
+
+            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                var controller;
+                controller = $control.attr('data-controller');
+                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                if (typeof window[controller]['afterRowEditMode'] === 'function') {
+                    window[controller]['afterRowEditMode']($control, $tr);
+                }
+            }
+        } else {
+            this.beforeNewOrEditRow($control, $tr)
+                .then(() => {
+                    $tr = $control.find('tbody tr').eq(rowIndex);
+                    $control.attr('data-mode', 'EDIT');
+                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                        $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                        //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                        //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+
+                        var controller;
+                        controller = $control.attr('data-controller');
+                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof window[controller]['beforeRowEditMode'] === 'function') {
+                            window[controller]['beforeRowEditMode']($control, $tr);
+                        }
+                    }
+
+                    $tr.find('> td > .field').each(function (index, element) {
+                        var $field;
+                        $field = jQuery(element);
+                        if ($field.attr('data-formreadonly') === 'true') {
+                            me.setFieldViewMode($control, $tr, $field);
+                        } else {
+                            me.setFieldEditMode($control, $tr, $field);
+                        }
+                    });
+
+                    //$control.attr('data-multisave') == 'true' ? me.addMultiSaveAndCancelButtonToRow($control, $tr) : me.addSaveAndCancelButtonToRow($control, $tr);
+                    me.addSaveAndCancelButtonToRow($control, $tr);
+
+                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        var controller;
+                        controller = $control.attr('data-controller');
+                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof window[controller]['afterRowEditMode'] === 'function') {
+                            window[controller]['afterRowEditMode']($control, $tr);
+                        }
+                    }
+                });
+        }
     }
     //---------------------------------------------------------------------------------
     addSaveAndCancelButtonToRow($control: JQuery, $tr: JQuery): void {
@@ -2893,6 +2934,42 @@
                 var $this = jQuery(this);
                 var $tr = $this.closest('tr');
                 me.cancelEditMode($control, $tr);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        $tdselectrow.append($divcancelsaverow);
+    }
+    //---------------------------------------------------------------------------------
+    addMultiSaveAndCancelButtonToRow($control: JQuery, $tr: JQuery): void {
+        let me = this;
+        // add the multi-save button
+        const $gridmenu = $control.find('[data-control="FwMenu"]');
+        $tr.closest('tbody').find('.divselectrow').hide();
+        $tr.find('.browsecontextmenucell').hide();
+        const $multisave = jQuery('<div data-type="button" class="fwformcontrol grid-multi-save"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i> Save All</div>'); //save
+        $multisave.on('click', function () {
+            try {
+                const $trs = $control.find('tr.editmode.editrow');
+                me.multiSaveRow($control, $trs);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        if ($gridmenu.find('.grid-multi-save').length < 1) {
+            $gridmenu.append($multisave);
+        }
+
+        // add the cancel button
+        var $tdselectrow = $tr.find('.tdselectrow');
+        $tr.closest('tbody').find('.browsecontextmenu').hide();
+        var $divcancelsaverow = jQuery('<div class="divcancelsaverow"><i class="material-icons">&#xE5C9;</i></div>'); //cancel
+        $divcancelsaverow.on('click', function () {
+            try {
+                var $this = jQuery(this);
+                var $tr = $this.closest('tr');
+                me.cancelEditMode($control, $tr);
+                $tr.find('.browsecontextmenucell').show();
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -3217,6 +3294,116 @@
                 resolve();
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    multiSaveRow($control: JQuery, $trs: JQuery): Promise<boolean> {
+        let me = this;
+        return new Promise<boolean>((resolve, reject) => {
+            const name = $control.attr('data-name');
+            if (typeof $control.attr('data-name') === 'undefined') {
+                throw 'Attrtibute data-name is missing on the Browser controller with html: ' + $control[0].outerHTML;
+            }
+            const controller = window[$control.attr('data-name') + 'Controller'];
+            if (typeof controller === 'undefined') {
+                throw 'Controller: ' + $control.attr('data-name') + ' is not defined';
+            }
+            let mode = 'Insert';
+            let manyRequest = [];
+            for (let i = 0; i < $trs.length; i++) {
+                const $tr = jQuery($trs[i]);
+                if (this.isRowModified($control, $tr)) {
+                    var fields, rowuniqueids, rowfields, formuniqueids, formfields, $form, miscfields;
+                    let isvalid = true;
+                    isvalid = this.validateRow($control, $tr);
+                    if (isvalid) {
+                        const isUsingWebApi = this.isUsingWebApi($control);
+                        var request;
+                        $form = $control.closest('.fwform');
+                        if (isUsingWebApi) {
+                            const allparentformfields = FwModule.getWebApiFields($form, true);
+                            let parentformfields = {};
+                            let whitelistedFields = (typeof $control.attr('data-parentformdatafields') !== 'undefined') ? $control.attr('data-parentformdatafields') : '';
+                            if (whitelistedFields.length > 0) {
+                                let whitelistedFieldsArray = whitelistedFields.split(',');
+                                for (var fieldname in allparentformfields) {
+                                    for (let j = 0; j < whitelistedFieldsArray.length; j++) {
+                                        var whitelistedField = whitelistedFieldsArray[j];
+                                        var indexOfEquals = whitelistedField.indexOf('=');
+                                        if (indexOfEquals === -1) {
+                                            if (fieldname === whitelistedFieldsArray[j]) {
+                                                parentformfields[fieldname] = allparentformfields[fieldname];
+                                            }
+                                        } else {
+                                            var apiName = whitelistedField.substr(0, indexOfEquals - 1);
+                                            var parentFormFieldName = whitelistedField.substr(indexOfEquals);
+                                            if (fieldname === apiName) {
+                                                parentformfields[fieldname] = allparentformfields[fieldname];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            var gridfields = this.getWebApiRowFields($control, $tr);
+                            request = jQuery.extend({}, parentformfields, gridfields);
+                            if (typeof $control.data('beforesave') === 'function') {
+                                $control.data('beforesave')(request);
+                            }
+
+                            manyRequest.push(request);
+                        } else {
+                            throw 'Web Api not configured';
+                            // set request for old api
+                            //rowuniqueids = this.getRowFormUniqueIds($control, $tr);
+                            //rowfields = this.getRowFormDataFields($control, $tr, false);
+                            //miscfields = this.getRowFormDataFields($control, $tr, true);
+                            //if ($form.length > 0) {
+                            //    formuniqueids = FwModule.getFormUniqueIds($form);
+                            //    formfields = FwModule.getFormFields($form, true);
+                            //}
+                            // remove any uniqueids that are in the fields in NEW mode only
+                            //if (mode === 'Insert') {
+                            //    for (var rowfield in rowfields) {
+                            //        for (var rowuniqueid in rowuniqueids) {
+                            //            if (rowfield === rowuniqueid) {
+                            //                delete rowuniqueids[rowuniqueid];
+                            //            }
+                            //        }
+                            //    }
+                            //}
+                            //    request = {
+                            //        module: name,
+                            //        mode: mode,
+                            //        ids: rowuniqueids,
+                            //        fields: rowfields,
+                            //        miscfields: miscfields
+                            //    };
+                            //    if ($form.length > 0) {
+                            //        request.miscfields = jQuery.extend({}, request.miscfields, formuniqueids);
+                            //        request.miscfields = jQuery.extend({}, request.miscfields, formfields);
+                            //    }
+                            //}
+                            //if (typeof $control.data('beforesave') === 'function') {
+                            //    $control.data('beforesave')(request);
+                            //}
+                        }
+                    }
+                }
+            }
+            FwAppData.apiMethod(true, 'POST', `${controller.apiurl}/many`, manyRequest, FwServices.defaultTimeout, function (response) {
+                let failedToSave = response.filter(x => x["Result"]["StatusCode"] != 200);
+                for (let i = 0; i < failedToSave.length; i++) {
+                    FwNotification.renderNotification('ERROR', failedToSave[i]["Result"]["Value"]["Message"]);
+                }
+                me.search($control)
+                    .then(() => {
+                        resolve();
+                    })
+                    .catch((reason) => {
+                        reject(reason);
+                    });
+            }, null, $control);
+        })
     }
     //----------------------------------------------------------------------------------------------
     deleteRow($control: JQuery, $tr: JQuery) {
