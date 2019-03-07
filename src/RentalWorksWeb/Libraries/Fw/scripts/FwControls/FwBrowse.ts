@@ -2958,6 +2958,8 @@
         });
         if ($gridmenu.find('.grid-multi-save').length < 1) {
             $gridmenu.append($multisave);
+        } else {
+            $gridmenu.find('.grid-multi-save').show();
         }
 
         // add the cancel button
@@ -3397,6 +3399,7 @@
                 }
                 me.search($control)
                     .then(() => {
+                        $control.find('.grid-multi-save').hide();
                         resolve();
                     })
                     .catch((reason) => {
