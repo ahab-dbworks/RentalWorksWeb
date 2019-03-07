@@ -402,8 +402,8 @@ namespace FwStandard.SqlServer
             {
                 sql.Insert(0, this.StackTrace + Environment.NewLine);
             }
-            sql.Insert(0, $"----{Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt")}-----------------------------------------" + Environment.NewLine);
-            
+            //sql.Insert(0, $"----{Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss tt")}-----------------------------------------" + Environment.NewLine);
+
             WriteToConsole(sql.ToString());
 
         }
@@ -423,22 +423,42 @@ namespace FwStandard.SqlServer
             StartTime = DateTime.Now;
         }
 
-        public void Stop()
+        public void Stop(int rowsAffected = -1)
         {
             StopTime = DateTime.Now;
-            WriteToConsole("completed", true);
+            WriteToConsole("completed", true, rowsAffected);
         }
-        public void WriteToConsole(string str, bool includeDuration = false)
+
+        public void WriteToConsole(string str, bool includeDuration = false, int rowsAffected = -1)
         {
             if (FwSqlLogEntry.LogSql)
             {
-                if (((str.Contains("controlclient")) && (str.Contains("options"))) || ((str.Contains("dbo.decrypt")) || (str.Contains("dbo.encrypt"))))
+                string origStr = str;
+                string queryBoundary = "--==============================================================================================";
+                bool isEncrypted = ((str.Contains("controlclient") && str.Contains("options")) || str.Contains("dbo.decrypt") || str.Contains("dbo.encrypt"));
+                if (isEncrypted)
                 {
-                    str = "(encrypted sql)";
+                    str = "--(encrypted sql)";
+                }
+                if (!origStr.Equals("completed") && !origStr.Equals("opened"))
+                {
+                    str = $"{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}{queryBoundary}{Environment.NewLine}--Query#{Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff tt")}-----------------------------------------{Environment.NewLine}{str}";
+                }
+                if (!origStr.Equals("completed") && !origStr.Equals("opened") && !isEncrypted)
+                {
+                    str += $"{Environment.NewLine}go";
                 }
                 if (includeDuration)
                 {
-                    str = "----" + Counter.ToString() + " " + str + " in " + GetExecutionTime() + "------------------------------------------";
+                    str = $"--Query#{Counter.ToString()} - {DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss.fff tt")} {str} in {GetExecutionTime()} milliseconds -------";
+                }
+                if (rowsAffected >= 0)
+                {
+                    str += $"{Environment.NewLine}--{rowsAffected.ToString()} row{ (rowsAffected == 1 ? "" : "s")} affected";
+                }
+                if (origStr.Equals("completed"))
+                {
+                    str += $"{Environment.NewLine}{queryBoundary}{Environment.NewLine}{Environment.NewLine}{Environment.NewLine}";
                 }
                 Console.WriteLine(str);
             }

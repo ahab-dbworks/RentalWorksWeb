@@ -146,7 +146,8 @@ namespace FwStandard.SqlServer
                             case SqlDbType.Time:
                             case SqlDbType.Timestamp:
                             case SqlDbType.UniqueIdentifier:
-                                try {
+                                try
+                                {
                                     if (Parameters[i].SqlValue != null)
                                     {
                                         sb.Append("'");
@@ -172,7 +173,7 @@ namespace FwStandard.SqlServer
                                         sb.AppendLine("null");
                                     }
                                 }
-                                
+
                                 break;
 
                             // numbers
@@ -187,7 +188,8 @@ namespace FwStandard.SqlServer
                             case SqlDbType.SmallMoney:
                             case SqlDbType.TinyInt:
                             case SqlDbType.VarChar:
-                                try {
+                                try
+                                {
                                     if (Parameters[i].SqlValue != null)
                                     {
                                         sb.Append("'");
@@ -199,7 +201,7 @@ namespace FwStandard.SqlServer
                                         sb.AppendLine("null");
                                     }
                                 }
-                                catch(SqlTypeException ex)
+                                catch (SqlTypeException ex)
                                 {
                                     Console.WriteLine($"Parameter \"{Parameters[i].ParameterName}\" is invalid for sql type {Parameters[i].SqlDbType.ToString()}, value: \"{Parameters[i].Value.ToString()}\".\n\n{ex.Message}\n{ex.StackTrace}\n");
                                     if (Parameters[i].Value != null)
@@ -237,7 +239,7 @@ namespace FwStandard.SqlServer
                                         sb.AppendLine("null");
                                     }
                                 }
-                                catch(SqlTypeException ex)
+                                catch (SqlTypeException ex)
                                 {
                                     Console.WriteLine($"Parameter \"{Parameters[i].ParameterName}\" is invalid for sql type {Parameters[i].SqlDbType.ToString()}, value: \"{Parameters[i].Value.ToString()}\".\n\n{ex.Message}\n{ex.StackTrace}\n");
                                     if (Parameters[i].Value != null)
@@ -747,6 +749,7 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                this.RowCount = 0;
                 string methodName = "ExecuteNonQueryAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
 
@@ -774,7 +777,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 if (closeConnection)
                 {
                     this.sqlConnection.Close();
@@ -791,6 +794,7 @@ namespace FwStandard.SqlServer
 
             try
             {
+                this.RowCount = 0;
                 string methodName = "ExecuteInsertQueryAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
@@ -817,7 +821,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 this.sqlConnection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
             }
@@ -831,6 +835,7 @@ namespace FwStandard.SqlServer
 
             try
             {
+                this.RowCount = 0;
                 string methodName = "ExecuteUpdateQueryAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteUpdateQuery()");
@@ -865,7 +870,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 this.sqlConnection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteUpdateQuery()");
             }
@@ -877,6 +882,7 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                this.RowCount = 0;
                 string methodName = "ExecuteReaderAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteReader()");
@@ -892,7 +898,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 this.sqlConnection.Close();
             }
         }
@@ -1062,9 +1068,10 @@ namespace FwStandard.SqlServer
 
             try
             {
+                this.RowCount = 0;
                 string methodName = "QueryToFwJsonTableAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
-                
+
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToFwJsonTable()");
                 //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
                 this.sqlCommand.CommandText = this.qryText.ToString();
@@ -1078,7 +1085,7 @@ namespace FwStandard.SqlServer
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
-                    this.sqlLogEntry.WriteToConsole("query opened", true);
+                    this.sqlLogEntry.WriteToConsole("opened", true);
                     if (!includeAllColumns)
                     {
                         dt.Columns = columns;
@@ -1113,7 +1120,7 @@ namespace FwStandard.SqlServer
                                     dt.Columns.Add(new FwJsonDataTableColumn(colname, colname, FwDataTypes.Text));
                                 }
                             }
-                            
+
                         }
                         columns = dt.Columns;
                     }
@@ -1125,6 +1132,7 @@ namespace FwStandard.SqlServer
                     }
                     while (reader.Read())
                     {
+                        this.RowCount++;
                         if (readerColumns == null)
                         {
                             readerColumns = new List<string>();
@@ -1213,7 +1221,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 this.sqlCommand.Connection.Close();
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToFwJsonTable()");
             }
@@ -1378,7 +1386,7 @@ namespace FwStandard.SqlServer
                     else
                     {
                         //data = FwConvert.OleColorToHtmlColor(0);
-						data = String.Empty;
+                        data = String.Empty;
                     }
                     break;
                 case FwDataTypes.Integer:
@@ -1429,7 +1437,7 @@ namespace FwStandard.SqlServer
             {
                 string methodName = "ExecuteAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
-                
+
                 //FwFunc.WriteLog("Begin FwSqlCommand: Execute()");
                 this.RowCount = 0;
                 if (closeConnection)
@@ -1465,7 +1473,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 if (closeConnection)
                 {
                     this.sqlCommand.Connection.Close();
@@ -1497,6 +1505,7 @@ namespace FwStandard.SqlServer
 
             try
             {
+                this.RowCount = 0;
                 string methodName = "QueryToDynamicList2Async";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:QueryToDynamicList()");
@@ -1514,8 +1523,6 @@ namespace FwStandard.SqlServer
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
-
-
                     Dictionary<string, FwJsonDataTableColumn> indexedColumns = new Dictionary<string, FwJsonDataTableColumn>();
                     for (int colno = 0; colno < columns.Count; colno++)
                     {
@@ -1524,6 +1531,7 @@ namespace FwStandard.SqlServer
                     }
                     while (await reader.ReadAsync())
                     {
+                        this.RowCount++;
                         rowObj = new ExpandoObject();
                         row = (IDictionary<string, object>)rowObj;
                         for (int ordinal = 0; ordinal < reader.FieldCount; ordinal++)
@@ -1584,7 +1592,7 @@ namespace FwStandard.SqlServer
                     this.sqlCommand.Connection.Close();
                 }
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToDynamicList()");
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
             }
 
             return rows;
@@ -1813,7 +1821,7 @@ namespace FwStandard.SqlServer
             return parameters.ToString();
         }
         //------------------------------------------------------------------------------------
-        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T: FwDataRecord
+        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T : FwDataRecord
         {
             string methodName = "SelectAsync";
             string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
@@ -1846,6 +1854,7 @@ namespace FwStandard.SqlServer
 
             try
             {
+                this.RowCount = 0;
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
@@ -1856,6 +1865,7 @@ namespace FwStandard.SqlServer
                     }
                     while (await reader.ReadAsync())
                     {
+                        this.RowCount++;
                         T obj = Activator.CreateInstance<T>();
 
                         foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
@@ -1893,7 +1903,7 @@ namespace FwStandard.SqlServer
                                 FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
                                 object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
                                 string str = data.ToString();
-                                customValues.AddCustomValue(customField.FieldName, str, customField.FieldType); 
+                                customValues.AddCustomValue(customField.FieldName, str, customField.FieldType);
                             }
                             obj._Custom = customValues;
                         }
@@ -1904,18 +1914,18 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
             }
 
             if (openAndCloseConnection)
             {
                 this.sqlCommand.Connection.Close();
             }
-            
+
             return results;
         }
         //------------------------------------------------------------------------------------
-        public async Task<GetManyResponse<T>> GetManyAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T: FwDataRecord
+        public async Task<GetManyResponse<T>> GetManyAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T : FwDataRecord
         {
             string methodName = "GetManyAsync";
             string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
@@ -1950,6 +1960,7 @@ namespace FwStandard.SqlServer
 
             try
             {
+                this.RowCount = 0;
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
@@ -1959,13 +1970,15 @@ namespace FwStandard.SqlServer
                         columnIndex[reader.GetName(fieldno)] = fieldno;
                     }
                     bool hasColTotalRows = false;
-                    foreach (DataRow row in reader.GetSchemaTable().Rows) { 
-                        if (row["ColumnName"].ToString().Equals(FwSqlSelect.TOTAL_ROWS_FIELD)) 
-                            hasColTotalRows = true; 
+                    foreach (DataRow row in reader.GetSchemaTable().Rows)
+                    {
+                        if (row["ColumnName"].ToString().Equals(FwSqlSelect.TOTAL_ROWS_FIELD))
+                            hasColTotalRows = true;
                     }
                     bool needsTotalRows = hasColTotalRows;
                     while (await reader.ReadAsync())
                     {
+                        this.RowCount++;
                         T obj = Activator.CreateInstance<T>();
 
                         foreach (KeyValuePair<string, FwSqlDataFieldAttribute> attribute in sqlDataFieldAttributes)
@@ -2003,7 +2016,7 @@ namespace FwStandard.SqlServer
                                 FwDatabaseField field = new FwDatabaseField(reader.GetValue(columnIndex[customField.FieldName]));
                                 object data = FormatReaderData(FwDataTypes.Text, columnIndex[customField.FieldName], reader); //todo: support different data types
                                 string str = data.ToString();
-                                customValues.AddCustomValue(customField.FieldName, str, customField.FieldType); 
+                                customValues.AddCustomValue(customField.FieldName, str, customField.FieldType);
                             }
                             obj._Custom = customValues;
                         }
@@ -2029,14 +2042,14 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
             }
 
             if (openAndCloseConnection)
             {
                 this.sqlCommand.Connection.Close();
             }
-            
+
             return response;
         }
         //------------------------------------------------------------------------------------
@@ -2128,9 +2141,10 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                this.RowCount = 0;
                 string methodName = "InsertAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
-                
+
                 if (openAndCloseConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -2220,7 +2234,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2234,9 +2248,10 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                this.RowCount = 0;
                 string methodName = "UpdateAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
-                
+
                 if (openAndCloseConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -2322,7 +2337,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2336,9 +2351,10 @@ namespace FwStandard.SqlServer
         {
             try
             {
+                this.RowCount = 0;
                 string methodName = "DeleteAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
-                
+
                 if (openAndCloseConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -2387,7 +2403,7 @@ namespace FwStandard.SqlServer
             }
             finally
             {
-                this.sqlLogEntry.Stop();
+                this.sqlLogEntry.Stop(this.RowCount);
                 if (openAndCloseConnection)
                 {
                     this.sqlConnection.Close();
@@ -2409,7 +2425,7 @@ namespace FwStandard.SqlServer
                 {
                     // All we're interested in is what triggered the query, so filter out non-user code and anything else we don't want to see
                     if (
-                        line.Contains("Async(") && 
+                        line.Contains("Async(") &&
                         !line.Contains("GetUsefulLinesFromStackTrace") &&
                         !line.Contains(methodName) &&
                         !line.Contains("MoveNext") &&
