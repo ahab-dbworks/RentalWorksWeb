@@ -49,7 +49,7 @@ namespace WebApi.Modules.Home.Receipt
         public string CurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
-        public string LocationDefaultCurrencyId { get; set; }
+        public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

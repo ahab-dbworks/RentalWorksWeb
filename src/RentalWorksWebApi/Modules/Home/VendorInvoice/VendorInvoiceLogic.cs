@@ -231,7 +231,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         public string CurrencyCode { get; set; }
 
         [FwLogicProperty(Id: "xI4mRlnfFgfn", IsReadOnly: true)]
-        public string LocationDefaultCurrencyId { get; set; }
+        public string OfficeLocationDefaultCurrencyId { get; set; }
 
         [FwLogicProperty(Id: "dQsRxjFq1bqk", IsReadOnly: true)]
         public decimal? DealBilledExtended { get; set; }

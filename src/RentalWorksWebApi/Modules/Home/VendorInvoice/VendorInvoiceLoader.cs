@@ -148,7 +148,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
-        public string LocationDefaultCurrencyId { get; set; }
+        public string OfficeLocationDefaultCurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealbilledextended", modeltype: FwDataTypes.Decimal)]
         public decimal? DealBilledExtended { get; set; }

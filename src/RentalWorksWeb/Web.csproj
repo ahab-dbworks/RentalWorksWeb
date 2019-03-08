@@ -550,8 +550,6 @@
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\ReturnToVendor\ReturnToVendorForm.htm" />
     <Content Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendorForm.htm" />
-    <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderBrowse.htm" />
-    <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderForm.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
     <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />

@@ -134,6 +134,9 @@
         public const string PROJECT_STATUS_ACTIVE = "ACTIVE";
         public const string PROJECT_STATUS_CLOSED = "CLOSED";
 
+        //CURRENCY
+        public const int FOREIGN_CURRENCY_COLOR = 9830346;
+
         //PURCHASE ORDER
         public const string PURCHASE_ORDER_STATUS_NEW = "NEW";
         public const string PURCHASE_ORDER_STATUS_OPEN = "OPEN";
@@ -142,6 +145,13 @@
         public const string PURCHASE_ORDER_STATUS_CLOSED = "CLOSED";
         public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
         public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
+         
+        public const int PO_NEEDS_APPROVAL_COLOR = 16740429; // light red
+        public const int PO_DROP_SHIP_COLOR = 6205102; // teal
+        public const int PO_ITEMS_NEED_BARCODE_COLOR = 8388736; // purple
+        public const int PO_ITEMS_IN_HOLDING_COLOR = 12320443; // light green
+        
+
 
         //VENDOR INVOICE
         public const string VENDOR_INVOICE_NUMBER_ACCRUAL = "ACCRUAL";

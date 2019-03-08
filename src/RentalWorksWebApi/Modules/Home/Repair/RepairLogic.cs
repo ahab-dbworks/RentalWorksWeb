@@ -326,7 +326,7 @@ namespace WebApi.Modules.Home.Repair
         public string CurrencyId { get { return repair.CurrencyId; } set { repair.CurrencyId = value; } }
 
         [FwLogicProperty(Id:"iqmM0bBU3XGhJ", IsReadOnly:true)]
-        public string LocationDefaultCurrencyId { get; set; }
+        public string OfficeLocationDefaultCurrencyId { get; set; }
 
         [FwLogicProperty(Id:"FNMEbmfeCtmwr", IsReadOnly:true)]
         public string CurrencyCode { get; set; }

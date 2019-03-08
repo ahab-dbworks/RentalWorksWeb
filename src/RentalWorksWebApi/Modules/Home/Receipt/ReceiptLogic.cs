@@ -113,7 +113,7 @@ namespace WebApi.Modules.Home.Receipt
         public string CurrencyCode { get; set; }
 
         [FwLogicProperty(Id: "DFYUuxYiQR5I", IsReadOnly: true)]
-        public string LocationDefaultCurrencyId { get; set; }
+        public string OfficeLocationDefaultCurrencyId { get; set; }
 
 
         [FwLogicProperty(Id: "BD8n6SDR8Rn6y")]

@@ -32,10 +32,8 @@ namespace WebApi.Modules.Home.CompanyContact
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string CompanyTypeColor
         {
-            get
-            {
-                return AppFunc.GetCompanyTypeColor(CompanyType);
-            }
+            get { return determineCompanyTypeColor(CompanyType); }
+            set { }
         }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contactid", modeltype: FwDataTypes.Text)]
@@ -133,6 +131,11 @@ namespace WebApi.Modules.Home.CompanyContact
             AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
         }
         //------------------------------------------------------------------------------------ 
+        private string determineCompanyTypeColor(string companyType)
+        {
+            return AppFunc.GetCompanyTypeColor(companyType);
+        }
+        //------------------------------------------------------------------------------------    
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
         {
             if (e.DataTable != null)
@@ -142,7 +145,7 @@ namespace WebApi.Modules.Home.CompanyContact
                 {
                     foreach (List<object> row in dt.Rows)
                     {
-                        row[dt.GetColumnNo("CompanyTypeColor")] = AppFunc.GetCompanyTypeColor(row[dt.GetColumnNo("CompanyType")].ToString());
+                        row[dt.GetColumnNo("CompanyTypeColor")] = determineCompanyTypeColor(row[dt.GetColumnNo("CompanyType")].ToString());
                     }
                 }
             }

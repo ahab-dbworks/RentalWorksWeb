@@ -12,6 +12,11 @@ namespace WebApi.Modules.Home.PurchaseOrder
     public class PurchaseOrderBrowseLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
+        public PurchaseOrderBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string PurchaseOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -45,22 +50,60 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dropship", modeltype: FwDataTypes.Boolean)]
+        public bool? DropShip { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "needsapproval", modeltype: FwDataTypes.Boolean)]
+        public bool? NeedsApproval { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtyholding", modeltype: FwDataTypes.Integer)]
+        public int? QuantityHolding { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qtytobarcode", modeltype: FwDataTypes.Integer)]
+        public int? QuantityToBarCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor
+        {
+            get { return determineCurrencyColor(CurrencyId, OfficeLocationDefaultCurrencyId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StatusColor
+        {
+            get { return determineStatusColor(NeedsApproval.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PurchaseOrderNumberColor
+        {
+            get { return determinePoNumberColor(QuantityToBarCode.GetValueOrDefault(0)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor
+        {
+            get { return determineVendorColor(QuantityHolding.GetValueOrDefault(0)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return determineDescriptionColor(DropShip.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
 
-        [FwSqlDataField(column: "currencycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string CurrencyColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string StatusColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string PurchaseOrderNumberColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string VendorColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderdesccolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
-        //------------------------------------------------------------------------------------
 
 
 
@@ -126,6 +169,61 @@ namespace WebApi.Modules.Home.PurchaseOrder
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
+        }
+        //------------------------------------------------------------------------------------    
+        private string determinePoNumberColor(int qtyToBarCode)
+        {
+            return (qtyToBarCode > 0 ? RwGlobals.PO_ITEMS_NEED_BARCODE_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------    
+        private string determineDescriptionColor(bool isDropShip)
+        {
+            return (isDropShip ? RwGlobals.PO_DROP_SHIP_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------    
+        private string determineVendorColor(int qtyHolding)
+        {
+            return (qtyHolding > 0 ? RwGlobals.PO_ITEMS_IN_HOLDING_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------    
+        private string determineStatusColor(bool needsApproval)
+        {
+            return (needsApproval ? RwGlobals.PO_NEEDS_APPROVAL_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------    
+        private string determineCurrencyColor(string poCurrencyId, string locCurrencyId)
+        {
+            string color = null;
+            if (!string.IsNullOrEmpty(poCurrencyId))
+            {
+                if (!poCurrencyId.Equals(locCurrencyId))
+                {
+                    color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+                }
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------    
+
+        //when((po.currencyid > '') and(po.currencyid<> lcurr.currencyid)) then 9830346  --// mint green
+
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("PurchaseOrderNumberColor")] = determinePoNumberColor(FwConvert.ToInt32(row[dt.GetColumnNo("QuantityToBarCode")].ToString()));
+                        row[dt.GetColumnNo("DescriptionColor")] = determineDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("DropShip")].ToString()));
+                        row[dt.GetColumnNo("VendorColor")] = determineVendorColor(FwConvert.ToInt32(row[dt.GetColumnNo("QuantityHolding")].ToString()));
+                        row[dt.GetColumnNo("StatusColor")] = determineStatusColor(FwConvert.ToBoolean(row[dt.GetColumnNo("NeedsApproval")].ToString()));
+                        row[dt.GetColumnNo("CurrencyColor")] = determineCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
+                    }
+                }
+            }
         }
         //------------------------------------------------------------------------------------    
     }

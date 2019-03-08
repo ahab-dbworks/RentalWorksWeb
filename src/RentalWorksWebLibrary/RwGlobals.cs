@@ -22,6 +22,16 @@ namespace WebLibrary
         public static string COMPANY_TYPE_VENDOR_COLOR { get; set; }
 
 
+        //CURRENCY
+        public static string FOREIGN_CURRENCY_COLOR { get; set; }
+
+        //PURCHASE ORDER
+        public static string PO_DROP_SHIP_COLOR { get; set; }
+        public static string PO_NEEDS_APPROVAL_COLOR { get; set; }
+        public static string PO_ITEMS_NEED_BARCODE_COLOR { get; set; }
+        public static string PO_ITEMS_IN_HOLDING_COLOR { get; set; }
+
+
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
         //can be called when events occur in the system that should change global colors
@@ -52,7 +62,15 @@ namespace WebLibrary
             COMPANY_TYPE_DEAL_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_DEAL_COLOR);
             COMPANY_TYPE_VENDOR_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_VENDOR_COLOR);
 
-        }
-        //---------------------------------------------------------------------------
+            FOREIGN_CURRENCY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.FOREIGN_CURRENCY_COLOR);
+
+            PO_DROP_SHIP_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_DROP_SHIP_COLOR);
+            PO_NEEDS_APPROVAL_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_NEEDS_APPROVAL_COLOR);
+            PO_ITEMS_NEED_BARCODE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_ITEMS_NEED_BARCODE_COLOR);
+            PO_ITEMS_IN_HOLDING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_ITEMS_IN_HOLDING_COLOR);
+
+
     }
+    //---------------------------------------------------------------------------
+}
 }

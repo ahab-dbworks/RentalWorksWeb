@@ -27,9 +27,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "poorderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "needsapproval", modeltype: FwDataTypes.Boolean)]
-        public bool? NeedsApproval { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approvedbyusersid", modeltype: FwDataTypes.Text)]
         public string ApprovedByUserId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -53,12 +50,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtyholding", modeltype: FwDataTypes.Integer)]
-        public int? QuantityHolding { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qtytobarcode", modeltype: FwDataTypes.Integer)]
-        public int? QuantityToBarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subrent", modeltype: FwDataTypes.Boolean)]
         public bool? SubRent { get; set; }
@@ -210,9 +201,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text)]
         public string OutDeliveryId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dropship", modeltype: FwDataTypes.Boolean)]
-        public bool? DropShip { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryid", modeltype: FwDataTypes.Text)]
         public string InDeliveryId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -249,14 +237,8 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string Location { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
-        public string CurrencyId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
-        public string LocdefaultcurrencyId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalItem { get; set; }
