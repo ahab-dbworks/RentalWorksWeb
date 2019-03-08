@@ -87,7 +87,15 @@ class Program extends FwApplication {
                     FwMobileMasterController.generateDeviceStatusIcons();
                     //FwNotification.renderNotification('SUCCESS', 'Network Connected');
                 }, false);
-                DwCordovaFunc.getBrowserVersion(function(args: Array<any>) {
+
+                // Patches a bug in Android RentalWorks 2018.1.3 where it didn't check if the TslReader plugin exists, which it doesn't in that version, 
+                // but does in later versions.  DwCordovaFunc.getBrowserVersion will fail without this hack unless the user has a later version of the Android app.
+                if (typeof window.TslReader !== 'object') {
+                    window.TslReader = {
+                        debug: false
+                    };
+                }
+                DwCordovaFunc.getBrowserVersion(function (args: Array<any>) {
                     var versionString = args[0];
                     let version = versionString.split('.');
                     let major: number = parseInt(version[0]);
