@@ -96,8 +96,8 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js
 **/Fw/scripts/FwControls/FwBrowseColumns/**/*.js.map
-**/Fw/scripts/Modules/FwGroup.js.map
-**/Fw/scripts/Modules/FwGroup.js
+**/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js
+**/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js.map
 **/Fw/scripts/FwControls/FwAppImage.js
 **/Fw/scripts/FwControls/FwAppImage.js.map
 **/Fw/scripts/FwControls/FwApplicationTree.js
@@ -114,6 +114,8 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 **/Fw/scripts/FwControls/FwFormField.js.map
 **/Fw/scripts/FwControls/FwGridMenu.js
 **/Fw/scripts/FwControls/FwGridMenu.js.map
+**/Fw/scripts/FwControls/FwMenu.js
+**/Fw/scripts/FwControls/FwMenu.js.map
 **/Fw/scripts/FwControls/FwModule.js
 **/Fw/scripts/FwControls/FwModule.js.map
 **/Fw/scripts/FwControls/FwMultiSelectValidation.js
@@ -130,12 +132,24 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 **/Fw/scripts/FwControls/FwReportsPage.js.map
 **/Fw/scripts/FwControls/FwRibbon.js
 **/Fw/scripts/FwControls/FwRibbon.js.map
+**/Fw/scripts/FwControls/FwScheduler.js
+**/Fw/scripts/FwControls/FwScheduler.js.map
+**/Fw/scripts/FwControls/FwSchedulerDetailed.js
+**/Fw/scripts/FwControls/FwSchedulerDetailed.js.map
 **/Fw/scripts/FwControls/FwSettings.js
 **/Fw/scripts/FwControls/FwSettings.js.map
+**/Fw/scripts/FwControls/FwTabs.js.map
+**/Fw/scripts/FwControls/FwTabs.js
 **/Fw/scripts/FwControls/FwValidation.js
 **/Fw/scripts/FwControls/FwValidation.js.map
+**/Fw/scripts/FwControls/FwValidation2.js
+**/Fw/scripts/FwControls/FwValidation2.js.map
 **/Fw/scripts/FwControls/FwWebApiReport.js
 **/Fw/scripts/FwControls/FwWebApiReport.js.map
+**/Fw/scripts/Modules/FwGroup.js.map
+**/Fw/scripts/Modules/FwGroup.js
+**/Fw/scripts/FwAjax.js
+**/Fw/scripts/FwAjax.js.map
 **/Fw/scripts/FwAppData.js
 **/Fw/scripts/FwAppData.js.map
 **/Fw/scripts/FwApplication.js
@@ -150,8 +164,3 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 **/Fw/scripts/Routes.js.map
 **/Fw/scripts/MasterPages/WebMaster.js
 **/Fw/scripts/MasterPages/WebMaster.js.map
-
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js.map
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwValidation2.js
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwValidation2.js.map
