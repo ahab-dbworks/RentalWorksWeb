@@ -13,6 +13,7 @@ namespace WebApi.Modules.Administrator.Group
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "administrator-v1")]
+    [FwController(Id: "0vP4rXxgGL1M")]
     public class GroupController : FwGroupController
     {
         public GroupController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(FwGroupLogic); }
