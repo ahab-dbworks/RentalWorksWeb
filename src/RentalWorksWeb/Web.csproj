@@ -594,8 +594,6 @@
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
-    <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
-    <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Administrator\Settings\SettingsPage.css" />
     <Content Include="Source\Modules\Administrator\Settings\Settings.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
