@@ -160,7 +160,7 @@ html.theme-material .fwformfield[data-type="checkboxlist"] ol.sortable > li > .w
 html.theme-material .fwformfield[data-type="checkboxlist"] ol.sortable > li > .wrapper > .settings {float:right;cursor:pointer;padding-left:10px;}
 html.theme-material .fwformfield[data-type="checkboxlist"] ol.sortable > li > .wrapper > label{float:left;color:#000000;}
 html.theme-material .fwformfield[data-type="checkboxlist"] ol.sortable > li > .wrapper .orderbydirection {display:none;cursor:pointer;overflow:hidden;width:22px;height:22px;float:right;background-size:cover;}
-html.theme-material .fwformfield[data-type="checkboxlist"] ol.sortable > li > .wrapper > .checkbox:checked + label {font-weight:bold;}
+html.theme-material .fwformfield[data-type="checkboxlist"].widgetorder ol.sortable > li > .wrapper > .checkbox:checked + label {font-weight:bold;}
 html.theme-material .fwformfield[data-type="checkboxlist"] ol.sortable > li > .wrapper > .checkbox:checked ~ .orderbydirection {display:block;}
 /*#endregion*/
 

@@ -168,7 +168,7 @@ FwFormField_checkboxlist.loadForm = function ($fwformfield, table, field, value,
     $fwformfield.find('ol').html(html.join(''));
 
     if (value.length === 0) {
-        $fwformfield.find('.fwformfield-control').append('<div class="empty-message" style="position:fixed;">You have no widgets yet - Drag and drop them here to get started!</div>');
+        $fwformfield.find('.fwformfield-control').append('<div class="empty-message" style="position:fixed;align-self: self-start;margin-top: 2em;">You have no widgets yet - Drag and drop them here to get started!</div>');
     }
 
     $fwformfield.find('ol .checkbox').on('change', function () {
