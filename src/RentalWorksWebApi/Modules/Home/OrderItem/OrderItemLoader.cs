@@ -48,26 +48,20 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(/*column: "masternocolor", */calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ICodeColor
         {
-            get
-            {
-                return AppFunc.GetItemClassICodeColor(ItemClass);
-            }
+            get { return getICodeColor(ItemClass); }
             set { }
         }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(/*column: "descriptioncolor",*/calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string DescriptionColor
         {
-            get
-            {
-                return AppFunc.GetItemClassDescriptionColor(ItemClass);
-            }
+            get { return getDescriptionColor(ItemClass); }
             set { }
         }
         //------------------------------------------------------------------------------------
@@ -98,8 +92,15 @@ namespace WebApi.Modules.Home.OrderItem
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
         public decimal? SubQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subqtycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string SubQuantityColor { get; set; }
+        [FwSqlDataField(column: "poitemid", modeltype: FwDataTypes.Text)]
+        public string SubPurchaseOrderItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string SubQuantityColor
+        {
+            get { return getSubQuantityColor(SubPurchaseOrderItemId); }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "consignqty", modeltype: FwDataTypes.Integer)]
         public int? ConsignQuantity { get; set; }
@@ -473,9 +474,6 @@ namespace WebApi.Modules.Home.OrderItem
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "poid", modeltype: FwDataTypes.Text)]
         //public string PoId { get; set; }
-        ////------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "poitemid", modeltype: FwDataTypes.Text)]
-        //public string PoitemId { get; set; }
         ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "haspoitem", modeltype: FwDataTypes.Boolean)]
         //public bool? Haspoitem { get; set; }
@@ -864,22 +862,6 @@ namespace WebApi.Modules.Home.OrderItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
 
-
-            //if ((request != null) && (request.uniqueids != null))
-            //{
-            //    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-            //    if (uniqueIds.ContainsKey("Summary"))
-            //    {
-            //        summaryMode = (bool)uniqueIds["Summary"];
-            //    }
-            //    if (uniqueIds.ContainsKey("Subs"))
-            //    {
-            //        subs = (bool)uniqueIds["Subs"];
-            //    }
-            //}
-
-
-
             if (summaryMode)
             {
                 StringBuilder summaryWhere = new StringBuilder();
@@ -907,6 +889,21 @@ namespace WebApi.Modules.Home.OrderItem
 
         }
         //------------------------------------------------------------------------------------ 
+        private string getICodeColor(string itemClass)
+        {
+            return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDescriptionColor(string itemClass)
+        {
+            return AppFunc.GetItemClassDescriptionColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getSubQuantityColor(string poItemId)
+        {
+            return (string.IsNullOrEmpty(poItemId) ? null : RwGlobals.SUB_COLOR);
+        }
+        //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
         {
             if (e.DataTable != null)
@@ -930,7 +927,6 @@ namespace WebApi.Modules.Home.OrderItem
                     {
                         string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
                         string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                        string itemClass = row[dt.GetColumnNo("ItemClass")].ToString();
                         DateTime availFromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("FromDate")].ToString());  // not accurate
                         DateTime availToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("ToDate")].ToString());      // not accurate
                         TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
@@ -952,8 +948,9 @@ namespace WebApi.Modules.Home.OrderItem
                             row[dt.GetColumnNo("AvailableQuantityColor")] = minAvail.Color;
 
                         }
-                        row[dt.GetColumnNo("ICodeColor")] = AppFunc.GetItemClassICodeColor(itemClass); ;
-                        row[dt.GetColumnNo("DescriptionColor")] = AppFunc.GetItemClassDescriptionColor(itemClass); ;
+                        row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("SubQuantityColor")] = getSubQuantityColor(row[dt.GetColumnNo("SubPurchaseOrderItemId")].ToString());
                     }
                 }
             }

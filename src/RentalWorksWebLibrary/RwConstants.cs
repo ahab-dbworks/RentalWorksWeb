@@ -103,6 +103,8 @@
         public const int ITEM_COLOR = 16777215;           // white
         public const int ACCESSORY_COLOR = 16775680;      // yelow
 
+        public const int SUB_COLOR = 16757132;      // salmon
+
 
         //CONTRACT
         public const string CONTRACT_TYPE_RECEIVE = "RECEIVE";

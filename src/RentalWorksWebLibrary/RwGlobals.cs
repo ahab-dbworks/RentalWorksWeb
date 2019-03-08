@@ -12,6 +12,9 @@ namespace WebLibrary
         public static string ITEM_COLOR { get; set; }
         public static string ACCESSORY_COLOR { get; set; }
         public static string CONTAINER_COLOR { get; set; }
+
+        public static string SUB_COLOR { get; set; }
+
         //---------------------------------------------------------------------------
 
         //CONTACTS
@@ -55,6 +58,8 @@ namespace WebLibrary
             CONTAINER_COLOR = FwConvert.OleColorToHtmlColor(containerColorInt);
 
 
+            SUB_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
+
 
             COMPANY_TYPE_LEAD_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_LEAD_COLOR);
             COMPANY_TYPE_PROSPECT_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_PROSPECT_COLOR);
@@ -70,7 +75,7 @@ namespace WebLibrary
             PO_ITEMS_IN_HOLDING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_ITEMS_IN_HOLDING_COLOR);
 
 
+        }
+        //---------------------------------------------------------------------------
     }
-    //---------------------------------------------------------------------------
-}
 }

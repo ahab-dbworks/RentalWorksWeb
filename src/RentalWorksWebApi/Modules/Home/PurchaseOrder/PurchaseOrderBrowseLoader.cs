@@ -204,9 +204,6 @@ namespace WebApi.Modules.Home.PurchaseOrder
             return color;
         }
         //------------------------------------------------------------------------------------    
-
-        //when((po.currencyid > '') and(po.currencyid<> lcurr.currencyid)) then 9830346  --// mint green
-
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
         {
             if (e.DataTable != null)
