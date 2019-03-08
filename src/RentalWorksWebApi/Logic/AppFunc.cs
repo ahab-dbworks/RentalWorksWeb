@@ -9,9 +9,9 @@ namespace WebApi.Logic
 
     public class TSpStatusReponse
     {
-        public int status;
-        public bool success;
-        public string msg;
+        public int status = 0;
+        public bool success = false;
+        public string msg = "";
     }
 
     public static class AppFunc
