@@ -779,6 +779,7 @@
             $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
+                request.uniqueids.ModuleName = window[controller].Module;
                 for (let i = 0; i < 2; i++) {
                     let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
@@ -844,6 +845,19 @@
                     $this.removeClass('error');
                     if ($this.closest('.tabpage.active').has('.error').length === 0) {
                         $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');
+                    }
+                }
+            })
+            .on('change', '.fwformfield[data-enabled="true"][data-datafield!=""]', function (e) {
+                e.stopPropagation();
+                const $this = jQuery(this);
+                const fieldName = $this.attr('data-datafield');
+                const value = FwFormField.getValue2($this);
+                const text = FwFormField.getText2($this);
+                const $formfields = $form.find(`[data-datafield="${fieldName}"]`);
+                if ($formfields.length > 1) {
+                    for (let i = 0; i < $formfields.length; i++) {
+                        FwFormField.setValue2(jQuery($formfields[i]), value, text);
                     }
                 }
             })

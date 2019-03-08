@@ -20,7 +20,7 @@ FwFormField_validation.renderRuntimeHtml = function ($control, html) {
     html.push('<div class="fwformfield-control">');
     html.push('<input class="fwformfield-value" type="hidden" />');
     html.push('<input class="fwformfield-text" type="text" autocapitalize="none"');
-    if (applicationConfig.allCaps) {
+    if (applicationConfig.allCaps && $control.attr('data-allcaps') !== 'false') {
         html.push(' style="text-transform:uppercase"');
     }
     if ($control.attr('data-enabled') === 'false') {
@@ -84,7 +84,12 @@ FwFormField_validation.getValue2 = function ($fwformfield) {
 };
 //---------------------------------------------------------------------------------
 FwFormField_validation.getText2 = function ($fwformfield) {
-    var text = $fwformfield.find('.fwformfield-text').val();
+    var text;
+    if (applicationConfig.allCaps && $fwformfield.attr('data-allcaps') !== 'false') {
+        text = $fwformfield.find('.fwformfield-text').val().toUpperCase();
+    } else {
+        text = $fwformfield.find('.fwformfield-text').val();
+    }
     return text;
 };
 //---------------------------------------------------------------------------------

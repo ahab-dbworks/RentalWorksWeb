@@ -347,7 +347,10 @@
     //---------------------------------------------------------------------------------
      getValue($parent: JQuery, selector: string) {
         var $fwformfield, value;
-        $fwformfield = $parent.find(selector);
+         $fwformfield = $parent.find(selector);
+         if ($fwformfield.length > 1) {
+             $fwformfield = jQuery($fwformfield[0]);
+         }
         value = this.getValue2($fwformfield);
         return value;
     }

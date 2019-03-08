@@ -448,46 +448,47 @@ abstract class FwWebApiReport {
             .on('click', '.save-settings', e => {
                 let description = FwFormField.getValueByDataField($settingsTabPage, 'Description');
                 if (description === '') description = "(default)";
-                const $settingsControls = $form.find('.fwformfield');
-
-                //const $settingsControls = $form.find('.fwformfield[data-savesetting="true"]');  //for future functionality
-
+                const $settingsControls = $form.find('.fwformfield[data-savesetting!="false"]');
                 let $settingsObj: any = [];
-                for (let i = 0; i < $settingsControls.length; i++) {
-                    let $this = jQuery($settingsControls[i]);
-                    const datafield = $this.attr('data-datafield')
-                    const type = $this.attr('data-type');
-                    $settingsObj.push({
-                        DataField: datafield
-                        , DataType: type
-                        , Value: FwFormField.getValue2($this)
-                        , Text: FwFormField.getTextByDataField($form, datafield)
-                    });
-                }
-                $settingsObj = JSON.stringify($settingsObj);
+                if ($settingsControls.length > 0) {
+                    for (let i = 0; i < $settingsControls.length; i++) {
+                        let $this = jQuery($settingsControls[i]);
+                        const datafield = $this.attr('data-datafield')
+                        const type = $this.attr('data-type');
+                        $settingsObj.push({
+                            DataField: datafield
+                            , DataType: type
+                            , Value: FwFormField.getValue2($this)
+                            , Text: FwFormField.getTextByDataField($form, datafield)
+                        });
+                    }
+                    $settingsObj = JSON.stringify($settingsObj);
 
-                let request: any = {};
-                request = {
-                    WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
-                    , ReportName: $form.attr('data-reportname')
-                    , Settings: $settingsObj
-                    , Description: description
+                    let request: any = {};
+                    request = {
+                        WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
+                        , ReportName: $form.attr('data-reportname')
+                        , Settings: $settingsObj
+                        , Description: description
+                    }
+                    const $tr = $reportSettingsGridControl.find(`tr [data-originalvalue="${description}"]`);
+                    if ($tr.length !== 0) request.Id = $tr.parents('tr').find('[data-browsedatafield="Id"]').attr('data-originalvalue');
+                    FwAppData.apiMethod(true, 'POST', `api/v1/reportsettings`, request, FwServices.defaultTimeout,
+                        (successResponse) => {
+                            try {
+                                FwBrowse.search($reportSettingsGridControl);
+                                $reportSettingsGridControl.data('afterdatabindcallback', function () {
+                                    FwBrowse.selectRow($reportSettingsGridControl,
+                                        $reportSettingsGridControl.find(`[data-browsedatafield="Id"][data-originalvalue="${successResponse.Id}"]`).parents('tr'));
+                                });
+                            } catch (ex) {
+                                FwFunc.showError(ex);
+                            }
+                        },
+                        null, $form);
+                } else {
+                    FwNotification.renderNotification('WARNING', 'There are no settings to save.');
                 }
-                const $tr = $reportSettingsGridControl.find(`tr [data-originalvalue="${description}"]`);
-                if ($tr.length !== 0) request.Id = $tr.parents('tr').find('[data-browsedatafield="Id"]').attr('data-originalvalue');
-                FwAppData.apiMethod(true, 'POST', `api/v1/reportsettings`, request, FwServices.defaultTimeout,
-                    (successResponse) => {
-                        try {
-                            FwBrowse.search($reportSettingsGridControl);
-                            $reportSettingsGridControl.data('afterdatabindcallback', function () {
-                                FwBrowse.selectRow($reportSettingsGridControl,
-                                    $reportSettingsGridControl.find(`[data-browsedatafield="Id"][data-originalvalue="${successResponse.Id}"]`).parents('tr'));
-                            });
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    },
-                    null, $form);
             })
             //Load settings
             .on('click', '.load-settings', e => {

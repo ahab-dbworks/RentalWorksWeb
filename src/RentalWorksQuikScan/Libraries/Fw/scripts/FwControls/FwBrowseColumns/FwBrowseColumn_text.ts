@@ -1,12 +1,16 @@
 ﻿class FwBrowseColumn_textClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-    
+
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
         if (($tr.hasClass('editmode')) || ($tr.hasClass('newmode'))) {
-            field.value = $field.find('input.value').val();
+            if (applicationConfig.allCaps && $field.attr('data-allcaps') !== 'false' && $field.find('input.value').val()) {
+                field.value = $field.find('input.value').val().toUpperCase();
+            } else {
+                field.value = $field.find('input.value').val();
+            }
         }
     }
     //---------------------------------------------------------------------------------
@@ -25,7 +29,7 @@
     }
     //---------------------------------------------------------------------------------
     setFieldViewMode($browse, $tr, $field): void {
-        var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
+        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
         $field.html(originalvalue);
         $field.data('autoselect', false);
         // this only works if there is no spaces or other illegal css characters in the originalvalue
@@ -35,7 +39,7 @@
                 $tr.addClass(rowclassmapping[originalvalue]);
             }
         }
-        $field.on('click', function() {
+        $field.on('click', function () {
             if ($field.attr('data-formreadonly') !== 'true') {
                 $field.data('autoselect', true);
             }
@@ -43,11 +47,11 @@
     }
     //---------------------------------------------------------------------------------
     setFieldEditMode($browse, $tr, $field): void {
-        var originalvalue = (typeof $field.attr('data-originalvalue')  === 'string') ? $field.attr('data-originalvalue') : '';
-        var formmaxlength = (typeof $field.attr('data-formmaxlength')  === 'string') ? $field.attr('data-formmaxlength') : '';
+        var originalvalue = (typeof $field.attr('data-originalvalue') === 'string') ? $field.attr('data-originalvalue') : '';
+        var formmaxlength = (typeof $field.attr('data-formmaxlength') === 'string') ? $field.attr('data-formmaxlength') : '';
         let html = [];
         html.push('<input class="value" type="text"');
-        if (applicationConfig.allCaps) {
+        if (applicationConfig.allCaps && $field.attr('data-allcaps') !== 'false') {
             html.push(' style="text-transform:uppercase"');
         }
         if ($browse.attr('data-enabled') === 'false') {

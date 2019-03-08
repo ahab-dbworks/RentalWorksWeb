@@ -220,10 +220,17 @@
                     me.filter = filter;
 
                     var highlightSearch = function (element, search) {
+                        if (element.length !== undefined) {
+                            element = element[0]
+                        }
                         let searchStrLen = search.length;
                         let startIndex = 0, index, indicies = [];
                         let htmlStringBuilder = [];
                         search = search.toUpperCase();
+                        if (search === '') {
+                            element.innerHTML = element.textContent;
+                            return
+                        }
                         while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
                             indicies.push(index);
                             startIndex = index + searchStrLen;
@@ -240,6 +247,29 @@
                                 element.innerHTML = htmlStringBuilder.join('');
                             }
                         }
+                        if (indicies.length === 0 || search === '') {
+                            element.innerHTML = element.textContent;
+                        }
+                    }
+
+                    var matchDescriptionTitle = function ($control) {
+                        for (var j = 0; j < $control.length; j++) {
+                            let description = jQuery($control[j]).find('small#description-text');
+                            let title = jQuery($control[j]).find('a#title');
+                            let descriptionIndex = jQuery(description).text().toUpperCase().indexOf(val);
+                            let titleIndex = jQuery(title).text().toUpperCase().indexOf(val);
+                            if (descriptionIndex > -1) {
+                                highlightSearch(description, val);
+                            } else {
+                                highlightSearch(description, '');
+                            }
+                            if (titleIndex > -1) {
+                                highlightSearch(title, val);
+                            } else {
+                                highlightSearch(title, '');
+                            }
+                            jQuery($control[j]).show();
+                        }
                     }
 
                     for (var i = 0; i < results.length; i++) {
@@ -248,30 +278,10 @@
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
-
-                        let description = module.find('small#description-text');
-                        let title = module.find('a#title');
                         let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
 
-                        if (panel.length > 0) {
-                            description = panel.find('small#description-text');
-                            title = panel.find('a#title');
-                            panel.show();
-                        }
-
-                        for (var j = 0; j < description.length; j++) {
-                            if (description[j] !== undefined) {
-                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
-                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
-                                if (descriptionIndex > -1) {
-                                    highlightSearch(description[j], val);
-                                }
-                                if (titleIndex > -1) {
-                                    highlightSearch(title[j], val);
-                                }
-                            }
-                        }
-                        module.show();
+                        matchDescriptionTitle(panel);
+                        matchDescriptionTitle(module);
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
