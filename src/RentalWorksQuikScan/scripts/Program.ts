@@ -159,14 +159,16 @@ class Program extends FwApplication {
                         // since the initial connection state event usually happens early in the page life cycle, we need to explicity query the value the first time
                         me.updateConnectionState();
                     }
-                    if (typeof window.TslReader === 'object') {
+
+                    if (typeof window.TslReader === 'object' && typeof window.TslReader.startListening === 'function') {
                         window.TslReader.startListening();
-                        window.TslReader.registerListener('deviceConnected', 'deviceConnected_programts', function() {
+                        window.TslReader.registerListener('deviceConnected', 'deviceConnected_programts', function () {
                             RwRFID.isConnected = true;
+                            program.showRfidStatusIcon = true;
                             FwMobileMasterController.generateDeviceStatusIcons();
                             //FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
                         });
-                        window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_programts', function() {
+                        window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_programts', function () {
                             if ((program.browserVersionMajor > 2018) ||
                                 (program.browserVersionMajor === 2018 && program.browserVersionMinor > 1) ||
                                 (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision > 4) ||
@@ -180,6 +182,7 @@ class Program extends FwApplication {
                                     RwRFID.isConnected = false;
                                 }
                             }
+                            program.showRfidStatusIcon = false;
                             FwMobileMasterController.generateDeviceStatusIcons();
                         });
                         window.TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
@@ -188,6 +191,7 @@ class Program extends FwApplication {
                             FwMobileMasterController.generateDeviceStatusIcons();
                         }, function () {
                             RwRFID.isConnected = false;
+                            program.showRfidStatusIcon = false;
                         });
                     }
 
