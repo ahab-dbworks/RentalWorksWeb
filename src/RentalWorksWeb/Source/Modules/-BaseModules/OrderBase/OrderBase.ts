@@ -1317,34 +1317,41 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     orderItemGridLockUnlock($browse: any, event: any): void {
-        let orderId, $selectedCheckBoxes;
+        let orderId, $selectedCheckBoxes, lockedItems =[];
 
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let order: any = {};
             let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
             let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+            let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+            let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+
+            order.OrderItemId = orderItemId
+            order.OrderId = orderId;
+            order.Description = description;
+            order.QuantityOrdered = quantityOrdered;
+            order.RecType = recType;
 
             if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
-                    lockUnlockItem(orderId, orderItemId, false);
+                    order.Locked = false;
+                    lockedItems.push(order);
                 } else {
-                    lockUnlockItem(orderId, orderItemId, true);
+                    order.Locked = true;
+                    lockedItems.push(order);
+
                 }
             }
         }
 
-        function lockUnlockItem(orderId: string, orderItemId: string, lockrow: boolean): void {
-            let request: any = {};
+        lockUnlockItem(lockedItems);
 
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Locked: lockrow,
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+        function lockUnlockItem(orders): void {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
@@ -1439,33 +1446,41 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     orderItemGridBoldUnbold($browse: any, event: any): void {
-        let orderId, $selectedCheckBoxes;
+        let orderId, $selectedCheckBoxes, boldItems = [];
         orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
         $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
         for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let order : any = {};
             let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
             let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+            let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+            let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue'); 
+
+            order.OrderItemId = orderItemId
+            order.OrderId = orderId;
+            order.Description = description;
+            order.QuantityOrdered = quantityOrdered;
+            order.RecType = recType;
 
             if (orderId != null) {
                 if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
-                    boldUnboldItem(orderId, orderItemId, false);
+                    order.Bold = false;
+                    boldItems.push(order);
                 } else {
-                    boldUnboldItem(orderId, orderItemId, true);
+                    order.Bold = true;
+                    boldItems.push(order);
+
                 }
             }
         }
 
-        function boldUnboldItem(orderId: string, orderItemId: string, boldrow: boolean): void {
-            let request: any = {};
+        boldUnboldItem(boldItems);
 
-            request = {
-                OrderId: orderId,
-                OrderItemId: orderItemId,
-                Bold: boldrow,
-            }
+        function boldUnboldItem(orders): void {
 
-            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
                 FwBrowse.databind($browse);
             }, function onError(response) {
                 FwFunc.showError(response);
