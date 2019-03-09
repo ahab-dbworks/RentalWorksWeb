@@ -144,11 +144,18 @@ class Contact {
         var $companyContactGrid: any;
         $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
 
-        FwBrowse.addLegend($companyContactGrid, 'Lead', '#ff8040');
-        FwBrowse.addLegend($companyContactGrid, 'Prospect', '#ff0080');
-        FwBrowse.addLegend($companyContactGrid, 'Customer', '#ffff80');
-        FwBrowse.addLegend($companyContactGrid, 'Deal', '#03de3a');
-        FwBrowse.addLegend($companyContactGrid, 'Vendor', '#20b7ff');
+        try {
+            FwAppData.apiMethod(true, 'GET', `api/v1/legend/contactcompanytype`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($companyContactGrid, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $companyContactGrid)
+
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {

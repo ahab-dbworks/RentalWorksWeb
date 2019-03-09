@@ -36,15 +36,28 @@
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = self.ActiveViewFields;
         });
-
-        FwBrowse.addLegend($browse, 'Item', '#ffffff');
-        FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
-        FwBrowse.addLegend($browse, 'Complete', '#0080ff');
-        FwBrowse.addLegend($browse, 'Kit', '#00c400');
-        FwBrowse.addLegend($browse, 'Misc', '#ff0080');
-        if (this.AvailableFor === "R") {
-            FwBrowse.addLegend($browse, 'Container', '#ff8040');
+        try {
+            if (this.Module !== 'PartsInventory') {
+                FwAppData.apiMethod(true, 'GET', `api/v1/legend/${this.Module}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    for (var key in response) {
+                        FwBrowse.addLegend($browse, key, response[key]);
+                    }
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, $browse)
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
         }
+
+        //FwBrowse.addLegend($browse, 'Item', '#ffffff');
+        //FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
+        //FwBrowse.addLegend($browse, 'Complete', '#0080ff');
+        //FwBrowse.addLegend($browse, 'Kit', '#00c400');
+        //FwBrowse.addLegend($browse, 'Misc', '#ff0080');
+        //if (this.AvailableFor === "R") {
+        //    FwBrowse.addLegend($browse, 'Container', '#ff8040');
+        //}
 
         return $browse;
     };
