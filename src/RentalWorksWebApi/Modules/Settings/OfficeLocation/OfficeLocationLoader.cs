@@ -19,6 +19,9 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [FwSqlDataField(column: "loccode", modeltype: FwDataTypes.Text)]
         public string LocationCode { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationcolor", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
+        public string Color { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultpoordertypeid", modeltype: FwDataTypes.Text)]
         public string DefaultPurchasePoTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
