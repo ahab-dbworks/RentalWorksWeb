@@ -8,16 +8,15 @@ class User {
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var self = this;
-        var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -29,13 +28,12 @@ class User {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        const self = this;
-        //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        //let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         return $browse;
@@ -58,8 +56,8 @@ class User {
     openForm(mode: string) {
         //var $form;
 
-        //$form = FwModule.loadFormFromTemplate(this.Module);
-        let $form = jQuery(this.getFormTemplate());
+        let $form = FwModule.loadFormFromTemplate(this.Module);
+        //let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
         $form.find('[data-datafield="LimitDiscount"] .fwformfield-value').on('change', function () {
@@ -139,9 +137,7 @@ class User {
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
-        $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(uniqueids.UserId);
         FwModule.loadForm(this.Module, $form);
 
@@ -207,10 +203,8 @@ class User {
     //};
     //----------------------------------------------------------------------------------------------
     beforeValidateWarehouse($browse: any, $form: any, request: any) {
-        let locationId;
-
         request.uniqueids = {};
-        locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+        const locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
 
         if (locationId) {
             request.uniqueids.LocationId = locationId;
@@ -244,30 +238,30 @@ class User {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="User" data-control="FwBrowse" data-type="Browse" id="UserBrowse" class="fwcontrol fwbrowse" data-orderby="Name" data-controller="UserController" data-hasinactive="true">
+         <div data-name="User" data-control="FwBrowse" data-type="Browse" id="UserBrowse" class="fwcontrol fwbrowse" data-orderby="Name" data-controller="UserController" data-hasinactive="true">
           <div class="column" data-width="0" data-visible="false">
-              <div class="field" data-isuniqueid="true" data-datafield="UserId" data-browsedatatype="key"></div>
+            <div class="field" data-isuniqueid="true" data-datafield="UserId" data-browsedatatype="key"></div>
           </div>
           <div class="column" data-width="0" data-visible="false">
-              <div class="field" data-isuniqueid="false" data-datafield="OfficeLocationId" data-browsedatatype="key"></div>
+            <div class="field" data-isuniqueid="false" data-datafield="OfficeLocationId" data-browsedatatype="key"></div>
           </div>
           <div class="column" data-width="200px" data-visible="true">
-              <div class="field" data-caption="User" data-isuniqueid="false" data-datafield="Name" data-browsedatatype="text" data-sort="asc"></div>
+            <div class="field" data-caption="User" data-isuniqueid="false" data-datafield="Name" data-browsedatatype="text" data-sort="asc"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
-              <div class="field" data-caption="Login Name" data-isuniqueid="false" data-datafield="LoginName" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Login Name" data-isuniqueid="false" data-datafield="LoginName" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
-              <div class="field" data-caption="Location" data-isuniqueid="false" data-datafield="OfficeLocation" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Location" data-isuniqueid="false" data-datafield="OfficeLocation" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
-              <div class="field" data-caption="Department" data-isuniqueid="false" data-datafield="PrimaryDepartment" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Department" data-isuniqueid="false" data-datafield="PrimaryDepartment" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
-              <div class="field" data-caption="Group" data-isuniqueid="false" data-datafield="GroupName" data-browsedatatype="text" data-sort="off"></div>
+            <div class="field" data-caption="Group" data-isuniqueid="false" data-datafield="GroupName" data-browsedatatype="text" data-sort="off"></div>
           </div>
-          <div class="column spacer" data-width="auto" data-visible="true"></div>
-        </div>
+            <div class="column spacer" data-width="auto" data-visible="true"></div>
+         </div>
         `;
     }
     getFormTemplate(): string {
