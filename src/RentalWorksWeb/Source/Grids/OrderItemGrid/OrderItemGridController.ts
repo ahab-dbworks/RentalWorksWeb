@@ -423,7 +423,6 @@
                 Summary: isSummary,
                 RecType: recType
             }
-            request.pagesize = 9999;
             request.orderby = "RowNumber,RecTypeDisplay"
 
             if (isSubGrid === "true") {
@@ -671,7 +670,6 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
     const module = $form.attr('data-controller').replace('Controller', '');
     let recType;
     recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
-    var defaultRows = sessionStorage.getItem('browsedefaultrows');
     if (recType.hasClass('R')) {
         recType = 'R';
     } else if (recType.hasClass('S')) {
@@ -695,7 +693,6 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
             RecType: recType,
             RefreshAvailability: true
         };
-        request.pagesize = defaultRows;
         request.pageno = pageNumber;
     });
 
@@ -706,7 +703,6 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
             OrderId: FwFormField.getValueByDataField($form, `${module}Id`),
             RecType: recType
         };
-        request.pagesize = defaultRows;
     });
 
     jQuery(document).trigger('click');

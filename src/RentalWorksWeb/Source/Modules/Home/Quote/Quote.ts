@@ -237,7 +237,6 @@ class Quote extends OrderBase {
         var $orderStatusHistoryGrid: any;
         var $orderStatusHistoryGridControl: any;
         let self = this;
-        var defaultRows = sessionStorage.getItem('browsedefaultrows');
         var totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
 
         $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
@@ -264,7 +263,6 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'R'
             };
-            request.pagesize = defaultRows;
             request.totalfields = totalFields;
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
@@ -296,7 +294,6 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'S'
             };
-            request.pagesize = defaultRows;
             request.totalfields = totalFields;
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
@@ -324,7 +321,6 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'L'
             };
-            request.pagesize = defaultRows;
             request.totalfields = totalFields;
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
@@ -352,7 +348,6 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'M'
             };
-            request.pagesize = defaultRows;
             request.totalfields = totalFields;
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
@@ -380,7 +375,6 @@ class Quote extends OrderBase {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'RS'
             };
-            request.pagesize = defaultRows;
             request.totalfields = totalFields;
         });
         $orderItemGridUsedSaleControl.data('beforesave', function (request) {
@@ -404,7 +398,6 @@ class Quote extends OrderBase {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId')
             };
-            request.pagesize = defaultRows;
             request.totalfields = totalFields;
         });
         $allOrderItemGridControl.data('beforesave', function (request) {

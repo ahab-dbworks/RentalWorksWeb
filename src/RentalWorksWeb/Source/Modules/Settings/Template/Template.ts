@@ -37,7 +37,6 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const pageSize = 20;
         // ----------
         const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
@@ -49,7 +48,6 @@
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
                 RecType: 'R'
             };
-            request.pagesize = pageSize;
         });
         $orderItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
@@ -69,7 +67,6 @@
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
                 RecType: 'S'
             };
-            request.pagesize = pageSize;
         });
         $orderItemGridSalesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
@@ -88,7 +85,6 @@
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
                 RecType: 'SP'
             };
-            request.pagesize = pageSize;
         });
         $orderItemGridFacilitiesControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
@@ -126,7 +122,6 @@
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
                 RecType: 'L'
             };
-            request.pagesize = pageSize;
         });
         $orderItemGridLaborControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');
@@ -145,7 +140,6 @@
                 OrderId: FwFormField.getValueByDataField($form, 'TemplateId'),
                 RecType: 'M'
             };
-            request.pagesize = pageSize;
         });
         $orderItemGridMiscControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'TemplateId');

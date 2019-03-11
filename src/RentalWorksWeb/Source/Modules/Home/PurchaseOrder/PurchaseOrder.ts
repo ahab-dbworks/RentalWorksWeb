@@ -180,7 +180,6 @@ class PurchaseOrder {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        const maxPageSize = 20;
         // ----------
         const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
         const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
@@ -209,7 +208,6 @@ class PurchaseOrder {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'R'
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridRentalControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -239,7 +237,6 @@ class PurchaseOrder {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'S'
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridSalesControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -268,7 +265,6 @@ class PurchaseOrder {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'P'
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridPartControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -297,7 +293,6 @@ class PurchaseOrder {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'L'
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridLaborControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -326,7 +321,6 @@ class PurchaseOrder {
                 OrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 RecType: 'M'
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridMiscControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -358,7 +352,6 @@ class PurchaseOrder {
                 Summary: true,
                 Subs: true
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridSubRentControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -392,7 +385,6 @@ class PurchaseOrder {
                 Summary: true,
                 Subs: true
             };
-            request.pagesize = maxPageSize;
         });
         $oderItemGridSubSalesControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -426,7 +418,6 @@ class PurchaseOrder {
                 Summary: true,
                 Subs: true
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridSubLaborControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -460,7 +451,6 @@ class PurchaseOrder {
                 Summary: true,
                 Subs: true
             };
-            request.pagesize = maxPageSize;
         });
         $orderItemGridSubMiscControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
