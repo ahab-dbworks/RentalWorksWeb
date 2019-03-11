@@ -1602,7 +1602,7 @@ class SearchInterface {
             , fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
         previewrequest = {
             SessionId: id,
-            ShowAvailablity: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+            ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
             ShowImages: true
         };
         if (fromDate != "") {

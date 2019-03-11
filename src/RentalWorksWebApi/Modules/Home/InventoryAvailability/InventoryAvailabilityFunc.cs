@@ -157,6 +157,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
     public class TInventoryWarehouseAvailabilityMinimum
     {
         public decimal MinimumAvailable { get; set; }
+        public DateTime? FirstConfict { get; set; }
         public bool NoAvailabilityCheck { get; set; }
         public bool IsStale { get; set; }
         public string Color { get; set; }
@@ -197,6 +198,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             bool firstDateFound = false;
             bool lastDateFound = false;
             bool isStale = false;
+            bool isHistory = false;
 
             minAvail.NoAvailabilityCheck = NoAvailabilityCheck;
 
@@ -208,59 +210,73 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             if (toDateTime < DateTime.Today)
             {
                 toDateTime = DateTime.Today;
+                isHistory = true;
             }
 
-            foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDate in Dates)
+            if (isHistory)
             {
-                DateTime theDate = availDate.Key;
-                TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = availDate.Value;
-                if ((fromDateTime <= theDate) && (theDate <= toDateTime))
+                minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_HISTORICAL_DATE);
+                minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE);
+            }
+            else
+            {
+                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDate in Dates)
                 {
-                    if (theDate.Equals(fromDateTime))
+                    DateTime theDate = availDate.Key;
+                    TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = availDate.Value;
+                    if ((fromDateTime <= theDate) && (theDate <= toDateTime))
                     {
-                        firstDateFound = true;
-                        minAvail.MinimumAvailable = inventoryWarehouseAvailabilityDate.Available.Total;
-                    }
-                    minAvail.MinimumAvailable = (minAvail.MinimumAvailable < inventoryWarehouseAvailabilityDate.Available.Total) ? minAvail.MinimumAvailable : inventoryWarehouseAvailabilityDate.Available.Total;
-                    if (theDate.Equals(toDateTime))
-                    {
-                        lastDateFound = true;
+                        if (theDate.Equals(fromDateTime))
+                        {
+                            firstDateFound = true;
+                            minAvail.MinimumAvailable = inventoryWarehouseAvailabilityDate.Available.Total;
+                        }
+                        minAvail.MinimumAvailable = (minAvail.MinimumAvailable < inventoryWarehouseAvailabilityDate.Available.Total) ? minAvail.MinimumAvailable : inventoryWarehouseAvailabilityDate.Available.Total;
+
+                        if ((minAvail.FirstConfict == null) && (minAvail.MinimumAvailable < 0))
+                        {
+                            minAvail.FirstConfict = theDate;
+                        }
+
+                        if (theDate.Equals(toDateTime))
+                        {
+                            lastDateFound = true;
+                        }
                     }
                 }
-            }
 
-            if (!isStale)
-            {
-                isStale = InventoryAvailabilityFunc.AvailabilityNeedRecalc.Contains(new TInventoryWarehouseAvailabilityKey(InventoryId, WarehouseId));
-            }
-
-            if (!isStale)
-            {
-                if ((!firstDateFound) || (!lastDateFound))
+                if (!isStale)
                 {
-                    isStale = true;
+                    isStale = InventoryAvailabilityFunc.AvailabilityNeedRecalc.Contains(new TInventoryWarehouseAvailabilityKey(InventoryId, WarehouseId));
                 }
-            }
-            minAvail.IsStale = isStale;
 
+                if (!isStale)
+                {
+                    if ((!firstDateFound) || (!lastDateFound))
+                    {
+                        isStale = true;
+                    }
+                }
+                minAvail.IsStale = isStale;
 
-            minAvail.Color = null;
-            minAvail.TextColor = FwConvert.OleColorToHtmlColor(0); //black
+                minAvail.Color = null;
+                minAvail.TextColor = FwConvert.OleColorToHtmlColor(0); //black
 
-            if (minAvail.NoAvailabilityCheck)
-            {
-                minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
-                minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
-            }
-            else if (minAvail.IsStale)
-            {
-                minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
-                minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
-            }
-            else if (minAvail.MinimumAvailable < 0)
-            {
-                minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
-                minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
+                if (minAvail.NoAvailabilityCheck)
+                {
+                    minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
+                    minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
+                }
+                else if (minAvail.IsStale)
+                {
+                    minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+                    minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
+                }
+                else if (minAvail.MinimumAvailable < 0)
+                {
+                    minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
+                    minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
+                }
             }
 
             return minAvail;
@@ -1183,8 +1199,8 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 iAvail.text = "Available " + ((int)d.Value.Available.Total).ToString();
                 if (d.Value.Available.Total < 0)
                 {
-                    iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE); 
-                    iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE); 
+                    iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
+                    iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
                 }
                 else
                 {
@@ -1204,8 +1220,8 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     iReserve.start = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     iReserve.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
                     iReserve.text = "Reserved " + ((int)d.Value.Reserved.Total).ToString();
-                    iReserve.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED); 
-                    iReserve.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED); 
+                    iReserve.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
+                    iReserve.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
                     response.InventoryAvailabilityCalendarEvents.Add(iReserve);
                 }
 
@@ -1220,7 +1236,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     iReturn.start = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     iReturn.end = d.Key.ToString("yyyy-MM-ddTHH:mm:ss tt");
                     iReturn.text = "Returning " + ((int)d.Value.Returning.Total).ToString();
-                    iReturn.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING); 
+                    iReturn.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING);
                     iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
                     response.InventoryAvailabilityCalendarEvents.Add(iReturn);
                 }
@@ -1255,7 +1271,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     if (inventoryWarehouseAvailabilityDate.Available.Total < 0)
                     {
                         availEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
-                        availEvent.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE); 
+                        availEvent.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
                     }
                     else
                     {
@@ -1298,7 +1314,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                     availScheduleEvent.orderNumber = reservation.OrderNumber;
                     availScheduleEvent.orderStatus = reservation.OrderStatus;
                     availScheduleEvent.deal = reservation.Deal;
-                    availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_ORDER); 
+                    availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_ORDER);
                     availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                     response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                 }

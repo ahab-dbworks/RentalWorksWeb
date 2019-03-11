@@ -163,8 +163,8 @@ namespace WebApi.Modules.Home.InventorySearch
                             decimal qty = FwConvert.ToDecimal(row[dtOut.GetColumnNo("Quantity")]);
 
                             decimal qtyAvailable = 0;
-                            //int? availColor = RwConstants.AVAILABILITY_COLOR_NEEDRECALC;
                             bool isStale = true;
+                            DateTime? conflictDate = null;
                             string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
 
                             TInventoryWarehouseAvailability availData = null;
@@ -173,23 +173,16 @@ namespace WebApi.Modules.Home.InventorySearch
                                 TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
 
                                 qtyAvailable = minAvail.MinimumAvailable;
+                                conflictDate = minAvail.FirstConfict;
                                 isStale = minAvail.IsStale;
-                                //if (!isStale)
-                                //{
-                                //    availColor = null;
-                                //}
                                 availColor = minAvail.Color;
                             }
 
                             //qtyAvailable -= qty; // not sure on this yet
 
-                            //if (qtyAvailable < 0)
-                            //{
-                            //    availColor = RwConstants.AVAILABILITY_COLOR_NEGATIVE;
-                            //}
 
                             row[dtOut.GetColumnNo("QuantityAvailable")] = qtyAvailable;
-                            //row[dtOut.GetColumnNo("QuantityAvailableColor")] = (availColor == null) ? null : FwConvert.OleColorToHtmlColor(availColor.GetValueOrDefault(0));
+                            row[dtOut.GetColumnNo("ConflictDate")] = conflictDate;
                             row[dtOut.GetColumnNo("QuantityAvailableColor")] = availColor;
                             row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
                         }

@@ -263,6 +263,8 @@
         public const int AVAILABILITY_TEXT_COLOR_RETURNING = 16777215; //white
         public const int AVAILABILITY_COLOR_NEEDRECALC = 3211473; //dark blue
         public const int AVAILABILITY_TEXT_COLOR_NEEDRECALC = 16777215; //white
+        public const int AVAILABILITY_COLOR_HISTORICAL_DATE = 15132390; //gray
+        public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0; //black
 
         public const int AVAILABILITY_COLOR_ORDER = 618726; //blue TEMPORARY
 
