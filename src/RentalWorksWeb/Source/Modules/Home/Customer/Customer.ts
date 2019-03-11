@@ -526,7 +526,7 @@ class Customer {
                       <!-- Web Address section -->
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Internet">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" style="flex:1 1 225px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Address" data-datafield="WebAddress" data-allcaps="false" style="flex:1 1 225px;"></div>
                         </div>
                       </div>
                     </div>

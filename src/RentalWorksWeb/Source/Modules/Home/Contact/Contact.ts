@@ -215,7 +215,7 @@ class Contact {
           <div class="field" data-caption="Mobile Phone" data-isuniqueid="false" data-datafield="MobilePhone" data-browsedatatype="text" data-sort="off"></div>
       </div>
       <div class="column" data-width="150px" data-visible="true">
-          <div class="field" data-caption="E-mail" data-isuniqueid="false" data-datafield="Email" data-browsedatatype="text" data-sort="off"></div>
+          <div class="field" data-caption="E-mail" data-isuniqueid="false" data-datafield="Email" data-browsedatatype="text" data-sort="off" data-allcaps="false"></div>
       </div>
       <div class="column" data-width="150px" data-visible="true">
           <div class="field" data-caption="City" data-isuniqueid="false" data-datafield="City" data-browsedatatype="text" data-sort="off"></div>
@@ -314,7 +314,7 @@ class Contact {
                         <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax"               style="flex:1 1 125px;"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="email" class="fwcontrol fwformfield" data-caption="E-mail" data-datafield="Email" style="flex:1 0 325px;"></div>
+                        <div data-control="FwFormField" data-type="email" class="fwcontrol fwformfield" data-caption="E-mail" data-datafield="Email" style="flex:1 0 325px;" data-allcaps="false"></div>
                       </div>
                     </div>
                   </div>
@@ -342,7 +342,7 @@ class Contact {
                         <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Information" data-datafield="Info"></div>
                       </div>
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Site" data-datafield="Website"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web Site" data-datafield="Website" data-allcaps="false"></div>
                       </div>
                     </div>
                   </div>

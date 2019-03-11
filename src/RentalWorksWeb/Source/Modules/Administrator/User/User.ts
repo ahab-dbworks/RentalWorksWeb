@@ -315,7 +315,7 @@ class User {
                       </div>
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Title" data-datafield="UserTitleId" data-displayfield="UserTitle" data-validationname="ContactTitleValidation" style="float:left; width: 250px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" style="float:left; width: 250px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" style="float:left; width: 250px;" data-allcaps="false"></div>
                       </div>
                     </div>
                   </div>
@@ -527,7 +527,7 @@ class User {
                   <div class="formpage">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Email Signature">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                              <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Email Signature" data-datafield=""></div>
+                              <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Email Signature" data-datafield="" data-allcaps="false"></div>
                           </div>
                       </div>
                   </div>
