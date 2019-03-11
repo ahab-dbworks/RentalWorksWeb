@@ -74,7 +74,7 @@ class SearchInterface {
         searchhtml.push(`
      </div>
       <div class="flexrow" style="min-width:100%;">
-        <div class="flexcolumn" style="max-width:210px;">
+        <div class="flexcolumn" style="max-width:220px; overflow-x:hidden; max-height:73vh;">
           <div class="flexrow">
             <div id="categorycolumns">
               <div id="typeName"></div>
@@ -135,8 +135,8 @@ class SearchInterface {
               </div>
             </div>
           </div>
-          <div class="flexrow" style="max-width:100%;">
-            <div id="inventory" style="overflow:auto"></div>
+          <div class="flexrow" style="max-width:100%; max-height:49vh; overflow:scroll; overflow-x:hidden;">
+            <div id="inventory"></div>
           </div>
         </div>
       </div>

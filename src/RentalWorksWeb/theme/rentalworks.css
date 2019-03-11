@@ -349,7 +349,7 @@ Form tables
     box-shadow: 0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22);
     width: 85vw;
     height: 85vh;
-    overflow: scroll;
+    overflow: hidden;
     position: relative;
 }
 
