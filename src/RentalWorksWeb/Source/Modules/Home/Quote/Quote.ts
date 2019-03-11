@@ -63,13 +63,17 @@ class Quote extends OrderBase {
             request.activeviewfields = self.ActiveViewFields;
         });
 
-        FwBrowse.addLegend($browse, 'Locked', '#ff704d');
-        FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
-        FwBrowse.addLegend($browse, 'Reserved', '#1E90FF');
-        FwBrowse.addLegend($browse, 'No Charge', '#ff8040');
-        FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-        FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
-        FwBrowse.addLegend($browse, 'Quote Request', '#00FF00');
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
 
         var department = JSON.parse(sessionStorage.getItem('department'));;
         var location = JSON.parse(sessionStorage.getItem('location'));;

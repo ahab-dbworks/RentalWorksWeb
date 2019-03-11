@@ -143,9 +143,8 @@ class Contact {
     addLegend($form: any) {
         var $companyContactGrid: any;
         $companyContactGrid = $form.find('[data-name="ContactCompanyGrid"]');
-
         try {
-            FwAppData.apiMethod(true, 'GET', `api/v1/legend/contactcompanytype`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/companycontact/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 for (var key in response) {
                     FwBrowse.addLegend($companyContactGrid, key, response[key]);
                 }

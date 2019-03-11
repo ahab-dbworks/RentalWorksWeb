@@ -86,6 +86,22 @@ namespace WebApi.Modules.Home.Order
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/order/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "d3Q7wt3ufSHTb")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> colors = new Dictionary<string, string>();
+            colors.Add("On Hold", RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR);
+            colors.Add("No Charge", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
+            colors.Add("Late", RwGlobals.ORDER_LATE_COLOR);
+            colors.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            colors.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
+            colors.Add("Repair", RwGlobals.ORDER_REPAIR_COLOR);
+            colors.Add("Loss & Damage", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
+            return new OkObjectResult(colors);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id:"5ceamSTDb0ao")]

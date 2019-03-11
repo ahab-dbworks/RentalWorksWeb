@@ -12,10 +12,21 @@ namespace WebLibrary
         public static string ITEM_COLOR { get; set; }
         public static string ACCESSORY_COLOR { get; set; }
         public static string CONTAINER_COLOR { get; set; }
-
         public static string SUB_COLOR { get; set; }
 
-        //---------------------------------------------------------------------------
+        //QUOTE/ORDER 
+        public static string QUOTE_ORDER_LOCKED_COLOR { get; set; }
+        public static string QUOTE_ORDER_ON_HOLD_COLOR { get; set; }
+        public static string QUOTE_RESERVED_COLOR { get; set; }
+        public static string QUOTE_ORDER_NO_CHARGE_COLOR { get; set; }
+        public static string QUOTE_ORDER_MULTI_WAREHOUSE_COLOR { get; set; }
+        public static string QUOTE_REQUEST_COLOR { get; set; }
+        public static string ORDER_LATE_COLOR { get; set; }
+        public static string ORDER_REPAIR_COLOR { get; set; }
+        public static string ORDER_LOSS_AND_DAMAGE_COLOR { get; set; }
+
+
+
 
         //CONTACTS
         public static string COMPANY_TYPE_LEAD_COLOR { get; set; }
@@ -56,9 +67,19 @@ namespace WebLibrary
                 containerColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_INCONTAINER, "color").Result.ToString().TrimEnd());
             }
             CONTAINER_COLOR = FwConvert.OleColorToHtmlColor(containerColorInt);
-
-
             SUB_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
+
+
+            QUOTE_ORDER_LOCKED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_ORDER_LOCKED_COLOR);
+            QUOTE_ORDER_ON_HOLD_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_ORDER_ON_HOLD_COLOR);
+            QUOTE_RESERVED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_RESERVED_COLOR);
+            QUOTE_ORDER_NO_CHARGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_ORDER_NO_CHARGE_COLOR);
+            QUOTE_ORDER_MULTI_WAREHOUSE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
+            QUOTE_REQUEST_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_REQUEST_COLOR);
+            ORDER_LATE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_LATE_COLOR);
+            ORDER_REPAIR_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_REPAIR_COLOR);
+            ORDER_LOSS_AND_DAMAGE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ORDER_LOSS_AND_DAMAGE_COLOR);
+
 
 
             COMPANY_TYPE_LEAD_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_LEAD_COLOR);

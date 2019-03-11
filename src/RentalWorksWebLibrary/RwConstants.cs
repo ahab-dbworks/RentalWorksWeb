@@ -74,6 +74,17 @@
         public const string RATE_TYPE_3WEEK = "3WEEK";
         public const string RATE_TYPE_MONTHLY = "MONTHLY";
 
+        public const int QUOTE_ORDER_LOCKED_COLOR = 16740429;
+        public const int QUOTE_ORDER_ON_HOLD_COLOR = 15347727;
+        public const int QUOTE_RESERVED_COLOR = 2003199;
+        public const int QUOTE_ORDER_NO_CHARGE_COLOR = 16744512;
+        public const int QUOTE_ORDER_MULTI_WAREHOUSE_COLOR = 14082432;
+        public const int QUOTE_REQUEST_COLOR = 65280;
+        public const int ORDER_LATE_COLOR = 16757721;
+        public const int ORDER_REPAIR_COLOR = 6205102;
+        public const int ORDER_LOSS_AND_DAMAGE_COLOR = 4194368;
+
+
         //QUOTE/ORDER LINE-ITEMS
         public const string RECTYPE_RENTAL = "R";
         public const string RECTYPE_SALE = "S";

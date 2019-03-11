@@ -57,13 +57,17 @@ class Order extends OrderBase {
             request.activeviewfields = this.ActiveViewFields;
         });
 
-        FwBrowse.addLegend($browse, 'On Hold', '#EA300F');
-        FwBrowse.addLegend($browse, 'No Charge', '#FF8040');
-        FwBrowse.addLegend($browse, 'Late', '#FFB3D9');
-        FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
-        FwBrowse.addLegend($browse, 'Multi-Warehouse', '#D6E180');
-        FwBrowse.addLegend($browse, 'Repair', '#5EAEAE');
-        FwBrowse.addLegend($browse, 'L&D', '#400040');
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
 
         const department = JSON.parse(sessionStorage.getItem('department'));;
         const location = JSON.parse(sessionStorage.getItem('location'));;

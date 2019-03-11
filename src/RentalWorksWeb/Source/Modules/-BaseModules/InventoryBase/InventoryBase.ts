@@ -1,10 +1,12 @@
-﻿class InventoryBase {
+﻿abstract class InventoryBase {
     Module: string = 'BaseInventory';
+    apiurl: string = 'api/v1/baseinventory';
     caption: string = 'Base Inventory';
-    AvailableFor: string = '';
+    AvailableFor: string = 'X';
     yearData: any = [];
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse, self = this;
@@ -37,7 +39,7 @@
             request.activeviewfields = self.ActiveViewFields;
         });
         try {
-            FwAppData.apiMethod(true, 'GET', `api/v1/legend/${this.Module}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 for (var key in response) {
                     FwBrowse.addLegend($browse, key, response[key]);
                 }
@@ -47,16 +49,6 @@
         } catch (ex) {
             FwFunc.showError(ex);
         }
-
-        //FwBrowse.addLegend($browse, 'Item', '#ffffff');
-        //FwBrowse.addLegend($browse, 'Accessory', '#fffa00');
-        //FwBrowse.addLegend($browse, 'Complete', '#0080ff');
-        //FwBrowse.addLegend($browse, 'Kit', '#00c400');
-        //FwBrowse.addLegend($browse, 'Misc', '#ff0080');
-        //if (this.AvailableFor === "R") {
-        //    FwBrowse.addLegend($browse, 'Container', '#ff8040');
-        //}
-
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
@@ -1122,4 +1114,4 @@
     ]
 }
 
-var InventoryBaseController = new InventoryBase();
+//var InventoryBaseController = new InventoryBase();

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.CompanyContact
 {
     [Route("api/v1/[controller]")]
@@ -21,6 +23,20 @@ namespace WebApi.Modules.Home.CompanyContact
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/companycontact/legend
+        [HttpGet("contactcompanytype")]
+        [FwControllerMethod(Id: "2h1Al5QkdiMuk")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> colors = new Dictionary<string, string>();
+            colors.Add("Lead", RwGlobals.COMPANY_TYPE_LEAD_COLOR);
+            colors.Add("Prospect", RwGlobals.COMPANY_TYPE_PROSPECT_COLOR);
+            colors.Add("Customer", RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR);
+            colors.Add("Deal", RwGlobals.COMPANY_TYPE_DEAL_COLOR);
+            colors.Add("Vendor", RwGlobals.COMPANY_TYPE_VENDOR_COLOR);
+            return new OkObjectResult(colors);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 

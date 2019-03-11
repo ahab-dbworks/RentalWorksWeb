@@ -29,6 +29,22 @@ namespace WebApi.Modules.Home.Quote
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/quote/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "bV65XBHFpqRzf")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> colors = new Dictionary<string, string>();
+            colors.Add("Locked", RwGlobals.QUOTE_ORDER_LOCKED_COLOR);
+            colors.Add("On Hold", RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR);
+            colors.Add("Reserved", RwGlobals.QUOTE_RESERVED_COLOR);
+            colors.Add("No Charge", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
+            colors.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            colors.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
+            colors.Add("Quote Request", RwGlobals.QUOTE_REQUEST_COLOR);
+            return new OkObjectResult(colors);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id:"5aghkpZ8BLC68")]
