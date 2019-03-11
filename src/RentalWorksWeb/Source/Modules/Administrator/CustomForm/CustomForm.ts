@@ -478,7 +478,6 @@ class CustomForm {
                 }
 
                 if ((div.hasClass('flexrow') || div.hasClass('flexcolumn')) && div.children().length === 0) {
-                    div.css('min-height', '50px');
                     div.addClass('emptyContainer');
                 }
             }
@@ -710,7 +709,6 @@ class CustomForm {
                 for (let t = 0; t < flexRows.length; t++) {
                     let $thisContainer = jQuery(flexRows[t]);
                     if ($thisContainer.children().length === 0) {
-                        $thisContainer.css('min-height:50px;');
                         $thisContainer.addClass('emptyContainer');
                     }
                 }
@@ -827,7 +825,6 @@ class CustomForm {
 
                         if ($elementDragged.attr('data-type') !== "tab") {
                             if ($parent.children().length === 0) {
-                                $parent.css('min-height', '50px');
                                 $parent.addClass('emptyContainer');
                             }
                         }
@@ -1189,7 +1186,7 @@ class CustomForm {
                             $element.parent('td').remove();
                         } else {
                             if ($element.siblings().length === 0 && $element.parent().hasClass('flexrow' || 'flexcolumn')) {
-                                $element.parent().css('min-height', '50px');
+                                $element.parent().addClass('emptyContainer');
                             }
                             $elementClone.remove();
                             $element.remove();
@@ -1395,14 +1392,14 @@ class CustomForm {
                     let fields: any = [];
 
                     propertyHtml.push(propertyContainerHtml);
-                    fields = ['class', 'style'];
+                    fields = ['class'/*, 'style'*/];
                     for (let i = 0; i < fields.length; i++) {
                         var value;
                         var field = fields[i];
                         switch (field) {
-                            case 'style':
-                                value = 'min-height:50px';
-                                break;
+                            //case 'style':
+                            //    value = 'min-height:50px';
+                            //    break;
                             case 'class':
                                 value = 'flexrow emptyContainer';
                                 break;
@@ -1448,7 +1445,7 @@ class CustomForm {
                     originalHtml.click();
 
                     let html: any = [];
-                    html.push(`<div class="flexrow emptyContainer" data-index="${++newIndex}" style="min-height:50px;"></div>`);
+                    html.push(`<div class="flexrow emptyContainer" data-index="${++newIndex}"></div>`);
 
                     let newTabPage = $customForm.find(`#${newTabIds.tabpageid}`);
                     newTabPage.attr('data-index', ++newIndex);

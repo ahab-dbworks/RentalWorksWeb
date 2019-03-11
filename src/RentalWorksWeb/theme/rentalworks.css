@@ -626,7 +626,11 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
     border: 1px solid lightblue;
 }
 
-#designerContent [data-control="FwFormField"]{
+#designerContent div.emptyContainer {
+    min-height:50px;
+}
+
+#designerContent [data-control="FwFormField"] {
     border: 1px solid #dcdcdc;
 }
 
