@@ -1,4 +1,4 @@
-﻿class FwBrowseClass {
+class FwBrowseClass {
     //---------------------------------------------------------------------------------
     upgrade($control) {
         var properties, i, data_type;
@@ -2178,7 +2178,7 @@
                             $field.addClass('editablefield');
                         }
                     }
-                    if (typeof dtCellValue !== 'undefined') {
+                    if (typeof dtCellValue !== 'undefined' && dtCellValue != null) {
                         $field.attr('data-originalvalue', dtCellValue.toString());
                     } else {
                         $field.attr('data-originalvalue', '');
