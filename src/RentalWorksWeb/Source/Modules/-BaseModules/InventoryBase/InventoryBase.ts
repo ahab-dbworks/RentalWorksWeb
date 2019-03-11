@@ -37,15 +37,13 @@
             request.activeviewfields = self.ActiveViewFields;
         });
         try {
-            if (this.Module !== 'PartsInventory') {
-                FwAppData.apiMethod(true, 'GET', `api/v1/legend/${this.Module}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    for (var key in response) {
-                        FwBrowse.addLegend($browse, key, response[key]);
-                    }
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $browse)
-            }
+            FwAppData.apiMethod(true, 'GET', `api/v1/legend/${this.Module}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
         } catch (ex) {
             FwFunc.showError(ex);
         }
@@ -102,10 +100,10 @@
                     FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], calendarevents);
                 }, function onError(response) {
                     FwFunc.showError(response);
-                    }, $calendar)
+                }, $calendar)
 
                 //FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${moment().startOf('year').format('MM/DD/YYYY')}&ToDate=${moment().endOf('year').format('MM/DD/YYYY')}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    
+
                 //}, function onError(response) {
                 //    FwFunc.showError(response);
                 //}, $calendar)
@@ -199,7 +197,7 @@
         jQuery($browse).find('.ddviewbtn-caption:contains("Show:")').siblings('.ddviewbtn-select').find('.ddviewbtn-dropdown-btn:contains("All")').click();
         return $browse;
     }
-   //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     };

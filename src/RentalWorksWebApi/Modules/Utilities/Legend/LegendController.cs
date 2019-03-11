@@ -48,6 +48,20 @@ namespace WebApi.Modules.Utilities.Legend
             return new OkObjectResult(colors);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/legend/partsinventory
+        [HttpGet("partsinventory")]
+        [FwControllerMethod(Id: "WXNUa4yQceOUW")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetPartsInventoryLegend()
+        {
+            Dictionary<string, string> colors = new Dictionary<string, string>();
+            colors.Add("Item", RwGlobals.ITEM_COLOR);
+            colors.Add("Accessory", RwGlobals.ACCESSORY_COLOR);
+            colors.Add("Complete", RwGlobals.COMPLETE_COLOR);
+            colors.Add("Kit", RwGlobals.KIT_COLOR);
+            colors.Add("Miscellaneous", RwGlobals.MISCELLANEOUS_COLOR);
+            return new OkObjectResult(colors);
+        }
+        //------------------------------------------------------------------------------------ 
 
 
         // GET api/v1/legend/contactcompanytype
