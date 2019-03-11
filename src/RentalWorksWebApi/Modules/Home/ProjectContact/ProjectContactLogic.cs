@@ -29,7 +29,7 @@ namespace WebApi.Modules.Home.ProjectContact
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"bGMsfzHSP2noo", IsPrimaryKey:true)]
-        public string ProjectContactId { get { return orderContact.OrderContactId; } set { orderContact.OrderContactId = value; } }
+        public int? ProjectContactId { get { return orderContact.OrderContactId; } set { orderContact.OrderContactId = value; } }
 
         [FwLogicProperty(Id:"0ueiGQICc1zm")]
         public string ProjectId { get { return orderContact.OrderId; } set { orderContact.OrderId = value; } }
@@ -171,9 +171,9 @@ namespace WebApi.Modules.Home.ProjectContact
         public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
         {
             //if CompanyContactId not known
-            if ((CompanyContactId == null) || (CompanyContactId.Equals(string.Empty)))
+            if (string.IsNullOrEmpty(CompanyContactId))
             {
-                CompanyContactId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", ProjectContactId, "compcontactid").Result;
+                CompanyContactId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", ProjectContactId.ToString(), "compcontactid").Result;
             }
         }
         //------------------------------------------------------------------------------------

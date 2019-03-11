@@ -10,8 +10,8 @@ namespace WebApi.Modules.Home.OrderStatusHistory
     public class OrderStatusHistoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, isPrimaryKey: true, identity: true)]
-        public string Id { get; set; } = "";
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer, isPrimaryKey: true, identity: true)]
+        public int? Id { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, isPrimaryKey: true, isPrimaryKeyOptional: true)]
         public string Internalchar { get; set; } = "";

@@ -28,7 +28,7 @@ namespace WebApi.Modules.Home.OrderContact
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"fTd0q2QfSild", IsPrimaryKey:true)]
-        public string OrderContactId { get { return orderContact.OrderContactId; } set { orderContact.OrderContactId = value; } }
+        public int? OrderContactId { get { return orderContact.OrderContactId; } set { orderContact.OrderContactId = value; } }
 
         [FwLogicProperty(Id:"uPwx0eLFLp5n")]
         public string OrderId { get { return orderContact.OrderId; } set { orderContact.OrderId = value; } }
@@ -170,9 +170,9 @@ namespace WebApi.Modules.Home.OrderContact
         public void OnBeforeDelete(object sender, BeforeDeleteEventArgs e)
         {
             //if CompanyContactId not known
-            if ((CompanyContactId == null) || (CompanyContactId.Equals(string.Empty)))
+            if (string.IsNullOrEmpty(CompanyContactId))
             {
-                CompanyContactId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", OrderContactId, "compcontactid").Result;
+                CompanyContactId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", OrderContactId.ToString(), "compcontactid").Result;
             }
         }
         //------------------------------------------------------------------------------------

@@ -10,8 +10,8 @@ namespace WebApi.Modules.Home.MasterLocation
     public abstract class MasterLocationLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
-        public string Id { get; set; } = "";
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
+        public int? Id { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, isPrimaryKey: true, isPrimaryKeyOptional: true)]
         public string InternalChar { get; set; } = "";

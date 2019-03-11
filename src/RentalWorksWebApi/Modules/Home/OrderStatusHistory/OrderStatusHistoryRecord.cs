@@ -8,8 +8,8 @@ namespace WebApi.Modules.Home.OrderStatusHistory
     public class OrderStatusHistoryRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, sqltype: "int", isPrimaryKey: true, identity: true)]
-        public string Id { get; set; } = "";
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true, identity: true)]
+        public int? Id { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, sqltype: "char", isPrimaryKey: true, isPrimaryKeyOptional: true)]
         public string Internalchar { get; set; } = "";

@@ -12,8 +12,8 @@ namespace WebApi.Modules.Home.ProjectContact
     public class ProjectContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
-        public string ProjectContactId { get; set; } = "";
+        [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
+        public int? ProjectContactId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string ProjectId { get; set; }
@@ -112,9 +112,10 @@ namespace WebApi.Modules.Home.ProjectContact
                 }
             }
 
-            if ((ProjectId == null) || (ProjectId.Equals(string.Empty)))
+            //if ((ProjectId == null) || (ProjectId.Equals(string.Empty)))
+            if (string.IsNullOrEmpty(ProjectId))
             {
-                ProjectId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", ProjectContactId, "orderid").Result;    
+                ProjectId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", ProjectContactId.ToString(), "orderid").Result;
             }
 
 

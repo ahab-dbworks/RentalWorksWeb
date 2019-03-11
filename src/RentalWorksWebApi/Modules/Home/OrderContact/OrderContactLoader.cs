@@ -12,8 +12,8 @@ namespace WebApi.Modules.Home.OrderContact
     public class OrderContactLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
-        public string OrderContactId { get; set; } = "";
+        [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
+        public int? OrderContactId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -112,9 +112,10 @@ namespace WebApi.Modules.Home.OrderContact
                 }
             }
 
-            if ((OrderId == null) || (OrderId.Equals(string.Empty)))
+            //if ((OrderId == null) || (OrderId.Equals(string.Empty)))
+            if (string.IsNullOrEmpty(OrderId))
             {
-                OrderId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", OrderContactId, "orderid").Result;    
+                OrderId = AppFunc.GetStringDataAsync(AppConfig, "ordercontact", "ordercontactid", OrderContactId.ToString(), "orderid").Result;
             }
 
 

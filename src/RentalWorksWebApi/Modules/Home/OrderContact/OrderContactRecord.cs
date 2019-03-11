@@ -8,8 +8,8 @@ namespace WebApi.Modules.Home.OrderContact
     public class OrderContactRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
-        public string OrderContactId { get; set; } = "";
+        [FwSqlDataField(column: "ordercontactid", modeltype: FwDataTypes.Integer, sqltype: "int", identity: true, isPrimaryKey: true)]
+        public int? OrderContactId { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string OrderId { get; set; }

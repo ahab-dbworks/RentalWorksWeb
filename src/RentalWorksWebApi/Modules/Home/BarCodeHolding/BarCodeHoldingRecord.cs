@@ -9,7 +9,7 @@ namespace WebApi.Modules.Home.BarCodeHolding
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcodeholdingid", modeltype: FwDataTypes.Integer, sqltype: "numeric", isPrimaryKey: true, identity: true)]
-        public int? BarCodeHoldingId { get; set; } = 0;
+        public int? BarCodeHoldingId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
         public string BarCode { get; set; }

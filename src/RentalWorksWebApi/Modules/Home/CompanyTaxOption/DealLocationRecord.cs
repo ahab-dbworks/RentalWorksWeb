@@ -8,8 +8,8 @@ namespace WebApi.Modules.Home.CompanyTaxOption
     public class DealLocationRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Text, identity: true, isPrimaryKey: true)]
-        public string Id { get; set; } = "";
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer, identity: true, isPrimaryKey: true)]
+        public int? Id { get; set; } 
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "internalchar", modeltype: FwDataTypes.Text, maxlength: 1, isPrimaryKey: true, isPrimaryKeyOptional: true)]
         public string InternalChar { get; set; } = "";

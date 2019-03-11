@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.OrderStatusHistory
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"BPwdwqVTk5bg", IsPrimaryKey:true)]
-        public string Id { get { return orderStatusHistory.Id; } set { orderStatusHistory.Id = value; } }
+        public int? Id { get { return orderStatusHistory.Id; } set { orderStatusHistory.Id = value; } }
 
         [FwLogicProperty(Id:"x9M7R51KT873", IsPrimaryKey:true)]
         public string Internalchar { get { return orderStatusHistory.Internalchar; } set { orderStatusHistory.Internalchar = value; } }

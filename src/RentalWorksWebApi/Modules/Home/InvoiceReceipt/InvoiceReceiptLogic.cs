@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.InvoiceReceipt
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "IYOn52uiMD4rQ", IsPrimaryKey: true)]
-        public string InvoiceReceiptId { get { return invoiceReceipt.InvoiceReceiptId; } set { invoiceReceipt.InvoiceReceiptId = value; } }
+        public int? InvoiceReceiptId { get { return invoiceReceipt.InvoiceReceiptId; } set { invoiceReceipt.InvoiceReceiptId = value; } }
         [FwLogicProperty(Id: "Ggi7HGuMNdZg")]
         public string InvoiceId { get { return invoiceReceipt.InvoiceId; } set { invoiceReceipt.InvoiceId = value; } }
         [FwLogicProperty(Id: "G99XZCAOUpSR")]

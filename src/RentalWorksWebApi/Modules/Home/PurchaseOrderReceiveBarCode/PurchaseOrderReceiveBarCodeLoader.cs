@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcodeholdingid", modeltype: FwDataTypes.Integer, isPrimaryKey: true, identity: true)]
-        public int? PurchaseOrderReceiveBarCodeId { get; set; } = 0;
+        public int? PurchaseOrderReceiveBarCodeId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
         public string BarCode { get; set; }

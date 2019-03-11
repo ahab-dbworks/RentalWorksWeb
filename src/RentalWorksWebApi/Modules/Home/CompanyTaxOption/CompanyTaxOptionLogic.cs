@@ -16,7 +16,7 @@ namespace WebApi.Modules.Home.CompanyTaxOption
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"4sEmvebo4HYt", IsPrimaryKey:true)]
-        public string Id { get { return dealLocation.Id; } set { dealLocation.Id = value; } }
+        public int? Id { get { return dealLocation.Id; } set { dealLocation.Id = value; } }
 
         [FwLogicProperty(Id:"RsGFhHbhQ2a0", IsPrimaryKey:true)]
         public string InternalChar { get { return dealLocation.InternalChar; } set { dealLocation.InternalChar = value; } }
