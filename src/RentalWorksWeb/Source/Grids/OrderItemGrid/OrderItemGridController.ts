@@ -558,28 +558,11 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
     let module = $form.attr('data-controller').replace('Controller', '');
     try {
         OrderItemGridController.toggleOrderItemView($form, event, module);
+        jQuery(document).trigger('click');
     }
     catch (ex) {
         FwFunc.showError(ex);
     }
-};
-//----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{294E08C6-8992-47A7-B403-C07DD539AEE9}'] = function (e) {
-    let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-    $grid.find('.primary').parent().hide();
-    $grid.find('.secondary').parent().show();
-};
-//----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{D7DD3803-3AFF-4723-96FC-BDF3CD3AA997}'] = function (e) {
-    let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-    $grid.find('.primary').parent().show();
-    $grid.find('.secondary').parent().hide();
-};
-//----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{1A977BFE-E5FB-4791-AD9A-42576160B6C3}'] = function (e) {
-    let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-    $grid.find('.primary').parent().show();
-    $grid.find('.secondary').parent().show();
 };
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = function (e) {
