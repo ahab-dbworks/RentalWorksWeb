@@ -10,6 +10,10 @@ FwApplicationTree.clickEvents['{3756AF3A-1611-4BCD-BBD9-E3233F5A772E}'] = functi
     const parentId = FwFormField.getValueByDataField($popup, 'ParentFormId');
     $grid.data('ondatabind', function (request) {
         request.SessionId = parentId;
+        request.FromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+        request.ToDate = FwFormField.getValueByDataField($popup, 'ToDate');
+        request.ShowAvailability = true;
+        request.ShowImages = true;
         request.RefreshAvailability = true;
     });
 
@@ -17,6 +21,10 @@ FwApplicationTree.clickEvents['{3756AF3A-1611-4BCD-BBD9-E3233F5A772E}'] = functi
     //sets refreshavailability back to its default
     $grid.data('ondatabind', function (request) {
         request.SessionId = parentId;
+        request.FromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+        request.ToDate = FwFormField.getValueByDataField($popup, 'ToDate');
+        request.ShowAvailability = true;
+        request.ShowImages = true;
     });
 }
 //----------------------------------------------------------------------------------------------

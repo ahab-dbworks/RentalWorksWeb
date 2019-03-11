@@ -100,7 +100,7 @@ class SearchInterface {
               Options &#8675;
               <div class="options" style="display:none;">
                 <div class="flexcolumn">
-                    <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="margin-top: 10px;"></div>
+                    <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:400px; margin-top: 10px;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol show-zero-quantity" data-caption="Show Inventory with Zero Quantity" data-datafield="ShowZeroQuantity"></div>
                     <div>
@@ -283,6 +283,10 @@ class SearchInterface {
         $previewGrid.empty().append($previewGridControl);
         $previewGridControl.data('ondatabind', function (request) {
             request.SessionId = id;
+            request.ShowAvailability = true;
+            request.FromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+            request.ToDate = FwFormField.getValueByDataField($popup, 'ToDate');
+            request.ShowImages = true;
         });
         FwBrowse.init($previewGridControl);
         FwBrowse.renderRuntimeHtml($previewGridControl);

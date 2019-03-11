@@ -1,7 +1,9 @@
 ﻿class FwBrowseColumn_utcdateClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
-        $field.attr('data-originalvalue', new Date($field.attr('data-originalvalue')).toLocaleDateString());
+        if ($field.attr('data-originalvalue') !== '') {
+            $field.attr('data-originalvalue', new Date($field.attr('data-originalvalue')).toLocaleDateString());
+        }
     }
     //---------------------------------------------------------------------------------
     getFieldValue($browse, $tr, $field, field, originalvalue): void {
