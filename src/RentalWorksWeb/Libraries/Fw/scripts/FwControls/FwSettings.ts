@@ -582,12 +582,14 @@ class FwSettingsClass {
         html.push('        <h4 class="panel-title">');
         html.push('        <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
         html.push('        <div id="myDropdown" class="dropdown-content">');
+        html.push('        <div class="flexcolumn">');
         if (showNew) {
-            html.push('          <a class="new-row-menu">New Item</a>');
+            html.push('         <div class="flexrow new-row-menu"><i class="material-icons">add</i>New Item</div>');
         }
-        html.push('          <a class="show-inactive">Show Inactive</a>');
-        html.push('          <a class="hide-inactive" style="display:none;">Hide Inactive</a>');
-        html.push('          <a class="pop-out">Pop Out Module</a>');
+        html.push('          <div class="show-inactive flexrow"><i class="material-icons">visibility</i>Show Inactive</div>');
+        html.push('          <div class="hide-inactive flexrow" style="display:none;"><i class="material-icons">visibility_off</i>Hide Inactive</div>');
+        html.push('          <div class="popout flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+        html.push('        </div>');
         html.push('        </div>');
         html.push('        <div style="margin-left:auto;">');
         html.push('          <i class="material-icons refresh">cached</i>');
@@ -627,7 +629,7 @@ class FwSettingsClass {
             }
             $body = $control.find('#' + moduleName + '.panel-body');
             me.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
-            jQuery(this).parent().hide();
+            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules.on('click', '.show-inactive', function (e) {
@@ -638,7 +640,7 @@ class FwSettingsClass {
                 jQuery(this).hide();
                 jQuery(this).parent().find('.hide-inactive').show();
             }
-            jQuery(this).parent().hide();
+            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules.on('click', '.hide-inactive', function (e) {
@@ -649,13 +651,13 @@ class FwSettingsClass {
                 jQuery(this).hide();
                 jQuery(this).parent().find('.show-inactive').show();
             }
-            jQuery(this).parent().hide();
+            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules.on('click', '.pop-out', function (e) {
             e.stopPropagation();
             program.popOutTab('#/module/' + moduleName);
-            jQuery(this).parent().hide();
+            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules
@@ -883,9 +885,9 @@ class FwSettingsClass {
                     $this.parent().prev().removeClass('active-menu').css('display', 'none');
                 }
 
-                if (activeMenu.length > 0) {
-                    activeMenu.removeClass('active-menu').hide();
-                }
+                //if (activeMenu.length > 0) {
+                //    activeMenu.removeClass('active-menu').hide();
+                //}
             })
             .on('click', '.refresh', function (e) {
                 e.stopPropagation();
