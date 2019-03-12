@@ -36,6 +36,8 @@ class AssignBarCodes {
 
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
+        this.events($form);
+
         if (typeof parentmoduleinfo !== 'undefined') {
             $form.find('div[data-datafield="ContractId"] input.fwformfield-value').val(parentmoduleinfo.ContractId);
             $form.find('div[data-datafield="ContractId"] input.fwformfield-text').val(parentmoduleinfo.ContractNumber);
@@ -44,8 +46,6 @@ class AssignBarCodes {
             jQuery($form.find('[data-datafield="ContractId"] input')).trigger('change');
             jQuery($form.find('[data-datafield="PurchaseOrderId"] input')).trigger('change');
         }
-
-        this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------

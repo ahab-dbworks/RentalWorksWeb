@@ -2034,4 +2034,22 @@ FwApplicationTree.clickEvents['{D512214F-F6BD-4098-8473-0AC7F675893D}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
+//Assign Bar Codes
+FwApplicationTree.clickEvents['{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}'] = function (e) {
+    const $form = jQuery(this).closest('.fwform'); 
+    try {
+        const mode = 'EDIT';
+        let purchaseOrderInfo: any = {};
+        purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+        purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+        const $assignBarCodesForm = AssignBarCodesController.openForm(mode, purchaseOrderInfo);
+        FwModule.openSubModuleTab($form, $assignBarCodesForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+
 var PurchaseOrderController = new PurchaseOrder();
