@@ -51,7 +51,7 @@
         var $divOverlay = jQuery('#' + $divPopup.attr('data-baseid') + '-divOverlay').remove();
     };
     //----------------------------------------------------------------------------------------------
-    renderPopup($content, options, title?) {
+    renderPopup($content, options, title?, popoutModuleId?) {
         var me = this;
         var html, $popup, ismodal = true, isNewValidation = false;
         if ($content.data('afterSaveNewValidation') !== 'undefined' && typeof $content.data('afterSaveNewValidation') === 'function') {
@@ -63,6 +63,9 @@
         if (title !== undefined) {
             html.push('<div class="popuptitle">' + title + '</div>');
             html.push('<div class="close-modal" style="display:flex; position:absolute; top:10px; right:15px; cursor:pointer;"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
+        }
+        if (popoutModuleId !== undefined) {
+            html.push('<div class="popout-modal" style="display:flex; position:absolute; top:10px; right:100px; cursor:pointer;"><i class="material-icons">open_in_new</i><div class="btn-text">Pop-Out</div></div>');
         }
         html.push('</div>');
         html.push('</div>');
@@ -76,6 +79,21 @@
             if (isNewValidation) {
                 $content.data('afterSaveNewValidation')();
             }
+            me.destroyPopup(jQuery(this).closest('.fwpopup'));
+            jQuery(this).closest('.fwpopup').off('click');
+            jQuery(document).off('keydown');
+        });
+
+        $popup.find('.popout-modal').one('click', function (e) {
+            if (isNewValidation) {
+                $content.data('afterSaveNewValidation')();
+            }
+            let popoutUniqueDatafield = $content.data('uniqueids').data('datafield');
+            let popoutKeys = {}
+            popoutKeys[popoutUniqueDatafield] = popoutModuleId;
+            var $popoutForm = window[$content.data('controller')].loadForm(popoutKeys);
+            FwModule.openModuleTab($popoutForm, "", true, 'FORM', true);
+            
             me.destroyPopup(jQuery(this).closest('.fwpopup'));
             jQuery(this).closest('.fwpopup').off('click');
             jQuery(document).off('keydown');
