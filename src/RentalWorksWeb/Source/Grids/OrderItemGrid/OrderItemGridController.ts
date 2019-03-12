@@ -371,18 +371,16 @@
             }
         }
     };
-
     //----------------------------------------------------------------------------------------------
     toggleOrderItemView($form: any, event: any, module) {
         // Toggle between Detail and Summary view in all OrderItemGrid
         let $element, $orderItemGrid, recType, isSummary, orderId, isSubGrid;
-        let request: any = {};
         $element = jQuery(event.currentTarget);
         //recType = $element.parentsUntil('.flexrow').eq(9).attr('class');
         recType = $element.closest('[data-grid="OrderItemGrid"]').attr('class');
         isSubGrid = $element.closest('[data-grid="OrderItemGrid"]').attr('data-issubgrid');
         orderId = FwFormField.getValueByDataField($form, `${module}Id`);
-
+        const totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
         //combined grid logic -- rec type should be removed from request and not A.
         if (recType === 'A') {
             recType = undefined;
@@ -424,7 +422,7 @@
                 RecType: recType
             }
             request.orderby = "RowNumber,RecTypeDisplay"
-
+            request.totalfields = totalFields;
             if (isSubGrid === "true") {
                 request.uniqueids.Subs = true;
             }
@@ -438,11 +436,100 @@
 
         FwBrowse.search($orderItemGrid);
     };
-}
+    //----------------------------------------------------------------------------------------------
+    orderItemGridBoldUnbold($browse: any, event: any): void {
+        let orderId, $selectedCheckBoxes, boldItems = [];
+        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
 
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let order: any = {};
+            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+            let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+            let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+
+            order.OrderItemId = orderItemId
+            order.OrderId = orderId;
+            order.Description = description;
+            order.QuantityOrdered = quantityOrdered;
+            order.RecType = recType;
+
+            if (orderId != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Bold"]').attr('data-originalvalue') === 'true') {
+                    order.Bold = false;
+                    boldItems.push(order);
+                } else {
+                    order.Bold = true;
+                    boldItems.push(order);
+
+                }
+            }
+        }
+
+        boldUnboldItem(boldItems);
+
+        function boldUnboldItem(orders): void {
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    };
+    //----------------------------------------------------------------------------------------------
+    orderItemGridLockUnlock($browse: any, event: any): void {
+        let orderId, $selectedCheckBoxes, lockedItems = [];
+
+        orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        $selectedCheckBoxes = $browse.find('.cbselectrow:checked');
+
+        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+            let order: any = {};
+            let orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+            let orderId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+            let description = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Description"]').attr('data-originalvalue');
+            let quantityOrdered = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityOrdered"]').attr('data-originalvalue');
+            let recType = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="RecType"]').attr('data-originalvalue');
+
+            order.OrderItemId = orderItemId
+            order.OrderId = orderId;
+            order.Description = description;
+            order.QuantityOrdered = quantityOrdered;
+            order.RecType = recType;
+
+            if (orderId != null) {
+                if ($selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Locked"]').attr('data-originalvalue') === 'true') {
+                    order.Locked = false;
+                    lockedItems.push(order);
+                } else {
+                    order.Locked = true;
+                    lockedItems.push(order);
+
+                }
+            }
+        }
+
+        lockUnlockItem(lockedItems);
+
+        function lockUnlockItem(orders): void {
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderitem/many`, orders, FwServices.defaultTimeout, function onSuccess(response) {
+                FwBrowse.databind($browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                FwBrowse.databind($browse);
+            }, $browse);
+        };
+    };
+}
+//----------------------------------------------------------------------------------------------
+//Search Interface
 FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
     let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
-    let search, $form, orderId, quoteId, purchaseOrderId, templateId, $popup;
+    let search, $form, orderId, quoteId, purchaseOrderId, templateId;
 
     $form = jQuery(this).closest('.fwform');
     let controllerName = $form.attr('data-controller');
@@ -487,7 +574,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             if (orderId == '') {
                 FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
-                $popup = search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
+                search.renderSearchPopup($form, orderId, 'Order', gridInventoryType);
             }
             break;
         case 'QuoteController':
@@ -495,7 +582,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             if (quoteId == '') {
                 FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
-                $popup = search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
+                search.renderSearchPopup($form, quoteId, 'Quote', gridInventoryType);
             }
             break;
         case 'PurchaseOrderController':
@@ -503,7 +590,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             if (purchaseOrderId == '') {
                 FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
-                $popup = search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
+                search.renderSearchPopup($form, purchaseOrderId, 'PurchaseOrder', gridInventoryType);
             }
             break;
         case 'TemplateController':
@@ -511,12 +598,13 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
             if (templateId == '') {
                 FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
             } else {
-                $popup = search.renderSearchPopup($form, templateId, 'Template', gridInventoryType);
+                search.renderSearchPopup($form, templateId, 'Template', gridInventoryType);
             }
             break;
     }
 };
 //----------------------------------------------------------------------------------------------
+//Sub worksheet
 FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = function (e) {
     var $form, $subWorksheetForm, subWorksheetData: any = {};
     let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
@@ -550,6 +638,7 @@ FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
+// Toggle between Detail and Summary view
 FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
     let $form;
     $form = jQuery(this).closest('.fwform');
@@ -564,6 +653,7 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
+//Copy Template
 FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = function (e) {
     const $form = jQuery(this).closest('.fwform');
     const $grid = jQuery(this).closest('[data-name="OrderItemGrid"]');
@@ -666,8 +756,6 @@ FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = functi
 //Refresh Availability
 FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = function (e) {
     const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
-    const $form = jQuery(this).closest('.fwform');
-    const module = $form.attr('data-controller').replace('Controller', '');
     let recType;
     recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
     if (recType.hasClass('R')) {
@@ -687,25 +775,47 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
     }
 
     const pageNumber = $orderItemGrid.attr('data-pageno');
-    $orderItemGrid.data('ondatabind', function (request) {
-        request.uniqueids = {
-            OrderId: FwFormField.getValueByDataField($form, `${module}Id`),
-            RecType: recType,
-            RefreshAvailability: true
-        };
-        request.pageno = pageNumber;
-    });
+    const onDataBind = $orderItemGrid.data('ondatabind');
+    if (typeof onDataBind == 'function') {
+        $orderItemGrid.data('ondatabind', function (request) {
+            onDataBind(request);
+            request.uniqueids.RefreshAvailability = true;
+            request.pageno = parseInt(pageNumber);
+        });
+    }
 
     FwBrowse.search($orderItemGrid);
-    //sets refreshavailability back to its default
-    $orderItemGrid.data('ondatabind', function (request) {
-        request.uniqueids = {
-            OrderId: FwFormField.getValueByDataField($form, `${module}Id`),
-            RecType: recType
-        };
-    });
+
+    //resets ondatabind
+    $orderItemGrid.data('ondatabind', onDataBind);
 
     jQuery(document).trigger('click');
 }
-//----------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------
+// Bold Selected
+FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = function (event) {
+    const $browse = jQuery(this).closest('.fwbrowse');
+
+    try {
+        OrderItemGridController.orderItemGridBoldUnbold($browse, event);
+        jQuery(document).trigger('click');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------
+// Lock Selected
+FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = function (event) {
+    const $browse = jQuery(this).closest('.fwbrowse');
+
+    try {
+        OrderItemGridController.orderItemGridLockUnlock($browse, event);
+        jQuery(document).trigger('click');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();

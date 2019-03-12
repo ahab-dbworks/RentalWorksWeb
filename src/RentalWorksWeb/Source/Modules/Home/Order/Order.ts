@@ -2506,48 +2506,6 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
         FwFunc.showError(ex);
     }
 };
-
-//---------------------------------------------------------------------------------
-//OrderItemGrid Lock Selected
-FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = function (event) {
-    let $browse, $form;
-
-    $browse = jQuery(this).closest('.fwbrowse');
-    $form = jQuery(this).closest('.fwform');
-
-    try {
-        if ($form.attr('data-controller') === 'OrderController') {
-            OrderController.orderItemGridLockUnlock($browse, event);
-        } else {
-            QuoteController.orderItemGridLockUnlock($browse, event);
-        }
-        jQuery(document).trigger('click');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
-
-//---------------------------------------------------------------------------------
-//OrderItemGrid Bold Selected
-FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = function (event) {
-    let $browse, $form;
-
-    $browse = jQuery(this).closest('.fwbrowse');
-    $form = jQuery(this).closest('.fwform');
-
-    try {
-        if ($form.attr('data-controller') === 'OrderController') {
-            OrderController.orderItemGridBoldUnbold($browse, event);
-        } else {
-            QuoteController.orderItemGridBoldUnbold($browse, event);
-        }
-        jQuery(document).trigger('click');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
 //---------------------------------------------------------------------------------
 //Browse Cancel Option
 FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = function (event) {
