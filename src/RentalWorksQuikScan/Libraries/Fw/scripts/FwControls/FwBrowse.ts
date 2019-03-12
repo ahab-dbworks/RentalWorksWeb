@@ -1,4 +1,4 @@
-﻿class FwBrowseClass {
+class FwBrowseClass {
     //---------------------------------------------------------------------------------
     upgrade($control) {
         var properties, i, data_type;
@@ -2178,7 +2178,7 @@
                             $field.addClass('editablefield');
                         }
                     }
-                    if (typeof dtCellValue !== 'undefined') {
+                    if (typeof dtCellValue !== 'undefined' && dtCellValue != null) {
                         $field.attr('data-originalvalue', dtCellValue.toString());
                     } else {
                         $field.attr('data-originalvalue', '');
@@ -2505,14 +2505,18 @@
                     }
                     break;
                 case 'Grid':
-                    if ((rownoend === 0) && (dt.TotalRows === 0)) {
-                        $control.find('.pager .count').text(dt.TotalRows + ' rows');
-                    } else {
-                        if (dt.TotalPages == 1) {
+                    if ($control.attr('data-paging') == 'true') {
+                        if ((rownoend === 0) && (dt.TotalRows === 0)) {
                             $control.find('.pager .count').text(dt.TotalRows + ' rows');
                         } else {
-                            $control.find('.pager .count').text(rownostart + ' to ' + rownoend + ' of ' + dt.TotalRows + ' rows');
+                            if (dt.TotalPages == 1) {
+                                $control.find('.pager .count').text(dt.TotalRows + ' rows');
+                            } else {
+                                $control.find('.pager .count').text(rownostart + ' to ' + rownoend + ' of ' + dt.TotalRows + ' rows');
+                            }
                         }
+                    } else {
+                        $control.find('.pager .count').text(dt.TotalRows + ' row(s)');
                     }
                     break;
                 case 'Validation':
