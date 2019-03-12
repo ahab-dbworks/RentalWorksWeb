@@ -1,6 +1,6 @@
 ﻿class VendorInvoiceProcessBatch {
     Module: string = 'VendorInvoiceProcessBatch';
-    caption: string = 'Charge Processing - Vendor Invoices';
+    caption: string = 'Process Vendor Invoices';
     nav: string = 'module/vendorinvoiceprocessbatch';
     id: string = '4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240';
     //----------------------------------------------------------------------------------------------
@@ -13,7 +13,7 @@
         var $form = this.openForm('EDIT');
 
         screen.load = function () {
-            FwModule.openModuleTab($form, 'Charge Processing - Vendor Invoices', false, 'FORM', true);
+            FwModule.openModuleTab($form, 'Process Vendor Invoices', false, 'FORM', true);
         };
         screen.unload = function () {
         };

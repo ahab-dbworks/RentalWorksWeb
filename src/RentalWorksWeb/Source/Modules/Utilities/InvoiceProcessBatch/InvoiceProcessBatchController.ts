@@ -1,6 +1,6 @@
 ﻿class InvoiceProcessBatch {
     Module: string = 'InvoiceProcessBatch';
-    caption: string = 'Charge Processing - Invoices';
+    caption: string = 'Process Invoices';
     nav: string = 'module/invoiceprocessbatch';
     id: string = '5DB3FB9C-6F86-4696-867A-9B99AB0D6647';
     //----------------------------------------------------------------------------------------------

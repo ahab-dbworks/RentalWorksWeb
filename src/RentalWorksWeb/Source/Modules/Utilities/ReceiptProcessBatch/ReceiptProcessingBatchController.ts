@@ -1,6 +1,6 @@
 ﻿class ReceiptProcessBatch {
     Module: string = 'ReceiptProcessBatch';
-    caption: string = 'Charge Processing - Receipts';
+    caption: string = 'Process Receipts';
     nav: string = 'module/receiptprocessbatch';
     id: string = '0BB9B45C-57FA-47E1-BC02-39CEE720792C';
     //----------------------------------------------------------------------------------------------
@@ -13,7 +13,7 @@
         var $form = this.openForm('EDIT');
 
         screen.load = function () {
-            FwModule.openModuleTab($form, 'Charge Processing - Receipts', false, 'FORM', true);
+            FwModule.openModuleTab($form, 'Process Receipts', false, 'FORM', true);
         };
         screen.unload = function () {
         };
