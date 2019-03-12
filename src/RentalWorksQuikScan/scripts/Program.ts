@@ -160,40 +160,45 @@ class Program extends FwApplication {
                         me.updateConnectionState();
                     }
 
-                    if (typeof window.TslReader === 'object' && typeof window.TslReader.startListening === 'function') {
-                        window.TslReader.startListening();
-                        window.TslReader.registerListener('deviceConnected', 'deviceConnected_programts', function () {
-                            RwRFID.isConnected = true;
-                            program.showRfidStatusIcon = true;
-                            FwMobileMasterController.generateDeviceStatusIcons();
-                            //FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
-                        });
-                        window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_programts', function () {
-                            if ((program.browserVersionMajor > 2018) ||
-                                (program.browserVersionMajor === 2018 && program.browserVersionMinor > 1) ||
-                                (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision > 4) ||
-                                (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision === 4 && program.browserVersionBuild >= 2)) {
-                                //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
-                                RwRFID.isConnected = false;
-                            } else {
-                                // the TSL plugin was firing this event for any connected device, so this was firing incorrectly when linea was unplugged.
-                                if (RwRFID.isConnected === true) {
+                    if (typeof window.TslReader === 'object') {
+                        if (typeof window.TslReader.startListening === 'function') {
+                            window.TslReader.startListening();
+                            window.TslReader.registerListener('deviceConnected', 'deviceConnected_programts', function () {
+                                RwRFID.isConnected = true;
+                                program.showRfidStatusIcon = true;
+                                FwMobileMasterController.generateDeviceStatusIcons();
+                                //FwNotification.renderNotification('SUCCESS', 'RFID Reader Connected');
+                            });
+                            window.TslReader.registerListener('deviceDisconnected', 'deviceDisconnected_programts', function () {
+                                if ((program.browserVersionMajor > 2018) ||
+                                    (program.browserVersionMajor === 2018 && program.browserVersionMinor > 1) ||
+                                    (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision > 4) ||
+                                    (program.browserVersionMajor === 2018 && program.browserVersionMinor === 1 && program.browserVersionRevision === 4 && program.browserVersionBuild >= 2)) {
                                     //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
                                     RwRFID.isConnected = false;
+                                } else {
+                                    // the TSL plugin was firing this event for any connected device, so this was firing incorrectly when linea was unplugged.
+                                    if (RwRFID.isConnected === true) {
+                                        //FwNotification.renderNotification('ERROR', 'RFID Reader Disconnected');
+                                        RwRFID.isConnected = false;
+                                    }
                                 }
-                            }
-                            program.showRfidStatusIcon = false;
-                            FwMobileMasterController.generateDeviceStatusIcons();
-                        });
-                        window.TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
-                            program.showRfidStatusIcon = true;
-                            RwRFID.isConnected = isConnected;
-                            FwMobileMasterController.generateDeviceStatusIcons();
-                        }, function () {
-                            RwRFID.isConnected = false;
-                            program.showRfidStatusIcon = false;
-                        });
+                                program.showRfidStatusIcon = false;
+                                FwMobileMasterController.generateDeviceStatusIcons();
+                            });
+                            window.TslReader.connectDevice(function connectDeviceSuccess(isConnected) {
+                                program.showRfidStatusIcon = true;
+                                RwRFID.isConnected = isConnected;
+                                FwMobileMasterController.generateDeviceStatusIcons();
+                            }, function () {
+                                RwRFID.isConnected = false;
+                                program.showRfidStatusIcon = false;
+                            });
+                        } else {
+                            delete window.TslReader;
+                        }
                     }
+                    
 
                     if (typeof window.ZebraEmdk !== 'undefined') {
                         window.ZebraEmdk.startHardRead(function (barcodeInfo) {
