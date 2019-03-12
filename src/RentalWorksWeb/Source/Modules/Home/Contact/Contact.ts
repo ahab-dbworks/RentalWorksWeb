@@ -76,8 +76,34 @@ class Contact {
         $form.find('div.fwformfield[data-datafield="ContactId"] input').val(uniqueids.ContactId);
         FwModule.loadForm(this.Module, $form);
 
+        $form.find('.orderSubModule').append(this.openOrderBrowse($form));
+        $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    openOrderBrowse($form) {
+        const contactId = FwFormField.getValueByDataField($form, 'ContactId');
+        const $browse = OrderController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = OrderController.ActiveViewFields;
+            request.uniqueids = {
+                ContactId: contactId
+            };
+        });
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openQuoteBrowse($form) {
+        const contactId = FwFormField.getValueByDataField($form, 'ContactId');
+        const $browse = QuoteController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = QuoteController.ActiveViewFields;
+            request.uniqueids = {
+                ContactId: contactId
+            };
+        });
+        return $browse;
+    }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
@@ -186,6 +212,13 @@ class Contact {
                 FwFormField.setValueByDataField($form, 'InactiveDate', "");
             }
         });
+
+        //On click events for Quote/Order tabs
+        $form.on('click', '.sub-module-tab', e => {
+            const tabPageId = jQuery(e.currentTarget).attr('data-tabpageid');
+            const $subModuleBrowse = $form.find(`#${tabPageId} .fwbrowse`);
+            FwBrowse.search($subModuleBrowse);
+        });
     };
     //--------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -244,6 +277,8 @@ class Contact {
             <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
             <!-- <div data-type="tab" id="documenttab"     class="tab" data-tabpageid="documenttabpage"     data-caption="Document"></div> -->
             <div data-type="tab" id="accesstab" class="tab" data-tabpageid="accesstabpage" data-caption="Access"></div>
+            <div data-type="tab" id="quotetab" class="tab sub-module-tab" data-tabpageid="quotetabpage" data-caption="Quote"></div>
+            <div data-type="tab" id="ordertab" class="tab sub-module-tab" data-tabpageid="ordertabpage" data-caption="Order"></div>
           </div>
           <div class="tabpages">
             <!-- CONTACT TAB -->
@@ -416,6 +451,12 @@ class Contact {
                 </div>
               </div>
             </div>
+     <!-- QUOTE TAB -->
+           <div data-type="tabpage" id="quotetabpage" class="tabpage quoteSubModule" data-tabid="quotetab">
+              </div>
+     <!-- ORDER TAB -->
+           <div data-type="tabpage" id="ordertabpage" class="tabpage orderSubModule" data-tabid="ordertab">
+              </div>
             <!--
             <div data-type="tabpage" id="emailhistorytabpage" class="tabpage" data-tabid="emailhistorytab">
               <div class="flexpage">
