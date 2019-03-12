@@ -26,7 +26,7 @@ namespace WebApi.Modules.Home.CompanyContact
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/companycontact/legend
-        [HttpGet("contactcompanytype")]
+        [HttpGet("legend")]
         [FwControllerMethod(Id: "2h1Al5QkdiMuk")]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
