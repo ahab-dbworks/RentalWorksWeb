@@ -59,6 +59,9 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
         [FwLogicProperty(Id:"dWs8yAj2KrjS")]
         public string ReceiveContractId { get { return purchaseOrderReceiveBarCode.ReceiveContractId; } set { purchaseOrderReceiveBarCode.ReceiveContractId = value; } }
 
+        [FwLogicProperty(Id: "GgkzhPhvSgtwM", IsReadOnly: true)]
+        public string ReceiveContractNumber { get; set; }
+
         [FwLogicProperty(Id:"kqgDtcxfKJo7")]
         public string ReturnContractId { get { return purchaseOrderReceiveBarCode.ReturnContractId; } set { purchaseOrderReceiveBarCode.ReturnContractId = value; } }
 

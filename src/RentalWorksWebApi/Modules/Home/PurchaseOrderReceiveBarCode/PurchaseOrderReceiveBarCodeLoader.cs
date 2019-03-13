@@ -54,6 +54,9 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
         [FwSqlDataField(column: "receivecontractid", modeltype: FwDataTypes.Text)]
         public string ReceiveContractId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "receivecontractno", modeltype: FwDataTypes.Text)]
+        public string ReceiveContractNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "returncontractid", modeltype: FwDataTypes.Text)]
         public string ReturnContractId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -124,6 +127,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("(orderid > '')"); 
+            select.AddWhere("(issuspend <> 'T')"); 
             addFilterToSelect("PurchaseOrderId", "orderid", select, request); 
             addFilterToSelect("ReceiveContractId", "receivecontractid", select, request); 
             //select.AddParameter("@filterid", filterId); 
