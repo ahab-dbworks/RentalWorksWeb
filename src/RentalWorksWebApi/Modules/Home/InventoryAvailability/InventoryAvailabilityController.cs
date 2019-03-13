@@ -35,7 +35,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                TInventoryWarehouseAvailability availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, request.InventoryId, request.WarehouseId, request.FromDate, request.ToDate, request.RefreshIfNeeded);
+                TInventoryWarehouseAvailability availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.InventoryId, request.WarehouseId, request.FromDate, request.ToDate, request.RefreshIfNeeded);
                 return new OkObjectResult(availData);
             }
             catch (Exception ex)

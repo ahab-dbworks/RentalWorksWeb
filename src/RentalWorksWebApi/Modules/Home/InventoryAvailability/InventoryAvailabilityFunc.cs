@@ -6,13 +6,13 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using WebLibrary;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 {
     //-------------------------------------------------------------------------------------------------------
     public class AvailabilityInventoryWarehouseRequest
     {
-        public string SessionId { get; set; }
         public string InventoryId { get; set; }
         public string WarehouseId { get; set; }
         public DateTime FromDate { get; set; }
@@ -752,9 +752,10 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             }
         }
         //-------------------------------------------------------------------------------------------------------
-        private static async Task<bool> RefreshAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, TInventoryWarehouseAvailabilityRequestItems availRequestItems)
+        private static async Task<bool> RefreshAvailability(FwApplicationConfig appConfig, FwUserSession userSession, TInventoryWarehouseAvailabilityRequestItems availRequestItems)
         {
             bool success = false;
+            string sessionId = AppFunc.GetNextIdAsync(appConfig).Result;
 
             TAvailabilityCache availCache = new TAvailabilityCache();
             if (availRequestItems.Count > 0)
@@ -965,7 +966,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             AvailabilityCache.Remove(availKey);
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TAvailabilityCache> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, TInventoryWarehouseAvailabilityRequestItems availRequestItems, bool refreshIfNeeded)
+        public static async Task<TAvailabilityCache> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, TInventoryWarehouseAvailabilityRequestItems availRequestItems, bool refreshIfNeeded)
         {
             TAvailabilityCache availCache = new TAvailabilityCache();
             TInventoryWarehouseAvailabilityRequestItems availRequestToRefresh = new TInventoryWarehouseAvailabilityRequestItems();
@@ -1034,22 +1035,22 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 
             if (availRequestToRefresh.Count > 0)
             {
-                await RefreshAvailability(appConfig, userSession, sessionId, availRequestToRefresh);
-                availCache = await GetAvailability(appConfig, userSession, sessionId, availRequestItems, false);
+                await RefreshAvailability(appConfig, userSession, availRequestToRefresh);
+                availCache = await GetAvailability(appConfig, userSession, availRequestItems, false);
             }
 
 
             return availCache;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TInventoryWarehouseAvailability> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate, bool refreshIfNeeded)
+        public static async Task<TInventoryWarehouseAvailability> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate, bool refreshIfNeeded)
 
         {
             TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
             TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDate, toDate));
 
-            TAvailabilityCache availCache = await GetAvailability(appConfig, userSession, sessionId, availRequestItems, refreshIfNeeded);
+            TAvailabilityCache availCache = await GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded);
             TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
             availCache.TryGetValue(availKey, out availData);
             return availData;
@@ -1181,7 +1182,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         {
             TInventoryAvailabilityCalendarAndScheduleResponse response = new TInventoryAvailabilityCalendarAndScheduleResponse();
 
-            TInventoryWarehouseAvailability availData = await GetAvailability(appConfig, userSession, SessionId, InventoryId, WarehouseId, FromDate, ToDate, true);
+            TInventoryWarehouseAvailability availData = await GetAvailability(appConfig, userSession, InventoryId, WarehouseId, FromDate, ToDate, true);
 
 
             // build up the calendar events

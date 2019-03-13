@@ -3,7 +3,6 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using Newtonsoft.Json;
 using WebApi.Logic;
 using System.Collections.Generic;
 using System.Text;
@@ -16,7 +15,6 @@ namespace WebApi.Modules.Home.OrderItem
     [FwSqlTable("orderitemwebview")]
     public class OrderItemLoader : AppDataLoadRecord
     {
-        private string _orderId = "";                // pupulated during SetBaseSelectQuery, reused later
         private bool _refreshAvailability = false;   // pupulated during SetBaseSelectQuery, reused later
 
         public OrderItemLoader()
@@ -884,7 +882,6 @@ namespace WebApi.Modules.Home.OrderItem
             select.AddParameter("@orderid", orderId);
 
             // saved here for AfterBrowse
-            _orderId = orderId;
             _refreshAvailability = refreshAvailability;
 
         }
@@ -921,7 +918,7 @@ namespace WebApi.Modules.Home.OrderItem
                         availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                     }
 
-                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, _orderId, availRequestItems, _refreshAvailability).Result;
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, _refreshAvailability).Result;
 
                     foreach (List<object> row in dt.Rows)
                     {
@@ -937,16 +934,7 @@ namespace WebApi.Modules.Home.OrderItem
                             row[dt.GetColumnNo("AvailableQuantityColor")] = null;
                             TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
                             row[dt.GetColumnNo("AvailableQuantity")] = minAvail.MinimumAvailable;
-                            //if (minAvail.MinimumAvailable < 0)
-                            //{
-                            //    row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(16711684); //red
-                            //}
-                            //if (minAvail.IsStale)
-                            //{
-                            //    row[dt.GetColumnNo("AvailableQuantityColor")] = FwConvert.OleColorToHtmlColor(3211473); //dark blue
-                            //}
                             row[dt.GetColumnNo("AvailableQuantityColor")] = minAvail.Color;
-
                         }
                         row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
                         row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());

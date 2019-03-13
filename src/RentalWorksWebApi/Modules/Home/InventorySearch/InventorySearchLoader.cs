@@ -154,7 +154,7 @@ namespace WebApi.Modules.Home.InventorySearch
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                         }
 
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, sessionId, availRequestItems, refreshAvailability);
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshAvailability);
 
                         foreach (List<object> row in dtOut.Rows)
                         {
