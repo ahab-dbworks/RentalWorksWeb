@@ -1,127 +1,23 @@
-﻿$page-width: 768px;
-$line-height: 16px;
-$normal-text: 1em;
+﻿tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
+    }
 
-@page {
-    /*margin: 130px 32px 96px 32px;*/
-    /*margin: 48px 24px 48px 24px;*/
-    /*size: auto;*/
-    size: landscape;
-}
+    td:after {
+        content: attr(data-value);
+    }
 
-html {
-}
-
-body {
-    font-family: Arial, sans-serif;
-    font-size: 12px;
-    margin: 0;
-    padding: 0;
-}
-
-html.preview {
-    #pageno {
-        visibility: hidden;
+    td {
+        padding: 3px;
     }
 }
 
-html.pdf {
-    body {
-        /*margin: 130px 24px 96px 24px;*/
-    }
-}
-
-@media only screen {
-    .parameters {
-        display: block;
-    }
-}
-
-@media only print {
-    .parameters {
-        display: none;
-    }
-}
-
-.data {
-    flex: 1 0 768px;
-    border-collapse: collapse;
-    margin: 20px 0 0 0;
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-
-        thead {
-            th {
-                border-top: 2px solid #000000;
-                border-bottom: 2px solid #000000;
-                border-collapse: collapse;
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-            }
-
-            th.InvoiceNo,
-            th.InvoiceDate,
-            th.Office,
-            th.Customer,
-            th.Deal,
-            th.OrderNo,
-            th.InvoiceDesc {
-                text-align: left;
-            }
-        }
-
-        tbody {
-            tr[data-rowtype="detail"]:nth-child(odd) {
-                background-color: #DCDCDC;
-            }
-
-            tr[data-rowtype="OfficeLocationheader"] td {
-                font-size: 1.1em;
-            }
-
-            tr[data-rowtype="Dealheader"] td,
-            tr[data-rowtype="OfficeLocationheader"] td,
-            tr[data-rowtype="Customerheader"] td {
-                padding-bottom: .5em;
-                font-weight: bold;
-            }
-
-            tr[data-rowtype="Dealfooter"] td.totals, 
-            tr[data-rowtype="OfficeLocationfooter"] td.totals,
-            tr[data-rowtype="grandtotal"] td.totals {
-                border-top: 2px solid black;
-            }
-
-            tr[data-rowtype="Dealfooter"],
-            tr[data-rowtype="Customerfooter"],
-            tr[data-rowtype="OfficeLocationfooter"],
-            tr[data-rowtype="grandtotal"] {
-                font-weight: bold;
-                text-align: right;
-            }
-
-            td {
-                padding: 2px 5px;
-                font-size: .9em;
-            }
-            td.totals {
-                text-align: right;
-            }
-        }
-    }
-}
-
-#pageContainer {
-    #pageHeader {
-    }
-
-    #contract {
-    }
-
-    #pageFooter {
-        margin: $line-height 0 0 0;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
     }
 }

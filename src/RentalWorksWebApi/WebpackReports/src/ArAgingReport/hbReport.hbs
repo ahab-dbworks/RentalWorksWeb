@@ -5,96 +5,84 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">As of {{ToDate}}</span>
+    <span class="rpt-header-center">As of {{AsOfDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow data" style="margin-top:40px;">
-  <table id="tbldata">
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
     <thead>
-      <tr class="columnheadings">
-        <th class="InvoiceNo">Invoice No.</th>
-        <th class="InvoiceDate">Invoice Date</th>
-        <th class="Office">Office</th>
-        <th class="Customer">Customer</th>
-        <th class="Deal">Deal</th>
-        <th class="OrderNo">Order No.</th>
-        <th class="InvoiceDesc">Invoice Description</th>
-        <th class="number Total">Total</th>
-        <th class="number Total0030">Current</th>
-        <th class="number Total3160">31-60</th>
-        <th class="number Total6190">61-90</th>
-        <th class="number Total91x">>90</th>
+      <tr>
+        <th class="text">Invoice No.</th>
+        <th class="text">Invoice Date</th>
+        <th class="text">Order No.</th>
+        <th class="text">Invoice Description</th>
+        <th class="number">Total</th>
+        <th class="number">Current</th>
+        <th class="number">31-60</th>
+        <th class="number">61-90</th>
+        <th class="number">>90</th>
       </tr>
     </thead>
     <tbody>
-      {{#with Rows}}
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="12">Office Location: {{OfficeLocation}}</td>
+        <td colspan="12" class="header-row">Office Location: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerheader"}}
-        <td colspan="12">Customer: {{Customer}}</td>
+        <td colspan="12" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="12">Deal: {{Deal}}</td>
+        <td colspan="12" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td>{{InvoiceNumber}}</td>
-        <td>{{InvoiceDate}}</td>
-        <td>{{OfficeLocation}}</td>
-        <td>{{Customer}}</td>
-        <td>{{Deal}}</td>
-        <td>{{OrderNumber}}</td>
-        <td>{{InvoiceDescription}}</td>
-        <td class="totals" data-value="{{Total}}">{{Total}}</td>
-        <td class="totals" data-value="{{Total0030}}">{{Total0030}}</td>
-        <td class="totals" data-value="{{Total3160}}">{{Total3160}}</td>
-        <td class="totals" data-value="{{Total6190}}">{{Total6190}}</td>
-        <td class="totals" data-value="{{Total91x}}">{{Total91x}}</td>
+        <td class="text" data-value="{{InvoiceNumber}}"></td>
+        <td class="text" data-value="{{InvoiceDate}}"></td>
+        <td class="text" data-value="{{OrderNumber}}"></td>
+        <td class="text" data-value="{{InvoiceDescription}}"></td>
+        <td class="number" data-value="{{Total}}"></td>
+        <td class="number" data-value="{{Total0030}}"></td>
+        <td class="number" data-value="{{Total3160}}"></td>
+        <td class="number" data-value="{{Total6190}}"></td>
+        <td class="number" data-value="{{Total91x}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="5"></td>
-        <td colspan="2">Deal Sub Totals:</td>
-        <td class="totals" data-value="{{Total}}">{{Total}}</td>
-        <td class="totals" data-value="{{Total0030}}">{{Total0030}}</td>
-        <td class="totals" data-value="{{Total3160}}">{{Total3160}}</td>
-        <td class="totals" data-value="{{Total6190}}">{{Total6190}}</td>
-        <td class="totals" data-value="{{Total91x}}">{{Total91x}}</td>
+        <td colspan="4" class="total-name">{{Deal}}</td>
+        <td class="total-val" data-value="{{Total}}"></td>
+        <td class="total-val" data-value="{{Total0030}}"></td>
+        <td class="total-val" data-value="{{Total3160}}"></td>
+        <td class="total-val" data-value="{{Total6190}}"></td>
+        <td class="total-val" data-value="{{Total91x}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="5"></td>
-        <td colspan="2">Customer Sub Totals:</td>
-        <td class="totals" data-value="{{Total}}">{{Total}}</td>
-        <td class="totals" data-value="{{Total0030}}">{{Total0030}}</td>
-        <td class="totals" data-value="{{Total3160}}">{{Total3160}}</td>
-        <td class="totals" data-value="{{Total6190}}">{{Total6190}}</td>
-        <td class="totals" data-value="{{Total91x}}">{{Total91x}}</td>
+        <td colspan="4" class="total-name">{{Customer}}</td>
+        <td class="total-val" data-value="{{Total}}"></td>
+        <td class="total-val" data-value="{{Total0030}}"></td>
+        <td class="total-val" data-value="{{Total3160}}"></td>
+        <td class="total-val" data-value="{{Total6190}}"></td>
+        <td class="total-val" data-value="{{Total91x}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="5"></td>
-        <td colspan="2">{{OfficeLocation}}:</td>
-        <td class="totals" data-value="{{Total}}">{{Total}}</td>
-        <td class="totals" data-value="{{Total0030}}">{{Total0030}}</td>
-        <td class="totals" data-value="{{Total3160}}">{{Total3160}}</td>
-        <td class="totals" data-value="{{Total6190}}">{{Total6190}}</td>
-        <td class="totals" data-value="{{Total91x}}">{{Total91x}}</td>
+        <td colspan="4" class="total-name">{{OfficeLocation}}</td>
+        <td class="total-val" data-value="{{Total}}"></td>
+        <td class="total-val" data-value="{{Total0030}}"></td>
+        <td class="total-val" data-value="{{Total3160}}"></td>
+        <td class="total-val" data-value="{{Total6190}}"></td>
+        <td class="total-val" data-value="{{Total91x}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="5"></td>
-        <td colspan="2">Grand Total:</td>
-        <td class="totals" data-value="{{Total}}">{{Total}}</td>
-        <td class="totals" data-value="{{Total0030}}">{{Total0030}}</td>
-        <td class="totals" data-value="{{Total3160}}">{{Total3160}}</td>
-        <td class="totals" data-value="{{Total6190}}">{{Total6190}}</td>
-        <td class="totals" data-value="{{Total91x}}">{{Total91x}}</td>
+        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Total}}"></td>
+        <td class="total-val" data-value="{{Total0030}}"></td>
+        <td class="total-val" data-value="{{Total3160}}"></td>
+        <td class="total-val" data-value="{{Total6190}}"></td>
+        <td class="total-val" data-value="{{Total91x}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
-      {{/with}}
     </tbody>
   </table>
 </div>
