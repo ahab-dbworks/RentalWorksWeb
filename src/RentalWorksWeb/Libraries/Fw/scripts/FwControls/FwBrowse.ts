@@ -2967,15 +2967,17 @@ class FwBrowseClass {
         }
 
         // add the cancel button
-        var $tdselectrow = $tr.find('.tdselectrow');
+        const $tdselectrow = $tr.find('.tdselectrow');
         $tr.closest('tbody').find('.browsecontextmenu').hide();
-        var $divcancelsaverow = jQuery('<div class="divcancelsaverow"><i class="material-icons">&#xE5C9;</i></div>'); //cancel
+        const $divcancelsaverow = jQuery('<div class="divcancelsaverow"><i class="material-icons">&#xE5C9;</i></div>'); //cancel
         $divcancelsaverow.on('click', function () {
             try {
-                var $this = jQuery(this);
-                var $tr = $this.closest('tr');
+                const $this = jQuery(this);
+                const $tr = $this.closest('tr');
                 me.cancelEditMode($control, $tr);
                 $tr.find('.browsecontextmenucell').show();
+                const rowsInEditMode = $control.find('.editmode').length;
+                if (rowsInEditMode == 0) $gridmenu.find('.grid-multi-save').hide();
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -3306,19 +3308,20 @@ class FwBrowseClass {
         let me = this;
         return new Promise<boolean>((resolve, reject) => {
             const name = $control.attr('data-name');
-            if (typeof $control.attr('data-name') === 'undefined') {
+            if (typeof name === 'undefined') {
                 throw 'Attrtibute data-name is missing on the Browser controller with html: ' + $control[0].outerHTML;
             }
-            const controller = window[$control.attr('data-name') + 'Controller'];
+            const controller = window[name + 'Controller'];
             if (typeof controller === 'undefined') {
-                throw 'Controller: ' + $control.attr('data-name') + ' is not defined';
+                throw `Controller: ${name} is not defined`;
             }
-            let mode = 'Insert';
+            //let mode = 'Insert';
             let manyRequest = [];
+            let ids = [];
             for (let i = 0; i < $trs.length; i++) {
                 const $tr = jQuery($trs[i]);
                 if (this.isRowModified($control, $tr)) {
-                    var fields, rowuniqueids, rowfields, formuniqueids, formfields, $form, miscfields;
+                    var $form;
                     let isvalid = true;
                     isvalid = this.validateRow($control, $tr);
                     if (isvalid) {
@@ -3357,6 +3360,8 @@ class FwBrowseClass {
                             }
 
                             manyRequest.push(request);
+                            const uniqueIds = this.getRowFormUniqueIds($control, $tr);
+                            ids.push(uniqueIds);
                         } else {
                             throw 'Web Api not configured';
                             // set request for old api
@@ -3397,13 +3402,22 @@ class FwBrowseClass {
                 }
             }
             FwAppData.apiMethod(true, 'POST', `${controller.apiurl}/many`, manyRequest, FwServices.defaultTimeout, function (response) {
-                let failedToSave = response.filter(x => x["Result"]["StatusCode"] != 200);
-                for (let i = 0; i < failedToSave.length; i++) {
-                    FwNotification.renderNotification('ERROR', failedToSave[i]["Result"]["Value"]["Message"]);
+                //let failedToSave = response.filter(x => x["Result"]["StatusCode"] != 200);
+                //for (let i = 0; i < failedToSave.length; i++) {
+                //    FwNotification.renderNotification('ERROR', failedToSave[i]["Result"]["Value"]["Message"]);
+                //}
+                const pageNumber = $control.attr('data-pageno');
+                const onDataBind = $control.data('ondatabind');
+                if (typeof onDataBind == 'function') { //adds current page number to request
+                    $control.data('ondatabind', function (request) {
+                        onDataBind(request);
+                        request.pageno = parseInt(pageNumber);
+                    });
                 }
                 me.search($control)
                     .then(() => {
                         $control.find('.grid-multi-save').hide();
+                        $control.data('ondatabind', onDataBind); //re-binds original request
                         resolve();
                     })
                     .catch((reason) => {
