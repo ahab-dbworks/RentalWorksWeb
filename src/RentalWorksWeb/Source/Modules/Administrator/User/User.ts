@@ -293,8 +293,8 @@ class User {
                     <div class="flexcolumn" style="flex:0 1 500px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Login">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Username" data-datafield="LoginName" style="flex:1 1 125px;"></div>
-                          <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Password" data-datafield="Password" data-required="true" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Username" data-datafield="LoginName" style="flex:1 1 125px;" data-allcaps="false"></div>
+                          <div data-control="FwFormField" data-type="password" class="fwcontrol fwformfield" data-caption="Password" data-datafield="Password" data-required="true" style="flex:1 1 125px;" data-allcaps="false"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Barcode No" data-datafield="" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
@@ -311,7 +311,7 @@ class User {
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Title" data-datafield="UserTitleId" data-displayfield="UserTitle" data-validationname="ContactTitleValidation" style="flex:1 1 225px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" style="flex:1 1 225px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email" data-datafield="Email" style="flex:1 1 225px;" data-allcaps="false"></div>
                         </div>
                       </div>
                     </div>
@@ -518,7 +518,7 @@ class User {
                   <div class="flexcolumn" style="flex: 0 1 800px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Note">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Memo"></div>
+                        <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="Memo" data-allcaps="false"></div>
                       </div>
                     </div>
                   </div>
