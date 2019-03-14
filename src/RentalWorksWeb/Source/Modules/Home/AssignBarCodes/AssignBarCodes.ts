@@ -54,19 +54,22 @@ class AssignBarCodes {
             $poReceiveBarCodeGridControl: any;
 
         $poReceiveBarCodeGrid = $form.find('div[data-grid="POReceiveBarCodeGrid"]');
-        $poReceiveBarCodeGridControl = jQuery(jQuery('#tmpl-grids-POReceiveBarCodeGridBrowse').html());
+        $poReceiveBarCodeGridControl = FwBrowse.loadGridFromTemplate('POReceiveBarCodeGrid');
         $poReceiveBarCodeGrid.empty().append($poReceiveBarCodeGridControl);
         $poReceiveBarCodeGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
-                , ReceiveContractId: FwFormField.getValueByDataField($form, 'ContractId')
             }
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId != '') request.uniqueids.ReceiveContractId = contractId;
         })
         FwBrowse.init($poReceiveBarCodeGridControl);
         FwBrowse.renderRuntimeHtml($poReceiveBarCodeGridControl);
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
+        const $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
+
         //Default Department
         let department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid, department.department);
@@ -78,23 +81,15 @@ class AssignBarCodes {
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'PODate', $tr.find('[data-browsedatafield="PurchaseOrderDate"]').attr('data-originalvalue'));
 
-            let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            if (purchaseOrderId && contractId) {
-                let $poReceiveBarCodeGridControl: any;
-                $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
-                FwBrowse.search($poReceiveBarCodeGridControl);
-            }
+            FwBrowse.search($poReceiveBarCodeGridControl);
+
         });
         //Contract No. Change
         $form.find('[data-datafield="ContractId"]').data('onchange', $tr => {
-            FwFormField.disable($form.find('[data-datafield="ContractId"]'));
             FwFormField.setValueByDataField($form, 'ContractDate', $tr.find('[data-browsedatafield="ContractDate"]').attr('data-originalvalue'));
-            let purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-            let contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (purchaseOrderId && contractId) {
-                let $poReceiveBarCodeGridControl: any;
-                $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
                 FwBrowse.search($poReceiveBarCodeGridControl);
             }
         });
@@ -117,8 +112,6 @@ class AssignBarCodes {
                     FwFormField.setValueByDataField($form, 'ContractDate', '');
                     FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
                     FwFormField.enable($form.find('[data-datafield="ContractId"]'));
-                    let $poReceiveBarCodeGridControl: any;
-                    $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
                     $poReceiveBarCodeGridControl.find('tbody').empty();
                 }
             }, null, $form);
@@ -132,8 +125,6 @@ class AssignBarCodes {
                 , ContractId: FwFormField.getValueByDataField($form, 'ContractId')
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/assignbarcodesfromreceive', request, FwServices.defaultTimeout, function onSuccess(response) {
-                let $poReceiveBarCodeGridControl: any;
-                $poReceiveBarCodeGridControl = $form.find('[data-name="POReceiveBarCodeGrid"]');
                 FwBrowse.search($poReceiveBarCodeGridControl);
             }, null, $form);
         });
