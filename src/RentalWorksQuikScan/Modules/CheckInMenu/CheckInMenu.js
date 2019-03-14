@@ -125,9 +125,9 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 html.push('      </div>');
             }
             if (typeof model.estrentfrom !== 'undefined') {
-                html.push('      <div class="datafield estrentfrom">')
-                html.push('        <div class="caption">' + RwLanguages.translate('Est') + ':</div>');
-                html.push('        <div class="value">{{estrentfrom}}</div>');
+                html.push('      <div class="datafield estrentto">')
+                html.push('        <div class="caption">' + RwLanguages.translate('Est Return') + ':</div>');
+                html.push('        <div class="value">{{estrentto}}</div>');
                 html.push('      </div>');
             }
             if (typeof model.fromwarehouse !== 'undefined') {
