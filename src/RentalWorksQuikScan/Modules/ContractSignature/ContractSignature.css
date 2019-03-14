@@ -21,5 +21,6 @@
 #contractSignature #cs-printimagecapture #pic-emailto .record .data .caption {flex:0 0 64px;}
 
 #contractSignature #cs-signaturecapture {display:none;}
-#contractSignature #cs-signaturecapture #signaturecapture-canvasSignature {background-color:#ffffff;cursor:crosshair;}
+#contractSignature #cs-signaturecapture #signaturecapture-canvasSignature,
+#contractSignature #pic-signaturecapture #pic-signaturecapture-canvasSignature {background-color:#ffffff;cursor:crosshair;}
 #contractSignature #cs-signaturecapture .buttons {}
