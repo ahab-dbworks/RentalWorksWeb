@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-    public class ItemLocationTaxGridMenu : FwSecurityTreeBranch
+    public class InventoryLocationTaxGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ItemLocationTaxGridMenu() : base("{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}") { }
+        public InventoryLocationTaxGridMenu() : base("{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

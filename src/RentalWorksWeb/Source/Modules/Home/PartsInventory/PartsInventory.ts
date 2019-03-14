@@ -9,47 +9,21 @@ class PartsInventory extends InventoryBase {
     AvailableFor: string = "P";
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $itemLocationTaxGrid: any;
-        let $itemLocationTaxGridControl: any;
-        let $salesInventoryWarehouseGrid: any;
-        let $salesInventoryWarehouseGridControl: any;
-        let $inventoryAvailabilityGrid: any;
-        let $inventoryAvailabilityGridControl: any;
-        let $inventoryConsignmentGrid: any;
-        let $inventoryConsignmentGridControl: any;
-        let $inventoryCompleteKitGrid: any;
-        let $inventoryCompleteKitGridControl: any;
-        let $partsinventorySubstituteGrid: any;
-        let $partsinventorySubstituteGridControl: any;
-        let $partsinventoryCompatibilityGrid: any;
-        let $partsinventoryCompatibilityGridControl: any;
-        let $inventoryQcGrid: any;
-        let $inventoryQcGridControl: any;
-        let $inventoryAttributeValueGrid: any;
-        let $inventoryAttributeValueGridControl: any;
-        let $inventoryPrepGrid: any;
-        let $inventoryPrepGridControl: any;
-        let $inventoryCompleteGrid: any;
-        let $inventoryCompleteGridControl: any;
-        let $inventoryKitGrid: any;
-        let $inventoryKitGridControl: any;
-
-        let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-        // load AttributeValue Grid
-        $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
-        $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
-        $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
-        $itemLocationTaxGridControl.data('ondatabind', request => {
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        // ----------
+        const $inventoryLocationTaxGrid: any = $form.find('div[data-grid="InventoryLocationTaxGrid"]');
+        const $inventoryLocationTaxGridControl: any = FwBrowse.loadGridFromTemplate('InventoryLocationTaxGrid');
+        $inventoryLocationTaxGrid.empty().append($inventoryLocationTaxGridControl);
+        $inventoryLocationTaxGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        FwBrowse.init($itemLocationTaxGridControl);
-        FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
-
-        $salesInventoryWarehouseGrid = $form.find('div[data-grid="SalesInventoryWarehouseGrid"]');
-        $salesInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-SalesInventoryWarehouseGridBrowse').html());
+        FwBrowse.init($inventoryLocationTaxGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryLocationTaxGridControl);
+        // ----------
+        const $salesInventoryWarehouseGrid: any = $form.find('div[data-grid="SalesInventoryWarehouseGrid"]');
+        const $salesInventoryWarehouseGridControl: any = FwBrowse.loadGridFromTemplate('SalesInventoryWarehouseGrid');
         $salesInventoryWarehouseGrid.empty().append($salesInventoryWarehouseGridControl);
         $salesInventoryWarehouseGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -61,9 +35,9 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($salesInventoryWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($salesInventoryWarehouseGridControl);
-
-        $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
-        $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());
+        // ----------
+        const $inventoryCompleteKitGrid: any = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
+        const $inventoryCompleteKitGridControl: any = FwBrowse.loadGridFromTemplate('InventoryCompleteKitGrid');
         $inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
         $inventoryCompleteKitGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -72,9 +46,9 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryCompleteKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
-
-        $partsinventorySubstituteGrid = $form.find('div[data-grid="PartsInventorySubstituteGrid"]');
-        $partsinventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-PartsInventorySubstituteGridBrowse').html());
+        // ----------
+        const $partsinventorySubstituteGrid: any = $form.find('div[data-grid="PartsInventorySubstituteGrid"]');
+        const $partsinventorySubstituteGridControl: any = FwBrowse.loadGridFromTemplate('PartsInventorySubstituteGrid');
         $partsinventorySubstituteGrid.empty().append($partsinventorySubstituteGridControl);
         $partsinventorySubstituteGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -86,9 +60,9 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($partsinventorySubstituteGridControl);
         FwBrowse.renderRuntimeHtml($partsinventorySubstituteGridControl);
-
-        $partsinventoryCompatibilityGrid = $form.find('div[data-grid="PartsInventoryCompatibilityGrid"]');
-        $partsinventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-PartsInventoryCompatibilityGridBrowse').html());
+        // ----------
+        const $partsinventoryCompatibilityGrid: any = $form.find('div[data-grid="PartsInventoryCompatibilityGrid"]');
+        const $partsinventoryCompatibilityGridControl: any = FwBrowse.loadGridFromTemplate('PartsInventoryCompatibilityGrid');
         $partsinventoryCompatibilityGrid.empty().append($partsinventoryCompatibilityGridControl);
         $partsinventoryCompatibilityGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -100,9 +74,9 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($partsinventoryCompatibilityGridControl);
         FwBrowse.renderRuntimeHtml($partsinventoryCompatibilityGridControl);
-
-        $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
-        $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
+        // ----------
+        const $inventoryAttributeValueGrid: any = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
+        const $inventoryAttributeValueGridControl: any = FwBrowse.loadGridFromTemplate('InventoryAttributeValueGrid');
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
         $inventoryAttributeValueGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -114,9 +88,9 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
-
-        $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
-        $inventoryPrepGridControl = jQuery(jQuery('#tmpl-grids-InventoryPrepGridBrowse').html());
+        // ----------
+        const $inventoryPrepGrid: any = $form.find('div[data-grid="InventoryPrepGrid"]');
+        const $inventoryPrepGridControl: any = FwBrowse.loadGridFromTemplate('InventoryPrepGrid');
         $inventoryPrepGrid.empty().append($inventoryPrepGridControl);
         $inventoryPrepGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -128,9 +102,9 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
-
-        $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
-        $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
+        // ----------
+        const $inventoryCompleteGrid: any = $form.find('div[data-grid="InventoryCompleteGrid"]');
+        const $inventoryCompleteGridControl: any = FwBrowse.loadGridFromTemplate('InventoryCompleteGrid');
         $inventoryCompleteGridControl.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
         $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
         $inventoryCompleteGridControl.data('ondatabind', function (request) {
@@ -153,11 +127,11 @@ class PartsInventory extends InventoryBase {
 
         //});
         $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-            var primaryRowIndex;
+            let primaryRowIndex;
             if (primaryRowIndex === undefined) {
-                var orderByIndex = dt.ColumnIndex.OrderBy;
-                var inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (var i = 0; i < dt.Rows.length; i++) {
+                const orderByIndex = dt.ColumnIndex.OrderBy;
+                const inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
                         primaryRowIndex = i
                     }
@@ -171,9 +145,9 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryCompleteGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
-
-        $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
-        $inventoryKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryKitGridBrowse').html());
+        // ----------
+        const $inventoryKitGrid: any = $form.find('div[data-grid="InventoryKitGrid"]');
+        const $inventoryKitGridControl: any = FwBrowse.loadGridFromTemplate('InventoryKitGrid');
         $inventoryKitGridControl.find('div[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
         $inventoryKitGrid.empty().append($inventoryKitGridControl);
         $inventoryKitGridControl.data('ondatabind', function (request) {
@@ -185,11 +159,11 @@ class PartsInventory extends InventoryBase {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-            var primaryRowIndex;
+            let primaryRowIndex;
             if (primaryRowIndex === undefined) {
-                var orderByIndex = dt.ColumnIndex.OrderBy;
-                var inventoryIdIndex = dt.ColumnIndex.InventoryId
-                for (var i = 0; i < dt.Rows.length; i++) {
+                const orderByIndex = dt.ColumnIndex.OrderBy;
+                const inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
                         primaryRowIndex = i
                     }
@@ -203,6 +177,7 @@ class PartsInventory extends InventoryBase {
         });
         FwBrowse.init($inventoryKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
+        // ----------
     };
 
     //----------------------------------------------------------------------------------------------

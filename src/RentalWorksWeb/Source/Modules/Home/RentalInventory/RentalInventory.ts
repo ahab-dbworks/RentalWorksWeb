@@ -17,61 +17,26 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $itemLocationTaxGrid: any;
-        var $itemLocationTaxGridControl: any;
-        var $rentalInventoryWarehouseGrid: any;
-        var $rentalInventoryWarehouseGridControl: any;
-        var $inventoryAvailabilityGrid: any;
-        var $inventoryAvailabilityGridControl: any;
-        var $inventoryConsignmentGrid: any;
-        var $inventoryConsignmentGridControl: any;
-        var $inventoryCompleteKitGrid: any;
-        var $inventoryCompleteKitGridControl: any;
-        var $inventorySubstituteGrid: any;
-        var $inventorySubstituteGridControl: any;
-        var $inventoryCompatibilityGrid: any;
-        var $inventoryCompatibilityGridControl: any;
-        var $inventoryQcGrid: any;
-        var $inventoryQcGridControl: any;
-        var $inventoryAttributeValueGrid: any;
-        var $inventoryAttributeValueGridControl: any;
-        var $inventoryVendorGrid: any;
-        var $inventoryVendorGridControl: any;
-        var $inventoryPrepGrid: any;
-        var $inventoryPrepGridControl: any;
-        var $inventoryContainerGrid: any;
-        var $inventoryContainerGridControl: any;
-        var $inventoryCompleteGrid: any;
-        var $inventoryCompleteGridControl: any;
-        var $inventoryWarehouseStagingGrid: any;
-        var $inventoryWarehouseStagingGridControl: any;
-        var $inventoryKitGrid: any;
-        var $inventoryKitGridControl: any;
-        var $wardrobeInventoryColorGrid: any;
-        var $wardrobeInventoryColorGridControl: any;
-        var $wardrobeInventoryMaterialGrid: any;
-        var $wardrobeInventoryMaterialGridControl: any;
-        let max = 9999;
+        const maxPageSize = 20;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
-        var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-        // load AttributeValue Grid
-        $itemLocationTaxGrid = $form.find('div[data-grid="ItemLocationTaxGrid"]');
-        $itemLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-ItemLocationTaxGridBrowse').html());
-        $itemLocationTaxGrid.empty().append($itemLocationTaxGridControl);
-        $itemLocationTaxGridControl.data('ondatabind', function (request) {
+        // ----------
+        const $inventoryLocationTaxGrid: any = $form.find('div[data-grid="InventoryLocationTaxGrid"]');
+        const $inventoryLocationTaxGridControl: any = FwBrowse.loadGridFromTemplate('InventoryLocationTaxGrid');
+        $inventoryLocationTaxGrid.empty().append($inventoryLocationTaxGridControl);
+        $inventoryLocationTaxGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
         });
-        $itemLocationTaxGridControl.data('beforesave', function (request) {
+        $inventoryLocationTaxGridControl.data('beforesave', function (request) {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
-        FwBrowse.init($itemLocationTaxGridControl);
-        FwBrowse.renderRuntimeHtml($itemLocationTaxGridControl);
+        FwBrowse.init($inventoryLocationTaxGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryLocationTaxGridControl);
         // ----------
-        $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
-        $rentalInventoryWarehouseGridControl = jQuery(jQuery('#tmpl-grids-RentalInventoryWarehouseGridBrowse').html());
+        const $rentalInventoryWarehouseGrid = $form.find('div[data-grid="RentalInventoryWarehouseGrid"]');
+        const $rentalInventoryWarehouseGridControl = FwBrowse.loadGridFromTemplate('RentalInventoryWarehouseGrid');
         $rentalInventoryWarehouseGrid.empty().append($rentalInventoryWarehouseGridControl);
         $rentalInventoryWarehouseGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -84,10 +49,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($rentalInventoryWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridControl);
         // ----------
-        let containerWarehouseGrid: any;
-        let containerWarehouseGridControl: any;
-        containerWarehouseGrid = $form.find('div[data-grid="ContainerWarehouseGrid"]');
-        containerWarehouseGridControl = jQuery(jQuery('#tmpl-grids-ContainerWarehouseGridBrowse').html());
+        const containerWarehouseGrid = $form.find('div[data-grid="ContainerWarehouseGrid"]');
+        const containerWarehouseGridControl = FwBrowse.loadGridFromTemplate('ContainerWarehouseGrid');
         containerWarehouseGrid.empty().append(containerWarehouseGridControl);
         containerWarehouseGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -100,8 +63,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init(containerWarehouseGridControl);
         FwBrowse.renderRuntimeHtml(containerWarehouseGridControl);
         // ----------
-        $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
-        $inventoryAvailabilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryAvailabilityGridBrowse').html());
+        const $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
+        const $inventoryAvailabilityGridControl = FwBrowse.loadGridFromTemplate('InventoryAvailabilityGrid');
         $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
         $inventoryAvailabilityGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -114,8 +77,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryAvailabilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
         // ----------
-        $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
-        $inventoryConsignmentGridControl = jQuery(jQuery('#tmpl-grids-InventoryConsignmentGridBrowse').html());
+        const $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
+        const $inventoryConsignmentGridControl = FwBrowse.loadGridFromTemplate('InventoryConsignmentGrid');
         $inventoryConsignmentGrid.empty().append($inventoryConsignmentGridControl);
         $inventoryConsignmentGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -128,8 +91,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryConsignmentGridControl);
         FwBrowse.renderRuntimeHtml($inventoryConsignmentGridControl);
         // ----------
-        $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
-        $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());
+        const $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
+        const $inventoryCompleteKitGridControl = FwBrowse.loadGridFromTemplate('InventoryCompleteKitGrid');
         $inventoryCompleteKitGrid.empty().append($inventoryCompleteKitGridControl);
         $inventoryCompleteKitGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -142,8 +105,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryCompleteKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteKitGridControl);
         // ----------
-        $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
-        $inventorySubstituteGridControl = jQuery(jQuery('#tmpl-grids-InventorySubstituteGridBrowse').html());
+        const $inventorySubstituteGrid = $form.find('div[data-grid="InventorySubstituteGrid"]');
+        const $inventorySubstituteGridControl = FwBrowse.loadGridFromTemplate('InventorySubstituteGrid');
         $inventorySubstituteGrid.empty().append($inventorySubstituteGridControl);
         $inventorySubstituteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -157,8 +120,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventorySubstituteGridControl);
         FwBrowse.renderRuntimeHtml($inventorySubstituteGridControl);
         // ----------
-        $inventoryCompatibilityGrid = $form.find('div[data-grid="InventoryCompatibilityGrid"]');
-        $inventoryCompatibilityGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompatibilityGridBrowse').html());
+        const $inventoryCompatibilityGrid = $form.find('div[data-grid="InventoryCompatibilityGrid"]');
+        const $inventoryCompatibilityGridControl = FwBrowse.loadGridFromTemplate('InventoryCompatibilityGrid');
         $inventoryCompatibilityGrid.empty().append($inventoryCompatibilityGridControl);
         $inventoryCompatibilityGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -171,8 +134,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryCompatibilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompatibilityGridControl);
         // ----------
-        $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
-        $inventoryQcGridControl = jQuery(jQuery('#tmpl-grids-InventoryQcGridBrowse').html());
+        const $inventoryQcGrid = $form.find('div[data-grid="InventoryQcGrid"]');
+        const $inventoryQcGridControl = FwBrowse.loadGridFromTemplate('InventoryQcGrid');
         $inventoryQcGrid.empty().append($inventoryQcGridControl);
         $inventoryQcGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -185,8 +148,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryQcGridControl);
         FwBrowse.renderRuntimeHtml($inventoryQcGridControl);
         // ----------
-        $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
-        $inventoryAttributeValueGridControl = jQuery(jQuery('#tmpl-grids-InventoryAttributeValueGridBrowse').html());
+        const $inventoryAttributeValueGrid = $form.find('div[data-grid="InventoryAttributeValueGrid"]');
+        const $inventoryAttributeValueGridControl = FwBrowse.loadGridFromTemplate('InventoryAttributeValueGrid');
         $inventoryAttributeValueGrid.empty().append($inventoryAttributeValueGridControl);
         $inventoryAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -199,8 +162,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAttributeValueGridControl);
         // ----------
-        $inventoryVendorGrid = $form.find('div[data-grid="InventoryVendorGrid"]');
-        $inventoryVendorGridControl = jQuery(jQuery('#tmpl-grids-InventoryVendorGridBrowse').html());
+        const $inventoryVendorGrid = $form.find('div[data-grid="InventoryVendorGrid"]');
+        const $inventoryVendorGridControl = FwBrowse.loadGridFromTemplate('InventoryVendorGrid');
         $inventoryVendorGrid.empty().append($inventoryVendorGridControl);
         $inventoryVendorGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -213,8 +176,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryVendorGridControl);
         FwBrowse.renderRuntimeHtml($inventoryVendorGridControl);
         // ----------
-        $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
-        $inventoryPrepGridControl = jQuery(jQuery('#tmpl-grids-InventoryPrepGridBrowse').html());
+        const $inventoryPrepGrid = $form.find('div[data-grid="InventoryPrepGrid"]');
+        const $inventoryPrepGridControl = FwBrowse.loadGridFromTemplate('InventoryPrepGrid');
         $inventoryPrepGrid.empty().append($inventoryPrepGridControl);
         $inventoryPrepGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -227,14 +190,14 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
         // ----------
-        $inventoryContainerGrid = $form.find('div[data-grid="InventoryContainerGrid"]');
-        $inventoryContainerGridControl = jQuery(jQuery('#tmpl-grids-InventoryContainerGridBrowse').html());
+        const $inventoryContainerGrid = $form.find('div[data-grid="InventoryContainerGrid"]');
+        const $inventoryContainerGridControl = FwBrowse.loadGridFromTemplate('InventoryContainerGrid');
         $inventoryContainerGrid.empty().append($inventoryContainerGridControl);
         $inventoryContainerGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
-            request.pagesize = max;
+            request.pagesize = maxPageSize;
         });
         $inventoryContainerGridControl.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
@@ -243,8 +206,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryContainerGridControl);
         FwBrowse.renderRuntimeHtml($inventoryContainerGridControl);
         // ----------
-        $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
-        $inventoryCompleteGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteGridBrowse').html());
+        const $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
+        const $inventoryCompleteGridControl = FwBrowse.loadGridFromTemplate('InventoryCompleteGrid');
         $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
         $inventoryCompleteGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -256,10 +219,10 @@ class RentalInventory extends InventoryBase {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-            var primaryRowIndex;
+            let primaryRowIndex;
             if (primaryRowIndex === undefined) {
-                let orderByIndex = dt.ColumnIndex.OrderBy;
-                let inventoryIdIndex = dt.ColumnIndex.InventoryId
+                const orderByIndex = dt.ColumnIndex.OrderBy;
+                const inventoryIdIndex = dt.ColumnIndex.InventoryId
                 for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
                         primaryRowIndex = i
@@ -275,8 +238,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryCompleteGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
         // ----------
-        $inventoryWarehouseStagingGrid = $form.find('div[data-grid="InventoryWarehouseStagingGrid"]');
-        $inventoryWarehouseStagingGridControl = jQuery(jQuery('#tmpl-grids-InventoryWarehouseStagingGridBrowse').html());
+        const $inventoryWarehouseStagingGrid = $form.find('div[data-grid="InventoryWarehouseStagingGrid"]');
+        const $inventoryWarehouseStagingGridControl = FwBrowse.loadGridFromTemplate('InventoryWarehouseStagingGrid');
         $inventoryWarehouseStagingGrid.empty().append($inventoryWarehouseStagingGridControl);
         $inventoryWarehouseStagingGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -289,8 +252,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryWarehouseStagingGridControl);
         FwBrowse.renderRuntimeHtml($inventoryWarehouseStagingGridControl);
         // ----------
-        $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
-        $inventoryKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryKitGridBrowse').html());
+        const $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
+        const $inventoryKitGridControl = FwBrowse.loadGridFromTemplate('InventoryKitGrid');
         $inventoryKitGrid.empty().append($inventoryKitGridControl);
         $inventoryKitGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -301,10 +264,10 @@ class RentalInventory extends InventoryBase {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
         $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
-            var primaryRowIndex;
+            let primaryRowIndex;
             if (primaryRowIndex === undefined) {
-                let orderByIndex = dt.ColumnIndex.OrderBy;
-                let inventoryIdIndex = dt.ColumnIndex.InventoryId
+                const orderByIndex = dt.ColumnIndex.OrderBy;
+                const inventoryIdIndex = dt.ColumnIndex.InventoryId
                 for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
                         primaryRowIndex = i
@@ -320,8 +283,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryKitGridControl);
         FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
         // ----------
-        $wardrobeInventoryColorGrid = $form.find('div[data-grid="WardrobeInventoryColorGrid"]');
-        $wardrobeInventoryColorGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryColorGridBrowse').html());
+        const $wardrobeInventoryColorGrid = $form.find('div[data-grid="WardrobeInventoryColorGrid"]');
+        const $wardrobeInventoryColorGridControl = FwBrowse.loadGridFromTemplate('WardrobeInventoryColorGrid');
         $wardrobeInventoryColorGrid.empty().append($wardrobeInventoryColorGridControl);
         $wardrobeInventoryColorGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -334,8 +297,8 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($wardrobeInventoryColorGridControl);
         FwBrowse.renderRuntimeHtml($wardrobeInventoryColorGridControl);
         // ----------
-        $wardrobeInventoryMaterialGrid = $form.find('div[data-grid="WardrobeInventoryMaterialGrid"]');
-        $wardrobeInventoryMaterialGridControl = jQuery(jQuery('#tmpl-grids-WardrobeInventoryMaterialGridBrowse').html());
+        const $wardrobeInventoryMaterialGrid = $form.find('div[data-grid="WardrobeInventoryMaterialGrid"]');
+        const $wardrobeInventoryMaterialGridControl = FwBrowse.loadGridFromTemplate('WardrobeInventoryMaterialGrid');
         $wardrobeInventoryMaterialGrid.empty().append($wardrobeInventoryMaterialGridControl);
         $wardrobeInventoryMaterialGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -448,9 +411,8 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
-        let $browse, containerId;
-        $browse = ContainerController.openBrowse();
-        containerId = FwFormField.getValueByDataField($form, 'ContainerId');
+        const  $browse = ContainerController.openBrowse();
+        const containerId = FwFormField.getValueByDataField($form, 'ContainerId');
 
         $browse.data('ondatabind', function (request) {
             request.activeview = 'ALL'
@@ -463,14 +425,13 @@ class RentalInventory extends InventoryBase {
     }
     //----------------------------------------------------------------------------------------------
     addAssetTab($form: any): void {
-        let $submoduleAssetBrowse, classificationValue, trackedByValue;
-        classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-        trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+        const classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+        const trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
 
         if (classificationValue === 'I' || classificationValue === 'A') {
             if (trackedByValue !== 'QUANTITY') {
                 $form.find('.tab.asset').show();
-                $submoduleAssetBrowse = this.openAssetBrowse($form);
+                const $submoduleAssetBrowse = this.openAssetBrowse($form);
                 $form.find('.tabpage.asset').html($submoduleAssetBrowse);
                 $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
                 $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
@@ -488,9 +449,8 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     openAssetBrowse($form: any) {
-        let $browse, inventoryId;
-        $browse = AssetController.openBrowse();
-        inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        const $browse = AssetController.openBrowse();
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
 
         $browse.data('ondatabind', request => {
             request.activeviewfields = AssetController.ActiveViewFields;

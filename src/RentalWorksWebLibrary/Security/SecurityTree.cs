@@ -378,7 +378,7 @@ namespace WebLibrary.Security
             AddGrid("Invoice Status History",                 "{08E2713B-9B57-4B1F-8859-E7B10E116EAA}", lv1menuGrids.Id, "InvoiceStatusHistoryGridController");
             AddGrid("Invoice Notes",                          "{09E91168-0C59-4EC7-9DCD-2B65F0EB2A6C}", lv1menuGrids.Id, "InvoiceNoteGridController");
             AddGrid("Item Attribute Value",                   "{22D75843-E915-4956-9B25-C52E815F3C5E}", lv1menuGrids.Id, "ItemAttributeValueGridController");
-            AddGrid("Item Location Tax",                      "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "ItemLocationTaxGridController");
+            AddGrid("Inventory Location Tax",                 "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "InventoryLocationTaxGridController");
             AddGrid("Item Qc",                                "{496FEE6D-FC41-47D7-8576-7EF95CAE1B18}", lv1menuGrids.Id, "ItemQcGridController");
             AddGrid("Loss and Damage Items",                  "{D9D02203-025E-47BD-ADF4-0436DC5593BB}", lv1menuGrids.Id, "LossAndDamageItemGridController");
             AddGrid("Sales Inventory Substitute",             "{ED6DCEB4-2BB7-4B52-915A-10E1D94B083E}", lv1menuGrids.Id, "SalesInventorySubstituteGridController");
@@ -810,7 +810,7 @@ namespace WebLibrary.Security
             //AddGrid("Generator Make Model",                   "{12109673-165E-4620-8121-AF4259C7F367}", lv1menuGrids.Id, "GeneratorMakeModelGridController");
             //AddGrid("Inventory Group Inventory",              "{2EE8822B-F83E-4D8B-B055-4DA5853080C8}", lv1menuGrids.Id, "InventoryGroupInvGridController");
             //AddGrid("Item Attribute Value",                   "{22D75843-E915-4956-9B25-C52E815F3C5E}", lv1menuGrids.Id, "ItemAttributeValueGridController");
-            //AddGrid("Item Location Tax",                      "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "ItemLocationTaxGridController");
+            //AddGrid("Inventory Location Tax",                 "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "InventoryLocationTaxGridController");
             //AddGrid("Item Qc",                                "{496FEE6D-FC41-47D7-8576-7EF95CAE1B18}", lv1menuGrids.Id, "ItemQcGridController");
             //AddGrid("Inventory Attribute Value",              "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
             //AddGrid("Inventory Availability",                 "{8241ACB4-9346-43D6-8D3C-B6567FAA0270}", lv1menuGrids.Id, "InventoryAvailabilityGridController");
