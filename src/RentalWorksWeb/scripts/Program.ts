@@ -215,6 +215,7 @@ routes.push({ pattern: /^module\/group/, action: function (match: RegExpExecArra
 routes.push({ pattern: /^module\/integration/, action: function (match: RegExpExecArray) { return IntegrationController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/user/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customfield/, action: function (match: RegExpExecArray) { return CustomFieldController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/emailhistory/, action: function (match: RegExpExecArray) { return EmailHistoryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/duplicaterules/, action: function (match: RegExpExecArray) { return DuplicateRuleController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/settings$/, action: function (match: RegExpExecArray) { return SettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/reports$/, action: function (match: RegExpExecArray) { return ReportsController.getModuleScreen(); } });

@@ -29,7 +29,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Administrator',
                 id: 'F188CB01-F627-4DD3-9B91-B6486F0977DC',
-                children: [ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, UserController, SettingsController, ReportsController]
+                children: [ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, EmailHistoryController, GroupController, HotfixController, UserController, SettingsController, ReportsController]
             }
         ];
     }
