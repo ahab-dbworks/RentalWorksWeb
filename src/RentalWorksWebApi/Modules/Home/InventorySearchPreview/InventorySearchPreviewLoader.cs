@@ -207,7 +207,12 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                             }
 
                             row[dt.GetColumnNo("QuantityAvailable")] = qtyAvailable;
-                            row[dt.GetColumnNo("ConflictDate")] = conflictDate;
+                            //row[dt.GetColumnNo("ConflictDate")] = conflictDate;
+                            if (conflictDate != null)
+                            {
+                                row[dt.GetColumnNo("ConflictDate")] = FwConvert.ToUSShortDate(conflictDate.GetValueOrDefault(DateTime.MinValue));
+                            }
+
                             row[dt.GetColumnNo("QuantityAvailableColor")] = availColor;
                             row[dt.GetColumnNo("QuantityAvailableIsStale")] = isStale;
 
