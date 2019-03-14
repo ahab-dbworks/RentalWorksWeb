@@ -785,7 +785,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
     }
 
     FwBrowse.search($orderItemGrid);
-
+    $orderItemGrid.attr('data-pageno', pageNumber);
     //resets ondatabind
     $orderItemGrid.data('ondatabind', onDataBind);
 
