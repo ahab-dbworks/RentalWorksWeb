@@ -41,6 +41,7 @@ namespace WebApi.Modules.Home.Order
             legend.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
             legend.Add("Repair", RwGlobals.ORDER_REPAIR_COLOR);
             legend.Add("Loss & Damage", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 

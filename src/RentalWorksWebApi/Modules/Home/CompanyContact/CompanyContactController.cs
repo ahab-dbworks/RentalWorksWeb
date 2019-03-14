@@ -36,6 +36,7 @@ namespace WebApi.Modules.Home.CompanyContact
             legend.Add("Customer", RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR);
             legend.Add("Deal", RwGlobals.COMPANY_TYPE_DEAL_COLOR);
             legend.Add("Vendor", RwGlobals.COMPANY_TYPE_VENDOR_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 

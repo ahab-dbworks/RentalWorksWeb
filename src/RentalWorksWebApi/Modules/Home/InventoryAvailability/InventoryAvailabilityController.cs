@@ -21,6 +21,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         [FwControllerMethod(Id: "VFmuS509if2Vc")]
         public async Task<ActionResult<bool>> DumpToFile(string inventoryId, string warehouseId)  // inventoryId and warehouseId are optional filters here
         {
+            await Task.CompletedTask; // get rid of the no async call warning
             return InventoryAvailabilityFunc.InventoryAvailabilityFunc.DumpAvailabilityToFile(inventoryId, warehouseId);
         }
         //------------------------------------------------------------------------------------ 
@@ -44,29 +45,29 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
         }
         //------------------------------------------------------------------------------------       
-        // POST api/v1/inventoryavailability/getorderavailability
-        [HttpPost("getorderavailability")]
-        [FwControllerMethod(Id: "5NmGcYnixLAIX")]
-        public async Task<ActionResult<TAvailabilityCache>> GetAvailability([FromBody] AvailabilityOrderRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                //TAvailabilityCache availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, request.OrderId, request.RefreshIfNeeded);
-                //return new OkObjectResult(availData);
+        //// POST api/v1/inventoryavailability/getorderavailability
+        //[HttpPost("getorderavailability")]
+        //[FwControllerMethod(Id: "5NmGcYnixLAIX")]
+        //public async Task<ActionResult<TAvailabilityCache>> GetAvailability([FromBody] AvailabilityOrderRequest request)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+        //    try
+        //    {
+        //        //TAvailabilityCache availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.SessionId, request.OrderId, request.RefreshIfNeeded);
+        //        //return new OkObjectResult(availData);
 
-                TAvailabilityCache availCache = new TAvailabilityCache();
-                return new OkObjectResult(availCache);
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
-        //------------------------------------------------------------------------------------       
+        //        TAvailabilityCache availCache = new TAvailabilityCache();
+        //        return new OkObjectResult(availCache);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return GetApiExceptionResult(ex);
+        //    }
+        //}
+        ////------------------------------------------------------------------------------------       
         // GET api/v1/inventoryavailability/getcalendarandscheduledata?SessionId=ABCDEFG&InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
         [HttpGet("getcalendarandscheduledata")]
         [FwControllerMethod(Id: "bi563cSFahD")]
@@ -99,6 +100,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             try
             {
                 InventoryAvailabilityFunc.InventoryAvailabilityFunc.DeleteAvailability(AppConfig, UserSession, inventoryId, warehouseId);
+                await Task.CompletedTask; // get rid of the no async call warning
                 return new OkObjectResult(true);
             }
             catch (Exception ex)

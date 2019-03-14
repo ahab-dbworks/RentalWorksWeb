@@ -41,6 +41,7 @@ namespace WebApi.Modules.Home.Quote
             legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
             legend.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
             legend.Add("Quote Request", RwGlobals.QUOTE_REQUEST_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 

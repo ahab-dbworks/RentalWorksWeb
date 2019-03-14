@@ -75,6 +75,7 @@ namespace WebApi.Controllers
                 dt.ToExcelXlsxFile(worksheetName, path);
                 DoExportExcelXlsxExportFileAsyncResult result = new DoExportExcelXlsxExportFileAsyncResult();
                 result.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}.xlsx";
+                await Task.CompletedTask; // get rid of the no async call warning
                 return new OkObjectResult(result);
             }
             catch (Exception ex)

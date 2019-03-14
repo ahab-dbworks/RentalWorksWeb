@@ -36,6 +36,7 @@ namespace WebApi.Modules.Home.PartsInventory
             legend.Add("Complete", RwGlobals.COMPLETE_COLOR);
             legend.Add("Kit", RwGlobals.KIT_COLOR);
             legend.Add("Miscellaneous", RwGlobals.MISCELLANEOUS_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 

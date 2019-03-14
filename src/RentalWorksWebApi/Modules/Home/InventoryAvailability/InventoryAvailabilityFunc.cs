@@ -339,7 +339,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         //-------------------------------------------------------------------------------------------------------
         private static Dictionary<string, TAvailabilityProgress> AvailabilitySessions = new Dictionary<string, TAvailabilityProgress>();
         public static List<TInventoryWarehouseAvailabilityKey> AvailabilityNeedRecalc = new List<TInventoryWarehouseAvailabilityKey>();
-        private static int LastNeedRecalcId = 0;
+        //private static int LastNeedRecalcId = 0;
         private static TAvailabilityCache AvailabilityCache = new TAvailabilityCache();
         //-------------------------------------------------------------------------------------------------------
         public static TAvailabilityProgress GetAvailabilityProgress(string sessionId)
@@ -364,6 +364,9 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         private static async Task<bool> CheckNeedRecalc(FwApplicationConfig appConfig, FwUserSession userSession)
         {
             bool success = true;
+
+            //temporary
+            await Task.CompletedTask; // get rid of the no async call warning
 
             //using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             //{

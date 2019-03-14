@@ -40,6 +40,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             legend.Add("Items in Holding", RwGlobals.PO_ITEMS_IN_HOLDING_COLOR);
             legend.Add("Items Needing Bar Code / Serial / RFID", RwGlobals.PO_ITEMS_NEED_BARCODE_COLOR);
             legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 

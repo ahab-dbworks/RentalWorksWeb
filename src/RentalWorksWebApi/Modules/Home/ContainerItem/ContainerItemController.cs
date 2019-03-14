@@ -33,6 +33,7 @@ namespace WebApi.Modules.Home.ContainerItem
             Dictionary<string, string> legend = new Dictionary<string, string>();
             legend.Add("Ready", RwGlobals.CONTAINER_READY_COLOR);
             legend.Add("Incomplete", RwGlobals.CONTAINER_INCOMPLETE_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
             return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
