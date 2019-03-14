@@ -1,14 +1,17 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using FwStandard.DataLayer;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
+using WebApi.Data;
 using System.Collections.Generic;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Administrator.User
 {
     [FwSqlTable("webusersview")]
     public class UserBrowseLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string UserId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
@@ -66,12 +69,17 @@ namespace WebApi.Modules.Administrator.User
             select.Parse();
             select.AddWhere("(username > '')");
             select.AddWhere("(groupsid > '')");
-            addFilterToSelect("LocationId", "locationid", select, request); 
-            addFilterToSelect("WarehouseId", "warehouseid", select, request); 
+            addFilterToSelect("LocationId", "locationid", select, request);
+            addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("GroupId", "groupsid", select, request);
 
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+
+            if ((string.IsNullOrEmpty(UserId)) && (!AppFunc.IsDbWorksUser(AppConfig, UserSession).Result))
+            {
+                select.AddWhere("(email not like '%@dbworks.com')");
+            }
 
         }
         //------------------------------------------------------------------------------------     

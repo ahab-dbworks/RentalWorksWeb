@@ -251,6 +251,17 @@ namespace WebApi.Logic
             return str;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> IsDbWorksUser(FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            bool isDbWorks = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                string email = await FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "email");
+                isDbWorks = email.Contains("@dbworks.com");
+            }
+            return isDbWorks;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static string GetCompanyTypeColor(string companyType)
         {
             string companyTypeColor = null;
