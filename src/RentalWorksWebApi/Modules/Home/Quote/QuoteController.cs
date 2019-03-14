@@ -13,7 +13,6 @@ using FwStandard.SqlServer;
 
 namespace WebApi.Modules.Home.Quote
 {
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"jFkSBEur1dluU")]
@@ -34,15 +33,15 @@ namespace WebApi.Modules.Home.Quote
         [FwControllerMethod(Id: "bV65XBHFpqRzf")]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
-            Dictionary<string, string> colors = new Dictionary<string, string>();
-            colors.Add("Locked", RwGlobals.QUOTE_ORDER_LOCKED_COLOR);
-            colors.Add("On Hold", RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR);
-            colors.Add("Reserved", RwGlobals.QUOTE_RESERVED_COLOR);
-            colors.Add("No Charge", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
-            colors.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
-            colors.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
-            colors.Add("Quote Request", RwGlobals.QUOTE_REQUEST_COLOR);
-            return new OkObjectResult(colors);
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Locked", RwGlobals.QUOTE_ORDER_LOCKED_COLOR);
+            legend.Add("On Hold", RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR);
+            legend.Add("Reserved", RwGlobals.QUOTE_RESERVED_COLOR);
+            legend.Add("No Charge", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            legend.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
+            legend.Add("Quote Request", RwGlobals.QUOTE_REQUEST_COLOR);
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 

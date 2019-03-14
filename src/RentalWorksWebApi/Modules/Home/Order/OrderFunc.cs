@@ -1,14 +1,69 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
 using WebApi.Modules.Home.OrderItem;
 using WebApi.Modules.Home.SubPurchaseOrderItem;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
 {
+
+
+    public class CreatePoWorksheetSessionRequest
+    {
+        public string OrderId;
+        public string RecType;
+        public string VendorId;
+        public string ContactId;
+        public string RateType;
+        public string BillingCycleId;
+        public DateTime? RequiredDate;
+        public string RequiredTime;
+        public DateTime? FromDate;
+        public DateTime? ToDate;
+        public string DeliveryId;
+        public bool? AdjustContractDates;
+    }
+
+    public class CreatePoWorksheetSessionResponse : TSpStatusReponse
+    {
+        public string SessionId;
+    }
+
+
+    public class CompletePoWorksheetSessionRequest
+    {
+        public string SessionId;
+    }
+
+    public class CompletePoWorksheetSessionResponse : TSpStatusReponse
+    {
+        public string PurchaseOrderId;
+    }
+
+    public class PoWorksheetSessionTotalsResponse : TSpStatusReponse
+    {
+        public double? GrossTotal;
+        public double? Discount;
+        public double? SubTotal;
+        public double? Tax;
+        public double? Total;
+    }
+
+    public class CopyTemplateRequest
+    {
+        public List<string> TemplateIds { get; set; } = new List<string>();
+        public string OrderId { get; set; }
+        public string RecType { get; set; }
+    }
+
+    public class CopyTemplateResponse : TSpStatusReponse
+    {
+    }
     public static class OrderFunc
     {
         //-------------------------------------------------------------------------------------------------------

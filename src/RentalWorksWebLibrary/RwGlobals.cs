@@ -45,6 +45,11 @@ namespace WebLibrary
         public static string PO_ITEMS_NEED_BARCODE_COLOR { get; set; }
         public static string PO_ITEMS_IN_HOLDING_COLOR { get; set; }
 
+        //CONTAINER
+        public static string CONTAINER_READY_COLOR { get; set; }
+        public static string CONTAINER_INCOMPLETE_COLOR { get; set; }
+
+
 
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
@@ -94,6 +99,10 @@ namespace WebLibrary
             PO_NEEDS_APPROVAL_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_NEEDS_APPROVAL_COLOR);
             PO_ITEMS_NEED_BARCODE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_ITEMS_NEED_BARCODE_COLOR);
             PO_ITEMS_IN_HOLDING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.PO_ITEMS_IN_HOLDING_COLOR);
+
+
+            CONTAINER_READY_COLOR = CONTAINER_COLOR;
+            CONTAINER_INCOMPLETE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTAINER_INCOMPLETE_COLOR);
 
 
         }

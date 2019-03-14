@@ -4,11 +4,18 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
 using System.Collections.Generic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.ContainerItem
 {
     [FwSqlTable("rentalitemview")]
     public class ContainerItemBrowseLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public ContainerItemBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string ItemId { get; set; } = "";
@@ -70,8 +77,14 @@ namespace WebApi.Modules.Home.ContainerItem
         [FwSqlDataField(column: "containerstatus", modeltype: FwDataTypes.Text)]
         public string ContainerStatus { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "containerstatuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ContainerStatusColor { get; set; }
+        //[FwSqlDataField(column: "containerstatuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        //public string ContainerStatusColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ContainerStatusColor
+        {
+            get { return determineContainerStatusColor(ContainerStatus); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "containerstatusdate", modeltype: FwDataTypes.Date)]
         public string ContainerStatusDate { get; set; }
@@ -93,5 +106,25 @@ namespace WebApi.Modules.Home.ContainerItem
             AddActiveViewFieldToSelect("TrackedBy", "trackedby", select, request);
         }
         //------------------------------------------------------------------------------------ 
+        private string determineContainerStatusColor(string containerStatus)
+        {
+            return (containerStatus.Equals(RwConstants.CONTAINER_STATUS_READY) ? RwGlobals.CONTAINER_READY_COLOR : (containerStatus.Equals(RwConstants.CONTAINER_STATUS_INCOMPLETE) ? RwGlobals.CONTAINER_INCOMPLETE_COLOR : null));
+        }
+        //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ContainerStatusColor")] = determineContainerStatusColor(row[dt.GetColumnNo("ContainerStatus")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

@@ -30,13 +30,13 @@ namespace WebApi.Modules.Home.CompanyContact
         [FwControllerMethod(Id: "2h1Al5QkdiMuk")]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
-            Dictionary<string, string> colors = new Dictionary<string, string>();
-            colors.Add("Lead", RwGlobals.COMPANY_TYPE_LEAD_COLOR);
-            colors.Add("Prospect", RwGlobals.COMPANY_TYPE_PROSPECT_COLOR);
-            colors.Add("Customer", RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR);
-            colors.Add("Deal", RwGlobals.COMPANY_TYPE_DEAL_COLOR);
-            colors.Add("Vendor", RwGlobals.COMPANY_TYPE_VENDOR_COLOR);
-            return new OkObjectResult(colors);
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Lead", RwGlobals.COMPANY_TYPE_LEAD_COLOR);
+            legend.Add("Prospect", RwGlobals.COMPANY_TYPE_PROSPECT_COLOR);
+            legend.Add("Customer", RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR);
+            legend.Add("Deal", RwGlobals.COMPANY_TYPE_DEAL_COLOR);
+            legend.Add("Vendor", RwGlobals.COMPANY_TYPE_VENDOR_COLOR);
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 

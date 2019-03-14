@@ -29,6 +29,20 @@ namespace WebApi.Modules.Home.PurchaseOrder
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/purchaseorder/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "RuAxro4XLWdOW")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Not Approved", RwGlobals.PO_NEEDS_APPROVAL_COLOR);
+            legend.Add("Drop Ship", RwGlobals.PO_DROP_SHIP_COLOR);
+            legend.Add("Items in Holding", RwGlobals.PO_ITEMS_IN_HOLDING_COLOR);
+            legend.Add("Items Needing Bar Code / Serial / RFID", RwGlobals.PO_ITEMS_NEED_BARCODE_COLOR);
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            return new OkObjectResult(legend);
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/purchaseorder/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id:"UoKvbRlRbt1bF")]

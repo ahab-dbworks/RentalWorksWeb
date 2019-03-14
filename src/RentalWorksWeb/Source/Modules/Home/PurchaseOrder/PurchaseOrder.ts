@@ -50,11 +50,17 @@ class PurchaseOrder {
             this.DefaultPurchasePoTypeId = response.DefaultPurchasePoTypeId;
         }, null, null);
 
-        FwBrowse.addLegend($browse, 'Not Approved', '#FF6F6F');
-        FwBrowse.addLegend($browse, 'Drop Ship', '#95D9D2');
-        FwBrowse.addLegend($browse, 'Items in Holding / Staged', '#BBFEBB');
-        FwBrowse.addLegend($browse, 'Items Needing Bar Code / Serial / RFID', '#800080');
-        FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
 
         $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;

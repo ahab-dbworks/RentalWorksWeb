@@ -9,68 +9,10 @@ using System;
 using Microsoft.AspNetCore.Http;
 using WebLibrary;
 using WebApi.Modules.Home.Quote;
-using WebApi.Logic;
-using System.ComponentModel.DataAnnotations;
 using FwStandard.SqlServer;
 
 namespace WebApi.Modules.Home.Order
 {
-
-
-    public class CreatePoWorksheetSessionRequest
-    {
-        public string OrderId;
-        public string RecType;
-        public string VendorId;
-        public string ContactId;
-        public string RateType;
-        public string BillingCycleId;
-        public DateTime? RequiredDate;
-        public string RequiredTime;
-        public DateTime? FromDate;
-        public DateTime? ToDate;
-        public string DeliveryId;
-        public bool? AdjustContractDates;
-    }
-
-    public class CreatePoWorksheetSessionResponse : TSpStatusReponse
-    {
-        public string SessionId;
-    }
-
-
-    public class CompletePoWorksheetSessionRequest
-    {
-        public string SessionId;
-    }
-
-    public class CompletePoWorksheetSessionResponse : TSpStatusReponse
-    {
-        public string PurchaseOrderId;
-    }
-
-    public class PoWorksheetSessionTotalsResponse : TSpStatusReponse
-    {
-        public double? GrossTotal;
-        public double? Discount;
-        public double? SubTotal;
-        public double? Tax;
-        public double? Total;
-    }
-
-    public class CopyTemplateRequest
-    {
-        public List<string> TemplateIds { get; set; } = new List<string>();
-        public string OrderId { get; set; }
-        public string RecType { get; set; }
-    }
-
-    public class CopyTemplateResponse : TSpStatusReponse
-    {
-    }
-
-
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"U8Zlahz3ke9i")]
@@ -91,15 +33,15 @@ namespace WebApi.Modules.Home.Order
         [FwControllerMethod(Id: "d3Q7wt3ufSHTb")]
         public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
         {
-            Dictionary<string, string> colors = new Dictionary<string, string>();
-            colors.Add("On Hold", RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR);
-            colors.Add("No Charge", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
-            colors.Add("Late", RwGlobals.ORDER_LATE_COLOR);
-            colors.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
-            colors.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
-            colors.Add("Repair", RwGlobals.ORDER_REPAIR_COLOR);
-            colors.Add("Loss & Damage", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
-            return new OkObjectResult(colors);
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("On Hold", RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR);
+            legend.Add("No Charge", RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR);
+            legend.Add("Late", RwGlobals.ORDER_LATE_COLOR);
+            legend.Add("Foreign Currency", RwGlobals.FOREIGN_CURRENCY_COLOR);
+            legend.Add("Multi-Warehouse", RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR);
+            legend.Add("Repair", RwGlobals.ORDER_REPAIR_COLOR);
+            legend.Add("Loss & Damage", RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR);
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/modulename/exportexcelxlsx/filedownloadname 

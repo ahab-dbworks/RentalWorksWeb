@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.ContainerItem
 {
     [Route("api/v1/[controller]")]
@@ -21,6 +23,17 @@ namespace WebApi.Modules.Home.ContainerItem
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/containeritem/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "28ypADGp8lJRl")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Ready", RwGlobals.CONTAINER_READY_COLOR);
+            legend.Add("Incomplete", RwGlobals.CONTAINER_INCOMPLETE_COLOR);
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem/exportexcelxlsx/filedownloadname 

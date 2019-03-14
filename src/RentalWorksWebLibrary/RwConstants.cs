@@ -231,10 +231,12 @@
         public const string CONTAINER_STAGING_ADD_ITEMS_RULE_WARN_BUT_ADD = "WARN";
         public const string CONTAINER_STAGING_ADD_ITEMS_RULE_DO_NOT_WARN_DO_NOT_ADD = "NOWARN";
         public const string CONTAINER_STAGING_ADD_ITEMS_RULE_DO_NOT_STAGE = "ERROR";
-
         public const string CONTAINER_PACKING_LIST_BEHAVIOR_AUTOMATICALLY_PRINT = "AUTOPRINT";
         public const string CONTAINER_PACKING_LIST_BEHAVIOR_PROMPT_TO_PRINT = "PROMPT";
         public const string CONTAINER_PACKING_LIST_BEHAVIOR_DO_NOTHING = "NONE";
+        public const string CONTAINER_STATUS_READY = "READY";
+        public const string CONTAINER_STATUS_INCOMPLETE = "INCOMPLETE";
+        public const int CONTAINER_INCOMPLETE_COLOR = 16711684; // red
 
 
         public const string VEHICLE_TYPE_VEHICLE = "VEHICLE";

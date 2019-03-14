@@ -41,14 +41,18 @@ class Container {
             request.activeviewfields = self.ActiveViewFields;
         });
 
-        FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {
-            for (var i = 0; i < response.length; i++) {
-                if (response[i].InventoryStatus == 'IN CONTAINER') {
-                    FwBrowse.addLegend($browse, response[i].InventoryStatus, response[i].Color);
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
                 }
-            }
-            FwBrowse.addLegend($browse, 'INCOMPLETE', '#FF0000');
-        }, null, $browse);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+
 
         return $browse;
     };
