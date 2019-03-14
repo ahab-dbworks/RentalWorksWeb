@@ -3305,7 +3305,6 @@ class FwBrowseClass {
     }
     //----------------------------------------------------------------------------------------------
     multiSaveRow($control: JQuery, $trs: JQuery): Promise<boolean> {
-        let me = this;
         return new Promise<boolean>((resolve, reject) => {
             const name = $control.attr('data-name');
             if (typeof name === 'undefined') {
@@ -3315,7 +3314,6 @@ class FwBrowseClass {
             if (typeof controller === 'undefined') {
                 throw `Controller: ${name} is not defined`;
             }
-            //let mode = 'Insert';
             let manyRequest = [];
             let ids = [];
             for (let i = 0; i < $trs.length; i++) {
@@ -3325,87 +3323,18 @@ class FwBrowseClass {
                     let isvalid = true;
                     isvalid = this.validateRow($control, $tr);
                     if (isvalid) {
-                        const isUsingWebApi = this.isUsingWebApi($control);
-                        var request;
                         $form = $control.closest('.fwform');
-                        if (isUsingWebApi) {
-                            const allparentformfields = FwModule.getWebApiFields($form, true);
-                            let parentformfields = {};
-                            let whitelistedFields = (typeof $control.attr('data-parentformdatafields') !== 'undefined') ? $control.attr('data-parentformdatafields') : '';
-                            if (whitelistedFields.length > 0) {
-                                let whitelistedFieldsArray = whitelistedFields.split(',');
-                                for (var fieldname in allparentformfields) {
-                                    for (let j = 0; j < whitelistedFieldsArray.length; j++) {
-                                        var whitelistedField = whitelistedFieldsArray[j];
-                                        var indexOfEquals = whitelistedField.indexOf('=');
-                                        if (indexOfEquals === -1) {
-                                            if (fieldname === whitelistedFieldsArray[j]) {
-                                                parentformfields[fieldname] = allparentformfields[fieldname];
-                                            }
-                                        } else {
-                                            var apiName = whitelistedField.substr(0, indexOfEquals - 1);
-                                            var parentFormFieldName = whitelistedField.substr(indexOfEquals);
-                                            if (fieldname === apiName) {
-                                                parentformfields[fieldname] = allparentformfields[fieldname];
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            var gridfields = this.getWebApiRowFields($control, $tr);
-                            request = jQuery.extend({}, parentformfields, gridfields);
-                            if (typeof $control.data('beforesave') === 'function') {
-                                $control.data('beforesave')(request);
-                            }
-
-                            manyRequest.push(request);
-                            const uniqueIds = this.getRowFormUniqueIds($control, $tr);
-                            ids.push(uniqueIds);
-                        } else {
-                            throw 'Web Api not configured';
-                            // set request for old api
-                            //rowuniqueids = this.getRowFormUniqueIds($control, $tr);
-                            //rowfields = this.getRowFormDataFields($control, $tr, false);
-                            //miscfields = this.getRowFormDataFields($control, $tr, true);
-                            //if ($form.length > 0) {
-                            //    formuniqueids = FwModule.getFormUniqueIds($form);
-                            //    formfields = FwModule.getFormFields($form, true);
-                            //}
-                            // remove any uniqueids that are in the fields in NEW mode only
-                            //if (mode === 'Insert') {
-                            //    for (var rowfield in rowfields) {
-                            //        for (var rowuniqueid in rowuniqueids) {
-                            //            if (rowfield === rowuniqueid) {
-                            //                delete rowuniqueids[rowuniqueid];
-                            //            }
-                            //        }
-                            //    }
-                            //}
-                            //    request = {
-                            //        module: name,
-                            //        mode: mode,
-                            //        ids: rowuniqueids,
-                            //        fields: rowfields,
-                            //        miscfields: miscfields
-                            //    };
-                            //    if ($form.length > 0) {
-                            //        request.miscfields = jQuery.extend({}, request.miscfields, formuniqueids);
-                            //        request.miscfields = jQuery.extend({}, request.miscfields, formfields);
-                            //    }
-                            //}
-                            //if (typeof $control.data('beforesave') === 'function') {
-                            //    $control.data('beforesave')(request);
-                            //}
+                        const gridfields = this.getWebApiRowFields($control, $tr);
+                        if (typeof $control.data('beforesave') === 'function') {
+                            $control.data('beforesave')(gridfields);
                         }
+                        manyRequest.push(gridfields);
+                        const uniqueIds = this.getRowFormUniqueIds($control, $tr);
+                        ids.push(uniqueIds);
                     }
                 }
             }
             FwAppData.apiMethod(true, 'POST', `${controller.apiurl}/many`, manyRequest, FwServices.defaultTimeout, function (response) {
-                //let failedToSave = response.filter(x => x["Result"]["StatusCode"] != 200);
-                //for (let i = 0; i < failedToSave.length; i++) {
-                //    FwNotification.renderNotification('ERROR', failedToSave[i]["Result"]["Value"]["Message"]);
-                //}
                 const pageNumber = $control.attr('data-pageno');
                 const onDataBind = $control.data('ondatabind');
                 if (typeof onDataBind == 'function') { //adds current page number to request
@@ -3414,10 +3343,30 @@ class FwBrowseClass {
                         request.pageno = parseInt(pageNumber);
                     });
                 }
-                me.search($control)
+                FwBrowse.search($control)
                     .then(() => {
                         $control.find('.grid-multi-save').hide();
+                        $control.attr('data-pageno', pageNumber);
                         $control.data('ondatabind', onDataBind); //re-binds original request
+                        for (let i = 0; i < response.length; i++) {
+                            const item = response[i];
+                            const key = Object.keys(ids[i])[0];
+                            const uniqueIdField = ids[i][key].datafield;
+                            const uniqueIdValue = ids[i][key].value;
+                            const $tr = $control.find(`div.field[data-isuniqueid="true"][data-formdatafield="${uniqueIdField}"][data-originalvalue="${uniqueIdValue}"]`).parents('tr');
+                            const $contextMenu = $tr.find('td.browsecontextmenucell');
+                            if (item["Result"]["StatusCode"] != 200) {
+                                FwNotification.renderNotification('ERROR', item["Result"]["Value"]["Message"]);
+                                $contextMenu.addClass('menuError');
+                                $contextMenu.unbind('click.error');
+                                $contextMenu.bind('click.error', () => {
+                                    FwNotification.renderNotification('ERROR', item["Result"]["Value"]["Message"]);
+                                });
+                            } else {
+                                $contextMenu.removeClass('menuError');
+                                $contextMenu.unbind('click.error');
+                            }
+                        }
                         resolve();
                     })
                     .catch((reason) => {
