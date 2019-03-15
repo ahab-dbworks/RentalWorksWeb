@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.MasterLocation
         [FwLogicProperty(Id:"0HksWsb2mFRm", IsPrimaryKey:true)]
         public int? Id { get { return masterLocation.Id; } set { masterLocation.Id = value; } }
 
-        [FwLogicProperty(Id:"XgG4xZ7p4Es7", IsPrimaryKey:true)]
+        [FwLogicProperty(Id:"XgG4xZ7p4Es7", IsPrimaryKey:true, IsPrimaryKeyOptional: true)]
         public string InternalChar { get { return masterLocation.InternalChar; } set { masterLocation.InternalChar = value; } }
 
         //[FwLogicProperty(Id:"FnDjjDruAmSr")]
