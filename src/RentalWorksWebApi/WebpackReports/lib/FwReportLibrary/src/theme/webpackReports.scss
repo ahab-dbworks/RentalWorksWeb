@@ -34,19 +34,19 @@ body {
 // Top-level sub title
 .rpt-header-center {
     align-self: center;
-    font-size: 12px;
+    font-size: 13px;
     margin-top: 5px;
 }
 // Top-level right
 .rpt-header-right {
     align-self: flex-end;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
 }
 // Top-level left
 .rpt-header-left {
     align-self: flex-start;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: bold;
 }
 // Print time footer on all reports
@@ -146,7 +146,7 @@ body {
 // section header row
 .header-row {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 13px;
 }
 // top most section header
 .header-row:not(.lower) {
