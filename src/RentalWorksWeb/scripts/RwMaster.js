@@ -156,10 +156,14 @@ class RwMaster extends WebMaster {
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 program.getModule('home');
                                 if (response.location.location !== defaultLocation.location) {
-                                    jQuery('#master-header').css('border', `${response.location.locationcolor} solid 2px`);
+                                    const styles = {
+                                        borderTop: `.3em solid ${response.location.locationcolor}`,
+                                        borderBottom: `.3em solid ${response.location.locationcolor}`
+                                    };
+                                    jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(styles);
                                 }
                                 else {
-                                    jQuery('#master-header').css('border', 'transparent');
+                                    jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
                                 }
                                 $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
                                 $usercontrol.find('.officelocation .value').text(response.location.location);
