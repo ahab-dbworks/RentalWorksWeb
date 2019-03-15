@@ -182,7 +182,7 @@ namespace WebApi.Modules.Home.CheckOut
 
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.InventoryId = qry.GetParameter("@masterid").ToString();
                     response.OrderItemId = qry.GetParameter("@masteritemid").ToString();
                     response.QuantityStaged = qry.GetParameter("@qtystaged").ToInt32();
@@ -226,7 +226,7 @@ namespace WebApi.Modules.Home.CheckOut
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
@@ -261,7 +261,7 @@ namespace WebApi.Modules.Home.CheckOut
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.ContractId = qry.GetParameter("@contractid").ToString();
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
@@ -303,7 +303,7 @@ namespace WebApi.Modules.Home.CheckOut
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
@@ -344,7 +344,7 @@ namespace WebApi.Modules.Home.CheckOut
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.status = qry.GetParameter("@status").ToInt32();
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
@@ -368,7 +368,7 @@ namespace WebApi.Modules.Home.CheckOut
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, orderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.ContractId = qry.GetParameter("@contractid").ToString();
                     //response.status = qry.GetParameter("@status").ToInt32();
                     //response.success = (response.status == 0);
@@ -403,7 +403,7 @@ namespace WebApi.Modules.Home.CheckOut
                     qry.AddParameter("@hasserial", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@hasusage", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@hasconsignment", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.success = true;
                     response.QuantityTab = FwConvert.ToBoolean(qry.GetParameter("@hasquantity").ToString());
                     response.HoldingTab = FwConvert.ToBoolean(qry.GetParameter("@hasholding").ToString());

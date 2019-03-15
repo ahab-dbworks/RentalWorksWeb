@@ -428,7 +428,7 @@ namespace WebApi.Modules.Home.Customer
             {
                 if (string.IsNullOrEmpty(CustomerNumber))
                 {
-                    bool x = customer.SetNumber().Result;
+                    bool x = customer.SetNumber(e.SqlConnection).Result;
                 }
             }
             else  // updating

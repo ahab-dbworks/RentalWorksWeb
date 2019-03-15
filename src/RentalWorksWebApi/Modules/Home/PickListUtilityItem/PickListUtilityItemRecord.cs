@@ -65,7 +65,7 @@ namespace WebApi.Modules.Home.PickListUtilityItem
                     qry.AddParameter("@stagedqty", SqlDbType.Int, ParameterDirection.Input, StagedQuantity);
                     qry.AddParameter("@outqty", SqlDbType.Int, ParameterDirection.Input, OutQuantity);
                     qry.AddParameter("@inlocationqty", SqlDbType.Int, ParameterDirection.Input, InlocationQuantity);
-                    int i = qry.ExecuteNonQueryAsync(true).Result;
+                    int i = qry.ExecuteNonQueryAsync().Result;
                 }
             }
 

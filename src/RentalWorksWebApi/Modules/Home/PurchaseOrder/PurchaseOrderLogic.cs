@@ -580,7 +580,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                bool x = purchaseOrder.SetNumber().Result;
+                bool x = purchaseOrder.SetNumber(e.SqlConnection).Result;
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
                 {
@@ -620,7 +620,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
                     if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                     {
-                        bool b2 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        bool b2 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
                     }
                 }
             }
@@ -643,7 +643,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
                 if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                 {
-                    bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                    bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
                 }
             }
         }

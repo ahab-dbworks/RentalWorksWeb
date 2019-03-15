@@ -103,7 +103,7 @@ namespace WebApi.Modules.Reports.OutContractReport
 				qry1.Add("  left outer join appimage ai with (nolock) on (c.contractid = ai.uniqueid1 and ai.rectype = 'CONTRACT_SIGNATURE')");
                 qry1.Add("where c.contractid = @contractid");
                 qry1.AddParameter("@contractid", contractid);
-                taskContract = qry1.QueryToTypedObjectAsync<OutContractReport>(false);
+                taskContract = qry1.QueryToTypedObjectAsync<OutContractReport>();
                 tasks.Add(taskContract);
 
                 // load the Contract Items, we will need to separate the Sales and Rental Items later, and leave a placehholder column "Barcodes" where we can merge in the barcode numbers
@@ -130,7 +130,7 @@ namespace WebApi.Modules.Reports.OutContractReport
                 qry2.Add("  left outer join TotalOutCte toc on (toc.masteritemid = fcid.masteritemid)");
                 qry2.Add("order by fcid.rectype, fcid.orderby, fcid.barcode");
                 qry2.AddParameter("@contractid", contractid);
-                taskContractItems = qry2.QueryToTypedListAsync<OutContractItem>(false);
+                taskContractItems = qry2.QueryToTypedListAsync<OutContractItem>();
                 tasks.Add(taskContractItems);
 
                 await Task.WhenAll(new Task[] { taskContract, taskContractItems });

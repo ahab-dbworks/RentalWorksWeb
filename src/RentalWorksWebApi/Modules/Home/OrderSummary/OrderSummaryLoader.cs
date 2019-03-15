@@ -327,7 +327,7 @@ namespace WebApi.Modules.Home.OrderSummary
                         qry.Add("exec getordersummaryasresultset @orderid = @orderid, @totaltype = @totaltype");
                         qry.AddParameter("@orderid", OrderId);
                         qry.AddParameter("@totaltype", TotalType);
-                        dynamic records = await qry.SelectAsync<OrderSummaryLoader>(true, customFields);
+                        dynamic records = await qry.SelectAsync<OrderSummaryLoader>(/*true, */customFields);
                         dynamic record = null;
                         if (records.Count > 0)
                         {

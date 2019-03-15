@@ -44,7 +44,7 @@ namespace WebApi.Modules.Home.Billing
                     //               @combineperiods  char(01) = 'F',
                     //               @billifcomplete  char(01) = 'T',
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.SessionId = qry.GetParameter("@sessionid").ToString();
                     response.success = true;
                     response.msg = "";
@@ -66,7 +66,7 @@ namespace WebApi.Modules.Home.Billing
                     qry.AddParameter("@invoicebatchid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.InvoiceCreationBatchId = qry.GetParameter("@invoicebatchid").ToString();
                     response.success = (qry.GetParameter("@status").ToInt32() == 0);
                     response.msg = qry.GetParameter("@msg").ToString();

@@ -494,7 +494,7 @@ namespace WebApi.Modules.Home.Deal
             {
                 if (string.IsNullOrEmpty(DealNumber))
                 {
-                    bool x = deal.SetNumber().Result;
+                    bool x = deal.SetNumber(e.SqlConnection).Result;
                 }
             }
             else  // updating

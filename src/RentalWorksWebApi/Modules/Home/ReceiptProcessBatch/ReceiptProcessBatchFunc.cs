@@ -27,7 +27,7 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.NVarChar, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     //response.BatchId = qry.GetParameter("@chgbatchid").ToString();
                     batchId = qry.GetParameter("@chgbatchid").ToString();
                     //response.success = (qry.GetParameter("@status").ToInt32() == 0);

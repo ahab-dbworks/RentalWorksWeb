@@ -37,7 +37,7 @@ namespace WebApi.Modules.Settings.UserSearchSettings
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "checkwebusersearchsettings", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@webusersid", SqlDbType.NVarChar, ParameterDirection.Input, WebUserId);
-                int i = qry.ExecuteNonQueryAsync(true).Result;
+                int i = qry.ExecuteNonQueryAsync().Result;
             }
 
             return isValid;

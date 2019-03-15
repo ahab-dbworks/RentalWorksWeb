@@ -174,7 +174,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         public bool? PrintNotes { get; set; }
 
         [FwLogicProperty(Id: "NX8mTmIkb8bd", IsReadOnly: true)]
-        public string PaymentTermsId { get { return vendorInvoice.PaymentTermsId; } set { vendorInvoice.PaymentTermsId = value;} }
+        public string PaymentTermsId { get { return vendorInvoice.PaymentTermsId; } set { vendorInvoice.PaymentTermsId = value; } }
 
         [FwLogicProperty(Id: "RNBDNCR4prQc", IsReadOnly: true)]
         public string PaymentTerms { get; set; }
@@ -289,7 +289,7 @@ namespace WebApi.Modules.Home.VendorInvoice
 
                     if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                     {
-                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
                     }
                 }
             }

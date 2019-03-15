@@ -46,7 +46,7 @@ namespace WebApi.Modules.Home.CompleteQc
                 qry.AddParameter("@rentalitemqcid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.InventoryId = qry.GetParameter("@masterid").ToString();
                 response.ICode = qry.GetParameter("@masterno").ToString();
                 response.Description = qry.GetParameter("@description").ToString();
@@ -75,7 +75,7 @@ namespace WebApi.Modules.Home.CompleteQc
                 qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, request.Note);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();

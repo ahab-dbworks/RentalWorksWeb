@@ -56,7 +56,7 @@ namespace WebApi.Modules.Home.CheckIn
                 qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, DepartmentId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 contractId = qry.GetParameter("@contractid").ToString();
             }
             return contractId;
@@ -149,7 +149,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
                 qry.AddParameter("@totalin", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.ContractId = qry.GetParameter("@incontractid").ToString();
                 response.OrderId = qry.GetParameter("@itemorderid").ToString();
                 response.OrderNumber = qry.GetParameter("@orderno").ToString();

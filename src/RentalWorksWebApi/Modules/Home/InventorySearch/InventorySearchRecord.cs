@@ -49,7 +49,7 @@ namespace WebApi.Modules.Home.InventorySearch
                 qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                int i = qry.ExecuteNonQueryAsync(true).Result;
+                int i = qry.ExecuteNonQueryAsync().Result;
                 TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
@@ -73,7 +73,7 @@ namespace WebApi.Modules.Home.InventorySearch
                 qry.AddParameter("@totalqtyinsession", SqlDbType.Float, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                int i = await qry.ExecuteNonQueryAsync(true);
+                int i = await qry.ExecuteNonQueryAsync();
                 response.TotalQuantityInSession = qry.GetParameter("@totalqtyinsession").ToDecimal();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
@@ -91,7 +91,7 @@ namespace WebApi.Modules.Home.InventorySearch
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                int i = await qry.ExecuteNonQueryAsync(true);
+                int i = await qry.ExecuteNonQueryAsync();
             }
             return b;
         }

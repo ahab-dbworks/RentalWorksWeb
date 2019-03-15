@@ -130,7 +130,7 @@ namespace WebApi.Modules.Home.PickList
                     AddMiscFieldToQueryAsBoolean("HonorCompleteKitItemTypes", "@honorcompletekititemtypes", qry, request);
                     qry.AddParameter("@createpicklist", SqlDbType.NVarChar, ParameterDirection.Input, 'T');
                     qry.AddParameter("@picklistid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     id = qry.GetParameter("@picklistid").ToString().TrimEnd();
                 }
             }
@@ -151,7 +151,7 @@ namespace WebApi.Modules.Home.PickList
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "deletepicklist", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@picklistid", SqlDbType.NVarChar, ParameterDirection.Input, PickListId);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
             }
             return success;
         }

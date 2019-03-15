@@ -462,7 +462,7 @@ namespace WebApi.Modules.Home.Master
                     qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "WARDDESC");
                     qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, WardrobeDetailedDescription);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     saved = true;
                 }
             }

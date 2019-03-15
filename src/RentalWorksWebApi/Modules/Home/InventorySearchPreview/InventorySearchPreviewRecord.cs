@@ -40,7 +40,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                 FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@id", SqlDbType.Int, ParameterDirection.Input, Id);
                 qry.AddParameter("@qty", SqlDbType.Float, ParameterDirection.Input, Quantity);
-                int i = qry.ExecuteNonQueryAsync(true).Result;
+                int i = qry.ExecuteNonQueryAsync().Result;
             }
             e.PerformSave = false;
         }

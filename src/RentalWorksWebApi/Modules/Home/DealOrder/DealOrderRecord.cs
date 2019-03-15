@@ -973,14 +973,14 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
                     qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
                     qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, false);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     saved = true;
                 }
             }
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> SetNumber()
+        public async Task<bool> SetNumber(FwSqlConnection conn)
         {
             string moduleName = "";
             if ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) || (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
@@ -1003,7 +1003,7 @@ public string DateStamp { get; set; }
             {
                 throw new Exception("Invalid Type " + Type + " in DealOrderRecord.SetNumber");
             }
-            OrderNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, moduleName);
+            OrderNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, moduleName, conn: conn);
 
             return true;
         }
@@ -1017,7 +1017,7 @@ public string DateStamp { get; set; }
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, "updateordertotal", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1042,7 +1042,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@copydocuments", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyDocuments);
                     qry.AddParameter("@copytodealid", SqlDbType.NVarChar, ParameterDirection.Input, copyRequest.CopyToDealId);
                     qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     newId = qry.GetParameter("@neworderid").ToString();
                 }
             }
@@ -1074,7 +1074,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
                     qry.AddParameter("@dw", SqlDbType.Decimal, ParameterDirection.Input, request.DaysPerWeek);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1093,10 +1093,10 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@parentid", SqlDbType.NVarChar, ParameterDirection.Input, "");   // supply a value to update all rows in a Complete or Kit
                     qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                     qry.AddParameter("@activity", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T": "F"));
+                    qry.AddParameter("@issub", SqlDbType.NVarChar, ParameterDirection.Input, (request.Subs.GetValueOrDefault(false) ? "T" : "F"));
                     qry.AddParameter("@discountpct", SqlDbType.Decimal, ParameterDirection.Input, request.DiscountPercent);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1132,7 +1132,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@taxincluded", SqlDbType.NVarChar, ParameterDirection.Input, (request.IncludeTaxInTotal.GetValueOrDefault(false) ? "T" : "F"));
                     qry.AddParameter("@newtotal", SqlDbType.Decimal, ParameterDirection.Input, request.Total);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1150,7 +1150,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     newId = qry.GetParameter("@neworderid").ToString();
                 }
             }
@@ -1167,7 +1167,7 @@ public string DateStamp { get; set; }
                     FwSqlCommand qry = new FwSqlCommand(conn, "cancelquote", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1184,7 +1184,7 @@ public string DateStamp { get; set; }
                     FwSqlCommand qry = new FwSqlCommand(conn, "uncancelquote", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1201,7 +1201,7 @@ public string DateStamp { get; set; }
                     FwSqlCommand qry = new FwSqlCommand(conn, "togglecancelorder", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1218,7 +1218,7 @@ public string DateStamp { get; set; }
                     FwSqlCommand qry = new FwSqlCommand(conn, "togglecancelorder", this.AppConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     success = true;
                 }
             }
@@ -1236,7 +1236,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     newId = qry.GetParameter("@neworderid").ToString();
                 }
             }
@@ -1254,7 +1254,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     newId = qry.GetParameter("@neworderid").ToString();
                 }
             }
@@ -1272,7 +1272,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@leadid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@quoteid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     newId = qry.GetParameter("@quoteid").ToString();
                 }
             }
@@ -1290,7 +1290,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     contractId = qry.GetParameter("@contractid").ToString();
                 }
             }
@@ -1309,7 +1309,7 @@ public string DateStamp { get; set; }
                     qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                     qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     contractId = qry.GetParameter("@contractid").ToString();
                 }
             }

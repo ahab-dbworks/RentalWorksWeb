@@ -480,7 +480,7 @@ namespace WebApi.Modules.Home.Invoice
 
                     if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                     {
-                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
                     }
                 }
             }

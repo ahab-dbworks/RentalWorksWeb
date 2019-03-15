@@ -442,7 +442,7 @@ namespace WebApi.Modules.Reports.PickListReport
 
                     // load pick list header here
                     select.SetQuery(qry);
-                    taskPickList = qry.QueryToTypedObjectAsync<PickListReportLoader>(false);
+                    taskPickList = qry.QueryToTypedObjectAsync<PickListReportLoader>();
 
                     // load pick list items here
                     pickListItems = new PickListItemReportLoader();

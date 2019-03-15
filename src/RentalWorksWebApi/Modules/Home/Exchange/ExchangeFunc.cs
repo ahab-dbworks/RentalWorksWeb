@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.Exchange
                 qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, DepartmentId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@exchangecontractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 contractId = qry.GetParameter("@exchangecontractid").ToString();
             }
             return contractId;
@@ -117,7 +117,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
                     qry.AddParameter("@returnitemavailtodatetime", SqlDbType.DateTime, ParameterDirection.Output);
                     qry.AddParameter("@returnitempendingrepairid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@returnmsg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     response.OrderId = qry.GetParameter("@returnitemorderid").ToString().TrimEnd();
                     response.OrderNumber = qry.GetParameter("@returnitemorderno").ToString().TrimEnd();
                     response.OrderDescription = qry.GetParameter("@returnitemorderdesc").ToString().TrimEnd();
@@ -194,7 +194,7 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
 
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
 
                     // begin outputs
                     response.OrderId = qry.GetParameter("@orderid").ToString().TrimEnd();

@@ -460,7 +460,7 @@ namespace WebApi.Modules.Home.TransferOrder
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                bool x = transferOrder.SetNumber().Result;
+                bool x = transferOrder.SetNumber(e.SqlConnection).Result;
                 Status = RwConstants.TRANSFER_STATUS_NEW;
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 TransferDate = FwConvert.ToString(DateTime.Today);

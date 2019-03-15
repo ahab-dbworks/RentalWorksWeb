@@ -462,9 +462,9 @@ namespace WebApi.Modules.Home.Deal
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
 
-        public async Task<bool> SetNumber()
+        public async Task<bool> SetNumber(FwSqlConnection conn)
         {
-            DealNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_DEAL, LocationId);
+            DealNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_DEAL, LocationId, conn);
             return true;
         }
         //-------------------------------------------------------------------------------------------------------    

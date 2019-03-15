@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.Receipt
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "postglforar", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@arid", SqlDbType.NVarChar, ParameterDirection.Input, receiptId);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
             }
             return true;
         }

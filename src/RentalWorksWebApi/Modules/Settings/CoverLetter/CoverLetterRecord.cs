@@ -37,7 +37,7 @@ namespace WebApi.Modules.Settings.CoverLetter
                     qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
                     qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, Html);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     saved = true;
                 }
             }

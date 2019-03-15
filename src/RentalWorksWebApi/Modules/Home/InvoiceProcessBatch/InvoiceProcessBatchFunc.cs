@@ -29,7 +29,7 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
                     qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     batchId = qry.GetParameter("@chgbatchid").ToString();
                     response.success = (qry.GetParameter("@status").ToInt32() == 0);
                     response.msg = qry.GetParameter("@msg").ToString();

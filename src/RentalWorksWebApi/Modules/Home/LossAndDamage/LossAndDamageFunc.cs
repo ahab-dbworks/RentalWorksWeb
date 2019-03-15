@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.LossAndDamage
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.SessionId = qry.GetParameter("@sessionid").ToString();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
@@ -74,7 +74,7 @@ namespace WebApi.Modules.Home.LossAndDamage
                 qry.AddParameter("@newqty", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.NewQuantity = qry.GetParameter("@newqty").ToInt32();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
@@ -96,7 +96,7 @@ namespace WebApi.Modules.Home.LossAndDamage
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
@@ -135,7 +135,7 @@ namespace WebApi.Modules.Home.LossAndDamage
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
@@ -157,7 +157,7 @@ namespace WebApi.Modules.Home.LossAndDamage
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@lostcontractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 //response.status = qry.GetParameter("@status").ToInt32();
                 //response.success = (response.status == 0);
                 //response.msg = qry.GetParameter("@msg").ToString();

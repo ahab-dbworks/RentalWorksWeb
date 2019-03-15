@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.Invoice
                 qry.AddParameter("@void", SqlDbType.NVarChar, ParameterDirection.Input, "T");
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = true;
                 response.msg = "";
                 //response.success = (qry.GetParameter("@status").ToInt32() == 0);
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Home.Invoice
                 //qry.AddParameter("@approveifdealinvisnew", SqlDbType.NVarChar, ParameterDirection.Input, "F");
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 //response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 //response.msg = qry.GetParameter("@msg").ToString();

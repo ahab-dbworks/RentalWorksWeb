@@ -10,7 +10,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Repair
 {
-    [FwLogic(Id:"eQEPZrRi01LzW")]
+    [FwLogic(Id: "eQEPZrRi01LzW")]
     public class RepairLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -33,315 +33,316 @@ namespace WebApi.Modules.Home.Repair
 
             tax.AssignPrimaryKeys += TaxAssignPrimaryKeys;
             tax.AfterSave += OnAfterSaveTax;
+            UseTransactionToSave = true;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"mD3GkEIjJcjlt", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "mD3GkEIjJcjlt", IsPrimaryKey: true)]
         public string RepairId { get { return repair.RepairId; } set { repair.RepairId = value; } }
 
-        [FwLogicProperty(Id:"PW1aZC7K768Z")]
+        [FwLogicProperty(Id: "PW1aZC7K768Z")]
         public string LocationId { get { return repair.LocationId; } set { repair.LocationId = value; } }
 
-        [FwLogicProperty(Id:"gM13Bzg7LAand", IsReadOnly:true)]
+        [FwLogicProperty(Id: "gM13Bzg7LAand", IsReadOnly: true)]
         public string Location { get; set; }
 
-        [FwLogicProperty(Id:"XZLC4i4T7cZ1")]
+        [FwLogicProperty(Id: "XZLC4i4T7cZ1")]
         public string BillingLocationId { get { return repair.BillingLocationId; } set { repair.BillingLocationId = value; } }
 
-        [FwLogicProperty(Id:"qQVibe5BCbKDw", IsReadOnly:true)]
+        [FwLogicProperty(Id: "qQVibe5BCbKDw", IsReadOnly: true)]
         public string BillingLocation { get; set; }
 
-        [FwLogicProperty(Id:"xhKzfNoDKAdj")]
+        [FwLogicProperty(Id: "xhKzfNoDKAdj")]
         public string WarehouseId { get { return repair.WarehouseId; } set { repair.WarehouseId = value; } }
 
-        [FwLogicProperty(Id:"7q34E1LMVlwM2", IsReadOnly:true)]
+        [FwLogicProperty(Id: "7q34E1LMVlwM2", IsReadOnly: true)]
         public string ItemWarehouseId { get; set; }
 
-        [FwLogicProperty(Id:"U9VuLeZofY9ow", IsReadOnly:true)]
+        [FwLogicProperty(Id: "U9VuLeZofY9ow", IsReadOnly: true)]
         public string Warehouse { get; set; }
 
-        [FwLogicProperty(Id:"U9VuLeZofY9ow", IsReadOnly:true)]
+        [FwLogicProperty(Id: "U9VuLeZofY9ow", IsReadOnly: true)]
         public string WarehouseCode { get; set; }
 
-        [FwLogicProperty(Id:"e9G3UV2AaJaw")]
+        [FwLogicProperty(Id: "e9G3UV2AaJaw")]
         public string BillingWarehouseId { get { return repair.BillingWarehouseId; } set { repair.BillingWarehouseId = value; } }
 
-        [FwLogicProperty(Id:"uUysNzdfUCio5", IsReadOnly:true)]
+        [FwLogicProperty(Id: "uUysNzdfUCio5", IsReadOnly: true)]
         public string BillingWarehouse { get; set; }
 
-        [FwLogicProperty(Id:"Klsqbpd9hLvt")]
+        [FwLogicProperty(Id: "Klsqbpd9hLvt")]
         public string DepartmentId { get { return repair.DepartmentId; } set { repair.DepartmentId = value; } }
 
-        [FwLogicProperty(Id:"fmet9QfVZ71yH", IsReadOnly:true)]
+        [FwLogicProperty(Id: "fmet9QfVZ71yH", IsReadOnly: true)]
         public string Department { get; set; }
 
-        [FwLogicProperty(Id:"5Pe7MAe4ydezV", IsReadOnly:true)]
+        [FwLogicProperty(Id: "5Pe7MAe4ydezV", IsReadOnly: true)]
         public string InventoryTypeId { get; set; }
 
-        [FwLogicProperty(Id:"5Pe7MAe4ydezV", IsReadOnly:true)]
+        [FwLogicProperty(Id: "5Pe7MAe4ydezV", IsReadOnly: true)]
         public string InventoryType { get; set; }
 
-        [FwLogicProperty(Id:"ToBTTYQUnNZE")]
+        [FwLogicProperty(Id: "ToBTTYQUnNZE")]
         public bool? PendingRepair { get { return repair.PendingRepair; } set { repair.PendingRepair = value; } }
 
-        [FwLogicProperty(Id:"QWRGXatCbG6fh", IsRecordTitle:true)]
+        [FwLogicProperty(Id: "QWRGXatCbG6fh", IsRecordTitle: true)]
         public string RepairNumber { get { return repair.RepairNumber; } set { repair.RepairNumber = value; } }
 
-        [FwLogicProperty(Id:"QWRGXatCbG6fh", IsReadOnly:true)]
+        [FwLogicProperty(Id: "QWRGXatCbG6fh", IsReadOnly: true)]
         public string RepairNumberColor { get; set; }
 
-        [FwLogicProperty(Id:"wSax3slfYElkq", IsReadOnly:true)]
+        [FwLogicProperty(Id: "wSax3slfYElkq", IsReadOnly: true)]
         public string RepairDate { get { return repair.RepairDate; } set { repair.RepairDate = value; } }
 
-        [FwLogicProperty(Id:"8vz9Y16dL0L7")]
+        [FwLogicProperty(Id: "8vz9Y16dL0L7")]
         public bool? OutsideRepair { get { return repair.OutsideRepair; } set { repair.OutsideRepair = value; } }
 
-        [FwLogicProperty(Id:"2fMiHJ1D3LBdc", IsReadOnly:true)]
+        [FwLogicProperty(Id: "2fMiHJ1D3LBdc", IsReadOnly: true)]
         public string OutsideRepairPoNumber { get; set; }
 
-        [FwLogicProperty(Id:"jhQu8TxBrZxki", IsReadOnly:true)]
+        [FwLogicProperty(Id: "jhQu8TxBrZxki", IsReadOnly: true)]
         public string ItemId { get; set; }
 
-        [FwLogicProperty(Id:"Nn3y6NWfMy7Ue", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Nn3y6NWfMy7Ue", IsReadOnly: true)]
         public string BarCode { get; set; }
 
-        [FwLogicProperty(Id:"MNnQ2k8XeJHCI", IsReadOnly:true)]
+        [FwLogicProperty(Id: "MNnQ2k8XeJHCI", IsReadOnly: true)]
         public string SerialNumber { get; set; }
 
-        [FwLogicProperty(Id:"w8v4Vccf7BmdS", IsReadOnly:true)]
+        [FwLogicProperty(Id: "w8v4Vccf7BmdS", IsReadOnly: true)]
         public string RfId { get; set; }
 
-        [FwLogicProperty(Id:"Nn3y6NWfMy7Ue", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Nn3y6NWfMy7Ue", IsReadOnly: true)]
         public string BarCodeColor { get; set; }
 
-        [FwLogicProperty(Id:"2NTKfwOlDBqv")]
+        [FwLogicProperty(Id: "2NTKfwOlDBqv")]
         public string InventoryId { get { return repair.InventoryId; } set { repair.InventoryId = value; } }
 
-        [FwLogicProperty(Id:"iE29lhAK4GVi2", IsReadOnly:true)]
+        [FwLogicProperty(Id: "iE29lhAK4GVi2", IsReadOnly: true)]
         public string AvailFor { get; set; }
 
-        [FwLogicProperty(Id:"iE29lhAK4GVi2", IsReadOnly:true)]
+        [FwLogicProperty(Id: "iE29lhAK4GVi2", IsReadOnly: true)]
         public string AvailForDisplay { get; set; }
 
-        [FwLogicProperty(Id:"Yp4gljsVCsqUB", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Yp4gljsVCsqUB", IsReadOnly: true)]
         public string ICode { get; set; }
 
-        [FwLogicProperty(Id:"Yp4gljsVCsqUB", IsReadOnly:true)]
+        [FwLogicProperty(Id: "Yp4gljsVCsqUB", IsReadOnly: true)]
         public string ICodeColor { get; set; }
 
-        [FwLogicProperty(Id:"pxcaM2UGEmS7s", IsReadOnly:true)]
+        [FwLogicProperty(Id: "pxcaM2UGEmS7s", IsReadOnly: true)]
         public string ItemDescription { get; set; }
 
-        [FwLogicProperty(Id:"cujeKfMv8h88")]
+        [FwLogicProperty(Id: "cujeKfMv8h88")]
         public int? Quantity { get { return repair.Quantity; } set { repair.Quantity = value; } }
 
-        [FwLogicProperty(Id:"AaD37MCZAdWrB", IsReadOnly:true)]
+        [FwLogicProperty(Id: "AaD37MCZAdWrB", IsReadOnly: true)]
         public string QuantityColor { get; set; }
 
-        [FwLogicProperty(Id:"KgYqHIsiGpEP")]
+        [FwLogicProperty(Id: "KgYqHIsiGpEP")]
         public string DamageDealId { get { return repair.DamageDealId; } set { repair.DamageDealId = value; } }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string DamageDeal { get; set; }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string DamageDealColor { get; set; }
 
-        [FwLogicProperty(Id:"XXMO3UIFjWT1")]
+        [FwLogicProperty(Id: "XXMO3UIFjWT1")]
         public string DamageOrderId { get { return repair.DamageOrderId; } set { repair.DamageOrderId = value; } }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string DamageOrderNumber { get; set; }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string DamageOrderDescription { get; set; }
 
-        [FwLogicProperty(Id:"UkOYhmfJQiXw")]
+        [FwLogicProperty(Id: "UkOYhmfJQiXw")]
         public string DamageContractId { get { return repair.DamageContractId; } set { repair.DamageContractId = value; } }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string DamageContractNumber { get; set; }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string DamageContractDate { get; set; }
 
 
-        [FwLogicProperty(Id:"0nj5Sn8BL2Qa")]
+        [FwLogicProperty(Id: "0nj5Sn8BL2Qa")]
         public string DamageScannedById { get { return repair.DamageScannedById; } set { repair.DamageScannedById = value; } }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string DamageScannedBy { get; set; }
 
 
-        [FwLogicProperty(Id:"vxeQn1bPPPHf")]
+        [FwLogicProperty(Id: "vxeQn1bPPPHf")]
         public string LossAndDamageOrderId { get { return repair.LossAndDamageOrderId; } set { repair.LossAndDamageOrderId = value; } }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string LossAndDamageOrderNumber { get; set; }
 
-        [FwLogicProperty(Id:"0CdtPTkIudcIv", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0CdtPTkIudcIv", IsReadOnly: true)]
         public string LossAndDamageOrderDescription { get; set; }
 
-        [FwLogicProperty(Id:"alcyA7N2tOdR")]
+        [FwLogicProperty(Id: "alcyA7N2tOdR")]
         public string ChargeOrderId { get { return repair.ChargeOrderId; } set { repair.ChargeOrderId = value; } }
 
-        [FwLogicProperty(Id:"wsLiVL8YCJkmz", IsReadOnly:true)]
+        [FwLogicProperty(Id: "wsLiVL8YCJkmz", IsReadOnly: true)]
         public string ChargeOrderNumber { get; set; }
 
-        [FwLogicProperty(Id:"dGQoc0psmkHU2", IsReadOnly:true)]
+        [FwLogicProperty(Id: "dGQoc0psmkHU2", IsReadOnly: true)]
         public string ChargeOrderDescription { get; set; }
 
-        [FwLogicProperty(Id:"UrugZmDw9KkgV", IsReadOnly:true)]
+        [FwLogicProperty(Id: "UrugZmDw9KkgV", IsReadOnly: true)]
         public string ChargeInvoiceId { get; set; }
 
-        [FwLogicProperty(Id:"ERfYjekONDwjP", IsReadOnly:true)]
+        [FwLogicProperty(Id: "ERfYjekONDwjP", IsReadOnly: true)]
         public string ChargeInvoiceNumber { get; set; }
 
-        [FwLogicProperty(Id:"zjm001TpOyfr")]
+        [FwLogicProperty(Id: "zjm001TpOyfr")]
         public string ChargeInvoiceDescription { get; set; }
 
 
 
-        [FwLogicProperty(Id:"HO9l1ejOjqXR")]
+        [FwLogicProperty(Id: "HO9l1ejOjqXR")]
         public string TaxOptionId { get { return tax.TaxOptionId; } set { tax.TaxOptionId = value; } }
 
-        [FwLogicProperty(Id:"FDlNVc3vLrWba", IsReadOnly:true)]
+        [FwLogicProperty(Id: "FDlNVc3vLrWba", IsReadOnly: true)]
         public string TaxOption { get; set; }
 
 
 
-        [FwLogicProperty(Id:"qtqhN6tF6Wy4")]
+        [FwLogicProperty(Id: "qtqhN6tF6Wy4")]
         public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
 
-        [FwLogicProperty(Id:"vltcbayDnlgb")]
+        [FwLogicProperty(Id: "vltcbayDnlgb")]
         public decimal? RentalTaxRate1 { get { return tax.RentalTaxRate1; } set { tax.RentalTaxRate1 = value; } }
 
-        [FwLogicProperty(Id:"48a5oNfTvqPI")]
+        [FwLogicProperty(Id: "48a5oNfTvqPI")]
         public decimal? SalesTaxRate1 { get { return tax.SalesTaxRate1; } set { tax.SalesTaxRate1 = value; } }
 
-        [FwLogicProperty(Id:"p5qOVJkHXZPE")]
+        [FwLogicProperty(Id: "p5qOVJkHXZPE")]
         public decimal? LaborTaxRate1 { get { return tax.LaborTaxRate1; } set { tax.LaborTaxRate1 = value; } }
 
-        [FwLogicProperty(Id:"fVgitcpaSHGC")]
+        [FwLogicProperty(Id: "fVgitcpaSHGC")]
         public decimal? RentalTaxRate2 { get { return tax.RentalTaxRate2; } set { tax.RentalTaxRate2 = value; } }
 
-        [FwLogicProperty(Id:"oZPKEZRZv4cI")]
+        [FwLogicProperty(Id: "oZPKEZRZv4cI")]
         public decimal? SalesTaxRate2 { get { return tax.SalesTaxRate2; } set { tax.SalesTaxRate2 = value; } }
 
-        [FwLogicProperty(Id:"kNlVTpBVGeft")]
+        [FwLogicProperty(Id: "kNlVTpBVGeft")]
         public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
 
-        [FwLogicProperty(Id:"7gBhhI2LZZSZ")]
+        [FwLogicProperty(Id: "7gBhhI2LZZSZ")]
         public string Status { get { return repair.Status; } set { repair.Status = value; } }
 
-        [FwLogicProperty(Id:"xFJ3ZADD2bQ8n", IsReadOnly:true)]
+        [FwLogicProperty(Id: "xFJ3ZADD2bQ8n", IsReadOnly: true)]
         public string StatusColor { get; set; }
 
-        [FwLogicProperty(Id:"fxjvsvnm47Pp")]
+        [FwLogicProperty(Id: "fxjvsvnm47Pp")]
         public string StatusDate { get { return repair.StatusDate; } set { repair.StatusDate = value; } }
 
-        [FwLogicProperty(Id:"47EzD22tiJRH")]
+        [FwLogicProperty(Id: "47EzD22tiJRH")]
         public bool? Billable { get { return repair.Billable; } set { repair.Billable = value; } }
 
-        [FwLogicProperty(Id:"QQStv6rW4I5ya", IsReadOnly:true)]
+        [FwLogicProperty(Id: "QQStv6rW4I5ya", IsReadOnly: true)]
         public string BillableDisplay { get; set; }
 
-        [FwLogicProperty(Id:"2POLShGKSuzuU", IsReadOnly:true)]
+        [FwLogicProperty(Id: "2POLShGKSuzuU", IsReadOnly: true)]
         public bool? NotBilled { get; set; }
 
-        [FwLogicProperty(Id:"nW0oQ6g6nYMP")]
+        [FwLogicProperty(Id: "nW0oQ6g6nYMP")]
         public string Priority { get { return repair.Priority; } set { repair.Priority = value; } }
 
-        [FwLogicProperty(Id:"xE6Ea4j4Zk7es", IsReadOnly:true)]
+        [FwLogicProperty(Id: "xE6Ea4j4Zk7es", IsReadOnly: true)]
         public string PriorityDescription { get; set; }
 
-        [FwLogicProperty(Id:"QlQrje6jVNpI")]
+        [FwLogicProperty(Id: "QlQrje6jVNpI")]
         public string PriorityColor { get; set; }
 
 
-        [FwLogicProperty(Id:"Y4eEMAM9iP2S")]
+        [FwLogicProperty(Id: "Y4eEMAM9iP2S")]
         public string RepairType { get { return repair.RepairType; } set { repair.RepairType = value; } }
 
-        [FwLogicProperty(Id:"gXVmyyn4Xlpx")]
+        [FwLogicProperty(Id: "gXVmyyn4Xlpx")]
         public bool? PoPending { get { return repair.PoPending; } set { repair.PoPending = value; } }
 
-        [FwLogicProperty(Id:"NIcbhQGJd9Dn")]
+        [FwLogicProperty(Id: "NIcbhQGJd9Dn")]
         public string PoNumber { get { return repair.PoNumber; } set { repair.PoNumber = value; } }
 
-        [FwLogicProperty(Id:"PJ0jEXCv5BxJ")]
+        [FwLogicProperty(Id: "PJ0jEXCv5BxJ")]
         public string Damage { get { return repair.Damage; } set { repair.Damage = value; } }
 
-        [FwLogicProperty(Id:"fQS7qSHiQaff")]
+        [FwLogicProperty(Id: "fQS7qSHiQaff")]
         public string Correction { get { return repair.Correction; } set { repair.Correction = value; } }
 
-        [FwLogicProperty(Id:"azWydrWk4ItAW", IsReadOnly:true)]
+        [FwLogicProperty(Id: "azWydrWk4ItAW", IsReadOnly: true)]
         public bool? Released { get; set; }
 
-        [FwLogicProperty(Id:"AaD37MCZAdWrB", IsReadOnly:true)]
+        [FwLogicProperty(Id: "AaD37MCZAdWrB", IsReadOnly: true)]
         public decimal? ReleasedQuantity { get; set; }
 
-        [FwLogicProperty(Id:"fl7PO8fhDrW7")]
+        [FwLogicProperty(Id: "fl7PO8fhDrW7")]
         public string TransferId { get { return repair.TransferId; } set { repair.TransferId = value; } }
 
-        [FwLogicProperty(Id:"4XA6LePF7djx1", IsReadOnly:true)]
+        [FwLogicProperty(Id: "4XA6LePF7djx1", IsReadOnly: true)]
         public string TransferredFromWarehouseId { get; set; }
 
-        [FwLogicProperty(Id:"qgrmpM970GY2")]
+        [FwLogicProperty(Id: "qgrmpM970GY2")]
         public string DueDate { get { return repair.DueDate; } set { repair.DueDate = value; } }
 
-        [FwLogicProperty(Id:"HIGUSAxOZhOBm", IsReadOnly:true)]
+        [FwLogicProperty(Id: "HIGUSAxOZhOBm", IsReadOnly: true)]
         public string EstimateByUserId { get; set; }
 
-        [FwLogicProperty(Id:"HIGUSAxOZhOBm", IsReadOnly:true)]
+        [FwLogicProperty(Id: "HIGUSAxOZhOBm", IsReadOnly: true)]
         public string EstimateBy { get; set; }
 
-        [FwLogicProperty(Id:"3zPBvLv1jjHNf", IsReadOnly:true)]
+        [FwLogicProperty(Id: "3zPBvLv1jjHNf", IsReadOnly: true)]
         public string EstimateDate { get; set; }
 
-        [FwLogicProperty(Id:"cAdqIY19xpl7q", IsReadOnly:true)]
+        [FwLogicProperty(Id: "cAdqIY19xpl7q", IsReadOnly: true)]
         public string CompleteByUserId { get; set; }
 
-        [FwLogicProperty(Id:"cAdqIY19xpl7q", IsReadOnly:true)]
+        [FwLogicProperty(Id: "cAdqIY19xpl7q", IsReadOnly: true)]
         public string CompleteBy { get; set; }
 
-        [FwLogicProperty(Id:"ZkciVYs6kaYpg", IsReadOnly:true)]
+        [FwLogicProperty(Id: "ZkciVYs6kaYpg", IsReadOnly: true)]
         public string CompleteDate { get; set; }
 
-        [FwLogicProperty(Id:"TzVNoAJt0SQu")]
+        [FwLogicProperty(Id: "TzVNoAJt0SQu")]
         public string InputDate { get { return repair.InputDate; } set { repair.InputDate = value; } }
 
-        [FwLogicProperty(Id:"lO1hQfPUDV8g")]
+        [FwLogicProperty(Id: "lO1hQfPUDV8g")]
         public string InputByUserId { get { return repair.InputByUserId; } set { repair.InputByUserId = value; } }
 
-        [FwLogicProperty(Id:"yzJCkR3FnNtX")]
+        [FwLogicProperty(Id: "yzJCkR3FnNtX")]
         public string RepairItemStatusId { get { return repair.RepairItemStatusId; } set { repair.RepairItemStatusId = value; } }
 
-        [FwLogicProperty(Id:"0V4CiBp0rbpq5", IsReadOnly:true)]
+        [FwLogicProperty(Id: "0V4CiBp0rbpq5", IsReadOnly: true)]
         public string RepairItemStatus { get; set; }
 
-        [FwLogicProperty(Id:"1aV2Kr7OFOHQx", IsReadOnly:true)]
+        [FwLogicProperty(Id: "1aV2Kr7OFOHQx", IsReadOnly: true)]
         public decimal? Cost { get; set; }
 
-        [FwLogicProperty(Id:"Yag1fTKZ5BSB")]
+        [FwLogicProperty(Id: "Yag1fTKZ5BSB")]
         public string CurrencyId { get { return repair.CurrencyId; } set { repair.CurrencyId = value; } }
 
-        [FwLogicProperty(Id:"iqmM0bBU3XGhJ", IsReadOnly:true)]
+        [FwLogicProperty(Id: "iqmM0bBU3XGhJ", IsReadOnly: true)]
         public string OfficeLocationDefaultCurrencyId { get; set; }
 
-        [FwLogicProperty(Id:"FNMEbmfeCtmwr", IsReadOnly:true)]
+        [FwLogicProperty(Id: "FNMEbmfeCtmwr", IsReadOnly: true)]
         public string CurrencyCode { get; set; }
 
-        [FwLogicProperty(Id:"hUwDMUDvHLNnC", IsReadOnly:true)]
+        [FwLogicProperty(Id: "hUwDMUDvHLNnC", IsReadOnly: true)]
         public string CurrencyColor { get; set; }
 
 
-        [FwLogicProperty(Id:"I70kSMt2dxPB")]
+        [FwLogicProperty(Id: "I70kSMt2dxPB")]
         public string Notes { get { return repair.Notes; } set { repair.Notes = value; } }
 
-        [FwLogicProperty(Id:"oIvhtpVN4x8oz", IsReadOnly:true)]
+        [FwLogicProperty(Id: "oIvhtpVN4x8oz", IsReadOnly: true)]
         public bool? Inactive { get; set; }
 
-        [FwLogicProperty(Id:"UuN9hsMjftqY")]
+        [FwLogicProperty(Id: "UuN9hsMjftqY")]
         public string DateStamp { get { return repair.DateStamp; } set { repair.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
@@ -383,7 +384,7 @@ namespace WebApi.Modules.Home.Repair
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                RepairNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR).Result;
+                RepairNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR, conn: e.SqlConnection).Result;
                 Status = RwConstants.REPAIR_STATUS_NEW;
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 InputDate = FwConvert.ToString(DateTime.Today);
@@ -408,7 +409,7 @@ namespace WebApi.Modules.Home.Repair
                 {
                     TaxOptionId = AppFunc.GetDepartmentLocation(AppConfig, UserSession, DepartmentId, LocationId, "repairtaxoptionid").Result;
                 }
-                tmpTaxId = AppFunc.GetNextIdAsync(AppConfig).Result;
+                tmpTaxId = AppFunc.GetNextIdAsync(AppConfig, conn: e.SqlConnection).Result;
                 TaxId = tmpTaxId;
             }
             else
@@ -435,7 +436,7 @@ namespace WebApi.Modules.Home.Repair
                     repairItem.SetDependencies(this.AppConfig, this.UserSession);
                     repairItem.RepairId = RepairId;
                     repairItem.ItemId = ItemId;
-                    int i = repairItem.SaveAsync(null).Result;
+                    int i = repairItem.SaveAsync(null, e.SqlConnection).Result;
                 }
             }
 
@@ -451,7 +452,7 @@ namespace WebApi.Modules.Home.Repair
 
                     if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                     {
-                        b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                        b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
                     }
                 }
             }
@@ -472,7 +473,7 @@ namespace WebApi.Modules.Home.Repair
 
                 if ((TaxId != null) && (!TaxId.Equals(string.Empty)))
                 {
-                    bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId).Result;
+                    bool b = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
                 }
             }
         }

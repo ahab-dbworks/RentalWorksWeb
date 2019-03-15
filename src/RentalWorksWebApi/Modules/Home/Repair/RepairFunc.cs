@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.Repair
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.Repair
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
@@ -56,7 +56,7 @@ namespace WebApi.Modules.Home.Repair
                 qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, quantity);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
@@ -73,7 +73,7 @@ namespace WebApi.Modules.Home.Repair
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = true;
                 response.msg = "";
                 //response.success = (qry.GetParameter("@status").ToInt32() == 0);
@@ -95,7 +95,7 @@ namespace WebApi.Modules.Home.Repair
                 qry.AddParameter("@packagetype", SqlDbType.NVarChar, ParameterDirection.Input, rpi.ItemClass);
                 qry.AddParameter("@qty", SqlDbType.NVarChar, ParameterDirection.Input, rpi.Quantity);
                 qry.AddParameter("@primaryrepairpartid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 newRepairPartId = qry.GetParameter("@primaryrepairpartid").ToString();
             }
             return newRepairPartId;

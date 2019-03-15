@@ -18,13 +18,19 @@ namespace WebApi.Logic
     {
 
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetNextIdAsync(FwApplicationConfig appConfig)
+        /// <summary>
+        /// Gets the next internalid from controlserver
+        /// </summary>
+        /// <param name="appConfig"></param>
+        /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
+        public static async Task<string> GetNextIdAsync(FwApplicationConfig appConfig, FwSqlConnection conn = null)
         {
             string id = "";
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                id = await FwSqlData.GetNextIdAsync(conn, appConfig.DatabaseSettings);
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
+            id = await FwSqlData.GetNextIdAsync(conn, appConfig.DatabaseSettings);
             return id;
         }
         //-------------------------------------------------------------------------------------------------------
@@ -143,36 +149,56 @@ namespace WebApi.Logic
             return result;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetNextSystemCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string counterColumnName)
+
+        /// <summary>
+        /// Gets the next counter from the "syscontrol" table based on the counter column name provided
+        /// </summary>
+        /// <param name="appConfig"></param>
+        /// <param name="userSession"></param>
+        /// <param name="counterColumnName"></param>
+        /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
+        public static async Task<string> GetNextSystemCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string counterColumnName, FwSqlConnection conn = null)
         {
             string counter = "";
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "fw_getnextcounter", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@tablename", SqlDbType.NVarChar, ParameterDirection.Input, "syscontrol");
-                qry.AddParameter("@columnname", SqlDbType.NVarChar, ParameterDirection.Input, counterColumnName);
-                qry.AddParameter("@uniqueid1name", SqlDbType.NVarChar, ParameterDirection.Input, "controlid");
-                qry.AddParameter("@uniqueid1valuestr", SqlDbType.NVarChar, ParameterDirection.Input, "1");
-                qry.AddParameter("@counter", SqlDbType.Int, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
-                counter = qry.GetParameter("@counter").ToString().TrimEnd();
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
+            FwSqlCommand qry = new FwSqlCommand(conn, "fw_getnextcounter", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@tablename", SqlDbType.NVarChar, ParameterDirection.Input, "syscontrol");
+            qry.AddParameter("@columnname", SqlDbType.NVarChar, ParameterDirection.Input, counterColumnName);
+            qry.AddParameter("@uniqueid1name", SqlDbType.NVarChar, ParameterDirection.Input, "controlid");
+            qry.AddParameter("@uniqueid1valuestr", SqlDbType.NVarChar, ParameterDirection.Input, "1");
+            qry.AddParameter("@counter", SqlDbType.Int, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            counter = qry.GetParameter("@counter").ToString().TrimEnd();
             return counter;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetNextModuleCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, string locationId = "")
+
+
+        /// <summary>
+        /// Gets the next counter from the "location" table for the moduleName provided.  based on User's Location, or specific Location if provided.
+        /// </summary>
+        /// <param name="appConfig"></param>
+        /// <param name="userSession"></param>
+        /// <param name="moduleName"></param>
+        /// <param name="locationId"></param>
+        /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
+        public static async Task<string> GetNextModuleCounterAsync(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, string locationId = "", FwSqlConnection conn = null)
         {
             string counter = "";
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@module", SqlDbType.NVarChar, ParameterDirection.Input, moduleName);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, locationId);
-                qry.AddParameter("@newcounter", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
-                counter = qry.GetParameter("@newcounter").ToString().TrimEnd();
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
+            FwSqlCommand qry = new FwSqlCommand(conn, "getnextcounter", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@module", SqlDbType.NVarChar, ParameterDirection.Input, moduleName);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, locationId);
+            qry.AddParameter("@newcounter", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            counter = qry.GetParameter("@newcounter").ToString().TrimEnd();
             return counter;
         }
         //-------------------------------------------------------------------------------------------------------
@@ -188,24 +214,34 @@ namespace WebApi.Logic
                     qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId2);
                     qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, uniqueId3);
                     qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, note);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     saved = true;
                 }
             }
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<bool> UpdateTaxFromTaxOptionASync(FwApplicationConfig appConfig, FwUserSession userSession, string taxOptionId, string taxId)
+
+        /// <summary>
+        /// Applies the current tax rates to active quotes, orders, po's, etc that use this taxOptionId
+        /// </summary>
+        /// <param name="appConfig"></param>
+        /// <param name="userSession"></param>
+        /// <param name="taxOptionId"></param>
+        /// <param name="taxId"></param>
+        /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
+        public static async Task<bool> UpdateTaxFromTaxOptionASync(FwApplicationConfig appConfig, FwUserSession userSession, string taxOptionId, string taxId, FwSqlConnection conn = null)
         {
             bool saved = false;
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "updatetaxfromtaxoption", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@taxoptionid", SqlDbType.NVarChar, ParameterDirection.Input, taxOptionId);
-                qry.AddParameter("@taxid", SqlDbType.NVarChar, ParameterDirection.Input, taxId);
-                await qry.ExecuteNonQueryAsync(true);
-                saved = true;
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
+            FwSqlCommand qry = new FwSqlCommand(conn, "updatetaxfromtaxoption", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@taxoptionid", SqlDbType.NVarChar, ParameterDirection.Input, taxOptionId);
+            qry.AddParameter("@taxid", SqlDbType.NVarChar, ParameterDirection.Input, taxId);
+            await qry.ExecuteNonQueryAsync();
+            saved = true;
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------

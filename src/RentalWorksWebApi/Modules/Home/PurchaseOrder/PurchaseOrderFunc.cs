@@ -95,7 +95,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@qtycolor", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.QuantityOrdered = qry.GetParameter("@qtyordered").ToDouble();
                 response.QuantityReceived = qry.GetParameter("@qtyreceived").ToDouble();
                 response.QuantityNeedBarCode = qry.GetParameter("@qtyneedbarcode").ToDouble();
@@ -121,7 +121,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
@@ -159,7 +159,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@qtyreturned", SqlDbType.Float, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.QuantityOrdered = qry.GetParameter("@qtyordered").ToDouble();
                 response.QuantityReceived = qry.GetParameter("@qtyreceived").ToDouble();
                 response.QuantityReturned = qry.GetParameter("@qtyreturned").ToDouble();
@@ -181,7 +181,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
@@ -208,7 +208,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@receivecontractid", SqlDbType.NVarChar, ParameterDirection.Input, receiveContractId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@outcontractids", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 outContractIds = qry.GetParameter("@outcontractids").ToString().Split(',');
                 foreach (string outContractId in outContractIds)
                 {
@@ -229,7 +229,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 qry.AddParameter("@billingend", SqlDbType.Date, ParameterDirection.Output);
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.BillingStartDate = qry.GetParameter("@billingstart").ToDateTime();
                 response.BillingEndDate = qry.GetParameter("@billingend").ToDateTime();
                 //response.status = qry.GetParameter("@status").ToInt32();

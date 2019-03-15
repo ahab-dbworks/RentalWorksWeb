@@ -326,9 +326,9 @@ TODO:
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------
-        public async Task<bool> SetNumber()
+        public async Task<bool> SetNumber(FwSqlConnection conn)
         {
-            CustomerNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_CUSTOMER, OfficeLocationId);
+            CustomerNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_CUSTOMER, OfficeLocationId, conn);
             return true;
         }
         //-------------------------------------------------------------------------------------------------------    

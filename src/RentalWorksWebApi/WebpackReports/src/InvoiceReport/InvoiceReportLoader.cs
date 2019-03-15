@@ -465,7 +465,7 @@ namespace WebApi.Modules.Reports.InvoiceReport
                 {
                     qry.AddParameter("@invoiceid", SqlDbType.Text, ParameterDirection.Input, request.InvoiceId);
                     AddPropertiesAsQueryColumns(qry);
-                    taskInvoice = qry.QueryToTypedObjectAsync<InvoiceReportLoader>(false);
+                    taskInvoice = qry.QueryToTypedObjectAsync<InvoiceReportLoader>();
 
                     InvoiceItems = new InvoiceItemReportLoader();
                     InvoiceItems.SetDependencies(AppConfig, UserSession);

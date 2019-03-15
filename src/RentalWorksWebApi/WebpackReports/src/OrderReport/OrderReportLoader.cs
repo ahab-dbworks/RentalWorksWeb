@@ -555,7 +555,7 @@ namespace WebApi.Modules.Reports.OrderReport
                 {
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
                     AddPropertiesAsQueryColumns(qry);
-                    taskOrder = qry.QueryToTypedObjectAsync<OrderReportLoader>(false);
+                    taskOrder = qry.QueryToTypedObjectAsync<OrderReportLoader>();
 
                     OrderItems = new OrderItemReportLoader();
                     OrderItems.SetDependencies(AppConfig, UserSession);

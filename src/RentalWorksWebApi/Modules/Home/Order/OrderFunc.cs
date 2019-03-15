@@ -84,7 +84,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@forcenewrecord", SqlDbType.NVarChar, ParameterDirection.Input, "T");
                 qry.AddParameter("@primarymasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 newOrderItemId = qry.GetParameter("@primarymasteritemid").ToString();
             }
             return newOrderItemId;
@@ -103,7 +103,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@docheckoutaudit", SqlDbType.NVarChar, ParameterDirection.Input, "F");
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@rowsummarized", SqlDbType.NVarChar, ParameterDirection.Input, "F");
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 success = true;
             }
             return success;
@@ -138,7 +138,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.SessionId = qry.GetParameter("@sessionid").ToString();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
@@ -158,7 +158,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@selectallnone", SqlDbType.NVarChar, ParameterDirection.Input, (selectAll ? RwConstants.SELECT_ALL : RwConstants.SELECT_NONE));
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
@@ -188,7 +188,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.PurchaseOrderId = qry.GetParameter("@poid").ToString();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
@@ -211,7 +211,7 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@total", SqlDbType.Float, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.GrossTotal = qry.GetParameter("@grosstotal").ToDouble();
                 response.Discount = qry.GetParameter("@discount").ToDouble();
                 response.SubTotal = qry.GetParameter("@subtotal").ToDouble();
@@ -239,7 +239,7 @@ namespace WebApi.Modules.Home.Order
                         qry.AddParameter("@toorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                         qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                         qry.AddParameter("@combinesubs", SqlDbType.NVarChar, ParameterDirection.Input, "T");
-                        await qry.ExecuteNonQueryAsync(true);
+                        await qry.ExecuteNonQueryAsync();
                     }
                 }
             }

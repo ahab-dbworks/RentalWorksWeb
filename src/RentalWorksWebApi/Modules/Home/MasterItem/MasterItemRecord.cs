@@ -281,7 +281,7 @@ namespace WebApi.Modules.Home.MasterItem
                 FwSqlCommand qry = new FwSqlCommand(conn, "syncorderitem", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
                 qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, MasterItemId);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 saved = true;
             }
             return saved;

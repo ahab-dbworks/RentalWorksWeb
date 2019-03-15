@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.Contract
                 //qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 //response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 //response.msg = qry.GetParameter("@msg").ToString();
                 response.success = true;
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Home.Contract
                 qry.AddParameter("@itemsadded", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 //response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 //response.msg = qry.GetParameter("@msg").ToString();
                 response.ItemsAdded = qry.GetParameter("@itemsadded").ToInt32();
@@ -63,7 +63,7 @@ namespace WebApi.Modules.Home.Contract
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 response.success = (qry.GetParameter("@status").ToInt32() == 0);
                 response.msg = qry.GetParameter("@msg").ToString();
             }
@@ -84,7 +84,7 @@ namespace WebApi.Modules.Home.Contract
                 qry.AddParameter("@sessiontype", SqlDbType.NVarChar, ParameterDirection.Input, sessionType);
                 qry.AddParameter("@ordertype", SqlDbType.NVarChar, ParameterDirection.Input, orderType);
                 qry.AddParameter("@sessionsexist", SqlDbType.NVarChar, ParameterDirection.Output);
-                await qry.ExecuteNonQueryAsync(true);
+                await qry.ExecuteNonQueryAsync();
                 suspendedSessionsExist = qry.GetParameter("@sessionsexist").ToString().Equals("T");
             }
             return suspendedSessionsExist;

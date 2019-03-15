@@ -189,7 +189,7 @@ namespace WebApi.Modules.Home.Project
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                bool x = project.SetNumber().Result;
+                bool x = project.SetNumber(e.SqlConnection).Result;
                 StatusDate = FwConvert.ToString(DateTime.Today);
             }
             else
