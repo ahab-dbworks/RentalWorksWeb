@@ -99,6 +99,7 @@ class RwMaster extends WebMaster {
         $officelocation.on('click', function () {
             try {
                 var userlocation = JSON.parse(sessionStorage.getItem('location'));
+                const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
                 var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 var userdepartment = JSON.parse(sessionStorage.getItem('department'));
                 var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
@@ -154,6 +155,12 @@ class RwMaster extends WebMaster {
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 program.getModule('home');
+                                if (response.location.location !== defaultLocation.location) {
+                                    jQuery('#master-header').css('border', `${response.location.locationcolor} solid 2px`);
+                                }
+                                else {
+                                    jQuery('#master-header').css('border', 'transparent');
+                                }
                                 $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
                                 $usercontrol.find('.officelocation .value').text(response.location.location);
                             });

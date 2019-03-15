@@ -97,6 +97,7 @@ class Base {
                                                 sessionStorage.setItem('siteName',           responseOriginalApi.site.name);
                                                 sessionStorage.setItem('clientCode',         responseOriginalApi.clientcode);
                                                 sessionStorage.setItem('location',           JSON.stringify(responseOriginalApi.webUser.location));
+                                                sessionStorage.setItem('defaultlocation',    JSON.stringify(responseOriginalApi.webUser.location));
                                                 sessionStorage.setItem('warehouse',          JSON.stringify(responseOriginalApi.webUser.warehouse));
                                                 sessionStorage.setItem('department',         JSON.stringify(responseOriginalApi.webUser.department));
                                                 sessionStorage.setItem('userid',             JSON.stringify(responseOriginalApi.webUser.webusersid));
