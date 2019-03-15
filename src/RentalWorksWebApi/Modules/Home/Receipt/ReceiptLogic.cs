@@ -32,6 +32,7 @@ namespace WebApi.Modules.Home.Receipt
             dataLoader = receiptLoader;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+            UseTransactionToSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "hcdYkju05r4e", IsPrimaryKey: true)]
