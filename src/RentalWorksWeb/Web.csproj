@@ -471,6 +471,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CompleteQc\CompleteQc.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\PhysicalInventory\PhysicalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Receipt\Receipt.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
@@ -534,6 +535,8 @@
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
     <Content Include="Source\Modules\Home\CompleteQc\CompleteQcForm.htm" />
+    <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryBrowse.htm" />
+    <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryForm.htm" />
     <Content Include="Source\Modules\Home\Receipt\ReceiptBrowse.htm" />
     <Content Include="Source\Modules\Home\Receipt\ReceiptForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />

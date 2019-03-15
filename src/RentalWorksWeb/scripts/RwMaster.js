@@ -9,7 +9,7 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Inventory',
                 id: '8AA0C4A4-B583-44CD-BB47-09C43961CE99',
-                children: [RentalInventoryController, SalesInventoryController, PartsInventoryController, AssetController, ContainerController, RepairController, CompleteQcController]
+                children: [RentalInventoryController, SalesInventoryController, PartsInventoryController, PhysicalInventoryController, AssetController, ContainerController, RepairController, CompleteQcController]
             },
             {
                 caption: 'Warehouse',

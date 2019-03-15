@@ -199,6 +199,7 @@ routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArr
 routes.push({ pattern: /^module\/widget$/, action: function (match: RegExpExecArray) { return WidgetController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExecArray) { return DashboardController.loadDashboard(); } });
 routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return ContractController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/physicalinventory$/, action: function (match: RegExpExecArray) { return PhysicalInventoryController.getModuleScreen(); } });
 
 //Reports                                             
 routes.push({ pattern: /^module\/dealoutstanding/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });
