@@ -668,7 +668,7 @@ class FwSettingsClass {
                 jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
                 jQuery(this).hide();
                 jQuery(this).parent().find('.show-inactive').show();
-        }
+            }
         });
 
         $settingsPageModules.on('click', '.pop-out', function (e) {

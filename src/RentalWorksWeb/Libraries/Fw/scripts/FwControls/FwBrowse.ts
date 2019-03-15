@@ -3634,6 +3634,10 @@ class FwBrowseClass {
         return fields;
     }
     //---------------------------------------------------------------------------------
+    endsWith(str: string, suffix: string): boolean {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+    //---------------------------------------------------------------------------------
     renderAuditHistoryPopup($tr: JQuery): void {
         let HTML: Array<string> = [], $popupHtml, $popup, $auditHistoryGrid, $auditHistoryGridControl, uniqueId;
         uniqueId = $tr.find('[data-browsedatatype="key"]').attr('data-originalvalue');
@@ -3666,7 +3670,7 @@ class FwBrowseClass {
 
         const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
         let module: string = window[controller].Module;
-        if (module.endsWith('Grid')) {
+        if (this.endsWith(module, 'Grid')) {
             module = module.substring(0, module.length - 4);
         }
         $auditHistoryGrid = $popup.find('div[data-grid="AuditHistoryGrid"]');

@@ -1,4 +1,4 @@
-﻿class FwBrowseColumn_utcdateClass implements IFwBrowseColumn {
+class FwBrowseColumn_utcdateClass implements IFwBrowseColumn {
     //---------------------------------------------------------------------------------
     databindfield($browse, $field, dt, dtRow, $tr): void {
         if ($field.attr('data-originalvalue') !== '') {

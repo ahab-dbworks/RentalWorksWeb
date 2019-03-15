@@ -36,8 +36,8 @@
         FwControl.loadControls($fwcontrols);
         // START CLOSE TAB
         if ($tabControl.find('div[data-tabtype="FORM"]').length > 2) {
-            let iconHtml: Array<string> = [], $closeTabButton;
             $tabControl.find('.closetabbutton').html('');
+            const iconHtml: Array<string> = [];
             iconHtml.push(`<div class="closetab">
                             <i class="material-icons">more_horiz</i>
                             <div style="display:none;" class="close-dialog">
@@ -49,7 +49,7 @@
                               </div>
                             </div>
                           </div>`);
-            $closeTabButton = jQuery(iconHtml.join(''));
+            const $closeTabButton = jQuery(iconHtml.join(''));
             $tabControl.find('.closetabbutton:first').append($closeTabButton);
         } else {
             $tabControl.find('.closetabbutton').html('');
@@ -104,7 +104,6 @@
             $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
             $activeTabId = $activeTab.attr('data-tabpageid');
             jQuery('body').data('activeTabId', $activeTabId);
-            $bodyContainer = jQuery('#master-body');
             $bodyContainer = jQuery('#master-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');

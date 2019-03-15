@@ -93,7 +93,7 @@
             popoutKeys[popoutUniqueDatafield] = popoutModuleId;
             var $popoutForm = window[$content.data('controller')].loadForm(popoutKeys);
             FwModule.openModuleTab($popoutForm, "", true, 'FORM', true);
-            
+
             me.destroyPopup(jQuery(this).closest('.fwpopup'));
             jQuery(this).closest('.fwpopup').off('click');
             jQuery(document).off('keydown');

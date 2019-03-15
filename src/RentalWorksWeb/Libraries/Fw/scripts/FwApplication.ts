@@ -298,18 +298,16 @@ class FwApplication {
         }
     };
     //---------------------------------------------------------------------------------
-    getModule(path) {
-        var screen, $bodyContainer, $modifiedForms, $form, $tab;
-
-        $bodyContainer = jQuery('#master-body');
-        $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
-        path           = path.toLowerCase();
+    getModule(path: string): void {
+        const $bodyContainer = jQuery('#master-body');
+        const $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
+        path = path.toLowerCase();
         if ($modifiedForms.length > 0) {
             if (jQuery($modifiedForms[0]).parent().data('type') === 'settings-row') {
                 this.navigate(path);
-            } 
-            $form = jQuery($modifiedForms[0]);
-            $tab  = jQuery('#' + $form.parent().attr('data-tabid'));
+            }
+            const $form = jQuery($modifiedForms[0]);
+            const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
             $tab.click();
             FwModule.closeForm($form, $tab, path);
         } else {
@@ -394,12 +392,10 @@ class FwApplication {
         }
     };
     //---------------------------------------------------------------------------------
-    navigate(path) {
-        var me, screen;
-        me = this;
+    navigate(path: string): void {
         path = path.toLowerCase();
         if (window.location.hash.replace('#/', '') !== path) {
-            var url = '/' + path;
+            const url = `/${path}`;
             window.location.hash = url;
             //history.pushState(url, '', url);
         } else {

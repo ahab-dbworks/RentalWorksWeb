@@ -150,26 +150,28 @@ FwMobileMasterController.generateDeviceStatusIcons = function ($containgelement)
     if (program.name === 'RentalWorks') {
         if (program.runningInCordova === true) {
             // Network Connection
-            html.push('<div class="device-status-icon net">');
-            if (program.online === true) {
-                html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1D8;</i></div>');
-            } else {
-                html.push('  <div style="text-align:center;"><i class="material-icons" style="color:#ff0000;">&#xE1DA;</i></div>');
-            }
-            html.push('  <div class="caption">NET</div>');
-            html.push('</div>');
+            // disabling this until next appstore release (to avoid questions)
+            //html.push('<div class="device-status-icon net">');
+            //if (program.online === true) {
+            //    html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1D8;</i></div>');
+            //} else {
+            //    html.push('  <div style="text-align:center;"><i class="material-icons" style="color:#ff0000;">&#xE1DA;</i></div>');
+            //}
+            //html.push('  <div class="caption">NET</div>');
+            //html.push('</div>');
 
             //RFID
-            if (typeof program.showRfidStatusIcon !== 'undefined' && program.showRfidStatusIcon === true) {
-                html.push('<div class="device-status-icon rfid">');
-                if (RwRFID.isConnected === true) {
-                    html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1A7;</i></div>');
-                } else {
-                    html.push('  <div class="icon"><i class="material-icons" style="color:#ff0000;">&#xE1A9;</i></div>');
-                }
-                html.push('  <div class="caption">RFID</div>')
-                html.push('</div>');
-            }
+            // disabling this until next appstore release (doesn't work right without the release)
+            //if (typeof program.showRfidStatusIcon !== 'undefined' && program.showRfidStatusIcon === true) {
+            //    html.push('<div class="device-status-icon rfid">');
+            //    if (RwRFID.isConnected === true) {
+            //        html.push('  <div class="icon"><i class="material-icons" style="color:#ffffff;">&#xE1A7;</i></div>');
+            //    } else {
+            //        html.push('  <div class="icon"><i class="material-icons" style="color:#ff0000;">&#xE1A9;</i></div>');
+            //    }
+            //    html.push('  <div class="caption">RFID</div>')
+            //    html.push('</div>');
+            //}
 
             //Battery
             //html.push('<div class="device-status-icon battery">');
