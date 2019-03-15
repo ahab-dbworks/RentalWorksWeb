@@ -8,10 +8,12 @@ using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace FwStandard.BusinessLogic
 {
@@ -22,6 +24,7 @@ namespace FwStandard.BusinessLogic
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwBusinessLogic Original { get; set; }
         public bool PerformSave { get; set; } = true;
+        public FwSqlConnection SqlConnection { get; set; }
     }
 
     public class BeforeSaveDataRecordEventArgs : EventArgs
@@ -29,6 +32,7 @@ namespace FwStandard.BusinessLogic
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwDataReadWriteRecord Original { get; set; }
         public bool PerformSave { get; set; } = true;
+        public FwSqlConnection SqlConnection { get; set; }
     }
 
     public class AfterSaveEventArgs : EventArgs
@@ -36,6 +40,7 @@ namespace FwStandard.BusinessLogic
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwBusinessLogic Original { get; set; }
         public int RecordsAffected { get; set; }
+        public FwSqlConnection SqlConnection { get; set; }
     }
 
     public class AfterSaveDataRecordEventArgs : EventArgs
@@ -43,6 +48,7 @@ namespace FwStandard.BusinessLogic
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwDataReadWriteRecord Original { get; set; }
         public int RecordsAffected { get; set; }
+        public FwSqlConnection SqlConnection { get; set; }
     }
 
 
@@ -169,6 +175,9 @@ namespace FwStandard.BusinessLogic
 
         [JsonIgnore]
         public bool HasAudit { get; set; } = true;
+
+        [JsonIgnore]
+        protected bool UseTransactionToSave { get; set; } = false;
 
         //static Mutex CustomFieldMutex = new Mutex(false, "LoadCustomFields");
         static Mutex CustomFieldMutex = new Mutex();
@@ -914,70 +923,104 @@ namespace FwStandard.BusinessLogic
         //------------------------------------------------------------------------------------
         public virtual async Task<int> SaveAsync(FwBusinessLogic original)
         {
+            bool success = false;
             int rowsAffected = 0;
             TDataRecordSaveMode saveMode = (AllPrimaryKeysHaveValues ? TDataRecordSaveMode.smUpdate : TDataRecordSaveMode.smInsert);
-
-            BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
-            beforeSaveArgs.SaveMode = saveMode;
-            beforeSaveArgs.Original = original;
-
-            AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
-            afterSaveArgs.SaveMode = saveMode;
-            afterSaveArgs.Original = original;
-            BeforeSave?.Invoke(this, beforeSaveArgs);
-            if (beforeSaveArgs.PerformSave)
+            FwSqlConnection conn = null;
+            try
             {
-                int r = 0;
-                FwDataReadWriteRecord originalRec = null;
-                foreach (FwDataReadWriteRecord rec in dataRecords)
+                if (UseTransactionToSave)
                 {
-                    if (original != null)
-                    {
-                        originalRec = original.dataRecords[r];
-                    }
-                    rowsAffected += await rec.SaveAsync(originalRec);
-                    r++;
+                    conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+                    await conn.GetConnection().OpenAsync();
+                    conn.BeginTransaction();
                 }
-                LoadCustomFields();
 
-                bool customFieldsSaved = false;
-                if (_Custom.Count > 0)
-                {
-                    customFieldsSaved = await _Custom.SaveAsync(GetPrimaryKeys());
-                    if (customFieldsSaved && rowsAffected == 0)
-                    {
-                        rowsAffected = 1;
-                    }
-                }
-                bool savePerformed = ((rowsAffected > 0) || customFieldsSaved);
+                BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
+                beforeSaveArgs.SaveMode = saveMode;
+                beforeSaveArgs.Original = original;
+                beforeSaveArgs.SqlConnection = conn;
 
-                //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework.
-                //justin 03/05/2019 would like to automate the saving of "notes" data to the appnote table instead of hand-coding the save function in each inherited BusinessLogic.
-                if (!savePerformed)
+                AfterSaveEventArgs afterSaveArgs = new AfterSaveEventArgs();
+                afterSaveArgs.SaveMode = saveMode;
+                afterSaveArgs.Original = original;
+                afterSaveArgs.SqlConnection = conn;
+
+                BeforeSave?.Invoke(this, beforeSaveArgs);
+                if (beforeSaveArgs.PerformSave)
                 {
-                    PropertyInfo p = null;
-                    if (p == null)
+                    int r = 0;
+                    FwDataReadWriteRecord originalRec = null;
+                    foreach (FwDataReadWriteRecord rec in dataRecords)
                     {
-                        p = this.GetType().GetProperty("Notes");
+                        if (original != null)
+                        {
+                            originalRec = original.dataRecords[r];
+                        }
+                        rowsAffected += await rec.SaveAsync(originalRec, conn);
+                        r++;
                     }
-                    if (p == null)
+                    LoadCustomFields();
+
+                    bool customFieldsSaved = false;
+                    if (_Custom.Count > 0)
                     {
-                        p = this.GetType().GetProperty("Note");
+                        customFieldsSaved = await _Custom.SaveAsync(GetPrimaryKeys(), conn);
+                        if (customFieldsSaved && rowsAffected == 0)
+                        {
+                            rowsAffected = 1;
+                        }
                     }
-                    if (p != null)
+                    bool savePerformed = ((rowsAffected > 0) || customFieldsSaved);
+
+                    //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework.
+                    //justin 03/05/2019 would like to automate the saving of "notes" data to the appnote table instead of hand-coding the save function in each inherited BusinessLogic.
+                    if (!savePerformed)
                     {
-                        savePerformed = (p.GetValue(this, null) != null);  
+                        PropertyInfo p = null;
+                        if (p == null)
+                        {
+                            p = this.GetType().GetProperty("Notes");
+                        }
+                        if (p == null)
+                        {
+                            p = this.GetType().GetProperty("Note");
+                        }
+                        if (p != null)
+                        {
+                            savePerformed = (p.GetValue(this, null) != null);
+                        }
+                    }
+                    if (savePerformed)
+                    {
+                        AfterSave?.Invoke(this, afterSaveArgs);
+                        if (rowsAffected == 0)
+                        {
+                            rowsAffected = afterSaveArgs.RecordsAffected;
+                        }
                     }
                 }
-                if (savePerformed)
+                success = true;
+            }
+            finally
+            {
+                if (UseTransactionToSave)
                 {
-                    AfterSave?.Invoke(this, afterSaveArgs);
-                    if (rowsAffected == 0)
+                    if (success)
                     {
-                        rowsAffected = afterSaveArgs.RecordsAffected;
+                        conn.CommitTransaction();
                     }
+                    else
+                    {
+                        // if a rollback occurs within a trigger, then this entire transaction will already be rolled back. 
+                        // don't know if this is a bug in the database connection or not.
+                        // but I am explicitly rolling back here incase a rollback does not occur within a trigger, for any reason.
+                        conn.RollbackTransaction();  
+                    }
+                    conn.Close();
                 }
             }
+
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------

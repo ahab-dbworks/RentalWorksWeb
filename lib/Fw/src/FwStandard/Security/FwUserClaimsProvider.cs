@@ -27,7 +27,7 @@ namespace FwStandard.Security
                     FwSqlCommand qryEncrypt = new FwSqlCommand(conn, dbConfig.QueryTimeout);
                     qryEncrypt.Add("select value = dbo.encrypt(@data)");
                     qryEncrypt.AddParameter("@data", password.ToUpper());
-                    await qryEncrypt.ExecuteAsync(true);
+                    await qryEncrypt.ExecuteAsync();
                     string webpassword = qryEncrypt.GetField("value").ToString().TrimEnd();
 
                     string webUsersId = string.Empty, errmsg = string.Empty;
@@ -38,7 +38,7 @@ namespace FwStandard.Security
                     qryAuthenticate.AddParameter("@webusersid",        System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
                     qryAuthenticate.AddParameter("@errno",             System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output);
                     qryAuthenticate.AddParameter("@errmsg",            System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
-                    await qryAuthenticate.ExecuteAsync(true);
+                    await qryAuthenticate.ExecuteAsync();
                     webUsersId = qryAuthenticate.GetParameter("@webusersid").ToString().TrimEnd();
                     errno      = qryAuthenticate.GetParameter("@errno").ToInt32();
                     errmsg     = qryAuthenticate.GetParameter("@errmsg").ToString().TrimEnd();
@@ -53,7 +53,7 @@ namespace FwStandard.Security
                             qry.Add("order by usertype desc"); //2016-12-07 MY: This is a hack fix to make Usertype: user show up first. Need a better solution.
                             qry.AddParameter("@webusersid", webUsersId);
 
-                            await qry.ExecuteAsync(true);
+                            await qry.ExecuteAsync();
                             if (qry.RowCount > 0)
                             {
                                 //identity = new ClaimsIdentity(new GenericIdentity(username, "Token"));
@@ -128,7 +128,7 @@ namespace FwStandard.Security
                     qryAuthenticate.AddParameter("@campusid",     System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
                     qryAuthenticate.AddParameter("@errno",        System.Data.SqlDbType.Int,      System.Data.ParameterDirection.Output);
                     qryAuthenticate.AddParameter("@errmsg",       System.Data.SqlDbType.NVarChar, System.Data.ParameterDirection.Output);
-                    await qryAuthenticate.ExecuteAsync(true);
+                    await qryAuthenticate.ExecuteAsync();
 
                     if (qryAuthenticate.GetParameter("@errno").ToInt32().Equals(0))
                     {

@@ -316,6 +316,7 @@ namespace FwStandard.SqlServer
             this.sqlCommand.Connection = this.sqlConnection.GetConnection();
             this.sqlCommand.CommandType = CommandType.Text;
             this.sqlCommand.CommandTimeout = timeout;
+            this.Transaction = conn.GetActiveTransaction();
             this.qryText = new StringBuilder();
             this.eof = true;
             this.columns = new List<FwJsonDataTableColumn>();
@@ -330,6 +331,7 @@ namespace FwStandard.SqlServer
             this.sqlCommand.Connection = this.sqlConnection.GetConnection();
             this.sqlCommand.CommandType = CommandType.StoredProcedure;
             this.sqlCommand.CommandTimeout = timeout;
+            this.Transaction = conn.GetActiveTransaction();
             this.qryText = new StringBuilder();
             this.qryText.Append(storedProcedureName);
             this.eof = true;
@@ -742,11 +744,7 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public async Task<int> ExecuteNonQueryAsync()
         {
-            return await ExecuteNonQueryAsync(true);
-        }
-        //------------------------------------------------------------------------------------
-        public async Task<int> ExecuteNonQueryAsync(bool closeConnection)
-        {
+            bool closeConnection = true;
             try
             {
                 this.RowCount = 0;
@@ -754,6 +752,9 @@ namespace FwStandard.SqlServer
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
 
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteNonQuery()");
+
+                closeConnection = !sqlConnection.IsOpen();
+
                 if (closeConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -790,6 +791,7 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public async Task<int> ExecuteInsertQueryAsync(string tablename)
         {
+            bool closeConnection = true;
             StringBuilder insertColumnsNames, insertParameterNames;
 
             try
@@ -798,7 +800,13 @@ namespace FwStandard.SqlServer
                 string methodName = "ExecuteInsertQueryAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteInsertQuery()");
-                await this.sqlConnection.OpenAsync();
+
+                closeConnection = !sqlConnection.IsOpen();
+
+                if (closeConnection)
+                {
+                    await this.sqlConnection.OpenAsync();
+                }
                 insertColumnsNames = new StringBuilder();
                 insertParameterNames = new StringBuilder();
                 for (int i = 0; i < this.sqlCommand.Parameters.Count; i++)
@@ -822,7 +830,10 @@ namespace FwStandard.SqlServer
             finally
             {
                 this.sqlLogEntry.Stop(this.RowCount);
-                this.sqlConnection.Close();
+                if (closeConnection)
+                {
+                    this.sqlConnection.Close();
+                }
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteInsertQuery()");
             }
 
@@ -831,6 +842,7 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public async Task<int> ExecuteUpdateQueryAsync(string tablename, string primarykeyname, string primarykeyvalue)
         {
+            bool closeConnection = true;
             StringBuilder updateColumnsNames, updateParameterNames;
 
             try
@@ -843,7 +855,11 @@ namespace FwStandard.SqlServer
                 {
                     qryText = new StringBuilder();
                 }
-                await this.sqlConnection.OpenAsync();
+
+                if (closeConnection)
+                {
+                    await this.sqlConnection.OpenAsync();
+                }
                 updateColumnsNames = new StringBuilder();
                 updateParameterNames = new StringBuilder();
                 qryText.Append("update ");
@@ -871,7 +887,11 @@ namespace FwStandard.SqlServer
             finally
             {
                 this.sqlLogEntry.Stop(this.RowCount);
-                this.sqlConnection.Close();
+
+                if (closeConnection)
+                {
+                    this.sqlConnection.Close();
+                }
                 //FwFunc.WriteLog("End FwSqlCommand:ExecuteUpdateQuery()");
             }
 
@@ -880,13 +900,20 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public async Task ExecuteReaderAsync()
         {
+            bool closeConnection = true;
             try
             {
                 this.RowCount = 0;
                 string methodName = "ExecuteReaderAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
                 //FwFunc.WriteLog("Begin FwSqlCommand:ExecuteReader()");
-                await this.sqlConnection.OpenAsync();
+
+                closeConnection = !sqlConnection.IsOpen();
+
+                if (closeConnection)
+                {
+                    await this.sqlConnection.OpenAsync();
+                }
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + sqlCommand.CommandText);
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
@@ -899,7 +926,11 @@ namespace FwStandard.SqlServer
             finally
             {
                 this.sqlLogEntry.Stop(this.RowCount);
-                this.sqlConnection.Close();
+
+                if (closeConnection)
+                {
+                    this.sqlConnection.Close();
+                }
             }
         }
         //------------------------------------------------------------------------------------
@@ -1066,6 +1097,7 @@ namespace FwStandard.SqlServer
             object data;
             FwJsonDataTable dt;
 
+            bool closeConnection = true;
             try
             {
                 this.RowCount = 0;
@@ -1081,7 +1113,11 @@ namespace FwStandard.SqlServer
 
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
-                await this.sqlCommand.Connection.OpenAsync();
+
+                if (closeConnection)
+                {
+                    await this.sqlCommand.Connection.OpenAsync();
+                }
 
                 using (SqlDataReader reader = await this.sqlCommand.ExecuteReaderAsync())
                 {
@@ -1222,7 +1258,11 @@ namespace FwStandard.SqlServer
             finally
             {
                 this.sqlLogEntry.Stop(this.RowCount);
-                this.sqlCommand.Connection.Close();
+
+                if (closeConnection)
+                {
+                    this.sqlCommand.Connection.Close();
+                }
                 //FwFunc.WriteLog("End FwSqlCommand:QueryToFwJsonTable()");
             }
 
@@ -1428,11 +1468,7 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public async Task ExecuteAsync()
         {
-            await ExecuteAsync(true);
-        }
-        //------------------------------------------------------------------------------------
-        public async Task ExecuteAsync(bool closeConnection)
-        {
+            bool closeConnection = true;
             try
             {
                 string methodName = "ExecuteAsync";
@@ -1440,6 +1476,9 @@ namespace FwStandard.SqlServer
 
                 //FwFunc.WriteLog("Begin FwSqlCommand: Execute()");
                 this.RowCount = 0;
+
+                closeConnection = !sqlConnection.IsOpen();
+
                 if (closeConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -1488,20 +1527,12 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<List<dynamic>> QueryToDynamicList2Async()
         {
-            return await QueryToDynamicList2Async(true);
-        }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Renders to a javascript array of objects.  While easier to use from JavaScript that FwJsonDataTable, this will use a lot more bandwidth, because the column names are repeated with each row.  Uses the columns format the data that gets generated.  The only reason there is a second version of this function is because of concerns for breaking older code. This is a project for another day.
-        /// </summary>
-        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions.</param>
-        /// <returns></returns>
-        public async Task<List<dynamic>> QueryToDynamicList2Async(bool closeConnection)
-        {
             List<dynamic> rows;
             dynamic rowObj;
             IDictionary<string, object> row;
             string fieldName;
+
+            bool closeConnection = true;
 
             try
             {
@@ -1512,6 +1543,9 @@ namespace FwStandard.SqlServer
                 rows = new List<dynamic>();
                 this.sqlCommand.CommandText = this.qryText.ToString();
                 //FwFunc.WriteLog("Query:\n" + this.sqlCommand.CommandText);
+
+                closeConnection = !sqlConnection.IsOpen();
+
                 if (closeConnection)
                 {
                     await this.sqlCommand.Connection.OpenAsync();
@@ -1605,18 +1639,7 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<List<T>> QueryToTypedListAsync<T>()
         {
-            return await QueryToTypedListAsync<T>(true);
-        }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Run a query and return a typed list, by using QueryToDynamicList2, and then serializing it to json than deserializing to the desired type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions or parallel queries.</param>
-        /// <returns></returns>
-        public async Task<List<T>> QueryToTypedListAsync<T>(bool closeConnection)
-        {
-            var objs = await QueryToDynamicList2Async(closeConnection);
+            var objs = await QueryToDynamicList2Async();
             string json = JsonConvert.SerializeObject(objs);
             List<T> results = JsonConvert.DeserializeObject<List<T>>(json);
             return results;
@@ -1629,18 +1652,7 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<T> QueryToTypedObjectAsync<T>()
         {
-            return await QueryToTypedObjectAsync<T>(true);
-        }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Run a query and return a typed object, by using QueryToDynamicObject2, and then serializing it to json than deserializing to the desired type
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="closeConnection">False will cause it to not close the connection.  Useful for transactions or parallel queries.</param>
-        /// <returns></returns>
-        public async Task<T> QueryToTypedObjectAsync<T>(bool closeConnection)
-        {
-            var obj = await QueryToDynamicObject2Async(closeConnection);
+            var obj = await QueryToDynamicObject2Async();
             string json = JsonConvert.SerializeObject(obj);
             T result = JsonConvert.DeserializeObject<T>(json);
 
@@ -1697,19 +1709,10 @@ namespace FwStandard.SqlServer
         /// <returns></returns>
         public async Task<dynamic> QueryToDynamicObject2Async()
         {
-            return await QueryToDynamicObject2Async(true);
-        }
-        //------------------------------------------------------------------------------------
-        /// <summary>
-        /// Render a query as a JavaScript object using the column formatters
-        /// </summary>
-        /// <returns></returns>
-        public async Task<dynamic> QueryToDynamicObject2Async(bool closeConnection)
-        {
             dynamic result;
             List<dynamic> results;
 
-            results = await QueryToDynamicList2Async(closeConnection);
+            results = await QueryToDynamicList2Async();
             if (results.Count > 0)
             {
                 result = results[0];
@@ -1821,7 +1824,7 @@ namespace FwStandard.SqlServer
             return parameters.ToString();
         }
         //------------------------------------------------------------------------------------
-        public async Task<List<T>> SelectAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T : FwDataRecord
+        public async Task<List<T>> SelectAsync<T>(FwCustomFields customFields = null) where T : FwDataRecord
         {
             string methodName = "SelectAsync";
             string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
@@ -1832,6 +1835,9 @@ namespace FwStandard.SqlServer
             //this.Add("for json path");
             //this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
             //this.AddParameter("@fetchsize", pageSize);
+
+            bool openAndCloseConnection = !sqlConnection.IsOpen();
+
             if (openAndCloseConnection)
             {
                 await this.sqlCommand.Connection.OpenAsync();
@@ -1925,7 +1931,7 @@ namespace FwStandard.SqlServer
             return results;
         }
         //------------------------------------------------------------------------------------
-        public async Task<GetManyResponse<T>> GetManyAsync<T>(bool openAndCloseConnection, FwCustomFields customFields = null) where T : FwDataRecord
+        public async Task<GetManyResponse<T>> GetManyAsync<T>(FwCustomFields customFields = null) where T : FwDataRecord
         {
             string methodName = "GetManyAsync";
             string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
@@ -1938,6 +1944,9 @@ namespace FwStandard.SqlServer
             //this.Add("for json path");
             //this.AddParameter("@offsetrows", (pageNo - 1) * pageSize);
             //this.AddParameter("@fetchsize", pageSize);
+
+            bool openAndCloseConnection = !sqlConnection.IsOpen();
+
             if (openAndCloseConnection)
             {
                 await this.sqlCommand.Connection.OpenAsync();
@@ -2137,13 +2146,16 @@ namespace FwStandard.SqlServer
             return data;
         }
         //------------------------------------------------------------------------------------
-        public async Task<int> InsertAsync(bool openAndCloseConnection, string tablename, object businessObject, SqlServerConfig dbConfig)
+        public async Task<int> InsertAsync(string tablename, object businessObject, SqlServerConfig dbConfig)
         {
+            bool openAndCloseConnection = true;
             try
             {
                 this.RowCount = 0;
                 string methodName = "InsertAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+
+                openAndCloseConnection = !sqlConnection.IsOpen();
 
                 if (openAndCloseConnection)
                 {
@@ -2244,13 +2256,16 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public async Task<int> UpdateAsync(bool openAndCloseConnection, string tablename, object businessObject)
+        public async Task<int> UpdateAsync(string tablename, object businessObject)
         {
+            bool openAndCloseConnection = true;
             try
             {
                 this.RowCount = 0;
                 string methodName = "UpdateAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+
+                openAndCloseConnection = !sqlConnection.IsOpen();
 
                 if (openAndCloseConnection)
                 {
@@ -2347,13 +2362,16 @@ namespace FwStandard.SqlServer
             return this.RowCount;
         }
         //------------------------------------------------------------------------------------
-        public async Task<int> DeleteAsync(bool openAndCloseConnection, string tablename, object businessObject)
+        public async Task<int> DeleteAsync(string tablename, object businessObject)
         {
+            bool openAndCloseConnection = true;
             try
             {
                 this.RowCount = 0;
                 string methodName = "DeleteAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
+
+                openAndCloseConnection = !sqlConnection.IsOpen();
 
                 if (openAndCloseConnection)
                 {

@@ -62,7 +62,7 @@ namespace FwStandard.SqlServer
         static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {
             using (FwSqlCommand sp = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout))
-            { 
+            {
                 sp.AddParameter("@id", SqlDbType.Char, ParameterDirection.Output);
                 await sp.ExecuteAsync();
                 string result = sp.GetParameter("@id").ToString().TrimEnd();
@@ -70,18 +70,19 @@ namespace FwStandard.SqlServer
             }
         }
         //-----------------------------------------------------------------------------
-        static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlTransaction transaction, SqlServerConfig dbConfig)
-        {
-            using (FwSqlCommand sp = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout))
-            {
-                sp.Transaction = transaction;
-                sp.AddParameter("@id", SqlDbType.Char, ParameterDirection.Output);
-                await sp.ExecuteAsync(false);
-                string result = sp.GetParameter("@id").ToString().TrimEnd();
-                return result;
-            }
-        }
-        //-----------------------------------------------------------------------------
+        //jh 03/15/2019 commenting this overloaded version of the method. This behavior is now automatic whenever "conn" has an active transaction already started.  see conn.GetActiveTransaction()
+        //static public async Task<String> GetNextIdAsync(FwSqlConnection conn, SqlTransaction transaction, SqlServerConfig dbConfig)
+        //{
+        //    using (FwSqlCommand sp = new FwSqlCommand(conn, "getnextid", dbConfig.QueryTimeout))
+        //    {
+        //        sp.Transaction = transaction;
+        //        sp.AddParameter("@id", SqlDbType.Char, ParameterDirection.Output);
+        //        await sp.ExecuteAsync(false);
+        //        string result = sp.GetParameter("@id").ToString().TrimEnd();
+        //        return result;
+        //    }
+        //}
+        ////-----------------------------------------------------------------------------
         public enum SQLVersions {NotLoaded, Unknown, SQL2000, SQL2005, SQL2008}
         static async Task<SQLVersions> GetSqlVersionAsync(FwSqlConnection conn, SqlServerConfig dbConfig)
         {

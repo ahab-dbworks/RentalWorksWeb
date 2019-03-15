@@ -1,7 +1,9 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using System;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace FwStandard.DataLayer
 {
@@ -105,7 +107,12 @@ namespace FwStandard.DataLayer
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original)
+        /// <summary>
+        /// Saves the record to the table.
+        /// </summary>
+        /// <param name="original"></param>
+        /// <param name="conn">Specify an existing SqlConnection if desired.  Can be used for multi-statement transactions. If null, then a new Connection will be established.</param>
+        public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original, FwSqlConnection conn = null)
         {
             int rowsAffected = 0;
             TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
@@ -123,56 +130,54 @@ namespace FwStandard.DataLayer
                 throw new Exception("Values were not supplied for all primary keys.");
             }
 
-            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+            }
+
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                if (AssignPrimaryKeys == null)
                 {
-                    if (AssignPrimaryKeys == null)
-                    {
-                        await SetPrimaryKeyIdsForInsertAsync(conn);
-                    }
-                    else
-                    {
-                        EventArgs e = new EventArgs();
-                        AssignPrimaryKeys(this, e);
-                    }
+                    await SetPrimaryKeyIdsForInsertAsync(conn);
                 }
-
-                BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
-                beforeSaveArgs.SaveMode = saveMode;
-                beforeSaveArgs.Original = original;
-
-                AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
-                afterSaveArgs.SaveMode = saveMode;
-                afterSaveArgs.Original = original;
-
-                if (BeforeSave != null)
+                else
                 {
-                    BeforeSave(this, beforeSaveArgs);
+                    EventArgs e = new EventArgs();
+                    AssignPrimaryKeys(this, e);
                 }
+            }
 
-                if (beforeSaveArgs.PerformSave)
+            BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
+            beforeSaveArgs.SaveMode = saveMode;
+            beforeSaveArgs.Original = original;
+            beforeSaveArgs.SqlConnection = conn;
+
+            AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
+            afterSaveArgs.SaveMode = saveMode;
+            afterSaveArgs.Original = original;
+            afterSaveArgs.SqlConnection = conn;
+
+            BeforeSave?.Invoke(this, beforeSaveArgs);
+
+            if (beforeSaveArgs.PerformSave)
+            {
+                if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) || ForceSave || IsModified(original))  // don't proceed with db activity if nothing changed
                 {
-                    if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) || ForceSave || IsModified(original))  // don't proceed with db activity if nothing changed
+                    using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
-                        using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                        if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                         {
-                            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
-                            {
-                                rowsAffected = await cmd.InsertAsync(true, TableName, this, AppConfig.DatabaseSettings);
-                            }
-                            else
-                            {
-                                rowsAffected = await cmd.UpdateAsync(true, TableName, this);
-                            }
-                            bool savePerformed = (rowsAffected > 0);
-                            if (savePerformed)
-                            {
-                                if (AfterSave != null)
-                                {
-                                    AfterSave(this, afterSaveArgs);
-                                }
-                            }
+                            rowsAffected = await cmd.InsertAsync(TableName, this, AppConfig.DatabaseSettings);
+                        }
+                        else
+                        {
+                            rowsAffected = await cmd.UpdateAsync(TableName, this);
+                        }
+                        bool savePerformed = (rowsAffected > 0);
+                        if (savePerformed)
+                        {
+                            AfterSave?.Invoke(this, afterSaveArgs);
                         }
                     }
                 }
@@ -185,23 +190,17 @@ namespace FwStandard.DataLayer
             bool success = false;
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
-            if (BeforeDelete != null)
-            {
-                BeforeDelete(this, beforeDeleteArgs);
-            }
+            BeforeDelete?.Invoke(this, beforeDeleteArgs);
             if (beforeDeleteArgs.PerformDelete)
             {
                 using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                 {
                     using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
-                        int rowcount = await cmd.DeleteAsync(true, TableName, this);
+                        int rowcount = await cmd.DeleteAsync(/*true, */TableName, this);
                         success = (rowcount > 0);
 
-                        if (AfterDelete != null)
-                        {
-                            AfterDelete(this, afterDeleteArgs);
-                        }
+                        AfterDelete?.Invoke(this, afterDeleteArgs);
                     }
                 }
             }

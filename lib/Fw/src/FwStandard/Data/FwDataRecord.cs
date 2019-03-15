@@ -1342,10 +1342,8 @@ namespace FwStandard.DataLayer
         //------------------------------------------------------------------------------------
         public virtual async Task<List<T>> SelectAsync<T>(BrowseRequest request, FwCustomFields customFields = null)
         {
-            //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             using (FwSqlConnection conn = GetDatabaseConnection())
             {
-                bool openAndCloseConnection = true;
                 FwSqlSelect select = new FwSqlSelect();
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
@@ -1353,7 +1351,7 @@ namespace FwStandard.DataLayer
                     select.SetQuery(qry);
                     MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
                     MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                    dynamic result = generic.Invoke(qry, new object[] { customFields });
                     dynamic records = await result;
                     return records;
                 }
@@ -1365,7 +1363,6 @@ namespace FwStandard.DataLayer
             //using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             using (FwSqlConnection conn = GetDatabaseConnection())
             {
-                bool openAndCloseConnection = true;
                 FwSqlSelect select = new FwSqlSelect();
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
@@ -1380,7 +1377,7 @@ namespace FwStandard.DataLayer
                     // call the generic method SelectAsync<T> on the qry using reflection
                     MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
                     MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    Task<GetManyResponse<T>> result = (Task<GetManyResponse<T>>)generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                    Task<GetManyResponse<T>> result = (Task<GetManyResponse<T>>)generic.Invoke(qry, new object[] {customFields });
                     var response = await result;
                     return response;
                 }
@@ -1461,8 +1458,7 @@ namespace FwStandard.DataLayer
                             }
                             MethodInfo method = typeof(FwSqlCommand).GetMethod("SelectAsync");
                             MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                            object openAndCloseConnection = true;
-                            dynamic result = generic.Invoke(qry, new object[] { openAndCloseConnection, customFields });
+                            dynamic result = generic.Invoke(qry, new object[] { customFields });
                             dynamic records = await result;
                             dynamic record = null;
                             if (records.Count > 0)

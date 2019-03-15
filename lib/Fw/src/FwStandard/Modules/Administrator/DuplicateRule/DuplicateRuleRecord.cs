@@ -44,7 +44,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
                     qry.AddParameter("@duplicateruleid", SqlDbType.NVarChar, ParameterDirection.Input, DuplicateRuleId);
                     qry.AddParameter("@fields", SqlDbType.NVarChar, ParameterDirection.Input, Fields);
                     qry.AddParameter("@fieldtypes", SqlDbType.NVarChar, ParameterDirection.Input, FieldTypes);
-                    await qry.ExecuteNonQueryAsync(true);
+                    await qry.ExecuteNonQueryAsync();
                     saved = true;
                 }
             }

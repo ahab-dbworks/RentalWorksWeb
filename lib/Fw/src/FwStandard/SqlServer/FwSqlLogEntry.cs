@@ -413,7 +413,7 @@ namespace FwStandard.SqlServer
             this.StackTrace = stackTrace;
         }
 
-        public FwSqlLogEntry(string message)
+        public FwSqlLogEntry(string message = "")
         {
             SqlForHtml = message;
         }

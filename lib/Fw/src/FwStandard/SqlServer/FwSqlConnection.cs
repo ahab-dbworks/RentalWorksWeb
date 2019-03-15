@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace FwStandard.SqlServer
         private string database = string.Empty;
         private string databaseUser = string.Empty;
         private string databasePassword = string.Empty;
+        private SqlTransaction activeTransaction;
         //---------------------------------------------------------------------------------------------
         //public FwDatabases DatabaseConnection {get;private set;}
         //---------------------------------------------------------------------------------------------
@@ -29,7 +31,7 @@ namespace FwStandard.SqlServer
         public FwSqlConnection(string connectionString, bool multipleActiveResultsSets)
         {
             sqlConnection = new SqlConnection();
-            sqlConnection.ConnectionString = connectionString.TrimEnd(new char[] { ';' }) + ";MultipleActiveResultSets=True;";
+            sqlConnection.ConnectionString = connectionString.TrimEnd(new char[] { ';' }) + ";MultipleActiveResultSets=" + (multipleActiveResultsSets ? "True" : "False") + ";";
         }
         //---------------------------------------------------------------------------------------------
         public SqlConnection GetConnection()
@@ -37,14 +39,51 @@ namespace FwStandard.SqlServer
             return this.sqlConnection;
         }
         //---------------------------------------------------------------------------------------------
+        public bool IsOpen()
+        {
+            return (this.sqlConnection.State != ConnectionState.Closed);
+        }
+        //---------------------------------------------------------------------------------------------
+        public void BeginTransaction()
+        {
+            activeTransaction = this.sqlConnection.BeginTransaction();
+            FwSqlLogEntry sqlLogEntry = new FwSqlLogEntry();
+            sqlLogEntry.WriteToConsole("BEGIN TRANSACTION");
+        }
+        //---------------------------------------------------------------------------------------------
+        public SqlTransaction GetActiveTransaction()
+        {
+            return activeTransaction;
+        }
+        //---------------------------------------------------------------------------------------------
+        public void CommitTransaction()
+        {
+            activeTransaction.Commit();
+            FwSqlLogEntry sqlLogEntry = new FwSqlLogEntry();
+            sqlLogEntry.WriteToConsole("COMMIT TRANSACTION");
+        }
+        //---------------------------------------------------------------------------------------------
+        public void RollbackTransaction()
+        {
+            activeTransaction.Rollback();
+            FwSqlLogEntry sqlLogEntry = new FwSqlLogEntry();
+            sqlLogEntry.WriteToConsole("ROLLBACK TRANSACTION");
+        }
+        //---------------------------------------------------------------------------------------------
         public async Task OpenAsync()
         {
-            await this.sqlConnection.OpenAsync();
+            if (this.sqlConnection.State != System.Data.ConnectionState.Open)
+            {
+                await this.sqlConnection.OpenAsync();
+            }
         }
         //---------------------------------------------------------------------------------------------
         public void Close()
         {
-            this.sqlConnection.Close();
+            if (this.sqlConnection.State == System.Data.ConnectionState.Open)
+            {
+                this.sqlConnection.Close();
+            }
         }
         //---------------------------------------------------------------------------------------------
         public void Dispose()
