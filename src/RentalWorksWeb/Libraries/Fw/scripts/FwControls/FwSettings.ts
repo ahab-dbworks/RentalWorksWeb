@@ -643,15 +643,13 @@ class FwSettingsClass {
             e.stopPropagation();
             if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length !== 0) {
                 jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').show();
-                jQuery(this).closest('.panel').find('.inactive-panel').parent().show();
-                jQuery(this).hide();
-                jQuery(this).parent().find('.hide-inactive').show();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').show();
+                jQuery(this).closest('.panel-title').find('.show-inactive').hide();
                 jQuery(this).closest('#myDropdown').hide();
             } else if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length === 0) {
                 jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').show();
-                jQuery(this).closest('.panel').find('.inactive-panel').parent().show();
-                jQuery(this).hide();
-                jQuery(this).parent().find('.hide-inactive').show();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').show();
+                jQuery(this).closest('.panel-title').find('.show-inactive').hide();
             }
         });
 
@@ -659,15 +657,13 @@ class FwSettingsClass {
             e.stopPropagation();
             if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length !== 0) {
                 jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').hide();
-                jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
-                jQuery(this).hide();
-                jQuery(this).parent().find('.show-inactive').show();
-                jQuery(this).parent().parent().hide();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').hide();
+                jQuery(this).closest('.panel-title').find('.show-inactive').show();
+                jQuery(this).closest('#myDropdown').hide();
             } else if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length === 0) {
                 jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').hide();
-                jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
-                jQuery(this).hide();
-                jQuery(this).parent().find('.show-inactive').show();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').hide();
+                jQuery(this).closest('.panel-title').find('.show-inactive').show();
             }
         });
 
@@ -911,6 +907,10 @@ class FwSettingsClass {
             .on('click', '.refresh', function (e) {
                 e.stopPropagation();
                 let $body = $control.find('#' + moduleName + '.panel-body');
+                if (jQuery(this).closest('.panel-title').find('.hide-inactive').length !== 0) {
+                    jQuery(this).closest('.panel-title').find('.hide-inactive').hide()
+                    jQuery(this).closest('.panel-title').find('.show-inactive').show();
+                }
                 if (!$body.is(':empty')) {
                     $body.empty();
                     me.getRows($body, $control, apiurl, $modulecontainer, moduleName);
