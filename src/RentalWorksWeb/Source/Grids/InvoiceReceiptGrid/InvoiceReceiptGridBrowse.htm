@@ -1,6 +1,9 @@
 ﻿<div data-name="InvoiceReceiptGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-caption="Invoice Receipt" data-rendermode="template" data-showsearch="false" data-controller="InvoiceReceiptGridController">
   <div class="column" data-width="0" data-visible="false">
-    <div class="field" data-datafield="InvoiceId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-datafield="InvoiceReceiptId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="false">
+    <div class="field" data-caption="InvoiceId" data-datafield="InvoiceId" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="false">
     <div class="field" data-caption="ReceiptId" data-datafield="ReceiptId" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
@@ -18,7 +21,7 @@
     <div class="field" data-caption="Check No." data-datafield="ReceiptId" data-browsedisplayfield="CheckNumber" data-datatype="validation" data-validationpeek="true" data-sort="off" data-validationname="ReceiptValidation" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
-    <div class="field" data-caption="By" data-datafield="AppliedById" data-datatype="validation" data-browsedisplayfield="AppliedBy" data-validationname="UserValidation"  data-sort="off" data-formreadonly="true"></div>
+    <div class="field" data-caption="By" data-datafield="AppliedById" data-datatype="validation" data-browsedisplayfield="AppliedBy" data-validationname="UserValidation" data-sort="off" data-formreadonly="true"></div>
   </div>
   <div class="column" data-width="auto" data-visible="true">
     <div class="field" data-caption="Memo" data-datafield="PaymentMemo" data-datatype="note" data-sort="off" data-formreadonly="true"></div>
