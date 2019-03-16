@@ -50,9 +50,8 @@ class Receipt {
         let $browse: any = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const self = this;
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         FwBrowse.addLegend($browse, 'Overpayment', '#FFFF80');
@@ -108,6 +107,7 @@ class Receipt {
             });
         }
         this.events($form);
+        
         $form.find('.braintree-btn').click(() => {
             let braintreeScipt = `<script>
               let button = document.querySelector('#braintree-btn');
@@ -218,12 +218,30 @@ class Receipt {
                 }
             }
         });
+
+        // hide / show payment section for credit cards
+        const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
+        if (paymentTypeType === 'CREDIT CARD') {
+            $form.find('.braintree-row').show();
+        } else {
+            $form.find('.braintree-row').hide();
+        }
         this.paymentByRadioBehavior($form);
         this.loadReceiptInvoiceGrid($form);
         this.events($form);
     }
     //----------------------------------------------------------------------------------------------
-    events($form: JQuery): void { }
+    events($form: JQuery): void {
+        $form.find('div[data-datafield="PaymentTypeId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
+            const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
+            if (paymentTypeType === 'CREDIT CARD') {
+                $form.find('.braintree-row').show();
+            } else {
+                $form.find('.braintree-row').hide();
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
 

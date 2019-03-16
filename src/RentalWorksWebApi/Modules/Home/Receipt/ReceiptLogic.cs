@@ -74,6 +74,9 @@ namespace WebApi.Modules.Home.Receipt
         [FwLogicProperty(Id: "kXK17zt5j8sU", IsReadOnly: true)]
         public string PaymentType { get; set; }
 
+        [FwLogicProperty(Id: "coXGwDfx5Zqv4", IsReadOnly: true)]
+        public string PaymentTypeType { get; set; }
+
         [FwLogicProperty(Id: "ME2oFmB4u32U", IsReadOnly: true)]
         public string PaymentTypeExportPaymentMethod { get; set; }
 

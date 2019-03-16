@@ -30,6 +30,9 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text)]
         public string PaymentTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "paytypetype", modeltype: FwDataTypes.Text)]
+        public string PaymentTypeType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paytypeexportpaymentmethod", modeltype: FwDataTypes.Text)]
         public string PaymentTypeExportPaymentMethod { get; set; }
         //------------------------------------------------------------------------------------ 
