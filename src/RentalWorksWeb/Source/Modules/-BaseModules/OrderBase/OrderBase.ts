@@ -9,7 +9,7 @@ class OrderBase {
     renderFrames($form: any, cachedId?, period?) {
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
-        if (typeof cachedId !== 'undefined') {
+        if (typeof cachedId !== 'undefined' && cachedId !== null) {
             id = cachedId;
         }
         if (id !== '') {
@@ -906,7 +906,7 @@ class OrderBase {
                 $form.find('.summarymonthly').addClass('pressed');
                 $form.find('.summaryperiod, .summaryweekly').removeClass('pressed');
             }
-            this.renderFrames($form, period);
+            this.renderFrames($form, null, period);
         });
 
         $form.find(".combineddw").on('change', '.fwformfield-text, .fwformfield-value', event => {
