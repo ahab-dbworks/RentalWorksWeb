@@ -435,6 +435,8 @@ namespace FwStandard.SqlServer
             {
                 string origStr = str;
                 string queryBoundary = "--==============================================================================================";
+                //string queryHeader = $"User: {user}{ Environment.NewLine}";
+
                 bool isEncrypted = ((str.Contains("controlclient") && str.Contains("options")) || str.Contains("dbo.decrypt") || str.Contains("dbo.encrypt"));
                 if (isEncrypted)
                 {

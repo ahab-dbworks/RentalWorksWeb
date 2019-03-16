@@ -3,6 +3,7 @@ using FwStandard.AppManager;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.DuplicateRule;
+using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
@@ -116,7 +117,6 @@ namespace FwStandard.BusinessLogic
         }
 
         [JsonIgnore]
-        //public FwUserSession UserSession = null;
         public FwUserSession UserSession
         {
             get { return _userSession; }
@@ -166,6 +166,9 @@ namespace FwStandard.BusinessLogic
 
         [JsonIgnore]
         public static FwCustomFields customFields = null;
+
+        [JsonIgnore]
+        public bool ForceSave { get; set; } = false;
 
         [JsonIgnore]
         public bool ReloadOnSave { get; set; } = true;
@@ -921,19 +924,35 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public virtual async Task<int> SaveAsync(FwBusinessLogic original)
+        public virtual async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null)
         {
             bool success = false;
             int rowsAffected = 0;
             TDataRecordSaveMode saveMode = (AllPrimaryKeysHaveValues ? TDataRecordSaveMode.smUpdate : TDataRecordSaveMode.smInsert);
-            FwSqlConnection conn = null;
+            bool transactionInitializedHere = false;
             try
             {
+                if (ForceSave)
+                {
+                    foreach (FwDataReadWriteRecord rec in dataRecords)
+                    {
+                        rec.ForceSave = true;
+                    }
+                }
+
                 if (UseTransactionToSave)
                 {
-                    conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
-                    await conn.GetConnection().OpenAsync();
-                    conn.BeginTransaction();
+                    if (conn == null)
+                    {
+                        conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
+                        await conn.GetConnection().OpenAsync();
+                    }
+
+                    if (conn.GetActiveTransaction() == null)
+                    {
+                        conn.BeginTransaction();
+                        transactionInitializedHere = true;
+                    }
                 }
 
                 BeforeSaveEventArgs beforeSaveArgs = new BeforeSaveEventArgs();
@@ -991,7 +1010,7 @@ namespace FwStandard.BusinessLogic
                             savePerformed = (p.GetValue(this, null) != null);
                         }
                     }
-                    if (savePerformed)
+                    if ((savePerformed) || (ForceSave))
                     {
                         AfterSave?.Invoke(this, afterSaveArgs);
                         if (rowsAffected == 0)
@@ -1004,7 +1023,7 @@ namespace FwStandard.BusinessLogic
             }
             finally
             {
-                if (UseTransactionToSave)
+                if (transactionInitializedHere)
                 {
                     if (success)
                     {
@@ -1015,9 +1034,43 @@ namespace FwStandard.BusinessLogic
                         // if a rollback occurs within a trigger, then this entire transaction will already be rolled back. 
                         // don't know if this is a bug in the database connection or not.
                         // but I am explicitly rolling back here incase a rollback does not occur within a trigger, for any reason.
-                        conn.RollbackTransaction();  
+                        conn.RollbackTransaction();
                     }
                     conn.Close();
+                }
+            }
+
+            if ((success) && (rowsAffected > 0))
+            {
+                if (HasAudit)
+                {
+                    WebAuditJsonLogic audit = new WebAuditJsonLogic();
+                    audit.AppConfig = this.AppConfig;
+                    audit.UserSession = this.UserSession;
+                    audit.ModuleName = this.BusinessLogicModuleName;
+                    JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
+                    jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    //audit.Json = JsonConvert.SerializeObject(this.GetChanges(original), jsonSerializerSettings);
+                    List<FwBusinessLogicFieldDelta> deltas = this.GetChanges(original);
+                    if (deltas.Count > 0)
+                    {
+                        audit.Json = JsonConvert.SerializeObject(deltas, jsonSerializerSettings);
+                        object[] keys = this.GetPrimaryKeys();
+                        if (keys.Length > 0)
+                        {
+                            audit.UniqueId1 = keys[0].ToString();
+                        }
+                        if (keys.Length > 1)
+                        {
+                            audit.UniqueId2 = keys[1].ToString();
+                        }
+                        if (keys.Length > 2)
+                        {
+                            audit.UniqueId3 = keys[2].ToString();
+                        }
+                        audit.WebUserId = this.UserSession.WebUsersId;
+                        await audit.SaveAsync(null);
+                    }
                 }
             }
 
@@ -1420,15 +1473,27 @@ namespace FwStandard.BusinessLogic
             }
         }
 
+        //------------------------------------------------------------------------------------
+        public virtual T MakeCopy<T>()
+        {
+            T newLogic = (T)Activator.CreateInstance(typeof(T));
+            PropertyInfo[] properties = this.GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.CanWrite)
+                {
+                    property.SetValue(newLogic, property.GetValue(this));
+                }
+            }
+            return newLogic;
+        }
+        //------------------------------------------------------------------------------------
         public bool ShouldSerialize_Fields()
         {
             // only serialize the _Fields property when this IsEmptyObject
             return IsEmptyObject;
         }
         //------------------------------------------------------------------------------------
-
-
-
     }
 
     public class FwBusinessLogicList : List<FwBusinessLogic> { }

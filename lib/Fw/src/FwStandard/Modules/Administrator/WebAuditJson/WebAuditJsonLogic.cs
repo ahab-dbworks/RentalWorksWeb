@@ -13,6 +13,8 @@ namespace FwStandard.Modules.Administrator.WebAuditJson
         {
             dataRecords.Add(webAuditJson);
             dataLoader = webAuditJsonLoader;
+            HasAudit = false;
+            ReloadOnSave = false;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"rrFclGnuvha", IsPrimaryKey:true)]
