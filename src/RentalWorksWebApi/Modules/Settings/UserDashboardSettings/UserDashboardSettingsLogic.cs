@@ -330,7 +330,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             return loaded;
         }
         //------------------------------------------------------------------------------------
-        public override async Task<int> SaveAsync(FwBusinessLogic original)
+        public override async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null)
         {
             int savedCount = 0;
             UserDashboardSettingsLogic orig = new UserDashboardSettingsLogic();
