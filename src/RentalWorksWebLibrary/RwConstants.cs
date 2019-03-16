@@ -158,12 +158,12 @@
         public const string PURCHASE_ORDER_STATUS_CLOSED = "CLOSED";
         public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
         public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
-         
+
         public const int PO_NEEDS_APPROVAL_COLOR = 16740429; // light red
         public const int PO_DROP_SHIP_COLOR = 6205102; // teal
         public const int PO_ITEMS_NEED_BARCODE_COLOR = 8388736; // purple
         public const int PO_ITEMS_IN_HOLDING_COLOR = 12320443; // light green
-        
+
 
 
         //VENDOR INVOICE
@@ -179,6 +179,19 @@
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
         public const string RECEIPT_PAYMENT_BY_CUSTOMER = "CUSTOMER";
         public const string RECEIPT_RECTYPE_PAYMENT = "P";
+        public const string RECEIPT_RECTYPE_OVERPAYMENT = "O";
+        public const string RECEIPT_RECTYPE_DEPLETING_DEPOSIT = "D";
+        public const string RECEIPT_RECTYPE_REFUND = "R";
+        public const string RECEIPT_RECTYPE_NSF_ADJUSTMENT = "A";
+        public const string RECEIPT_RECTYPE_WRITE_OFF = "W";
+        public const string RECEIPT_RECTYPE_CREDIT_MEMO = "C";
+        public const int RECEIPT_RECTYPE_OVERPAYMENT_COLOR = 16777088;
+        public const int RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR = 3658499;
+        public const int RECEIPT_RECTYPE_REFUND_CHECK_COLOR = 7303167;
+        public const int RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR = 16740207;
+        public const int RECEIPT_RECTYPE_WRITE_OFF_COLOR = 16744512;
+        public const int RECEIPT_RECTYPE_CREDIT_MEMO_COLOR = 11250646;
+
 
         //REPAIR
         public const string REPAIR_STATUS_NEW = "NEW";

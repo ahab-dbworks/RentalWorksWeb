@@ -54,12 +54,17 @@ class Receipt {
             request.activeviewfields = this.ActiveViewFields;
         });
 
-        FwBrowse.addLegend($browse, 'Overpayment', '#FFFF80');
-        FwBrowse.addLegend($browse, 'Depleting Deposit', '#37D303');
-        FwBrowse.addLegend($browse, 'Refund Check', '#6F6FFF');
-        FwBrowse.addLegend($browse, 'NSF Adjustment', '#FF6F6F');
-        FwBrowse.addLegend($browse, 'Write Off', '#FF8040');
-        FwBrowse.addLegend($browse, 'Credit Memo', '#ABABD6');
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
 
         return $browse;
     }

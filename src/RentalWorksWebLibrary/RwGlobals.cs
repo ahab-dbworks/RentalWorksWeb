@@ -25,7 +25,13 @@ namespace WebLibrary
         public static string ORDER_REPAIR_COLOR { get; set; }
         public static string ORDER_LOSS_AND_DAMAGE_COLOR { get; set; }
 
-
+        //RECEIPT
+        public static string RECEIPT_RECTYPE_OVERPAYMENT_COLOR { get; set; }
+        public static string RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR { get; set; }
+        public static string RECEIPT_RECTYPE_REFUND_CHECK_COLOR { get; set; }
+        public static string RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR { get; set; }
+        public static string RECEIPT_RECTYPE_WRITE_OFF_COLOR { get; set; }
+        public static string RECEIPT_RECTYPE_CREDIT_MEMO_COLOR { get; set; }
 
 
         //CONTACTS
@@ -103,6 +109,16 @@ namespace WebLibrary
 
             CONTAINER_READY_COLOR = CONTAINER_COLOR;
             CONTAINER_INCOMPLETE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTAINER_INCOMPLETE_COLOR);
+
+
+            RECEIPT_RECTYPE_OVERPAYMENT_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT_COLOR);
+            RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR);
+            RECEIPT_RECTYPE_REFUND_CHECK_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_REFUND_CHECK_COLOR);
+            RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR);
+            RECEIPT_RECTYPE_WRITE_OFF_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_WRITE_OFF_COLOR);
+            RECEIPT_RECTYPE_CREDIT_MEMO_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR);
+
+
 
 
         }

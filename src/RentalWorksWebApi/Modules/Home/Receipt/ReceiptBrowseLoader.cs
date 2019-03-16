@@ -2,13 +2,20 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebApi.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Receipt
 {
     [FwSqlTable("arview")]
     public class ReceiptBrowseLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public ReceiptBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "arid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string ReceiptId { get; set; } = "";
@@ -34,9 +41,6 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string RecTypeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "appliedby", modeltype: FwDataTypes.Text)]
         public string AppliedBy { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -51,6 +55,13 @@ namespace WebApi.Modules.Home.Receipt
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor
+        {
+            get { return determineReceTypeColor(RecType); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -71,5 +82,25 @@ namespace WebApi.Modules.Home.Receipt
 
         }
         //------------------------------------------------------------------------------------ 
+        private string determineReceTypeColor(string recType)
+        {
+            return AppFunc.GetReceiptRecTypeColor(recType);
+        }
+        //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("RecTypeColor")] = determineReceTypeColor(row[dt.GetColumnNo("RecType")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

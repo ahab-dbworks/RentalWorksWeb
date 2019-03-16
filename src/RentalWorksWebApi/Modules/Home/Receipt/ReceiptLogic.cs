@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -26,12 +27,16 @@ namespace WebApi.Modules.Home.Receipt
         //------------------------------------------------------------------------------------ 
         ReceiptRecord receipt = new ReceiptRecord();
         ReceiptLoader receiptLoader = new ReceiptLoader();
+        ReceiptBrowseLoader receiptBrowseLoader = new ReceiptBrowseLoader();
+
         public ReceiptLogic()
         {
             dataRecords.Add(receipt);
             dataLoader = receiptLoader;
+            browseLoader = receiptBrowseLoader;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+            ForceSave = true;
             UseTransactionToSave = true;
         }
         //------------------------------------------------------------------------------------ 
@@ -120,7 +125,7 @@ namespace WebApi.Modules.Home.Receipt
         public string OfficeLocationDefaultCurrencyId { get; set; }
 
 
-        [FwLogicProperty(Id: "BD8n6SDR8Rn6y")]
+        [FwLogicProperty(Id: "BD8n6SDR8Rn6y", IsNotAudited: true)]
         public List<ReceiptInvoice> InvoiceDataList { get; set; }  // this field accepts the requested Invoices and Amounts from the user when saving a new or modified Receipt
 
 
@@ -142,7 +147,7 @@ namespace WebApi.Modules.Home.Receipt
                     {
                         orig.PaymentBy = "";
                     }
-                    if (!PaymentBy.Equals(orig.PaymentBy)) 
+                    if (!PaymentBy.Equals(orig.PaymentBy))
                     {
                         isValid = false;
                         validateMsg = $"Cannot change the Payment By on this {BusinessLogicModuleName}.";
@@ -238,7 +243,11 @@ namespace WebApi.Modules.Home.Receipt
             }
         }
         //------------------------------------------------------------------------------------
-        public void OnAfterSave(object sender, AfterSaveEventArgs e) // Josh, here we want to first ask the database for the previous list of Invoices and Amounts related to this Receipt.  We then compare that list with the list provided by the user and perform updates back to the database.
+
+        //Here we want to first ask the database for the previous list of Invoices and Amounts related to this Receipt.  
+        //We then compare that list with the list provided by the user and perform updates back to the database.
+        //All of this is done within the same databas transaction as the insert/update of the Receipt.  Any failures will rollback everything
+        public void OnAfterSave(object sender, AfterSaveEventArgs e) 
         {
             List<InvoiceReceiptLogic> previousIrData = new List<InvoiceReceiptLogic>();
 
@@ -261,13 +270,14 @@ namespace WebApi.Modules.Home.Receipt
             {
                 foreach (ReceiptInvoice riNew in InvoiceDataList)  // iterate through the list provided by the user
                 {
-                    if (irPrev.InvoiceReceiptId.Equals(riNew.InvoiceReceiptId)) // find the record that matches this InvoiceReceiptId
+                    if (irPrev.InvoiceReceiptId.ToString().Equals(riNew.InvoiceReceiptId)) // find the record that matches this InvoiceReceiptId
                     {
                         if (!irPrev.Amount.Equals(riNew.Amount))
                         {
-                            irPrev.Amount = riNew.Amount;
-                            irPrev.SetDependencies(AppConfig, UserSession);
-                            int saveCount = irPrev.SaveAsync(null).Result;
+                            InvoiceReceiptLogic irNew = irPrev.MakeCopy<InvoiceReceiptLogic>();
+                            irNew.Amount = riNew.Amount;
+                            irNew.SetDependencies(AppConfig, UserSession);
+                            int saveCount = irNew.SaveAsync(irPrev, conn: e.SqlConnection).Result;
                         }
                     }
                 }
@@ -284,12 +294,12 @@ namespace WebApi.Modules.Home.Receipt
                     irNew.InvoiceId = ri.InvoiceId;
                     irNew.Amount = ri.Amount;
                     irNew.SetDependencies(AppConfig, UserSession);
-                    int saveCount = irNew.SaveAsync(null).Result;
+                    int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
                 }
             }
 
-
-            bool b = ReceiptFunc.PostGlForReceipt(AppConfig, UserSession, ReceiptId).Result;
+            //explicitly delete and insert any G/L transactions related to this Receipt
+            bool b = ReceiptFunc.PostGlForReceipt(AppConfig, UserSession, ReceiptId, conn: e.SqlConnection).Result;
 
         }
     }

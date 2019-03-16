@@ -6,6 +6,8 @@ using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.Receipt
 {
     [Route("api/v1/[controller]")]
@@ -21,6 +23,22 @@ namespace WebApi.Modules.Home.Receipt
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/receipt/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "5dkaEowIuuvj3")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Overpayment", RwGlobals.RECEIPT_RECTYPE_OVERPAYMENT_COLOR);
+            legend.Add("Depleting Deposit", RwGlobals.RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR);
+            legend.Add("Refund Check", RwGlobals.RECEIPT_RECTYPE_REFUND_CHECK_COLOR);
+            legend.Add("NSF Adjustment", RwGlobals.RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR);
+            legend.Add("Write Off", RwGlobals.RECEIPT_RECTYPE_WRITE_OFF_COLOR);
+            legend.Add("Credit Memo", RwGlobals.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR);
+            await Task.CompletedTask; // get rid of the no async call warning
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/receipt/exportexcelxlsx/filedownloadname 

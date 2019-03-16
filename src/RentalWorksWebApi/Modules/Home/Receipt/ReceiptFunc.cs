@@ -9,14 +9,15 @@ namespace WebApi.Modules.Home.Receipt
     public static class ReceiptFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<bool> PostGlForReceipt(FwApplicationConfig appConfig, FwUserSession userSession, string receiptId)
+        public static async Task<bool> PostGlForReceipt(FwApplicationConfig appConfig, FwUserSession userSession, string receiptId, FwSqlConnection conn = null)
         {
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            if (conn == null)
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "postglforar", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@arid", SqlDbType.NVarChar, ParameterDirection.Input, receiptId);
-                await qry.ExecuteNonQueryAsync();
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
             }
+            FwSqlCommand qry = new FwSqlCommand(conn, "postglforar", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@arid", SqlDbType.NVarChar, ParameterDirection.Input, receiptId);
+            await qry.ExecuteNonQueryAsync();
             return true;
         }
         //-------------------------------------------------------------------------------------------------------    

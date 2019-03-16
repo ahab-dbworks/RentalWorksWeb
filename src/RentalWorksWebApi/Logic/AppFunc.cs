@@ -304,19 +304,19 @@ namespace WebApi.Logic
             switch (companyType)
             {
                 case RwConstants.COMPANY_TYPE_LEAD:
-                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_LEAD_COLOR);
+                    companyTypeColor = RwGlobals.COMPANY_TYPE_LEAD_COLOR;
                     break;
                 case RwConstants.COMPANY_TYPE_PROSPECT:
-                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_PROSPECT_COLOR);
+                    companyTypeColor = RwGlobals.COMPANY_TYPE_PROSPECT_COLOR;
                     break;
                 case RwConstants.COMPANY_TYPE_CUSTOMER:
-                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_CUSTOMER_COLOR);
+                    companyTypeColor = RwGlobals.COMPANY_TYPE_CUSTOMER_COLOR;
                     break;
                 case RwConstants.COMPANY_TYPE_DEAL:
-                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_DEAL_COLOR);
+                    companyTypeColor = RwGlobals.COMPANY_TYPE_DEAL_COLOR;
                     break;
                 case RwConstants.COMPANY_TYPE_VENDOR:
-                    companyTypeColor = FwConvert.OleColorToHtmlColor(RwConstants.COMPANY_TYPE_VENDOR_COLOR);
+                    companyTypeColor = RwGlobals.COMPANY_TYPE_VENDOR_COLOR;
                     break;
             }
             return companyTypeColor;
@@ -365,6 +365,33 @@ namespace WebApi.Logic
                     break;
             }
             return descriptionColor;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static string GetReceiptRecTypeColor(string recType)
+        {
+            string recTypeColor = null;
+            switch (recType)
+            {
+                case RwConstants.RECEIPT_RECTYPE_OVERPAYMENT:
+                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_OVERPAYMENT_COLOR;
+                    break;
+                case RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT:
+                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR;
+                    break;
+                case RwConstants.RECEIPT_RECTYPE_REFUND:
+                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_REFUND_CHECK_COLOR;
+                    break;
+                case RwConstants.RECEIPT_RECTYPE_NSF_ADJUSTMENT:
+                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR;
+                    break;
+                case RwConstants.RECEIPT_RECTYPE_WRITE_OFF:
+                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_WRITE_OFF_COLOR;
+                    break;
+                case RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO:
+                    recTypeColor = RwGlobals.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR;
+                    break; 
+            }
+            return recTypeColor;
         }
         //-------------------------------------------------------------------------------------------------------
     }
