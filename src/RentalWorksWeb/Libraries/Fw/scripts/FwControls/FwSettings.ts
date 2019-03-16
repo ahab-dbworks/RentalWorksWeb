@@ -642,12 +642,12 @@ class FwSettingsClass {
         $settingsPageModules.on('click', '.show-inactive', function (e) {
             e.stopPropagation();
             if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length !== 0) {
-                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').show();
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().show();
                 jQuery(this).closest('.panel-title').find('.hide-inactive').show();
                 jQuery(this).closest('.panel-title').find('.show-inactive').hide();
                 jQuery(this).closest('#myDropdown').hide();
             } else if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length === 0) {
-                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').show();
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().show();
                 jQuery(this).closest('.panel-title').find('.hide-inactive').show();
                 jQuery(this).closest('.panel-title').find('.show-inactive').hide();
             }
@@ -656,12 +656,12 @@ class FwSettingsClass {
         $settingsPageModules.on('click', '.hide-inactive', function (e) {
             e.stopPropagation();
             if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length !== 0) {
-                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').hide();
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
                 jQuery(this).closest('.panel-title').find('.hide-inactive').hide();
                 jQuery(this).closest('.panel-title').find('.show-inactive').show();
                 jQuery(this).closest('#myDropdown').hide();
             } else if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length === 0) {
-                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').hide();
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
                 jQuery(this).closest('.panel-title').find('.hide-inactive').hide();
                 jQuery(this).closest('.panel-title').find('.show-inactive').show();
             }
