@@ -1561,6 +1561,7 @@ class OrderBase {
         if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Miscellaneous"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'Labor')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide() }
         // LD Disable checkbox in Order form
         let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
         let salesVal = FwFormField.getValueByDataField($form, 'Sales');

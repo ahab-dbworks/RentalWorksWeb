@@ -478,22 +478,13 @@ class Quote extends OrderBase {
             lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
 
         if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {
-            if ($form.find('[data-datafield="Rental"] input').prop('checked')) {
-                FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
-                usedSaleTab.hide();
-            } else {
-                rentalTab.hide();
-            }
-            $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-            $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-            $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-            $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? lossDamageTab.show() : lossDamageTab.hide();
-            if ($form.find('[data-datafield="RentalSale"] input').prop('checked')) {
-                FwFormField.disable($form.find('[data-datafield="Rental"]'));
-                rentalTab.show();
-            } else {
-                usedSaleTab.hide();
-            }
+            // show / hide tabs
+            if (!FwFormField.getValueByDataField($form, 'Rental')) { rentalTab.hide(), FwFormField.disable($form.find('[data-datafield="RentalSale"]')); }
+            if (!FwFormField.getValueByDataField($form, 'Sales')) { salesTab.hide() }
+            if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { miscTab.hide() }
+            if (!FwFormField.getValueByDataField($form, 'Labor')) { laborTab.hide() }
+            if (!FwFormField.getValueByDataField($form, 'RentalSale')) { usedSaleTab.hide() }
+            if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }
         }
 
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
