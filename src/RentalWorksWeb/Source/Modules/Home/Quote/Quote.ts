@@ -150,8 +150,8 @@ class Quote extends OrderBase {
             FwFormField.setValueByDataField($form, 'BillingMonths', '0');
             FwFormField.setValueByDataField($form, 'VersionNumber', 1);
 
-            $form.find('div[data-datafield="DealId"]').attr('data-required', false);
-            $form.find('div[data-datafield="PickTime"]').attr('data-required', false);
+            $form.find('div[data-datafield="DealId"]').attr('data-required', 'false');
+            $form.find('div[data-datafield="PickTime"]').attr('data-required', 'false');
 
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
@@ -173,8 +173,8 @@ class Quote extends OrderBase {
             $form.find(".frame .add-on").children().hide();
         }
 
-        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', false);
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', false);
+        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
