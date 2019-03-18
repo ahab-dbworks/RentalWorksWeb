@@ -474,8 +474,8 @@ class Quote extends OrderBase {
             salesTab = $form.find('[data-type="tab"][data-caption="Sales"]'),
             miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]'),
             laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'),
-            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'),
-            lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
+            usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]')
+            //lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
 
         if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {
             // show / hide tabs
@@ -484,7 +484,7 @@ class Quote extends OrderBase {
             if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { miscTab.hide() }
             if (!FwFormField.getValueByDataField($form, 'Labor')) { laborTab.hide() }
             if (!FwFormField.getValueByDataField($form, 'RentalSale')) { usedSaleTab.hide() }
-            if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }
+            //if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { lossDamageTab.hide(), FwFormField.disable($form.find('[data-datafield="Rental"]')); }
         }
 
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
