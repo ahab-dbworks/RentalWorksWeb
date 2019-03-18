@@ -1,4 +1,4 @@
-﻿class FwBrowseClass {
+class FwBrowseClass {
     //---------------------------------------------------------------------------------
     upgrade($control) {
         var properties, i, data_type;
@@ -1085,13 +1085,7 @@
                     html.push($advancedoptions.wrap('<div/>').parent().html());       //MY 2/26/2015: Hack to get parent .advancedoption div as well as content
                 }
                 html.push('<div class="fwbrowsefilter" style="display:none;"></div>');
-
-                if ($control.attr('data-tableheight')) {
-                    const height = $control.attr('data-tableheight');
-                    html.push(`<div class="tablewrapper" style="height:${height};">`);
-                } else {
-                    html.push('<div class="tablewrapper">');
-                }
+                html.push('<div class="tablewrapper">');
                 html.push('<table>');
                 html.push('<thead>');
                 // header row
@@ -1262,7 +1256,58 @@
                         htmlPager.push('</div>');
                         break;
                     case 'Grid':
-                        htmlPager.push('<div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                        if ($control.attr('data-paging') == 'true') {
+                            htmlPager.push('<div class="col1" style="width:33%;overflow:hidden;float:left;">');
+                            htmlPager.push('  <div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                            htmlPager.push('  <div class="count" style="float:left;"></div>');
+                            htmlPager.push('</div>');
+                            htmlPager.push('<div class="col2" style="width:34%;overflow:hidden;float:left;height:32px;text-align:center;">');
+                            htmlPager.push('  <div class="buttons">');
+                            htmlPager.push('    <div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
+                            htmlPager.push('    <div class="button btnPreviousPage" disabled="disabled" data-enabled="false" title="Previous" alt="Previous"><i class="material-icons">&#xE5CB;</i></div>');
+                            htmlPager.push('    <div class="page" style="float:left;">');
+                            htmlPager.push('      <input class="txtPageNo" type="text" value="0"/>');
+                            htmlPager.push('      <div class="of">of</div>');
+                            htmlPager.push('      <div class="txtTotalPages">0 row(s)</div>');
+                            htmlPager.push('    </div>');
+                            htmlPager.push('    <div class="button btnNextPage" disabled="disabled" data-enabled="false" title="Next" alt="Next"><i class="material-icons">&#xE5CC;</i></div>');
+                            htmlPager.push('    <div class="button btnLastPage" disabled="disabled" data-enabled="false" title="Last" alt="Last"><i class="material-icons">&#xE5DD;</i></div>');
+                            htmlPager.push('  </div>');
+                            htmlPager.push('</div>');
+                            htmlPager.push('<div class="col3" style="width:33%;overflow:hidden;float:left;">');
+                            htmlPager.push('  <div class="pagesize">');
+                            htmlPager.push('    <select class="pagesize">');
+                            htmlPager.push('      <option value="5">5</option>');
+                            htmlPager.push('      <option value="10">10</option>');
+                            htmlPager.push('      <option value="15">15</option>');
+                            htmlPager.push('      <option value="20">20</option>');
+                            htmlPager.push('      <option value="25">25</option>');
+                            htmlPager.push('      <option value="30">30</option>');
+                            htmlPager.push('      <option value="35">35</option>');
+                            htmlPager.push('      <option value="40">40</option>');
+                            htmlPager.push('      <option value="45">45</option>');
+                            htmlPager.push('      <option value="50">50</option>');
+                            htmlPager.push('      <option value="100">100</option>');
+                            htmlPager.push('      <option value="200">200</option>');
+                            htmlPager.push('      <option value="500">500</option>');
+                            htmlPager.push('      <option value="1000">1000</option>');
+                            //htmlPager.push('      <option value="0">All</option>');
+                            htmlPager.push('    </select>');
+                            htmlPager.push('    <span class="caption">rows per page</span>');
+                            htmlPager.push('  </div>');
+                            htmlPager.push('</div>');
+                            if ((controlType === 'Grid') && (typeof $control.attr('data-activeinactiveview') === 'string') && (FwSecurity.isUser())) {
+                                htmlPager.push('<div class="activeinactiveview" style="float:right;">');
+                                htmlPager.push('  <select class="activeinactiveview">');
+                                htmlPager.push('    <option value="active">Show Active</option>');
+                                htmlPager.push('    <option value="inactive">Show Inactive</option>');
+                                htmlPager.push('    <option value="all">Show All</option>');
+                                htmlPager.push('</div>');
+                            }
+                            break;
+                        } else {
+                            htmlPager.push('  <div class="btnRefresh" title="Refresh" tabindex="0"><i class="material-icons">&#xE5D5;</i></div>');
+                        }
                     case 'Validation':
                         htmlPager.push('<div class="buttons" style="float:left;">');
                         htmlPager.push('  <div class="button btnFirstPage" disabled="disabled" data-enabled="false" title="First" alt="First"><i class="material-icons">&#xE5DC;</i></div>');
@@ -2133,17 +2178,15 @@
                             $field.addClass('editablefield');
                         }
                     }
-                    if (typeof dtCellValue !== 'undefined') {
+                    if (typeof dtCellValue !== 'undefined' && dtCellValue != null) {
                         $field.attr('data-originalvalue', dtCellValue.toString());
                     } else {
                         $field.attr('data-originalvalue', '');
                     }
 
                     var cellcolor = $field.attr('data-cellcolor');
-
                     if (typeof cellcolor !== 'undefined') {
                         $td.children().css('padding-left', '10px');
-
                         if ((cellcolor.length > 0) && ((dtRow[dt.ColumnIndex[cellcolor]]) !== null) && ((dtRow[dt.ColumnIndex[cellcolor]]) != "")) {
                             if (typeof dt.ColumnIndex[cellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: cellcolor: "column ' + cellcolor + '" was not returned by the web service.';
@@ -2152,7 +2195,7 @@
                                 'position': 'relative',
                                 'border-top-color': dtRow[dt.ColumnIndex[cellcolor]],
                                 'border-top-style': 'none',
-
+                                'z-index': 0
                             };
                             $td.addClass('cellColor').css(css);
                         }
@@ -2167,16 +2210,13 @@
                             }
                             if ($field.attr('data-formreadonly') === 'true') {
                                 var css = {
-                                    'position': 'relative',
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(245, 245, 245, 1)50%)'
                                 };
                             } else {
                                 var css = {
-                                    'position': 'relative',
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[halfcellcolor]] + ', rgba(255, 255, 255, 0)50%)'
                                 };
                             }
-
                             $td.children().css(css).addClass('cellgradient');
                         }
                     }
@@ -2188,15 +2228,12 @@
                             if (typeof dt.ColumnIndex[fullcellcolor] !== 'number') {
                                 throw 'FwBrowse.databindcallback: fullcellcolor: "column ' + fullcellcolor + '" was not returned by the web service.';
                             }
-
                             if ($field.attr('data-formreadonly') === 'true') {
                                 var css = {
-                                    'position': 'relative',
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(245, 245, 245, 1))'
                                 }
                             } else {
                                 var css = {
-                                    'position': 'relative',
                                     'background': 'linear-gradient(to bottom, ' + dtRow[dt.ColumnIndex[fullcellcolor]] + ', rgba(255, 255, 255, 0))'
                                 }
                             }
@@ -2363,7 +2400,11 @@
                 $control.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
                     try {
                         let $td = jQuery(this).parent();
-                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
+                        let peekWait = FwOverlay.showPleaseWaitOverlay($td.closest('.fwcontrol'), null);
+                        setTimeout(function () {
+                            FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
+                            FwOverlay.hideOverlay(peekWait);
+                        }, 0)
                     } catch (ex) {
                         FwFunc.showError(ex)
                     }
@@ -2468,6 +2509,20 @@
                     }
                     break;
                 case 'Grid':
+                    if ($control.attr('data-paging') == 'true') {
+                        if ((rownoend === 0) && (dt.TotalRows === 0)) {
+                            $control.find('.pager .count').text(dt.TotalRows + ' rows');
+                        } else {
+                            if (dt.TotalPages == 1) {
+                                $control.find('.pager .count').text(dt.TotalRows + ' rows');
+                            } else {
+                                $control.find('.pager .count').text(rownostart + ' to ' + rownoend + ' of ' + dt.TotalRows + ' rows');
+                            }
+                        }
+                    } else {
+                        $control.find('.pager .count').text(dt.TotalRows + ' row(s)');
+                    }
+                    break;
                 case 'Validation':
                     $control.find('.pager .count').text(dt.TotalRows + ' row(s)');
                     break;
@@ -2779,45 +2834,86 @@
     setRowEditMode($control: JQuery, $tr: JQuery): void {
         let me = this;
         let rowIndex = $tr.index();
-        this.beforeNewOrEditRow($control, $tr)
-            .then(() => {
-                $tr = $control.find('tbody tr').eq(rowIndex);
-                $control.attr('data-mode', 'EDIT');
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                    $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
-                    $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
-                    //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
-                    //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
 
-                    var controller;
-                    controller = $control.attr('data-controller');
-                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['beforeRowEditMode'] === 'function') {
-                        window[controller]['beforeRowEditMode']($control, $tr);
-                    }
+        if ($control.attr('data-multisave') == 'true') {
+            $tr = $control.find('tbody tr').eq(rowIndex);
+            $control.attr('data-mode', 'EDIT');
+            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+
+                var controller;
+                controller = $control.attr('data-controller');
+                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                if (typeof window[controller]['beforeRowEditMode'] === 'function') {
+                    window[controller]['beforeRowEditMode']($control, $tr);
                 }
+            }
 
-                $tr.find('> td > .field').each(function (index, element) {
-                    var $field;
-                    $field = jQuery(element);
-                    if ($field.attr('data-formreadonly') === 'true') {
-                        me.setFieldViewMode($control, $tr, $field);
-                    } else {
-                        me.setFieldEditMode($control, $tr, $field);
-                    }
-                });
-
-                me.addSaveAndCancelButtonToRow($control, $tr);
-
-                if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
-                    var controller;
-                    controller = $control.attr('data-controller');
-                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                    if (typeof window[controller]['afterRowEditMode'] === 'function') {
-                        window[controller]['afterRowEditMode']($control, $tr);
-                    }
+            $tr.find('> td > .field').each(function (index, element) {
+                var $field;
+                $field = jQuery(element);
+                if ($field.attr('data-formreadonly') === 'true') {
+                    me.setFieldViewMode($control, $tr, $field);
+                } else {
+                    me.setFieldEditMode($control, $tr, $field);
                 }
             });
+
+            me.addMultiSaveAndCancelButtonToRow($control, $tr);
+
+            if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                var controller;
+                controller = $control.attr('data-controller');
+                if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                if (typeof window[controller]['afterRowEditMode'] === 'function') {
+                    window[controller]['afterRowEditMode']($control, $tr);
+                }
+            }
+        } else {
+            this.beforeNewOrEditRow($control, $tr)
+                .then(() => {
+                    $tr = $control.find('tbody tr').eq(rowIndex);
+                    $control.attr('data-mode', 'EDIT');
+                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        $tr.removeClass('viewmode').addClass('editmode').addClass('editrow');
+                        $control.find('.gridmenu .buttonbar div[data-type="NewButton"]').hide();
+                        //$control.find('.gridmenu .buttonbar div[data-type="EditButton"]').hide();
+                        //$control.find('.gridmenu .buttonbar div[data-type="DeleteButton"]').hide();
+
+                        var controller;
+                        controller = $control.attr('data-controller');
+                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof window[controller]['beforeRowEditMode'] === 'function') {
+                            window[controller]['beforeRowEditMode']($control, $tr);
+                        }
+                    }
+
+                    $tr.find('> td > .field').each(function (index, element) {
+                        var $field;
+                        $field = jQuery(element);
+                        if ($field.attr('data-formreadonly') === 'true') {
+                            me.setFieldViewMode($control, $tr, $field);
+                        } else {
+                            me.setFieldEditMode($control, $tr, $field);
+                        }
+                    });
+
+                    //$control.attr('data-multisave') == 'true' ? me.addMultiSaveAndCancelButtonToRow($control, $tr) : me.addSaveAndCancelButtonToRow($control, $tr);
+                    me.addSaveAndCancelButtonToRow($control, $tr);
+
+                    if (($control.attr('data-type') == 'Grid') && (typeof $control.attr('data-controller') !== 'undefined') && ($control.attr('data-controller') !== '')) {
+                        var controller;
+                        controller = $control.attr('data-controller');
+                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                        if (typeof window[controller]['afterRowEditMode'] === 'function') {
+                            window[controller]['afterRowEditMode']($control, $tr);
+                        }
+                    }
+                });
+        }
     }
     //---------------------------------------------------------------------------------
     addSaveAndCancelButtonToRow($control: JQuery, $tr: JQuery): void {
@@ -2846,6 +2942,46 @@
                 var $this = jQuery(this);
                 var $tr = $this.closest('tr');
                 me.cancelEditMode($control, $tr);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        $tdselectrow.append($divcancelsaverow);
+    }
+    //---------------------------------------------------------------------------------
+    addMultiSaveAndCancelButtonToRow($control: JQuery, $tr: JQuery): void {
+        let me = this;
+        // add the multi-save button
+        const $gridmenu = $control.find('[data-control="FwMenu"]');
+        $tr.closest('tbody').find('.divselectrow').hide();
+        $tr.find('.browsecontextmenucell').hide();
+        const $multisave = jQuery('<div data-type="button" class="fwformcontrol grid-multi-save"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i> Save All</div>'); //save
+        $multisave.on('click', function () {
+            try {
+                const $trs = $control.find('tr.editmode.editrow');
+                me.multiSaveRow($control, $trs);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        if ($gridmenu.find('.grid-multi-save').length < 1) {
+            $gridmenu.append($multisave);
+        } else {
+            $gridmenu.find('.grid-multi-save').show();
+        }
+
+        // add the cancel button
+        const $tdselectrow = $tr.find('.tdselectrow');
+        $tr.closest('tbody').find('.browsecontextmenu').hide();
+        const $divcancelsaverow = jQuery('<div class="divcancelsaverow"><i class="material-icons">&#xE5C9;</i></div>'); //cancel
+        $divcancelsaverow.on('click', function () {
+            try {
+                const $this = jQuery(this);
+                const $tr = $this.closest('tr');
+                me.cancelEditMode($control, $tr);
+                $tr.find('.browsecontextmenucell').show();
+                const rowsInEditMode = $control.find('.editmode').length;
+                if (rowsInEditMode == 0) $gridmenu.find('.grid-multi-save').hide();
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -3172,6 +3308,78 @@
         });
     }
     //----------------------------------------------------------------------------------------------
+    multiSaveRow($control: JQuery, $trs: JQuery): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            const name = $control.attr('data-name');
+            if (typeof name === 'undefined') {
+                throw 'Attrtibute data-name is missing on the Browser controller with html: ' + $control[0].outerHTML;
+            }
+            const controller = window[name + 'Controller'];
+            if (typeof controller === 'undefined') {
+                throw `Controller: ${name} is not defined`;
+            }
+            let manyRequest = [];
+            let ids = [];
+            for (let i = 0; i < $trs.length; i++) {
+                const $tr = jQuery($trs[i]);
+                if (this.isRowModified($control, $tr)) {
+                    var $form;
+                    let isvalid = true;
+                    isvalid = this.validateRow($control, $tr);
+                    if (isvalid) {
+                        $form = $control.closest('.fwform');
+                        const gridfields = this.getWebApiRowFields($control, $tr);
+                        if (typeof $control.data('beforesave') === 'function') {
+                            $control.data('beforesave')(gridfields);
+                        }
+                        manyRequest.push(gridfields);
+                        const uniqueIds = this.getRowFormUniqueIds($control, $tr);
+                        ids.push(uniqueIds);
+                    }
+                }
+            }
+            FwAppData.apiMethod(true, 'POST', `${controller.apiurl}/many`, manyRequest, FwServices.defaultTimeout, function (response) {
+                const pageNumber = $control.attr('data-pageno');
+                const onDataBind = $control.data('ondatabind');
+                if (typeof onDataBind == 'function') { //adds current page number to request
+                    $control.data('ondatabind', function (request) {
+                        onDataBind(request);
+                        request.pageno = parseInt(pageNumber);
+                    });
+                }
+                FwBrowse.search($control)
+                    .then(() => {
+                        $control.find('.grid-multi-save').hide();
+                        $control.attr('data-pageno', pageNumber);
+                        $control.data('ondatabind', onDataBind); //re-binds original request
+                        for (let i = 0; i < response.length; i++) {
+                            const item = response[i];
+                            const key = Object.keys(ids[i])[0];
+                            const uniqueIdField = ids[i][key].datafield;
+                            const uniqueIdValue = ids[i][key].value;
+                            const $tr = $control.find(`div.field[data-isuniqueid="true"][data-formdatafield="${uniqueIdField}"][data-originalvalue="${uniqueIdValue}"]`).parents('tr');
+                            const $contextMenu = $tr.find('td.browsecontextmenucell');
+                            if (item["Result"]["StatusCode"] != 200) {
+                                FwNotification.renderNotification('ERROR', item["Result"]["Value"]["Message"]);
+                                $contextMenu.addClass('menuError');
+                                $contextMenu.unbind('click.error');
+                                $contextMenu.bind('click.error', () => {
+                                    FwNotification.renderNotification('ERROR', item["Result"]["Value"]["Message"]);
+                                });
+                            } else {
+                                $contextMenu.removeClass('menuError');
+                                $contextMenu.unbind('click.error');
+                            }
+                        }
+                        resolve();
+                    })
+                    .catch((reason) => {
+                        reject(reason);
+                    });
+            }, null, $control);
+        })
+    }
+    //----------------------------------------------------------------------------------------------
     deleteRow($control: JQuery, $tr: JQuery) {
         let me = this;
         var rowuniqueids, formuniqueids, name, $form, $confirmation, $ok, $cancel, candelete, miscfields;
@@ -3430,6 +3638,10 @@
         return fields;
     }
     //---------------------------------------------------------------------------------
+    endsWith(str: string, suffix: string): boolean {
+        return str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+    //---------------------------------------------------------------------------------
     renderAuditHistoryPopup($tr: JQuery): void {
         let HTML: Array<string> = [], $popupHtml, $popup, $auditHistoryGrid, $auditHistoryGridControl, uniqueId;
         uniqueId = $tr.find('[data-browsedatatype="key"]').attr('data-originalvalue');
@@ -3460,12 +3672,18 @@
         $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
         FwPopup.showPopup($popup);
 
+        const controller = $tr.parents('[data-type="Grid"]').attr('data-controller');
+        let module: string = window[controller].Module;
+        if (this.endsWith(module, 'Grid')) {
+            module = module.substring(0, module.length - 4);
+        }
         $auditHistoryGrid = $popup.find('div[data-grid="AuditHistoryGrid"]');
         $auditHistoryGridControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
         $auditHistoryGrid.empty().append($auditHistoryGridControl);
         $auditHistoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 UniqueId1: uniqueId
+                , ModuleName: module
             };
         });
         FwBrowse.init($auditHistoryGridControl);

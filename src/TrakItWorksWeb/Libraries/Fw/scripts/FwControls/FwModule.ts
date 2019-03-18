@@ -36,8 +36,8 @@
         FwControl.loadControls($fwcontrols);
         // START CLOSE TAB
         if ($tabControl.find('div[data-tabtype="FORM"]').length > 2) {
-            let iconHtml: Array<string> = [], $closeTabButton;
             $tabControl.find('.closetabbutton').html('');
+            const iconHtml: Array<string> = [];
             iconHtml.push(`<div class="closetab">
                             <i class="material-icons">more_horiz</i>
                             <div style="display:none;" class="close-dialog">
@@ -49,7 +49,7 @@
                               </div>
                             </div>
                           </div>`);
-            $closeTabButton = jQuery(iconHtml.join(''));
+            const $closeTabButton = jQuery(iconHtml.join(''));
             $tabControl.find('.closetabbutton:first').append($closeTabButton);
         } else {
             $tabControl.find('.closetabbutton').html('');
@@ -104,7 +104,6 @@
             $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
             $activeTabId = $activeTab.attr('data-tabpageid');
             jQuery('body').data('activeTabId', $activeTabId);
-            $bodyContainer = jQuery('#master-body');
             $bodyContainer = jQuery('#master-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
@@ -779,6 +778,7 @@
             $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
+                request.uniqueids.ModuleName = window[controller].Module;
                 for (let i = 0; i < 2; i++) {
                     let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
@@ -844,6 +844,19 @@
                     $this.removeClass('error');
                     if ($this.closest('.tabpage.active').has('.error').length === 0) {
                         $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');
+                    }
+                }
+            })
+            .on('change', '.fwformfield[data-enabled="true"][data-datafield!=""]', function (e) {
+                e.stopPropagation();
+                const $this = jQuery(this);
+                const fieldName = $this.attr('data-datafield');
+                const value = FwFormField.getValue2($this);
+                const text = FwFormField.getText2($this);
+                const $formfields = $form.find(`[data-datafield="${fieldName}"]`);
+                if ($formfields.length > 1) {
+                    for (let i = 0; i < $formfields.length; i++) {
+                        FwFormField.setValue2(jQuery($formfields[i]), value, text);
                     }
                 }
             })

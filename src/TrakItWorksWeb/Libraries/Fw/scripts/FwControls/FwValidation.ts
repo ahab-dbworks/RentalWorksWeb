@@ -423,7 +423,7 @@
                 let ids = {};
                 ids[validationDatafield] = validationId;
                 $popupForm = window[validationName + 'Controller'].loadForm(ids);
-                FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title));
+                FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, title, validationId));
                 let $fwcontrols = $popupForm.find('.fwcontrol');
                 FwControl.loadControls($fwcontrols);
                 $popupForm.find('.btnpeek').remove();

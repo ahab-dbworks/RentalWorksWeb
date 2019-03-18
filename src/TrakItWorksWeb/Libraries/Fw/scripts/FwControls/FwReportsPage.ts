@@ -96,9 +96,12 @@
         html.push('        <h4 class="panel-title">');
         html.push('          <a id="title" data-toggle="collapse">' + menu + ' - ' + title + '</a>');
         html.push('          <div id="myDropdown" class="dropdown-content">');
-        html.push('            <a class="pop-out">Pop Out Module</a>');
+        html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
         html.push('          </div>');
+        html.push('        <div style="margin-left:auto;">');
+        html.push('          <i class="material-icons pop-out">open_in_new</i>');
         html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </div>');
         html.push('      </h4>');
         html.push('      </div>');
         if (description === "") {
@@ -123,8 +126,10 @@
 
         $reportsPageModules.on('click', '.pop-out', function (e) {
             e.stopPropagation();
-            program.popOutTab('#/module/' + moduleName.slice(2));
-            jQuery(this).parent().hide();
+            program.popOutTab('#/reports/' + moduleName.slice(2));
+            if (jQuery(this).closest('#myDropdown').length !== 0) {
+                jQuery(this).parent().hide();
+            }
         });
 
         $reportsPageModules
@@ -162,17 +167,18 @@
                 e.stopPropagation();
                 let activeMenu = $control.find('.active-menu');
                 let $this: any = jQuery(this);
-                if ($this.prev().css('display') === 'none') {
-                    $this.prev().css('display', 'block').addClass('active-menu');
+                let $dropdown = $this.closest('.panel-title').find('#myDropdown');
+                if ($dropdown.css('display') === 'none') {
+                    $dropdown.css('display', 'block').addClass('active-menu');
                     jQuery(document).one('click', function closeMenu(e) {
                         if ($this.has(e.target).length === 0) {
-                            $this.prev().removeClass('active-menu').css('display', 'none');
+                            $dropdown.removeClass('active-menu').css('display', 'none');
                         } else {
-                            $this.prev().css('display', 'block');
+                            $dropdown.css('display', 'block');
                         }
                     })
                 } else {
-                    $this.prev().removeClass('active-menu').css('display', 'none');
+                    $dropdown.removeClass('active-menu').css('display', 'none');
                 }
 
                 if (activeMenu.length > 0) {
@@ -220,10 +226,17 @@
                     me.filter = filter;
 
                     var highlightSearch = function (element, search) {
+                        if (element.length !== undefined) {
+                            element = element[0]
+                        }
                         let searchStrLen = search.length;
                         let startIndex = 0, index, indicies = [];
                         let htmlStringBuilder = [];
                         search = search.toUpperCase();
+                        if (search === '') {
+                            element.innerHTML = element.textContent;
+                            return
+                        }
                         while ((index = element.textContent.toUpperCase().indexOf(search, startIndex)) > -1) {
                             indicies.push(index);
                             startIndex = index + searchStrLen;
@@ -240,6 +253,29 @@
                                 element.innerHTML = htmlStringBuilder.join('');
                             }
                         }
+                        if (indicies.length === 0 || search === '') {
+                            element.innerHTML = element.textContent;
+                        }
+                    }
+
+                    var matchDescriptionTitle = function ($control) {
+                        for (var j = 0; j < $control.length; j++) {
+                            let description = jQuery($control[j]).find('small#description-text');
+                            let title = jQuery($control[j]).find('a#title');
+                            let descriptionIndex = jQuery(description).text().toUpperCase().indexOf(val);
+                            let titleIndex = jQuery(title).text().toUpperCase().indexOf(val);
+                            if (descriptionIndex > -1) {
+                                highlightSearch(description, val);
+                            } else {
+                                highlightSearch(description, '');
+                            }
+                            if (titleIndex > -1) {
+                                highlightSearch(title, val);
+                            } else {
+                                highlightSearch(title, '');
+                            }
+                            jQuery($control[j]).show();
+                        }
                     }
 
                     for (var i = 0; i < results.length; i++) {
@@ -248,30 +284,10 @@
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
                         module.find('.highlighted').removeClass('highlighted');
-
-                        let description = module.find('small#description-text');
-                        let title = module.find('a#title');
                         let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
 
-                        if (panel.length > 0) {
-                            description = panel.find('small#description-text');
-                            title = panel.find('a#title');
-                            panel.show();
-                        }
-
-                        for (var j = 0; j < description.length; j++) {
-                            if (description[j] !== undefined) {
-                                let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
-                                let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
-                                if (descriptionIndex > -1) {
-                                    highlightSearch(description[j], val);
-                                }
-                                if (titleIndex > -1) {
-                                    highlightSearch(title[j], val);
-                                }
-                            }
-                        }
-                        module.show();
+                        matchDescriptionTitle(panel);
+                        matchDescriptionTitle(module);
                     }
 
                     let searchResults = $control.find('.panel-heading:visible');
