@@ -2400,7 +2400,11 @@ class FwBrowseClass {
                 $control.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
                     try {
                         let $td = jQuery(this).parent();
-                        FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
+                        let peekWait = FwOverlay.showPleaseWaitOverlay($td.closest('.fwcontrol'), null);
+                        setTimeout(function () {
+                            FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
+                            FwOverlay.hideOverlay(peekWait);
+                        }, 0)
                     } catch (ex) {
                         FwFunc.showError(ex)
                     }
