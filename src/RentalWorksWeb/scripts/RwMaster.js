@@ -154,19 +154,36 @@ class RwMaster extends WebMaster {
                                 sessionStorage.setItem('department', JSON.stringify(response.department));
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
-                                program.getModule('home');
-                                if (response.location.location !== defaultLocation.location) {
-                                    const styles = {
-                                        borderTop: `.3em solid ${response.location.locationcolor}`,
-                                        borderBottom: `.3em solid ${response.location.locationcolor}`
-                                    };
-                                    jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(styles);
-                                }
-                                else {
-                                    jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
-                                }
-                                $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
-                                $usercontrol.find('.officelocation .value').text(response.location.location);
+                                let activeViewRequest = {};
+                                activeViewRequest.uniqueids = {
+                                    WebUserId: userid.webusersid,
+                                    OfficeLocationId: response.location.locationid
+                                };
+                                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, activeViewRequest, FwServices.defaultTimeout, function onSuccess(res) {
+                                    const moduleNameIndex = res.ColumnIndex.ModuleName;
+                                    const activeViewFieldsIndex = res.ColumnIndex.ActiveViewFields;
+                                    const idIndex = res.ColumnIndex.Id;
+                                    for (let i = 0; i < res.Rows.length; i++) {
+                                        let controller = `${res.Rows[i][moduleNameIndex]}Controller`;
+                                        window[controller].ActiveViewFields = JSON.parse(res.Rows[i][activeViewFieldsIndex]);
+                                        window[controller].ActiveViewFieldsId = res.Rows[i][idIndex];
+                                    }
+                                    program.getModule('home');
+                                    if (response.location.location !== defaultLocation.location) {
+                                        const styles = {
+                                            borderTop: `.3em solid ${response.location.locationcolor}`,
+                                            borderBottom: `.3em solid ${response.location.locationcolor}`
+                                        };
+                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(styles);
+                                    }
+                                    else {
+                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
+                                    }
+                                    $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
+                                    $usercontrol.find('.officelocation .value').text(response.location.location);
+                                }, function onError(response) {
+                                    FwFunc.showError(response);
+                                }, null);
                             });
                         }
                     }

@@ -177,6 +177,7 @@ class Base {
                                                     FwFunc.showError(response);
                                                     }, null);
 
+                                                customformrequest.uniqueids.OfficeLocationId = responseOriginalApi.webUser.location.locationid;
                                                 FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
                                                     const moduleNameIndex = response.ColumnIndex.ModuleName;
                                                     const activeViewFieldsIndex = response.ColumnIndex.ActiveViewFields;

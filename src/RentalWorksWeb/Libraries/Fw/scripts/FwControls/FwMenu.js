@@ -269,7 +269,8 @@ class FwMenuClass {
                     let request = {
                         WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid,
                         ModuleName: window[controller].Module,
-                        ActiveViewFields: JSON.stringify(window[controller].ActiveViewFields)
+                        ActiveViewFields: JSON.stringify(window[controller].ActiveViewFields),
+                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
                     };
                     if (typeof window[controller].ActiveViewFieldsId == 'undefined') {
                         FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/`, request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -292,7 +293,13 @@ class FwMenuClass {
         if (typeof filterField !== 'undefined' && typeof window[controller].ActiveViewFields[filterField] !== 'undefined') {
             for (let i = 0; i < window[controller].ActiveViewFields[filterField].length; i++) {
                 const $this = window[controller].ActiveViewFields[filterField][i];
-                const $ddbtn = $btn.find(`[data-value="${$this}"]`);
+                let $ddbtn = $btn.find(`[data-value="${$this}"]`);
+                if (filterField == 'LocationId' && $ddbtn.length == 0) {
+                    const loc = JSON.parse(sessionStorage.getItem('location')).locationid;
+                    window[controller].ActiveViewFieldsId = undefined;
+                    $ddbtn = $btn.find(`[data-value="${loc}"]`);
+                    window[controller].ActiveViewFields[filterField][i] = loc;
+                }
                 const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
                 if ($this == 'ALL') {
                     $ddbtn.addClass('select-all-filters');

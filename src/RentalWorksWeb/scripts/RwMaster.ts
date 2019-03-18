@@ -117,11 +117,11 @@
             try {
                 var userlocation = JSON.parse(sessionStorage.getItem('location'));
                 const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
-                var userwarehouse  = JSON.parse(sessionStorage.getItem('warehouse'));
+                var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 var userdepartment = JSON.parse(sessionStorage.getItem('department'));
-                var $confirmation  = FwConfirmation.renderConfirmation('Select an Office Location', '');
-                var $select        = FwConfirmation.addButton($confirmation, 'Select', false);
-                var $cancel        = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
+                var $select = FwConfirmation.addButton($confirmation, 'Select', false);
+                var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
                 FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -145,9 +145,9 @@
 
                 $select.on('click', function () {
                     try {
-                        var valid      = true;
-                        var location   = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
-                        var warehouse  = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
+                        var valid = true;
+                        var location = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
+                        var warehouse = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
                         var department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
                         if (location === '') {
                             $confirmation.find('div[data-datafield="OfficeLocationId"]').addClass('error');
@@ -163,10 +163,10 @@
                         }
                         if (valid) {
                             var request = {
-                                location:   location,
-                                warehouse:  warehouse,
+                                location: location,
+                                warehouse: warehouse,
                                 department: department,
-                                userid:     userid.webusersid
+                                userid: userid.webusersid
                             };
                             RwServices.session.updatelocation(request, function (response) {
                                 sessionStorage.setItem('authToken', response.authToken);
@@ -176,21 +176,41 @@
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
 
-                                program.getModule('home');
-                                if (response.location.location !== defaultLocation.location) {
-                                    const styles = {
-                                        borderTop: `.3em solid ${response.location.locationcolor}`,
-                                        borderBottom: `.3em solid ${response.location.locationcolor}`
-                                    }
-                                    jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(styles);
-                                } else {
-                                    //jQuery('#master-header').css('border', 'transparent');
-                                    jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
+                                let activeViewRequest: any = {};
+                                activeViewRequest.uniqueids = {
+                                    WebUserId: userid.webusersid
+                                    , OfficeLocationId: response.location.locationid
                                 }
+                                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, activeViewRequest, FwServices.defaultTimeout, function onSuccess(res) {
+                                    const moduleNameIndex = res.ColumnIndex.ModuleName;
+                                    const activeViewFieldsIndex = res.ColumnIndex.ActiveViewFields;
+                                    const idIndex = res.ColumnIndex.Id;
+                                    for (let i = 0; i < res.Rows.length; i++) {
+                                        let controller = `${res.Rows[i][moduleNameIndex]}Controller`;
+                                        window[controller].ActiveViewFields = JSON.parse(res.Rows[i][activeViewFieldsIndex]);
+                                        window[controller].ActiveViewFieldsId = res.Rows[i][idIndex];
+                                    }
 
-                                // also account for refresh
-                                $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
-                                $usercontrol.find('.officelocation .value').text(response.location.location);
+                                    program.getModule('home');
+                                    if (response.location.location !== defaultLocation.location) {
+                                        const styles = {
+                                            borderTop: `.3em solid ${response.location.locationcolor}`,
+                                            borderBottom: `.3em solid ${response.location.locationcolor}`
+                                        }
+                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(styles);
+                                    } else {
+                                        //jQuery('#master-header').css('border', 'transparent');
+                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
+                                    }
+
+                                    // also account for refresh
+                                    $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
+                                    $usercontrol.find('.officelocation .value').text(response.location.location);
+                                },
+                                    function onError(response) {
+                                        FwFunc.showError(response);
+                                    }, null);
+
                             });
                         }
                     } catch (ex) {
@@ -224,7 +244,7 @@
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
 
-        const $reports   = jQuery('<i class="material-icons dashboard" title="Reports">assignment</i>');
+        const $reports = jQuery('<i class="material-icons dashboard" title="Reports">assignment</i>');
         $reports.on('click', function () {
             try {
                 program.getModule('module/reports');
