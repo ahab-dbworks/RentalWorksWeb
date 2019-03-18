@@ -17,6 +17,8 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
         public int? Id { get { return browseActiveViewFields.Id; } set { browseActiveViewFields.Id = value; } }
         [FwLogicProperty(Id: "es9T2LFwIqm0")]
         public string WebUserId { get { return browseActiveViewFields.WebUserId; } set { browseActiveViewFields.WebUserId = value; } }
+        [FwLogicProperty(Id: "aKirfbKY3affQ")]
+        public string OfficeLocationId { get { return browseActiveViewFields.OfficeLocationId; } set { browseActiveViewFields.OfficeLocationId = value; } }
         [FwLogicProperty(Id: "nJf8RP0xmvDf")]
         public string ModuleName { get { return browseActiveViewFields.ModuleName; } set { browseActiveViewFields.ModuleName = value; } }
         [FwLogicProperty(Id: "xqie0ki1JOdZl")]

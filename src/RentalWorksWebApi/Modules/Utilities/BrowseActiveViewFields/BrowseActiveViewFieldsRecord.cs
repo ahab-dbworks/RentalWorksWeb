@@ -15,6 +15,9 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WebUserId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
+        public string OfficeLocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string ModuleName { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -29,6 +32,7 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("WebUserId", "webusersid", select, request);
+            addFilterToSelect("OfficeLocationId", "locationid", select, request);
         }
         //------------------------------------------------------------------------------------    
     }
