@@ -156,6 +156,8 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 **/Fw/scripts/FwApplication.js.map
 **/Fw/scripts/FwApplicationConfig.js
 **/Fw/scripts/FwApplicationConfig.js.map
+**/Fw/scripts/FwControls/FwMenu.js
+**/Fw/scripts/FwControls/FwMenu.js.map
 **/Fw/scripts/FwServices.js
 **/Fw/scripts/FwServices.js.map
 **/Fw/scripts/FwFunc.js
@@ -165,23 +167,3 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 **/Fw/scripts/MasterPages/WebMaster.js
 **/Fw/scripts/MasterPages/WebMaster.js.map
 
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormFields/FwFormField_validation2.js.map
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwValidation2.js
-/src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwValidation2.js.map
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwAjax\.js
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwAjax\.js\.map
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwMenu\.js
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwMenu\.js\.map
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwScheduler\.js
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwScheduler\.js\.map
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwTabs\.js
-
-src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwTabs\.js\.map
