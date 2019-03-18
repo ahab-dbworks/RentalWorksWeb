@@ -20,12 +20,7 @@
                 children: [TiwAssignBarCodesController, TiwCheckInController, TiwContractController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController/*, InvoiceController*/]
             },
             {
-                caption: 'Reports',
-                id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4',
-                children: [TiwCreatePickListController/*, StagingCheckoutController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController*/]
-            },
-            {
-                caption: 'Administator',
+                caption: 'Administrator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
                 children: [TiwUserController/*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, SettingsController, ReportsController*/]
             }

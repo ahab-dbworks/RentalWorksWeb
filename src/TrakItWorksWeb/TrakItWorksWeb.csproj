@@ -163,10 +163,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="index_src.htm" />
-    <Content Include="Integration\QBOIntegration\images\qbo_logo.png" />
-    <Content Include="Integration\QBOIntegration\QBOIntegration.aspx" />
-    <Content Include="Integration\QBOIntegration\QBOIntegration.css" />
-    <Content Include="Integration\QBOIntegration\QBOIntegrationController.js" />
     <TypeScriptCompile Include="%40types\Fw\index.d.ts" />
     <TypeScriptCompile Include="%40types\JQuery\index.d.ts" />
     <TypeScriptCompile Include="%40types\Web\index.d.ts" />
@@ -180,8 +176,6 @@
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
-    <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
-    <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
@@ -704,23 +698,15 @@
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\TiwVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\TiwUser.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\TiwUserSettings.ts" />
+    <TypeScriptCompile Include="Source\Pages\Base\TiwBase.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Integration\QBOIntegration\QBOIntegration.aspx.cs">
-      <DependentUpon>QBOIntegration.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Integration\QBOIntegration\QBOIntegration.aspx.designer.cs">
-      <DependentUpon>QBOIntegration.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Integration\QBOIntegration\QBOIntegrationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\AccountService.cs" />
     <Compile Include="Source\Grids\AuditHistory.cs" />
-    <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\AppData.cs" />
     <Compile Include="Source\Report.cs" />
@@ -781,7 +767,6 @@
     <Folder Include="Source\Modules\Administrator\DuplicateRule\" />
     <Folder Include="Source\Modules\Administrator\Group\" />
     <Folder Include="Source\Modules\Utilities\Dashboard\" />
-    <Folder Include="Source\Pages\Base\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />
     <Folder Include="theme\fwfonts\" />

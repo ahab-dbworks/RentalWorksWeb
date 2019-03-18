@@ -223,14 +223,14 @@ routes.push({
 routes.push({
     pattern: /^default/,
     action: function (match: RegExpExecArray) {
-        return RwBaseController.getDefaultScreen();
+        return TiwBaseController.getDefaultScreen();
     }
 });
 routes.push({
     pattern: /^login$/,
     action: function (match: RegExpExecArray) {
         if (!sessionStorage.getItem('authToken')) {
-            return RwBaseController.getLoginScreen();
+            return TiwBaseController.getLoginScreen();
         } else {
             program.navigate('home');
             return null;
@@ -240,19 +240,19 @@ routes.push({
 routes.push({
     pattern: /^about/,
     action: function (match: RegExpExecArray) {
-        return RwBaseController.getAboutScreen();
+        return TiwBaseController.getAboutScreen();
     }
 });
 routes.push({
     pattern: /^support/,
     action: function (match: RegExpExecArray) {
-        return RwBaseController.getSupportScreen();
+        return TiwBaseController.getSupportScreen();
     }
 });
 routes.push({
     pattern: /^recoverpassword/,
     action: function (match: RegExpExecArray) {
-        return RwBaseController.getPasswordRecoveryScreen();
+        return TiwBaseController.getPasswordRecoveryScreen();
     }
 });
 routes.push({
