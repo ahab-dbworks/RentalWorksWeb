@@ -7,6 +7,7 @@ class OrderBase {
     CachedOrderTypes: any = {};
 
     renderFrames($form: any, cachedId?, period?) {
+        FwFormField.disable($form.find('.frame'));
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         $form.find('.frame input').css('width', '100%');
         if (typeof cachedId !== 'undefined' && cachedId !== null) {
@@ -43,8 +44,6 @@ class OrderBase {
                     }
                 })
             }, null, $form);
-
-            FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
         }        
     };
