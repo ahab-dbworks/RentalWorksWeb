@@ -474,6 +474,12 @@ class User {
                             </div>
                           </div>
                         </div>
+                        <div class="flexcolumn" style="flex:1 1 350px;">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Multi-Locations">
+                            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allow Cross Location Edit and Delete" data-datafield="AllowCrossLocationEditAndDelete" style="flex:1 1 125px;">
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="flexcolumn" style="flex:0 1 515px;">
