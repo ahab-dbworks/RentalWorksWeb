@@ -38,6 +38,8 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string WarehouseCode { get; set; }
         [FwLogicProperty(Id: "IWZ29BDqBEnr", IsReadOnly: true)]
         public string Warehouse { get; set; }
+        [FwLogicProperty(Id: "kzlTDZVUS94Zy")]
+        public string InventoryTypeId { get; set; }
         [FwLogicProperty(Id: "Sj332iAKKy3G", IsReadOnly: true)]
         public string InventoryType { get; set; }
         [FwLogicProperty(Id: "6wZiXgLxSvdt")]
@@ -60,6 +62,34 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public bool? CycleRankF { get { return physicalInventory.CycleRankF; } set { physicalInventory.CycleRankF = value; } }
         [FwLogicProperty(Id: "TOEQxxw6RKfj")]
         public bool? CycleRankG { get { return physicalInventory.CycleRankG; } set { physicalInventory.CycleRankG = value; } }
+        [FwLogicProperty(Id: "4DFqzVgUXAsut", IsReadOnly: true)]
+        public decimal? AFromValue { get; set; }
+        [FwLogicProperty(Id: "lH38nweWxGLIm", IsReadOnly: true)]
+        public decimal? AToValue { get; set; }
+        [FwLogicProperty(Id: "EYW1c3Z9TdNfz", IsReadOnly: true)]
+        public decimal? BFromValue { get; set; }
+        [FwLogicProperty(Id: "04omWZSfONYB3", IsReadOnly: true)]
+        public decimal? BToValue { get; set; }
+        [FwLogicProperty(Id: "ThDrqz24Ly5Ha", IsReadOnly: true)]
+        public decimal? CFromValue { get; set; }
+        [FwLogicProperty(Id: "CLrb7USccEbSo", IsReadOnly: true)]
+        public decimal? CToValue { get; set; }
+        [FwLogicProperty(Id: "r68DXkBTYE8qG", IsReadOnly: true)]
+        public decimal? DFromValue { get; set; }
+        [FwLogicProperty(Id: "Z7iRrqHOi0kVQ", IsReadOnly: true)]
+        public decimal? DToValue { get; set; }
+        [FwLogicProperty(Id: "TqT19qABh9FKq", IsReadOnly: true)]
+        public decimal? EFromValue { get; set; }
+        [FwLogicProperty(Id: "eFhW97PicabyK", IsReadOnly: true)]
+        public decimal? EToValue { get; set; }
+        [FwLogicProperty(Id: "nrlILWAs8fP18", IsReadOnly: true)]
+        public decimal? FFromValue { get; set; }
+        [FwLogicProperty(Id: "zEWSxPxEOCbCv", IsReadOnly: true)]
+        public decimal? FToValue { get; set; }
+        [FwLogicProperty(Id: "neIz4qk8twbHI", IsReadOnly: true)]
+        public decimal? GFromValue { get; set; }
+        [FwLogicProperty(Id: "YwhQ1VsfagoGf", IsReadOnly: true)]
+        public decimal? GToValue { get; set; }
         [FwLogicProperty(Id: "aXLVye28qjjK")]
         public int? StepPreScan { get { return physicalInventory.StepPreScan; } set { physicalInventory.StepPreScan = value; } }
         [FwLogicProperty(Id: "cGq2QA2cfnmi")]

@@ -45,6 +45,9 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
+        public string InventoryTypeId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -77,6 +80,48 @@ namespace WebApi.Modules.Home.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cycleg", modeltype: FwDataTypes.Boolean)]
         public bool? CycleRankG { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "afromvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? AFromValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "atovalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? AToValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "bfromvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? BFromValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "btovalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? BToValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "cfromvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? CFromValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ctovalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? CToValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dfromvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? DFromValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dtovalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? DToValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "efromvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? EFromValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "etovalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? EToValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ffromvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? FFromValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ftovalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? FToValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "gfromvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? GFromValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "gtovalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? GToValue { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "step0", modeltype: FwDataTypes.Integer)]
         public int? StepPreScan { get; set; }
