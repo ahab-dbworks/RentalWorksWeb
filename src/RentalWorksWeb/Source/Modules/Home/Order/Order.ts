@@ -575,6 +575,7 @@ class Order extends OrderBase {
             usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'),
             lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
 
+        if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide() }
         if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {
             // show / hide tabs
             if (!FwFormField.getValueByDataField($form, 'Rental')) { rentalTab.hide(), FwFormField.disable($form.find('[data-datafield="RentalSale"]')); }
