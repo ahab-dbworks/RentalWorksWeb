@@ -1,7 +1,7 @@
 using FwStandard.BusinessLogic;
 using FwStandard.DataLayer;
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebApi.Logic;
 using WebLibrary;
@@ -324,6 +324,9 @@ namespace WebApi.Modules.Administrator.User
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "schedulecolor", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
         public string ScheduleColor { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowcrosseditlocation", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AllowCrossLocationEditAndDelete { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }

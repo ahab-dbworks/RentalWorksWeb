@@ -262,6 +262,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "memo", modeltype: FwDataTypes.Text)]
         public string Memo { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allowcrosseditlocation", modeltype: FwDataTypes.Boolean)]
+        public bool? AllowCrossLocationEditAndDelete { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "expiredays", modeltype: FwDataTypes.Integer)]
         public int? PasswordExpireDays { get; set; }
         //------------------------------------------------------------------------------------ 
