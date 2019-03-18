@@ -51,7 +51,7 @@ class Widget {
             { value: 'BILLINGSTARTDATE', text: 'Billing Start Date' }
         ], true);
 
-        $form.find('div[data-datafield="DefaultDateBehavior"]').on('change', function() {
+        $form.find('div[data-datafield="DefaultDateBehaviorId"]').on('change', function() {
             let selected = FwFormField.getValue2(jQuery(this));
             let dateField = $form.find('.date-field');
             let specificDate = $form.find('.specific-date');
@@ -112,7 +112,7 @@ class Widget {
         let dateSelected = FwFormField.getValue2(dateSelectField);
         let dateFieldDisplay = FwFormField.getValueByDataField($form, 'DateFieldDisplayNames');
         let dateFieldValues = FwFormField.getValueByDataField($form, 'DateFields');
-        let defaultDayBehavior = FwFormField.getValueByDataField($form, 'DefaultDateBehavior');
+        let defaultDayBehavior = FwFormField.getValueByDataField($form, 'DefaultDateBehaviorId');
         let dateField = $form.find('.date-field');
         let specificDate = $form.find('.specific-date');
         let fromDate = $form.find('.from-date');
