@@ -17,9 +17,6 @@ FwFormField_textarea.renderRuntimeHtml = function ($control, html) {
     html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
     html.push('<div class="fwformfield-control">');
     html.push('<textarea class="fwformfield-value"');
-    if (applicationConfig.allCaps && $control.attr('data-allcaps') !== 'false') {
-        html.push(' style="text-transform:uppercase"');
-    }
     if ($control.attr('data-enabled') === 'false') {
         html.push(' disabled="disabled"');
     }
@@ -57,12 +54,7 @@ FwFormField_textarea.enable = function ($control) {
 };
 //---------------------------------------------------------------------------------
 FwFormField_textarea.getValue2 = function ($fwformfield) {
-    var value;
-    if (applicationConfig.allCaps && $fwformfield.attr('data-allcaps') !== 'false') {
-        value = $fwformfield.find('.fwformfield-value').val().toUpperCase();
-    } else {
-        value = $fwformfield.find('.fwformfield-value').val();
-    }
+    var value = $fwformfield.find('.fwformfield-value').val();
     return value;
 };
 //---------------------------------------------------------------------------------
