@@ -100,3 +100,8 @@ html.theme-material .fwbrowse table thead tr td .field .fieldcaption .caption {
 .notabs {
   margin:25px;
 }
+
+html.theme-material .fwform-section {
+  margin: .6rem .6rem; /* .3rem .9rem  */
+  /* background-color: #eceff1; */
+}

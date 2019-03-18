@@ -1295,11 +1295,11 @@ class Order extends OrderBase {
 
                 <!--Documents -->
                 <div class="flexrow">
-                  <div class="flexcolumn" style="flex:1 1 350px;">
+                  <div class="flexcolumn" style="flex:1 1 500px;">
                     <div class="fwcontrol fwcontainer fwform-section itemsection" data-control="FwContainer" data-type="section" data-caption="Documents">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Cover Letter" data-datafield="CoverLetterId" data-displayfield="CoverLetter" data-enabled="true" data-validationname="CoverLetterValidation" style="flex:1 1 150px;"></div>
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Terms &#038; Conditions" data-datafield="TermsConditionsId" data-displayfield="TermsConditions" data-enabled="true" data-validationname="TermsConditionsValidation" style="flex:1 1 150px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Cover Letter" data-datafield="CoverLetterId" data-displayfield="CoverLetter" data-enabled="true" data-validationname="CoverLetterValidation" style="flex:1 1 225px;"></div>
+                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Terms &#038; Conditions" data-datafield="TermsConditionsId" data-displayfield="TermsConditions" data-enabled="true" data-validationname="TermsConditionsValidation" style="flex:1 1 225px;"></div>
                       </div>
                     </div>
                   </div>
@@ -1333,7 +1333,6 @@ class Order extends OrderBase {
                       <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield bottom_line_discount" data-caption="Disc. %" data-rectype="R" data-datafield="RentalDiscountPercent" data-digits="2" style="flex:1 1 60px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsPeriod" data-caption="Total" data-rectype="R" data-datafield="PeriodRentalTotal" style="flex:2 1 100px;"></div>
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsPeriod" data-caption="w/ Tax" data-rectype="R" data-datafield="PeriodRentalTotalIncludesTax" style="flex:1 1 70px;margin-top:10px;"></div>
-
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsWeekly" data-caption="Total" data-rectype="R" data-datafield="WeeklyRentalTotal" style="flex:1 1 90px; display:none;"></div>
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield rentalTotalWithTax bottom_line_total_tax rentalAdjustmentsWeekly" data-caption="w/ Tax" data-rectype="R" data-datafield="WeeklyRentalTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals rentalOrderItemTotal bottom_line_total_tax rentalAdjustmentsMonthly" data-caption="Total" data-rectype="R" data-datafield="MonthlyRentalTotal" style="flex:1 1 90px; display:none;"></div>
@@ -1349,7 +1348,7 @@ class Order extends OrderBase {
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
-                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="rental" data-datafield="" style="flex:1 1 100px;">
+                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="rental" data-datafield="" style="flex:0 1 100px;">
                         <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:5px;"></div>
                         <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:5px;"></div>
                         <div data-value="P" class="periodType" data-caption="Period"></div>
@@ -1394,7 +1393,7 @@ class Order extends OrderBase {
             <!-- LABOR TAB -->
             <div data-type="tabpage" id="labortabpage" class="laborgrid notcombined tabpage" data-tabid="labortab" data-render="false">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Labor Items">
-                <div class="flexrow" style="max-width:1800px;">
+                <div class="wide-flexrow">
                   <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Labor Items"></div>
                 </div>
               </div>
@@ -1405,6 +1404,7 @@ class Order extends OrderBase {
                       <div data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield totals bottom_line_discount" data-caption="Disc. %" data-rectype="L" data-datafield="LaborDiscountPercent" style="flex:1 1 50px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsPeriod" data-caption="Total" data-rectype="L" data-datafield="PeriodLaborTotal" style="flex:1 1 100px;"></div>
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsPeriod" data-caption="w/ Tax" data-rectype="L" data-datafield="PeriodLaborTotalIncludesTax" style="flex:1 1 75px;margin-top:10px;"></div>
+
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsWeekly" data-caption="Total" data-rectype="L" data-datafield="WeeklyLaborTotal" style="flex:1 1 100px; display:none;"></div>
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield laborTotalWithTax bottom_line_total_tax laborAdjustmentsWeekly" data-caption="w/ Tax" data-rectype="L" data-datafield="WeeklyLaborTotalIncludesTax" style="flex:1 1 75px;margin-top:10px; display:none;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals laborOrderItemTotal bottom_line_total_tax laborAdjustmentsMonthly" data-caption="Total" data-rectype="L" data-datafield="MonthlyLaborTotal" style="flex:1 1 100px; display:none;"></div>
@@ -1415,12 +1415,12 @@ class Order extends OrderBase {
                 <div class="flexcolumn labortotals" style="flex:2 1 550px;">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
                     <div class="flexrow">
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:2 1 100px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Discount" data-datafield="" data-enabled="false" data-totalfield="Discount" style="flex:1 1 100px;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:2 1 100px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
-                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
-                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="labor" data-datafield="" style="flex:1 1 250px;">
+                      <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:2 1 100px;"></div>
+                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="labor" data-datafield="" style="flex:0 1 100px;">
                         <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:5px;"></div>
                         <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:5px;"></div>
                         <div data-value="P" class="periodType" data-caption="Period"></div>
@@ -1434,11 +1434,11 @@ class Order extends OrderBase {
             <!-- MISC TAB -->
             <div data-type="tabpage" id="misctabpage" class="miscgrid notcombined tabpage" data-tabid="misctab" data-render="false">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Misc Items">
-                <div class="flexrow" style="max-width:1800px;">
+                <div class="wide-flexrow">
                   <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Misc Items"></div>
                 </div>
               </div>
-              <div class="flexrow" style="max-width:1800px;">
+              <div class="flexrow" style="float:right;">
                 <div class="flexcolumn" style="flex:1 1 125px;">
                 </div>
                 <div class="flexcolumn miscAdjustments" style="flex:1 1 300px;">
@@ -1454,7 +1454,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-                <div class="flexcolumn misctotals" style="flex:1 1 550px;">
+                <div class="flexcolumn misctotals" style="flex:2 1 550px;">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
                     <div class="flexrow">
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
@@ -1462,7 +1462,7 @@ class Order extends OrderBase {
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
-                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="misc" data-datafield="" style="flex:1 1 250px;">
+                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="misc" data-datafield="" style="flex:0 1 100px;">
                         <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:5px;"></div>
                         <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:5px;"></div>
                         <div data-value="P" class="periodType" data-caption="Period"></div>
@@ -1475,7 +1475,7 @@ class Order extends OrderBase {
             <!-- USED SALE TAB -->
             <div data-type="tabpage" id="usedsaletabpage" class="usedsalegrid notcombined tabpage" data-tabid="usedsaletab" data-render="false">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Used Sale Items">
-                <div class="flexrow" style="max-width:1800px;">
+                <div class="wide-flexrow">
                   <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Used Sale Items"></div>
                 </div>
               </div>
@@ -1483,11 +1483,11 @@ class Order extends OrderBase {
             <!-- LOSS AND DAMAGE TAB -->
             <div data-type="tabpage" id="lossdamagetabpage" class="lossdamagegrid tabpage" data-tabid="lossdamagetab">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Loss and Damage">
-                <div class="flexrow" style="max-width:1800px;">
+                <div class="wide-flexrow">
                   <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Loss Damage Items"></div>
                 </div>
               </div>
-              <div class="flexrow" style="max-width:1800px;">
+              <div class="flexrow" style="float:right;">
                 <div class="flexcolumn" style="flex:1 1 125px;">
                 </div>
                 <div class="flexcolumn lossdamageAdjustments" style="flex:1 1 300px;">
@@ -1499,7 +1499,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-                <div class="flexcolumn lossdamagetotals" style="flex:1 1 550px;">
+                <div class="flexcolumn lossdamagetotals" style="flex:2 1 550px;">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
                     <div class="flexrow">
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
@@ -1519,7 +1519,7 @@ class Order extends OrderBase {
                   <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Order Items"></div>
                 </div>
               </div>
-              <div class="flexrow" style="max-width:1800px;">
+              <div class="flexrow" style="float:right;">
                 <div class="flexcolumn" style="flex:1 1 125px;">
                 </div>
                 <div class="flexcolumn combinedAdjustments" style="flex:1 1 300px;">
@@ -1536,7 +1536,7 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-                <div class="flexcolumn combinedtotals" style="flex:1 1 550px;">
+                <div class="flexcolumn combinedtotals" style="flex:2 1 550px;">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
                     <div class="flexrow">
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Gross Total" data-datafield="" data-enabled="false" data-totalfield="GrossTotal" style="flex:1 1 100px;"></div>
@@ -1544,7 +1544,7 @@ class Order extends OrderBase {
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="SubTotal" style="flex:1 1 100px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="Tax" style="flex:1 1 75px;"></div>
                       <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="Total" style="flex:1 1 100px;"></div>
-                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="combined" data-datafield="" style="flex:1 1 250px;">
+                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield totals totalType" data-caption="" data-gridtype="combined" data-datafield="" style="flex:0 1 100px;">
                         <div data-value="W" class="weeklyType" data-caption="Weekly" style="margin-top:5px;"></div>
                         <div data-value="M" class="monthlyType" data-caption="Monthly" style="margin-top:5px;"></div>
                         <div data-value="P" class="periodType" data-caption="Period"></div>
@@ -1813,7 +1813,6 @@ class Order extends OrderBase {
                       </div>
                     </div>
                   </div>
-
                   <div class="flexcolumn" style="flex:1 1 550px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Incoming">
                       <div class="flexrow">

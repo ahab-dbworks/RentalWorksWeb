@@ -52,7 +52,8 @@ routes.push({ pattern: /^module\/repair$/, action: function (match: RegExpExecAr
 routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return RepairController.getModuleScreen(filter); } });
 routes.push({ pattern: /^module\/vendor$/, action: function (match: RegExpExecArray) { return VendorController.getModuleScreen(); } });
 
-//routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return RwQuoteController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/quote\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return QuoteController.getModuleScreen(filter); } });
 //routes.push({ pattern: /^module\/rentalinventory$/,        action: function(match: RegExpExecArray) { return RwRentalInventoryController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/salesinventory$/,         action: function(match: RegExpExecArray) { return RwSalesInventoryController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/barcodeditems$/,          action: function(match: RegExpExecArray) { return RwBarCodedItemsController.getModuleScreen(); } });
