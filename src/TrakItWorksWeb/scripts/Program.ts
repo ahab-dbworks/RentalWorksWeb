@@ -1,11 +1,11 @@
 ﻿//var program, ScannerDevice, LineaScanner;
 class Program extends FwApplication {
+    RENTALWORKS = 'RentalWorks';
+    TRAKITWORKS = 'TrakitWorks';
+    name = this.TRAKITWORKS;
     //---------------------------------------------------------------------------------
     constructor() {
         super();
-        var me: Program;
-        me                                     = this;
-        me.name                                = 'TrakitWorks';
         FwApplicationTree.currentApplicationId = 'D901DE93-EC22-45A1-BB4A-DD282CAF59FB';
     }
 }
