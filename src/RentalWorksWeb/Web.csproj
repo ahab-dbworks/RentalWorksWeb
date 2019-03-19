@@ -563,17 +563,9 @@
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
-    <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
-    <Content Include="Source\Modules\Home\Order\OrderForm.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
     <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
-    <Content Include="Source\Modules\Home\Repair\RepairBrowse.htm" />
-    <Content Include="Source\Modules\Home\Repair\RepairForm.htm" />
-    <Content Include="Source\Modules\Home\PickList\PickListBrowse.htm" />
-    <Content Include="Source\Modules\Home\PickList\PickListForm.htm" />
     <Content Include="Source\Modules\Home\Contact\Contact.css" />
-    <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
-    <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
     <TypeScriptCompile Include="Source\Grids\CustomerNoteGrid\CustomerNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\MiscCategoryGrid\MiscCategoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\LaborCategoryGrid\LaborCategoryGridController.ts" />
@@ -594,8 +586,6 @@
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryForm.htm" />
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
-    <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
-    <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
     <Content Include="Source\Modules\Administrator\Settings\SettingsPage.css" />
     <Content Include="Source\Modules\Administrator\Settings\Settings.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
@@ -1140,7 +1130,6 @@
     <Compile Include="Source\AccountService.cs" />
     <Compile Include="Source\Grids\AuditHistory.cs" />
     <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
-    <Compile Include="Source\Modules\Home\Contact\Contact.cs" />
     <Compile Include="Source\RwAppData.cs" />
     <Compile Include="Source\RwReport.cs" />
     <Compile Include="Source\RwService.cs" />
