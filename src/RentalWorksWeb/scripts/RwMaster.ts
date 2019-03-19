@@ -112,7 +112,7 @@
                                       </div>`);
 
         FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
-
+        // navigation header location icon
         $officelocation.on('click', function () {
             try {
                 var userlocation = JSON.parse(sessionStorage.getItem('location'));
@@ -142,13 +142,13 @@
                 $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
                     FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', '', '');
                 });
-
+                // select button within location confirmation prompt
                 $select.on('click', function () {
                     try {
-                        var valid = true;
-                        var location = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
-                        var warehouse = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
-                        var department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
+                        let valid = true;
+                        const location = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
+                        const warehouse = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
+                        const department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
                         if (location === '') {
                             $confirmation.find('div[data-datafield="OfficeLocationId"]').addClass('error');
                             valid = false;
@@ -162,7 +162,7 @@
                             valid = false;
                         }
                         if (valid) {
-                            var request = {
+                            const request = {
                                 location: location,
                                 warehouse: warehouse,
                                 department: department,
@@ -176,7 +176,7 @@
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
 
-                                let activeViewRequest: any = {};
+                                const activeViewRequest: any = {};
                                 activeViewRequest.uniqueids = {
                                     WebUserId: userid.webusersid
                                     , OfficeLocationId: response.location.locationid
@@ -186,12 +186,14 @@
                                     const activeViewFieldsIndex = res.ColumnIndex.ActiveViewFields;
                                     const idIndex = res.ColumnIndex.Id;
                                     for (let i = 0; i < res.Rows.length; i++) {
-                                        let controller = `${res.Rows[i][moduleNameIndex]}Controller`;
+                                        const controller = `${res.Rows[i][moduleNameIndex]}Controller`;
                                         window[controller].ActiveViewFields = JSON.parse(res.Rows[i][activeViewFieldsIndex]);
                                         window[controller].ActiveViewFieldsId = res.Rows[i][idIndex];
                                     }
-
                                     program.getModule('home');
+                                    $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
+                                    $usercontrol.find('.officelocation .value').text(response.location.location);
+                                    //  colors navigation header for a non-default user location
                                     if (response.location.location !== defaultLocation.location) {
                                         const styles = {
                                             borderTop: `.3em solid ${response.location.locationcolor}`,
@@ -199,18 +201,11 @@
                                         }
                                         jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(styles);
                                     } else {
-                                        //jQuery('#master-header').css('border', 'transparent');
                                         jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
                                     }
-
-                                    // also account for refresh
-                                    $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
-                                    $usercontrol.find('.officelocation .value').text(response.location.location);
-                                },
-                                    function onError(response) {
-                                        FwFunc.showError(response);
-                                    }, null);
-
+                                }, function onError(response) {
+                                       FwFunc.showError(response);
+                                }, null);
                             });
                         }
                     } catch (ex) {

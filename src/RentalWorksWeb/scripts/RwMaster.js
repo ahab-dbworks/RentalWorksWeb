@@ -124,10 +124,10 @@ class RwMaster extends WebMaster {
                 });
                 $select.on('click', function () {
                     try {
-                        var valid = true;
-                        var location = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
-                        var warehouse = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
-                        var department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
+                        let valid = true;
+                        const location = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
+                        const warehouse = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
+                        const department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
                         if (location === '') {
                             $confirmation.find('div[data-datafield="OfficeLocationId"]').addClass('error');
                             valid = false;
@@ -141,7 +141,7 @@ class RwMaster extends WebMaster {
                             valid = false;
                         }
                         if (valid) {
-                            var request = {
+                            const request = {
                                 location: location,
                                 warehouse: warehouse,
                                 department: department,
@@ -154,7 +154,7 @@ class RwMaster extends WebMaster {
                                 sessionStorage.setItem('department', JSON.stringify(response.department));
                                 sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
                                 FwConfirmation.destroyConfirmation($confirmation);
-                                let activeViewRequest = {};
+                                const activeViewRequest = {};
                                 activeViewRequest.uniqueids = {
                                     WebUserId: userid.webusersid,
                                     OfficeLocationId: response.location.locationid
@@ -164,11 +164,13 @@ class RwMaster extends WebMaster {
                                     const activeViewFieldsIndex = res.ColumnIndex.ActiveViewFields;
                                     const idIndex = res.ColumnIndex.Id;
                                     for (let i = 0; i < res.Rows.length; i++) {
-                                        let controller = `${res.Rows[i][moduleNameIndex]}Controller`;
+                                        const controller = `${res.Rows[i][moduleNameIndex]}Controller`;
                                         window[controller].ActiveViewFields = JSON.parse(res.Rows[i][activeViewFieldsIndex]);
                                         window[controller].ActiveViewFieldsId = res.Rows[i][idIndex];
                                     }
                                     program.getModule('home');
+                                    $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
+                                    $usercontrol.find('.officelocation .value').text(response.location.location);
                                     if (response.location.location !== defaultLocation.location) {
                                         const styles = {
                                             borderTop: `.3em solid ${response.location.locationcolor}`,
@@ -179,8 +181,6 @@ class RwMaster extends WebMaster {
                                     else {
                                         jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
                                     }
-                                    $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
-                                    $usercontrol.find('.officelocation .value').text(response.location.location);
                                 }, function onError(response) {
                                     FwFunc.showError(response);
                                 }, null);

@@ -364,26 +364,6 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
-        const STATUS = FwFormField.getValueByDataField($form, 'Status');
-
-        if (STATUS === 'CLOSED' || STATUS === 'PROCESSED' || STATUS === 'VOID') {
-            FwModule.setFormReadOnly($form);
-        }
-        if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { $form.find('[data-type="tab"][data-caption="Facilities"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { $form.find('[data-type="tab"][data-caption="Meter"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
-
-        let $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
-        let $invoiceItemGridSales = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
-        let $invoiceItemGridLabor = $form.find('.laborgrid [data-name="InvoiceItemGrid"]');
-        let $invoiceItemGridMisc = $form.find('.miscgrid [data-name="InvoiceItemGrid"]');
-        let $invoiceItemGridRentalSale = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]');
-
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
@@ -406,18 +386,36 @@ class Invoice {
                 }
             }
         });
+        // Disbles form for certain statuses
+        const status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'CLOSED' || status === 'PROCESSED' || status === 'VOID') {
+            FwModule.setFormReadOnly($form);
+        }
+        // Hide tab behavior
+        if (!FwFormField.getValueByDataField($form, 'HasRentalItem')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasSalesItem')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) { $form.find('[data-type="tab"][data-caption="Misc"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasLaborItem')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasFacilityItem')) { $form.find('[data-type="tab"][data-caption="Facilities"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasMeterItem')) { $form.find('[data-type="tab"][data-caption="Meter"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasTransportationItem')) { $form.find('[data-type="tab"][data-caption="Transportation"]').hide() }
+        if (!FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) { $form.find('[data-type="tab"][data-caption="Rental Sale"]').hide() }
 
+        const $invoiceItemGridRental = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
+        const $invoiceItemGridSales = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
+        const $invoiceItemGridLabor = $form.find('.laborgrid [data-name="InvoiceItemGrid"]');
+        const $invoiceItemGridRentalSale = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]');
         // Hides DELETE grid menu item
         $invoiceItemGridRental.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         $invoiceItemGridSales.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         $invoiceItemGridLabor.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
         $invoiceItemGridRentalSale.find('.submenu-btn').filter('[data-securityid="27053421-85CC-46F4-ADB3-85CEC8A8090B"]').hide();
-        // Hides row DELETE button
+        // Hides grid row DELETE button
         $invoiceItemGridRental.find('.browsecontextmenucell').hide();
         $invoiceItemGridSales.find('.browsecontextmenucell').hide();
         $invoiceItemGridLabor.find('.browsecontextmenucell').hide();
         $invoiceItemGridRentalSale.find('.browsecontextmenucell').hide();
-        // Hides ADD button
+        // Hides grid ADD button
         $invoiceItemGridRental.find('.buttonbar').hide();
         $invoiceItemGridSales.find('.buttonbar').hide();
         $invoiceItemGridLabor.find('.buttonbar').hide();
