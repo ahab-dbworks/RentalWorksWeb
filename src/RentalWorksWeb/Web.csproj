@@ -471,6 +471,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CompleteQc\CompleteQc.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\TransferReceipt\TransferReceipt.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Manifest\Manifest.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PhysicalInventory\PhysicalInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Receipt\Receipt.ts" />

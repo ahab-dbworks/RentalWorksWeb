@@ -32,22 +32,34 @@ class Contract {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
         const self = this;
-        if (this.Module == 'Contract') {
-            $browse.data('ondatabind', function (request) {
-                request.activeviewfields = self.ActiveViewFields;
-            });
-            FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
-            FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
-            FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
-            FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
-            FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
-            FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
-            FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
-        } else if (this.Module == 'Manifest') {
-            $browse.data('ondatabind', function (request) {
-                request.activeviewfields = self.ActiveViewFields;
-                request.uniqueids.ContractType = 'MANIFEST';
-            });
+
+        switch (this.Module) {
+            case 'Contract':
+                $browse.data('ondatabind', function (request) {
+                    request.activeviewfields = self.ActiveViewFields;
+                });
+                FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
+                FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
+                FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
+                FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
+                FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
+                FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
+                FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+                break;
+            case 'Manifest':
+                $browse.data('ondatabind', function (request) {
+                    request.activeviewfields = self.ActiveViewFields;
+                    request.uniqueids.ContractType = 'MANIFEST';
+                });
+                FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+                break;
+            case 'TransferReceipt':
+                $browse.data('ondatabind', function (request) {
+                    request.activeviewfields = self.ActiveViewFields;
+                    request.uniqueids.ContractType = 'RECEIPT';
+                });
+                FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+                break;
         }
 
         return $browse;
@@ -76,8 +88,10 @@ class Contract {
     loadForm(uniqueids: any) {
         var $form;
 
+        const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
+
         $form = this.openForm('EDIT');
-        $form.find(`div.fwformfield[data-datafield="${this.Module}Id"] input`).val(uniqueids[`${this.Module}Id`]);
+        $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(uniqueids[`${module}Id`]);
 
         FwModule.loadForm(this.Module, $form);
 
@@ -85,7 +99,7 @@ class Contract {
     }
 
     renderGrids($form: JQuery): void {
-        const module = this.Module;
+        const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
         const $contractSummaryGrid = $form.find('div[data-grid="ContractSummaryGrid"]');;
         const $contractSummaryGridControl = FwBrowse.loadGridFromTemplate('ContractSummaryGrid');
         $contractSummaryGrid.empty().append($contractSummaryGridControl);
@@ -193,8 +207,8 @@ class Contract {
         }
 
         $form.find('.print').on('click', e => {
-            let $report, contractNumber, contractId, recordTitle, printTab, module;
-            module = this.Module;
+            let $report, contractNumber, contractId, recordTitle, printTab;
+            const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
             try {
                 contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
                 contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();

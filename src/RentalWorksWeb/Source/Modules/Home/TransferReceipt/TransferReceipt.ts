@@ -1,17 +1,17 @@
-routes.push({ pattern: /^module\/manifest$/, action: function (match: RegExpExecArray) { return ManifestController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/transferreceipt$/, action: function (match: RegExpExecArray) { return TransferReceiptController.getModuleScreen(); } });
 
-class Manifest extends Contract {
-    Module: string = 'Manifest';
+class TransferReceipt extends Contract {
+    Module: string = 'TransferReceipt';
     apiurl: string = 'api/v1/manifest';
-    caption: string = 'Manifest';
-    nav: string = 'module/manifest';
-    id: string = '1643B4CE-D368-4D64-8C05-6EF7C7D80336';
+    caption: string = 'Transfer Receipt';
+    nav: string = 'module/transferreceipt';
+    id: string = '2B60012B-ED6A-430B-B2CB-C1287FD4CE8B';
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-      <div data-name="Manifest" data-control="FwBrowse" data-type="Browse" id="ManifestBrowse" class="fwcontrol fwbrowse" data-controller="ManifestController" data-hasinactive="false">
+      <div data-name="TransferReceipt" data-control="FwBrowse" data-type="Browse" id="ManifestBrowse" class="fwcontrol fwbrowse" data-controller="TransferReceiptController" data-hasinactive="false">
         <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="ManifestId" data-datatype="key"></div>
         </div>
@@ -25,7 +25,7 @@ class Manifest extends Contract {
           <div class="field" data-caption="Time" data-datafield="ManifestTime" data-datatype="text" data-sortsequence="2" data-sort="desc"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="Transferred By" data-datafield="NameFirstMiddleLast" data-datatype="text" data-sort="off"></div>
+          <div class="field" data-caption="Received By" data-datafield="NameFirstMiddleLast" data-datatype="text" data-sort="off"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
           <div class="field" data-caption="Transfer No." data-datafield="TransferNumber" data-datatype="text" data-sort="off"></div>
@@ -41,9 +41,9 @@ class Manifest extends Contract {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-      <div id="manifestform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Manifest" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ManifestController">
+      <div id="transferreceiptform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Transfer Receipt" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="TransferReceiptController">
         <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="ManifestId"></div>
-        <div id="manifestform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+        <div id="transferreceiptform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
           <div class="tabs">
             <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
             <div data-type="tab" id="rentaltab" class="tab" data-tabpageid="rentaltabpage" data-caption="Rental Detail"></div>
@@ -52,9 +52,9 @@ class Manifest extends Contract {
           <div class="tabpages">
             <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
               <div class="formpage">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Manifest">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Transfer Receipt">
                   <div class="flexrow">
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Manifest No." data-datafield="ManifestNumber" style="flex:1 1 0" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Receipt No." data-datafield="ManifestNumber" style="flex:1 1 0" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="ManifestDate" style="flex:1 1 0" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="time" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-datafield="ManifestTime" style="flex:1 1 0" data-enabled="false"></div>
                     <div data-control="FwFormField" data-type="validation" data-validationname="OfficeLocationValidation" data-displayfield="Location" class="fwcontrol fwformfield" data-caption="Office" data-datafield="LocationId" style="flex:1 1 50px" data-enabled="false"></div>
@@ -102,7 +102,7 @@ class Manifest extends Contract {
     //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{8FC8A0F2-C016-476F-971B-64CF2ED95E41}'] = function (e) {
+FwApplicationTree.clickEvents['{5C35E285-F8DA-4D27-AA64-379156213B7F}'] = function (e) {
     var $form;
     try {
         $form = jQuery(this).closest('.fwform');
@@ -114,4 +114,4 @@ FwApplicationTree.clickEvents['{8FC8A0F2-C016-476F-971B-64CF2ED95E41}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 
-var ManifestController = new Manifest();
+var TransferReceiptController = new TransferReceipt();
