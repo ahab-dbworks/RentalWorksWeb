@@ -325,7 +325,7 @@ class FwMenuClass {
                     window[controller].ActiveViewFieldsId = undefined;
                     $ddbtn = $btn.find(`[data-value="${loc}"]`);
                     window[controller].ActiveViewFields[filterField][i] = loc;
-                } 
+                }
                 const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
                 if ($this == 'ALL') {
                     $ddbtn.addClass('select-all-filters');
