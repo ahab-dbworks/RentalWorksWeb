@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLibrary", "src\RentalWor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FwCore", "lib\Fw\src\FwCore\FwCore.csproj", "{727C09EB-27BD-4657-A43E-7CA436679403}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrakItWorksWeb", "src\TrakItWorksWeb\TrakItWorksWeb.csproj", "{D56B7396-11E1-4E1B-8511-1F0838770F9A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrakitWorksWeb", "src\TrakitWorksWeb\TrakitWorksWeb.csproj", "{D56B7396-11E1-4E1B-8511-1F0838770F9A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{727C09EB-27BD-4657-A43E-7CA436679403} = {727C09EB-27BD-4657-A43E-7CA436679403}
 	EndProjectSection

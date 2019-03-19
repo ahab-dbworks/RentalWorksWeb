@@ -6,7 +6,7 @@
 /src/*/Properties/PublishProfiles/
 
 /TestResult.xml
-sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
+sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 
 /lib/Fw/packages/
 /lib/Fw/.vs/
@@ -69,25 +69,25 @@ sync_RentalWorksWeb_to_TrakItWorksWeb.ps1.log
 /src/RentalWorksWebApi/Modules/Reports/WebpackReports/**/*.js
 /src/RentalWorksWebApi/Modules/Reports/WebpackReports/**/*.js.map
 
-/src/TrakItWorksWeb/App_Data/Temp/
-/src/TrakItWorksWeb/app_scripts.json
-/src/TrakItWorksWeb/Application.config
-/src/TrakItWorksWeb/ApplicationConfig.js
-/src/TrakItWorksWeb/FwApplicationSchema.config
-/src/TrakItWorksWeb/index.htm
-/src/TrakItWorksWeb/scripts/_references.js
-/src/TrakItWorksWeb/Source/Modules/Home/**/*.js
-/src/TrakItWorksWeb/Source/Modules/Home/**/*.js.map
-/src/TrakItWorksWeb/Source/Modules/Settings/**/*.js
-/src/TrakItWorksWeb/Source/Modules/Settings/**/*.js.map
-/src/TrakItWorksWeb/scripts/DefaultApplicationConfig.js
-/src/TrakItWorksWeb/scripts/DefaultApplicationConfig.js.map
-/src/TrakItWorksWeb/scripts/Program.js
-/src/TrakItWorksWeb/scripts/Program.js.map
-/src/TrakItWorksWeb/scripts/RwMaster.js
-/src/TrakItWorksWeb/scripts/RwMaster.js.map
-/src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
-/src/TrakItWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
+/src/TrakitWorksWeb/App_Data/Temp/
+/src/TrakitWorksWeb/app_scripts.json
+/src/TrakitWorksWeb/Application.config
+/src/TrakitWorksWeb/ApplicationConfig.js
+/src/TrakitWorksWeb/FwApplicationSchema.config
+/src/TrakitWorksWeb/index.htm
+/src/TrakitWorksWeb/scripts/_references.js
+/src/TrakitWorksWeb/Source/Modules/Home/**/*.js
+/src/TrakitWorksWeb/Source/Modules/Home/**/*.js.map
+/src/TrakitWorksWeb/Source/Modules/Settings/**/*.js
+/src/TrakitWorksWeb/Source/Modules/Settings/**/*.js.map
+/src/TrakitWorksWeb/scripts/DefaultApplicationConfig.js
+/src/TrakitWorksWeb/scripts/DefaultApplicationConfig.js.map
+/src/TrakitWorksWeb/scripts/Program.js
+/src/TrakitWorksWeb/scripts/Program.js.map
+/src/TrakitWorksWeb/scripts/RwMaster.js
+/src/TrakitWorksWeb/scripts/RwMaster.js.map
+/src/TrakitWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
+/src/TrakitWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 
 /SecurityTreeBuilder/obj/
 /SecurityTreeBuilder/bin/

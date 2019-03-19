@@ -3,7 +3,7 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using FwStandard.Security;
 
-namespace TrakItWorksWeb.Source
+namespace TrakitWorksWeb.Source
 {
     public class AccountService : FwAccountService
     {

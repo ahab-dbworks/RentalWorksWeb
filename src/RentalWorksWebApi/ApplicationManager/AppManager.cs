@@ -12,7 +12,7 @@ namespace WebApi.ApplicationManager
             switch(value)
             {
                 case "Rw": result = "RentalWorks"; break;
-                case "Tw": result = "TrakItWorks"; break;
+                case "Tw": result = "TrakitWorks"; break;
                 case "S": result = "Standard"; break;
                 case "P": result = "Pro"; break;
                 case "E": result = "Enterprise"; break;

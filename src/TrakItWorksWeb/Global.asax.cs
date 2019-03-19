@@ -5,10 +5,10 @@ using Fw.Json.ValueTypes;
 using FwStandard.Models;
 using FwStandard.Security;
 using System;
-using TrakItWorksWeb.Source;
+using TrakitWorksWeb.Source;
 using WebLibrary.Security;
 
-namespace TrakItWorksWeb
+namespace TrakitWorksWeb
 {
     public class Global : System.Web.HttpApplication
     {

@@ -2,7 +2,7 @@ class RwMaster extends WebMaster {
     initMainMenu() {
         this.navigation = [
             {
-                caption: 'TrakItWorks',
+                caption: 'TrakitWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
                 children: [TiwContactController, TiwCustomerController, TiwDealController, TiwOrderController, TiwPurchaseOrderController, TiwQuoteController]
             },

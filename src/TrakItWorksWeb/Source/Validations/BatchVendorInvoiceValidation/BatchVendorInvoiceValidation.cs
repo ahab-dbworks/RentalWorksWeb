@@ -1,7 +1,7 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 
-namespace TrakItWorksWeb.Source.Validations
+namespace TrakitWorksWeb.Source.Validations
 {
     class BatchVendorInvoiceValidation : FwValidation
     {

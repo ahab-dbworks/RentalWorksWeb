@@ -8,7 +8,7 @@ using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 using Fw.Json.ValueTypes;
 
-namespace TrakItWorksWeb.Source.Validations
+namespace TrakitWorksWeb.Source.Validations
 {
     class LanguageValidation : FwValidation
     {

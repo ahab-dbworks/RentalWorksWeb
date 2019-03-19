@@ -8,13 +8,13 @@ namespace WebLibrary.Security
 {
     public class SecurityTree : FwSecurityTree
     {
-        public enum SystemNames { RentalWorks, TrakItWorks }
+        public enum SystemNames { RentalWorks, TrakitWorks }
         //---------------------------------------------------------------------------------------------
         public SecurityTree(SqlServerConfig sqlServerConfig, string currentApplicationId) : base(sqlServerConfig, currentApplicationId)
         {
             var system = AddSystem("Applications", "{4AC8B3C9-A2C2-4085-8F7F-EE005CCEB535}");
             BuildRentalWorksWebTree(system);
-            BuildTrakItWorksWebTree(system);
+            BuildTrakitWorksWebTree(system);
             BuildRentalWorksWebApiTree(system);
             BuildRentalWorksQuikScanTree(system);
 
@@ -556,7 +556,7 @@ namespace WebLibrary.Security
             AddModule("Barcode Label",       "{05B4FAF1-9329-43E9-9697-BE461E41D85F}", lv1menuHome.Id, "", "barcodelabel",                    iconbaseurl + "barcodelabel.001.png",     "",                 "",              "USER");
         }
         //---------------------------------------------------------------------------------------------
-        private void BuildTrakItWorksWebTree(FwSecurityTreeNode system)
+        private void BuildTrakitWorksWebTree(FwSecurityTreeNode system)
         {
             string homeiconbaseurl          = "theme/images/icons/home/";
             //string settingsiconbaseurl      = "theme/images/icons/settings/";
@@ -564,8 +564,8 @@ namespace WebLibrary.Security
             //string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
             string administratoriconbaseurl = "theme/images/icons/administrator/";
 
-            var application          = AddApplication("TrakItWorks Web",   "{D901DE93-EC22-45A1-BB4A-DD282CAF59FB}", system.Id);
-            var lv1menuModules       = AddLv1ModuleMenu("TrakItWorks",     "{B05953D7-DC85-486C-B9A4-7743875DFABC}", application.Id);
+            var application          = AddApplication("TrakitWorks Web",   "{D901DE93-EC22-45A1-BB4A-DD282CAF59FB}", system.Id);
+            var lv1menuModules       = AddLv1ModuleMenu("TrakitWorks",     "{B05953D7-DC85-486C-B9A4-7743875DFABC}", application.Id);
             var lv1menuSettings      = AddLv1ModuleMenu("Settings",        "{CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485}", application.Id);
             var lv1menuReports       = AddLv1ModuleMenu("Reports",         "{F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4}", application.Id);
             var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{293A157D-EA8E-48F6-AE97-15F9DE53041A}", application.Id);
@@ -573,7 +573,7 @@ namespace WebLibrary.Security
             var lv1menuSubModules    = AddLv1SubModulesMenu("Sub-Modules", "{F866CB47-7045-480A-8BBD-0615FD0FC41C}", application.Id);
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{154C8BA7-275E-4DDB-B019-0C8633FA8B59}", application.Id);
 
-            //TrakItWorks
+            //TrakitWorks
             AddModule("Asset",                  "{E1366299-0008-429C-93CC-B8ED8969B180}", lv1menuModules.Id, "TiwAssetController",             "module/asset",             homeiconbaseurl + "placeholder.png");
             AddModule("Assign Bar Codes",       "{81B0D93C-9765-4340-8B40-63040E0343B8}", lv1menuModules.Id, "TiwAssignBarCodesController",    "module/assignbarcodes",    homeiconbaseurl + "placeholder.png");
             AddModule("Check-In",               "{3D1EB9C4-95E2-440C-A3EF-10927C4BDC65}", lv1menuModules.Id, "TiwCheckInController",           "module/checkin",           homeiconbaseurl + "placeholder.png");

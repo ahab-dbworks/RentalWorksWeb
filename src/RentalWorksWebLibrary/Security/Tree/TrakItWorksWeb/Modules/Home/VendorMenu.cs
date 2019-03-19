@@ -5,7 +5,7 @@
 using FwStandard.Security;
 
 //namespace Web.Source.Modules
-namespace WebLibrary.Security.Tree.TrakItWorksWeb.Modules.Settings
+namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Settings
 {
     public class VendorMenu : FwSecurityTreeBranch
     {

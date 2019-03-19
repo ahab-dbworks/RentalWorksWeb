@@ -1,7 +1,7 @@
 ﻿using Fw.Json.Services;
 using Fw.Json.SqlServer;
 
-namespace TrakItWorksWeb.Source
+namespace TrakitWorksWeb.Source
 {
     public class Report : FwReport
     {

@@ -1,6 +1,6 @@
 using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.TrakItWorksWeb.Modules.Settings
+namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Settings
 {
     public class QuoteMenu : FwSecurityTreeBranch
     {

@@ -1,6 +1,6 @@
 ﻿using Fw.Json.Services;
 
-namespace TrakItWorksWeb.Source.Validations
+namespace TrakitWorksWeb.Source.Validations
 {
     class ICodeValidation : FwValidation 
     {

@@ -8,7 +8,7 @@ using System.Dynamic;
 using System.Web;
 using System.Web.Security;
 
-namespace TrakItWorksWeb.Source
+namespace TrakitWorksWeb.Source
 {
     public class Service
     {
@@ -120,7 +120,7 @@ namespace TrakItWorksWeb.Source
             {
                 case "Module":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"Driver","Vehicle"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Modules." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakitWorksWeb.Source.Modules." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwModule))))
                     {
                         FwModule module = (FwModule)Activator.CreateInstance(type);
@@ -150,11 +150,11 @@ namespace TrakItWorksWeb.Source
                     break;
                 case "Grid":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"DriverLicenseClass","DriverEndorsement","DriverRestriction","DriverDocument","VehicleDocument", "AppDocumentVersion"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Grids." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakitWorksWeb.Source.Grids." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwGrid))))
                     {
                         FwGrid grid = (FwGrid)Activator.CreateInstance(type);
-                        grid.Init("TrakItWorksWeb.Source", "", typeof(Service).Assembly, request, response, session);
+                        grid.Init("TrakitWorksWeb.Source", "", typeof(Service).Assembly, request, response, session);
                         if (grid != null)
                         {
                             typeof(FwGrid).GetMethod(method).Invoke(grid, new object[0]);
@@ -180,11 +180,11 @@ namespace TrakItWorksWeb.Source
                     break;
                 case "Validation":
                     if ((session.security.webUser.usertype == "CONTACT") && (!new List<string>(){"VehicleDocumentType"}.Contains(name))) throw new Exception("Access denied.");
-                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Validations." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakitWorksWeb.Source.Validations." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwValidation))))
                     {
                         FwValidation validation = (FwValidation)Activator.CreateInstance(type);
-                        validation.Init("TrakItWorksWeb.Source", "", typeof(Service).Assembly, request, response, session);
+                        validation.Init("TrakitWorksWeb.Source", "", typeof(Service).Assembly, request, response, session);
                         if (validation != null)
                         {
                             typeof(FwValidation).GetMethod(method).Invoke(validation, new object[0]);
@@ -210,7 +210,7 @@ namespace TrakItWorksWeb.Source
                     break;
                 case "Reports":
                     if (session.security.webUser.usertype == "CONTACT") throw new Exception("Access denied.");
-                    type = typeof(Service).Assembly.GetType("TrakItWorksWeb.Source.Reports." + name, false);
+                    type = typeof(Service).Assembly.GetType("TrakitWorksWeb.Source.Reports." + name, false);
                     if ((type != null) && (type.IsSubclassOf(typeof(FwReport))))
                     {
                         FwReport report = (FwReport)Activator.CreateInstance(type);

@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.TrakItWorksWeb.Modules
+namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules
 {
     public class DealMenu : FwSecurityTreeBranch
     {

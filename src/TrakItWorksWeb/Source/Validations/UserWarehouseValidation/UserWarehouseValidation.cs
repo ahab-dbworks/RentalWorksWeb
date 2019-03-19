@@ -2,7 +2,7 @@
 using Fw.Json.SqlServer;
 using Fw.Json.Utilities;
 
-namespace TrakItWorksWeb.Source.Validations
+namespace TrakitWorksWeb.Source.Validations
 {
     class UserWarehouseValidation : FwValidation
     {

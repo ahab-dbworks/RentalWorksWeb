@@ -5,7 +5,7 @@ class Program extends FwApplication {
         super();
         var me: Program;
         me                                     = this;
-        me.name                                = 'TrakItWorks';
+        me.name                                = 'TrakitWorks';
         FwApplicationTree.currentApplicationId = 'D901DE93-EC22-45A1-BB4A-DD282CAF59FB';
     }
 }
