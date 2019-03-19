@@ -29,24 +29,26 @@ class Contract {
     }
 
     openBrowse = () => {
-        //let $browse;
-
-        //$browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
-
         const self = this;
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
-        });
-
-        FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
-        FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
-        FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
-        FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
-        FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
-        FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
-        FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+        if (this.Module == 'Contract') {
+            $browse.data('ondatabind', function (request) {
+                request.activeviewfields = self.ActiveViewFields;
+            });
+            FwBrowse.addLegend($browse, 'Unassigned Items', '#FF0000');
+            FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
+            FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
+            FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
+            FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
+            FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
+            FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
+        } else if (this.Module == 'Manifest') {
+            $browse.data('ondatabind', function (request) {
+                request.activeviewfields = self.ActiveViewFields;
+                request.uniqueids.ContractType = 'MANIFEST';
+            });
+        }
 
         return $browse;
     }
@@ -66,7 +68,6 @@ class Contract {
     };
 
     openForm(mode: string, parentModuleInfo?: any) {
-        //let $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
         return $form;
@@ -76,62 +77,56 @@ class Contract {
         var $form;
 
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="ContractId"] input').val(uniqueids.ContractId);
+        $form.find(`div.fwformfield[data-datafield="${this.Module}Id"] input`).val(uniqueids[`${this.Module}Id`]);
+
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     }
 
     renderGrids($form: JQuery): void {
-        var $contractSummaryGrid;
-        var $contractSummaryGridControl;
-        $contractSummaryGrid = $form.find('div[data-grid="ContractSummaryGrid"]');
-        $contractSummaryGridControl = jQuery(jQuery('#tmpl-grids-ContractSummaryGridBrowse').html());
+        const module = this.Module;
+        const $contractSummaryGrid = $form.find('div[data-grid="ContractSummaryGrid"]');;
+        const $contractSummaryGridControl = FwBrowse.loadGridFromTemplate('ContractSummaryGrid');
         $contractSummaryGrid.empty().append($contractSummaryGridControl);
         $contractSummaryGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                ContractId: FwFormField.getValueByDataField($form, `${module}Id`)
             };
         });
         FwBrowse.init($contractSummaryGridControl);
         FwBrowse.renderRuntimeHtml($contractSummaryGridControl);
 
-        var $contractRentalDetailGrid;
-        var $contractRentalDetailGridControl;
-        $contractRentalDetailGrid = $form.find('.rentaldetailgrid div[data-grid="ContractDetailGrid"]');
-        $contractRentalDetailGridControl = jQuery(jQuery('#tmpl-grids-ContractDetailGridBrowse').html());
+        const $contractRentalDetailGrid = $form.find('.rentaldetailgrid div[data-grid="ContractDetailGrid"]');
+        const $contractRentalDetailGridControl = FwBrowse.loadGridFromTemplate('ContractDetailGrid');
         $contractRentalDetailGrid.empty().append($contractRentalDetailGridControl);
         $contractRentalDetailGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                ContractId: FwFormField.getValueByDataField($form, `${module}Id`),
                 RecType: "R"
             };
         });
         FwBrowse.init($contractRentalDetailGridControl);
         FwBrowse.renderRuntimeHtml($contractRentalDetailGridControl);
 
-        var $contractSalesDetailGrid;
-        var $contractSalesDetailGridControl;
-        $contractSalesDetailGrid = $form.find('.salesdetailgrid div[data-grid="ContractDetailGrid"]');
-        $contractSalesDetailGridControl = jQuery(jQuery('#tmpl-grids-ContractDetailGridBrowse').html());
+        const $contractSalesDetailGrid = $form.find('.salesdetailgrid div[data-grid="ContractDetailGrid"]');
+        const $contractSalesDetailGridControl = FwBrowse.loadGridFromTemplate('ContractDetailGrid');
         $contractSalesDetailGrid.empty().append($contractSalesDetailGridControl);
         $contractSalesDetailGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                ContractId: FwFormField.getValueByDataField($form, `${module}Id`),
                 RecType: "S"
             };
         });
         FwBrowse.init($contractSalesDetailGridControl);
         FwBrowse.renderRuntimeHtml($contractSalesDetailGridControl);
 
-        var $contractExchangeItemGrid;
-        var $contractExchangeItemGridControl;
-        $contractExchangeItemGrid = $form.find('div[data-grid="ContractExchangeItemGrid"]');
-        $contractExchangeItemGridControl = jQuery(jQuery('#tmpl-grids-ContractExchangeItemGridBrowse').html());
+        const $contractExchangeItemGrid = $form.find('div[data-grid="ContractExchangeItemGrid"]');
+        const $contractExchangeItemGridControl = FwBrowse.loadGridFromTemplate('ContractExchangeItemGrid');
         $contractExchangeItemGrid.empty().append($contractExchangeItemGridControl);
         $contractExchangeItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                ContractId: FwFormField.getValueByDataField($form, 'ContractId'),
+                ContractId: FwFormField.getValueByDataField($form, `${module}Id`),
                 RecType: "S"
             };
         });
@@ -143,56 +138,45 @@ class Contract {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="ContractId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
-        var $contractSummaryGrid;
-        $contractSummaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
+        const $contractSummaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
         FwBrowse.search($contractSummaryGrid);
-
-        var $contractRentalGrid;
-        $contractRentalGrid = $form.find('.rentaldetailgrid [data-name="ContractDetailGrid"]');
+        const $contractRentalGrid = $form.find('.rentaldetailgrid [data-name="ContractDetailGrid"]');
         FwBrowse.search($contractRentalGrid);
-
-        var $contractSalesGrid;
-        $contractSalesGrid = $form.find('.salesdetailgrid [data-name="ContractDetailGrid"]');
+        const $contractSalesGrid = $form.find('.salesdetailgrid [data-name="ContractDetailGrid"]');
         FwBrowse.search($contractSalesGrid);
-
-        var $contractExchangeItemGrid;
-        $contractExchangeItemGrid = $form.find('[data-name="ContractExchangeItemGrid"]');
+        const $contractExchangeItemGrid = $form.find('[data-name="ContractExchangeItemGrid"]');
         FwBrowse.search($contractExchangeItemGrid);
 
-        var type = FwFormField.getValueByDataField($form, 'ContractType');
-        var $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
+        if (this.Module == 'Contract') {
+            var type = FwFormField.getValueByDataField($form, 'ContractType');
+            var $billing = $form.find('[data-datafield="BillingDate"] .fwformfield-caption');
 
-        switch (type) {
-            case 'RECEIVE':
-                $billing.html('Billing Start');
-                break;
-            case 'OUT':
-                $billing.html('Billing Start');
-                break;
-            case 'IN':
-                $billing.html('Billing Stop');
-                break;
-            case 'RETURN':
-                $billing.html('Billing Stop');
-                break;
-            case 'LOST':
-                $billing.html('Billing Stop');
-                break;
-            default:
-                $billing.html('Billing Date');
-                break;
+            switch (type) {
+                case 'RECEIVE':
+                    $billing.html('Billing Start');
+                    break;
+                case 'OUT':
+                    $billing.html('Billing Start');
+                    break;
+                case 'IN':
+                    $billing.html('Billing Stop');
+                    break;
+                case 'RETURN':
+                    $billing.html('Billing Stop');
+                    break;
+                case 'LOST':
+                    $billing.html('Billing Stop');
+                    break;
+                default:
+                    $billing.html('Billing Date');
+                    break;
+            }
         }
 
-        let showSales = $form.find('[data-datafield="Sales"] input').val(),
-            showRental = $form.find('[data-datafield="Rental"] input').val(),
-            showExchange = $form.find('[data-datafield="Exchange"] input').val();
+        const showSales = FwFormField.getValueByDataField($form, 'Sales');
+        const showRental = FwFormField.getValueByDataField($form, 'Rental');
+        const showExchange = FwFormField.getValueByDataField($form, 'Exchange');
 
         if (showSales === 'false') {
             $form.find('[data-type="tab"][data-caption="Sales Detail"]').hide();
@@ -209,7 +193,7 @@ class Contract {
         }
 
         $form.find('.print').on('click', e => {
-            let $report, contractNumber, contractId, recordTitle, printTab, module, hideModule;
+            let $report, contractNumber, contractId, recordTitle, printTab, module;
             module = this.Module;
             try {
                 contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
@@ -234,7 +218,7 @@ class Contract {
     }
     //----------------------------------------------------------------------------------------------  
     getBrowseTemplate(): string {
-      return `
+        return `
       <div data-name="Contract" data-control="FwBrowse" data-type="Browse" id="ContractBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="ContractController" data-hasinactive="false">
         <div class="column" data-width="0" data-visible="false">
           <div class="field" data-isuniqueid="true" data-datafield="ContractId" data-browsedatatype="key"></div>
@@ -277,10 +261,10 @@ class Contract {
         </div>
         <div class="column spacer" data-width="auto" data-visible="true"></div>
       </div>`;
-  }
+    }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
-      return `
+        return `
       <div id="contractform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Contract" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ContractController">
         <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="ContractId"></div>
         <div id="contractform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -339,7 +323,7 @@ class Contract {
           </div>
         </div>
       </div>`;
-  }
+    }
     //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
