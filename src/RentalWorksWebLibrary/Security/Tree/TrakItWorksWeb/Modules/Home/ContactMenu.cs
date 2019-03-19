@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
+namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Settings
 {
     public class ContactMenu : FwSecurityTreeBranch
     {
