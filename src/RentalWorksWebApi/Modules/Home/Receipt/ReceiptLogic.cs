@@ -295,6 +295,7 @@ namespace WebApi.Modules.Home.Receipt
                     irNew.Amount = ri.Amount;
                     irNew.SetDependencies(AppConfig, UserSession);
                     int saveCount = irNew.SaveAsync(null, conn: e.SqlConnection).Result;
+                    ri.InvoiceReceiptId = irNew.InvoiceReceiptId.ToString(); //jh 03/19/2019 provide the ID of the new payment record back with the response
                 }
             }
 
