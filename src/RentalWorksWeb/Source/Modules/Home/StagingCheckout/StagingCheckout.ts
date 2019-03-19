@@ -13,7 +13,7 @@ class StagingCheckout {
     isPendingItemGridView: boolean = false;
 
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen = () => {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -21,8 +21,8 @@ class StagingCheckout {
 
         const $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Staging / Check-Out', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -40,7 +40,6 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?: any) {
-        //let $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -1085,7 +1084,7 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-        <div id="stagingcheckoutform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Staging / Check-Out" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="StagingCheckoutController">
+        <div id="stagingcheckoutform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
           <div id="checkoutform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="Staging"></div>

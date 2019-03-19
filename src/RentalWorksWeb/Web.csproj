@@ -468,9 +468,11 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CompleteQc\CompleteQc.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\TransferOut\TransferOut.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\TransferReceipt\TransferReceipt.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Manifest\Manifest.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PhysicalInventory\PhysicalInventory.ts" />
@@ -542,7 +544,6 @@
     <Content Include="Source\Modules\Home\Receipt\ReceiptBrowse.htm" />
     <Content Include="Source\Modules\Home\Receipt\ReceiptForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
-    <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\Billing\BillingBrowse.htm" />
     <Content Include="Source\Modules\Home\Billing\BillingForm.htm" />
     <Content Include="Source\Modules\Home\TransferOrder\TransferOrderBrowse.htm" />
@@ -556,7 +557,6 @@
     <Content Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendorForm.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
-    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
     <Content Include="Source\Modules\Reports\CrewSignInReport\RwCrewSignInReportController.js" />
     <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
