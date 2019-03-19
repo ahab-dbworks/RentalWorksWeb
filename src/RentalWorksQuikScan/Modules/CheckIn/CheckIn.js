@@ -362,7 +362,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         },
         recordClick: function(recorddata, $record) {
             try {
-                if (recorddata.trackedby === 'QUANTITY') {
+                if (recorddata.trackedby === 'QUANTITY' || recorddata.subbyquantity === true) {
                     var orderId        = recorddata.orderid;
                     var masterItemId   = recorddata.masteritemid;
                     var masterId       = recorddata.masterid;
