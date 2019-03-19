@@ -60,7 +60,7 @@ class RwMaster extends WebMaster {
         }
     }
     getUserControl($context) {
-        var $usercontrol = FwFileMenu.UserControl_render($context);
+        const $usercontrol = FwFileMenu.UserControl_render($context);
         this.buildSystemBar($context);
         this.buildOfficeLocation($context);
         var usertype = sessionStorage.getItem('userType');
@@ -89,9 +89,10 @@ class RwMaster extends WebMaster {
         });
     }
     buildOfficeLocation($usercontrol) {
-        var userlocation = JSON.parse(sessionStorage.getItem('location'));
-        var userid = JSON.parse(sessionStorage.getItem('userid'));
-        var $officelocation = jQuery(`<div class="officelocation">
+        const userlocation = JSON.parse(sessionStorage.getItem('location'));
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
+        const $officelocation = jQuery(`<div class="officelocation">
                                         <div class="locationcolor" style="background-color:${userlocation.locationcolor}"></div>
                                         <div class="value">${userlocation.location}</div>
                                       </div>`);
@@ -99,11 +100,10 @@ class RwMaster extends WebMaster {
         $officelocation.on('click', function () {
             try {
                 var userlocation = JSON.parse(sessionStorage.getItem('location'));
-                const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
                 var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 var userdepartment = JSON.parse(sessionStorage.getItem('department'));
                 var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
-                var $select = FwConfirmation.addButton($confirmation, 'Select', false);
+                const $select = FwConfirmation.addButton($confirmation, 'Select', false);
                 var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
                 FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

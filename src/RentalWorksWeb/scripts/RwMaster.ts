@@ -66,7 +66,7 @@
     }
     //----------------------------------------------------------------------------------------------
     getUserControl($context: JQuery) {
-        var $usercontrol = FwFileMenu.UserControl_render($context);
+        const $usercontrol = FwFileMenu.UserControl_render($context);
 
         this.buildSystemBar($context);
         this.buildOfficeLocation($context);
@@ -76,7 +76,6 @@
         var username = sessionStorage.getItem('fullname')
         var $controlUserName = jQuery(`<div title="User Type: ${usertype}">${username}</div>`);
         FwFileMenu.UserControl_addSystemBarControl('username', $controlUserName, $usercontrol);
-
         // Add DropDownMenuItem: User Settings
         var $miUserSettings = jQuery(`<div>${RwLanguages.translate('User Settings')}</div>`);
         FwFileMenu.UserControl_addDropDownMenuItem('usersettings', $miUserSettings, $usercontrol);
@@ -88,7 +87,6 @@
                 FwFunc.showError(ex);
             }
         });
-
         // Add DropDownMenuItem: Sign Out
         var $miSignOut = jQuery(`<div>${RwLanguages.translate('Sign Out')}</div>`);
         FwFileMenu.UserControl_addDropDownMenuItem('signout', $miSignOut, $usercontrol);
@@ -103,24 +101,25 @@
     }
     //----------------------------------------------------------------------------------------------
     buildOfficeLocation($usercontrol: JQuery<HTMLElement>) {
-        var userlocation = JSON.parse(sessionStorage.getItem('location'));
-        var userid = JSON.parse(sessionStorage.getItem('userid'));
-
-        var $officelocation = jQuery(`<div class="officelocation">
+        const userlocation = JSON.parse(sessionStorage.getItem('location'));
+        const userid = JSON.parse(sessionStorage.getItem('userid'));
+        const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
+        const $officelocation = jQuery(`<div class="officelocation">
                                         <div class="locationcolor" style="background-color:${userlocation.locationcolor}"></div>
                                         <div class="value">${userlocation.location}</div>
                                       </div>`);
 
         FwFileMenu.UserControl_addSystemBarControl('officelocation', $officelocation, $usercontrol);
+
+        
         // navigation header location icon
         $officelocation.on('click', function () {
             try {
                 var userlocation = JSON.parse(sessionStorage.getItem('location'));
-                const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
                 var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 var userdepartment = JSON.parse(sessionStorage.getItem('department'));
                 var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
-                var $select = FwConfirmation.addButton($confirmation, 'Select', false);
+                const $select = FwConfirmation.addButton($confirmation, 'Select', false);
                 var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
                 FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
@@ -193,7 +192,7 @@
                                     program.getModule('home');
                                     $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
                                     $usercontrol.find('.officelocation .value').text(response.location.location);
-                                    //  colors navigation header for a non-default user location
+                                    //  colors navigation header for a non-default user location. Corresponding code in WebMaster.getMasterView() for app refresh
                                     if (response.location.location !== defaultLocation.location) {
                                         const styles = {
                                             borderTop: `.3em solid ${response.location.locationcolor}`,
