@@ -119,7 +119,7 @@ class FwSchedulerDetailedClass {
         dpscheduler.init();
     }
     ;
-    navigate($control, date) {
+    navigate($control, date, days) {
         var dpscheduler;
         if (typeof date === 'string') {
             date = DayPilot.Date(new Date(date).toISOString(), true).getDatePart();
@@ -131,6 +131,9 @@ class FwSchedulerDetailedClass {
         }
         else {
             dpscheduler.days = date.daysInMonth() - date.d.getDate();
+        }
+        if (days !== undefined) {
+            dpscheduler.days = days;
         }
         dpscheduler.startDate = date;
         FwSchedulerDetailed.loadEvents($control);

@@ -178,31 +178,46 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnNext', function () {
-            var currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler;
+            var currentDay, nextDay, nextWeek, next5Week, nextMonth, nextYear, navcalendar, nav5week, navmonth, navscheduler, schedulerDetailed;
             try {
+                if ($control.next().data('dpscheduler') !== undefined) {
+                    schedulerDetailed = $control.next().data('dpscheduler');
+                }
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
                     currentDay = navcalendar.selectionStart;
                     nextDay = currentDay.addDays(1);
                     FwScheduler.navigate($control, nextDay);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), nextDay, 1);
+                    }
                 }
                 else if ($control.find('.btnWeek').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
                     currentDay = navcalendar.selectionStart;
                     nextWeek = currentDay.addDays(7);
                     FwScheduler.navigate($control, nextWeek);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), nextWeek, 7);
+                    }
                 }
                 else if ($control.find('.btn5Week').attr('data-selected') === 'true') {
                     nav5week = $control.data('nav5week');
                     currentDay = nav5week.selectionDay;
                     next5Week = currentDay.addDays(35);
                     FwScheduler.navigate($control, next5Week);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), next5Week, 35);
+                    }
                 }
                 else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
                     navmonth = $control.data('navmonth');
                     currentDay = navmonth.selectionStart;
                     nextMonth = currentDay.addMonths(1);
                     FwScheduler.navigate($control, nextMonth);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), nextMonth, 31);
+                    }
                 }
                 else if ($control.find('.btnYear').attr('data-selected') === 'true') {
                     navmonth = $control.data('navyear');
@@ -222,31 +237,46 @@ class FwSchedulerClass {
             }
         });
         $control.on('click', '.btnPrev', function () {
-            var currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler;
+            var currentDay, previousDay, previousWeek, previous5Week, previousMonth, nav5week, navyear, navcalendar, navmonth, navscheduler, schedulerDetailed;
             try {
+                if ($control.next().data('dpscheduler') !== undefined) {
+                    schedulerDetailed = $control.next().data('dpscheduler');
+                }
                 if ($control.find('.btnDay').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
                     currentDay = navcalendar.selectionStart;
                     previousDay = currentDay.addDays(-1);
                     FwScheduler.navigate($control, previousDay);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), previousDay, 1);
+                    }
                 }
                 else if ($control.find('.btnWeek').attr('data-selected') === 'true') {
                     navcalendar = $control.data('navcalendar');
                     currentDay = navcalendar.selectionStart;
                     previousWeek = currentDay.addDays(-7);
                     FwScheduler.navigate($control, previousWeek);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), previousWeek, 7);
+                    }
                 }
                 else if ($control.find('.btn5Week').attr('data-selected') === 'true') {
                     nav5week = $control.data('nav5week');
                     currentDay = nav5week.selectionDay;
                     previous5Week = currentDay.addDays(-35);
                     FwScheduler.navigate($control, previous5Week);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), previous5Week, 35);
+                    }
                 }
                 else if ($control.find('.btnMonth').attr('data-selected') === 'true') {
                     navmonth = $control.data('navmonth');
                     currentDay = navmonth.selectionStart;
                     previousMonth = currentDay.addMonths(-1);
                     FwScheduler.navigate($control, previousMonth);
+                    if (schedulerDetailed !== undefined) {
+                        FwSchedulerDetailed.navigate($control.next(), previousMonth, 31);
+                    }
                 }
                 else if ($control.find('.btnYear').attr('data-selected') === 'true') {
                     navyear = $control.data('navyear');
