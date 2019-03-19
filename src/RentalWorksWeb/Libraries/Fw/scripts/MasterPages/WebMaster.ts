@@ -18,13 +18,11 @@
         const userLocation = JSON.parse(sessionStorage.getItem('location'));
         const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
         if (userLocation.location !== defaultLocation.location) {
-            const styles = {
-                borderTop: `.3em solid ${userLocation.locationcolor}`,
-                borderBottom: `.3em solid ${userLocation.locationcolor}`
-            }
-            masterHeader.find('div[data-control="FwFileMenu"]').css(styles);
+            const nonDefaultStyles = { borderTop: `.3em solid ${userLocation.locationcolor}`, borderBottom: `.3em solid ${userLocation.locationcolor}` };
+            masterHeader.find('div[data-control="FwFileMenu"]').css(nonDefaultStyles);
         } else {
-            masterHeader.find('div[data-control="FwFileMenu"]').css('border', 'transparent');
+            const defaultStyles = { borderTop: `transparent`, borderBottom: `1px solid #9E9E9E` };
+            masterHeader.find('div[data-control="FwFileMenu"]').css(defaultStyles);
         }
 
         return $view;

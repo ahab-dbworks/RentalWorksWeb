@@ -172,14 +172,12 @@ class RwMaster extends WebMaster {
                                     $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
                                     $usercontrol.find('.officelocation .value').text(response.location.location);
                                     if (response.location.location !== defaultLocation.location) {
-                                        const styles = {
-                                            borderTop: `.3em solid ${response.location.locationcolor}`,
-                                            borderBottom: `.3em solid ${response.location.locationcolor}`
-                                        };
-                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(styles);
+                                        const nonDefaultStyles = { borderTop: `.3em solid ${response.location.locationcolor}`, borderBottom: `.3em solid ${response.location.locationcolor}` };
+                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(nonDefaultStyles);
                                     }
                                     else {
-                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css('border', 'transparent');
+                                        const defaultStyles = { borderTop: `transparent`, borderBottom: `1px solid #9E9E9E` };
+                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(defaultStyles);
                                     }
                                 }, function onError(response) {
                                     FwFunc.showError(response);

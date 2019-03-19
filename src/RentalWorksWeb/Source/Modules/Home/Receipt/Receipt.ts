@@ -234,6 +234,10 @@ class Receipt {
         this.paymentByRadioBehavior($form);
         this.loadReceiptInvoiceGrid($form);
         this.events($form);
+
+        $form.data('beforedatabind', ($form, req, res) => {
+            console.log('res', res)
+        })
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -315,7 +319,7 @@ class Receipt {
                             el.css('background-color', '#F4FFCC');
                         }
                         const $tabpage = $form.parent();
-                        const $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+                        const $tab = jQuery(`#${$tabpage.attr('data-tabid')}`);
                         $tab.find('.modified').html('*');
                         $form.attr('data-modified', 'true');
                         $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
@@ -337,14 +341,14 @@ class Receipt {
         }
     }
     //----------------------------------------------------------------------------------------------
-    getFormTableData($form: JQuery) {
-        let $invoiceIdFields = $form.find('.InvoiceId');
-        let $invoiceReceiptIds = $form.find('.InvoiceReceiptId');
-        let $amountFields = $form.find('.invoice-amount input');
-        let InvoiceDataList: any = [];
+    getFormTableData($form: JQuery): any {
+        const $invoiceIdFields = $form.find('.InvoiceId');
+        const $invoiceReceiptIds = $form.find('.InvoiceReceiptId');
+        const $amountFields = $form.find('.invoice-amount input');
+        const InvoiceDataList: any = [];
         for (let i = 0; i < $invoiceIdFields.length; i++) {
-            let invoiceId = $invoiceIdFields.eq(i).text();
-            let invoiceReceiptId = $invoiceReceiptIds.eq(i).text();
+            const invoiceId = $invoiceIdFields.eq(i).text();
+            const invoiceReceiptId = $invoiceReceiptIds.eq(i).text();
             let amount: any = $amountFields.eq(i).val();
             amount = amount.replace(/,/g, '');
 
