@@ -58,8 +58,13 @@ class StagingCheckout {
         this.getSoundUrls();
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
-            $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
+            if (this.Module == 'StagingCheckout') {
+                FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
+                //$form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
+                //$form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
+            } else if (this.Module == 'TransferOut') {
+                FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
+            }
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
             jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
@@ -129,8 +134,8 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
         const maxPageSize = 20;
-
-        $form.find('[data-datafield="OrderId"]').on('change', function () {
+        const module = this.Module;
+        $form.on('change', '[data-datafield="OrderId"], [data-datafield="TransferId"]', () => {
             try {
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
@@ -141,13 +146,19 @@ class StagingCheckout {
                     $form.find('.option-list').toggle();
                     $form.find('div[data-datafield="IncludeZeroRemaining"] input').prop('checked', false);
                 }
-                const orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
+
+                let orderId;
+                if (module == 'StagingCheckout') {
+                    orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                } else if (module == 'TransferOut') {
+                    orderId = FwFormField.getValueByDataField($form, 'TransferId');
+                }
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
-                FwAppData.apiMethod(true, 'GET', `api/v1/order/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/${module === 'StagingCheckout' ? 'order' : 'transferorder'}/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
-                    FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                    if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                     // Determine tabs to render
                     FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
                         res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
@@ -203,7 +214,7 @@ class StagingCheckout {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-            FwFormField.disable($form.find('div[data-datafield="OrderId"]'));
+            module == 'StagingCheckout' ? FwFormField.disable($form.find('div[data-datafield="OrderId"]')) : FwFormField.disable($form.find('div[data-datafield="TransferId"]'));
             $form.find('.orderstatus').show();
             $form.find('.createcontract').show();
             $form.find('.original-buttons').show();
@@ -543,6 +554,8 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any): void {
+        let type;
+        this.Module == 'StagingCheckout' ? type = 'Order' : type = 'Transfer';
         // ----------
         const $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
         const $stagedItemGridControl = FwBrowse.loadGridFromTemplate('StagedItemGrid');
@@ -552,7 +565,7 @@ class StagingCheckout {
 
         $stagedItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
             request.pagesize = 20;
@@ -578,7 +591,7 @@ class StagingCheckout {
         $stageQuantityItemGrid.empty().append($stageQuantityItemGridControl);
         $stageQuantityItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                 IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
             };
             request.pagesize = 20;
@@ -592,7 +605,7 @@ class StagingCheckout {
         $stageHoldingItemGrid.empty().append($stageHoldingItemGridControl);
         $stageHoldingItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                 IncludeZeroRemaining: FwFormField.getValueByDataField($form, 'IncludeZeroRemaining')
             };
             request.pagesize = 20;
@@ -606,7 +619,7 @@ class StagingCheckout {
         $checkOutPendingItemGrid.empty().append($checkOutPendingItemGridControl);
         $checkOutPendingItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
             request.pagesize = 20;
@@ -646,10 +659,12 @@ class StagingCheckout {
         const successSound = new Audio(this.successSoundFileName);
         const errorMsg = $form.find('.error-msg:not(.qty)');
         const errorMsgQty = $form.find('.error-msg.qty');
+        let type;
+        this.Module == 'StagingCheckout' ? type = 'Order' : type = 'Transfer';
 
         $form.find('div.quantity-items-tab').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             if (orderId !== '') {
                 const $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
                 FwBrowse.search($stageQuantityItemGrid);
@@ -660,7 +675,7 @@ class StagingCheckout {
         });
         $form.find('div.holding-items-tab').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             if (orderId !== '') {
                 const $stageHoldingItemGrid = $form.find('[data-name="StageHoldingItemGrid"]');
                 FwBrowse.search($stageHoldingItemGrid);
@@ -671,7 +686,7 @@ class StagingCheckout {
         });
         // Refresh grids when navigating to Staging tab
         $form.find('.staging-tab').on('click', e => {
-            const  $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+            const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
 
             FwBrowse.search($stagedItemGrid);
@@ -684,7 +699,7 @@ class StagingCheckout {
                 $form.find('div.AddItemToOrder').html('');
 
                 let request: any = {};
-                const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
                 const code = FwFormField.getValueByDataField($form, 'Code');
                 request = {
                     OrderId: orderId,
@@ -745,7 +760,7 @@ class StagingCheckout {
                     $form.find('div.AddItemToOrder').html('');
 
                     let request: any = {};
-                    const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                    const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
                     const code = FwFormField.getValueByDataField($form, 'Code');
                     const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
                     request = {
@@ -793,8 +808,8 @@ class StagingCheckout {
         $form.find('.orderstatus').on('click', e => {
             try {
                 const orderInfo: any = {};
-                orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-                orderInfo.OrderNumber = FwFormField.getTextByDataField($form, 'OrderId');
+                orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
+                orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
                 const mode = 'EDIT';
                 const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
@@ -832,7 +847,7 @@ class StagingCheckout {
         $form.find('[data-datafield="IncludeZeroRemaining"] input').on('change', e => {
             const $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
             $stageQuantityItemGrid.data('ondatabind', function (request) {
-                const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
                 const includeZeroRemaining = FwFormField.getValueByDataField($form, 'IncludeZeroRemaining');
                 request.uniqueids = {
                     OrderId: orderId,
@@ -851,7 +866,7 @@ class StagingCheckout {
             const checkOutPendingItemGridContainier = $form.find('.pending-item-grid');
             const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
             const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             if (orderId !== '') {
                 switch (gridView) {
                     case 'STAGE':
@@ -891,7 +906,7 @@ class StagingCheckout {
         // Select None
         $form.find('.selectnone').on('click', e => {
             let request: any = {};
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 errorMsgQty.html('');
@@ -911,7 +926,7 @@ class StagingCheckout {
         $form.find('.selectall').on('click', e => {
 
             let request: any = {};
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', `api/v1/stagequantityitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
                 errorMsgQty.html('');
@@ -1087,7 +1102,7 @@ class StagingCheckout {
         <div id="stagingcheckoutform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
           <div id="checkoutform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
-              <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="Staging"></div>
+              <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="${this.Module == 'StagingCheckout' ? 'Staging' : 'Transfer'}"></div>
               <div data-type="tab" id="quantityitemtab" class="tab quantity-items-tab" data-tabpageid="quantityitemtabpage" data-caption="Quantity Items" style="display:none;"></div>
               <div data-type="tab" id="holdingitemtab" class="tab holding-items-tab" data-tabpageid="holdingitemtabpage" data-caption="Holding" style="display:none;"></div>
               <div data-type="tab" id="serialitemtab" class="tab serial-items-tab" data-tabpageid="serialitemtabpage" data-caption="Serial Items" style="display:none;"></div>
@@ -1098,14 +1113,17 @@ class StagingCheckout {
               <div data-type="tabpage" id="stagingtabpage" class="tabpage" data-tabid="stagingtab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Staging / Check-Out">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.caption}">
                       <div class="flexrow">
                         <div class="flexcolumn" style="flex:1 1 850px;">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>
+                            ${this.Module == 'StagingCheckout' ?
+                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
+                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 300px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 300px;"></div>
+                            ${this.Module == 'StagingCheckout' ?
+                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 300px;"></div>' : ''}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Location" data-datafield="Location" data-enabled="false" style="flex:1 1 300px;"></div>
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-visible="false" data-enabled="false" style="flex:1 1 175px;"></div>
                           </div>
@@ -1149,8 +1167,8 @@ class StagingCheckout {
                             <div class="pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid" data-securitycaption=""></div>
                           </div>
                           <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
-                            <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 109px; margin-left:8px;">Order Status</div>
-                            <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="Create Contract"></div>
+                            <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 132px; margin-left:8px; text-align:center;">${this.Module == 'StagingCheckout' ? 'Order Status' : 'Transfer Status'}</div>
+                            <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="${this.Module == 'StagingCheckout' ? 'Create Contract' : 'Create Manifest'}"></div>
                           </div>
                         </div>
                         <div class="flexcolumn partial-contract" style="max-width:125px;justify-content:center;">
@@ -1164,7 +1182,7 @@ class StagingCheckout {
                             <div data-control="FwGrid" data-grid="CheckedOutItemGrid" data-securitycaption="Contract Items"></div>
                           </div>
                           <div class="flexrow" style="align-items:flex-end;">
-                            <div class="fwformcontrol complete-checkout-contract" data-type="button" style="max-width:140px;">Create Contract</div>
+                            <div class="fwformcontrol complete-checkout-contract" data-type="button" style="max-width:140px;">${this.Module == 'StagingCheckout' ? 'Create Contract' : 'Create Manifest'}</div>
                           </div>
                         </div>
                       </div>
