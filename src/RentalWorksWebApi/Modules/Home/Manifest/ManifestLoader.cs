@@ -63,6 +63,7 @@ namespace WebApi.Modules.Home.Manifest
             select.Parse();
             addFilterToSelect("LocationId", "locationid", select, request);
             addFilterToSelect("ContractType", "contracttype", select, request);
+            addFilterToSelect("TransferId", "orderid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
         }
         //------------------------------------------------------------------------------------ 

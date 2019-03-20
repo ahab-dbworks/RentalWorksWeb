@@ -104,8 +104,34 @@ class TransferOrder {
         $form.find('div.fwformfield[data-datafield="TransferId"] input').val(uniqueids.TransferId);
         FwModule.loadForm(this.Module, $form);
 
+        $form.find('.manifestSubModule').append(this.openManifestBrowse($form));
+        $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    openManifestBrowse($form) {
+        const $browse = ManifestController.openBrowse();
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = ManifestController.ActiveViewFields;
+            request.uniqueids = {
+                ContractType: "MANIFEST"
+                , TransferId: FwFormField.getValueByDataField($form, 'TransferId')
+            };
+        });
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openReceiptBrowse($form) {
+        const $browse = TransferReceiptController.openBrowse();
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = TransferReceiptController.ActiveViewFields;
+            request.uniqueids = {
+                ContractType: "RECEIPT"
+                , TransferId: FwFormField.getValueByDataField($form, 'TransferId')
+            };
+        });
+        return $browse;
+    }
     //----------------------------------------------------------------------------------------------
     saveForm($form: JQuery, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
@@ -165,6 +191,28 @@ class TransferOrder {
         const isSales = FwFormField.getValueByDataField($form, 'Sales');
         const salesTab = $form.find('.salesTab');
         isSales ? salesTab.show() : salesTab.hide();
+
+        $form.on('click', '[data-type="tab"]', e => {
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    const $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    const $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
     };
     //----------------------------------------------------------------------------------------------
     events($form: JQuery) {
