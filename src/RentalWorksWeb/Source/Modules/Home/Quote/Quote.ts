@@ -623,6 +623,9 @@ class Quote extends OrderBase {
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="QuoteId" data-datatype="key" data-sort="off"></div>
           </div>
+          <div class="column" data-width="0" data-visible="false">
+            <div class="field" data-isuniqueid="true" data-datafield="OrderTypeId" data-browsedatatype="key"></div>
+          </div>
           <!--<div class="column" data-width="0" data-visible="false">
             <div class="field" data-datafield="Inactive" data-datatype="text"  data-visible="false"></div>
           </div>-->

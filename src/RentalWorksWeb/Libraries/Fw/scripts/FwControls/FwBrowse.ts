@@ -2402,12 +2402,16 @@ class FwBrowseClass {
                 // ----------
                 $control.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
                     try {
-                        let $td = jQuery(this).parent();
-                        let peekWait = FwOverlay.showPleaseWaitOverlay($td.closest('.fwcontrol'), null);
+                        let $this = jQuery(this);
+                        let $td = $this.parent();
+                        $this.css('visibility', 'hidden');
+                        $td.find('.validation-loader').show();
                         setTimeout(function () {
                             FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
-                            FwOverlay.hideOverlay(peekWait);
-                        }, 0)
+                            $this.css('visibility', 'visible');
+                            $td.find('.validation-loader').hide();
+                        })
+
                     } catch (ex) {
                         FwFunc.showError(ex)
                     }
