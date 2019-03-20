@@ -234,10 +234,6 @@ class Receipt {
         this.paymentByRadioBehavior($form);
         this.loadReceiptInvoiceGrid($form);
         this.events($form);
-
-        $form.data('beforedatabind', ($form, req, res) => {
-            console.log('res', res)
-        })
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -284,6 +280,7 @@ class Receipt {
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
                 const rows = res.Rows;
+                console.log('rows', rows)
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
@@ -295,7 +292,6 @@ class Receipt {
                     $form.find('.table-rows').html(htmlRows.join(''));
                     $form.find('.invoice-amount input').inputmask({ alias: "currency", prefix: '' });
                     $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
-                    $form.find('.table-rows input').eq(0).focus();
 
                     (function () {
                         let $amountFields = $form.find('.invoice-amount input');
