@@ -60,8 +60,6 @@ class StagingCheckout {
         if (typeof parentmoduleinfo !== 'undefined') {
             if (this.Module == 'StagingCheckout') {
                 FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
-                //$form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
-                //$form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
             } else if (this.Module == 'TransferOut') {
                 FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
             }
@@ -810,10 +808,11 @@ class StagingCheckout {
                 const orderInfo: any = {};
                 orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
+                if (this.Module === 'TransferOut') orderInfo.IsTransferOut = true;
                 const mode = 'EDIT';
                 const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
-                jQuery('.tab.submodule.active').find('.caption').html('Order Status');
+                jQuery('.tab.submodule.active').find('.caption').html(`${type} Status`);
             }
             catch (ex) {
                 FwFunc.showError(ex);

@@ -5,7 +5,7 @@ class OrderStatus {
     caption: string = 'Order Status';
     nav: string = 'module/orderstatus';
     id: string = 'F6AE5BC1-865D-467B-A201-95C93F8E8D0B';
-
+    Type: string = 'Order';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -25,9 +25,7 @@ class OrderStatus {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        //var $form;
-
-        //$form = FwModule.loadFormFromTemplate(this.Module);
+        if (parentmoduleinfo.IsTransferOut === true) this.Type = 'Transfer';
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -37,11 +35,12 @@ class OrderStatus {
         this.toggleView($form);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
-            $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
-            if (parentmoduleinfo.OrderId) {
-                jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
+            if (this.Type === 'Transfer') {
+                FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
+            } else {
+                FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
             }
+            $form.find(`[data-datafield="${this.Type}Id"]`).change();
         }
 
         $form.find('.rentalview').hide();
@@ -54,25 +53,26 @@ class OrderStatus {
     }
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
-        var order = $form.find('[data-datafield="OrderId"]');
-        var max = 9999;
-        order.on('change', function () {
+        const max = 9999;
+        $form.on('change', '[data-datafield="OrderId"], [data-datafield="TransferId"]', () => {
             try {
                 $form.find('.toggle [data-value="Summary"] input').prop('checked', true);
                 $form.find('.summaryview').show();
-                var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-                FwAppData.apiMethod(true, 'GET', "api/v1/order/" + orderId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                var orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                FwAppData.apiMethod(true, 'GET', `api/v1/${this.Type === 'Order' ? 'order' : 'transferorder'}/${orderId}`, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
-                    FwFormField.setValueByDataField($form, 'Deal', response.Deal);
                     FwFormField.setValueByDataField($form, 'Status', response.Status);
-                    FwFormField.setValueByDataField($form, 'Warehouse', response.Warehouse);
                     FwFormField.setValueByDataField($form, 'PickDate', response.PickDate);
                     FwFormField.setValueByDataField($form, 'PickTime', response.PickTime);
-                    FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
-                    FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
-                    FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
-                    FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
 
+                    if (this.Type === 'Order') {
+                        FwFormField.setValueByDataField($form, 'Deal', response.Deal);
+                        FwFormField.setValueByDataField($form, 'Warehouse', response.Warehouse);
+                        FwFormField.setValueByDataField($form, 'EstimatedStartDate', response.EstimatedStartDate);
+                        FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
+                        FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
+                        FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
+                    }
                     var rental = response.Rental;
                     var sales = response.Sales;
                     if (rental === false && sales === false) {
@@ -96,8 +96,7 @@ class OrderStatus {
                     $form.find('.details').hide();
                 }, null, $form);
 
-                var $orderStatusSummaryGridControl: any;
-                $orderStatusSummaryGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
+                const $orderStatusSummaryGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
                 $orderStatusSummaryGridControl.data('ondatabind', function (request) {
                     request.uniqueids = {
                         OrderId: orderId
@@ -106,8 +105,7 @@ class OrderStatus {
                 })
                 FwBrowse.search($orderStatusSummaryGridControl);
 
-                var $orderStatusRentalDetailGridControl: any;
-                $orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
+                const $orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
                 $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
                     request.uniqueids = {
                         OrderId: orderId,
@@ -117,8 +115,7 @@ class OrderStatus {
                 })
                 FwBrowse.search($orderStatusRentalDetailGridControl);
 
-                var $orderStatusSalesDetailGridControl: any;
-                $orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
+                const $orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
                 $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
                     request.uniqueids = {
                         OrderId: orderId,
@@ -158,32 +155,28 @@ class OrderStatus {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $orderStatusSummaryGrid: any;
-        var $orderStatusSummaryGridControl: any;
-        var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
-        var max = 9999;
-
-        $orderStatusSummaryGrid = $form.find('div[data-grid="OrderStatusSummaryGrid"]');
-        $orderStatusSummaryGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSummaryGridBrowse').html());
+        const type = this.Type;
+        const max = 9999;
+        //----------------------------------------------------------------------------------------------
+        const $orderStatusSummaryGrid = $form.find('div[data-grid="OrderStatusSummaryGrid"]');
+        const $orderStatusSummaryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusSummaryGrid');
         $orderStatusSummaryGrid.empty().append($orderStatusSummaryGridControl);
         $orderStatusSummaryGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: orderId
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
             };
             request.pagesize = max;
         })
         FwBrowse.init($orderStatusSummaryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusSummaryGridControl);
         this.addLegend($form, $orderStatusSummaryGrid);
-
-        var $orderStatusRentalDetailGrid: any;
-        var $orderStatusRentalDetailGridControl: any;
-        $orderStatusRentalDetailGrid = $form.find('div[data-grid="OrderStatusRentalDetailGrid"]');
-        $orderStatusRentalDetailGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusRentalDetailGridBrowse').html());
+        //----------------------------------------------------------------------------------------------
+        const $orderStatusRentalDetailGrid = $form.find('div[data-grid="OrderStatusRentalDetailGrid"]');
+        const $orderStatusRentalDetailGridControl = FwBrowse.loadGridFromTemplate('OrderStatusRentalDetailGrid');
         $orderStatusRentalDetailGrid.empty().append($orderStatusRentalDetailGridControl);
         $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: orderId,
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                 RecType: "R"
             };
             request.pagesize = max;
@@ -191,15 +184,13 @@ class OrderStatus {
         FwBrowse.init($orderStatusRentalDetailGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusRentalDetailGridControl);
         this.addLegend($form, $orderStatusRentalDetailGrid);
-
-        var $orderStatusSalesDetailGrid: any;
-        var $orderStatusSalesDetailGridControl: any;
-        $orderStatusSalesDetailGrid = $form.find('div[data-grid="OrderStatusSalesDetailGrid"]');
-        $orderStatusSalesDetailGridControl = jQuery(jQuery('#tmpl-grids-OrderStatusSalesDetailGridBrowse').html());
+        //----------------------------------------------------------------------------------------------
+        const $orderStatusSalesDetailGrid = $form.find('div[data-grid="OrderStatusSalesDetailGrid"]');
+        const $orderStatusSalesDetailGridControl = FwBrowse.loadGridFromTemplate('OrderStatusSalesDetailGrid');
         $orderStatusSalesDetailGrid.empty().append($orderStatusSalesDetailGridControl);
         $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
-                OrderId: orderId,
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                 RecType: "S"
             };
             request.pagesize = max;
@@ -207,15 +198,14 @@ class OrderStatus {
         FwBrowse.init($orderStatusSalesDetailGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusSalesDetailGridControl);
         this.addLegend($form, $orderStatusSalesDetailGrid);
-
-        var $filter = $form.find('.filter[data-type="radio"]');
+        //----------------------------------------------------------------------------------------------
+        const $filter = $form.find('.filter[data-type="radio"]');
         $filter.on("change", function () {
-            var orderId = $form.find('[data-datafield="OrderId"] .fwformfield-value').val();
             var filterValue = $form.find('.filter input[type="radio"]:checked').val().toUpperCase();
 
             $orderStatusSummaryGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
-                    OrderId: orderId
+                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
                 };
                 request.pagesize = max;
                 request.filterfields = {
@@ -226,7 +216,7 @@ class OrderStatus {
 
             $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
-                    OrderId: orderId,
+                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                     RecType: "R"
                 };
                 request.pagesize = max;
@@ -238,7 +228,7 @@ class OrderStatus {
 
             $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
                 request.uniqueids = {
-                    OrderId: orderId,
+                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
                     RecType: "S"
                 };
                 request.pagesize = max;
@@ -248,11 +238,11 @@ class OrderStatus {
             })
             FwBrowse.search($orderStatusSalesDetailGridControl);
         });
-
+        //----------------------------------------------------------------------------------------------
         //Filter field events
         const $filterValidations = $form.find('#filters [data-type="multiselectvalidation"] input.fwformfield-value');
         $filterValidations.on("change", e => {
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
@@ -336,7 +326,7 @@ class OrderStatus {
 
         const $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
         $textFilter.on("change", function () {
-            const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             const description = FwFormField.getValueByDataField($form, 'FilterDescription');
             const barCode = FwFormField.getValueByDataField($form, 'FilterBarCode');
 
@@ -407,18 +397,21 @@ class OrderStatus {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-        <div id="orderstatusform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Order Status" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="OrderStatusController">
+        <div id="orderstatusform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.Type} Status" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="OrderStatusController">
           <div id="dealform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
             </div>
             <div class="tabpages">
               <div class="flexpage">
                 <div class="flexrow">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Status">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.Type} Status">
                     <div class="flexrow">
                       <div class="flexcolumn" style="flex:1 1 850px;">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>
+                           ${this.Type === 'Order' ?
+            '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
+            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
+                          
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>
                         </div>

@@ -34,9 +34,13 @@ class CheckIn {
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="OrderId"] input.fwformfield-value').val(parentmoduleinfo.OrderId);
-            $form.find('div[data-datafield="OrderId"] input.fwformfield-text').val(parentmoduleinfo.OrderNumber);
-            jQuery($form.find('[data-datafield="OrderId"] input')).trigger('change');
+            if (this.Module === 'CheckIn') {
+                FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
+                $form.find(`[data-datafield="OrderId"]`).change();
+            } else if (this.Module === 'TransferIn') {
+                FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
+                $form.find(`[data-datafield="TransferId"]`).change();
+            }
             $form.attr('data-showsuspendedsessions', 'false');
         }
         this.getSoundUrls($form);
@@ -101,11 +105,8 @@ class CheckIn {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $checkedInItemsGrid: any,
-            $checkedInItemsGridControl: any;
-
-        $checkedInItemsGrid = $form.find('div[data-grid="CheckedInItemGrid"]');
-        $checkedInItemsGridControl = jQuery(jQuery('#tmpl-grids-CheckedInItemGridBrowse').html());
+        const $checkedInItemsGrid = $form.find('div[data-grid="CheckedInItemGrid"]');
+        const $checkedInItemsGridControl = FwBrowse.loadGridFromTemplate('CheckedInItemGrid');
         $checkedInItemsGrid.empty().append($checkedInItemsGridControl);
         $checkedInItemsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -114,12 +115,9 @@ class CheckIn {
         })
         FwBrowse.init($checkedInItemsGridControl);
         FwBrowse.renderRuntimeHtml($checkedInItemsGridControl);
-
-        let $checkInExceptionGrid: any,
-            $checkInExceptionGridControl: any;
-
-        $checkInExceptionGrid = $form.find('div[data-grid="CheckInExceptionGrid"]');
-        $checkInExceptionGridControl = jQuery(jQuery('#tmpl-grids-CheckInExceptionGridBrowse').html());
+        //----------------------------------------------------------------------------------------------
+        const $checkInExceptionGrid = $form.find('div[data-grid="CheckInExceptionGrid"]');
+        const $checkInExceptionGridControl = FwBrowse.loadGridFromTemplate('CheckInExceptionGrid');
         $checkInExceptionGrid.empty().append($checkInExceptionGridControl);
         $checkInExceptionGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -128,12 +126,9 @@ class CheckIn {
         })
         FwBrowse.init($checkInExceptionGridControl);
         FwBrowse.renderRuntimeHtml($checkInExceptionGridControl);
-
-        let $checkInOrderGrid: any,
-            $checkInOrderGridControl: any;
-
-        $checkInOrderGrid = $form.find('div[data-grid="CheckInOrderGrid"]');
-        $checkInOrderGridControl = jQuery(jQuery('#tmpl-grids-CheckInOrderGridBrowse').html());
+        //----------------------------------------------------------------------------------------------
+        const $checkInOrderGrid = $form.find('div[data-grid="CheckInOrderGrid"]');
+        const $checkInOrderGridControl = FwBrowse.loadGridFromTemplate('CheckInOrderGrid');
         $checkInOrderGrid.empty().append($checkInOrderGridControl);
         $checkInOrderGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -142,12 +137,9 @@ class CheckIn {
         })
         FwBrowse.init($checkInOrderGridControl);
         FwBrowse.renderRuntimeHtml($checkInOrderGridControl);
-
-        let $checkInSwapGrid: any,
-            $checkInSwapGridControl: any;
-
-        $checkInSwapGrid = $form.find('div[data-grid="CheckInSwapGrid"]');
-        $checkInSwapGridControl = jQuery(jQuery('#tmpl-grids-CheckInSwapGridBrowse').html());
+        //----------------------------------------------------------------------------------------------
+        const $checkInSwapGrid = $form.find('div[data-grid="CheckInSwapGrid"]');
+        const $checkInSwapGridControl = FwBrowse.loadGridFromTemplate('CheckInSwapGrid');
         $checkInSwapGrid.empty().append($checkInSwapGridControl);
         $checkInSwapGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -156,11 +148,9 @@ class CheckIn {
         })
         FwBrowse.init($checkInSwapGridControl);
         FwBrowse.renderRuntimeHtml($checkInSwapGridControl);
-
-        let $checkInQuantityItemsGrid: any,
-            $checkInQuantityItemsGridControl: any;
-        $checkInQuantityItemsGrid = $form.find('div[data-grid="CheckInQuantityItemsGrid"]');
-        $checkInQuantityItemsGridControl = jQuery(jQuery('#tmpl-grids-CheckInQuantityItemsGridBrowse').html());
+        //----------------------------------------------------------------------------------------------
+        const $checkInQuantityItemsGrid = $form.find('div[data-grid="CheckInQuantityItemsGrid"]');
+        const $checkInQuantityItemsGridControl = FwBrowse.loadGridFromTemplate('CheckInQuantityItemsGrid');
         $checkInQuantityItemsGrid.empty().append($checkInQuantityItemsGridControl);
         $checkInQuantityItemsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -212,21 +202,26 @@ class CheckIn {
         const allActiveOrders = $form.find('[data-datafield="AllOrdersForDeal"] input');
         const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
         const specificOrderValidation = $form.find('div[data-datafield="SpecificOrderId"]');
+        const type = (this.Module === 'CheckIn' ? 'Order' : 'Transfer');
 
         //Default Department
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         //Order selection
-        $form.find('[data-datafield="OrderId"]').data('onchange', $tr => {
+        $form.find('[data-datafield="OrderId"], [data-datafield="TransferId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'DealId', $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue'));
-            FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+            if (type === 'Order') {
+                FwFormField.setValueByDataField($form, 'DealId', $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue'));
+                FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+            } else if (type === 'Transfer') {
+                FwFormField.disable($form.find('[data-datafield="TransferId"]'));
+            }
 
             let request: any = {};
             request = {
-                DealId: FwFormField.getValueByDataField($form, 'DealId')
-                , OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+              OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
                 , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
             }
+            if (this.Module === 'CheckIn') request.DealId = FwFormField.getValueByDataField($form, 'DealId');
             FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
                 $form.find('[data-datafield="BarCode"] input').focus();
@@ -324,11 +319,11 @@ class CheckIn {
             }
         });
         $form.find('div.orderstab').on('click', e => {
-            let $checkInOrderGridControl = $form.find('div[data-name="CheckInOrderGrid"]');
+            const $checkInOrderGridControl = $form.find('div[data-name="CheckInOrderGrid"]');
             FwBrowse.search($checkInOrderGridControl);
         });
         $form.find('div.swapitemtab').on('click', e => {
-            let $checkInSwapGridControl = $form.find('div[data-name="CheckInSwapGrid"]');
+            const $checkInSwapGridControl = $form.find('div[data-name="CheckInSwapGrid"]');
             FwBrowse.search($checkInSwapGridControl);
         });
 
@@ -505,18 +500,21 @@ class CheckIn {
               <div data-type="tabpage" id="checkintabpage" class="tabpage" data-tabid="checkintab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check-In">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.caption}">
                       <div class="flexrow">
                         <div class="flexcolumn" style="flex:1 1 450px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-formbeforevalidate="beforeValidate" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>
+                            ${this.Module == 'CheckIn' ?
+                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-formbeforevalidate="beforeValidate" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
+                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
                           </div>
                         </div>
                         <div class="flexcolumn" style="flex:1 1 450px;">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:0 1 350px;"></div>
+                            ${this.Module == 'CheckIn' ?
+                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:0 1 350px;"></div>' : ''}
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:0 1 200px;" data-enabled="false"></div>
                           </div>
                         </div>
@@ -605,7 +603,7 @@ class CheckIn {
           </div>
         </div>
         `;
-      }
+    }
     //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
 }
