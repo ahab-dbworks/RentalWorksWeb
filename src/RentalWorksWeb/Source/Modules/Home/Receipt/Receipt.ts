@@ -249,14 +249,8 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
-
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
-            getInvoiceData($form);
-        }
-
-        if (!$form.data('formtable')) {
-            getInvoiceData($form);
         }
 
         function getInvoiceData($form: any): void {
@@ -280,7 +274,7 @@ class Receipt {
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
                 const rows = res.Rows;
-                console.log('rows', rows)
+                console.log('rows from receiptinvoicebrowse', rows)
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
@@ -294,9 +288,9 @@ class Receipt {
                     $form.find('.static-amount:not(input)').inputmask({ alias: "currency", prefix: '' });
 
                     (function () {
-                        let $amountFields = $form.find('.invoice-amount input');
+                        const $amountFields = $form.find('.invoice-amount input');
                         for (let i = 0; i < $amountFields.length; i++) {
-                            let amount: any = $amountFields.eq(i).val();
+                            const amount: any = $amountFields.eq(i).val();
                             if (amount === '0.00' || amount === '') {
                                 $amountFields.eq(i).css('background-color', 'white');
                             } else {
@@ -330,11 +324,10 @@ class Receipt {
                         }
                         e.stopPropagation();
                     });
-
-                    $form.data('formtable', true);
                 }
             }, null, $form);
         }
+        getInvoiceData($form);
     }
     //----------------------------------------------------------------------------------------------
     getFormTableData($form: JQuery): any {
