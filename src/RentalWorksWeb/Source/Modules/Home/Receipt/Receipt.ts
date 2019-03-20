@@ -56,7 +56,7 @@ class Receipt {
 
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (var key in response) {
+                for (let key in response) {
                     FwBrowse.addLegend($browse, key, response[key]);
                 }
             }, function onError(response) {
@@ -280,7 +280,7 @@ class Receipt {
                     for (let i = 0; i < rows.length; i++) {
                         htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td>
                                        <td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td>
-                                       <td class="decimal invoice-amount"><input class="decimal fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`);
+                                       <td data-enabled="true" data-isuniqueid="false" data-datafield="invoiceamount" class="decimal fwformfield invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`);
                     }
                     $form.find('.table-rows').html('');
                     $form.find('.table-rows').html(htmlRows.join(''));
@@ -308,11 +308,6 @@ class Receipt {
                         } else {
                             el.css('background-color', '#F4FFCC');
                         }
-                        const $tabpage = $form.parent();
-                        const $tab = jQuery(`#${$tabpage.attr('data-tabid')}`);
-                        $tab.find('.modified').html('*');
-                        $form.attr('data-modified', 'true');
-                        $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
                     });
                     // btnpeek
                     $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
