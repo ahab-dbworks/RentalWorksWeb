@@ -613,7 +613,7 @@ class Quote extends OrderBase {
         }
 
         // Disable withTax checkboxes if Total field is 0.00
-        this.disableWithTaxCheckbox($form);
+        //this.disableWithTaxCheckbox($form);
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {

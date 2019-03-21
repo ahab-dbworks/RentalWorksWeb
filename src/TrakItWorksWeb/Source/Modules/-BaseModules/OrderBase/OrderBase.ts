@@ -1,10 +1,10 @@
 //----------------------------------------------------------------------------------------------
 class OrderBase {
-    DefaultOrderType: string;
+    DefaultOrderType:   string;
     DefaultOrderTypeId: string;
-    CombineActivity: string;
-    Module: string;
-    CachedOrderTypes: any = {};
+    CombineActivity:    string;
+    Module:             string;
+    CachedOrderTypes:   any = {};
 
     renderFrames($form: any, cachedId?, period?) {
         FwFormField.disable($form.find('.frame'));
@@ -127,14 +127,14 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     columnLogic($form, data) {
-        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-            $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-            $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-            $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
-            $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'),
+        let $rentalGrid     = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
+            $salesGrid      = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
+            $laborGrid      = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
+            $miscGrid       = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
+            $usedSaleGrid   = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'),
             $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]'),
-            $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-            rate = FwFormField.getValueByDataField($form, 'RateType');
+            $combinedGrid   = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
+            rate            = FwFormField.getValueByDataField($form, 'RateType');
 
         $form.find('[data-datafield="CombineActivity"] input').val(data.CombineActivityTabs);
 
@@ -179,12 +179,12 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     activityCheckboxEvents($form: any, mode: string) {
-        let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
-            , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-            , miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]')
-            , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]')
-            , lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
-            , usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+        let rentalTab     = $form.find('[data-type="tab"][data-caption="Rental"]'),
+            salesTab      = $form.find('[data-type="tab"][data-caption="Sales"]'),
+            miscTab       = $form.find('[data-type="tab"][data-caption="Miscellaneous"]'),
+            laborTab      = $form.find('[data-type="tab"][data-caption="Labor"]'),
+            lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]'),
+            usedSaleTab   = $form.find('[data-type="tab"][data-caption="Used Sale"]');
 
         $form.find('[data-datafield="Rental"] input').on('change', e => {
             if (mode == "NEW") {
@@ -352,13 +352,15 @@ class OrderBase {
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Copy To" data-datafield="CopyTo">');
-        html.push('      <div data-value="Q" data-caption="Quote"> </div>');
-        html.push('    <div data-value="O" data-caption="Order"> </div></div><br>');
+        html.push('      <div data-value="Q" data-caption="Quote"></div>');
+        html.push('      <div data-value="O" data-caption="Order"></div>');
+        html.push('    </div><br>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Rates & Prices" data-datafield="CopyRatesFromInventory"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Subs" data-datafield="CombineSubs"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Documents" data-datafield="CopyDocuments"></div>');
+        html.push('  </div>');
         html.push('</div>');
 
 
@@ -448,7 +450,7 @@ class OrderBase {
                 FwFormField.enable($yes);
             }, $confirmationbox);
         };
-    };
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidateOutShipVia($browse: any, $grid: any, request: any) {
         let validationName = request.module,
@@ -460,7 +462,8 @@ class OrderBase {
                 };
                 break;
         }
-    };
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidateInShipVia($browse: any, $grid: any, request: any) {
         let validationName = request.module;
         let inDeliveryCarrierId = jQuery($grid.find('[data-datafield="InDeliveryCarrierId"] input')).val();
@@ -471,7 +474,8 @@ class OrderBase {
                 };
                 break;
         }
-    };
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidateCarrier($browse: any, $grid: any, request: any) {
         let validationName = request.module;
         switch (validationName) {
@@ -481,7 +485,8 @@ class OrderBase {
                 };
                 break;
         }
-    };
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidate($browse: any, $grid: any, request: any) {
         let $form = $grid.closest('.fwform');
         var officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
@@ -510,7 +515,7 @@ class OrderBase {
                     break;
                 }
         };
-    };
+    }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
         let weeklyType = $form.find(".weeklyType");
@@ -549,9 +554,9 @@ class OrderBase {
             this.bottomLineTotalWithTaxChange($form, event);
         });
         // Bottom Line Discount
-        $form.find('.bottom_line_discount').on('change', event => {
-            this.bottomLineDiscountChange($form, event);
-        });
+        //$form.find('.bottom_line_discount').on('change', event => {
+        //    this.bottomLineDiscountChange($form, event);
+        //});
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {},
@@ -909,10 +914,10 @@ class OrderBase {
         });
 
         $form.find(".combineddw").on('change', '.fwformfield-text, .fwformfield-value', event => {
-            let val = event.target.value;
+            let val       = event.target.value;
             let dwRequest = {
-                'OrderId': FwFormField.getValueByDataField($form, `${this.Module}Id`),
-                'RecType': '',
+                'OrderId':     FwFormField.getValueByDataField($form, `${this.Module}Id`),
+                'RecType':     '',
                 'DaysPerWeek': val
             }
             FwAppData.apiMethod(true, 'POST', `api/v1/order/applybottomlinedaysperweek`, dwRequest, FwServices.defaultTimeout, function onSuccess(response) {
@@ -923,73 +928,68 @@ class OrderBase {
         });
     };
     //----------------------------------------------------------------------------------------------
-    bottomLineDiscountChange($form: any, event: any) {
-        // DiscountPercent for all OrderItemGrid
-        let $element, $orderItemGrid, orderId, recType, discountPercent, module;
-        let request: any = {};
-        module = this.Module;
-        $element = jQuery(event.currentTarget);
-        recType = $element.attr('data-rectype');
-        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
-        discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
+    //bottomLineDiscountChange($form: any, event: any) {
+    //    // DiscountPercent for all OrderItemGrid
+    //    let $orderItemGrid;
+    //    let request:         any = {};
+    //    var module               = this.Module;
+    //    var $element             = jQuery(event.currentTarget);
+    //    var recType              = $element.attr('data-rectype');
+    //    var orderId              = FwFormField.getValueByDataField($form, `${module}Id`);
+    //    let discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
 
-        if (recType === 'R') {
-            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PeriodRentalTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-        }
-        if (recType === 'S') {
-            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'SalesTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-        }
-        if (recType === 'L') {
-            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PeriodLaborTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-        }
-        if (recType === 'M') {
-            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-        }
-        if (recType === 'F') {
-            $orderItemGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'LossAndDamageTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
-        }
-        if (recType === '') {
-            $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-            FwFormField.setValueByDataField($form, 'PeriodCombinedTotal', '');
-            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-        }
-        request.DiscountPercent = parseFloat(discountPercent);
-        request.RecType = recType;
-        request.OrderId = orderId;
+    //    if (recType === 'R') {
+    //        $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+    //        FwFormField.setValueByDataField($form, 'PeriodRentalTotal', '');
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+    //    } else if (recType === 'S') {
+    //        $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+    //        FwFormField.setValueByDataField($form, 'SalesTotal', '');
+    //        FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+    //    } else if (recType === 'L') {
+    //        $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+    //        FwFormField.setValueByDataField($form, 'PeriodLaborTotal', '');
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+    //    } else if (recType === 'M') {
+    //        $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+    //        FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+    //    } else if (recType === 'F') {
+    //        $orderItemGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+    //        FwFormField.setValueByDataField($form, 'LossAndDamageTotal', '');
+    //        FwFormField.disable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
+    //    } else if (recType === '') {
+    //        $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+    //        FwFormField.setValueByDataField($form, 'PeriodCombinedTotal', '');
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+    //    }
+    //    request.DiscountPercent = parseFloat(discountPercent);
+    //    request.RecType         = recType;
+    //    request.OrderId         = orderId;
 
-        FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-            FwBrowse.search($orderItemGrid);
-        }, function onError(response) {
-            FwFunc.showError(response);
-        }, $form);
-    };
+    //    FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
+    //        FwBrowse.search($orderItemGrid);
+    //    }, function onError(response) {
+    //        FwFunc.showError(response);
+    //    }, $form);
+    //};
     //----------------------------------------------------------------------------------------------
     bottomLineTotalWithTaxChange($form: any, event: any) {
         // Total and With Tax for all OrderItemGrid
-        let $element, $orderItemGrid, recType, orderId, total, includeTaxInTotal, isWithTaxCheckbox, totalType, module;
+        let $orderItemGrid, total, includeTaxInTotal, totalType;
         let request: any = {};
 
-        $element = jQuery(event.currentTarget);
-        module = this.Module;
-        isWithTaxCheckbox = $element.attr('data-type') === 'checkbox';
-        recType = $element.attr('data-rectype');
-        orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+        var $element          = jQuery(event.currentTarget);
+        var module            = this.Module;
+        var isWithTaxCheckbox = $element.attr('data-type') === 'checkbox';
+        var recType           = $element.attr('data-rectype');
+        var orderId           = FwFormField.getValueByDataField($form, `${module}Id`);
 
         if (recType === 'R') {
-            $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.rentalOrderItemTotal:visible');
+            $orderItemGrid    = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+            total             = FwFormField.getValue($form, '.rentalOrderItemTotal:visible');
             includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax:visible');
-            totalType = $form.find('.rentalgrid .totalType input:checked').val();
+            totalType         = $form.find('.rentalgrid .totalType input:checked').val();
             FwFormField.setValue($form, '.rentalAdjustments .rentalOrderItemTotal:hidden', '0.00');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
@@ -999,10 +999,9 @@ class OrderBase {
             } else {
                 FwFormField.enable($form.find('.rentalTotalWithTax:visible'));
             }
-        }
-        if (recType === 'S') {
-            $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.salesOrderItemTotal');
+        } else if (recType === 'S') {
+            $orderItemGrid    = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+            total             = FwFormField.getValue($form, '.salesOrderItemTotal');
             includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'SalesDiscountPercent', '');
@@ -1012,12 +1011,11 @@ class OrderBase {
             } else {
                 FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
             }
-        }
-        if (recType === 'L') {
-            $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.laborOrderItemTotal:visible');
+        } else if (recType === 'L') {
+            $orderItemGrid    = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+            total             = FwFormField.getValue($form, '.laborOrderItemTotal:visible');
             includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax:visible');
-            totalType = $form.find('.laborgrid .totalType input:checked').val();
+            totalType         = $form.find('.laborgrid .totalType input:checked').val();
             FwFormField.setValue($form, '.laborAdjustments .laborOrderItemTotal:hidden', '0.00');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
@@ -1027,12 +1025,11 @@ class OrderBase {
             } else {
                 FwFormField.enable($form.find('.laborTotalWithTax:visible'));
             }
-        }
-        if (recType === 'M') {
-            $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.miscOrderItemTotal:visible');
+        } else if (recType === 'M') {
+            $orderItemGrid    = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+            total             = FwFormField.getValue($form, '.miscOrderItemTotal:visible');
             includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax:visible');
-            totalType = $form.find('.miscgrid .totalType input:checked').val();
+            totalType         = $form.find('.miscgrid .totalType input:checked').val();
             FwFormField.setValue($form, '.miscAdjustments .miscOrderItemTotal:hidden', '0.00');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
@@ -1042,10 +1039,9 @@ class OrderBase {
             } else {
                 FwFormField.enable($form.find('.miscTotalWithTax:visible'));
             }
-        }
-        if (recType === 'F') {
-            $orderItemGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValueByDataField($form, 'LossAndDamageTotal');
+        } else if (recType === 'F') {
+            $orderItemGrid    = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+            total             = FwFormField.getValueByDataField($form, 'LossAndDamageTotal');
             includeTaxInTotal = FwFormField.getValueByDataField($form, 'LossAndDamageTotalIncludesTax');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'LossAndDamageDiscountPercent', '');
@@ -1055,12 +1051,11 @@ class OrderBase {
             } else {
                 FwFormField.enable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
             }
-        }
-        if (recType === '') {
-            $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-            total = FwFormField.getValue($form, '.combinedOrderItemTotal:visible');
+        } else if (recType === '') {
+            $orderItemGrid    = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+            total             = FwFormField.getValue($form, '.combinedOrderItemTotal:visible');
             includeTaxInTotal = FwFormField.getValue($form, '.combinedTotalWithTax:visible');
-            totalType = $form.find('.combinedgrid .totalType input:checked').val();
+            totalType         = $form.find('.combinedgrid .totalType input:checked').val();
             FwFormField.setValue($form, '.combinedAdjustments .combinedOrderItemTotal:hidden', '0.00');
             if (!isWithTaxCheckbox) {
                 FwFormField.setValueByDataField($form, 'CombinedDiscountPercent', '');
@@ -1072,11 +1067,11 @@ class OrderBase {
             }
         }
 
-        request.TotalType = totalType;
+        request.TotalType         = totalType;
         request.IncludeTaxInTotal = includeTaxInTotal;
-        request.RecType = recType;
-        request.OrderId = orderId;
-        request.Total = +total;
+        request.RecType           = recType;
+        request.OrderId           = orderId;
+        request.Total             = +total;
 
         FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
             FwBrowse.search($orderItemGrid);
@@ -1401,33 +1396,33 @@ class OrderBase {
     }
   
     //----------------------------------------------------------------------------------------------
-    disableWithTaxCheckbox($form: any): void {
-        if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-        }
-        if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
-            FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-        } else {
-            FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-        }
-    };
+    //disableWithTaxCheckbox($form: any): void {
+    //    if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+    //    } else {
+    //        FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
+    //    }
+    //    if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
+    //        FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+    //    } else {
+    //        FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
+    //    }
+    //    if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+    //    } else {
+    //        FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
+    //    }
+    //    if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+    //    } else {
+    //        FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
+    //    }
+    //    if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
+    //        FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+    //    } else {
+    //        FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
+    //    }
+    //};
     //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
         let $confirmation, $yes, $no, id, orderStatus, self, module;
@@ -1526,10 +1521,10 @@ class OrderBase {
     afterLoad($form) {
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            const $tab = jQuery(e.currentTarget);
-            const tabname = $tab.attr('id');
+            const $tab           = jQuery(e.currentTarget);
+            const tabname        = $tab.attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
-            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+            const tabpage        = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
 
             if ($tab.hasClass('audittab') == false) {
                 const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
@@ -1556,17 +1551,13 @@ class OrderBase {
         });
         // show / hide tabs
         if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Sales')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Miscellaneous"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'Labor')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
         if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
         // LD Disable checkbox in Order form
-        let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
-        let salesVal = FwFormField.getValueByDataField($form, 'Sales');
+        let rentalVal   = FwFormField.getValueByDataField($form, 'Rental');
         let usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
-        if (rentalVal === true || salesVal === true || usedSaleVal === true) {
+        if (rentalVal === true || usedSaleVal === true) {
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
-        } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
+        } else if (rentalVal === false && usedSaleVal === false) {
             FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
         }
         //Show/hide summary buttons based on rate type
@@ -1580,5 +1571,6 @@ class OrderBase {
             $form.find('.summaryweekly').show();
         }
     }
+    //----------------------------------------------------------------------------------------------
 }
 var OrderBaseController = new OrderBase();

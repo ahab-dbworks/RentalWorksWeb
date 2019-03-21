@@ -791,15 +791,20 @@ namespace WebLibrary.Security
             AddSubModule("User Settings",   "{2563927C-8D51-43C4-9243-6F69A52E2657}", lv1menuSubModules.Id, "UserSettingsController");
 
             // Add Grids
-            //AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
             AddGrid("Audit History",                          "{977B65BB-DD67-4B5E-9B62-944E5DBECFD4}", lv1menuGrids.Id, "AuditHistoryGridController");
-            //AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
             AddGrid("Company Contact",                        "{6D8B3D23-0954-4765-9FBD-BF3EC756AA97}", lv1menuGrids.Id, "CompanyContactGridController");
+            AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
+            AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
+            AddGrid("Deal Notes",                             "{CA1FA1E1-2BE8-473D-ABC3-24D741D2AD8E}", lv1menuGrids.Id, "DealNoteGridController");
+            AddGrid("Deal Shipper",                           "{DC46B97F-6664-4ED6-8D1C-6E0EA8B3BC38}", lv1menuGrids.Id, "DealShipperGridController");
+            AddGrid("Order Contact",                          "{0D80C755-0538-461D-A6E6-3A92D17217F2}", lv1menuGrids.Id, "OrderContactGridController");
+
+
+            //AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
+            //AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
             //AddGrid("Contact",                                "{B6A0CAFC-35E8-4490-AEED-29F4E3426758}", lv1menuGrids.Id, "RwContactGridController");
             //AddGrid("Contact Document",                       "{CC8F52FF-D968-4CE6-BF7A-3AC859D25280}", lv1menuGrids.Id, "FwContactDocumentGridController");
             //AddGrid("Contact Email History",                  "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
-            AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
-            AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
             //AddGrid("Crew Location",                          "{FFF47B06-017C-417B-A05B-AD8670126E06}", lv1menuGrids.Id, "CrewLocationGridController");
             //AddGrid("Crew Position",                          "{C87470C4-6D8A-4040-A7EF-E9B393B583CA}", lv1menuGrids.Id, "CrewPositionGridController");
             //AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
@@ -875,9 +880,7 @@ namespace WebLibrary.Security
             //AddGrid("Wardrobe Inventory Color",               "{ED2BCE54-1255-4B65-976B-B24A6573F176}", lv1menuGrids.Id, "WardrobeInventoryColorGridController");
             //AddGrid("Wardrobe Inventory Material",            "{8BE5E66E-35B8-444F-9F9A-E03F4667F67A}", lv1menuGrids.Id, "WardrobeInventoryMaterialGridController");
             //AddGrid("Warehouse",                              "{EF27A7FE-26D8-4F3C-85CD-9CD2D6FE57A5}", lv1menuGrids.Id, "WarehouseGridController");
-            //AddGrid("Deal Notes",                             "{562D88B4-7CFB-4239-B445-C30BE8F8BAC9}", lv1menuGrids.Id, "DealNoteGridController");
             //AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");
-            //AddGrid("Deal Shipper",                           "{032CBF05-9924-4244-AB5A-B5298E6F7498}", lv1menuGrids.Id, "DealShipperGridController");
             //AddGrid("Discount Item",                          "{2EB32722-33D0-43C4-B799-ECD81EDF9C99}", lv1menuGrids.Id, "DiscountItemGridController");
             //AddGrid("Order Type Contact Title",               "{E104C48C-2579-4674-9BD1-41069AC6968B}", lv1menuGrids.Id, "OrderTypeContactTitleGridController");
             //AddGrid("Event Type Personnel Type",              "{F14FB171-801C-4CD0-A589-DF9511B501F7}", lv1menuGrids.Id, "EventTypePersonnelTypeGridController");

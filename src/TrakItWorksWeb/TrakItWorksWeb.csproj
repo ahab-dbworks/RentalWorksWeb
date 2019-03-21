@@ -180,6 +180,9 @@
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
+    <Content Include="Source\Grids\DealNoteGrid\DealNoteGridBrowse.htm" />
+    <Content Include="Source\Grids\DealShipperGrid\DealShipperGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderContactGrid\OrderContactGridBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
@@ -686,6 +689,9 @@
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DealNoteGrid\DealNoteGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\DealShipperGrid\DealShipperGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderContactGrid\OrderContactGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />

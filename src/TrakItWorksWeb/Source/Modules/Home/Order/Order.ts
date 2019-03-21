@@ -2,23 +2,23 @@
 routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
 
 class Order extends OrderBase {
-    Module = 'Order';
-    apiurl: string = 'api/v1/order';
-    caption: string = 'Order';
-    nav: string = 'module/order';
-    id: string = '68B3710E-FE07-4461-9EFD-04E0DBDAF5EA';
-    lossDamageSessionId: string = '';
+    Module:               string = 'Order';
+    apiurl:               string = 'api/v1/order';
+    caption:              string = 'Order';
+    nav:                  string = 'module/order';
+    id:                   string = '68B3710E-FE07-4461-9EFD-04E0DBDAF5EA';
+    lossDamageSessionId:  string = '';
     successSoundFileName: string;
-    errorSoundFileName: string;
-    ActiveViewFields: any = {};
-    ActiveViewFieldsId: string;
+    errorSoundFileName:   string;
+    ActiveViewFields:     any = {};
+    ActiveViewFieldsId:   string;
     //-----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
-        screen.viewModel = {};
-        screen.properties = {};
+        screen.$view      = FwModule.getModuleControl(`${this.Module}Controller`);
+
         const $browse = this.openBrowse();
+
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Order', false, 'BROWSE', true);
 
@@ -44,7 +44,7 @@ class Order extends OrderBase {
     openBrowse() {
         //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
-        $browse = FwModule.openBrowse($browse);
+        $browse     = FwModule.openBrowse($browse);
 
         FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
             if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
@@ -69,10 +69,10 @@ class Order extends OrderBase {
         }
 
         const department = JSON.parse(sessionStorage.getItem('department'));;
-        const location = JSON.parse(sessionStorage.getItem('location'));;
+        const location   = JSON.parse(sessionStorage.getItem('location'));;
 
         FwAppData.apiMethod(true, 'GET', `api/v1/departmentlocation/${department.departmentid}~${location.locationid}`, null, FwServices.defaultTimeout, response => {
-            this.DefaultOrderType = response.DefaultOrderType;
+            this.DefaultOrderType   = response.DefaultOrderType;
             this.DefaultOrderTypeId = response.DefaultOrderTypeId;
         }, null, null);
 
@@ -81,20 +81,20 @@ class Order extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
-        const $all = FwMenu.generateDropDownViewBtn('All', true, "ALL");
+        const $all       = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $confirmed = FwMenu.generateDropDownViewBtn('Confirmed', false, "CONFIRMED");
-        const $active = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
-        const $hold = FwMenu.generateDropDownViewBtn('Hold', false, "HOLD");
-        const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
+        const $active    = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
+        const $hold      = FwMenu.generateDropDownViewBtn('Hold', false, "HOLD");
+        const $complete  = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
         const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
-        const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
+        const $closed    = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
       
         let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
         //Location Filter
-        const location = JSON.parse(sessionStorage.getItem('location'));
+        const location      = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
@@ -112,7 +112,7 @@ class Order extends OrderBase {
     openForm(mode: string, parentModuleInfo?: any) {
         //$form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
-        $form = FwModule.openForm($form, mode);
+        $form     = FwModule.openForm($form, mode);
 
         const $submodulePickListBrowse = this.openPickListBrowse($form);
         $form.find('.picklist').append($submodulePickListBrowse);
@@ -593,41 +593,18 @@ class Order extends OrderBase {
             FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
         }
 
-        var $orderPickListGrid = $form.find('[data-name="OrderPickListGrid"]');
-        //FwBrowse.search($orderPickListGrid);
-        var $orderStatusHistoryGrid;
-        $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        //FwBrowse.search($orderStatusHistoryGrid);
-        var $orderSnapshotGrid;
-        $orderSnapshotGrid = $form.find('[data-name="OrderSnapshotGrid"]');
-        //FwBrowse.search($orderSnapshotGrid);
-        var $orderNoteGrid;
-        $orderNoteGrid = $form.find('[data-name="OrderNoteGrid"]');
-        //FwBrowse.search($orderNoteGrid);
-        var $orderContactGrid;
-        $orderContactGrid = $form.find('[data-name="OrderContactGrid"]');
-        //FwBrowse.search($orderContactGrid);
-        var $allOrderItemGrid;
-        $allOrderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($allOrderItemGrid);
-        var $orderItemGridRental;
-        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($orderItemGridRental);
-        var $orderItemGridSales;
-        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($orderItemGridSales);
-        var $orderItemGridLabor;
-        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($orderItemGridLabor);
-        var $orderItemGridMisc;
-        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($orderItemGridMisc);
-        var $orderItemGridUsedSale;
-        $orderItemGridUsedSale = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($orderItemGridUsedSale);
-        var $orderItemGridLossDamage;
-        $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-        //FwBrowse.search($orderItemGridLossDamage);
+        var $orderPickListGrid       = $form.find('[data-name="OrderPickListGrid"]');
+        var $orderStatusHistoryGrid  = $form.find('[data-name="OrderStatusHistoryGrid"]');
+        var $orderSnapshotGrid       = $form.find('[data-name="OrderSnapshotGrid"]');
+        var $orderNoteGrid           = $form.find('[data-name="OrderNoteGrid"]');
+        var $orderContactGrid        = $form.find('[data-name="OrderContactGrid"]');
+        var $allOrderItemGrid        = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridRental     = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridSales      = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridLabor      = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridMisc       = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridUsedSale   = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+        var $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
 
         // Hides Loss and Damage menu item from non-LD grids
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
@@ -639,29 +616,11 @@ class Order extends OrderBase {
         if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
             $orderItemGridUsedSale.find('.rates').attr('data-formreadonly', true);
         }
-        if (FwFormField.getValueByDataField($form, 'DisableEditingMiscellaneousRate')) {
-            $orderItemGridMisc.find('.rates').attr('data-formreadonly', true);
-        }
-        if (FwFormField.getValueByDataField($form, 'DisableEditingLaborRate')) {
-            $orderItemGridLabor.find('.rates').attr('data-formreadonly', true);
-        }
-        if (FwFormField.getValueByDataField($form, 'DisableEditingSalesRate')) {
-            $orderItemGridSales.find('.rates').attr('data-formreadonly', true);
-        }
         if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
             $orderItemGridRental.find('.rates').attr('data-formreadonly', true);
         }
         if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
-        }
-        if (FwFormField.getValueByDataField($form, 'HasSalesItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
-        }
-        if (FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
-        }
-        if (FwFormField.getValueByDataField($form, 'HasLaborItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
         }
         if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
@@ -670,8 +629,6 @@ class Order extends OrderBase {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
         if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss And Damage"]').hide() }
-
-
 
         var rate = FwFormField.getValueByDataField($form, 'RateType');
         if (rate === '3WEEK') {
@@ -727,7 +684,8 @@ class Order extends OrderBase {
         //    $form.find(".RentalDaysPerWeek").hide();
         //}
         // Disable withTax checkboxes if Total field is 0.00
-        this.disableWithTaxCheckbox($form);
+
+        //this.disableWithTaxCheckbox($form);
         super.afterLoad($form);
     };
     //----------------------------------------------------------------------------------------------
@@ -1257,6 +1215,7 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalItem" data-datafield="HasRentalItem" style="flex:1 1 100px;"></div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasRentalSaleItem" data-datafield="HasRentalSaleItem" style="flex:1 1 100px;"></div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasLossAndDamageItem" data-datafield="HasLossAndDamageItem" style="flex:1 1 100px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="HasNotes" data-datafield="HasNotes" style="flex:1 1 100px;"></div>
                       </div>
                     </div>
                   </div>
@@ -1352,7 +1311,7 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
                 <div class="flexrow">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts">
-                    <div class="flexrow">########## ADD CONTACTS GRID HERE ##########
+                    <div class="flexrow">
                       <div data-control="FwGrid" data-grid="OrderContactGrid" data-securitycaption="Contacts"></div>
                     </div>
                   </div>
