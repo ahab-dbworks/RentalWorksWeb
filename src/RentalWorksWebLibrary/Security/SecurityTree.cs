@@ -792,13 +792,14 @@ namespace WebLibrary.Security
 
             // Add Grids
             //AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
-            //AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "FwAuditHistoryGridController");
+            AddGrid("Audit History",                          "{977B65BB-DD67-4B5E-9B62-944E5DBECFD4}", lv1menuGrids.Id, "AuditHistoryGridController");
             //AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
+            AddGrid("Company Contact",                        "{6D8B3D23-0954-4765-9FBD-BF3EC756AA97}", lv1menuGrids.Id, "CompanyContactGridController");
             //AddGrid("Contact",                                "{B6A0CAFC-35E8-4490-AEED-29F4E3426758}", lv1menuGrids.Id, "RwContactGridController");
             //AddGrid("Contact Document",                       "{CC8F52FF-D968-4CE6-BF7A-3AC859D25280}", lv1menuGrids.Id, "FwContactDocumentGridController");
             //AddGrid("Contact Email History",                  "{DAA5E81D-353C-4AAA-88A8-B4E7046B5FF0}", lv1menuGrids.Id, "FwContactEmailHistoryGridController");
-            //AddGrid("Contact Note",                           "{A9CB5D4D-4AC0-46D4-A084-19039CF8C654}", lv1menuGrids.Id, "ContactNoteGridController");
-            //AddGrid("Contact Personal Event",                 "{C40394BA-E805-4A49-A4D0-938B2A84D9A7}", lv1menuGrids.Id, "FwContactPersonalEventGridController");
+            AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
+            AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
             //AddGrid("Crew Location",                          "{FFF47B06-017C-417B-A05B-AD8670126E06}", lv1menuGrids.Id, "CrewLocationGridController");
             //AddGrid("Crew Position",                          "{C87470C4-6D8A-4040-A7EF-E9B393B583CA}", lv1menuGrids.Id, "CrewPositionGridController");
             //AddGrid("Customer Note",                          "{50EB024E-6D9A-440A-8161-458A2E89EFB8}", lv1menuGrids.Id, "CustomerNoteGridController");
@@ -887,7 +888,6 @@ namespace WebLibrary.Security
             //AddGrid("Order Pick List",                        "{ABE29218-C144-4CA7-825F-3FDA7DC860A5}", lv1menuGrids.Id, "OrderPickListGridController");
             //AddGrid("Order Status History",                   "{D5B97814-9FD7-4821-9553-28D276F67797}", lv1menuGrids.Id, "OrderStatusHistoryGridController");
             //AddGrid("Contact Company",                        "{68E99935-E0AB-4552-BBFF-46ED2965E4F0}", lv1menuGrids.Id, "ContactCompanyGridController");
-            //AddGrid("Company Contact",                        "{4172C587-7968-4664-A836-83A14A5B2B48}", lv1menuGrids.Id, "CompanyContactGridController");
             //AddGrid("Warehouse Department",                   "{CB4CE3A5-6DCC-497D-84D1-0B3FBAAEB19B}", lv1menuGrids.Id, "WarehouseDepartmentGridController");
             //AddGrid("Warehouse Inventory Type",               "{D90C2659-F1FB-419D-89B6-738766DFCAD2}", lv1menuGrids.Id, "WarehouseInventoryTypeGridController");
             //AddGrid("Warehouse Department User",              "{4B3FB84E-CC4D-4EAE-917A-1291B733AC89}", lv1menuGrids.Id, "WarehouseDepartmentUserGridController");
