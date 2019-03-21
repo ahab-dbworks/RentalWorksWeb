@@ -597,7 +597,7 @@ namespace WebLibrary.Security
             AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "StagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
             //AddModule("Sales Inventory",      "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuModules.Id, "SalesInventoryController",       "module/salesinventory",    homeiconbaseurl + "placeholder.png");
-            AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "TiwVendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
+            AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
 
 
 

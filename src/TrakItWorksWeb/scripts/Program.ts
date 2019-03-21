@@ -20,8 +20,8 @@ jQuery(function () {
 //---------------------------------------------------------------------------------
 //Home Modules
 
-//routes.push({ pattern: /^module\/equipmentrequest$/, action: function (match: RegExpExecArray) { return TiwEquipmentRequestController.getModuleScreen(); } });
-//routes.push({ pattern: /^module\/equipmentrequest\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return TiwEquipmentRequestController.getModuleScreen(filter); } })
+//routes.push({ pattern: /^module\/equipmentrequest$/, action: function (match: RegExpExecArray) { return EquipmentRequestController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/equipmentrequest\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return EquipmentRequestController.getModuleScreen(filter); } })
 
 //routes.push({ pattern: /^module\/vendor$/,                 action: function(match: RegExpExecArray) { return RwVendorController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/salesinventory$/,         action: function(match: RegExpExecArray) { return RwSalesInventoryController.getModuleScreen(); } });
@@ -163,7 +163,7 @@ jQuery(function () {
 //routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/widget$/, action: function (match: RegExpExecArray) { return WidgetController.getModuleScreen(); } });
 //routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExecArray) { return DashboardController.loadDashboard(); } });
-//routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return TiwContractController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExecArray) { return ContractController.getModuleScreen(); } });
 
 //Reports
 //routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });

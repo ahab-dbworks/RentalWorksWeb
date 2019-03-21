@@ -76,10 +76,8 @@ class Contact {
         $form.find('div.fwformfield[data-datafield="ContactId"] input').val(uniqueids.ContactId);
         FwModule.loadForm(this.Module, $form);
 
-        if (program.name === program.RENTALWORKS) {
-            $form.find('.orderSubModule').append(this.openOrderBrowse($form));
-            $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
-        }
+        $form.find('.orderSubModule').append(this.openOrderBrowse($form));
+        $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
 
         return $form;
     };
