@@ -11,7 +11,6 @@
     "./@types/**/*.d.ts",
     "./Libraries/**/*.ts",
     "./scripts/**/*.ts",
-    "./Source/**/*.ts",
-    "../RentalWorksWeb/Source/**/*.ts"
+    "./Source/**/*.ts"
   ]
 }

@@ -7,22 +7,22 @@
             {
                 caption: 'TrakitWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [TiwContactController, TiwCustomerController, TiwDealController, TiwOrderController, TiwPurchaseOrderController, TiwQuoteController/*, ProjectController*/]
+                children: [ContactController, CustomerController, DealController, OrderController, PurchaseOrderController, QuoteController/*, ProjectController*/]
             },
             {
                 caption: 'Inventory',
                 id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
-                children: [TiwAssetController, TiwRepairController, InventoryItemController/*, SalesInventoryController, PartsInventoryController, ContainerController*/]
+                children: [AssetController, RepairController, InventoryItemController/*, SalesInventoryController, PartsInventoryController, ContainerController*/]
           },
             {
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [TiwAssignBarCodesController, TiwCheckInController, TiwContractController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController/*, InvoiceController*/]
+                children: [AssignBarCodesController, CheckInController, ContractController, ExchangeController, OrderStatusController, PickListController, ReceiveFromVendorController, ReturnToVendorController, StagingCheckoutController/*, InvoiceController*/]
             },
             {
                 caption: 'Administrator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: [TiwUserController/*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, SettingsController, ReportsController*/]
+                children: [UserController/*ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, SettingsController, ReportsController*/]
             }
         ];
     }

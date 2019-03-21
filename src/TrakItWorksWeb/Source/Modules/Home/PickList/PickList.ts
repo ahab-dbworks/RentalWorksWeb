@@ -1,11 +1,11 @@
-﻿//routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return PickListController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/picklist$/, action: function (match: RegExpExecArray) { return PickListController.getModuleScreen(); } });
 
 class PickList {
     Module: string = 'PickList';
     apiurl: string = 'api/v1/picklist';
     caption: string = 'Pick List';
     nav: string = 'module/picklist';
-    id: string = '7B04E5D4-D079-4F3A-9CB0-844F293569ED';
+    id: string = '744B371E-5478-42F9-9852-E143A1EC5DDA';
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -45,22 +45,22 @@ class PickList {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('.printpicklist').on('click', function () {
-            var $form, $report, pickListNumber, pickListId;
-            try {
-                $form = jQuery(this).closest('.fwform');
-                pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
-                pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-                $report = RwPickListReportController.openForm();
-                FwModule.openSubModuleTab($form, $report);
-                $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-                $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-                jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
+        //$form.find('.printpicklist').on('click', function () {
+        //    var $form, $report, pickListNumber, pickListId;
+        //    try {
+        //        $form = jQuery(this).closest('.fwform');
+        //        pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+        //        pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
+        //        $report = RwPickListReportController.openForm();
+        //        FwModule.openSubModuleTab($form, $report);
+        //        $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+        //        $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+        //        jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+        //    }
+        //    catch (ex) {
+        //        FwFunc.showError(ex);
+        //    }
+        //});
 
         return $form;
     };
@@ -154,13 +154,13 @@ class PickList {
             <div class="field" data-datafield="OrderId" data-browsedatatype="key"></div>
           </div>
           <div class="column" data-width="125px" data-visible="true">
-            <div class="field" data-caption="Pick No." data-datafield="PickListNumber" data-browsedatatype="text" data-sort="desc" data-sortsequence="3" ></div>
+            <div class="field" data-caption="Pick No." data-datafield="PickListNumber" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
-            <div class="field" data-caption="Pick Date" data-datafield="PickDate" data-browsedatatype="text" data-sortsequence="1" data-sort="desc"></div>
+            <div class="field" data-caption="Pick Date" data-datafield="PickDate" data-browsedatatype="text" data-sort="desc"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
-            <div class="field" data-caption="Pick Time" data-datafield="PickTime" data-browsedatatype="text" data-sortsequence="2" data-sort="desc"></div>
+            <div class="field" data-caption="Pick Time" data-datafield="PickTime" data-browsedatatype="text" data-sort="desc"></div>
           </div>
           <div class="column" data-width="125px" data-visible="true">
             <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-browsedatatype="text" data-sort="off"></div>
@@ -198,20 +198,20 @@ class PickList {
               <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <div class="flexcolumn" style="flex:1 1 900px;">
+                    <div class="flexcolumn" style="flex:1 1 700px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Pick List No." data-datafield="PickListNumber" data-enabled="false" style="flex:0 1 125px;"></div>
-                          <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderNumber" data-enabled="false" style="flex:1 1 150px;"></div>-->
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="OrderDescription" data-enabled="false" style="flex:1 1 325px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" data-enabled="false" style="flex:1 1 325px;"></div>
-                          <div class="fwformcontrol printpicklist" data-type="button" style="flex:0 1 auto;margin:15px;">Print</div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Pick List No." data-datafield="PickListNumber" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <!--<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderNumber" data-enabled="false" style="flex:1 1 125px;"></div>-->
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="OrderDescription" data-enabled="false" style="flex:2 1 250px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div class="fwformcontrol printpicklist" data-type="button" style="flex:0 1 auto;margin-top:24px;max-height:26px;">Print</div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" data-enabled="false" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="InputDate" data-enabled="false" style="flex:1 1 150px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InputTime" data-enabled="false" style="flex:1 1 100px;"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-enabled="false" style="flex:1 1 200px;"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="As Of" data-datafield="InputDate" data-enabled="false" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InputTime" data-enabled="false" style="flex:1 1 75px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-enabled="false" style="flex:1 1 150px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" data-enabled="false" style="flex:1 1 150px;"></div>
                         </div>
                       </div>
@@ -220,6 +220,8 @@ class PickList {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Due Date/Time">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="DueDate" style="flex:1 1 100px;"></div>
+                        </div>                        
+                        <div class="flexrow">
                           <div data-control="FwFormField" data-type="time" data-timeformat="24" class="fwcontrol fwformfield" data-caption="Time" data-datafield="DueTime" style="flex:1 1 100px;"></div>
                         </div>
                       </div>
@@ -227,7 +229,7 @@ class PickList {
                   </div>
                   <div class="wideflexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Items">
-                      <div data-control="FwGrid" data-grid="PickListItemGrid" data-securitycaption="Pick List Item"></div>
+                      <div data-control="FwGrid" data-grid="PickListItemGrid" data-securitycaption="Pick List Item" style="border:1px solid black;min-height:250px;margin:5px;"></div>
                     </div>
                   </div>
                 </div>
@@ -236,9 +238,9 @@ class PickList {
           </div>
         </div>`;
     }
+    //----------------------------------------------------------------------------------------------
 }
-//---------------------------------------------------------------------------------
-var PickListController = new PickList();
+
 //---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = function (event) {
     var $form, pickListId, pickListNumber;
@@ -255,40 +257,42 @@ FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = functi
 //---------------------------------------------------------------------------------
 //Print Pick List
 FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = function (event) {
-    var $form, $report, pickListNumber, pickListId;
-    try {
-        $form = jQuery(this).closest('.fwform');
-        pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
-        pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-        $report = RwPickListReportController.openForm();
-        FwModule.openSubModuleTab($form, $report);
-        $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-        $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-        jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
+    //var $form, $report, pickListNumber, pickListId;
+    //try {
+    //    $form = jQuery(this).closest('.fwform');
+    //    pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+    //    pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
+    //    $report = RwPickListReportController.openForm();
+    //    FwModule.openSubModuleTab($form, $report);
+    //    $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+    //    $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+    //    jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+    //}
+    //catch (ex) {
+    //    FwFunc.showError(ex);
+    //}
 };
 //---------------------------------------------------------------------------------
 //Browse Print Pick List
 FwApplicationTree.clickEvents['{51C78FB1-CD66-431F-A7BA-FFFB3BFDFD6C}'] = function (event) {
-    var $browse, pickListId, pickListNumber;
-    try {
-        $browse = jQuery(this).closest('.fwbrowse');
-        pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
-        pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
-        if (pickListId != null) {
-            $browse = RwPickListReportController.openForm();
-            FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
-            $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-            $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-        } else {
-            FwNotification.renderNotification('WARNING', 'Select a Picklist to print.');
-        }
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
+    //var $browse, pickListId, pickListNumber;
+    //try {
+    //    $browse = jQuery(this).closest('.fwbrowse');
+    //    pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
+    //    pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+    //    if (pickListId != null) {
+    //        $browse = RwPickListReportController.openForm();
+    //        FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
+    //        $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+    //        $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+    //    } else {
+    //        FwNotification.renderNotification('WARNING', 'Select a Picklist to print.');
+    //    }
+    //}
+    //catch (ex) {
+    //    FwFunc.showError(ex);
+    //}
 };
 //---------------------------------------------------------------------------------
+
+var PickListController = new PickList();

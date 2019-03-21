@@ -206,7 +206,8 @@
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
-    <Content Include="Source\Modules\Home\StagingCheckout\TiwStagingCheckout.js" />
+    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSession.js" />
+    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Administrator\SettingsPage\SettingsPage.css" />
@@ -677,28 +678,33 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\TiwAssignBarCodes.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\CheckIn\TiwCheckIn.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Contact\TiwContact.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Contract\TiwContract.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\TiwCreatePickList.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Customer\TiwCustomer.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Deal\TiwDeal.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Exchange\TiwExchange.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\OrderStatus\TiwOrderStatus.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Order\TiwOrder.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\PickList\TiwPickList.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\TiwPurchaseOrder.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Quote\TiwQuote.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\TiwReceiveFromVendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Deal\Deal.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\OrderStatus\OrderStatus.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\PickList\PickList.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\InventoryItem\InventoryItem.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Repair\TiwRepair.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\ReturnToVendor\TiwReturnToVendor.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\TiwStagingCheckout.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Vendor\TiwVendor.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\User\TiwUser.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\TiwUserSettings.ts" />
-    <TypeScriptCompile Include="Source\Pages\Base\TiwBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\ReturnToVendor\ReturnToVendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\UserSettings.ts" />
+    <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
+    <TypeScriptCompile Include="Source\Pages\HomePage\HomeController.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
@@ -735,7 +741,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="tsconfig.json" />
-    <Content Include="Source\Modules\Home\StagingCheckout\TiwStagingCheckout.js.map" />
+    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSession.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -772,7 +778,7 @@
     <Folder Include="theme\fwimages\" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Source\Modules\Home\Asset\TiwAsset.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\Asset\Asset.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

@@ -1,4 +1,6 @@
-﻿class InventoryItem {
+﻿routes.push({ pattern: /^module\/inventoryitem$/, action: function(match: RegExpExecArray) { return InventoryItemController.getModuleScreen(); } });
+
+class InventoryItem {
     Module: string = 'InventoryItem';
     apiurl: string = 'api/v1/rentalinventory';
     caption: string = 'Inventory Item';
@@ -487,10 +489,10 @@
             FwBrowse.search($containerWarehouseGrid);
 
             //Open Container module as submodule
-            let $containerBrowse;
-            $containerBrowse = this.openContainerBrowse($form);
-            $form.find('.containerassetstabpage').html($containerBrowse);
-            $form.find('.containerassetstab').show();
+            //let $containerBrowse;
+            //$containerBrowse = this.openContainerBrowse($form);
+            //$form.find('.containerassetstabpage').html($containerBrowse);
+            //$form.find('.containerassetstab').show();
 
             //Show settings tab
             $form.find('.settingstab').show();
@@ -517,20 +519,20 @@
     };
 
     //----------------------------------------------------------------------------------------------
-    openContainerBrowse($form: any) {
-        let $browse, containerId;
-        $browse = ContainerController.openBrowse();
-        containerId = FwFormField.getValueByDataField($form, 'ContainerId');
+    //openContainerBrowse($form: any) {
+    //    let $browse, containerId;
+    //    $browse = ContainerController.openBrowse();
+    //    containerId = FwFormField.getValueByDataField($form, 'ContainerId');
 
-        $browse.data('ondatabind', function (request) {
-            request.activeview = 'ALL'
-            request.uniqueids = {
-                ContainerId: containerId
-            }
-        });
-        FwBrowse.databind($browse);
-        return $browse;
-    }
+    //    $browse.data('ondatabind', function (request) {
+    //        request.activeview = 'ALL'
+    //        request.uniqueids = {
+    //            ContainerId: containerId
+    //        }
+    //    });
+    //    FwBrowse.databind($browse);
+    //    return $browse;
+    //}
 
     //----------------------------------------------------------------------------------------------
     addAssetTab($form: any): void {

@@ -4,22 +4,22 @@ class RwMaster extends WebMaster {
             {
                 caption: 'TrakitWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [TiwContactController, TiwCustomerController, TiwDealController, TiwOrderController, TiwPurchaseOrderController, TiwQuoteController]
+                children: [ContactController, CustomerController, DealController, OrderController, PurchaseOrderController, QuoteController]
             },
             {
                 caption: 'Inventory',
                 id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
-                children: [TiwAssetController, TiwRepairController, InventoryItemController]
+                children: [AssetController, RepairController, InventoryItemController]
             },
             {
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [TiwAssignBarCodesController, TiwCheckInController, TiwContractController, TiwExchangeController, TiwOrderStatusController, TiwPickListController, TiwReceiveFromVendorController, TiwReturnToVendorController, TiwStagingCheckoutController]
+                children: [AssignBarCodesController, CheckInController, ContractController, ExchangeController, OrderStatusController, PickListController, ReceiveFromVendorController, ReturnToVendorController, StagingCheckoutController]
             },
             {
                 caption: 'Administrator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: [TiwUserController]
+                children: [UserController]
             }
         ];
     }

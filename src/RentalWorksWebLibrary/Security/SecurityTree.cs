@@ -575,27 +575,27 @@ namespace WebLibrary.Security
             var lv1menuGrids         = AddLv1GridsMenu("Grids",            "{154C8BA7-275E-4DDB-B019-0C8633FA8B59}", application.Id);
 
             //TrakitWorks
-            AddModule("Asset",                  "{E1366299-0008-429C-93CC-B8ED8969B180}", lv1menuModules.Id, "TiwAssetController",             "module/asset",             homeiconbaseurl + "placeholder.png");
-            AddModule("Assign Bar Codes",       "{81B0D93C-9765-4340-8B40-63040E0343B8}", lv1menuModules.Id, "TiwAssignBarCodesController",    "module/assignbarcodes",    homeiconbaseurl + "placeholder.png");
-            AddModule("Check-In",               "{3D1EB9C4-95E2-440C-A3EF-10927C4BDC65}", lv1menuModules.Id, "TiwCheckInController",           "module/checkin",           homeiconbaseurl + "placeholder.png");
-            AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "TiwStagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
-            AddModule("Contact",                "{9DC167B7-3313-4783-8A97-03C55B6AD5F2}", lv1menuModules.Id, "TiwContactController",           "module/contact",           homeiconbaseurl + "placeholder.png");
-            AddModule("Create Pick List",       "{1407A536-B5C9-4363-8B54-A56DB8CE902D}", null,              "TiwCreatePickListController",    "module/createpicklist",    homeiconbaseurl + "placeholder.png");
-            AddModule("Contract",               "{F6D42CC1-FAC6-49A9-9BF2-F370FE408F7B}", lv1menuModules.Id, "TiwContractController",          "module/contract",          homeiconbaseurl + "placeholder.png");
-            AddModule("Customer",               "{8237418B-923D-4044-951F-98938C1EC3DE}", lv1menuModules.Id, "TiwCustomerController",          "module/customer",          homeiconbaseurl + "placeholder.png");
-            AddModule("Deal",                   "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "TiwDealController",              "module/deal",              homeiconbaseurl + "placeholder.png");
-            AddModule("Exchange",               "{F9012ABC-B97E-433B-A604-F1DADFD6D7B7}", lv1menuModules.Id, "TiwExchangeController",          "module/exchange",          homeiconbaseurl + "placeholder.png");
-            AddModule("Order",                  "{68B3710E-FE07-4461-9EFD-04E0DBDAF5EA}", lv1menuModules.Id, "TiwOrderController",             "module/order",             homeiconbaseurl + "placeholder.png");
-            AddModule("Order Status",           "{7BB8BB8C-8041-41F6-A2FA-E9FA107FF5ED}", lv1menuModules.Id, "TiwOrderStatusController",       "module/orderstatus",       homeiconbaseurl + "placeholder.png");
+            AddModule("Asset",                  "{E1366299-0008-429C-93CC-B8ED8969B180}", lv1menuModules.Id, "AssetController",             "module/asset",             homeiconbaseurl + "placeholder.png");
+            AddModule("Assign Bar Codes",       "{81B0D93C-9765-4340-8B40-63040E0343B8}", lv1menuModules.Id, "AssignBarCodesController",    "module/assignbarcodes",    homeiconbaseurl + "placeholder.png");
+            AddModule("Check-In",               "{3D1EB9C4-95E2-440C-A3EF-10927C4BDC65}", lv1menuModules.Id, "CheckInController",           "module/checkin",           homeiconbaseurl + "placeholder.png");
+            AddModule("Contact",                "{9DC167B7-3313-4783-8A97-03C55B6AD5F2}", lv1menuModules.Id, "ContactController",           "module/contact",           homeiconbaseurl + "placeholder.png");
+            AddModule("Create Pick List",       "{1407A536-B5C9-4363-8B54-A56DB8CE902D}", null,              "CreatePickListController",    "module/createpicklist",    homeiconbaseurl + "placeholder.png");
+            AddModule("Contract",               "{F6D42CC1-FAC6-49A9-9BF2-F370FE408F7B}", lv1menuModules.Id, "ContractController",          "module/contract",          homeiconbaseurl + "placeholder.png");
+            AddModule("Customer",               "{8237418B-923D-4044-951F-98938C1EC3DE}", lv1menuModules.Id, "CustomerController",          "module/customer",          homeiconbaseurl + "placeholder.png");
+            AddModule("Deal",                   "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "DealController",              "module/deal",              homeiconbaseurl + "placeholder.png");
+            AddModule("Exchange",               "{F9012ABC-B97E-433B-A604-F1DADFD6D7B7}", lv1menuModules.Id, "ExchangeController",          "module/exchange",          homeiconbaseurl + "placeholder.png");
+            AddModule("Order",                  "{68B3710E-FE07-4461-9EFD-04E0DBDAF5EA}", lv1menuModules.Id, "OrderController",             "module/order",             homeiconbaseurl + "placeholder.png");
+            AddModule("Order Status",           "{7BB8BB8C-8041-41F6-A2FA-E9FA107FF5ED}", lv1menuModules.Id, "OrderStatusController",       "module/orderstatus",       homeiconbaseurl + "placeholder.png");
             //AddModule("Parts Inventory",      "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuModules.Id, "PartsInventoryController",       "module/partsinventory",    homeiconbaseurl + "placeholder.png");
-            AddModule("Pick List",              "{744B371E-5478-42F9-9852-E143A1EC5DDA}", lv1menuModules.Id, "TiwPickListController",          "module/picklist",          homeiconbaseurl + "placeholder.png");
-            AddModule("Purchase Order",         "{DA900327-CEAC-4CB0-9911-CAA2C67059C2}", lv1menuModules.Id, "TiwPurchaseOrderController",     "module/purchaseorder",     homeiconbaseurl + "placeholder.png");
-            AddModule("Quote",                  "{9213AF53-6829-4276-9DF9-9DAA704C2CCF}", lv1menuModules.Id, "TiwQuoteController",             "module/quote",             homeiconbaseurl + "placeholder.png");
+            AddModule("Pick List",              "{744B371E-5478-42F9-9852-E143A1EC5DDA}", lv1menuModules.Id, "PickListController",          "module/picklist",          homeiconbaseurl + "placeholder.png");
+            AddModule("Purchase Order",         "{DA900327-CEAC-4CB0-9911-CAA2C67059C2}", lv1menuModules.Id, "PurchaseOrderController",     "module/purchaseorder",     homeiconbaseurl + "placeholder.png");
+            AddModule("Quote",                  "{9213AF53-6829-4276-9DF9-9DAA704C2CCF}", lv1menuModules.Id, "QuoteController",             "module/quote",             homeiconbaseurl + "placeholder.png");
             AddModule("Receive From Vendor",    "{EC4052D5-664E-4C34-8802-78E086920628}", lv1menuModules.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
             //AddModule("Rental Inventory",     "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuModules.Id, "RentalInventoryController",   "module/rentalinventory",   homeiconbaseurl + "placeholder.png");
             AddModule("Inventory Item",         "{803A2616-4DB6-4BAC-8845-ECAD34C369A8}", lv1menuModules.Id, "InventoryItemController",        "module/inventoryitem",     homeiconbaseurl + "placeholder.png");
-            AddModule("Repair Order",           "{D567EC42-E74C-47AB-9CA8-764DC0F02D3B}", lv1menuModules.Id, "TiwRepairController",            "module/repair",            homeiconbaseurl + "placeholder.png");
-            AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "TiwReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
+            AddModule("Repair Order",           "{D567EC42-E74C-47AB-9CA8-764DC0F02D3B}", lv1menuModules.Id, "RepairController",            "module/repair",            homeiconbaseurl + "placeholder.png");
+            AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
+            AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "StagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
             //AddModule("Sales Inventory",      "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuModules.Id, "SalesInventoryController",       "module/salesinventory",    homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "TiwVendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
 
