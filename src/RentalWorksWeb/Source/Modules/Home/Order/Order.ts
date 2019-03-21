@@ -566,6 +566,7 @@ class Order extends OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
+        super.afterLoad($form, false);
         let status = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
         let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'),
@@ -729,7 +730,6 @@ class Order extends OrderBase {
         //}
         // Disable withTax checkboxes if Total field is 0.00
         this.disableWithTaxCheckbox($form);
-        super.afterLoad($form);
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {

@@ -469,7 +469,7 @@ class Quote extends OrderBase {
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        super.afterLoad($form);
+        super.afterLoad($form, false);
         let $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         let status = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
