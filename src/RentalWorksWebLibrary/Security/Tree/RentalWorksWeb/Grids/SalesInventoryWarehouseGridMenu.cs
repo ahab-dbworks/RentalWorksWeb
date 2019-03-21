@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace SalesWorksWebLibrary.Security.Tree.SalesWorksWeb.Grids
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
     public class SalesInventoryWarehouseGridMenu : FwSecurityTreeBranch
     {

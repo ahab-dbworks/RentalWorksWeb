@@ -1,4 +1,6 @@
-﻿namespace FwStandard.Security.Tree.Grids
+﻿using FwStandard.Security;
+
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
     public class CompanyContactGridMenu : FwSecurityTreeBranch
     {
