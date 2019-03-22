@@ -1,25 +1,22 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
-using Newtonsoft.Json;
-using System;
+using FwStandard.SqlServer;
 using System.Collections.Generic;
 using System.Reflection;
 using WebApi.Logic;
+using WebApi.Modules.Home.Invoice;
 using WebApi.Modules.Home.InvoiceReceipt;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Receipt
 {
-
-
     public class ReceiptInvoice
     {
         public string InvoiceReceiptId { get; set; }
         public string InvoiceId { get; set; }
         public decimal Amount { get; set; }
     }
-
 
     [FwLogic(Id: "5XIpJJ8C7Ywx")]
     public class ReceiptLogic : AppBusinessLogic
@@ -203,6 +200,7 @@ namespace WebApi.Modules.Home.Receipt
                 string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
+
             if (isValid)
             {
                 foreach (ReceiptInvoice i in InvoiceDataList)
@@ -213,6 +211,48 @@ namespace WebApi.Modules.Home.Receipt
                 {
                     isValid = false;
                     validateMsg = "Amount to Apply does not match Invoice Amounts provided.";
+                }
+            }
+
+
+            if (isValid)
+            {
+                foreach (ReceiptInvoice i in InvoiceDataList)
+                {
+                    decimal invoiceTotal = 0;
+                    InvoiceLogic iL = new InvoiceLogic();
+                    iL.SetDependencies(AppConfig, UserSession);
+                    iL.InvoiceId = i.InvoiceId;
+                    bool b = iL.LoadAsync<InvoiceLogic>().Result;
+                    invoiceTotal = iL.InvoiceTotal.GetValueOrDefault(0);
+
+                    BrowseRequest br = new BrowseRequest();
+                    br.uniqueids = new Dictionary<string, object>();
+                    br.uniqueids.Add("InvoiceId", i.InvoiceId);
+                    InvoiceReceiptLogic irl = new InvoiceReceiptLogic();
+                    irl.SetDependencies(AppConfig, UserSession);
+                    FwJsonDataTable dt = irl.BrowseAsync(br).Result;
+
+                    //determine the total receipts applied against this invoice so far, not counting this current Receipt
+                    decimal totalReceipts = 0;
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        string recId = row[dt.GetColumnNo("ReceiptId")].ToString();
+                        decimal amount = FwConvert.ToDecimal(row[dt.GetColumnNo("Amount")].ToString());
+                        if (!recId.Equals(ReceiptId))  // exclude this current Receipt
+                        {
+                            totalReceipts += amount;
+                        }
+                    }
+
+                    //add the amount of this current Receipt
+                    totalReceipts += i.Amount;
+
+                    if (totalReceipts > invoiceTotal)
+                    {
+                        isValid = false;
+                        validateMsg = "Cannot apply more than the Invoice Total.";
+                    }
                 }
             }
 
@@ -247,7 +287,7 @@ namespace WebApi.Modules.Home.Receipt
         //Here we want to first ask the database for the previous list of Invoices and Amounts related to this Receipt.  
         //We then compare that list with the list provided by the user and perform updates back to the database.
         //All of this is done within the same databas transaction as the insert/update of the Receipt.  Any failures will rollback everything
-        public void OnAfterSave(object sender, AfterSaveEventArgs e) 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             List<InvoiceReceiptLogic> previousIrData = new List<InvoiceReceiptLogic>();
 
@@ -303,5 +343,6 @@ namespace WebApi.Modules.Home.Receipt
             bool b = ReceiptFunc.PostGlForReceipt(AppConfig, UserSession, ReceiptId, conn: e.SqlConnection).Result;
 
         }
+        //------------------------------------------------------------------------------------
     }
 }

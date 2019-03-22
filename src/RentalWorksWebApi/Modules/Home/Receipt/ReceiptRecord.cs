@@ -1,3 +1,4 @@
+using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
@@ -6,6 +7,11 @@ namespace WebApi.Modules.Home.Receipt
     [FwSqlTable("ar")]
     public class ReceiptRecord : AppDataReadWriteRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public ReceiptRecord()
+        {
+            InsteadOfDelete += OnInsteadOfDelete;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "arid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string ReceiptId { get; set; } = "";
@@ -76,5 +82,10 @@ namespace WebApi.Modules.Home.Receipt
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public void OnInsteadOfDelete(object sender, InsteadOfDataRecordDeleteEventArgs e)
+        {
+            e.Success = ReceiptFunc.DeleteReceipt(AppConfig, UserSession, ReceiptId).Result;
+        }
+        //------------------------------------------------------------------------------------
     }
 }

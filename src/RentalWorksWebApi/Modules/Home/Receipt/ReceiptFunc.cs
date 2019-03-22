@@ -21,5 +21,21 @@ namespace WebApi.Modules.Home.Receipt
             return true;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public static async Task<bool> DeleteReceipt(FwApplicationConfig appConfig, FwUserSession userSession, string receiptId, FwSqlConnection conn = null)
+        {
+            bool success = false;
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "arcancel", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@arid", SqlDbType.NVarChar, ParameterDirection.Input, receiptId);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            qry.AddParameter("@success", SqlDbType.NVarChar, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            success = FwConvert.ToBoolean(qry.GetParameter("@success").ToString());
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------    
     }
 }
