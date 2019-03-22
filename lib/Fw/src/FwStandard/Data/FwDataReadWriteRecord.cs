@@ -1,17 +1,19 @@
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using System;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace FwStandard.DataLayer
 {
     public class FwDataReadWriteRecord : FwDataRecord
     {
+
+
+
         public event EventHandler<BeforeSaveDataRecordEventArgs> BeforeSave;
         public event EventHandler<AfterSaveDataRecordEventArgs> AfterSave;
         public event EventHandler<BeforeValidateDataRecordEventArgs> BeforeValidate;
+        public event EventHandler<InsteadOfDataRecordDeleteEventArgs> InsteadOfDelete;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
         public event EventHandler<EventArgs> AssignPrimaryKeys;
@@ -19,57 +21,40 @@ namespace FwStandard.DataLayer
         public delegate void BeforeSaveEventHandler(BeforeSaveDataRecordEventArgs e);
         public delegate void AfterSaveEventHandler(AfterSaveDataRecordEventArgs e);
         public delegate void BeforeValidateEventHandler(BeforeValidateDataRecordEventArgs e);
+        public delegate void InsteadOfDeleteEventHandler(InsteadOfDataRecordDeleteEventArgs e);
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
         public delegate void AssignPrimaryKeysEventHandler(EventArgs e);
 
         protected virtual void OnBeforeSave(BeforeSaveDataRecordEventArgs e)
         {
-            EventHandler<BeforeSaveDataRecordEventArgs> handler = BeforeSave;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            BeforeSave?.Invoke(this, e);
         }
         protected virtual void OnAfterSave(AfterSaveDataRecordEventArgs e)
         {
-            EventHandler<AfterSaveDataRecordEventArgs> handler = AfterSave;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            AfterSave?.Invoke(this, e);
         }
         protected virtual void OnBeforeValidate(BeforeValidateDataRecordEventArgs e)
         {
-            EventHandler<BeforeValidateDataRecordEventArgs> handler = BeforeValidate;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            BeforeValidate?.Invoke(this, e);
         }
+
+        protected virtual void OnInsteadOfDelete(InsteadOfDataRecordDeleteEventArgs e)
+        {
+            InsteadOfDelete?.Invoke(this, e);
+        }
+
         protected virtual void OnBeforeDelete(BeforeDeleteEventArgs e)
         {
-            EventHandler<BeforeDeleteEventArgs> handler = BeforeDelete;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            BeforeDelete?.Invoke(this, e);
         }
         protected virtual void OnAfterDelete(AfterDeleteEventArgs e)
         {
-            EventHandler<AfterDeleteEventArgs> handler = AfterDelete;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            AfterDelete?.Invoke(this, e);
         }
         protected virtual void OnAssignPrimaryKeys(EventArgs e)
         {
-            EventHandler<EventArgs> handler = AssignPrimaryKeys;
-            if (handler != null)
-            {
-                handler(this, e);
-            }
+            AssignPrimaryKeys?.Invoke(this, e);
         }
 
 
@@ -188,6 +173,7 @@ namespace FwStandard.DataLayer
         public virtual async Task<bool> DeleteAsync()
         {
             bool success = false;
+            InsteadOfDataRecordDeleteEventArgs insteadOfDeleteArgs = new InsteadOfDataRecordDeleteEventArgs();
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
             BeforeDelete?.Invoke(this, beforeDeleteArgs);
@@ -195,13 +181,20 @@ namespace FwStandard.DataLayer
             {
                 using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                    if (InsteadOfDelete != null)
                     {
-                        int rowcount = await cmd.DeleteAsync(/*true, */TableName, this);
-                        success = (rowcount > 0);
-
-                        AfterDelete?.Invoke(this, afterDeleteArgs);
+                        InsteadOfDelete(this, insteadOfDeleteArgs);
+                        success = insteadOfDeleteArgs.Success;
                     }
+                    else
+                    {
+                        using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                        {
+                            int rowcount = await cmd.DeleteAsync(TableName, this);
+                            success = (rowcount > 0);
+                        }
+                    }
+                    AfterDelete?.Invoke(this, afterDeleteArgs);
                 }
             }
             return success;

@@ -9,12 +9,10 @@ using FwStandard.SqlServer.Attributes;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace FwStandard.BusinessLogic
 {
@@ -28,6 +26,16 @@ namespace FwStandard.BusinessLogic
         public FwSqlConnection SqlConnection { get; set; }
     }
 
+    public class AfterSaveEventArgs : EventArgs
+    {
+        public TDataRecordSaveMode SaveMode { get; set; }
+        public FwBusinessLogic Original { get; set; }
+        public int RecordsAffected { get; set; }
+        public FwSqlConnection SqlConnection { get; set; }
+    }
+
+
+
     public class BeforeSaveDataRecordEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
@@ -36,13 +44,6 @@ namespace FwStandard.BusinessLogic
         public FwSqlConnection SqlConnection { get; set; }
     }
 
-    public class AfterSaveEventArgs : EventArgs
-    {
-        public TDataRecordSaveMode SaveMode { get; set; }
-        public FwBusinessLogic Original { get; set; }
-        public int RecordsAffected { get; set; }
-        public FwSqlConnection SqlConnection { get; set; }
-    }
 
     public class AfterSaveDataRecordEventArgs : EventArgs
     {
@@ -59,11 +60,24 @@ namespace FwStandard.BusinessLogic
         public FwBusinessLogic Original { get; set; }
     }
 
+
     public class BeforeValidateDataRecordEventArgs : EventArgs
     {
         public TDataRecordSaveMode SaveMode { get; set; }
         public FwDataReadWriteRecord Original { get; set; }
     }
+
+
+    public class InsteadOfDeleteEventArgs : EventArgs
+    {
+            public bool Success { get; set; }
+    };
+
+    public class InsteadOfDataRecordDeleteEventArgs : EventArgs
+    {
+        public bool Success { get; set; }
+    };
+
 
     public class BeforeDeleteEventArgs : EventArgs
     {
@@ -190,12 +204,14 @@ namespace FwStandard.BusinessLogic
         public event EventHandler<BeforeSaveEventArgs> BeforeSave;
         public event EventHandler<AfterSaveEventArgs> AfterSave;
         public event EventHandler<BeforeValidateEventArgs> BeforeValidate;
+        public event EventHandler<InsteadOfDeleteEventArgs> InsteadOfDelete;
         public event EventHandler<BeforeDeleteEventArgs> BeforeDelete;
         public event EventHandler<AfterDeleteEventArgs> AfterDelete;
 
         public delegate void BeforeSaveEventHandler(BeforeSaveEventArgs e);
         public delegate void AfterSaveEventHandler(AfterSaveEventArgs e);
         public delegate void BeforeValidateEventHandler(BeforeValidateEventArgs e);
+        public delegate void InsteadOfDeleteEventHandler(InsteadOfDeleteEventArgs e);
         public delegate void BeforeDeleteEventHandler(BeforeDeleteEventArgs e);
         public delegate void AfterDeleteEventHandler(AfterDeleteEventArgs e);
 
@@ -1050,7 +1066,6 @@ namespace FwStandard.BusinessLogic
                     audit.ModuleName = this.BusinessLogicModuleName;
                     JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
                     jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    //audit.Json = JsonConvert.SerializeObject(this.GetChanges(original), jsonSerializerSettings);
                     List<FwBusinessLogicFieldDelta> deltas = this.GetChanges(original);
                     if (deltas.Count > 0)
                     {
@@ -1080,22 +1095,25 @@ namespace FwStandard.BusinessLogic
         public virtual async Task<bool> DeleteAsync()
         {
             bool success = true;
+            InsteadOfDeleteEventArgs insteadOfDeleteArgs = new InsteadOfDeleteEventArgs();
             BeforeDeleteEventArgs beforeDeleteArgs = new BeforeDeleteEventArgs();
             AfterDeleteEventArgs afterDeleteArgs = new AfterDeleteEventArgs();
-            if (BeforeDelete != null)
-            {
-                BeforeDelete(this, beforeDeleteArgs);
-            }
+            BeforeDelete?.Invoke(this, beforeDeleteArgs);
             if (beforeDeleteArgs.PerformDelete)
             {
-                foreach (FwDataReadWriteRecord rec in dataRecords)
+                if (InsteadOfDelete != null)
                 {
-                    success &= await rec.DeleteAsync();
+                    InsteadOfDelete(this, insteadOfDeleteArgs);
+                    success = insteadOfDeleteArgs.Success;
                 }
-                if (AfterDelete != null)
+                else
                 {
-                    AfterDelete(this, afterDeleteArgs);
+                    foreach (FwDataReadWriteRecord rec in dataRecords)
+                    {
+                        success &= await rec.DeleteAsync();
+                    }
                 }
+                AfterDelete?.Invoke(this, afterDeleteArgs);
             }
             return success;
         }
