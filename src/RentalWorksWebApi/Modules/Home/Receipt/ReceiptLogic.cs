@@ -178,19 +178,28 @@ namespace WebApi.Modules.Home.Receipt
                 }
             }
 
-            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+            if (isValid)
             {
-                paymentAmount = PaymentAmount.GetValueOrDefault(0);
-            }
-            else
-            {
-                if (PaymentAmount == null)
+                if (saveMode.Equals(TDataRecordSaveMode.smInsert))
                 {
-                    paymentAmount = orig.PaymentAmount.GetValueOrDefault(0);
+                    paymentAmount = PaymentAmount.GetValueOrDefault(0);
                 }
                 else
                 {
-                    paymentAmount = PaymentAmount.GetValueOrDefault(0);
+                    if (PaymentAmount == null)
+                    {
+                        paymentAmount = orig.PaymentAmount.GetValueOrDefault(0);
+                    }
+                    else
+                    {
+                        paymentAmount = PaymentAmount.GetValueOrDefault(0);
+                    }
+                }
+
+                if (paymentAmount < 0)
+                {
+                    isValid = false;
+                    validateMsg = "Payment amount cannot be negative.";
                 }
             }
 
@@ -199,6 +208,18 @@ namespace WebApi.Modules.Home.Receipt
                 PropertyInfo property = typeof(ReceiptLogic).GetProperty(nameof(ReceiptLogic.PaymentBy));
                 string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
                 isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                foreach (ReceiptInvoice i in InvoiceDataList)
+                {
+                    if (i.Amount < 0)
+                    {
+                        isValid = false;
+                        validateMsg = "Amount to Apply cannot be negative.";
+                    }
+                }
             }
 
             if (isValid)
