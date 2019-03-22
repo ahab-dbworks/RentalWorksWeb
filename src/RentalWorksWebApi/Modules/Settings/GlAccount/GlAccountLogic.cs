@@ -1,5 +1,8 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using System.Reflection;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.GlAccount
 {
@@ -32,5 +35,19 @@ namespace WebApi.Modules.Settings.GlAccount
         public string DateStamp { get { return glAccount.DateStamp; } set { glAccount.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                //PropertyInfo property = typeof(ReceiptLogic).GetProperty(nameof(ReceiptLogic.PaymentBy));
+                PropertyInfo property = GetType().GetProperty(nameof(GlAccountLogic.GlAccountType));
+                string[] acceptableValues = { RwConstants.GL_ACCOUNT_TYPE_ASSET, RwConstants.GL_ACCOUNT_TYPE_INCOME, RwConstants.GL_ACCOUNT_TYPE_EXPENSE, RwConstants.GL_ACCOUNT_TYPE_LIABILITY };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

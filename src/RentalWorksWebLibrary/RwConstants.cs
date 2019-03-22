@@ -2,6 +2,12 @@
 {
     public static class RwConstants
     {
+        //GL ACCOUNTS
+        public const string GL_ACCOUNT_TYPE_ASSET = "ASSET";
+        public const string GL_ACCOUNT_TYPE_INCOME = "INCOME";
+        public const string GL_ACCOUNT_TYPE_LIABILITY = "LIABILITY";
+        public const string GL_ACCOUNT_TYPE_EXPENSE = "EXPENSE";
+
         //MISC/LABOR RATES
         public const string RATE_AVAILABLE_FOR_MISC = "M";
         public const string RATE_AVAILABLE_FOR_LABOR = "L";
