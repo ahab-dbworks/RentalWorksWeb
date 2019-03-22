@@ -244,16 +244,12 @@ class FwMenuClass {
                             jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
                             selectedFilterValues = ["All"];
                             fields = ["ALL"];
+                            caption = "All";
                         } else {
                             selectedFilterValues = [];
                             fields = [];
-                            const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
-                            for (let i = 0; i < checkedFilters.length; i++) {
-                                let filterCaption = jQuery(checkedFilters[i]).siblings('.ddviewbtn-dropdown-btn-caption').html();
-                                let filterValue = jQuery(checkedFilters[i]).parents('.ddviewbtn-dropdown-btn').attr('data-value');
-                                selectedFilterValues.push(filterCaption);
-                                fields.push(filterValue);
-                            }
+                            jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', false);
+                            caption = '';
                         }
                     } else {
                         jQuery($this).siblings('.select-all-filters').find('input[type="checkbox"]').prop('checked', false);
@@ -273,10 +269,11 @@ class FwMenuClass {
                                 selectedFilterValues.push(caption);
                                 fields.push(value);
                             }
-                        } else if (isChecked === false) {
+                        } else {
                             selectedFilterValues = selectedFilterValues.filter(val => val !== caption);
                             fields = fields.filter(val => val !== value);
                         }
+
                         if (selectedFilterValues.length <= 3) {
                             caption = selectedFilterValues.join(', ');
                         } else {
