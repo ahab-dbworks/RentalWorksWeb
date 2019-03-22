@@ -797,6 +797,8 @@ namespace WebLibrary.Security
             AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
             AddGrid("Deal Notes",                             "{CA1FA1E1-2BE8-473D-ABC3-24D741D2AD8E}", lv1menuGrids.Id, "DealNoteGridController");
             AddGrid("Deal Shipper",                           "{DC46B97F-6664-4ED6-8D1C-6E0EA8B3BC38}", lv1menuGrids.Id, "DealShipperGridController");
+            AddGrid("Item Attribute Value",                   "{122AC4CB-831E-4F20-BC83-F12AD96094DE}", lv1menuGrids.Id, "ItemAttributeValueGridController");
+            AddGrid("Item Qc",                                "{63A92198-F5D0-4A9C-AAF5-08BF052A1CAA}", lv1menuGrids.Id, "ItemQcGridController");
             AddGrid("Order Contact",                          "{0D80C755-0538-461D-A6E6-3A92D17217F2}", lv1menuGrids.Id, "OrderContactGridController");
 
 
