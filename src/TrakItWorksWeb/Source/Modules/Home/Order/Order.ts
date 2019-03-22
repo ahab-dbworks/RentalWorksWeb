@@ -1652,7 +1652,7 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="notetabpage" class="tabpage" data-tabid="notetab">
                 <div class="flexrow">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Notes">
-                    <div class="flexrow">########## ADD NOTES GRID HERE ##########
+                    <div class="flexrow">
                       <div data-control="FwGrid" data-grid="OrderNoteGrid" data-securitycaption="Notes"></div>
                     </div>
                   </div>
@@ -1665,7 +1665,7 @@ class Order extends OrderBase {
               <div data-type="tabpage" id="historytabpage" class="tabpage" data-tabid="historytab">
                 <div class="flexrow">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Status History" style="flex:0 0 500px;">
-                    <div class="flexrow">########## ADD ORDER STATUS HISTORY GRID HERE ##########
+                    <div class="flexrow">
                       <div data-control="FwGrid" data-grid="OrderStatusHistoryGrid" data-securitycaption="Order Status History"></div>
                     </div>
                   </div>

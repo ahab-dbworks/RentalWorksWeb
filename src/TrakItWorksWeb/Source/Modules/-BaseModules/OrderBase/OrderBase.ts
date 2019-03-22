@@ -45,7 +45,7 @@ class OrderBase {
                 })
             }, null, $form);
             $form.find(".frame .add-on").children().hide();
-        }        
+        }
     };
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form, orderTypeId?) {
@@ -104,7 +104,7 @@ class OrderBase {
                 self.columnLogic($form, self.CachedOrderTypes[orderType]);
                 self.afterLoad($form);
             }, null, null);
-        }        
+        }
 
         //sets active tab and opens search interface from a newly saved record 
         //12-12-18 moved here from afterSave Jason H 

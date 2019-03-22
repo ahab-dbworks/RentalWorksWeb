@@ -185,6 +185,9 @@
     <Content Include="Source\Grids\ItemAttributeValueGrid\ItemAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\ItemQcGrid\ItemQcGridBrowse.htm" />
     <Content Include="Source\Grids\OrderContactGrid\OrderContactGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderItemGrid\OrderItemGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderNoteGrid\OrderNoteGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
@@ -217,6 +220,7 @@
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
+    <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSession.js" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
@@ -698,6 +702,9 @@
     <TypeScriptCompile Include="Source\Grids\ItemAttributeValueGrid\ItemAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ItemQcGrid\ItemQcGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderContactGrid\OrderContactGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderItemGrid\OrderItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderNoteGrid\OrderNoteGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />
@@ -719,6 +726,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ReturnToVendor\ReturnToVendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\SubWorksheet\SubWorksheet.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />

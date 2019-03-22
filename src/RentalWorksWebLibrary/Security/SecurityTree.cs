@@ -789,6 +789,7 @@ namespace WebLibrary.Security
            
             //// Add Submodules
             AddSubModule("User Settings",   "{2563927C-8D51-43C4-9243-6F69A52E2657}", lv1menuSubModules.Id, "UserSettingsController");
+            AddSubModule("SubWorksheet",    "{2227B6C3-587D-48B1-98B6-B9125E0E4D9D}", lv1menuSubModules.Id, "SubWorksheetController");
 
             // Add Grids
             AddGrid("Audit History",                          "{977B65BB-DD67-4B5E-9B62-944E5DBECFD4}", lv1menuGrids.Id, "AuditHistoryGridController");
@@ -800,6 +801,9 @@ namespace WebLibrary.Security
             AddGrid("Item Attribute Value",                   "{122AC4CB-831E-4F20-BC83-F12AD96094DE}", lv1menuGrids.Id, "ItemAttributeValueGridController");
             AddGrid("Item Qc",                                "{63A92198-F5D0-4A9C-AAF5-08BF052A1CAA}", lv1menuGrids.Id, "ItemQcGridController");
             AddGrid("Order Contact",                          "{0D80C755-0538-461D-A6E6-3A92D17217F2}", lv1menuGrids.Id, "OrderContactGridController");
+            AddGrid("Order Item",                             "{E17AD193-28FB-4B92-BE62-B04AFC8C8A07}", lv1menuGrids.Id, "OrderItemGridController");
+            AddGrid("Order Note",                             "{929AF93E-F07D-4E78-8FDD-1F0FEC90D9A4}", lv1menuGrids.Id, "OrderNoteGridController"); 
+            AddGrid("Order Status History",                   "{A3683C2F-A5B4-42FC-A944-DAA65ED71E87}", lv1menuGrids.Id, "OrderStatusHistoryGridController");
 
 
             //AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
@@ -843,7 +847,6 @@ namespace WebLibrary.Security
             //AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
             //AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
             //AddGrid("Order Dates",                            "{D4B28F52-5C9D-4D8C-B58C-42924428DE93}", lv1menuGrids.Id, "RwOrderDatesGridController");
-            //AddGrid("Order Item",                             "{C8A77000-43DD-4E49-A226-1E0DC4196F12}", lv1menuGrids.Id, "OrderItemGridController");
             //AddGrid("Order Note",                             "{45573B9C-B39D-4975-BC36-4A41362E1AF0}", lv1menuGrids.Id, "RwOrderNoteGridController");
             //AddGrid("Order Type Activity Dates",              "{0C7E7F68-50C8-45A0-B6CA-BE11223D7806}", lv1menuGrids.Id, "OrderTypeActivityDatesGridController");
             //AddGrid("Order Type Cover Letter",                "{7521D3CC-FF1C-44F5-8F93-9272B6CADC64}", lv1menuGrids.Id, "OrderTypeCoverLetterGridController");
@@ -891,7 +894,6 @@ namespace WebLibrary.Security
             //AddGrid("Order Status Sales Detail",              "{220300EC-40A7-4374-8247-BE6BFC5CDF14}", lv1menuGrids.Id, "OrderStatusSalesDetailGridController");
             //AddGrid("Pick List Item",                         "{F8514841-7652-469B-AF43-3520A34EA5F0}", lv1menuGrids.Id, "PickListItemGridController");
             //AddGrid("Order Pick List",                        "{ABE29218-C144-4CA7-825F-3FDA7DC860A5}", lv1menuGrids.Id, "OrderPickListGridController");
-            //AddGrid("Order Status History",                   "{D5B97814-9FD7-4821-9553-28D276F67797}", lv1menuGrids.Id, "OrderStatusHistoryGridController");
             //AddGrid("Contact Company",                        "{68E99935-E0AB-4552-BBFF-46ED2965E4F0}", lv1menuGrids.Id, "ContactCompanyGridController");
             //AddGrid("Warehouse Department",                   "{CB4CE3A5-6DCC-497D-84D1-0B3FBAAEB19B}", lv1menuGrids.Id, "WarehouseDepartmentGridController");
             //AddGrid("Warehouse Inventory Type",               "{D90C2659-F1FB-419D-89B6-738766DFCAD2}", lv1menuGrids.Id, "WarehouseInventoryTypeGridController");
@@ -899,7 +901,6 @@ namespace WebLibrary.Security
             //AddGrid("Warehouse Availability Hour",            "{DF40BE8D-BAAA-45E8-A6AE-78057281C1EC}", lv1menuGrids.Id, "WarehouseAvailabilityHourGridController");
             //AddGrid("Warehouse Office Location",              "{99C692AB-13CE-4113-88CF-6AC15821B9D4}", lv1menuGrids.Id, "WarehouseOfficeLocationGridController");
             //AddGrid("Warehouse QuikLocate Approver",          "{597134F6-303E-4B69-A9B7-403082295AE1}", lv1menuGrids.Id, "WarehouseQuikLocateApproverGridController");
-            //AddGrid("Order Note",                             "{55248753-DF49-46E3-84AE-0532354F3550}", lv1menuGrids.Id, "OrderNoteGridController"); 
         }
         //---------------------------------------------------------------------------------------------
     }
