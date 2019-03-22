@@ -16,7 +16,7 @@ class TransferReceipt extends Contract {
           <div class="field" data-isuniqueid="true" data-datafield="ManifestId" data-datatype="key"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
-          <div class="field" data-caption="No." data-datafield="ManifestNumber" data-datatype="text" data-sort="off" data-searchfieldoperators="startswith"></div>
+          <div class="field" data-caption="Receipt No." data-datafield="ManifestNumber" data-datatype="text" data-sort="off" data-searchfieldoperators="startswith"></div>
         </div>
         <div class="column" data-width="auto" data-visible="true">
           <div class="field" data-caption="Date" data-datafield="ManifestDate" data-datatype="date" data-sortsequence="1" data-sort="desc"></div>

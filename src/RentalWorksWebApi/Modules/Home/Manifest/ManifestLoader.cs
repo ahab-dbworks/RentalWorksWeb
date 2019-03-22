@@ -5,7 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Home.Manifest
 {
-    [FwSqlTable("manifestview")]
+    [FwSqlTable("manifestwebview")]
     public class ManifestLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
