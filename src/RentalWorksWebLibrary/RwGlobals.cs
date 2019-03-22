@@ -56,6 +56,12 @@ namespace WebLibrary
         public static string CONTAINER_INCOMPLETE_COLOR { get; set; }
 
 
+        //GLOBAL
+        public static string NEGATIVE_VARIANCE_COLOR { get; set; }
+
+
+
+
 
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
@@ -118,7 +124,7 @@ namespace WebLibrary
             RECEIPT_RECTYPE_WRITE_OFF_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_WRITE_OFF_COLOR);
             RECEIPT_RECTYPE_CREDIT_MEMO_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR);
 
-
+            NEGATIVE_VARIANCE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.NEGATIVE_VARIANCE_COLOR);
 
 
         }

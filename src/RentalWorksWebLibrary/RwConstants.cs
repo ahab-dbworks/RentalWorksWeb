@@ -307,6 +307,10 @@
         public const int COMPANY_TYPE_DEAL_COLOR = 253498; //deal;
         public const int COMPANY_TYPE_VENDOR_COLOR = 2144255; //light blue
 
+
+        public const int NEGATIVE_VARIANCE_COLOR = 16711684; // red
+
+
     }
 
     public class QuoteOrderCopyRequest

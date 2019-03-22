@@ -8,6 +8,8 @@ using System;
 using System.Reflection;
 using System.Data;
 using System.Threading.Tasks;
+using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.SubPurchaseOrderItem
 {
@@ -33,15 +35,23 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor
+        {
+            get { return getICodeColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nodiscount", modeltype: FwDataTypes.Boolean)]
         public bool? NonDiscountable { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -111,6 +121,12 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwSqlDataField(column: "vendorweeklyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorWeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorweeklytax", modeltype: FwDataTypes.Decimal)]
+        public decimal? VendorWeeklyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorweeklytotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? VendorWeeklyTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendormonthlysubtotal", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorMonthlySubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -120,6 +136,12 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwSqlDataField(column: "vendormonthlyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorMonthlyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendormonthlytax", modeltype: FwDataTypes.Decimal)]
+        public decimal? VendorMonthlyTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendormonthlytotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? VendorMonthlyTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorperiodsubtotal", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorPeriodSubTotal { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -128,6 +150,12 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendorperiodextended", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorPeriodExtended { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorperiodtax", modeltype: FwDataTypes.Decimal)]
+        public decimal? VendorPeriodTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendorperiodtotal", modeltype: FwDataTypes.Decimal)]
+        public decimal? VendorPeriodTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealrate", modeltype: FwDataTypes.Decimal)]
         public decimal? DealRate { get; set; }
@@ -174,9 +202,13 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwSqlDataField(column: "variance", modeltype: FwDataTypes.Decimal)]
         public decimal? Variance { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "variancecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string VarianceColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VarianceColor
+        {
+            get { return getVarianceColor(Variance); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Decimal)]
         public decimal? MarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -228,113 +260,44 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwSqlDataField(column: "currencyconvertedperiodextended", modeltype: FwDataTypes.Decimal)]
         public decimal? CurrencyConvertedPeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        //protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
-        //{
-
-            //useWithNoLock = false;
-            //string orderId = "";
-            //string sessionId = "";
-            //string vendorId = "";
-            //string currencyId = "";
-            //string rateType = "";
-            //string totalType = "";
-            //string recType = "";
-            //string purchaseOrderId = "";
-            //DateTime fromDate = DateTime.MinValue;
-            //DateTime toDate = DateTime.MinValue;
-
-            //if ((request != null) && (request.uniqueids != null))
-            //{
-            //    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-            //    if (uniqueIds.ContainsKey("OrderId"))
-            //    {
-            //        orderId = uniqueIds["OrderId"].ToString();
-            //    }
-            //    if (uniqueIds.ContainsKey("SessionId"))
-            //    {
-            //        sessionId = uniqueIds["SessionId"].ToString();
-            //    }
-            //    if (uniqueIds.ContainsKey("VendorId"))
-            //    {
-            //        vendorId = uniqueIds["VendorId"].ToString();
-            //    }
-            //    if (uniqueIds.ContainsKey("CurrencyId"))
-            //    {
-            //        currencyId = uniqueIds["CurrencyId"].ToString();
-            //    }
-            //    if (uniqueIds.ContainsKey("RateType"))
-            //    {
-            //        rateType = uniqueIds["RateType"].ToString();
-            //    }
-            //    if (uniqueIds.ContainsKey("TotalType"))
-            //    {
-            //        totalType = uniqueIds["TotalType"].ToString();
-            //    }
-            //    if (uniqueIds.ContainsKey("RecType"))
-            //    {
-            //        recType = uniqueIds["RecType"].ToString();
-            //    }
-            //    if (uniqueIds.ContainsKey("FromDate"))
-            //    {
-            //        fromDate = FwConvert.ToDateTime(uniqueIds["FromDate"].ToString());
-            //    }
-            //    if (uniqueIds.ContainsKey("ToDate"))
-            //    {
-            //        toDate = FwConvert.ToDateTime(uniqueIds["ToDate"].ToString());
-            //    }
-            //    if (uniqueIds.ContainsKey("PurchaseOrderId"))
-            //    {
-            //        purchaseOrderId = uniqueIds["PurchaseOrderId"].ToString();
-            //    }
-            //}
-
-            //base.SetBaseSelectQuery(select, qry, customFields, request);
-            //select.Parse();
-
-            ////addFilterToSelect("RecType", "rectype", select, request);
-
-            //select.AddParameter("@orderid", orderId);
-            //select.AddParameter("@sessionid", sessionId);
-            //select.AddParameter("@vendorid", vendorId);
-            //select.AddParameter("@currencyid", currencyId);
-            //select.AddParameter("@ratetype", rateType);
-            //select.AddParameter("@totaltype", totalType);
-            //select.AddParameter("@rectype", recType);
-            //select.AddParameter("@fromdate", fromDate);
-            //select.AddParameter("@todate", toDate);
-            //select.AddParameter("@poid", purchaseOrderId);
-       // }
+        private string getICodeColor(string itemClass)
+        {
+            return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDescriptionColor(string itemClass)
+        {
+            return AppFunc.GetItemClassDescriptionColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getVarianceColor(decimal? variance)
+        {
+            return (variance < 0 ? RwGlobals.NEGATIVE_VARIANCE_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------ 
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
-        { 
-
-            if (request != null)
-            {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("SessionId"))
-                    {
-                        SessionId = uniqueIds["SessionId"].ToString();
-                    }
-                }
-            }
+        {
+            string sessionId = GetUniqueIdAsString("SessionId", request);
 
             FwJsonDataTable dt = null;
-
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getpoworksheetitems", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            foreach (List<object> row in dt.Rows)
+            {
+                row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                row[dt.GetColumnNo("VarianceColor")] = getVarianceColor(FwConvert.ToDecimal(row[dt.GetColumnNo("Variance")].ToString()));
+            }
+
             return dt;
-
-
-
-
         }
         //------------------------------------------------------------------------------------ 
     }

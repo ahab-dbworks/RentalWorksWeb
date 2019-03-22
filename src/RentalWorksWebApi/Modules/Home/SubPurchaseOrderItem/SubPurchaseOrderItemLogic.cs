@@ -114,6 +114,12 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwLogicProperty(Id:"Z4GWzwW4dAf4p", IsReadOnly:true)]
         public decimal? VendorWeeklyExtended { get; set; }
 
+        [FwLogicProperty(Id: "f95VSrblr5PWA", IsReadOnly: true)]
+        public decimal? VendorWeeklyTax { get; set; }
+
+        [FwLogicProperty(Id: "zzskd4E5CDaR9", IsReadOnly: true)]
+        public decimal? VendorWeeklyTotal { get; set; }
+
         [FwLogicProperty(Id:"kBI5bzXVJQwqW", IsReadOnly:true)]
         public decimal? VendorMonthlySubTotal { get; set; }
 
@@ -123,6 +129,12 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwLogicProperty(Id:"pbNFh7nIlfxeR", IsReadOnly:true)]
         public decimal? VendorMonthlyExtended { get; set; }
 
+        [FwLogicProperty(Id: "FLrMEn8zlvmhN", IsReadOnly: true)]
+        public decimal? VendorMonthlyTax { get; set; }
+
+        [FwLogicProperty(Id: "jpF5uBkhmHsrb", IsReadOnly: true)]
+        public decimal? VendorMonthlyTotal { get; set; }
+
         [FwLogicProperty(Id:"glYybVTk0BmBw", IsReadOnly:true)]
         public decimal? VendorPeriodSubTotal { get; set; }
 
@@ -131,6 +143,12 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
 
         [FwLogicProperty(Id:"CYhNXwTQBnZVy", IsReadOnly:true)]
         public decimal? VendorPeriodExtended { get; set; }
+
+        [FwLogicProperty(Id: "uC0JOzESI4VQk", IsReadOnly: true)]
+        public decimal? VendorPeriodTax { get; set; }
+
+        [FwLogicProperty(Id: "usgHE7vopwksr", IsReadOnly: true)]
+        public decimal? VendorPeriodTotal { get; set; }
 
         [FwLogicProperty(Id:"eJExRXZQL8fa")]
         public decimal? DealRate { get { return subPurchaseOrderItem.DealRate; } set { subPurchaseOrderItem.DealRate = value; } }
