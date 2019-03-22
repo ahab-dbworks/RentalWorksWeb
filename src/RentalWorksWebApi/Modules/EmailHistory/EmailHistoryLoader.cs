@@ -5,48 +5,59 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 namespace WebApi.Modules.Reports.EmailHistory
 {
-    [FwSqlTable("emailreport")]
-    public class EmailHistoryRecord : AppDataReadWriteRecord
+    [FwSqlTable("emailreportwebview")]
+    public class EmailHistoryLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "emailreportid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
-        public string EmailHistoryId { get; set; } = "";
+        [FwSqlDataField(column: "emailreportid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string EmailHistoryId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "reportdefid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "reportdefid", modeltype: FwDataTypes.Text)]
         public string ReportId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fromusersid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "fromusersid", modeltype: FwDataTypes.Text)]
         public string FromUserId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "createdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "fromuser", modeltype: FwDataTypes.Text)]
+        public string FromUser { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "createdate", modeltype: FwDataTypes.Date)]
         public string EmailDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
+        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "emailtext", modeltype: FwDataTypes.Text, sqltype: "text")]
+        [FwSqlDataField(column: "emailtext", modeltype: FwDataTypes.Text)]
         public string EmailText { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "emailto", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "emailto", modeltype: FwDataTypes.Text)]
         public string EmailTo { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subject", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "subject", modeltype: FwDataTypes.Text)]
         public string EmailSubject { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "emailcc", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "emailcc", modeltype: FwDataTypes.Text)]
         public string EmailCC { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "title", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        [FwSqlDataField(column: "title", modeltype: FwDataTypes.Text)]
         public string Title { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "uniqueid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
+        [FwSqlDataField(column: "uniqueid", modeltype: FwDataTypes.Text)]
         public string RelatedToId { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "pdfattachment", modeltype: FwDataTypes.Unknown___varbinary, sqltype: "varbinary")]
+        //[FwSqlDataField(column: "pdfattachment", modeltype: FwDataTypes.Unknown___varbinary)]
         //public Unknown___varbinary PdfAttachment { get; set; }
         ////------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            addFilterToSelect("FromUserId", "fromusersid", select, request);
+            addFilterToSelect("RelatedToId", "uniqueid", select, request);
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -7,9 +7,11 @@ namespace WebApi.Modules.Reports.EmailHistory
     {
         //------------------------------------------------------------------------------------ 
         EmailHistoryRecord emailHistory = new EmailHistoryRecord();
+        EmailHistoryLoader emailHistoryLoader = new EmailHistoryLoader();
         public EmailHistoryLogic()
         {
             dataRecords.Add(emailHistory);
+            dataLoader = emailHistoryLoader;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "y2r5hyD6PrQK", IsPrimaryKey: true)]
@@ -18,6 +20,8 @@ namespace WebApi.Modules.Reports.EmailHistory
         public string ReportId { get { return emailHistory.ReportId; } set { emailHistory.ReportId = value; } }
         [FwLogicProperty(Id: "GWZF62AEEeVX")]
         public string FromUserId { get { return emailHistory.FromUserId; } set { emailHistory.FromUserId = value; } }
+        [FwLogicProperty(Id: "EDp5xFz69h1fX", IsReadOnly: true)]
+        public string FromUser { get; set; }
         [FwLogicProperty(Id: "SxlN6vIxhsw5")]
         public string EmailDate { get { return emailHistory.EmailDate; } set { emailHistory.EmailDate = value; } }
         [FwLogicProperty(Id: "tMVTqHqjIXEb")]

@@ -88,6 +88,9 @@ class EmailHistory {
             <div class="field" data-caption="Report" data-isuniqueid="false" data-datafield="Title" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="From" data-isuniqueid="false" data-datafield="FromUser" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column" data-width="150px" data-visible="true">
             <div class="field" data-caption="E-mail To" data-isuniqueid="false" data-datafield="EmailTo" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
@@ -114,6 +117,9 @@ class EmailHistory {
                                 <div class="flexrow">
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email Date" data-datafield="EmailDate" style="flex:0 1 125px;" data-enabled="false"></div>
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" style="flex:0 1 125px;" data-enabled="false"></div>
+                                </div>
+                                <div class="flexrow">
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="From" data-datafield="FromUser" style="flex:1 1 125px;" data-enabled="false"></div>
                                 </div>
                                 <div class="flexrow">
                                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email To" data-datafield="EmailTo" style="flex:1 1 125px;" data-enabled="false"></div>
