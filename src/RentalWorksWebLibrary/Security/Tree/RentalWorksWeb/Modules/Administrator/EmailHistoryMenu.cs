@@ -19,9 +19,9 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Administrator
 
 
             //// Form
-            //var nodeForm = tree.AddForm("{2B3738CE-5774-4CF0-B5CB-2B72A129F0B5}", MODULEID);
-            //    var nodeFormMenuBar = tree.AddMenuBar("{7C627B3E-E707-4F6C-82F5-81D3996D1628}", nodeForm.Id);
-            //        //tree.AddSubMenu("{AC96612C-C81D-4BFB-8E84-2FA3086C2B4A}", nodeFormMenuBar.Id);
+            var nodeForm = tree.AddForm("{D96AF7E0-617D-498B-8F5B-838AAA3E38D4}", MODULEID);
+            var nodeFormMenuBar = tree.AddMenuBar("{8C05B251-0746-43CE-9E7C-C5EBB28326A8}", nodeForm.Id);
+                tree.AddSubMenu("{F8D33B05-8AD7-4234-A759-1D081D6FED65}", nodeFormMenuBar.Id);
             //        tree.AddSaveMenuBarButton("{EF08246D-2D0E-4F8F-9529-3D6A4BC845B3}", nodeFormMenuBar.Id);
         }
         //---------------------------------------------------------------------------------------------

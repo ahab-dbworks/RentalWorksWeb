@@ -112,14 +112,18 @@ class EmailHistory {
                             <div class="flexcolumn" style="flex:0 1 825px;">
                               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Email History">
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email Date" data-datafield="EmailDate" style="flex:1 1 125px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" style="flex:1 1 125px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email To" data-datafield="EmailTo" style="flex:1 1 125px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email Subject" data-datafield="EmailSubject" style="flex:1 1 125px;"></div>
-                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Report" data-datafield="Title" style="flex:1 1 125px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email Date" data-datafield="EmailDate" style="flex:0 1 125px;" data-enabled="false"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" style="flex:0 1 125px;" data-enabled="false"></div>
                                 </div>
                                 <div class="flexrow">
-                                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Email Text" data-datafield="EmailText" style="flex:1 1 225px;"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email To" data-datafield="EmailTo" style="flex:1 1 125px;" data-enabled="false"></div>
+                                </div>
+                                <div class="flexrow">
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Email Subject" data-datafield="EmailSubject" style="flex:1 1 120px;" data-enabled="false"></div>
+                                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Report" data-datafield="Title" style="flex:1 1 25px;" data-enabled="false"></div>
+                                </div>
+                                <div class="flexrow">
+                                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Email Text" data-datafield="EmailText" style="flex:1 1 225px;" data-enabled="false"></div>
                                 </div>
                               </div>
                             </div>
