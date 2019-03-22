@@ -796,14 +796,25 @@ namespace WebLibrary.Security
             AddGrid("Company Contact",                        "{6D8B3D23-0954-4765-9FBD-BF3EC756AA97}", lv1menuGrids.Id, "CompanyContactGridController");
             AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
+            AddGrid("Container Warehouse",                    "{F9766AB6-E3BC-4F3E-9394-9D28BF8C984B}", lv1menuGrids.Id, "ContainerWarehouseGridController");
             AddGrid("Deal Notes",                             "{CA1FA1E1-2BE8-473D-ABC3-24D741D2AD8E}", lv1menuGrids.Id, "DealNoteGridController");
             AddGrid("Deal Shipper",                           "{DC46B97F-6664-4ED6-8D1C-6E0EA8B3BC38}", lv1menuGrids.Id, "DealShipperGridController");
             AddGrid("Item Attribute Value",                   "{122AC4CB-831E-4F20-BC83-F12AD96094DE}", lv1menuGrids.Id, "ItemAttributeValueGridController");
+            AddGrid("Inventory Attribute Value",              "{ECEB623B-C84C-4D55-AE86-8E067E119244}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
+            AddGrid("Inventory Availability",                 "{548B5500-E8BD-4448-8B4C-2389D54DD803}", lv1menuGrids.Id, "InventoryAvailabilityGridController");
+            AddGrid("Inventory Compatibility",                "{AD2D5238-317D-4FDC-950E-E935293CE2F8}", lv1menuGrids.Id, "InventoryCompatibilityGridController");
+            AddGrid("Inventory Complete Kit",                 "{9F38BB28-4133-4291-91B8-3F234B5DB437}", lv1menuGrids.Id, "InventoryCompleteKitGridController");
+            AddGrid("Inventory Consignment",                  "{2DC8659F-EB2B-43C3-BAD1-0769EB14351F}", lv1menuGrids.Id, "InventoryConsignmentGridController");
+            AddGrid("Inventory Qc",                           "{8A0A4336-2124-4274-BF9F-ED2CE8CFFE54}", lv1menuGrids.Id, "InventoryQcGridController");
+            AddGrid("Inventory Substitute",                   "{AAF0CDF9-30DC-4A7A-883C-5363F694D843}", lv1menuGrids.Id, "InventorySubstituteGridController");
+            AddGrid("Inventory Vendor",                       "{EFE6D013-E84D-4EF8-A19F-571B5A1353FE}", lv1menuGrids.Id, "InventoryVendorGridController");
+            AddGrid("Inventory Warehouse Staging",            "{5D55C05C-3094-4656-B199-3DA137E5D311}", lv1menuGrids.Id, "InventoryWarehouseStagingGridController");
             AddGrid("Item Qc",                                "{63A92198-F5D0-4A9C-AAF5-08BF052A1CAA}", lv1menuGrids.Id, "ItemQcGridController");
             AddGrid("Order Contact",                          "{0D80C755-0538-461D-A6E6-3A92D17217F2}", lv1menuGrids.Id, "OrderContactGridController");
             AddGrid("Order Item",                             "{E17AD193-28FB-4B92-BE62-B04AFC8C8A07}", lv1menuGrids.Id, "OrderItemGridController");
             AddGrid("Order Note",                             "{929AF93E-F07D-4E78-8FDD-1F0FEC90D9A4}", lv1menuGrids.Id, "OrderNoteGridController"); 
             AddGrid("Order Status History",                   "{A3683C2F-A5B4-42FC-A944-DAA65ED71E87}", lv1menuGrids.Id, "OrderStatusHistoryGridController");
+            AddGrid("Rental Inventory Warehouse",             "{9AC6FB16-BC42-42C3-91B7-9346D11CC405}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
 
 
             //AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
@@ -827,19 +838,10 @@ namespace WebLibrary.Security
             //AddGrid("Item Attribute Value",                   "{22D75843-E915-4956-9B25-C52E815F3C5E}", lv1menuGrids.Id, "ItemAttributeValueGridController");
             //AddGrid("Inventory Location Tax",                 "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "InventoryLocationTaxGridController");
             //AddGrid("Item Qc",                                "{496FEE6D-FC41-47D7-8576-7EF95CAE1B18}", lv1menuGrids.Id, "ItemQcGridController");
-            //AddGrid("Inventory Attribute Value",              "{D591CCE2-920C-440D-A6D7-6F4F21FC01B8}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
-            //AddGrid("Inventory Availability",                 "{8241ACB4-9346-43D6-8D3C-B6567FAA0270}", lv1menuGrids.Id, "InventoryAvailabilityGridController");
-            //AddGrid("Inventory Compatibility",                "{7416DAAE-2875-408B-AEEF-78481378C4C4}", lv1menuGrids.Id, "InventoryCompatibilityGridController");
             //AddGrid("Inventory Complete",                     "{3CB67F46-92B8-4F42-A04C-DB5BA6B52B29}", lv1menuGrids.Id, "InventoryCompleteGridController");
-            //AddGrid("Inventory Complete Kit",                 "{797339C1-79C3-4FC0-82E4-7DA2FE150DDA}", lv1menuGrids.Id, "InventoryCompleteKitGridController");
-            //AddGrid("Inventory Consignment",                  "{0D22AF5B-CF50-41EA-A8CC-D039C402E4CC}", lv1menuGrids.Id, "InventoryConsignmentGridController");
             //AddGrid("Inventory Container",                    "{494F7DD0-0D32-4FE0-B84A-BC7CD71CE9EC}", lv1menuGrids.Id, "InventoryContainerGridController");
             //AddGrid("Inventory Kit",                          "{989C0F67-5F4D-4BC2-832F-D8009256AF0F}", lv1menuGrids.Id, "InventoryKitGridController");
             //AddGrid("Inventory Prep",                         "{338934FD-CA10-48F4-9498-2D5250F4E6FA}", lv1menuGrids.Id, "InventoryPrepGridController");
-            //AddGrid("Inventory Qc",                           "{C1EE89A8-2C6C-4709-AB0C-2BBC062160B5}", lv1menuGrids.Id, "InventoryQcGridController");
-            //AddGrid("Inventory Substitute",                   "{B715DFB4-5700-48DE-878A-F8D93F99ECA3}", lv1menuGrids.Id, "InventorySubstituteGridController");
-            //AddGrid("Inventory Vendor",                       "{C68281F9-0FC9-4FFE-8931-A5E501577AC3}", lv1menuGrids.Id, "InventoryVendorGridController");
-            //AddGrid("Inventory Warehouse Staging",            "{3D9F7C07-4B47-4E4C-B573-331D694B979E}", lv1menuGrids.Id, "InventoryWarehouseStagingGridController");
             //AddGrid("Sales Inventory Substitute",             "{ED6DCEB4-2BB7-4B52-915A-10E1D94B083E}", lv1menuGrids.Id, "SalesInventorySubstituteGridController");
             //AddGrid("Inventory Compatibility",                "{69790C03-D7CC-4422-9122-674E2BCCA040}", lv1menuGrids.Id, "SalesInventoryCompatibilityGridController");
             //AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
