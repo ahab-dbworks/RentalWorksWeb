@@ -11,7 +11,7 @@ class StagingCheckout {
     notificationSoundFileName: string;
     contractId: string;
     isPendingItemGridView: boolean = false;
-
+    Type: string = 'Order';
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -40,6 +40,17 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?: any) {
+        switch (this.Module) {
+            case 'StagingCheckout':
+                this.Type = 'Order';
+                break;
+            case 'TransferOut':
+                this.Type = 'Transfer';
+                break;
+            case 'FillContainer':
+                this.Type = 'Item';
+                break;
+        }
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -58,11 +69,18 @@ class StagingCheckout {
         this.getSoundUrls();
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
-            if (this.Module == 'StagingCheckout') {
-                FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
-            } else if (this.Module == 'TransferOut') {
-                FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
-            }
+            //switch (this.Module) {
+            //    case 'StagingCheckout':
+            //        FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
+            //        break;
+            //    case 'TransferOut':
+            //        FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
+            //        break;
+            //    case 'FillContainer':
+            //        FwFormField.setValueByDataField($form, 'ItemId', parentmoduleinfo.ItemId, parentmoduleinfo.ItemNumber);
+            //        break;
+            //}
+            FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo[`${this.Type}Id`], parentmoduleinfo[`${this.Type}Number`]);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
             jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
@@ -133,7 +151,7 @@ class StagingCheckout {
     getOrder($form: JQuery): void {
         const maxPageSize = 20;
         const module = this.Module;
-        $form.on('change', '[data-datafield="OrderId"], [data-datafield="TransferId"]', () => {
+        $form.on('change', `[data-datafield="${this.Type}Id"]`, () => {
             try {
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
@@ -145,15 +163,28 @@ class StagingCheckout {
                     $form.find('div[data-datafield="IncludeZeroRemaining"] input').prop('checked', false);
                 }
 
-                let orderId;
-                if (module == 'StagingCheckout') {
-                    orderId = FwFormField.getValueByDataField($form, 'OrderId');
-                } else if (module == 'TransferOut') {
-                    orderId = FwFormField.getValueByDataField($form, 'TransferId');
+                const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                //if (module == 'StagingCheckout') {
+                //    orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                //} else if (module == 'TransferOut') {
+                //    orderId = FwFormField.getValueByDataField($form, 'TransferId');
+                //}
+                let apiName;
+                switch (module) {
+                    case 'StagingCheckout':
+                        apiName = 'order';
+                        break;
+                    case 'TransferOut':
+                        apiName = 'transferorder';
+                        break;
+                    case 'FillContainer':
+                        apiName = 'containeritem';
+                        break;
                 }
+                const apiUrl = `api/v1/${apiName}/${orderId}`;
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
-                FwAppData.apiMethod(true, 'GET', `api/v1/${module === 'StagingCheckout' ? 'order' : 'transferorder'}/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
                     if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
@@ -212,7 +243,8 @@ class StagingCheckout {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-            module == 'StagingCheckout' ? FwFormField.disable($form.find('div[data-datafield="OrderId"]')) : FwFormField.disable($form.find('div[data-datafield="TransferId"]'));
+            //module == 'StagingCheckout' ? FwFormField.disable($form.find('div[data-datafield="OrderId"]')) : FwFormField.disable($form.find('div[data-datafield="TransferId"]'));
+            FwFormField.disable($form.find(`div[data-datafield="${this.Type}Id"]`));
             $form.find('.orderstatus').show();
             $form.find('.createcontract').show();
             $form.find('.original-buttons').show();
@@ -245,7 +277,7 @@ class StagingCheckout {
         $form.find('.error-msg:not(.qty)').html('');
         const maxPageSize = 20;
         let requestBody: any = {};
-        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        let orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         requestBody.OrderId = orderId;
         if (orderId != '') {
             $form.find('.orderstatus').hide();
@@ -512,12 +544,12 @@ class StagingCheckout {
     //----------------------------------------------------------------------------------------------
     createContract($form: JQuery, event): void {
         let orderId, errorMsg, errorSound, request: any = {};
+        errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
         $form.find('.grid-view-radio').hide();
 
         errorSound = new Audio(this.errorSoundFileName);
-        orderId = FwFormField.getValueByDataField($form, 'OrderId');
-        errorMsg = $form.find('.error-msg:not(.qty)');
+        orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         if (orderId != '') {
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -552,8 +584,7 @@ class StagingCheckout {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any): void {
-        let type;
-        this.Module == 'StagingCheckout' ? type = 'Order' : type = 'Transfer';
+        const type = this.Type;
         // ----------
         const $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
         const $stagedItemGridControl = FwBrowse.loadGridFromTemplate('StagedItemGrid');
@@ -657,8 +688,7 @@ class StagingCheckout {
         const successSound = new Audio(this.successSoundFileName);
         const errorMsg = $form.find('.error-msg:not(.qty)');
         const errorMsgQty = $form.find('.error-msg.qty');
-        let type;
-        this.Module == 'StagingCheckout' ? type = 'Order' : type = 'Transfer';
+        const type = this.Type;
 
         $form.find('div.quantity-items-tab').on('click', e => {
             //Disable clicking Quantity Items tab w/o an OrderId
@@ -1101,7 +1131,7 @@ class StagingCheckout {
         <div id="stagingcheckoutform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
           <div id="checkoutform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
-              <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="${this.Module == 'StagingCheckout' ? 'Staging' : 'Transfer'}"></div>
+              <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="${this.caption}"></div>
               <div data-type="tab" id="quantityitemtab" class="tab quantity-items-tab" data-tabpageid="quantityitemtabpage" data-caption="Quantity Items" style="display:none;"></div>
               <div data-type="tab" id="holdingitemtab" class="tab holding-items-tab" data-tabpageid="holdingitemtabpage" data-caption="Holding" style="display:none;"></div>
               <div data-type="tab" id="serialitemtab" class="tab serial-items-tab" data-tabpageid="serialitemtabpage" data-caption="Serial Items" style="display:none;"></div>

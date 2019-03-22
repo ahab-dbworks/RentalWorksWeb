@@ -25,7 +25,9 @@ class OrderStatus {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        if (parentmoduleinfo.IsTransferOut === true) this.Type = 'Transfer';
+        if (typeof parentmoduleinfo != 'undefined') {
+            if (parentmoduleinfo.IsTransferOut === true) this.Type = 'Transfer';
+        }
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
