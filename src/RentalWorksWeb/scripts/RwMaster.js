@@ -156,17 +156,27 @@ class RwMaster extends WebMaster {
                                 FwConfirmation.destroyConfirmation($confirmation);
                                 const activeViewRequest = {};
                                 activeViewRequest.uniqueids = {
-                                    WebUserId: userid.webusersid,
-                                    OfficeLocationId: response.location.locationid
+                                    WebUserId: userid.webusersid
                                 };
-                                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, activeViewRequest, FwServices.defaultTimeout, function onSuccess(res) {
-                                    const moduleNameIndex = res.ColumnIndex.ModuleName;
-                                    const activeViewFieldsIndex = res.ColumnIndex.ActiveViewFields;
-                                    const idIndex = res.ColumnIndex.Id;
-                                    for (let i = 0; i < res.Rows.length; i++) {
-                                        const controller = `${res.Rows[i][moduleNameIndex]}Controller`;
-                                        window[controller].ActiveViewFields = JSON.parse(res.Rows[i][activeViewFieldsIndex]);
-                                        window[controller].ActiveViewFieldsId = res.Rows[i][idIndex];
+                                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, activeViewRequest, FwServices.defaultTimeout, function onSuccess(r) {
+                                    const moduleNameIndex = r.ColumnIndex.ModuleName;
+                                    const officeLocationIdIndex = r.ColumnIndex.OfficeLocationId;
+                                    const activeViewsToReset = r.Rows
+                                        .filter(x => x[officeLocationIdIndex] === userlocation.locationid)
+                                        .map(x => x[moduleNameIndex]);
+                                    for (let i = 0; i < activeViewsToReset.length; i++) {
+                                        const controller = `${activeViewsToReset[i]}Controller`;
+                                        window[controller].ActiveViewFields = {};
+                                        window[controller].ActiveViewFieldsId = undefined;
+                                    }
+                                    const activeViewFieldsIndex = r.ColumnIndex.ActiveViewFields;
+                                    const idIndex = r.ColumnIndex.Id;
+                                    const activeViewsToApply = r.Rows.filter(x => x[officeLocationIdIndex] === response.location.locationid);
+                                    for (let i = 0; i < activeViewsToApply.length; i++) {
+                                        const item = activeViewsToApply[i];
+                                        const controller = `${item[moduleNameIndex]}Controller`;
+                                        window[controller].ActiveViewFields = JSON.parse(item[activeViewFieldsIndex]);
+                                        window[controller].ActiveViewFieldsId = item[idIndex];
                                     }
                                     program.getModule('home');
                                     $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
@@ -179,8 +189,8 @@ class RwMaster extends WebMaster {
                                         const defaultStyles = { borderTop: `transparent`, borderBottom: `1px solid #9E9E9E` };
                                         jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(defaultStyles);
                                     }
-                                }, function onError(response) {
-                                    FwFunc.showError(response);
+                                }, function onError(r) {
+                                    FwFunc.showError(r);
                                 }, null);
                             });
                         }
