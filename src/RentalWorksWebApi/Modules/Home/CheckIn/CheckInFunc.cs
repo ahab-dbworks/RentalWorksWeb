@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.CheckIn
                 }
                 FwSqlCommand qry = new FwSqlCommand(conn, "createincontract", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, DealId);
+                qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, DealId ?? "");
                 qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, DepartmentId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
