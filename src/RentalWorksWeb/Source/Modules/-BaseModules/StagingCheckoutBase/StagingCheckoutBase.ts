@@ -93,9 +93,24 @@
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
-
+        const module = this.Module;
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/checkout/suspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
+            let apiUrl;
+            let sessionType;
+            let orderType;
+            switch (module) {
+                case 'StagingCheckout':
+                    apiUrl = `api/v1/checkout/suspendedsessionsexist`;
+                    sessionType = 'OUT';
+                    orderType = 'O';
+                    break;
+                case 'TransferOut':
+                    apiUrl = `api/v1/checkout/transfersuspendedsessionsexist`;
+                    sessionType = 'MANIFEST';
+                    orderType = 'T';
+                    break;
+            }
+            FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, function onSuccess(response) {
                 $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
             }, null, $form);
 
@@ -108,11 +123,12 @@
 
                 const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
                 const $browse = SuspendedSessionController.openBrowse();
+
                 $browse.data('ondatabind', function (request) {
                     request.uniqueids = {
                         OfficeLocationId: officeLocationId
-                        , SessionType: 'OUT'
-                        , OrderType: 'O'
+                        , SessionType: sessionType
+                        , OrderType: orderType
                     }
                 });
 
@@ -129,11 +145,11 @@
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
                     const $this = jQuery(e.currentTarget);
-                    const OrderId = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
-                    const orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
-                    FwFormField.setValueByDataField($form, 'OrderId', OrderId, orderNumber);
+                    const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
+                    const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
+                    FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     FwPopup.destroyPopup($popup);
-                    $form.find('[data-datafield="OrderId"] input').change();
+                    $form.find(`[data-datafield="${this.Type}Id"] input`).change();
                     $form.find('.suspendedsession').hide();
                 });
             });
@@ -252,13 +268,26 @@
     };
     //----------------------------------------------------------------------------------------------
     addButtonMenu($form: JQuery): void {
-        const $createContract = FwMenu.generateButtonMenuOption('Create Contract');
+        const module = this.Module;
+        let caption;
+        switch (module) {
+            case 'StagingCheckout':
+                caption = 'Contract';
+                break;
+            case 'TransferOut':
+                caption = 'Manifest';
+                break;
+            case 'FillContainer':
+                //
+                break;
+        }
+        const $createContract = FwMenu.generateButtonMenuOption(`Create ${caption}`);
         $createContract.on('click', e => {
             e.stopPropagation();
             $form.find('.createcontract').click();
         });
 
-        const $createPartialContract = FwMenu.generateButtonMenuOption('Create Partial Contract');
+        const $createPartialContract = FwMenu.generateButtonMenuOption(`Create Partial ${caption}`);
         $createPartialContract.on('click', e => {
             e.stopPropagation();
             this.startPartialCheckoutItems($form, e);
@@ -624,6 +653,7 @@
             request.pagesize = 20;
             request.orderby = 'ItemOrder';
         });
+        $stageQuantityItemGrid.attr('data-moduletype', type);
         FwBrowse.init($stageQuantityItemGridControl);
         FwBrowse.renderRuntimeHtml($stageQuantityItemGridControl);
         // ----------

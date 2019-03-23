@@ -55,10 +55,11 @@
                 };
 
                 $quantityColumn.on('change', '.fieldvalue', e => {
+                    const type = $grid.attr('data-moduletype');
                     let request: any = {},
                         code = $tr.find('[data-browsedatafield="ICode"]').attr('data-originalvalue'),
                         orderItemId = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue'),
-                        orderId = FwFormField.getValueByDataField($form, 'OrderId'),
+                        orderId = FwFormField.getValueByDataField($form, `${type}Id`),
                         newValue = jQuery(e.currentTarget).val(),
                         oldValue = $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue'),
                         quantity = Number(newValue) - Number(oldValue);
