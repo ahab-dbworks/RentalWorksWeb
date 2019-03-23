@@ -450,6 +450,7 @@
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormForm.htm" />
@@ -468,6 +469,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\FillContainer\FillContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Container\Container.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarCodes.ts" />

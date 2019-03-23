@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^module\/transferout$/, action: function (match: RegExpExecArray) { return TransferOutController.getModuleScreen(); } });
 
-class TransferOut extends StagingCheckout{
+class TransferOut extends StagingCheckoutBase{
     Module: string = 'TransferOut';
     caption: string = 'Transfer Out';
     nav: string = 'module/transferout';

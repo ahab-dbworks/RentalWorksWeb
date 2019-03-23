@@ -14,7 +14,9 @@ class RwMaster extends WebMaster {
             {
                 caption: 'Warehouse',
                 id: '22D67715-9C24-4A06-A009-CB10A1EC746B',
-                children: [OrderStatusController, PickListController, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController, ReturnToVendorController, AssignBarCodesController, TransferOrderController, ManifestController, TransferReceiptController, TransferOutController, TransferInController]
+                children: [OrderStatusController, PickListController, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController,
+                    ReturnToVendorController, AssignBarCodesController, TransferOrderController, ManifestController, TransferReceiptController, TransferOutController, TransferInController,
+                    FillContainerController]
             },
             {
                 caption: 'Billing',
