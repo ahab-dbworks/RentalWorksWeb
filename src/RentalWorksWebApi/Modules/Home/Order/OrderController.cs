@@ -69,11 +69,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -103,11 +99,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -137,11 +129,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -171,11 +159,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------       
@@ -205,11 +189,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------     
@@ -239,11 +219,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
@@ -274,11 +250,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -309,11 +281,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------
@@ -344,19 +312,14 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
-
         //------------------------------------------------------------------------------------        
-        // POST api/v1/order/startpoworksheetsession
-        [HttpPost("startpoworksheetsession")]
+        // POST api/v1/order/startcreatepoworksheetsession
+        [HttpPost("startcreatepoworksheetsession")]
         [FwControllerMethod(Id:"R0PUscxxQIGy")]
-        public async Task<ActionResult<CreatePoWorksheetSessionResponse>> StartPoWorksheetSession([FromBody] CreatePoWorksheetSessionRequest request)
+        public async Task<ActionResult<CreatePoWorksheetSessionResponse>> StartCreatePoWorksheetSession([FromBody] CreatePoWorksheetSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -371,11 +334,6 @@ namespace WebApi.Modules.Home.Order
                     response.success = false;
                     response.msg = "OrderId is required.";
                 }
-                //else if (string.IsNullOrEmpty(request.VendorId))
-                //{
-                //    response.success = false;
-                //    response.msg = "Vendor is required.";
-                //}
                 else if (string.IsNullOrEmpty(request.RateType))
                 {
                     response.success = false;
@@ -393,22 +351,53 @@ namespace WebApi.Modules.Home.Order
                 }
                 else
                 {
-                    response = await OrderFunc.StartPoWorksheetSession(AppConfig, UserSession, request);
+                    response = await OrderFunc.StartCreatePoWorksheetSession(AppConfig, UserSession, request);
                 }
 
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        
+        // POST api/v1/order/startmodifypoworksheetsession
+        [HttpPost("startmodifypoworksheetsession")]
+        [FwControllerMethod(Id: "LxXovTHWdtaz0")]
+        public async Task<ActionResult<ModifyPoWorksheetSessionResponse>> StartModifyPoWorksheetSession([FromBody] ModifyPoWorksheetSessionRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
 
+                ModifyPoWorksheetSessionResponse response = new ModifyPoWorksheetSessionResponse();
+                if (string.IsNullOrEmpty(request.OrderId))
+                {
+                    response.success = false;
+                    response.msg = "OrderId is required.";
+                }
+                else if (string.IsNullOrEmpty(request.PurchaseOrderId))
+                {
+                    response.success = false;
+                    response.msg = "PurchaseOrderId is required.";
+                }
+                else
+                {
+                    response = await OrderFunc.StartModifyPoWorksheetSession(AppConfig, UserSession, request);
+                }
+
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------        
         // GET api/v1/order/poworksheetsessiontotals
         [HttpGet("poworksheetsessiontotals/{sessionId}")]
         [FwControllerMethod(Id: "prgSOVMTbnMEw")]
@@ -425,11 +414,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------     
@@ -451,11 +436,7 @@ namespace WebApi.Modules.Home.Order
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------        

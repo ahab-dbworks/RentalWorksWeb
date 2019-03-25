@@ -11,8 +11,6 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
 {
-
-
     public class CreatePoWorksheetSessionRequest
     {
         public string OrderId;
@@ -32,6 +30,31 @@ namespace WebApi.Modules.Home.Order
     public class CreatePoWorksheetSessionResponse : TSpStatusReponse
     {
         public string SessionId;
+    }
+
+    public class ModifyPoWorksheetSessionRequest
+    {
+        public string OrderId;
+        public string PurchaseOrderId;
+        public string RecType;
+    }
+
+    public class ModifyPoWorksheetSessionResponse : TSpStatusReponse
+    {
+        public string SessionId;
+        public string VendorId;
+        public string Vendor;
+        public string ContactId;
+        public string Contact;
+        public string RateType;
+        public string BillingCycleId;
+        public string BillingCycle;
+        public DateTime? RequiredDate;
+        public string RequiredTime;
+        public DateTime? FromDate;
+        public DateTime? ToDate;
+        public string DeliveryId;
+        public bool? AdjustContractDates;
     }
 
 
@@ -109,13 +132,12 @@ namespace WebApi.Modules.Home.Order
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-
-        public static async Task<CreatePoWorksheetSessionResponse> StartPoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, CreatePoWorksheetSessionRequest request)
+        public static async Task<CreatePoWorksheetSessionResponse> StartCreatePoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, CreatePoWorksheetSessionRequest request)
         {
             CreatePoWorksheetSessionResponse response = new CreatePoWorksheetSessionResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "startpoworksheetsession", appConfig.DatabaseSettings.QueryTimeout);
+                FwSqlCommand qry = new FwSqlCommand(conn, "startcreatepoworksheetsession", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                 qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                 qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId);
@@ -140,6 +162,54 @@ namespace WebApi.Modules.Home.Order
                 qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.SessionId = qry.GetParameter("@sessionid").ToString();
+                response.status = qry.GetParameter("@status").ToInt32();
+                response.success = (response.status == 0);
+                response.msg = qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<ModifyPoWorksheetSessionResponse> StartModifyPoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, ModifyPoWorksheetSessionRequest request)
+        {
+            ModifyPoWorksheetSessionResponse response = new ModifyPoWorksheetSessionResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "startmodifypoworksheetsession", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, request.PurchaseOrderId);
+                qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@vendor", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@ratetype", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@billperiodid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@billperiod", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@requireddate", SqlDbType.Date, ParameterDirection.Output);
+                qry.AddParameter("@requiredtime", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@rentfromdate", SqlDbType.Date, ParameterDirection.Output);
+                qry.AddParameter("@renttodate", SqlDbType.Date, ParameterDirection.Output);
+                qry.AddParameter("@deliveryid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@adjustcontractdate", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@contactid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@contact", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.SessionId = qry.GetParameter("@sessionid").ToString();
+                response.VendorId = qry.GetParameter("@vendorid").ToString();
+                response.Vendor = qry.GetParameter("@vendor").ToString();
+                response.RateType = qry.GetParameter("@ratetype").ToString();
+                response.BillingCycleId = qry.GetParameter("@billperiodid").ToString();
+                response.BillingCycle = qry.GetParameter("@billperiod").ToString();
+                response.RequiredDate = qry.GetParameter("@requireddate").ToDateTime();
+                response.RequiredTime = qry.GetParameter("@requiredtime").ToString();
+                response.FromDate = qry.GetParameter("@rentfromdate").ToDateTime();
+                response.ToDate = qry.GetParameter("@renttodate").ToDateTime();
+                response.DeliveryId = qry.GetParameter("@deliveryid").ToString();
+                response.AdjustContractDates = FwConvert.ToBoolean(qry.GetParameter("@adjustcontractdate").ToString());
+                response.ContactId = qry.GetParameter("@contactid").ToString();
+                response.Contact = qry.GetParameter("@contact").ToString();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
                 response.msg = qry.GetParameter("@msg").ToString();

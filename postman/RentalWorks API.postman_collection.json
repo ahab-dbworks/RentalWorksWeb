@@ -25958,7 +25958,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/officelocation/B001WH00",
+							"raw": "http://localhost:57949/api/v1/officelocation/B0027KVM",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -25968,7 +25968,7 @@
 								"api",
 								"v1",
 								"officelocation",
-								"B001WH00"
+								"B0027KVM"
 							]
 						}
 					},
@@ -26419,7 +26419,7 @@
 							"raw": "{\r\n\t\"OrderId\": \"I00005VN\",\r\n\t\"RecType\": \"R\",\r\n\t\"VendorId\": \"B003KOA6\",\r\n\t\"ContactId\": \"F00L3BH3\",\r\n\t\"RateType\": \"DAILY\",\r\n\t\"BillingCycleId\": \"B003KXTT\",\r\n\t\"RequiredDate\": \"10/01/2018\",\r\n\t\"RequiredTime\": \"18:00\",          \"xComment3\": \"military time\",\r\n\t\"FromDate\": \"10/03/2018\",\r\n\t\"ToDate\":  \"10/05/2018\",\r\n\t\"DeliveryId\": \"\",                 \"xComment1\": \"leave DeliveryId blank for now\",\r\n\t\"AdjustContractDates\": true,      \"xComment2\": \"this field is optional\"\r\n\t\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/order/startpoworksheetsession",
+							"raw": "http://localhost:57949/api/v1/order/startcreatepoworksheetsession",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -26429,7 +26429,42 @@
 								"api",
 								"v1",
 								"order",
-								"startpoworksheetsession"
+								"startcreatepoworksheetsession"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Orders: Modify PO Worksheet Session",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"OrderId\": \"I00005VN\",\r\n\t\"PurchaseOrderId\": \"I00144PN\",\r\n\t\"RecType\": \"R\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/order/startmodifypoworksheetsession",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"order",
+								"startmodifypoworksheetsession"
 							]
 						}
 					},
@@ -30643,7 +30678,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/physicalinventory/F002MQ0L",
+							"raw": "http://localhost:57949/api/v1/physicalinventory/G0000XBU",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -30653,7 +30688,7 @@
 								"api",
 								"v1",
 								"physicalinventory",
-								"F002MQ0L"
+								"G0000XBU"
 							]
 						}
 					},
@@ -44419,7 +44454,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I00006UX\"\n    \t}\n}\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I00144Q5\"\n    \t}\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/browse",

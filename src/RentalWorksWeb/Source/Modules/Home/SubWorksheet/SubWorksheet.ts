@@ -116,7 +116,7 @@ class SubWorksheet {
             }
 
             try {
-                FwAppData.apiMethod(true, 'POST', "api/v1/order/startpoworksheetsession", worksheetRequest, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'POST', "api/v1/order/startcreatepoworksheetsession", worksheetRequest, FwServices.defaultTimeout, response => {
                     if (response.success) {
                         errorMsg.html('');
                         FwFormField.disable($form.find('.subworksheet'));
