@@ -8,6 +8,7 @@ class CheckIn {
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
+    Type: string;
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
@@ -28,6 +29,14 @@ class CheckIn {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
+        switch (this.Module) {
+            case 'CheckIn':
+                this.Type = 'Order';
+                break;
+            case 'TransferIn':
+                this.Type = 'Transfer';
+                break;
+        }
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -51,8 +60,24 @@ class CheckIn {
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
         let showSuspendedSessions = $form.attr('data-showsuspendedsessions');
+        const module = this.Module;
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/checkin/suspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
+            let apiUrl;
+            let sessionType;
+            let orderType;
+            switch (module) {
+                case 'CheckIn':
+                    apiUrl = `api/v1/checkin/suspendedsessionsexist`;
+                    sessionType = 'IN';
+                    orderType = 'O';
+                    break;
+                case 'TransferIn':
+                    apiUrl = `api/v1/checkin/transfersuspendedsessionsexist`;
+                    sessionType = 'MANIFEST';
+                    orderType = 'T';
+                    break;
+            }
+            FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, function onSuccess(response) {
                 $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
             }, null, $form);
 
@@ -70,8 +95,8 @@ class CheckIn {
                 $browse.data('ondatabind', function (request) {
                     request.uniqueids = {
                         OfficeLocationId: officeLocationId
-                        , SessionType: 'IN'
-                        , OrderType: 'O'
+                        , SessionType: sessionType
+                        , OrderType: orderType
                     }
                 });
 
@@ -87,16 +112,18 @@ class CheckIn {
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
                     let $this = jQuery(e.currentTarget);
-                    let id = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
-                    let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
-                    let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
-                    let dealNumber = $this.find(`[data-browsedatafield="DealNumber"]`).attr('data-originalvalue');
-                    if (dealId !== "") {
-                        FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
+                    const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
+                    const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
+                    FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
+                    if (this.Module == 'CheckIn') {
+                        let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
+                        let dealNumber = $this.find(`[data-browsedatafield="DealNumber"]`).attr('data-originalvalue');
+                        if (dealId !== "") {
+                            FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
+                        }
                     }
-                    FwFormField.setValueByDataField($form, 'OrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
-                    $form.find('[data-datafield="OrderId"] input').change();
+                    $form.find(`[data-datafield="${this.Type}Id"] input`).change();
                     $form.find('.suspendedsession').hide();
                 });
 
@@ -218,7 +245,7 @@ class CheckIn {
 
             let request: any = {};
             request = {
-              OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
                 , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
             }
             if (this.Module === 'CheckIn') request.DealId = FwFormField.getValueByDataField($form, 'DealId');
@@ -303,7 +330,7 @@ class CheckIn {
         $form.find('div.quantityitemstab').on('click', e => {
             //Disable clicking Quantity Items tab w/o a ContractId
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+            let orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             if (contractId) {
                 FwBrowse.search($checkInQuantityItemsGridControl);
             } else {
@@ -392,8 +419,8 @@ class CheckIn {
         //Order Status Button
         $form.find('.orderstatus').on('click', e => {
             let orderInfo: any = {}, $orderStatusForm;
-            orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-            orderInfo.OrderNumber = FwFormField.getTextByDataField($form, 'OrderId');
+            orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
+            orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
             $orderStatusForm = OrderStatusController.openForm('EDIT', orderInfo);
             FwModule.openSubModuleTab($form, $orderStatusForm);
             jQuery('.tab.submodule.active').find('.caption').html('Order Status');
@@ -410,6 +437,17 @@ class CheckIn {
         errorSound = new Audio(this.errorSoundFileName);
         successSound = new Audio(this.successSoundFileName);
         notificationSound = new Audio(this.notificationSoundFileName);
+
+        const module = this.Module;
+        let idType;
+        switch (module) {
+            case 'CheckIn':
+                idType = 'Order';
+                break;
+            case 'TransferIn':
+                idType = 'Transfer';
+                break;
+        }
 
         $form.find('.swapitem').hide();
         let contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -437,7 +475,7 @@ class CheckIn {
                 break;
         }
 
-        FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/checkinitem', request, FwServices.defaultTimeout, response => {
             if (response.success) {
                 successSound.play();
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
@@ -449,12 +487,13 @@ class CheckIn {
                 FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
                 FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
                 FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
-                FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                if (this.Module == 'CheckIn') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                 if (type !== 'SwapItem') {
-                    FwFormField.setValueByDataField($form, 'OrderId', response.OrderId, response.OrderNumber);
+                    FwFormField.setValueByDataField($form, `${idType}Id`, response[`${idType}Id`], response[`${idType}Number`]);
                     FwFormField.setValueByDataField($form, 'Description', response.OrderDescription);
                 }
-                FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+                FwFormField.disable($form.find(`[data-datafield=${idType}Id]`));
+                if (this.Module == 'CheckIn') FwFormField.disable($form.find(`[data-datafield="DealId"]`));
 
                 let $checkedInItemsGridControl = $form.find('div[data-name="CheckedInItemGrid"]');
                 FwBrowse.search($checkedInItemsGridControl);
@@ -550,8 +589,8 @@ class CheckIn {
                         <div data-control="FwGrid" data-grid="CheckedInItemGrid" data-securitycaption=""></div>
                       </div>
                       <div class="formrow">
-                        <div class="fwformcontrol orderstatus" data-type="button" style="float:left; margin-left:10px;">Order Status</div>
-                        <div class="fwformcontrol createcontract" data-type="button" style="float:right;">Create Contract</div>
+                        <div class="fwformcontrol orderstatus" data-type="button" style="float:left; margin-left:10px;">${this.Module == 'CheckIn' ? 'Order' : 'Transfer'} Status</div>
+                        <div class="fwformcontrol createcontract" data-type="button" style="float:right;">Create ${this.Module == 'CheckIn' ? 'Contract' : 'Manifest'}</div>
                       </div>
                     </div>
                   </div>

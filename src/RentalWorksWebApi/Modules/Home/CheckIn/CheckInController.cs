@@ -74,6 +74,29 @@ namespace WebApi.Modules.Home.CheckIn
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/checkin/transfersuspendedsessionsexist
+        [HttpGet("transfersuspendedsessionsexist")]
+        [FwControllerMethod(Id: "nn5aXjSowjt")]
+        public async Task<ActionResult<bool>> TransferSuspendedSessionsExist()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_MANIFEST, RwConstants.ORDER_TYPE_TRANSFER);
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+
         // POST api/v1/checkin/startcheckincontract
         [HttpPost("startcheckincontract")]
         [FwControllerMethod(Id:"Ns64DDLG1CGr")]
