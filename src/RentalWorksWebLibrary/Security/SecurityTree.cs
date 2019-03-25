@@ -60,11 +60,11 @@ namespace WebLibrary.Security
             AddModule("Rental Inventory",   "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuInventory.Id, "RentalInventoryController",   "module/rentalinventory",   homeiconbaseurl + "placeholder.png");
             AddModule("Sales Inventory",    "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuInventory.Id, "SalesInventoryController",    "module/salesinventory",    homeiconbaseurl + "placeholder.png");
             AddModule("Parts Inventory",    "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuInventory.Id, "PartsInventoryController",    "module/partsinventory",    homeiconbaseurl + "placeholder.png");
-            AddModule("Physical Inventory", "{BABFE80E-8A52-49D4-81D9-6B6EBB518E89}", lv1menuInventory.Id, "PhysicalInventoryController", "module/physicalinventory", homeiconbaseurl + "placeholder.png");
             AddModule("Asset",              "{1C45299E-F8DB-4AE4-966F-BE142295E3D6}", lv1menuInventory.Id, "AssetController",             "module/item",              homeiconbaseurl + "placeholder.png");
             AddModule("Container",          "{28A49328-FFBD-42D5-A492-EDF540DF7011}", lv1menuInventory.Id, "ContainerController",         "module/container",         homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order",       "{2BD0DC82-270E-4B86-A9AA-DD0461A0186A}", lv1menuInventory.Id, "RepairController",            "module/repair",            homeiconbaseurl + "placeholder.png");
             AddModule("Complete Qc",        "{3F20813A-CC21-49D8-A5F8-9930B7F05404}", lv1menuInventory.Id, "CompleteQcController",        "module/completeqc",        homeiconbaseurl + "placeholder.png");
+            AddModule("Physical Inventory", "{BABFE80E-8A52-49D4-81D9-6B6EBB518E89}", lv1menuInventory.Id, "PhysicalInventoryController", "module/physicalinventory", homeiconbaseurl + "placeholder.png");
 
             AddModule("Order Status",        "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController",        "module/orderstatus",       homeiconbaseurl + "placeholder.png");
             AddModule("Pick List",           "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController",           "module/picklist",          homeiconbaseurl + "placeholder.png");

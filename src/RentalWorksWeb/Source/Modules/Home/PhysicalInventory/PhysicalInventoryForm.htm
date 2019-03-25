@@ -22,7 +22,7 @@
           <div class="flexrow">
             <div class="flexcolumn">
               <div class="fwcontrol fwcontainer flexrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield warehouse" data-caption="Warehouse" data-datafield="WarehouseCode" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehouse" data-caption="Warehouse" data-datafield="WarehouseCode" data-displayfield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
                 <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Activity Type" data-datafield="RecTypeDisplay" style="float:left;width:250px;">
                   <div data-caption="Rental" data-value="RENTAL"></div>
                   <div data-caption="Sales" data-value="SALES"></div>
@@ -34,11 +34,6 @@
                 </div>
               </div>
             </div>
-            <div class="flexcolumn">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="float:left;min-width:400px;"></div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -47,6 +42,7 @@
           <div class="flexrow">
             <div class="flexcolumn">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Settings">
+                <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" data-formbeforevalidate="beforeValidateInventoryType" style="float:left;min-width:400px;"></div>
                 <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Items Tracked By" data-datafield="CycleTrackedBy" style="float:left;width:250px;">
                   <div data-caption="All" data-value="ALL"></div>
                   <div data-caption="Bar Code" data-value="BARCODE"></div>
@@ -80,58 +76,58 @@
           <div class="flexrow">
             <div class="flexcolumn">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Ownership">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cosigned" data-datafield="CycleIncludeConsigned"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Owned" data-datafield="CycleIncludeOwned"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Cosigned" data-datafield="CycleIncludeConsigned"></div>
               </div>
             </div>
             <div class="flexcolumn">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include I-Codes with Total Owned" data-datafield="CycleOnlyIncludeOwnedwned"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Includes I-Codes with non-zero quantity" data-datafield="CycleOnlyIncludeOwnedwned"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exlude Items if Availability is not Calculated" data-datafield="ExcludeInventoryWithNoAvailabilityCheck"></div>
               </div>
             </div>
-            <div class="flexcolumn">
+            <!--<div class="flexcolumn">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Facilities">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Facilities Physical Inventory" data-datafield="FacilitiesInventory"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Count Items Checked Out" data-datafield="CountInventoryThatIsOut"></div>
               </div>
-            </div>
+            </div>-->
           </div>
           <div class="flexrow">
             <div class="flexcolumn">
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="ValueFromA"></div>
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="ValueToA"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="AFromValue"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="AToValue"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rank A" data-datafield="CycleRankA"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="ValueFromB"></div>
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="ValueToB"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="BFromValue"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="BToValue"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rank B" data-datafield="CycleRankB"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="ValueFromC"></div>
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="ValueToC"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="CFromValue"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="CToValue"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rank C" data-datafield="CycleRankC"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="ValueFromD"></div>
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="ValueToD"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="DFromValue"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="DToValue"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rank D" data-datafield="CycleRankD"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="ValueFromE"></div>
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="ValueToE"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="EFromValue"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="EToValue"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rank E" data-datafield="CycleRankE"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="ValueFromF"></div>
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="ValueToF"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="FFromValue"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="FToValue"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rank F" data-datafield="CycleRankF"></div>
               </div>
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="ValueFromG"></div>
-                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="ValueToG"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value From" data-datafield="GFromValue"></div>
+                <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Value To" data-datafield="GToValue"></div>
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Rank G" data-datafield="CycleRankG"></div>
               </div>
             </div>

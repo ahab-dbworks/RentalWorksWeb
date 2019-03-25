@@ -4,6 +4,8 @@
     caption: string = 'Physical Inventory';
     nav: string = 'module/physicalinventory';
     id: string = 'BABFE80E-8A52-49D4-81D9-6B6EBB518E89';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
 
     getModuleScreen() {
         var screen, $browse;
@@ -36,16 +38,33 @@
         return $browse;
     }
 
+    addBrowseMenuItems($menuObject) {
+        //Location Filter
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+
+        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+            this.ActiveViewFields.LocationId = [location.locationid];
+        }
+
+        let viewLocation: Array<JQuery> = [];
+        viewLocation.push($userLocation, $allLocations);
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+        return $menuObject;
+    };
+
     openForm(mode: string) {
         var $form;
 
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        FwFormField.loadItems($form.find('.warehouse'), [
-            { value: 'ZD', text: 'Washington DC' },
-            { value: 'TOR', text: 'Toronto Warehouse' }
-        ], true);
+        if (mode === 'NEW') {
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));    
+            FwFormField.setValue($form.find('.warehouse'), warehouse.warehouseid, warehouse.warehouse);
+            FwFormField.setValueByDataField($form, 'CycleIncludeOwned', true);
+        }
 
         return $form;
     }
@@ -71,6 +90,20 @@
     }
 
     afterLoad($form: any) {
+    }
+
+    beforeValidateInventoryType($browse, $grid, request) {
+        let validationName = request.module,
+            recType = FwFormField.getValueByDataField($grid, 'RecTypeDisplay');
+        switch (validationName) {
+            case 'InventoryTypeValidation':
+                request.uniqueids = {};
+                if (recType === 'RENTAL') { request.uniqueids.Rental = true };
+                if (recType === 'SALES') { request.uniqueids.Sales = true };
+                if (recType === 'PARTS') { request.uniqueids.Parts = true };
+                break;
+        }
+
     }
 }
 
