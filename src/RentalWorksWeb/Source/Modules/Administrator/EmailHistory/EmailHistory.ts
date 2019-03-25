@@ -82,16 +82,16 @@ class EmailHistory {
             <div class="field" data-caption="Sent" data-isuniqueid="false" data-datafield="EmailDate" data-browsedatatype="text" data-sort="asc"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
-            <div class="field" data-caption="Sent By" data-isuniqueid="false" data-datafield="EmailSubject" data-browsedatatype="text" data-sort="off"></div>
-          </div>
-          <div class="column" data-width="150px" data-visible="true">
-            <div class="field" data-caption="Report" data-isuniqueid="false" data-datafield="Title" data-browsedatatype="text" data-sort="off"></div>
-          </div>
-          <div class="column" data-width="150px" data-visible="true">
             <div class="field" data-caption="From" data-isuniqueid="false" data-datafield="FromUser" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
             <div class="field" data-caption="E-mail To" data-isuniqueid="false" data-datafield="EmailTo" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="Subject" data-isuniqueid="false" data-datafield="EmailSubject" data-browsedatatype="text" data-sort="off"></div>
+          </div>
+          <div class="column" data-width="150px" data-visible="true">
+            <div class="field" data-caption="Report" data-isuniqueid="false" data-datafield="Title" data-browsedatatype="text" data-sort="off"></div>
           </div>
           <div class="column" data-width="150px" data-visible="true">
             <div class="field" data-caption="Status" data-isuniqueid="false" data-datafield="Status" data-browsedatatype="text" data-sort="off"></div>
