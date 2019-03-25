@@ -90,7 +90,7 @@ class Receipt {
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
             const location = JSON.parse(sessionStorage.getItem('location'));
-            FwFormField.setValueByDataField($form, 'LocationId', location.locationid);
+            FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'ReceiptDate', today);
             FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
