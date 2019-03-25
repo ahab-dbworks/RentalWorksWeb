@@ -57,6 +57,9 @@ namespace WebApi.Modules.Reports.EmailHistory
             select.Parse();
             addFilterToSelect("FromUserId", "fromusersid", select, request);
             addFilterToSelect("RelatedToId", "uniqueid", select, request);
+
+            AddActiveViewFieldToSelect("FromUserId", "fromusersid", select, request);
+
         }
         //------------------------------------------------------------------------------------ 
     }
