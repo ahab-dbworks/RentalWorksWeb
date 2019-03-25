@@ -6,11 +6,18 @@ using WebApi.Data;
 using System.Collections.Generic;
 using System;
 using WebLibrary;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Home.CheckOutPendingItem
 {
     [FwSqlTable("dbo.funccheckoutexception2(@orderid, @warehouseid, @contractid)")]
     public class CheckOutPendingItemLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public CheckOutPendingItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -36,15 +43,23 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor
+        {
+            get { return getICodeColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subvendorid", modeltype: FwDataTypes.Text)]
         public string SubVendorId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -57,9 +72,13 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
         [FwSqlDataField(column: "vendor", modeltype: FwDataTypes.Text)]
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "vendorcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string VendorColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string VendorColor
+        {
+            get { return getVendorColor(SubVendorId, ConsignorId); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -87,9 +106,13 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
         [FwSqlDataField(column: "missingqty", modeltype: FwDataTypes.Decimal)]
         public decimal? MissingQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "missingcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string MissingColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string MissingColor
+        {
+            get { return getMissingColor(IsMissing.GetValueOrDefault(false)); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -126,18 +149,56 @@ namespace WebApi.Modules.Home.CheckOutPendingItem
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-            string orderId = GetUniqueIdAsString("OrderId", request) ?? ""; 
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
             string warehouseId = GetUniqueIdAsString("WarehouseId", request) ?? "";
             string contractId = GetUniqueIdAsString("ContractId", request) ?? "";
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(exceptionflg = 'T')"); 
-            select.AddWhere("(qtyordered > 0 or qtystagedandout > 0)"); 
+            select.AddWhere("(exceptionflg = 'T')");
+            select.AddWhere("(qtyordered > 0 or qtystagedandout > 0)");
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
             select.AddParameter("@orderid", orderId);
             select.AddParameter("@warehouseid", warehouseId);
-            select.AddParameter("@contractid", contractId); 
+            select.AddParameter("@contractid", contractId);
         }
         //------------------------------------------------------------------------------------ 
+        private string getICodeColor(string itemClass)
+        {
+            return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDescriptionColor(string itemClass)
+        {
+            return AppFunc.GetItemClassDescriptionColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getMissingColor(bool isMissing)
+        {
+            return (isMissing ? RwGlobals.STAGING_PENDING_ITEMS_MISSING_COLOR : null);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getVendorColor(string subVendorId, string consignorId)
+        {
+            return (!string.IsNullOrEmpty(subVendorId) ? RwGlobals.SUB_COLOR : (!string.IsNullOrEmpty(consignorId) ? RwGlobals.CONSIGNMENT_COLOR : null));
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("VendorColor")] = getVendorColor(row[dt.GetColumnNo("SubVendorId")].ToString(), row[dt.GetColumnNo("ConsignorId")].ToString());
+                        row[dt.GetColumnNo("MissingColor")] = getMissingColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsMissing")].ToString()));
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

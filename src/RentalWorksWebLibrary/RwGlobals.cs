@@ -13,6 +13,8 @@ namespace WebLibrary
         public static string ACCESSORY_COLOR { get; set; }
         public static string CONTAINER_COLOR { get; set; }
         public static string SUB_COLOR { get; set; }
+        public static string CONSIGNMENT_COLOR { get; set; }
+
 
         //QUOTE/ORDER 
         public static string QUOTE_ORDER_LOCKED_COLOR { get; set; }
@@ -51,6 +53,10 @@ namespace WebLibrary
         public static string PO_ITEMS_NEED_BARCODE_COLOR { get; set; }
         public static string PO_ITEMS_IN_HOLDING_COLOR { get; set; }
 
+        //STAGING / CHECK-OUT
+        public static string STAGING_PENDING_ITEMS_MISSING_COLOR { get; set; }
+
+
         //CONTAINER
         public static string CONTAINER_READY_COLOR { get; set; }
         public static string CONTAINER_INCOMPLETE_COLOR { get; set; }
@@ -85,6 +91,13 @@ namespace WebLibrary
             }
             CONTAINER_COLOR = FwConvert.OleColorToHtmlColor(containerColorInt);
             SUB_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
+
+            int consignmentColorInt = 0;
+            using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
+            {
+                consignmentColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "syscontrol", "controlid", "1", "consignmentcolor").Result.ToString().TrimEnd());
+            }
+            CONSIGNMENT_COLOR = FwConvert.OleColorToHtmlColor(consignmentColorInt);
 
 
             QUOTE_ORDER_LOCKED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.QUOTE_ORDER_LOCKED_COLOR);
@@ -125,6 +138,8 @@ namespace WebLibrary
             RECEIPT_RECTYPE_CREDIT_MEMO_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO_COLOR);
 
             NEGATIVE_VARIANCE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.NEGATIVE_VARIANCE_COLOR);
+
+            STAGING_PENDING_ITEMS_MISSING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.STAGING_PENDING_ITEMS_MISSING_COLOR);
 
 
         }

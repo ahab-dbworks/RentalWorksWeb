@@ -315,7 +315,14 @@
         public const int COMPANY_TYPE_VENDOR_COLOR = 2144255; //light blue
 
 
+        //GLOBAL
         public const int NEGATIVE_VARIANCE_COLOR = 16711684; // red
+
+
+        //STAGING / CHECK-OUT
+        public const int STAGING_PENDING_ITEMS_MISSING_COLOR = 16711684; // red
+
+
 
 
     }
