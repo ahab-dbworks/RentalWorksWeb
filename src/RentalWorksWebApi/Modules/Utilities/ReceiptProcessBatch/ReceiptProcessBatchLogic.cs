@@ -1,6 +1,6 @@
-using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.ReceiptProcessBatch
+using WebApi.Logic;
+namespace WebApi.Modules.Utilities.ReceiptProcessBatch
 {
     [FwLogic(Id: "f5AtriQbvVHFR")]
     public class ReceiptProcessBatchLogic : AppBusinessLogic

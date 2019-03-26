@@ -1,6 +1,6 @@
-using WebApi.Logic;
 using FwStandard.AppManager;
-namespace WebApi.Modules.Home.VendorInvoiceProcessBatch
+using WebApi.Logic;
+namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
 {
     [FwLogic(Id: "HetRinedRr4i")]
     public class VendorInvoiceProcessBatchLogic : AppBusinessLogic

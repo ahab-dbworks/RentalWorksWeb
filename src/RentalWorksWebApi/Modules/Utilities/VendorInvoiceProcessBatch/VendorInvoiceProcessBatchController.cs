@@ -1,15 +1,15 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using FwStandard.SqlServer;
-using FwStandard.AppManager;
-using WebApi.Logic;
 using System;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
+using WebApi.Controllers;
+using WebApi.Logic;
 
-namespace WebApi.Modules.Home.VendorInvoiceProcessBatch
+namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
 {
     public class VendorInvoiceProcessBatchRequest
     {
@@ -20,7 +20,7 @@ namespace WebApi.Modules.Home.VendorInvoiceProcessBatch
         public string BatchId { get; set; }
     }
     [Route("api/v1/[controller]")]
-    [ApiExplorerSettings(GroupName = "home-v1")]
+    [ApiExplorerSettings(GroupName = "utilities-v1")]
     [FwController(Id: "gRjYvLD2qZ6NR")]
     public class VendorInvoiceProcessBatchController : AppDataController
     {

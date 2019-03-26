@@ -2,7 +2,6 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Text;
@@ -10,49 +9,23 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.ReceiptProcessBatch
+namespace WebApi.Modules.Utilities.InvoiceProcessBatch
 {
-
-    public class ReceiptProcessBatchRequest
-    {
-        public string OfficeLocationId { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-    }
-
-
-    public class ReceiptProcessBatchResponse : TSpStatusReponse
-    {
-        public ReceiptProcessBatchLogic Batch;
-    }
-
-    public class ExportReceiptRequest
-    {
-        public string BatchId { get; set; }
-    }
-
-    public class ExportReceiptResponse : TSpStatusReponse
-    {
-        public ReceiptProcessBatchLogic batch = null;
-        public string downloadUrl = "";
-    }
-
-
-    public static class ReceiptProcessBatchFunc
+    public static class InvoiceProcessBatchFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<ReceiptProcessBatchResponse> CreateBatch(FwApplicationConfig appConfig, FwUserSession userSession, ReceiptProcessBatchRequest request)
+        public static async Task<InvoiceProcessBatchResponse> CreateBatch(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchRequest request)
         {
             string batchId = "";
-            ReceiptProcessBatchResponse response = new ReceiptProcessBatchResponse();
+            InvoiceProcessBatchResponse response = new InvoiceProcessBatchResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "createarchargebatchweb", appConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "createchargebatch2", appConfig.DatabaseSettings.QueryTimeout))
                 {
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
-                    qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.NVarChar, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@asof", SqlDbType.DateTime, ParameterDirection.Input, request.AsOfDate);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.LocationId);
                     qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
@@ -62,25 +35,38 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
                     response.msg = qry.GetParameter("@msg").ToString();
                 }
             }
+
             if (!string.IsNullOrEmpty(batchId))
             {
-                response.Batch = new ReceiptProcessBatchLogic();
+                response.Batch = new InvoiceProcessBatchLogic();
                 response.Batch.SetDependencies(appConfig, userSession);
                 response.Batch.BatchId = batchId;
-                await response.Batch.LoadAsync<ReceiptProcessBatchLogic>();
+                await response.Batch.LoadAsync<InvoiceProcessBatchLogic>();
             }
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<ExportReceiptResponse> Export(FwApplicationConfig appConfig, FwUserSession userSession, ReceiptProcessBatchLogic batch)
+        public static async Task<ExportInvoiceResponse> Export(FwApplicationConfig appConfig, FwUserSession userSession, InvoiceProcessBatchLogic batch)
         {
             FwJsonDataTable dt = null;
             FwJsonDataTable exportFields = null;
+            //FwJsonDataTable exportSettings = null;
+            //string exportString = "";
             StringBuilder sb = new StringBuilder();
-            ExportReceiptResponse response = new ExportReceiptResponse();
+            ExportInvoiceResponse response = new ExportInvoiceResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                string exportString = await AppFunc.GetStringDataAsync(appConfig, "dataexportsetting", "settingname", RwConstants.DATA_EXPORT_SETTINGS_TYPE_RECEIPT_DETAIL, "exportstring");  //hard-coded for 4Wall
+                //using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                //{
+                //    qry.Add("select exportstring from dataexportsetting where settingname = 'DEAL INVOICE G/L SUMMARY'");
+                //    exportSettings = await qry.QueryToFwJsonTableAsync(true, 0);
+                //    exportString = exportSettings.Rows[0][0].ToString();
+                //}
+                
+                //this is just a simpler way to grab a single field from a single table
+                string exportString = await AppFunc.GetStringDataAsync(appConfig, "dataexportsetting", "settingname", RwConstants.DATA_EXPORT_SETTINGS_TYPE_DEAL_INVOICE_GL_SUMMARY, "exportstring");  //hard-coded for 4Wall
+
 
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
@@ -88,24 +74,24 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
                     exportFields = await qry.QueryToFwJsonTableAsync(true, 0);
                 }
 
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "exportreceipts", appConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "exportinvoices", appConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Input, batch.BatchId);
-                    qry.AddColumn("arid", "arid", FwDataTypes.Text, true, false, false);
+                    qry.AddColumn("invoiceid", "invoiceid", FwDataTypes.Text, true, false, false);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
 
                 for (int i = 0; i <= dt.Rows.Count - 1; i++)
                 {
                     FwJsonDataTable dt2 = null;
-                    using (FwSqlCommand qry = new FwSqlCommand(conn, "exportreceiptdetails", appConfig.DatabaseSettings.QueryTimeout))
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, "exportinvoiceglsummary", appConfig.DatabaseSettings.QueryTimeout))
                     {
-                        qry.AddParameter("@arid", SqlDbType.NVarChar, ParameterDirection.Input, dt.Rows[i][0]);
+                        qry.AddParameter("@invoiceid", SqlDbType.NVarChar, ParameterDirection.Input, dt.Rows[i][0]);
                         dt2 = await qry.QueryToFwJsonTableAsync(true, 0);
                         string lineText = exportString;
                         for (int j = 0; j <= dt2.Rows.Count - 1; j++)
                         {
-                            char[] delimiterChars = { ' ', ',' };
+                            char[] delimiterChars = { ' ', ','};
                             string[] fields = lineText.Split(delimiterChars);
                             string fieldName = "";
                             foreach (string s in fields)
@@ -142,22 +128,28 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
 
                     }
                 }
+                //string path = @"C:\TEMP\Batch" + batch.BatchNumber + ".csv";
+
+                // here we are creating a downloadable file that will live in the API "downloads" directory
                 string downloadFileName = batch.BatchNumber + "_" + DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + ".csv";
                 string filename = userSession.WebUsersId + "_" + batch.BatchNumber + "_" + Guid.NewGuid().ToString().Replace("-", string.Empty) + "_csv";
                 string directory = FwDownloadController.GetDownloadsDirectory();
                 string path = Path.Combine(directory, filename);
 
-                using (var tw = new StreamWriter(path, false))
+                using (var tw = new StreamWriter(path, /*true */false)) // false here will initialize the file fresh, no appending
                 {
                     tw.Write(sb);
                     tw.Flush();
                     tw.Close();
                 }
+
+
                 response.batch = batch;
                 response.downloadUrl = $"api/v1/download/{filename}?downloadasfilename={downloadFileName}";
                 response.success = true;
             }
             return response;
         }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

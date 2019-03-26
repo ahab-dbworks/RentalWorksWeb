@@ -5,10 +5,10 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 
-namespace WebApi.Modules.Home.InvoiceProcessBatch
+namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
 {
     [FwSqlTable("chgbatchview")]
-    public class InvoiceProcessBatchLoader : AppDataLoadRecord
+    public class VendorInvoiceProcessBatchLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "chgbatchid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
@@ -54,7 +54,7 @@ namespace WebApi.Modules.Home.InvoiceProcessBatch
             //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            select.AddWhere("(batchtype='" + RwConstants.BATCH_TYPE_INVOICE + "')");
+            select.AddWhere("(batchtype='" + RwConstants.BATCH_TYPE_VENDOR_INVOICE + "')");
             addFilterToSelect("LocationId", "locationid", select, request);
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 

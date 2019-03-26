@@ -1,12 +1,9 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
-using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using WebApi.Logic;
-using WebLibrary;
 
-namespace WebApi.Modules.Home.VendorInvoiceProcessBatch
+namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
 {
     public static class VendorInvoiceProcessBatchFunc
     {
