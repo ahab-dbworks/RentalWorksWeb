@@ -178,6 +178,8 @@ class TransferOrder {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
+        $form.find('.submodule').show();
+
         const $orderItemRentalGrid = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
         FwBrowse.search($orderItemRentalGrid);
 
@@ -192,6 +194,7 @@ class TransferOrder {
         const salesTab = $form.find('.salesTab');
         isSales ? salesTab.show() : salesTab.hide();
 
+        //Load grids and browses upon clicking their tab
         $form.on('click', '[data-type="tab"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
             const lastIndexOfTab = tabname.lastIndexOf('tab');
