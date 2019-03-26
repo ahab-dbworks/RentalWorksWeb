@@ -578,7 +578,7 @@ namespace WebLibrary.Security
 
             //TrakitWorks
             AddModule("Asset",                  "{E1366299-0008-429C-93CC-B8ED8969B180}", lv1menuModules.Id, "AssetController",             "module/asset",             homeiconbaseurl + "placeholder.png");
-            AddModule("Assign Bar Codes",       "{81B0D93C-9765-4340-8B40-63040E0343B8}", lv1menuModules.Id, "AssignBarCodesController",    "module/assignbarcodes",    homeiconbaseurl + "placeholder.png");
+            AddModule("Assign Barcodes",        "{81B0D93C-9765-4340-8B40-63040E0343B8}", lv1menuModules.Id, "AssignBarcodesController",    "module/assignbarcodes",    homeiconbaseurl + "placeholder.png");
             AddModule("Check-In",               "{3D1EB9C4-95E2-440C-A3EF-10927C4BDC65}", lv1menuModules.Id, "CheckInController",           "module/checkin",           homeiconbaseurl + "placeholder.png");
             AddModule("Contact",                "{9DC167B7-3313-4783-8A97-03C55B6AD5F2}", lv1menuModules.Id, "ContactController",           "module/contact",           homeiconbaseurl + "placeholder.png");
             AddModule("Create Pick List",       "{1407A536-B5C9-4363-8B54-A56DB8CE902D}", null,              "CreatePickListController",    "module/createpicklist",    homeiconbaseurl + "placeholder.png");

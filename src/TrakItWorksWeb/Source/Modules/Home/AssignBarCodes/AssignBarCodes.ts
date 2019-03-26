@@ -8,7 +8,6 @@ class AssignBarcodes {
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

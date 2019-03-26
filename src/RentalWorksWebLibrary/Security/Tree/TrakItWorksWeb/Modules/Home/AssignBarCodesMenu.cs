@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Settings
 {
-    public class AssignBarCodesMenu : FwSecurityTreeBranch
+    public class AssignBarcodesMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public AssignBarCodesMenu() : base("{81B0D93C-9765-4340-8B40-63040E0343B8}") { }
+        public AssignBarcodesMenu() : base("{81B0D93C-9765-4340-8B40-63040E0343B8}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
