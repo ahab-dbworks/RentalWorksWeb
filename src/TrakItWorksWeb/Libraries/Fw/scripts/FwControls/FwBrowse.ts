@@ -1149,7 +1149,7 @@ class FwBrowseClass {
                     html.push('<td class="column flexgridspacer" style="display:none;"></td>'); // 10/12/18 Jason H - add invisible div for flexgrid
                 }
                 if ($control.attr('data-type') === 'Grid') {
-                    html.push('<td class="column browsecontextmenucell" style="width:26px;"></td>');
+                    html.push('<td class="column browsecontextmenucell"></td>');
                 }
                 html.push('</tr>');
                 html.push('</thead>');
@@ -2322,7 +2322,7 @@ class FwBrowseClass {
                 //    }
                 //});
                 // put a Grid row into edit mode when a user clicks on a table cell
-
+                // ----------
                 $control.find('tbody tr').on('click', function (e: JQuery.Event) {
                     try {
                         e.stopPropagation();
@@ -2338,37 +2338,39 @@ class FwBrowseClass {
                         FwFunc.showError(ex);
                     }
                 });
+                // ----------
                 $control.find('tbody .browsecontextmenu').on('click', function (e: JQuery.Event) {
                     try {
                         //e.stopPropagation();
-                        let $browse = jQuery(this).closest('.fwbrowse');
+                        const $browse = jQuery(this).closest('.fwbrowse');
+                        const $fwcontextmenus = $browse.find('tbody .fwcontextmenu');
+                        for (let i = 0; i < $fwcontextmenus.length; i++) {
+                            FwContextMenu.destroy($fwcontextmenus.eq(i));
+                        }
+                        let menuItemCount = 0;
+                        //me.unselectAllRows($control);
+                        //me.selectRow($control, $tr, true);
+                        const $browsecontextmenu = jQuery(this);
+                        const $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu, e);
+                        //$contextmenu.data('beforedestroy', function () {
+                        //    me.unselectRow($control, $tr);
+                        //});
+                        const controller = $control.attr('data-controller');
+                        if (typeof controller === 'undefined') {
+                            throw 'Attribute data-controller is not defined on Browse control.'
+                        }
+                        // Delete menu option
                         if ($browse.attr('data-enabled') !== 'false') {
-                            let $fwcontextmenus = $browse.find('tbody .fwcontextmenu');
-                            for (let i = 0; i < $fwcontextmenus.length; i++) {
-                                FwContextMenu.destroy($fwcontextmenus.eq(i));
-                            }
-                            var menuItemCount = 0;
-                            var $browsecontextmenu = jQuery(this);
-                            //me.unselectAllRows($control);
-                            //me.selectRow($control, $tr, true);
-                            var $contextmenu = FwContextMenu.render('Options', 'bottomleft', $browsecontextmenu, e);
-                            //$contextmenu.data('beforedestroy', function () {
-                            //    me.unselectRow($control, $tr);
-                            //});
-                            var controller = $control.attr('data-controller');
-                            if (typeof controller === 'undefined') {
-                                throw 'Attribute data-controller is not defined on Browse control.'
-                            }
-                            var nodeController = FwApplicationTree.getNodeByController(controller);
+                            const nodeController = FwApplicationTree.getNodeByController(controller);
                             if (nodeController !== null) {
-                                var deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
+                                const deleteActions = FwApplicationTree.getChildrenByType(nodeController, 'DeleteMenuBarButton');
                                 if (deleteActions.length > 1) {
                                     throw 'Invalid Security Tree configuration.  Only 1 DeleteMenuBarButton is permitted on a Controller.';
                                 }
                                 if (deleteActions.length === 1 && deleteActions[0].properties['visible'] === 'T') {
                                     FwContextMenu.addMenuItem($contextmenu, 'Delete', function () {
                                         try {
-                                            var $tr = jQuery(this).closest('tr');
+                                            const $tr = jQuery(this).closest('tr');
                                             me.deleteRow($control, $tr);
                                         } catch (ex) {
                                             FwFunc.showError(ex);
@@ -2377,39 +2379,45 @@ class FwBrowseClass {
                                     menuItemCount++;
                                 }
                             }
-                            //---------------------------------------------------------------------------------
-                            if ($browse.attr('data-hasaudithistory') !== 'false') {
-                                FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
-                                    try {
-                                        let $tr = jQuery(this).closest('tr');
-                                        me.renderAuditHistoryPopup($tr);
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                });
-                                menuItemCount++;
-                            }
-                            if (menuItemCount === 0) {
-                                FwContextMenu.destroy($contextmenu);
-                            }
+                        }
+                        // Audit history menu option
+                        if ($browse.attr('data-hasaudithistory') !== 'false') {
+                            FwContextMenu.addMenuItem($contextmenu, 'Audit History', () => {
+                                try {
+                                    const $tr = jQuery(this).closest('tr');
+                                    me.renderAuditHistoryPopup($tr);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            });
+                            menuItemCount++;
+                        }
+                        if (menuItemCount === 0) {
+                            FwContextMenu.destroy($contextmenu);
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);
                     }
                 });
+                // ----------
                 $control.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
                     try {
-                        let $td = jQuery(this).parent();
-                        let peekWait = FwOverlay.showPleaseWaitOverlay($td.closest('.fwcontrol'), null);
+                        let $this = jQuery(this);
+                        let $td = $this.parent();
+                        $this.css('visibility', 'hidden');
+                        $td.find('.validation-loader').show();
                         setTimeout(function () {
                             FwValidation.validationPeek($control, $td.data('validationname').slice(0, -10), $td.data('originalvalue'), $td.data('browsedatafield'), null, $td.data('originaltext'));
-                            FwOverlay.hideOverlay(peekWait);
-                        }, 0)
+                            $this.css('visibility', 'visible');
+                            $td.find('.validation-loader').hide();
+                        })
+
                     } catch (ex) {
                         FwFunc.showError(ex)
                     }
                     e.stopPropagation();
                 });
+                // ----------
                 $control.find('tbody tr .editablefield').on('click', function (e) {
                     try {
                         var $field = jQuery(this);
@@ -3765,16 +3773,26 @@ class FwBrowseClass {
     //}
     //---------------------------------------------------------------------------------
     loadGridFromTemplate(modulename: string) {
+        let $control = null;
         if (sessionStorage.getItem('customForms') !== null) {
             let customGrids = JSON.parse(sessionStorage.getItem('customForms'));
             customGrids = customGrids.filter(a => a.BaseForm == `${modulename}Browse`);
             if (customGrids.length > 0) {
                 $control = jQuery(jQuery(`#tmpl-custom-${modulename}Browse`)[0].innerHTML);
             } else {
-                var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+                if (typeof window[modulename + 'Controller'] !== undefined && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
+                    $control = window[modulename + 'Controller'].getBrowseTemplate();
+                } else {
+                    $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+                }
+                
             }
         } else {
-            var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+            if (typeof window[modulename + 'Controller'] !== undefined && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
+                $control = window[modulename + 'Controller'].getBrowseTemplate();
+            } else {
+                $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+            }
         }
         return $control;
     }

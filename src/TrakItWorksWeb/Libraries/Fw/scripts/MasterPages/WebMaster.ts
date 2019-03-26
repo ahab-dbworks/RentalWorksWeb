@@ -7,10 +7,23 @@
                                 <div id="master-footer"></div>
                               </div>`);
 
-        const applicationtheme = sessionStorage.getItem('applicationtheme');
-        $view.find('#master-header').append((applicationtheme === 'theme-classic') ? this.getHeaderClassic() : this.getHeaderView());
+        const applicationTheme = sessionStorage.getItem('applicationtheme');
+        const masterHeader = $view.find('#master-header');
+        masterHeader.append((applicationTheme === 'theme-classic') ? this.getHeaderClassic() : this.getHeaderView());
 
-        program.setApplicationTheme(applicationtheme);
+
+        program.setApplicationTheme(applicationTheme);
+
+        // color nav header for non-default user location on app refresh. Event listener in RwMaster.buildOfficeLocation()
+        const userLocation = JSON.parse(sessionStorage.getItem('location'));
+        const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
+        if (userLocation.location !== defaultLocation.location) {
+            const nonDefaultStyles = { borderTop: `.3em solid ${userLocation.locationcolor}`, borderBottom: `.3em solid ${userLocation.locationcolor}` };
+            masterHeader.find('div[data-control="FwFileMenu"]').css(nonDefaultStyles);
+        } else {
+            const defaultStyles = { borderTop: `transparent`, borderBottom: `1px solid #9E9E9E` };
+            masterHeader.find('div[data-control="FwFileMenu"]').css(defaultStyles);
+        }
 
         return $view;
     }

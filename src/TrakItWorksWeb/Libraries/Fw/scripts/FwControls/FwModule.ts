@@ -775,7 +775,7 @@
         if ($keys.length !== 0) {
             $formTabControl = jQuery($form.find('.fwtabs'));
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-            $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
+            $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
                 request.uniqueids.ModuleName = window[controller].Module;
@@ -1068,11 +1068,10 @@
                         if ($browse.length > 0) {
                             FwBrowse.databind($browse);
                         }
-
                         var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
                         $tab.find('.caption').html(tabname);
                         $tab.find('.modified').html('');
-
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
@@ -1108,6 +1107,7 @@
                         }
                     }
                     $form.find('.error').removeClass('error')
+
                     FwNotification.renderNotification('SUCCESS', 'Record saved.');
                 } else if (response.saved === true) {
                     if (parameters.closetab === false) {
@@ -1119,7 +1119,7 @@
 
                         $tab.find('.caption').html(response.tabname);
                         $tab.find('.modified').html('');
-                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled')
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
 
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');

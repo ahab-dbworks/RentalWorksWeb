@@ -286,7 +286,14 @@
 
         $control.find('.btnpeek').on('click', () => {
             try {
-                this.validationPeek($control, validationName.slice(0, -10), $valuefield.val().toString(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
+                let me = this;
+                $control.find('.btnpeek').hide();
+                $validationbrowse.data('$control').find('.validation-loader').show();
+                setTimeout(function () {
+                    me.validationPeek($control, validationName.slice(0, -10), $valuefield.val().toString(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
+                    $validationbrowse.data('$control').find('.validation-loader').hide();
+                    $control.find('.btnpeek').show()
+                })
             } catch (ex) {
                 FwFunc.showError(ex);
             }
