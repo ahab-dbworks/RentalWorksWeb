@@ -742,10 +742,12 @@
         });
         // Refresh grids when navigating to Staging tab
         $form.find('.staging-tab').on('click', e => {
-            const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-            const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
+            const gridView = FwFormField.getValueByDataField($form, 'GridView');
+            let $grid;
+            gridView == 'STAGE' ? $grid = $form.find('[data-name="StagedItemGrid"]') : $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+            FwBrowse.search($grid);
 
-            FwBrowse.search($stagedItemGrid);
+            const $checkedOutItemGrid = $form.find('[data-name="CheckedOutItemGrid"]');
             FwBrowse.search($checkedOutItemGrid);
         });
         // BarCode / I-Code change
