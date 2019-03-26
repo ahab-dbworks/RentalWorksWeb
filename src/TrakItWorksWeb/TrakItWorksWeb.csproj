@@ -183,6 +183,7 @@
     <Content Include="Source\Grids\ContainerWarehouseGrid\ContainerWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\DealNoteGrid\DealNoteGridBrowse.htm" />
     <Content Include="Source\Grids\DealShipperGrid\DealShipperGridBrowse.htm" />
+    <Content Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryCompatibilityGrid\InventoryCompatibilityGridBrowse.htm" />
@@ -717,6 +718,7 @@
     <TypeScriptCompile Include="Source\Grids\ContainerWarehouseGrid\ContainerWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealNoteGrid\DealNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DealShipperGrid\DealShipperGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ExchangeItemGrid\ExchangeItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAttributeValueGrid\InventoryAttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryAvailabilityGrid\InventoryAvailabilityGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompatibilityGrid\InventoryCompatibilityGridController.ts" />

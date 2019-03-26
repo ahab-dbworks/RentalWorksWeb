@@ -801,6 +801,7 @@ namespace WebLibrary.Security
             AddGrid("Container Warehouse",                    "{F9766AB6-E3BC-4F3E-9394-9D28BF8C984B}", lv1menuGrids.Id, "ContainerWarehouseGridController");
             AddGrid("Deal Notes",                             "{CA1FA1E1-2BE8-473D-ABC3-24D741D2AD8E}", lv1menuGrids.Id, "DealNoteGridController");
             AddGrid("Deal Shipper",                           "{DC46B97F-6664-4ED6-8D1C-6E0EA8B3BC38}", lv1menuGrids.Id, "DealShipperGridController");
+            AddGrid("Exchange Item",                          "{702D2298-6C34-4938-B97E-00ABACA7CA5C}", lv1menuGrids.Id, "ExchangeItemGridController");
             AddGrid("Item Attribute Value",                   "{122AC4CB-831E-4F20-BC83-F12AD96094DE}", lv1menuGrids.Id, "ItemAttributeValueGridController");
             AddGrid("Inventory Attribute Value",              "{ECEB623B-C84C-4D55-AE86-8E067E119244}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
             AddGrid("Inventory Availability",                 "{548B5500-E8BD-4448-8B4C-2389D54DD803}", lv1menuGrids.Id, "InventoryAvailabilityGridController");
