@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
 
 class ReceiveFromVendor {
     Module: string = 'ReceiveFromVendor';
@@ -282,15 +282,15 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     addButtonMenu($form) {
         let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
-        let $createContract = FwMenu.generateButtonMenuOption('Create Contract')
-            , $createContractAndAssignBarCodes = FwMenu.generateButtonMenuOption('Create Contract and Assign Bar Codes');
+        let $createContract = FwMenu.generateButtonMenuOption('Create Contract');
+        let $createContractAndAssignBarcodes = FwMenu.generateButtonMenuOption('Create Contract and Assign Barcodes');
 
         $createContract.on('click', e => {
             e.stopPropagation();
             $form.find('.createcontract').click();
         });
 
-        $createContractAndAssignBarCodes.on('click', e => {
+        $createContractAndAssignBarcodes.on('click', e => {
             e.stopPropagation();
             let request: any = {};
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -300,7 +300,7 @@ class ReceiveFromVendor {
                 contractInfo.ContractNumber = response[0].ContractNumber;
                 contractInfo.PurchaseOrderNumber = response[0].PurchaseOrderNumber;
                 contractInfo.PurchaseOrderId = response[0].PurchaseOrderId;
-                $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', contractInfo);
+                $assignBarCodesForm = AssignBarcodesController.openForm('EDIT', contractInfo);
                 FwModule.openSubModuleTab($form, $assignBarCodesForm);
                 jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
 
@@ -330,7 +330,7 @@ class ReceiveFromVendor {
         });
 
         let menuOptions = [];
-        menuOptions.push($createContract, $createContractAndAssignBarCodes);
+        menuOptions.push($createContract, $createContractAndAssignBarcodes);
 
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     }

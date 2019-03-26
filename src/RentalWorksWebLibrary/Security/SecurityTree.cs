@@ -807,11 +807,11 @@ namespace WebLibrary.Security
             AddGrid("Inventory Compatibility",                "{AD2D5238-317D-4FDC-950E-E935293CE2F8}", lv1menuGrids.Id, "InventoryCompatibilityGridController");
             AddGrid("Inventory Complete Kit",                 "{9F38BB28-4133-4291-91B8-3F234B5DB437}", lv1menuGrids.Id, "InventoryCompleteKitGridController");
             AddGrid("Inventory Consignment",                  "{2DC8659F-EB2B-43C3-BAD1-0769EB14351F}", lv1menuGrids.Id, "InventoryConsignmentGridController");
-            AddGrid("Inventory Qc",                           "{8A0A4336-2124-4274-BF9F-ED2CE8CFFE54}", lv1menuGrids.Id, "InventoryQcGridController");
+            AddGrid("Inventory QC",                           "{8A0A4336-2124-4274-BF9F-ED2CE8CFFE54}", lv1menuGrids.Id, "InventoryQcGridController");
             AddGrid("Inventory Substitute",                   "{AAF0CDF9-30DC-4A7A-883C-5363F694D843}", lv1menuGrids.Id, "InventorySubstituteGridController");
             AddGrid("Inventory Vendor",                       "{EFE6D013-E84D-4EF8-A19F-571B5A1353FE}", lv1menuGrids.Id, "InventoryVendorGridController");
             AddGrid("Inventory Warehouse Staging",            "{5D55C05C-3094-4656-B199-3DA137E5D311}", lv1menuGrids.Id, "InventoryWarehouseStagingGridController");
-            AddGrid("Item Qc",                                "{63A92198-F5D0-4A9C-AAF5-08BF052A1CAA}", lv1menuGrids.Id, "ItemQcGridController");
+            AddGrid("Item QC",                                "{63A92198-F5D0-4A9C-AAF5-08BF052A1CAA}", lv1menuGrids.Id, "ItemQcGridController");
             AddGrid("Order Contact",                          "{0D80C755-0538-461D-A6E6-3A92D17217F2}", lv1menuGrids.Id, "OrderContactGridController");
             AddGrid("Order Item",                             "{E17AD193-28FB-4B92-BE62-B04AFC8C8A07}", lv1menuGrids.Id, "OrderItemGridController");
             AddGrid("Order Note",                             "{929AF93E-F07D-4E78-8FDD-1F0FEC90D9A4}", lv1menuGrids.Id, "OrderNoteGridController"); 
