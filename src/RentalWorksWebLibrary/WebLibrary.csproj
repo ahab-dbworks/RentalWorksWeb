@@ -14,7 +14,6 @@
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Administrator\IntegrationMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\IntegrationMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Settings\PresentationLayerActivityMenu.cs" />
-    <Compile Remove="Security\Tree\TrakitWorksWeb\Modules\Home\ExchangeMenu.cs" />
   </ItemGroup>
 
   <ItemGroup>
