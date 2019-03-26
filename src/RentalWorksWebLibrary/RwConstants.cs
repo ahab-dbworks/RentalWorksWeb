@@ -185,6 +185,7 @@
         //RECEIPT
         public const string RECEIPT_PAYMENT_BY_DEAL = "DEAL";
         public const string RECEIPT_PAYMENT_BY_CUSTOMER = "CUSTOMER";
+
         public const string RECEIPT_RECTYPE_PAYMENT = "P";
         public const string RECEIPT_RECTYPE_OVERPAYMENT = "O";
         public const string RECEIPT_RECTYPE_DEPLETING_DEPOSIT = "D";
@@ -192,6 +193,7 @@
         public const string RECEIPT_RECTYPE_NSF_ADJUSTMENT = "A";
         public const string RECEIPT_RECTYPE_WRITE_OFF = "W";
         public const string RECEIPT_RECTYPE_CREDIT_MEMO = "C";
+
         public const int RECEIPT_RECTYPE_OVERPAYMENT_COLOR = 16777088;
         public const int RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR = 3658499;
         public const int RECEIPT_RECTYPE_REFUND_CHECK_COLOR = 7303167;

@@ -176,6 +176,49 @@ namespace WebApi.Modules.Home.Receipt
                         validateMsg = $"Cannot change the Deal on this {BusinessLogicModuleName}.";
                     }
                 }
+
+                if (RecType != null)
+                {
+                    if (orig.RecType == null)
+                    {
+                        orig.RecType = "";
+                    }
+                    if (!RecType.Equals(orig.RecType))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot change the RecType on this {BusinessLogicModuleName}.";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(ReceiptLogic).GetProperty(nameof(ReceiptLogic.PaymentBy));
+                string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(ReceiptLogic).GetProperty(nameof(ReceiptLogic.RecType));
+                string[] acceptableValues = { RwConstants.RECEIPT_RECTYPE_PAYMENT, RwConstants.RECEIPT_RECTYPE_OVERPAYMENT, RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT, RwConstants.RECEIPT_RECTYPE_REFUND, RwConstants.RECEIPT_RECTYPE_NSF_ADJUSTMENT, RwConstants.RECEIPT_RECTYPE_WRITE_OFF, RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+
+            if (isValid)
+            {
+                if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+                {
+                    string recTypeTest = RecType ?? orig.RecType;
+                    if (recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_OVERPAYMENT) ||
+                        recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_DEPLETING_DEPOSIT) ||
+                        recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_CREDIT_MEMO) ||
+                        recTypeTest.Equals(RwConstants.RECEIPT_RECTYPE_REFUND))
+                    {
+                        isValid = false;
+                        validateMsg = $"Cannot modify this {BusinessLogicModuleName} because of its RecType.";
+                    }
+                }
             }
 
             if (isValid)
@@ -201,13 +244,6 @@ namespace WebApi.Modules.Home.Receipt
                     isValid = false;
                     validateMsg = "Payment amount cannot be negative.";
                 }
-            }
-
-            if (isValid)
-            {
-                PropertyInfo property = typeof(ReceiptLogic).GetProperty(nameof(ReceiptLogic.PaymentBy));
-                string[] acceptableValues = { RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER, RwConstants.RECEIPT_PAYMENT_BY_DEAL };
-                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
 
             if (isValid)
