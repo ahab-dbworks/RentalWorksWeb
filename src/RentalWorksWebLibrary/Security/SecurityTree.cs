@@ -816,6 +816,7 @@ namespace WebLibrary.Security
             AddGrid("Order Item",                             "{E17AD193-28FB-4B92-BE62-B04AFC8C8A07}", lv1menuGrids.Id, "OrderItemGridController");
             AddGrid("Order Note",                             "{929AF93E-F07D-4E78-8FDD-1F0FEC90D9A4}", lv1menuGrids.Id, "OrderNoteGridController"); 
             AddGrid("Order Status History",                   "{A3683C2F-A5B4-42FC-A944-DAA65ED71E87}", lv1menuGrids.Id, "OrderStatusHistoryGridController");
+            AddGrid("PO Receive Barcode",                    "{6781A0C0-14FB-4B3B-970F-EF9FC812E835}", lv1menuGrids.Id, "POReceiveBarCodeGridController");
             AddGrid("Rental Inventory Warehouse",             "{9AC6FB16-BC42-42C3-91B7-9346D11CC405}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
 
 
