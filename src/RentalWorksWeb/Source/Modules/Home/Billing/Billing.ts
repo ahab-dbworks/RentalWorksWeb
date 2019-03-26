@@ -28,8 +28,7 @@ class Billing {
     };
     //----------------------------------------------------------------------------------------------
     renderBrowseFilterPopup($browse) {
-        let html, $popup;
-        html = `<div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-rendermode="template" style="background-color:white; padding:15px 0px; border:2px solid gray; min-width:350px;">
+        let $popup = jQuery(`<div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-rendermode="template" style="background-color:white; padding:15px 0px; border:2px solid gray; min-width:350px;">
                   <div class="close-modal" style="position:absolute; right:5px; top:5px; cursor:pointer;"><i class="material-icons">clear</i></div>
                   <div class="flexpage">
                     <div class="flexrow">
@@ -45,17 +44,17 @@ class Billing {
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Orders with a Pending PO" data-datafield="ShowOrdersWithPendingPO"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="If Order is Complete, show even if beyond Bill As of Date" data-datafield="BillIfComplete"></div>
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Multiple Billing Periods on One Invoice" data-datafield="CombinePeriods"></div>
-                    </div>
+                        </div>
                       </div>
                     </div>
                     <div class="flexrow">
                       <div data-type="button" class="fwformcontrol billingSearchButton" style="flex:0 0 60px; margin:auto;">Search</div>
                     </div>
                   </div>
-                </div>`;
-        html = jQuery(html);
-        FwControl.renderRuntimeControls(html.find('.fwcontrol'));
-        $popup = FwPopup.renderPopup(html, { 'ismodal': true });
+                </div>`);
+        FwControl.renderRuntimeControls($popup.find('.fwcontrol'));
+        $popup = FwPopup.renderPopup($popup, { 'ismodal': true });
+        FwFormField.setValueByDataField($popup, 'ShowOrdersWithPendingPO', "T");
         FwPopup.showPopup($popup);
 
         $popup.data('fields', $popup.find('.fwformfield'));
