@@ -4,18 +4,19 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
-using System;
-using System.Reflection;
-using System.Data;
-using System.Threading.Tasks;
 using WebApi.Logic;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.SubPurchaseOrderItem
 {
-    [FwSqlTable("tmpsubpoworksheetsession")]
+    [FwSqlTable("dbo.funcsubworksheetweb(@sessionid)")]
     public class SubPurchaseOrderItemLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public SubPurchaseOrderItemLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string SessionId { get; set; }
@@ -275,29 +276,41 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
             return (variance < 0 ? RwGlobals.NEGATIVE_VARIANCE_COLOR : null);
         }
         //------------------------------------------------------------------------------------ 
-        public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            string sessionId = GetUniqueIdAsString("SessionId", request);
+            string sessionId = SessionId;
+            useWithNoLock = false;
 
-            FwJsonDataTable dt = null;
-            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            if (string.IsNullOrEmpty(sessionId))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getpoworksheetitems", this.AppConfig.DatabaseSettings.QueryTimeout))
+                sessionId = GetUniqueIdAsString("SessionId", request);
+            }
+            if (string.IsNullOrEmpty(sessionId))
+            {
+                sessionId = "~xx~";
+            }
+
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+
+            select.AddParameter("@sessionid", sessionId);
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
                 {
-                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
-                    AddPropertiesAsQueryColumns(qry);
-                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("VarianceColor")] = getVarianceColor(FwConvert.ToDecimal(row[dt.GetColumnNo("Variance")].ToString()));
+                    }
                 }
             }
-
-            foreach (List<object> row in dt.Rows)
-            {
-                row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
-                row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
-                row[dt.GetColumnNo("VarianceColor")] = getVarianceColor(FwConvert.ToDecimal(row[dt.GetColumnNo("Variance")].ToString()));
-            }
-
-            return dt;
         }
         //------------------------------------------------------------------------------------ 
     }
