@@ -75,20 +75,11 @@ namespace WebApi.Modules.Home.TransferOrder
         [FwSqlDataField(column: "requiredtime", modeltype: FwDataTypes.Text)]
         public string RequiredTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
-        public bool? Rental { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
-        public bool? Sales { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
-        public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {

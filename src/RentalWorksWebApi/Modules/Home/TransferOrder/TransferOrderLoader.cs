@@ -9,6 +9,15 @@ namespace WebApi.Modules.Home.TransferOrder
     public class TransferOrderLoader : TransferOrderBrowseLoader
     {
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
+        public bool? Rental { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Boolean)]
+        public bool? Sales { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
+        public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryid", modeltype: FwDataTypes.Text)]
         public string OutDeliveryId { get; set; }
         //------------------------------------------------------------------------------------ 
