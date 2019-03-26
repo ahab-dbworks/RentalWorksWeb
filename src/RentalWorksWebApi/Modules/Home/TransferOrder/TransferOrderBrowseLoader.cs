@@ -3,6 +3,8 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
+using WebLibrary;
+
 namespace WebApi.Modules.Home.TransferOrder
 {
     [FwSqlTable("transferwebbrowseview")]
@@ -93,6 +95,20 @@ namespace WebApi.Modules.Home.TransferOrder
 
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+
+
+
+            if (GetMiscFieldAsBoolean("TransferOut", request).GetValueOrDefault(false))
+            {
+                select.AddWhereIn("and", "status", RwConstants.TRANSFER_STATUS_CONFIRMED + "," + RwConstants.TRANSFER_STATUS_ACTIVE);
+
+                string transferOutWarehouseId = GetMiscFieldAsString("TransferOutWarehouseId", request);
+                if (!string.IsNullOrEmpty(transferOutWarehouseId))
+                {
+                    select.AddWhere(" ((warehouseid = @transferoutwhid) or exists (select * from masteritem mi with (nolock) where mi.orderid = " + TableAlias + ".orderid and mi.warehouseid = @transferoutwhid))");
+                    select.AddParameter("@transferoutwhid", transferOutWarehouseId);
+                }
+            }
 
 
         }

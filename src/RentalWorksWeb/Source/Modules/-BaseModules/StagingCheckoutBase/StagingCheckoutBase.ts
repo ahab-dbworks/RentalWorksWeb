@@ -1012,6 +1012,12 @@
                     StagingWarehouseId: warehouse.warehouseid
                 };
                 break;
+            case 'TransferOrderValidation':
+                request.miscfields = {
+                    TransferOut: true,
+                    TransferOutWarehouseId: warehouse.warehouseid
+                };
+                break;
         };
     }
     //----------------------------------------------------------------------------------------------
@@ -1176,7 +1182,7 @@
                           <div class="flexrow">
                             ${this.Module == 'StagingCheckout' ?
                 '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
-                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
+                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-formbeforevalidate="beforeValidate" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 300px;"></div>
                             ${this.Module == 'StagingCheckout' ?
