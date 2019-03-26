@@ -7,33 +7,9 @@ using FwStandard.SqlServer;
 using FwStandard.AppManager;
 using WebApi.Logic;
 using System;
-using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Home.ReceiptProcessBatch
 {
-    public class ReceiptProcessBatchRequest
-    {
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-    }
-
-
-    public class ReceiptProcessBatchResponse : TSpStatusReponse
-    {
-        public ReceiptProcessBatchLogic Batch;
-    }
-
-    public class ExportReceiptRequest
-    {
-        public string BatchId { get; set; }
-    }
-
-    public class ExportReceiptResponse : TSpStatusReponse
-    {
-        public ReceiptProcessBatchLogic batch = null;
-        public string downloadUrl = "";
-    }
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id: "ThKpggGlj1hqd")]
@@ -67,11 +43,7 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -91,11 +63,7 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

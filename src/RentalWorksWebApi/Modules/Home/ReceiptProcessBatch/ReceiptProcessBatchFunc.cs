@@ -12,6 +12,32 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.ReceiptProcessBatch
 {
+
+    public class ReceiptProcessBatchRequest
+    {
+        public string OfficeLocationId { get; set; }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+    }
+
+
+    public class ReceiptProcessBatchResponse : TSpStatusReponse
+    {
+        public ReceiptProcessBatchLogic Batch;
+    }
+
+    public class ExportReceiptRequest
+    {
+        public string BatchId { get; set; }
+    }
+
+    public class ExportReceiptResponse : TSpStatusReponse
+    {
+        public ReceiptProcessBatchLogic batch = null;
+        public string downloadUrl = "";
+    }
+
+
     public static class ReceiptProcessBatchFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -21,17 +47,19 @@ namespace WebApi.Modules.Home.ReceiptProcessBatch
             ReceiptProcessBatchResponse response = new ReceiptProcessBatchResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "createarchargebatch", appConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "createarchargebatchweb", appConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.NVarChar, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@chgbatchid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
-                    //response.BatchId = qry.GetParameter("@chgbatchid").ToString();
                     batchId = qry.GetParameter("@chgbatchid").ToString();
-                    //response.success = (qry.GetParameter("@status").ToInt32() == 0);
-                    //response.msg = qry.GetParameter("@msg").ToString();
+                    response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
                 }
             }
             if (!string.IsNullOrEmpty(batchId))

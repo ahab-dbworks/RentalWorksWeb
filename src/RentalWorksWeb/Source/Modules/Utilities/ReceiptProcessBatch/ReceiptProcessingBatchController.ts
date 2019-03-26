@@ -25,6 +25,11 @@
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'FromDate', today);
+        FwFormField.setValueByDataField($form, 'ToDate', today);
+
+
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
         FwFormField.setValueByDataField($form, 'Process', true);
@@ -38,8 +43,10 @@
             .on('click', '.create-batch', e => {
                 let request;
                 var userId = sessionStorage.getItem('usersid');
+                const office = JSON.parse(sessionStorage.getItem('location'));
                 request = {
-                    FromDate: FwFormField.getValueByDataField($form, 'FromDate')
+                    OfficeLocationId: office.locationid
+                    , FromDate: FwFormField.getValueByDataField($form, 'FromDate')
                     , ToDate: FwFormField.getValueByDataField($form, 'ToDate')
                 };
 
@@ -48,7 +55,7 @@
                         var batch = response.Batch;
                         var batchId = batch.BatchId;
                         var batchNumber = batch.BatchNumber
- 
+
                         FwFormField.setValueByDataField($form, 'BatchId', batchId, batchNumber);
                         exportBatch();
                     } else {
