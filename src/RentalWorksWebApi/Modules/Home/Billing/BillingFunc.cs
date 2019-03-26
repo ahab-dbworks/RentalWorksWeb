@@ -38,11 +38,11 @@ namespace WebApi.Modules.Home.Billing
                     qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.DepartmentId);
                     qry.AddParameter("@agentid", SqlDbType.NVarChar, ParameterDirection.Input, request.AgentId);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                    //               @pending         char(01) = 'F',
+                    qry.AddParameter("@pending", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowOrdersWithPendingPO.GetValueOrDefault(false) ? "T" : "F"));
+                    qry.AddParameter("@combineperiods", SqlDbType.NVarChar, ParameterDirection.Input, (request.BillIfComplete.GetValueOrDefault(false) ? "T" : "F"));
+                    qry.AddParameter("@billifcomplete", SqlDbType.NVarChar, ParameterDirection.Input, (request.CombinePeriods.GetValueOrDefault(true) ? "T" : "F"));
                     //               @flatorder       char(01) = 'F',
                     //               @flatbill        char(01) = 'F',
-                    //               @combineperiods  char(01) = 'F',
-                    //               @billifcomplete  char(01) = 'T',
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.SessionId = qry.GetParameter("@sessionid").ToString();

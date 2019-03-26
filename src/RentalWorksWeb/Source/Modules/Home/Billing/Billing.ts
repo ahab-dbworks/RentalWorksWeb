@@ -42,7 +42,10 @@ class Billing {
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="UserId" data-displayfield="User" data-validationname="UserValidation"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="max-width:150px;"></div>
-                        </div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Orders with a Pending PO" data-datafield="ShowOrdersWithPendingPO"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="If Order is Complete, show even if beyond Bill As of Date" data-datafield="BillIfComplete"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Combine Multiple Billing Periods on One Invoice" data-datafield="CombinePeriods"></div>
+                    </div>
                       </div>
                     </div>
                     <div class="flexrow">
@@ -80,6 +83,9 @@ class Billing {
                     , DepartmentId: FwFormField.getValueByDataField($popup, 'DepartmentId')
                     , AgentId: FwFormField.getValueByDataField($popup, 'UserId')
                     , OrderId: FwFormField.getValueByDataField($popup, 'OrderId')
+                    , ShowOrdersWithPendingPO: (FwFormField.getValueByDataField($popup, 'ShowOrdersWithPendingPO') == 'T' ? true: false)
+                    , BillIfComplete: (FwFormField.getValueByDataField($popup, 'BillIfComplete') == 'T' ? true : false)
+                    , CombinePeriods: (FwFormField.getValueByDataField($popup, 'CombinePeriods') == 'T' ? true : false)
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, function onSuccess(response) {
                     //load browse with sessionId 
@@ -188,8 +194,7 @@ class Billing {
 
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
-        var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
         $browse.find('.pager .col2, .pager .col3').hide();
 
@@ -209,17 +214,15 @@ class Billing {
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
-        var $form;
+        let $form;
 
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
-
-        this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
+        let $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="BillingId"] input').val(uniqueids.BillingId);
         FwModule.loadForm(this.Module, $form);
@@ -229,31 +232,6 @@ class Billing {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    //----------------------------------------------------------------------------------------------
-    renderGrids($form) {
-        //let $vendorInvoiceItemGrid: any,
-        //    $vendorInvoiceItemGridControl: any;
-
-        //$vendorInvoiceItemGrid = $form.find('div[data-grid="VendorInvoiceItemGrid"]');
-        //$vendorInvoiceItemGridControl = jQuery(jQuery('#tmpl-grids-VendorInvoiceItemGridBrowse').html());
-        //$vendorInvoiceItemGrid.empty().append($vendorInvoiceItemGridControl);
-        //$vendorInvoiceItemGridControl.data('ondatabind', function (request) {
-        //    request.uniqueids = {
-        //        VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
-        //    }
-        //})
-        //FwBrowse.init($vendorInvoiceItemGridControl);
-        //FwBrowse.renderRuntimeHtml($vendorInvoiceItemGridControl);
-    };
-    //----------------------------------------------------------------------------------------------
-    afterLoad($form) {
-        //let $vendorInvoiceItemGridControl = $form.find('[data-name="VendorInvoiceItemGrid"]');
-        //FwBrowse.search($vendorInvoiceItemGridControl);
-    };
-    //----------------------------------------------------------------------------------------------
-    events($form) {
-
     };
 };
 //----------------------------------------------------------------------------------------------

@@ -23,6 +23,10 @@ namespace WebApi.Modules.Home.Billing
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
         public string OrderId { get; set; }
+        public bool? ShowOrdersWithPendingPO { get; set; }
+        public bool? BillIfComplete { get; set; }
+        public bool? CombinePeriods { get; set; }
+
     }
 
     public class PopulateBillingResponse : TSpStatusReponse
