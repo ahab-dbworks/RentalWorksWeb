@@ -151,24 +151,21 @@ class Base {
                                                     FwFunc.showError(response);
                                                 }, null);
 
+                                                //Load custom forms
                                                 let customformrequest: any = {};
                                                 customformrequest.uniqueids = {
                                                     WebUserId: responseOriginalApi.webUser.webusersid.webusersid
                                                 };
-
                                                 FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
-                                                    let baseFormIndex = response.ColumnIndex.BaseForm;
-                                                    //let activeIndex = response.ColumnIndex.Active;
-                                                    let customFormIdIndex = response.ColumnIndex.CustomFormId;
-                                                    let htmlIndex = response.ColumnIndex.Html;
+                                                    const baseFormIndex = response.ColumnIndex.BaseForm;
+                                                    const customFormIdIndex = response.ColumnIndex.CustomFormId;
+                                                    const htmlIndex = response.ColumnIndex.Html;
                                                     let activeCustomForms: any = [];
                                                     for (let i = 0; i < response.Rows.length; i++) {
-                                                        let customForm = response.Rows[i];
-                                                        //if (customForm[activeIndex] == true) {
+                                                        const customForm = response.Rows[i];
                                                             let baseform = customForm[baseFormIndex];
                                                             activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex] });
                                                             jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
-                                                        //}
                                                     }
                                                     if (activeCustomForms.length > 0) {
                                                         sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
@@ -177,6 +174,7 @@ class Base {
                                                     FwFunc.showError(response);
                                                     }, null);
 
+                                                //Load browse active views
                                                 customformrequest.uniqueids.OfficeLocationId = responseOriginalApi.webUser.location.locationid;
                                                 FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
                                                     const moduleNameIndex = response.ColumnIndex.ModuleName;

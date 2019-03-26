@@ -14,8 +14,7 @@ var program: Program = new Program();
 jQuery(function () {
     function start() {
         program.load();
-        program.updateTemplatesWithCustomForms(program.loadDefaultPage);
-        //program.loadDefaultPage();
+        program.loadCustomFormsAndBrowseViews();
     }
     if (applicationConfig.debugMode) {
         setTimeout(function () {
