@@ -14,12 +14,12 @@
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Administrator\IntegrationMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\IntegrationMenu.cs" />
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Settings\PresentationLayerActivityMenu.cs" />
-    <Compile Remove="Security\Tree\TrakItWorksWeb\Modules\Home\ExchangeMenu.cs" />
+    <Compile Remove="Security\Tree\TrakitWorksWeb\Modules\Home\ExchangeMenu.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Security\Tree\RentalWorksQuikScan\" />
-    <Folder Include="Security\Tree\TrakItWorksWeb\Modules\Utilities\" />
+    <Folder Include="Security\Tree\TrakitWorksWeb\Modules\Utilities\" />
   </ItemGroup>
 
   <ItemGroup>
