@@ -319,32 +319,55 @@ class FwApplication {
         return JSON.parse(sessionStorage.getItem('applicationOptions'));
     };
     //---------------------------------------------------------------------------------
-    updateTemplatesWithCustomForms(loadDefaultPage?) {
-        var me = this;
-        if (sessionStorage.getItem('userid') != null) {
-            let request: any = {};
-            var WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-            request.uniqueids = {
-                WebUserId: WebUserId
-            };
-            FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                let baseFormIndex = response.ColumnIndex.BaseForm;
-                //let activeIndex = response.ColumnIndex.Active;
-                let htmlIndex = response.ColumnIndex.Html;
-                for (let i = 0; i < response.Rows.length; i++) {
-                    let customForm = response.Rows[i];
-                    //if (customForm[activeIndex] == true) {
-                        let baseform = customForm[baseFormIndex];
-                        jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
-                    //}
-                }
-                loadDefaultPage.call(me);
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, null);
-        } else {
-            loadDefaultPage.call(me);
-        }
+    loadCustomFormsAndBrowseViews() {
+        const self = this;
+        try {
+            if (sessionStorage.getItem('userid') != null) {
+                let request: any = {};
+                const WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                request.uniqueids = {
+                    WebUserId: WebUserId
+                };
+                FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, response => {
+                    try {
+                        const baseFormIndex = response.ColumnIndex.BaseForm;
+                        const htmlIndex = response.ColumnIndex.Html;
+                        for (let i = 0; i < response.Rows.length; i++) {
+                            let customForm = response.Rows[i];
+                            let baseform = customForm[baseFormIndex];
+                            jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
+                        }
+
+                        if (sessionStorage.getItem('location') != null) {
+                            request.uniqueids.OfficeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, request, FwServices.defaultTimeout, response => {
+                                try {
+                                    const moduleNameIndex = response.ColumnIndex.ModuleName;
+                                    const activeViewFieldsIndex = response.ColumnIndex.ActiveViewFields;
+                                    const idIndex = response.ColumnIndex.Id;
+                                    for (let i = 0; i < response.Rows.length; i++) {
+                                        let controller = `${response.Rows[i][moduleNameIndex]}Controller`;
+                                        window[controller].ActiveViewFields = JSON.parse(response.Rows[i][activeViewFieldsIndex]);
+                                        window[controller].ActiveViewFieldsId = response.Rows[i][idIndex];
+                                    }
+                                    self.loadDefaultPage();
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            }, null, null);
+                        } else {
+                            self.loadDefaultPage();
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, null, null);
+            } else {
+                self.loadDefaultPage();
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        };
     }
     //---------------------------------------------------------------------------------
     navigateHashChange(path) {
