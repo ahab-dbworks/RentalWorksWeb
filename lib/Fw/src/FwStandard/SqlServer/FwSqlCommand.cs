@@ -1166,6 +1166,13 @@ namespace FwStandard.SqlServer
                     {
                         dt.ColumnIndex[columns[i].DataField] = i;
                     }
+
+                    // default all requested totals to zero
+                    for (int i = 0; i < totalFields.Count; i++)
+                    {
+                        dt.Totals.Add(totalFields[i], 0);
+                    }
+
                     while (reader.Read())
                     {
                         this.RowCount++;
@@ -1185,7 +1192,8 @@ namespace FwStandard.SqlServer
                                 else if (totalFields.Contains(fieldName))
                                 {
                                     ordinal = reader.GetOrdinal(FwSqlSelect.TOTAL_FIELD_PREFIX + fieldName);
-                                    dt.Totals.Add(fieldName, reader.GetDecimal(ordinal));
+                                    //dt.Totals.Add(fieldName, reader.GetDecimal(ordinal));
+                                    dt.Totals[fieldName] = reader.GetDecimal(ordinal);  // just update the total value here instead
                                 }
                             }
                         }
