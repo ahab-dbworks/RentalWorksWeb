@@ -81,11 +81,11 @@
             FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo[`${this.Type}Id`], parentmoduleinfo[`${this.Type}Number`]);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
-            jQuery($form.find('[data-datafield="OrderId"]')).trigger('change');
+            jQuery($form.find(`[data-datafield="${this.Type}Id"]`)).trigger('change');
             $form.attr('data-showsuspendedsessions', 'false');
         }
 
-        $form.find('div[data-datafield="OrderId"] input').focus();
+        $form.find(`div[data-datafield="${this.Type}Id"] input`).focus();
         this.getSuspendedSessions($form);
         this.events($form);
         return $form;
@@ -868,7 +868,7 @@
                 const orderInfo: any = {};
                 orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
-                if (this.Module === 'TransferOut') orderInfo.IsTransferOut = true;
+                if (this.Module === 'TransferOut') orderInfo.IsTransfer = true;
                 const mode = 'EDIT';
                 const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);

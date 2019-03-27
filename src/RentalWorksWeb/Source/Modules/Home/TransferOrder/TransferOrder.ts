@@ -241,6 +241,7 @@ class TransferOrder {
 };
 
 //-----------------------------------------------------------------------------------------------------
+//Open Search Interface
 FwApplicationTree.clickEvents['{16CD0101-28D7-49E2-A3ED-43C03152FEE6}'] = function (event) {
     let search, $form, transferId;
     $form = jQuery(this).closest('.fwform');
@@ -256,6 +257,59 @@ FwApplicationTree.clickEvents['{16CD0101-28D7-49E2-A3ED-43C03152FEE6}'] = functi
     } else {
         search = new SearchInterface();
         search.renderSearchPopup($form, transferId, 'Transfer');
+    }
+};
+//----------------------------------------------------------------------------------------------
+//Transfer Status
+FwApplicationTree.clickEvents['{A256288F-238F-4594-8A6A-3B70613925DA}'] = e => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const mode = 'EDIT';
+        const orderInfo: any = {};
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+        orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
+        orderInfo.IsTransfer = true;
+        const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $orderStatusForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Transfer Status');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+//Transfer Out
+FwApplicationTree.clickEvents['{D0AB3734-7F96-46A6-8297-331110A4854F}'] = e => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const mode = 'EDIT';
+        const orderInfo: any = {};
+        orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
+        orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
+        const $stagingCheckoutForm = TransferOutController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $stagingCheckoutForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Transfer Out');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+
+//----------------------------------------------------------------------------------------------
+//Transfer In
+FwApplicationTree.clickEvents['{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}'] = e => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const mode = 'EDIT';
+        const orderInfo: any = {};
+        orderInfo.TransferId = FwFormField.getValueByDataField($form, 'TransferId');
+        orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
+        const $checkinForm = TransferInController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $checkinForm);
+        jQuery('.tab.submodule.active').find('.caption').html('Transfer In');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
     }
 };
 //----------------------------------------------------------------------------------------------

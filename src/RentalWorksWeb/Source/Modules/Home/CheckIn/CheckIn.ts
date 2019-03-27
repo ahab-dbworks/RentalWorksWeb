@@ -45,11 +45,10 @@ class CheckIn {
         if (typeof parentmoduleinfo !== 'undefined') {
             if (this.Module === 'CheckIn') {
                 FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
-                $form.find(`[data-datafield="OrderId"]`).change();
             } else if (this.Module === 'TransferIn') {
                 FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
-                $form.find(`[data-datafield="TransferId"]`).change();
             }
+            jQuery($form.find(`[data-datafield="${this.Type}Id"]`)).trigger('change');
             $form.attr('data-showsuspendedsessions', 'false');
         }
         this.getSoundUrls($form);

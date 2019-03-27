@@ -28,7 +28,11 @@ namespace Web.Source.Modules
             var nodeForm = tree.AddForm("{4E657588-CDA6-4079-A120-E806774F0E66}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{F64A8D6F-821F-4C37-AD54-B4F40CF0E23C}", nodeForm.Id);
             var nodeFormSubMenu = tree.AddSubMenu("{C35FFD5A-E220-4ED2-A339-B316B1D43AF2}", nodeFormMenuBar.Id);
+            var nodeFormOptions = tree.AddSubMenuGroup("Options", "{3CCEAD12-3C4D-450E-893C-E8F67CF8683A}", nodeFormSubMenu.Id);
             tree.AddSaveMenuBarButton("{16B13392-2610-4BDF-8D19-62F1A425DCA3}", nodeFormMenuBar.Id);
+            tree.AddSubMenuItem("Transfer Status", "{A256288F-238F-4594-8A6A-3B70613925DA}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Transfer Out", "{D0AB3734-7F96-46A6-8297-331110A4854F}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Transfer In", "{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

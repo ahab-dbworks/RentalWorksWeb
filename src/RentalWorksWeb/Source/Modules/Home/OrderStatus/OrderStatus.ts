@@ -26,7 +26,7 @@ class OrderStatus {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
         if (typeof parentmoduleinfo != 'undefined') {
-            if (parentmoduleinfo.IsTransferOut === true) this.Type = 'Transfer';
+            if (parentmoduleinfo.IsTransfer === true) this.Type = 'Transfer';
         }
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
@@ -415,7 +415,9 @@ class OrderStatus {
             : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
                           
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>
+                          ${this.Type === 'Order' ?
+            '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>'
+            : ''}
                         </div>
                       </div>
                       <div class="flexcolumn" style="flex:1 1 150px;">
