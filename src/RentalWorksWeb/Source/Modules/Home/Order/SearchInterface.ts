@@ -57,6 +57,8 @@ class SearchInterface {
         let addToButton;
         switch (type) {
             case 'Transfer':
+                addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 135px;">Add to Transfer</div>`;
+                break;
             case 'Order':
                 addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 120px;">Add to Order</div>`;
                 break;
@@ -177,6 +179,8 @@ class SearchInterface {
         previewhtml.push('              </div>');
         switch (type) {
             case 'Transfer':
+                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:135px; float:right; margin:15px;">Add to Transfer</div>');
+                break;
             case 'Order':
                 previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
                 break;
