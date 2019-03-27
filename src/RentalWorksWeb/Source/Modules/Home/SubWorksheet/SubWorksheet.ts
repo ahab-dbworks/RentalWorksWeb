@@ -6,6 +6,8 @@ class SubWorksheet {
     SessionId: string;
     RecType: string;
     caption: string = 'Sub Worksheet';
+    totalFields: Array<string> = ["VendorWeeklyTotal", "VendorWeeklyDiscount", "VendorWeeklySubTotal", "VendorWeeklyTax", "VendorWeeklyExtended", "VendorMonthlyTotal", "VendorMonthlyDiscount", "VendorMonthlySubTotal", "VendorMonthlyTax", "VendorMonthlyExtended", "VendorPeriodTotal", "VendorPeriodDiscount", "VendorPeriodSubTotal", "VendorPeriodTax", "VendorPeriodExtended"];
+
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -35,10 +37,10 @@ class SubWorksheet {
         $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
         $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
-        FwFormField.setValueByDataField($form, 'ReqDate', parentmoduleinfo.EstimatedStartDate);
-        FwFormField.setValueByDataField($form, 'RentalFrom', parentmoduleinfo.EstimatedStartDate);
-        FwFormField.setValueByDataField($form, 'RentalTo', parentmoduleinfo.EstimatedStopDate);
-        FwFormField.setValueByDataField($form, 'ReqTime', parentmoduleinfo.EstimatedStartTime);
+        FwFormField.setValueByDataField($form, 'RequiredDate', parentmoduleinfo.EstimatedStartDate);
+        FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
+        FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
+        FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
 
         this.events($form, parentmoduleinfo)
         return $form;
@@ -49,6 +51,7 @@ class SubWorksheet {
         const modifyExisting = $form.find('div[data-datafield="ModifyExisting"] input');
         const newPo = $form.find('.new');
         const existingPo = $form.find('.existing');
+        // Create new checkbox
         createNew.on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 modifyExisting.prop('checked', false);
@@ -80,73 +83,16 @@ class SubWorksheet {
                 FwFormField.disable(existingPo);
             }
         });
-
+        // Open Worksheet button
         $form.find('.openworksheet').on('click', e => {
-            const worksheetRequest = {
-                OrderId: parentmoduleinfo.OrderId,
-                RecType: parentmoduleinfo.RecType,
-                VendorId: FwFormField.getValueByDataField($form, 'VendorId'),
-                ContactId: FwFormField.getValueByDataField($form, 'ContactId'),
-                RateType: FwFormField.getValueByDataField($form, 'RateId'),
-                BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId'),
-                RequiredTime: FwFormField.getValueByDataField($form, 'ReqTime'),
-                FromDate: FwFormField.getValueByDataField($form, 'RentalFrom'),
-                ToDate: FwFormField.getValueByDataField($form, 'RentalTo'),
-                DeliveryId: '',
-                AdjustContractDates: true,
-                RequiredDate: ''
+            if (FwFormField.getValueByDataField($form, 'CreateNew') === 'T') {
+                this.createNewWorksheet($form, parentmoduleinfo);
+            } else { 
+                this.modifyWorksheet($form, parentmoduleinfo);
             }
-            if (FwFormField.getValueByDataField($form, 'RentalTo') === '') {
-                worksheetRequest.ToDate = undefined;
-            }
+        });
 
-            if (FwFormField.getValueByDataField($form, 'ReqDate') !== '') {
-                worksheetRequest.RequiredDate = FwFormField.getValueByDataField($form, 'ReqDate')
-            }
-
-            try {
-                FwAppData.apiMethod(true, 'POST', "api/v1/order/startcreatepoworksheetsession", worksheetRequest, FwServices.defaultTimeout, response => {
-                    if (response.success) {
-                        $form.find('.error-msg:not(.qty)').html('');
-                        FwFormField.disable($form.find('.subworksheet'));
-                        $form.find('.openworksheet').hide();
-                        const gridUniqueIds: any = {
-                            SessionId: response.SessionId
-                        };
-                        this.SessionId = response.SessionId;
-                        this.renderPOGrid($form);
-
-                        const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
-                        const totalFields: Array<string> = ["VendorWeeklyTax", "VendorWeeklyTotal", "VendorMonthlyTax", "VendorMonthlyTotal", "VendorPeriodTax", "VendorPeriodTotal"];
-
-                        $subPurchaseOrderItemGridControl.data('ondatabind', function (request) {
-                            request.uniqueids = gridUniqueIds
-                            request.totalfields = totalFields;
-                        })
-                        FwBrowse.addEventHandler($subPurchaseOrderItemGridControl, 'afterdatabindcallback', ($subPurchaseOrderItemGridControl, response) => {
-                            this.getSubPOItemGridTotals($form, response);
-                        });
-                        FwBrowse.search($subPurchaseOrderItemGridControl);
-                        if (createNew.prop('checked')) {
-                            $form.find('.completeorder').show();
-                        } else {
-                            $form.find('.completeorder').text('Update Purchase Order');
-                            $form.find('.completeorder').show();
-                        }
-
-                        FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.daily').show() : $form.find('.daily').hide();
-                    } else {
-                        $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
-                    }
-                }, null, $form);
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-
-            $form.attr('data-modified', 'false');
-        })
-
-        $form.find('.createpo').on('click', e => {
+        $form.find('.create-modify-po').on('click', e => {
             try {
                 var sessionRequest = {
                     SessionId: this.SessionId
@@ -170,10 +116,10 @@ class SubWorksheet {
                             $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
                             this.SessionId = '';
                             this.OrderId = '';
-                            FwFormField.setValueByDataField($form, 'ReqDate', parentmoduleinfo.EstimatedStartDate);
-                            FwFormField.setValueByDataField($form, 'RentalFrom', parentmoduleinfo.EstimatedStartDate);
-                            FwFormField.setValueByDataField($form, 'RentalTo', parentmoduleinfo.EstimatedStopDate);
-                            FwFormField.setValueByDataField($form, 'ReqTime', parentmoduleinfo.EstimatedStartTime);
+                            FwFormField.setValueByDataField($form, 'RequiredDate', parentmoduleinfo.EstimatedStartDate);
+                            FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);
+                            FwFormField.setValueByDataField($form, 'ToDate', parentmoduleinfo.EstimatedStopDate);
+                            FwFormField.setValueByDataField($form, 'RequiredTime', parentmoduleinfo.EstimatedStartTime);
                             FwFormField.disable($form.find('div[data-datafield="OfficePhone"]'));
                             FwFormField.disable($form.find('div[data-datafield="OfficeExtension"]'));
                             FwFormField.disable($form.find('div[data-datafield="POId"]'));
@@ -261,14 +207,179 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="OfficeExtension"]').attr('data-originalvalue'));
         });
 
+        // Totals radio group event
+        $form.find(".totalType input").on('change', e => {
+            const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+            FwBrowse.search($subPurchaseOrderItemGridControl);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    createNewWorksheet($form: JQuery, parentmoduleinfo: any): void {
+        try {
+            const worksheetRequest: any = {
+                OrderId: parentmoduleinfo.OrderId,
+                RecType: parentmoduleinfo.RecType,
+                VendorId: FwFormField.getValueByDataField($form, 'VendorId'),
+                ContactId: FwFormField.getValueByDataField($form, 'ContactId'),
+                RateType: FwFormField.getValueByDataField($form, 'RateId'),
+                BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId'),
+                RequiredTime: FwFormField.getValueByDataField($form, 'RequiredTime'),
+                FromDate: FwFormField.getValueByDataField($form, 'FromDate'),
+                ToDate: FwFormField.getValueByDataField($form, 'ToDate'),
+                DeliveryId: '',
+                AdjustContractDates: true,
+            }
+
+            if (FwFormField.getValueByDataField($form, 'ToDate') === '') {
+                worksheetRequest.ToDate = undefined;
+            }
+
+            if (FwFormField.getValueByDataField($form, 'RequiredDate') !== '') {
+                worksheetRequest.RequiredDate = FwFormField.getValueByDataField($form, 'RequiredDate')
+            }
+
+            FwAppData.apiMethod(true, 'POST', "api/v1/order/startcreatepoworksheetsession", worksheetRequest, FwServices.defaultTimeout, response => {
+                if (response.success) {
+                    $form.find('.error-msg:not(.qty)').html('');
+                    FwFormField.disable($form.find('.subworksheet'));
+                    $form.find('.openworksheet').hide();
+                    const gridUniqueIds: any = {
+                        SessionId: response.SessionId
+                    };
+                    this.SessionId = response.SessionId;
+                    this.renderPOGrid($form);
+
+                    const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+
+                    $subPurchaseOrderItemGridControl.data('ondatabind', request => {
+                        request.uniqueids = gridUniqueIds;
+                        request.totalfields = this.totalFields;
+                    })
+                    FwBrowse.addEventHandler($subPurchaseOrderItemGridControl, 'afterdatabindcallback', ($subPurchaseOrderItemGridControl, response) => {
+                        this.getSubPOItemGridTotals($form, response);
+                    });
+                    FwBrowse.search($subPurchaseOrderItemGridControl);
+
+                    $form.find('.completeorder').show();
+                    
+
+                    FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.daily').show() : $form.find('.daily').hide();
+                } else {
+                    $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
+                }
+            }, null, $form);
+
+            $form.attr('data-modified', 'false');
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    modifyWorksheet($form: JQuery, parentmoduleinfo: any): void {
+        try {
+            const PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            if (PurchaseOrderId !== '') {
+                    const worksheetRequest: any = {
+                        OrderId: parentmoduleinfo.OrderId,
+                        RecType: parentmoduleinfo.RecType,
+                        PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
+                    }
+
+                    FwAppData.apiMethod(true, 'POST', "api/v1/order/startmodifypoworksheetsession", worksheetRequest, FwServices.defaultTimeout, response => {
+                        if (response.success) {
+                            $form.find('.error-msg:not(.qty)').html('');
+                            FwFormField.disable($form.find('.subworksheet'));
+                            $form.find('.openworksheet').hide();
+
+                            // fill in form fields
+                            FwFormField.setValueByDataField($form, 'RequiredDate', response.RequiredDate);
+                            FwFormField.setValueByDataField($form, 'FromDate', response.FromDate);
+                            FwFormField.setValueByDataField($form, 'ToDate', response.ToDate);
+                            FwFormField.setValueByDataField($form, 'RequiredTime', response.RequiredTime);
+                            FwFormField.setValueByDataField($form, 'VendorId', response.VendorId, response.Vendor);
+                            FwFormField.setValueByDataField($form, 'BillingCycleId', response.BillingCycleId, response.BillingCycle);
+                            FwFormField.setValueByDataField($form, 'ContactId', response.ContactId, response.Contact);
+                            FwFormField.setValueByDataField($form, 'RateId', response.RateType);
+
+                            this.SessionId = response.SessionId;
+
+
+                            const gridUniqueIds: any = {
+                                SessionId: response.SessionId
+                            };
+                            this.renderPOGrid($form);
+
+                            const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
+                            $subPurchaseOrderItemGridControl.data('ondatabind', request => {
+                                request.uniqueids = gridUniqueIds
+                                request.totalfields = this.totalFields;
+                            })
+                            FwBrowse.addEventHandler($subPurchaseOrderItemGridControl, 'afterdatabindcallback', ($subPurchaseOrderItemGridControl, response) => {
+                                this.getSubPOItemGridTotals($form, response);
+                            });
+                            FwBrowse.search($subPurchaseOrderItemGridControl);
+                   
+                            $form.find('.completeorder').show();
+                            $form.find('.create-modify-po').text('Update Purchase Order');
+                            
+
+                            FwFormField.getValueByDataField($form, 'RateId') === 'DAILY' ? $form.find('.daily').show() : $form.find('.daily').hide();
+                        } else {
+                            $form.find('.error-msg:not(.qty)').html(`<div style="margin-left:5px;"><span>${response.msg}</span></div>`);
+                        }
+                    }, null, $form);
+
+            } else {
+                FwNotification.renderNotification('WARNING', 'Select a PO Number first.')
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
     }
     //----------------------------------------------------------------------------------------------
     getSubPOItemGridTotals($form: JQuery, response: any): void {
-        FwFormField.setValue($form, 'div[data-totalfield="Total"]', response.Totals.Total);
-        FwFormField.setValue($form, 'div[data-totalfield="Tax"]', response.Totals.Tax);
-        FwFormField.setValue($form, 'div[data-totalfield="SubTotal"]', response.Totals.SubTotal);
-        FwFormField.setValue($form, 'div[data-totalfield="GrossTotal"]', response.Totals.GrossTotal);
-        FwFormField.setValue($form, 'div[data-totalfield="Discount"]', response.Totals.Discount);
+        try {
+            let subTotal, discount, salesTax, grossTotal, total;
+
+            const rateValue = $form.find(`.totalType input:checked`).val();
+            switch (rateValue) {
+                case 'W':
+                    subTotal = response.Totals.VendorWeeklyExtended;
+                    discount = response.Totals.VendorWeeklyDiscount;
+                    salesTax = response.Totals.VendorWeeklyTax;
+                    grossTotal = response.Totals.VendorWeeklySubTotal;
+                    total = response.Totals.VendorWeeklyTotal;
+                    break;
+                case 'P':
+                    subTotal = response.Totals.VendorPeriodExtended;
+                    discount = response.Totals.VendorPeriodDiscount;
+                    salesTax = response.Totals.VendorPeriodTax;
+                    grossTotal = response.Totals.VendorPeriodSubTotal;
+                    total = response.Totals.VendorPeriodTotal;
+                    break;
+                case 'M':
+                    subTotal = response.Totals.VendorMonthlyExtended;
+                    discount = response.Totals.VendorMonthlyDiscount;
+                    salesTax = response.Totals.VendorMonthlyTax;
+                    grossTotal = response.Totals.VendorMonthlySubTotal;
+                    total = response.Totals.VendorMonthlyTotal;
+                    break;
+                default:
+                    subTotal = response.Totals.VendorPeriodExtended;
+                    discount = response.Totals.VendorPeriodDiscount;
+                    salesTax = response.Totals.VendorPeriodTax;
+                    grossTotal = response.Totals.VendorPeriodSubTotal;
+                    total = response.Totals.VendorPeriodTotal;
+            }
+
+            FwFormField.setValue($form, 'div[data-totalfield="Total"]', total);
+            FwFormField.setValue($form, 'div[data-totalfield="Tax"]', salesTax);
+            FwFormField.setValue($form, 'div[data-totalfield="SubTotal"]', subTotal);
+            FwFormField.setValue($form, 'div[data-totalfield="GrossTotal"]', grossTotal);
+            FwFormField.setValue($form, 'div[data-totalfield="Discount"]', discount);
+        } catch (ex) {
+            FwFunc.showError(ex)
+        }
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateContact($browse, $grid, request) {
@@ -300,13 +411,12 @@ class SubWorksheet {
     renderPOGrid($form: JQuery): void {
         const $subPurchaseOrderItemGrid = $form.find('div[data-grid="SubPurchaseOrderItemGrid"]');
         const $subPurchaseOrderItemGridControl = FwBrowse.loadGridFromTemplate('SubPurchaseOrderItemGrid');
-        const totalFields: Array<string> = ["VendorWeeklyTax", "VendorWeeklyTotal", "VendorMonthlyTax", "VendorMonthlyTotal", "VendorPeriodTax", "VendorPeriodTotal"];
         $subPurchaseOrderItemGrid.empty().append($subPurchaseOrderItemGridControl);
         $subPurchaseOrderItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: this.OrderId,
             };
-            request.totalfields = totalFields;
+            request.totalfields = this.totalFields;
         });
         $subPurchaseOrderItemGridControl.data('beforesave', request => {
             request.SessionId = this.SessionId;
