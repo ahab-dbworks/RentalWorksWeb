@@ -162,11 +162,11 @@ namespace WebApi.Modules.Home.InventorySearchPreview
 
                 if ((request.FromDate != null) && (request.FromDate > DateTime.MinValue))
                 {
-                    fromDateTime = request.FromDate;
+                    fromDateTime = request.FromDate.GetValueOrDefault(DateTime.MinValue);
                 }
                 if ((request.ToDate != null) && (request.ToDate > DateTime.MinValue))
                 {
-                    toDateTime = request.ToDate;
+                    toDateTime = request.ToDate.GetValueOrDefault(DateTime.MinValue);
                 }
 
                 if ((fromDateTime != null) && (toDateTime != null))
