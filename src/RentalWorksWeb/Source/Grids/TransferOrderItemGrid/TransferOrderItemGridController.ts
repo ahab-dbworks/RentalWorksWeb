@@ -3,6 +3,45 @@
      apiurl: string = 'api/v1/orderitem';
 }
 //----------------------------------------------------------------------------------------------
+//Refresh Availability
+FwApplicationTree.clickEvents['{1065995B-3EF3-4B50-B513-F966F88570F1}'] = function (e) {
+    const $transferOrderItemGrid = jQuery(this).closest('[data-name="TransferOrderItemGrid"]');
+    let recType;
+    recType = jQuery(this).closest('[data-grid="TransferOrderItemGrid"]');
+    if (recType.hasClass('R')) {
+        recType = 'R';
+    } else if (recType.hasClass('S')) {
+        recType = 'S';
+    }
+    //else if (recType.hasClass('L')) {
+    //    recType = 'L';
+    //} else if (recType.hasClass('M')) {
+    //    recType = 'M';
+    //} else if (recType.hasClass('P')) {
+    //    recType = 'P';
+    //} else if (recType.hasClass('A')) {
+    //    recType = '';
+    //} else if (recType.hasClass('RS')) {
+    //    recType = 'RS'
+    //}
+
+    const pageNumber = $transferOrderItemGrid.attr('data-pageno');
+    const onDataBind = $transferOrderItemGrid.data('ondatabind');
+    if (typeof onDataBind == 'function') {
+        $transferOrderItemGrid.data('ondatabind', function (request) {
+            onDataBind(request);
+            request.uniqueids.RefreshAvailability = true;
+            request.pageno = parseInt(pageNumber);
+        });
+    }
+
+    FwBrowse.search($transferOrderItemGrid);
+    $transferOrderItemGrid.attr('data-pageno', pageNumber);
+    //resets ondatabind
+    $transferOrderItemGrid.data('ondatabind', onDataBind);
+
+    jQuery(document).trigger('click');
+}
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{5E73772F-F5E2-4382-9F50-3272F4E79A25}'] = function (e) {
     const $form = jQuery(this).closest('.fwform');
