@@ -177,6 +177,11 @@
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckedInItemGrid\CheckedInItemGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
@@ -712,6 +717,11 @@
       <SubType>Designer</SubType>
     </Content>
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckedInItemGrid\CheckedInItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />

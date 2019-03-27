@@ -795,6 +795,11 @@ namespace WebLibrary.Security
 
             // Add Grids
             AddGrid("Audit History",                          "{977B65BB-DD67-4B5E-9B62-944E5DBECFD4}", lv1menuGrids.Id, "AuditHistoryGridController");
+            AddGrid("Check-In Exception",                     "{81282AE6-63B5-4A97-A066-0592CE276D58}", lv1menuGrids.Id, "CheckInExceptionGridController");
+            AddGrid("Checked-In Item",                        "{85778C01-2ACC-4ADF-97EC-7386E6F32415}", lv1menuGrids.Id, "CheckedInItemGridController");
+            AddGrid("Check-In Order",                         "{C1752A81-400D-46F7-82BB-0B1CCD78C890}", lv1menuGrids.Id, "CheckInOrderGridController");
+            AddGrid("Check-In Quantity Items",                "{457BBDD6-B4B4-4671-B651-728A6ABF2BF0}", lv1menuGrids.Id, "CheckInQuantityItemsGridController");
+            AddGrid("Check-In Swap",                          "{CDEEA7D1-3738-4BD6-BBDC-75BD044DFE56}", lv1menuGrids.Id, "CheckInSwapGridController");
             AddGrid("Company Contact",                        "{6D8B3D23-0954-4765-9FBD-BF3EC756AA97}", lv1menuGrids.Id, "CompanyContactGridController");
             AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
