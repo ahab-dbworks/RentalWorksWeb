@@ -104,8 +104,6 @@ class TransferOrder {
         $form.find('div.fwformfield[data-datafield="TransferId"] input').val(uniqueids.TransferId);
         FwModule.loadForm(this.Module, $form);
 
-        $form.find('.manifestSubModule').append(this.openManifestBrowse($form));
-        $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -179,6 +177,8 @@ class TransferOrder {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
         $form.find('.submodule').show();
+        $form.find('.manifestSubModule').append(this.openManifestBrowse($form));
+        $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
 
         const $orderItemRentalGrid = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
         FwBrowse.search($orderItemRentalGrid);
