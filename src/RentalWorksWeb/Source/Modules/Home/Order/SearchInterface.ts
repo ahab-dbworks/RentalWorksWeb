@@ -205,15 +205,32 @@ class SearchInterface {
         $previewTabControl = jQuery('#previewHtml');
         FwConfirmation.addControls($previewTabControl, $previewform);
 
-        //Default/Set values
-        if (type === 'Order' || type === 'Quote') {
-            let startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate')
-                , stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-            FwFormField.setValueByDataField($popup, 'FromDate', startDate);
-            FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
-        } else if (type === 'PurchaseOrder') {
-            let startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
-            FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+        let startDate;
+        let stopDate;
+        switch (type) {
+            case 'Order':
+            case 'Quote':
+                startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+                stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+                FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+                FwFormField.setValueByDataField($popup, 'ToDate', stopDate);
+                break;
+            case 'PurchaseOrder':
+                startDate = FwFormField.getValueByDataField($form, 'PurchaseOrderDate');
+                FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+                break;
+            case 'Transfer':
+                let pickDate = FwFormField.getValueByDataField($form, 'PickDate');
+                let shipDate = FwFormField.getValueByDataField($form, 'ShipDate');
+                if (new Date(pickDate).getTime() == new Date(shipDate).getTime()) {
+                    startDate = pickDate;
+                } else if (new Date(pickDate).getTime() > new Date(shipDate).getTime()) {
+                    startDate = shipDate;
+                } else if (new Date(pickDate).getTime() < new Date(shipDate).getTime()) {
+                    startDate = pickDate;
+                }
+                FwFormField.setValueByDataField($popup, 'FromDate', startDate);
+                break;
         }
 
         FwFormField.setValueByDataField($popup, 'ParentFormId', id);
