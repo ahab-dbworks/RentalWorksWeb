@@ -592,12 +592,12 @@ namespace WebLibrary.Security
             AddModule("Purchase Order",         "{DA900327-CEAC-4CB0-9911-CAA2C67059C2}", lv1menuModules.Id, "PurchaseOrderController",     "module/purchaseorder",     homeiconbaseurl + "placeholder.png");
             AddModule("Quote",                  "{9213AF53-6829-4276-9DF9-9DAA704C2CCF}", lv1menuModules.Id, "QuoteController",             "module/quote",             homeiconbaseurl + "placeholder.png");
             AddModule("Receive From Vendor",    "{EC4052D5-664E-4C34-8802-78E086920628}", lv1menuModules.Id, "ReceiveFromVendorController", "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
-            AddModule("Inventory Item",         "{803A2616-4DB6-4BAC-8845-ECAD34C369A8}", lv1menuModules.Id, "InventoryItemController",        "module/inventoryitem",     homeiconbaseurl + "placeholder.png");
+            AddModule("Inventory Item",         "{803A2616-4DB6-4BAC-8845-ECAD34C369A8}", lv1menuModules.Id, "InventoryItemController",     "module/inventoryitem",     homeiconbaseurl + "placeholder.png");
             AddModule("Repair Order",           "{D567EC42-E74C-47AB-9CA8-764DC0F02D3B}", lv1menuModules.Id, "RepairController",            "module/repair",            homeiconbaseurl + "placeholder.png");
             AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "StagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
-            AddModule("User",               "{CE9E187C-288F-44AB-A54A-27A8CFF6FF53}", lv1menuAdministrator.Id, "UserController",            "module/user",           administratoriconbaseurl + "user.png",                                     "USER");
+            AddModule("User",                   "{CE9E187C-288F-44AB-A54A-27A8CFF6FF53}", lv1menuAdministrator.Id, "UserController",        "module/user",              administratoriconbaseurl + "user.png",                                     "USER");
            
             //// Add Submodules
             AddSubModule("User Settings",   "{2563927C-8D51-43C4-9243-6F69A52E2657}", lv1menuSubModules.Id, "UserSettingsController");
@@ -614,6 +614,9 @@ namespace WebLibrary.Security
             AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
             AddGrid("Container Warehouse",                    "{F9766AB6-E3BC-4F3E-9394-9D28BF8C984B}", lv1menuGrids.Id, "ContainerWarehouseGridController");
+            AddGrid("Contract Detail",                        "{A48C1102-249A-43B1-95E9-97A1DAEEE92C}", lv1menuGrids.Id, "ContractDetailGridController");
+            AddGrid("Contract Exchange Item",                 "{02007E1B-9ED2-43E3-BDAA-3A1EA4A5ABFD}", lv1menuGrids.Id, "ContractExchangeItemGridController");
+            AddGrid("Contract Summary",                       "{9CE13261-0A5D-4B21-BC4A-3E6A18E80492}", lv1menuGrids.Id, "ContractSummaryGridController");
             AddGrid("Deal Notes",                             "{CA1FA1E1-2BE8-473D-ABC3-24D741D2AD8E}", lv1menuGrids.Id, "DealNoteGridController");
             AddGrid("Deal Shipper",                           "{DC46B97F-6664-4ED6-8D1C-6E0EA8B3BC38}", lv1menuGrids.Id, "DealShipperGridController");
             AddGrid("Exchange Item",                          "{702D2298-6C34-4938-B97E-00ABACA7CA5C}", lv1menuGrids.Id, "ExchangeItemGridController");
