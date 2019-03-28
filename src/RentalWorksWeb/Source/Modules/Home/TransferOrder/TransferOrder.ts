@@ -317,4 +317,29 @@ FwApplicationTree.clickEvents['{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}'] = e => {
     }
 };
 //----------------------------------------------------------------------------------------------
+//Confirm Transfer
+//-----------------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{A35F0AAD-81B5-4A0C-8970-D448A67D5A82}'] = e => {
+    const $form = jQuery(e.currentTarget).closest('.fwform');
+    const transferNumber = FwFormField.getValueByDataField($form, `TransferNumber`);
+    const $confirmation = FwConfirmation.renderConfirmation('Confirm Transfer', '');
+    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+    const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
+                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                        <div>Confirm Transfer Number ${transferNumber}?</div>
+                    </div>
+                  </div>`;
+    FwConfirmation.addControls($confirmation, html);
+    const $yes = FwConfirmation.addButton($confirmation, 'Confirm Transfer', false);
+    FwConfirmation.addButton($confirmation, 'Cancel');
+
+    $yes.on('click', e => {
+        const transferId = FwFormField.getValueByDataField($form, 'TransferId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
+            FwNotification.renderNotification('SUCCESS', 'Transfer Order Successfully Confirmed.');
+            FwConfirmation.destroyConfirmation($confirmation);
+            FwModule.refreshForm($form, TransferOrderController);
+        }, null, $confirmation);
+    });
+};
 var TransferOrderController = new TransferOrder();

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using Microsoft.AspNetCore.Http;
+using System;
+
 namespace WebApi.Modules.Home.TransferOrder
 {
     [Route("api/v1/[controller]")]
@@ -30,7 +33,41 @@ namespace WebApi.Modules.Home.TransferOrder
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------    
+        // POST api/v1/transferorder/confirm/A0000001
+        [HttpPost("confirm/{id}")]
+        [FwControllerMethod(Id: "VHP1qrNmwB4")]
+        public async Task<ActionResult<TransferOrderLogic>> ConfirmTransferOrder([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                TransferOrderLogic transfer = new TransferOrderLogic();
+                transfer.SetDependencies(AppConfig, UserSession);
+                if (await transfer.LoadAsync<TransferOrderLogic>(ids))
+                {
+                    await TransferOrderFunc.ConfirmTransfer(AppConfig, UserSession, id);
+                    return new OkObjectResult(transfer);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------     
         // GET api/v1/transferorder 
         [HttpGet]
         [FwControllerMethod(Id: "p6yB4Twtje2S")]
