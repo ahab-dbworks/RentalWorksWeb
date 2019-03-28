@@ -15,7 +15,7 @@ class Quote extends OrderBase {
         var screen, $browse;
 
         screen = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 

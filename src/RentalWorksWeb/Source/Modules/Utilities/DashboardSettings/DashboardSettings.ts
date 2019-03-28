@@ -9,7 +9,7 @@ class DashboardSettings {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 

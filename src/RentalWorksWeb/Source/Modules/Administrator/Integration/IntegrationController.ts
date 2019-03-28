@@ -5,7 +5,7 @@ class IntegrationControllerClass {
         var screen, $form;
 
         screen            = {};
-        screen.$view      = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view      = FwModule.getModuleControl(`${this.Module}Controller`);
 
         $form = this.loadForm();
 
