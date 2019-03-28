@@ -332,10 +332,10 @@
 
                     const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
                     $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-                    $stagedItemGridControl.data('ondatabind', function (request) {
+                    $stagedItemGridControl.data('ondatabind', request => {
                         request.orderby = "ItemOrder";
                         request.uniqueids = {
-                            OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
+                            OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
                             WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
                         };
                         request.pagesize = maxPageSize;
@@ -363,7 +363,7 @@
         const $selectedCheckBoxes = $stagedItemGrid.find('.cbselectrow:checked');
         const barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         const quantityFieldValue = $form.find('.partial-contract-quantity input').val();
-        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const errorMsg = $form.find('.error-msg:not(.qty)');
 
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
@@ -451,7 +451,7 @@
         $selectedCheckBoxes = $checkedOutItemGrid.find('.cbselectrow:checked');
         barCodeFieldValue = $form.find('.partial-contract-barcode input').val();
         quantityFieldValue = $form.find('.partial-contract-quantity input').val();
-        orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         errorMsg = $form.find('.error-msg:not(.qty)');
         if (barCodeFieldValue !== '' && $selectedCheckBoxes.length === 0) {
             request.ContractId = this.contractId;
@@ -532,7 +532,7 @@
     completeCheckOutContract($form: JQuery, event): void {
         $form.find('.error-msg:not(.qty)').html('');
         $form.find('.grid-view-radio').hide();
-
+        const type = this.Type;
         if (this.contractId) {
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/completecheckoutcontract/${this.contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
@@ -547,13 +547,13 @@
                     $form.find('.partial-contract').hide();
                     $form.find('.complete-checkout-contract').hide();
                     $form.find('[data-caption="Items"]').show();
-                    FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
+                    FwFormField.enable($form.find(`div[data-datafield="${type}Id"]`));
                     // Clear out all grids
                     $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="CheckOutPendingItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
                     $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-datafield="OrderId"]').focus();
+                    $form.find(`div[data-datafield="${type}Id"]`).focus();
                     // Reveal buttons
                     $form.find('.original-buttons').show();
                     $form.find('.orderstatus').show();
@@ -574,9 +574,9 @@
         errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
         $form.find('.grid-view-radio').hide();
-
+        const type = this.Type;
         errorSound = new Audio(this.errorSoundFileName);
-        orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        orderId = FwFormField.getValueByDataField($form, `${type}Id`);
         if (orderId != '') {
             request.OrderId = orderId;
             FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -589,7 +589,7 @@
                     FwModule.openSubModuleTab($form, $contractForm);
                     $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
                     FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                    FwFormField.enable($form.find('div[data-datafield="OrderId"]'));
+                    FwFormField.enable($form.find(`div[data-datafield="${type}Id"]`));
                     $form.find('[data-datafield="Code"] input').select();
                     // Clear out all grids
                     $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
@@ -1029,7 +1029,7 @@
         const $form = jQuery($element).closest('.fwform');
 
         let request: any = {};
-        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const code = FwFormField.getValueByDataField($form, 'Code');
         const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
         if (quantity != 0) {
@@ -1074,7 +1074,7 @@
         const $form = jQuery($element).closest('.fwform');
 
         let request: any = {};
-        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const code = FwFormField.getValueByDataField($form, 'Code');
         request = {
             OrderId: orderId,
@@ -1109,7 +1109,7 @@
         const $form = jQuery($element).closest('.fwform');
 
         let request: any = {};
-        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const code = FwFormField.getValueByDataField($form, 'Code');
         const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
         if (quantity != 0) {
