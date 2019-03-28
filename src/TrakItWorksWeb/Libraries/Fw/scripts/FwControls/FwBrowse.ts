@@ -1156,7 +1156,7 @@ class FwBrowseClass {
                 html.push('<tbody>');
                 // empty body row
                 html.push('<tr class="empty">');
-                for (var colno = 0; colno < $columns.length; colno++) {
+                for (var colno = 0; colno < $columns.length + 2; colno++) {
                     var $column = $columns.eq(colno);
                     //var width = $column.attr('data-width');
                     var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
