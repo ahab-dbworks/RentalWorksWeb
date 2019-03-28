@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -207,6 +207,8 @@
     <Content Include="Source\Grids\OrderItemGrid\OrderItemGridBrowse.htm" />
     <Content Include="Source\Grids\OrderNoteGrid\OrderNoteGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridBrowse.htm" />
+    <Content Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridBrowse.htm" />
     <Content Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridBrowse.htm" />
     <Content Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridBrowse.htm" />
     <Content Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridBrowse.htm" />
@@ -751,6 +753,8 @@
     <TypeScriptCompile Include="Source\Grids\OrderItemGrid\OrderItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderNoteGrid\OrderNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusHistoryGrid\OrderStatusHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderStatusRentalDetailGrid\OrderStatusRentalDetailGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\OrderStatusSalesDetailGrid\OrderStatusSalesDetailGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderStatusSummaryGrid\OrderStatusSummaryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridController.ts" />
