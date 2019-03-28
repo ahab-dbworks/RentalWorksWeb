@@ -22,7 +22,7 @@ namespace RentalWorksAPI.api.v2.Models
         public string rentfromtime          { get; set; }
         public string renttodate            { get; set; }
         public string renttotime            { get; set; }
-        public string qtyordered            { get; set; }
+        public string orderqtyordered       { get; set; }
         public string subqty                { get; set; }
         public string subvendor             { get; set; }
         public string unit                  { get; set; }
@@ -36,13 +36,16 @@ namespace RentalWorksAPI.api.v2.Models
         public string periodextended        { get; set; }
         public string taxable               { get; set; }
         public string warehouseid           { get; set; }
-        public string qtystaged             { get; set; }
-        public string qtyout                { get; set; }
-        public string qtyin                 { get; set; }
-        public string qtyremaining          { get; set; }
+        public string orderqtystaged        { get; set; }
+        public string orderqtyout           { get; set; }
+        public string orderqtyin            { get; set; }
+        public string orderqtyremaining     { get; set; }
         public string qtyconflict           { get; set; }
         public string availabletofulfillqty { get; set; }
         public string trackedby             { get; set; }
+        public string warehouseqcrequired   { get; set; }
+        public string warehouseqtyinrepair  { get; set; }
+        public string warehouseqtyin        { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
 }

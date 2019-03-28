@@ -186,5 +186,35 @@ namespace RentalWorksAPI.api.v2.Data
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static List<WarehouseAddToOrderItem> GetWarehousesAddToOrder(List<string> warehouseids)
+        {
+            List<WarehouseAddToOrderItem> result = new List<WarehouseAddToOrderItem>();
+            dynamic qryresult                    = new ExpandoObject();
+
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.Add("select *");
+                qry.Add("from apirest_warehouseaddtoorderfunc(@warehouseids)");
+                qry.AddParameter("@warehouseids", string.Join(",", warehouseids));
+                qryresult = qry.QueryToDynamicList2();
+            }
+
+            for (int i = 0; i < qryresult.Count; i++)
+            {
+                WarehouseAddToOrderItem item = new WarehouseAddToOrderItem();
+
+                item.masterid     = qryresult[i].masterid;
+                item.masterno     = qryresult[i].masterno;
+                item.master       = qryresult[i].master;
+                item.departmentid = qryresult[i].inventorytypeid;
+                item.department   = qryresult[i].inventorytype;
+                item.warehouseid  = qryresult[i].warehouseid;
+
+                result.Add(item);
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
     }
 }

@@ -12,5 +12,12 @@ namespace RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder
         public string master       { get; set; }
         public string departmentid { get; set; }
         public string department   { get; set; }
+        public string warehouseid  { get; set; }
     }
+    //----------------------------------------------------------------------------------------------------
+    public class WarehousesAddToOrder
+    {
+        public List<string> warehouseids { get; set; } = new List<string>();
+    }
+    //----------------------------------------------------------------------------------------------------
 }

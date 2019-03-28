@@ -58,6 +58,20 @@ namespace RentalWorksAPI.api.v2
             return Request.CreateResponse(HttpStatusCode.OK, new { items = response } );
         }
         //----------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("warehouseaddtoorder")]
+        public HttpResponseMessage WarehousesAddToOrder([FromBody]WarehousesAddToOrder request)
+        {
+            List<WarehouseAddToOrderItem> response = new List<WarehouseAddToOrderItem>();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            response = InventoryData.GetWarehousesAddToOrder(request.warehouseids);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { items = response } );
+        }
+        //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)
         {
             switch (errno)

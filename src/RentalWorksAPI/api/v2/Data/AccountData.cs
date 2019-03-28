@@ -194,6 +194,12 @@ namespace RentalWorksAPI.api.v2.Data
                 webuser.primarydepartment     = qryresult[i].department;
                 webuser.groupsid              = qryresult[i].groupsid;
                 webuser.group                 = qryresult[i].groups;
+                webuser.rentaldepartmentid    = qryresult[i].rentaldepartmentid;
+                webuser.rentaldepartment      = qryresult[i].rentaldepartment;
+                webuser.salesdepartmentid     = qryresult[i].salesdepartmentid;
+                webuser.salesdepartment       = qryresult[i].salesdepartment;
+                webuser.partsdepartmentid     = qryresult[i].partsdepartmentid;
+                webuser.partsdepartment       = qryresult[i].partsdepartment;
 
                 webusers.Add(webuser);
             }
