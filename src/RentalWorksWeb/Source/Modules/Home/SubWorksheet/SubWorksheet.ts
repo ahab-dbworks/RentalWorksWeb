@@ -199,12 +199,6 @@ class SubWorksheet {
             FwFormField.setValueByDataField($form, 'OfficePhone', $tr.find('.field[data-browsedatafield="OfficePhone"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'OfficeExtension', $tr.find('.field[data-browsedatafield="OfficeExtension"]').attr('data-originalvalue'));
         });
-
-        // Totals radio group event to trigger refresh of totals
-        $form.find(".totalType input").on('change', e => {
-            const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
-            FwBrowse.search($subPurchaseOrderItemGridControl);
-        });
     }
     //----------------------------------------------------------------------------------------------
     createNewWorksheet($form: JQuery, parentmoduleinfo: any): void {
@@ -360,6 +354,10 @@ class SubWorksheet {
                     total = response.Totals.VendorPeriodTotal;
             }
 
+            // Totals radio group event to trigger refresh of totals
+            $form.find(".totalType input").on('change', e => {
+                this.getSubPOItemGridTotals($form, response);
+            });
             FwFormField.setValue($form, 'div[data-totalfield="Total"]', total);
             FwFormField.setValue($form, 'div[data-totalfield="Tax"]', salesTax);
             FwFormField.setValue($form, 'div[data-totalfield="SubTotal"]', subTotal);
