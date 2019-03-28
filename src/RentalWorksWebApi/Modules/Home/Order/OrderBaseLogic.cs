@@ -43,6 +43,8 @@ namespace WebApi.Modules.Home.Order
             billToAddress.UniqueId1 = dealOrder.OrderId;
             billToAddress.UniqueId2 = RwConstants.ADDRESS_TYPE_BILLING;
             tax.AfterSave += OnAfterSaveTax;
+
+            UseTransactionToSave = true;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id: "jic1cq8SZoZk")]
@@ -1129,7 +1131,7 @@ namespace WebApi.Modules.Home.Order
                     tempB = (Labor ?? lOrig.Labor);
                     labor = tempB.GetValueOrDefault(false);
 
-                    tempB = (Miscellaneous?? lOrig.Miscellaneous);
+                    tempB = (Miscellaneous ?? lOrig.Miscellaneous);
                     misc = tempB.GetValueOrDefault(false);
 
                     tempB = (RentalSale ?? lOrig.RentalSale);
@@ -1225,13 +1227,44 @@ namespace WebApi.Modules.Home.Order
                 dealOrder.OutDeliveryId = outDelivery.DeliveryId;
                 dealOrder.InDeliveryId = inDelivery.DeliveryId;
                 dealOrder.TaxId = tax.TaxId;
-                int i = dealOrder.SaveAsync(null).Result;
+                int i = dealOrder.SaveAsync(null, e.SqlConnection).Result;
+            }
+            else
+            {
+                // this is a modfied Quote/Order
+                if (e.Original != null)
+                {
+                    OrderBaseLogic orig = ((OrderBaseLogic)e.Original);
+
+                    if (
+                        ((PickDate != null) && (PickDate != orig.PickDate)) ||
+                        ((PickTime != null) && (PickTime != orig.PickTime)) ||
+                        ((EstimatedStartDate != null) && (EstimatedStartDate != orig.EstimatedStartDate)) ||
+                        ((EstimatedStartTime != null) && (EstimatedStartTime != orig.EstimatedStartTime)) ||
+                        ((EstimatedStopDate != null) && (EstimatedStopDate != orig.EstimatedStopDate)) ||
+                        ((EstimatedStopTime != null) && (EstimatedStopTime != orig.EstimatedStopTime))
+                        )
+                    {
+                        OrderDatesAndTimesChange change = new OrderDatesAndTimesChange();
+                        change.OrderId = this.GetPrimaryKeys()[0].ToString();
+                        change.OldPickDate = orig.PickDate;
+                        change.NewPickDate = PickDate ?? orig.PickDate;
+                        change.OldPickTime = orig.PickTime;
+                        change.NewPickTime = PickTime ?? orig.PickTime;
+                        change.OldEstimatedStartDate = orig.EstimatedStartDate;
+                        change.NewEstimatedStartDate = EstimatedStartDate ?? orig.EstimatedStartDate;
+                        change.OldEstimatedStartTime = orig.EstimatedStartTime;
+                        change.NewEstimatedStartTime = EstimatedStartTime ?? orig.EstimatedStartTime;
+                        change.OldEstimatedStopDate = orig.EstimatedStopDate;
+                        change.NewEstimatedStopDate = EstimatedStopDate ?? orig.EstimatedStopDate;
+                        change.OldEstimatedStopTime = orig.EstimatedStopTime;
+                        change.NewEstimatedStopTime = EstimatedStopTime ?? orig.EstimatedStopTime;
+                        bool b = OrderFunc.UpdateOrderItemDatesAndTimes(AppConfig, UserSession, change, e.SqlConnection).Result;
+                    }
+                }
             }
         }
         //------------------------------------------------------------------------------------
-
-
-
 
 
 
@@ -1255,7 +1288,7 @@ namespace WebApi.Modules.Home.Order
         {
             bool saved = false;
             billToAddress.UniqueId1 = dealOrder.OrderId;
-            saved = dealOrder.SavePoASync(PoNumber, PoAmount).Result;
+            saved = dealOrder.SavePoASync(PoNumber, PoAmount, e.SqlConnection).Result;
 
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
             {

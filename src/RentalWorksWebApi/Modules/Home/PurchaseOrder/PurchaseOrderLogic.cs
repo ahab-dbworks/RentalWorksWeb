@@ -625,7 +625,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 }
             }
 
-            bool b3 = purchaseOrder.UpdateOrderTotal().Result;
+            bool b3 = purchaseOrder.UpdateOrderTotal(e.SqlConnection).Result;
         }
         //------------------------------------------------------------------------------------
         public void OnAfterSaveTax(object sender, AfterSaveDataRecordEventArgs e)

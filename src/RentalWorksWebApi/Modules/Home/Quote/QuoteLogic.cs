@@ -86,7 +86,7 @@ namespace WebApi.Modules.Home.Quote
                     bool b1 = AppFunc.UpdateTaxFromTaxOptionASync(this.AppConfig, this.UserSession, TaxOptionId, TaxId, e.SqlConnection).Result;
                 }
             }
-            bool b2 = dealOrder.UpdateOrderTotal().Result;
+            bool b2 = dealOrder.UpdateOrderTotal(e.SqlConnection).Result;
         }
         //------------------------------------------------------------------------------------    
         public async Task<OrderLogic> QuoteToOrderASync<T>()

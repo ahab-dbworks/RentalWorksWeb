@@ -960,22 +960,23 @@ public string DateStamp { get; set; }
 
 
         //------------------------------------------------------------------------------------
-        public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount)
+        public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
         {
             bool saved = false;
             if ((PoNumber != null) && (PoAmount != null))  // temporary: actual solution is to force the PO number and Amount with the post
             {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                if (conn == null)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
-                    qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
-                    qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, false);
-                    await qry.ExecuteNonQueryAsync();
-                    saved = true;
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
                 }
+                FwSqlCommand qry = new FwSqlCommand(conn, "setorderpo", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                qry.AddParameter("@orgpono", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@newpono", SqlDbType.NVarChar, ParameterDirection.Input, PoNumber);
+                qry.AddParameter("@poamount", SqlDbType.Decimal, ParameterDirection.Input, PoAmount);
+                qry.AddParameter("@insertnew", SqlDbType.NVarChar, ParameterDirection.Input, false);
+                await qry.ExecuteNonQueryAsync();
+                saved = true;
             }
             return saved;
         }
@@ -1008,18 +1009,19 @@ public string DateStamp { get; set; }
             return true;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> UpdateOrderTotal()
+        public async Task<bool> UpdateOrderTotal(FwSqlConnection conn = null)
         {
             bool success = false;
             if ((OrderId != null) && ((Type.Equals(RwConstants.ORDER_TYPE_QUOTE) || (Type.Equals(RwConstants.ORDER_TYPE_ORDER) || (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER))))))
             {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                if (conn == null)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateordertotal", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
-                    await qry.ExecuteNonQueryAsync();
-                    success = true;
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
                 }
+                FwSqlCommand qry = new FwSqlCommand(conn, "updateordertotal", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                await qry.ExecuteNonQueryAsync();
+                success = true;
             }
             return success;
         }

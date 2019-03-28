@@ -11,6 +11,24 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
 {
+
+    public class OrderDatesAndTimesChange
+    {
+        public string OrderId { get; set; }
+        public string OldPickDate { get; set; }
+        public string NewPickDate { get; set; }
+        public string OldPickTime { get; set; }
+        public string NewPickTime { get; set; }
+        public string OldEstimatedStartDate { get; set; }
+        public string NewEstimatedStartDate { get; set; }
+        public string OldEstimatedStartTime { get; set; }
+        public string NewEstimatedStartTime { get; set; }
+        public string OldEstimatedStopDate { get; set; }
+        public string NewEstimatedStopDate { get; set; }
+        public string OldEstimatedStopTime { get; set; }
+        public string NewEstimatedStopTime { get; set; }
+    }
+
     public class CreatePoWorksheetSessionRequest
     {
         public string OrderId;
@@ -129,6 +147,41 @@ namespace WebApi.Modules.Home.Order
                 await qry.ExecuteNonQueryAsync();
                 success = true;
             }
+            return success;
+        }
+
+        //-------------------------------------------------------------------------------------------------------
+
+        public static async Task<bool> UpdateOrderItemDatesAndTimes(FwApplicationConfig appConfig, FwUserSession userSession, OrderDatesAndTimesChange change, FwSqlConnection conn = null)
+        {
+            bool success = false;
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "updatemasteritemdatesandtimes", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, change.OrderId);
+            qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+
+            //pick
+            qry.AddParameter("@olddatepick", SqlDbType.Date, ParameterDirection.Input, change.OldPickDate);
+            qry.AddParameter("@newdatepick", SqlDbType.Date, ParameterDirection.Input, change.NewPickDate);
+            qry.AddParameter("@oldtimepick", SqlDbType.NVarChar, ParameterDirection.Input, change.OldPickTime);
+            qry.AddParameter("@newtimepick", SqlDbType.NVarChar, ParameterDirection.Input, change.NewPickTime);
+
+            //from
+            qry.AddParameter("@olddatefrom", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStartDate);
+            qry.AddParameter("@newdatefrom", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStartDate);
+            qry.AddParameter("@oldtimefrom", SqlDbType.NVarChar, ParameterDirection.Input, change.OldEstimatedStartTime);
+            qry.AddParameter("@newtimefrom", SqlDbType.NVarChar, ParameterDirection.Input, change.NewEstimatedStartTime);
+
+            //to
+            qry.AddParameter("@olddateto", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStopDate);
+            qry.AddParameter("@newdateto", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStopDate);
+            qry.AddParameter("@oldtimeto", SqlDbType.NVarChar, ParameterDirection.Input, change.OldEstimatedStopTime);
+            qry.AddParameter("@newtimeto", SqlDbType.NVarChar, ParameterDirection.Input, change.NewEstimatedStopTime);
+            await qry.ExecuteNonQueryAsync();
+            success = true;
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
