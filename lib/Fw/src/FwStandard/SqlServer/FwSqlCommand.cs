@@ -2270,6 +2270,7 @@ namespace FwStandard.SqlServer
             try
             {
                 this.RowCount = 0;
+                int maxFieldNameLength = 0;
                 string methodName = "UpdateAsync";
                 string usefulLinesFromStackTrace = GetUsefulLinesFromStackTrace(methodName);
 
@@ -2283,6 +2284,29 @@ namespace FwStandard.SqlServer
                 var whereClause = new StringBuilder();
                 var i = 0;
                 var propertyInfos = businessObject.GetType().GetProperties();
+
+                //determine the length of the longest field name
+                foreach (var propertyInfo in propertyInfos)
+                {
+                    var hasJsonIgnoreAttribute = propertyInfo.IsDefined(typeof(JsonIgnoreAttribute));
+                    if (!hasJsonIgnoreAttribute)
+                    {
+                        var propertyValue = propertyInfo.GetValue(businessObject);
+                        string sqlColumnName = propertyInfo.Name;
+                        var hasSqlDataFieldAttribute = propertyInfo.IsDefined(typeof(FwSqlDataFieldAttribute));
+                        if (hasSqlDataFieldAttribute)
+                        {
+                            FwSqlDataFieldAttribute sqlDataFieldAttribute = propertyInfo.GetCustomAttribute<FwSqlDataFieldAttribute>();
+                            if (!string.IsNullOrEmpty(sqlDataFieldAttribute.ColumnName))
+                            {
+                                sqlColumnName = sqlDataFieldAttribute.ColumnName;
+                            }
+                            maxFieldNameLength = (sqlColumnName.Length > maxFieldNameLength ? sqlColumnName.Length : maxFieldNameLength);
+                        }
+                    }
+                }
+
+
                 foreach (var propertyInfo in propertyInfos)
                 {
                     var hasJsonIgnoreAttribute = propertyInfo.IsDefined(typeof(JsonIgnoreAttribute));
@@ -2303,26 +2327,35 @@ namespace FwStandard.SqlServer
                             {
                                 if (whereClause.Length > 0)
                                 {
-                                    whereClause.Append("and ");
+                                    whereClause.Append(" and   ");
                                 }
-                                whereClause.Append("[" + sqlColumnName + "]");
+                                string leftSide = "[" + sqlColumnName + "]";
+                                leftSide = leftSide.PadRight(maxFieldNameLength + 2, ' ');
+                                whereClause.Append(leftSide);
                                 whereClause.Append(" = @");
                                 whereClause.AppendLine(sqlColumnName);
 
                                 this.AddParameter("@" + sqlColumnName, propertyValue);
                             }
                             // generate the set statements for the update query
-                            else if (propertyValue != null || sqlColumnName.ToLower() == "datestamp")
+                            else if (propertyValue != null || sqlColumnName.ToLower().Equals("datestamp"))
                             {
-                                if (i > 0)
+                                if (i == 0)
                                 {
-                                    setStatements.Append("  ,");
+                                    setStatements.Append("   ");
                                 }
-                                setStatements.Append("[");
+                                else
+                                {
+                                    setStatements.Append(",");
+                                    setStatements.AppendLine();
+                                    setStatements.Append("       ");
+                                }
+                                string leftSide = "[" + sqlColumnName + "]";
+                                leftSide = leftSide.PadRight(maxFieldNameLength + 2, ' ');
+                                setStatements.Append(leftSide);
+                                setStatements.Append(" = @");
                                 setStatements.Append(sqlColumnName);
-                                setStatements.Append("] = @");
-                                setStatements.AppendLine(sqlColumnName);
-                                if (sqlColumnName == "datestamp")
+                                if (sqlColumnName.Equals("datestamp"))
                                 {
                                     propertyValue = FwConvert.ToUtcIso8601DateTime(DateTime.UtcNow);
                                     businessObject.GetType().GetProperty(propertyInfo.Name).SetValue(businessObject, propertyValue);
@@ -2344,14 +2377,18 @@ namespace FwStandard.SqlServer
                 }
                 StringBuilder sql = new StringBuilder();
                 sql.Append("update ");
-                sql.AppendLine(tablename);
-                sql.Append("set");
+                sql.Append("[");
+                sql.Append(tablename);
+                sql.Append("]");
+                sql.AppendLine();
+                sql.Append(" set");
                 if (setStatements.Length == 0)
                 {
                     return 0;
                 }
                 sql.Append(setStatements);
-                sql.AppendLine("where");
+                sql.AppendLine();
+                sql.Append(" where ");
                 sql.Append(whereClause);
                 this.sqlCommand.CommandText = sql.ToString();
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
