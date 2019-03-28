@@ -201,6 +201,12 @@ class Receipt {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery): void {
+        // Disable form for certain RecType
+        const recType = FwFormField.getValueByDataField($form, 'RecType');
+        if (recType === 'O' || recType === 'D' || recType === 'C' || recType === 'R') {
+            FwModule.setFormReadOnly($form);
+            $form.find('.invoice-row').hide();
+        }
         // Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
@@ -223,7 +229,6 @@ class Receipt {
                 }
             }
         });
-
         // hide / show payment section for credit cards
         const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
         if (paymentTypeType === 'CREDIT CARD') {
@@ -240,11 +245,7 @@ class Receipt {
         $form.find('div[data-datafield="PaymentTypeId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeType"]', $tr.find('.field[data-formdatafield="PaymentTypeType"]').attr('data-originalvalue'));
             const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
-            if (paymentTypeType === 'CREDIT CARD') {
-                $form.find('.braintree-row').show();
-            } else {
-                $form.find('.braintree-row').hide();
-            }
+            paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
         });
     }
     //----------------------------------------------------------------------------------------------
