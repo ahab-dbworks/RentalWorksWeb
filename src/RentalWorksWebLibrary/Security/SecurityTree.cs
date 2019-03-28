@@ -641,6 +641,8 @@ namespace WebLibrary.Security
             AddGrid("Pick List Item",                         "{FA382FA5-C187-481D-8A8D-4755C12D4936}", lv1menuGrids.Id, "PickListItemGridController");
             AddGrid("PO Receive Barcode",                     "{6781A0C0-14FB-4B3B-970F-EF9FC812E835}", lv1menuGrids.Id, "POReceiveBarCodeGridController");
             AddGrid("PO Receive Items",                       "{22FFEC79-6500-4C85-B446-E111C8CDAC7C}", lv1menuGrids.Id, "POReceiveItemGridController");
+            AddGrid("PO Return Bar Code",                     "{4A0DBA79-DCA2-4A57-AF72-FB49A350777C}", lv1menuGrids.Id, "POReturnBarCodeGridController");
+            AddGrid("PO Return Items",                        "{B5D69725-CB16-4E12-9457-1B6EB999FD41}", lv1menuGrids.Id, "POReturnItemGridController");
             AddGrid("Rental Inventory Warehouse",             "{9AC6FB16-BC42-42C3-91B7-9346D11CC405}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
         }
         //---------------------------------------------------------------------------------------------

@@ -213,6 +213,8 @@
     <Content Include="Source\Grids\PickListItemGrid\PickListItemGridBrowse.htm" />
     <Content Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridBrowse.htm" />
     <Content Include="Source\Grids\POReceiveItemGrid\POReceiveItemGridBrowse.htm" />
+    <Content Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridBrowse.htm" />
+    <Content Include="Source\Grids\POReturnItemGrid\POReturnItemGridBrowse.htm" />
     <Content Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
@@ -761,6 +763,8 @@
     <TypeScriptCompile Include="Source\Grids\PickListItemGrid\PickListItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReceiveBarCodeGrid\POReceiveBarCodeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReceiveItemGrid\POReceiveItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\POReturnItemGrid\POReturnItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarcodes\AssignBarcodes.ts" />
