@@ -3,7 +3,7 @@
 class CreatePickList {
     Module: string = 'CreatePickList';
     //id: string = '153FC1F2-01B7-4CEC-B426-82146BB48F79';
-
+    Type: string = 'Order';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -23,8 +23,7 @@ class CreatePickList {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo) {
-        var $form;
-
+        let $form;
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
@@ -37,37 +36,100 @@ class CreatePickList {
         });
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            $form.find('div[data-datafield="OrderId"] input').val(parentmoduleinfo.OrderId);
+            if (parentmoduleinfo.IsTransfer) {
+                this.Type = 'Transfer';
+                $form.find('[data-datafield="OrderId"]').attr('data-datafield', 'TransferId');
+            }
+            FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo.OrderId);
         }
+        $form.find('.defaultoptions input').prop('checked', true);
+        this.events($form);
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    renderGrids($form: any) {
+        const $pickListUtilityGrid = $form.find('div[data-grid="PickListUtilityGrid"]');
+        const $pickListUtilityGridControl = FwBrowse.loadGridFromTemplate('PickListUtilityGrid');
+        $pickListUtilityGrid.empty().append($pickListUtilityGridControl);
+        $pickListUtilityGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`) //jason - placeholder until we can support multiple orders
+            };
+        });
+        FwBrowse.init($pickListUtilityGridControl);
+        FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
 
-        $form.find('.createpicklist').on('click', function () {
-            var $report, request: any = {};
+        $form.on('click', '.applyoptions', () => {
+            const miscfields = CreatePickListController.getOptions($form);
 
+            $pickListUtilityGridControl.data('ondatabind', request => {
+                request.uniqueids = {
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                    , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                };
+                request.miscfields = miscfields;
+            })
+            FwBrowse.search($pickListUtilityGridControl);
+        });
+
+        $form.on('click', '.selectall', () => {
+            const request: any = {};
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+            };
+            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectall', request, FwServices.defaultTimeout, response => {
+                try {
+                    FwBrowse.search($pickListUtilityGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
+        });
+
+        $form.on('click', '.selectnone', () => {
+            const request: any = {};
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+            };
+            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectnone', request, FwServices.defaultTimeout, response => {
+                try {
+                    FwBrowse.search($pickListUtilityGridControl);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, null, $form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        $form.on('click', '.createpicklist', () => {
             try {
-                var miscfields = CreatePickListController.getOptions($form);
+                const miscfields = CreatePickListController.getOptions($form);
+                const request: any = {};
                 request.miscfields = miscfields;
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                    , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
+                    , SessionId: FwFormField.getValueByDataField($form, `${this.Type}Id`) //jason - placeholder until we can support multiple orders
                 };
 
-                var $tabpage = $form.parent();
-                var $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+                const $tabpage = $form.parent();
+                const $tab = jQuery(`#${$tabpage.attr('data-tabid')}`);
 
-                FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist', request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist', request, FwServices.defaultTimeout, response => {
                     try {
-                        //if (response.PickListNumber == "") {
-                        //    throw "No items have been added to this Pick List";
-                        //}
-                        $report = RwPickListReportController.openForm();
+                        const $report = RwPickListReportController.openForm();
                         FwModule.openSubModuleTab($form, $report);
                         FwModule.closeFormTab($tab);
-                        $report.find('div.fwformfield[data-datafield="PickListId"] input').val(response.PickListId);
-                        $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(response.PickListNumber);
+                        FwFormField.setValueByDataField($report, 'PickListId', response.PickListId, response.PickListNumber);
                         jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
 
                         //refresh pick list browse
-                        var $pickListBrowse = jQuery('#PickListBrowse');
+                        const $pickListBrowse = jQuery('#PickListBrowse');
                         FwBrowse.search($pickListBrowse);
                     }
                     catch (ex) {
@@ -79,76 +141,7 @@ class CreatePickList {
                 FwFunc.showError(ex);
             };
         });
-
-        $form.find('.defaultoptions input').prop('checked', true);
-
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    renderGrids($form: any) {
-        var $pickListUtilityGrid;
-        var $pickListUtilityGridControl;
-        $pickListUtilityGrid = $form.find('div[data-grid="PickListUtilityGrid"]');
-        $pickListUtilityGridControl = jQuery(jQuery('#tmpl-grids-PickListUtilityGridBrowse').html());
-        $pickListUtilityGrid.empty().append($pickListUtilityGridControl);
-        $pickListUtilityGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                , SessionId: FwFormField.getValueByDataField($form, 'OrderId') //jason - placeholder until we can support multiple orders
-            };
-        });
-        FwBrowse.init($pickListUtilityGridControl);
-        FwBrowse.renderRuntimeHtml($pickListUtilityGridControl);
-
-        $form.find('.applyoptions').on('click', function () {
-            var miscfields = CreatePickListController.getOptions($form);
-
-            $pickListUtilityGridControl.data('ondatabind', function (request) {
-                request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                    , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
-                };
-                request.miscfields = miscfields;
-            })
-            FwBrowse.search($pickListUtilityGridControl);
-        });
-
-        $form.find('.selectall').on('click', function () {
-            var request: any = {};
-            //var miscfields = CreatePickListController.getOptions($form);
-            //request.miscfields = miscfields;
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
-            };
-            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectall', request, FwServices.defaultTimeout, function onSuccess(response) {
-                try {
-                    FwBrowse.search($pickListUtilityGridControl);
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }, null, $form);
-        });
-
-        $form.find('.selectnone').on('click', function () {
-            var request: any = {};
-            //var miscfields = CreatePickListController.getOptions($form);
-            //request.miscfields = miscfields;
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                , SessionId: FwFormField.getValueByDataField($form, 'OrderId')
-            };
-            FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/selectnone', request, FwServices.defaultTimeout, function onSuccess(response) {
-                try {
-                    FwBrowse.search($pickListUtilityGridControl);
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-            }, null, $form);
-        });
-    }
+    };
     //----------------------------------------------------------------------------------------------
     getOptions($form) {
         var miscfields: any = {};
@@ -177,8 +170,7 @@ class CreatePickList {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $pickListUtilityGrid;
-        $pickListUtilityGrid = $form.find('[data-name="PickListUtilityGrid"]');
+        const $pickListUtilityGrid = $form.find('[data-name="PickListUtilityGrid"]');
         FwBrowse.search($pickListUtilityGrid);
     }
     //----------------------------------------------------------------------------------------------

@@ -342,4 +342,25 @@ FwApplicationTree.clickEvents['{A35F0AAD-81B5-4A0C-8970-D448A67D5A82}'] = e => {
         }, null, $confirmation);
     });
 };
+//-----------------------------------------------------------------------------------------------------
+//Create Pick List
+//-----------------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{5CA07E25-A93E-4FA0-9206-B3F556684B0C}'] = e => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const mode = 'EDIT';
+        const orderInfo: any = {};
+        orderInfo.IsTransfer = true;
+        orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+        const $pickListForm = CreatePickListController.openForm(mode, orderInfo);
+        FwModule.openSubModuleTab($form, $pickListForm);
+        jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+        const $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
+        FwBrowse.search($pickListUtilityGrid);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//-----------------------------------------------------------------------------------------------------
 var TransferOrderController = new TransferOrder();
