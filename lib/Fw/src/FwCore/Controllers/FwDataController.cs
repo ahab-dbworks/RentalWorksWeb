@@ -259,7 +259,8 @@ namespace FwCore.Controllers
                         original = FwBusinessLogic.CreateBusinessLogic(logicType, this.AppConfig, this.UserSession);
                         original.SetPrimaryKeys(l.GetPrimaryKeys());
                         bool exists = await original.LoadAsync<T>();
-                        if (!exists)
+                        //if (!exists)
+                        if ((!exists) && return404IfGetNotFound)
                         {
                             return NotFound();
                         }
