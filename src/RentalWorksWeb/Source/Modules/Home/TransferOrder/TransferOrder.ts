@@ -96,6 +96,7 @@ class TransferOrder {
 
             $form.find('.manifestSubModule').append(this.openManifestBrowse($form));
             $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+            $form.find('.picklistSubModule').append(this.openPickListBrowse($form));
         }
 
         this.events($form);
@@ -109,8 +110,21 @@ class TransferOrder {
 
         $form.find('.manifestSubModule').append(this.openManifestBrowse($form));
         $form.find('.receiptSubModule').append(this.openReceiptBrowse($form));
+        $form.find('.picklistSubModule').append(this.openPickListBrowse($form));
 
         return $form;
+    };
+    //----------------------------------------------------------------------------------------------
+    openPickListBrowse($form) {
+        const $browse = PickListController.openBrowse();
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = PickListController.ActiveViewFields;
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, 'TransferId')
+            }
+        });
+
+        return $browse;
     };
     //----------------------------------------------------------------------------------------------
     openManifestBrowse($form) {

@@ -28,40 +28,21 @@ class PickList {
     };
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        //var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        const self = this;
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentmoduleinfo?) {
-        //var $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('.printpicklist').on('click', function () {
-            var $form, $report, pickListNumber, pickListId;
-            try {
-                $form = jQuery(this).closest('.fwform');
-                pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
-                pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-                $report = RwPickListReportController.openForm();
-                FwModule.openSubModuleTab($form, $report);
-                $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-                $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-                jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-
+        this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -91,11 +72,28 @@ class PickList {
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
+    events($form) {
+        $form.on('click', '.printpicklist', e => {
+            try {
+                const $form = jQuery(e.currentTarget).closest('.fwform');
+                const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
+                const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
+                const $report = RwPickListReportController.openForm();
+                FwModule.openSubModuleTab($form, $report);
+                FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
+                jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        var $pickListItemGrid = $form.find('div[data-grid="PickListItemGrid"]');
-        var $pickListItemGridControl = jQuery(jQuery('#tmpl-grids-' + "PickListItemGrid" + 'Browse').html());
+        const $pickListItemGrid = $form.find('div[data-grid="PickListItemGrid"]');
+        const $pickListItemGridControl = FwBrowse.loadGridFromTemplate('PickListItemGrid');
         $pickListItemGrid.empty().append($pickListItemGridControl);
-        $pickListItemGridControl.data('ondatabind', function (request) {
+        $pickListItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 PickListId: FwFormField.getValueByDataField($form, 'PickListId')
             };

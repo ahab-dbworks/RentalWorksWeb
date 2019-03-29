@@ -39,7 +39,10 @@ class CreatePickList {
             if (parentmoduleinfo.IsTransfer) {
                 this.Type = 'Transfer';
                 $form.find('[data-datafield="OrderId"]').attr('data-datafield', 'TransferId');
+            } else {
+                this.Type = 'Order';
             }
+            
             FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo.OrderId);
         }
         $form.find('.defaultoptions input').prop('checked', true);
