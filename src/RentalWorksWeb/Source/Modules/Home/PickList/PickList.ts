@@ -238,12 +238,11 @@ class PickList {
 //---------------------------------------------------------------------------------
 var PickListController = new PickList();
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = function (event) {
-    var $form, pickListId, pickListNumber;
+FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = e => {
     try {
-        $form = jQuery(this).closest('.fwform');
-        pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-        pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
+        const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
         PickListController.cancelPickList(pickListId, pickListNumber);
     }
     catch (ex) {
@@ -252,17 +251,17 @@ FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = functi
 };
 //---------------------------------------------------------------------------------
 //Print Pick List
-FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = function (event) {
-    var $form, $report, pickListNumber, pickListId;
+FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = e => {
     try {
-        $form = jQuery(this).closest('.fwform');
-        pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
-        pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-        $report = RwPickListReportController.openForm();
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
+        const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
+        const $report = RwPickListReportController.openForm();
         FwModule.openSubModuleTab($form, $report);
-        $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-        $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-        jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+        FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
+        const $tabPage = FwTabs.getTabPageByElement($report);
+        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+        $tab.find('.caption').html('Print Pick List');
     }
     catch (ex) {
         FwFunc.showError(ex);

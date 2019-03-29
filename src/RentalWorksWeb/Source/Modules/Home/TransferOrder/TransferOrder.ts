@@ -30,9 +30,8 @@ class TransferOrder {
         let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        const self = this;
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         return $browse;
@@ -289,7 +288,9 @@ FwApplicationTree.clickEvents['{A256288F-238F-4594-8A6A-3B70613925DA}'] = e => {
         orderInfo.IsTransfer = true;
         const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $orderStatusForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Transfer Status');
+        const $tabPage = FwTabs.getTabPageByElement($orderStatusForm);
+        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+        $tab.find('.caption').html('Transfer Status');
     }
     catch (ex) {
         FwFunc.showError(ex);
@@ -306,7 +307,9 @@ FwApplicationTree.clickEvents['{D0AB3734-7F96-46A6-8297-331110A4854F}'] = e => {
         orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
         const $stagingCheckoutForm = TransferOutController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $stagingCheckoutForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Transfer Out');
+        const $tabPage = FwTabs.getTabPageByElement($stagingCheckoutForm);
+        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+        $tab.find('.caption').html('Transfer Out');
     }
     catch (ex) {
         FwFunc.showError(ex);
@@ -324,7 +327,9 @@ FwApplicationTree.clickEvents['{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}'] = e => {
         orderInfo.TransferNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
         const $checkinForm = TransferInController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $checkinForm);
-        jQuery('.tab.submodule.active').find('.caption').html('Transfer In');
+        const $tabPage = FwTabs.getTabPageByElement($checkinForm);
+        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+        $tab.find('.caption').html('Transfer In');
     }
     catch (ex) {
         FwFunc.showError(ex);
@@ -368,7 +373,9 @@ FwApplicationTree.clickEvents['{5CA07E25-A93E-4FA0-9206-B3F556684B0C}'] = e => {
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
         const $pickListForm = CreatePickListController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $pickListForm);
-        jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
+        const $tabPage = FwTabs.getTabPageByElement($pickListForm);
+        const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+        $tab.find('.caption').html('New Pick List');
         const $pickListUtilityGrid = $pickListForm.find('[data-name="PickListUtilityGrid"]');
         FwBrowse.search($pickListUtilityGrid);
     }
