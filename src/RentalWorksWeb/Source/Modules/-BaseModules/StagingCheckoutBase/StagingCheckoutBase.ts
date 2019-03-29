@@ -31,53 +31,30 @@
     loadForm(uniqueids: any) {
         let $form: JQuery = this.openForm('EDIT');
         $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
+        $form.find(`div.fwformfield[data-datafield="${this.Type}Id"] input`).val(uniqueids[`${this.Type}Id`]);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?: any) {
-        switch (this.Module) {
-            case 'StagingCheckout':
-                this.Type = 'Order';
-                break;
-            case 'TransferOut':
-                this.Type = 'Transfer';
-                break;
-            case 'FillContainer':
-                this.Type = 'Item';
-                break;
-        }
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $form.find('[data-datafield="WarehouseId"]').hide();
+        //disables asterisk and save prompt
+        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
         $form.find('.partial-contract').hide();
         $form.find('.pending-item-grid').hide();
         $form.find('.grid-view-radio').hide();
 
+        $form.find('[data-datafield="WarehouseId"]').hide();
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-
-        //disables asterisk and save prompt
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
 
         this.getSoundUrls();
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
-            //switch (this.Module) {
-            //    case 'StagingCheckout':
-            //        FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
-            //        break;
-            //    case 'TransferOut':
-            //        FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.TransferId, parentmoduleinfo.TransferNumber);
-            //        break;
-            //    case 'FillContainer':
-            //        FwFormField.setValueByDataField($form, 'ItemId', parentmoduleinfo.ItemId, parentmoduleinfo.ItemNumber);
-            //        break;
-            //}
             FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo[`${this.Type}Id`], parentmoduleinfo[`${this.Type}Number`]);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
@@ -110,7 +87,7 @@
                     orderType = 'T';
                     break;
             }
-            FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
                 $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
             }, null, $form);
 
@@ -119,7 +96,6 @@
                               <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
                                <div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
                             </div>`;
-
 
                 const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
                 const $browse = SuspendedSessionController.openBrowse();
@@ -178,11 +154,6 @@
                 }
 
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                //if (module == 'StagingCheckout') {
-                //    orderId = FwFormField.getValueByDataField($form, 'OrderId');
-                //} else if (module == 'TransferOut') {
-                //    orderId = FwFormField.getValueByDataField($form, 'TransferId');
-                //}
                 let apiName;
                 switch (module) {
                     case 'StagingCheckout':
@@ -198,18 +169,18 @@
                 const apiUrl = `api/v1/${apiName}/${orderId}`;
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
-                FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Location', response.Location);
                     if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                     // Determine tabs to render
-                    FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                    FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
                         res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
                         res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
                         res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
                         //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
                         res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
-                    }, function onError(ex) {
+                    }, ex => {
                         FwFunc.showError(ex)
                     }, $form);
                 }, null, $form);
@@ -270,24 +241,28 @@
     addButtonMenu($form: JQuery): void {
         const module = this.Module;
         let caption;
+        let partialCaption;
         switch (module) {
             case 'StagingCheckout':
-                caption = 'Contract';
+                caption = 'Create Contract';
+                partialCaption = 'Create Partial Contract';
                 break;
             case 'TransferOut':
-                caption = 'Manifest';
+                caption = 'Create Manifest';
+                partialCaption = 'Create Partial Manifest';
                 break;
             case 'FillContainer':
-                //
+                caption = 'Fill Container';
+                partialCaption = 'Fill Partial Container';
                 break;
         }
-        const $createContract = FwMenu.generateButtonMenuOption(`Create ${caption}`);
+        const $createContract = FwMenu.generateButtonMenuOption(caption);
         $createContract.on('click', e => {
             e.stopPropagation();
             $form.find('.createcontract').click();
         });
 
-        const $createPartialContract = FwMenu.generateButtonMenuOption(`Create Partial ${caption}`);
+        const $createPartialContract = FwMenu.generateButtonMenuOption(partialCaption);
         $createPartialContract.on('click', e => {
             e.stopPropagation();
             this.startPartialCheckoutItems($form, e);
@@ -1163,11 +1138,36 @@
     };
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
+        let tabCaption;
+        let typeHTML;
+        let statusBtnCaption;
+        let createBtnCaption;
+        switch (this.Module) {
+            case 'StagingCheckout':
+                tabCaption = 'Staging';
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>`;
+                statusBtnCaption = 'Order Status';
+                createBtnCaption = 'Create Contract';
+                break;
+            case 'TransferOut':
+                tabCaption = this.caption;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-formbeforevalidate="beforeValidate" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>`;
+                statusBtnCaption = 'Transfer Status';
+                createBtnCaption = 'Create Manifest';
+                break;
+            case 'FillContainer':
+                tabCaption = this.caption;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ItemId" data-displayfield="ItemNumber" data-formbeforevalidate="beforeValidate" data-validationname="ItemValidation" style="flex:0 1 175px;"></div>`;
+                statusBtnCaption = 'Container Status';
+                createBtnCaption = 'Fill Container';
+                break;
+        }
+
         return `
         <div id="stagingcheckoutform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
           <div id="checkoutform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
-              <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="${this.Module == 'StagingCheckout' ? 'Staging' : this.caption}"></div>
+              <div data-type="tab" id="stagingtab" class="tab staging-tab" data-tabpageid="stagingtabpage" data-caption="${tabCaption}"></div>
               <div data-type="tab" id="quantityitemtab" class="tab quantity-items-tab" data-tabpageid="quantityitemtabpage" data-caption="Quantity Items" style="display:none;"></div>
               <div data-type="tab" id="holdingitemtab" class="tab holding-items-tab" data-tabpageid="holdingitemtabpage" data-caption="Holding" style="display:none;"></div>
               <div data-type="tab" id="serialitemtab" class="tab serial-items-tab" data-tabpageid="serialitemtabpage" data-caption="Serial Items" style="display:none;"></div>
@@ -1182,9 +1182,7 @@
                       <div class="flexrow">
                         <div class="flexcolumn" style="flex:1 1 850px;">
                           <div class="flexrow">
-                            ${this.Module == 'StagingCheckout' ?
-                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
-                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-formbeforevalidate="beforeValidate" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
+                            ${typeHTML}
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 300px;"></div>
                             ${this.Module == 'StagingCheckout' ?
@@ -1232,8 +1230,8 @@
                             <div class="pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid" data-securitycaption=""></div>
                           </div>
                           <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
-                            <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 132px; margin-left:8px; text-align:center;">${this.Module == 'StagingCheckout' ? 'Order Status' : 'Transfer Status'}</div>
-                            <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="${this.Module == 'StagingCheckout' ? 'Create Contract' : 'Create Manifest'}"></div>
+                            <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 145px; margin-left:8px; text-align:center;">${statusBtnCaption}</div>
+                            <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="${createBtnCaption}"></div>
                           </div>
                         </div>
                         <div class="flexcolumn partial-contract" style="max-width:125px;justify-content:center;">
@@ -1247,7 +1245,7 @@
                             <div data-control="FwGrid" data-grid="CheckedOutItemGrid" data-securitycaption="Contract Items"></div>
                           </div>
                           <div class="flexrow" style="align-items:flex-end;">
-                            <div class="fwformcontrol complete-checkout-contract" data-type="button" style="max-width:140px;">${this.Module == 'StagingCheckout' ? 'Create Contract' : 'Create Manifest'}</div>
+                            <div class="fwformcontrol complete-checkout-contract" data-type="button" style="max-width:140px;">${createBtnCaption}</div>
                           </div>
                         </div>
                       </div>

@@ -1,6 +1,4 @@
-﻿//routes.push({ pattern: /^module\/checkout$/, action: function (match: RegExpExecArray) { return StagingCheckoutController.getModuleScreen(); } });
-
-class StagingCheckout extends StagingCheckoutBase{
+﻿class StagingCheckout extends StagingCheckoutBase{
     Module: string = 'StagingCheckout';
     caption: string = 'Staging / Check-Out';
     nav: string = 'module/checkout';

@@ -11,5 +11,6 @@ class TransferOut extends StagingCheckoutBase{
     notificationSoundFileName: string;
     contractId: string;
     isPendingItemGridView: boolean = false;
+    Type: string = 'Transfer';
 }
 var TransferOutController = new TransferOut();
