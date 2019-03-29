@@ -117,7 +117,7 @@
             $form.on('click', '.suspendedsession', e => {
                 let html = `<div>
                               <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-                               <div id="suspendedSessions" style="max-width:1400px; max-height:750px; overflow:auto;"></div>
+                               <div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
                             </div>`;
 
 
