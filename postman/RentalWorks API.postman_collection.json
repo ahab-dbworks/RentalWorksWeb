@@ -44454,7 +44454,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I00144Q5\"\n    \t}\n}\n"
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"ItemOrder\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"SessionId\": \"I00144Q9\"\n    \t}\n}\n"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/subpurchaseorderitem/browse",
@@ -50076,6 +50076,46 @@
 								"api",
 								"v1",
 								"vendorinvoicestatushistory",
+								"browse"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Vendor Invoice Export Batch",
+			"item": [
+				{
+					"name": "Vendor Invoice Export Batch: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"BatchDate\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\n    \t\t\"VendorInvoiceId\": \"ABCD1234\"\n    \t}\n}\n\n"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoiceexportbatch/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoiceexportbatch",
 								"browse"
 							]
 						}
