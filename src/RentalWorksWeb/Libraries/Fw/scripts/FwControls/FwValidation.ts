@@ -8,7 +8,7 @@
         let $btnpeek = $control.find('.btnpeek');
         let $btnvalidate = $control.find('.btnvalidate');
         let $validationbrowse = jQuery(jQuery('#tmpl-validations-' + validationName + 'Browse').html());
-        let $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
+        let $object = ($control.closest('.fwbrowse:not([data-controller=""])').length > 0) ? $control.closest('.fwbrowse:not([data-controller=""])') : $control.closest('.fwform:not([data-controller=""])');
         let controller = $object.attr('data-controller');
         let formbeforevalidate = $control.attr('data-formbeforevalidate');
         let control_boundfields = $control.attr('data-boundfields');

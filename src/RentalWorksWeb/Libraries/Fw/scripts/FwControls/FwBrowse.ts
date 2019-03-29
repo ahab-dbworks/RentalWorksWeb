@@ -1149,14 +1149,14 @@ class FwBrowseClass {
                     html.push('<td class="column flexgridspacer" style="display:none;"></td>'); // 10/12/18 Jason H - add invisible div for flexgrid
                 }
                 if ($control.attr('data-type') === 'Grid') {
-                    html.push('<td class="column browsecontextmenucell" style="width:26px;"></td>');
+                    html.push('<td class="column browsecontextmenucell" style="width:32px;"></td>');
                 }
                 html.push('</tr>');
                 html.push('</thead>');
                 html.push('<tbody>');
                 // empty body row
                 html.push('<tr class="empty">');
-                for (var colno = 0; colno < $columns.length; colno++) {
+                for (var colno = 0; colno < $columns.length + 2; colno++) {
                     var $column = $columns.eq(colno);
                     //var width = $column.attr('data-width');
                     var visible = (typeof $column.attr('data-visible') !== 'undefined') ? ($column.attr('data-visible') === 'true') : true;
@@ -3773,16 +3773,26 @@ class FwBrowseClass {
     //}
     //---------------------------------------------------------------------------------
     loadGridFromTemplate(modulename: string) {
+        let $control = null;
         if (sessionStorage.getItem('customForms') !== null) {
             let customGrids = JSON.parse(sessionStorage.getItem('customForms'));
             customGrids = customGrids.filter(a => a.BaseForm == `${modulename}Browse`);
             if (customGrids.length > 0) {
                 $control = jQuery(jQuery(`#tmpl-custom-${modulename}Browse`)[0].innerHTML);
             } else {
-                var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+                if (typeof window[modulename + 'Controller'] !== undefined && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
+                    $control = window[modulename + 'Controller'].getBrowseTemplate();
+                } else {
+                    $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+                }
+                
             }
         } else {
-            var $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+            if (typeof window[modulename + 'Controller'] !== undefined && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {
+                $control = window[modulename + 'Controller'].getBrowseTemplate();
+            } else {
+                $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
+            }
         }
         return $control;
     }

@@ -1,4 +1,4 @@
-html.theme-material .fwbrowse .tablewrapper {overflow-x:auto; overflow-y:hidden;min-height:100px;}
+html.theme-material .fwbrowse .tablewrapper {overflow-x:auto; overflow-y:hidden; min-height:100px;}
 html.theme-material .fwbrowse td {vertical-align:top;}
 
 html.theme-material .fwbrowse[data-type="Browse"] .browsefilter {padding:10px;background-color: #FAFAFA;}

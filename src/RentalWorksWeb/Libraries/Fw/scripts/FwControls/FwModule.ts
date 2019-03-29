@@ -742,7 +742,7 @@
         FwModule.addFormMenu($form);
 
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
-        $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
 
         $form.attr('data-modified', 'false');
         if (typeof window[controller]['renderGrids'] === 'function') {
@@ -775,7 +775,7 @@
         if ($keys.length !== 0) {
             $formTabControl = jQuery($form.find('.fwtabs'));
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-            $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
+            $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
                 request.uniqueids.ModuleName = window[controller].Module;
@@ -813,7 +813,7 @@
 
 
         $form
-            .on('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]', function (event) {
+            .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {
                 var fields, $tab, $tabpage;
                 event.stopPropagation();
 

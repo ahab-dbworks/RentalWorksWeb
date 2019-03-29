@@ -94,7 +94,7 @@ FwAudit.loadAudit = function($form, uniqueid) {
     
     // load Audit History Grid
     $auditHistoryGrid        = $form.find('.auditHistoryGrid');
-    $auditHistoryGridControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
+    $auditHistoryGridControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
     $auditHistoryGrid.empty().append($auditHistoryGridControl);
     $auditHistoryGridControl.data('ondatabind', function(request) {
         request.module = 'AuditHistoryGrid';
