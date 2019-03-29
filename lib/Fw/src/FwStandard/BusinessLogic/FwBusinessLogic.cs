@@ -1310,6 +1310,10 @@ namespace FwStandard.BusinessLogic
                                 {
                                     valueChanged = (!string.IsNullOrWhiteSpace(newValue.ToString()));
                                 }
+                                else if ((propertyType == typeof(Boolean?)) || (propertyType == typeof(bool)))
+                                {
+                                    valueChanged = (bool)newValue;
+                                }
                                 else
                                 {
                                     valueChanged = false;
