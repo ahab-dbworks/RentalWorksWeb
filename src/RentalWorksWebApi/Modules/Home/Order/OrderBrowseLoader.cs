@@ -2,6 +2,7 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using WebLibrary;
 
 namespace WebApi.Modules.Home.Order
@@ -26,6 +27,13 @@ namespace WebApi.Modules.Home.Order
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.AddWhere("ordertype = '" + RwConstants.ORDER_TYPE_ORDER + "'");
             //addFilterToSelect("WarehouseId", "warehouseid", select, request);
+
+            string invoiceId = GetUniqueIdAsString("InvoiceId");
+            if (!string.IsNullOrEmpty(invoiceId))
+            {
+                select.AddWhere("exists (select * from orderinvoice oi where oi.orderid = " + TableAlias + ".orderid and oi.invoiceid = @invoiceid)");
+                select.AddParameter("@invoiceid", invoiceId);
+            }
         }
         //------------------------------------------------------------------------------------    
     }
