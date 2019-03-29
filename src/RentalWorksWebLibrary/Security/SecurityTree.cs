@@ -607,9 +607,11 @@ namespace WebLibrary.Security
             AddGrid("Audit History",                          "{977B65BB-DD67-4B5E-9B62-944E5DBECFD4}", lv1menuGrids.Id, "AuditHistoryGridController");
             AddGrid("Check-In Exception",                     "{81282AE6-63B5-4A97-A066-0592CE276D58}", lv1menuGrids.Id, "CheckInExceptionGridController");
             AddGrid("Checked-In Item",                        "{85778C01-2ACC-4ADF-97EC-7386E6F32415}", lv1menuGrids.Id, "CheckedInItemGridController");
+            AddGrid("Checked-Out Item",                       "{A65E700E-486D-41DE-BBE1-485FCBF1E5A3}", lv1menuGrids.Id, "CheckedOutItemGridController");
             AddGrid("Check-In Order",                         "{C1752A81-400D-46F7-82BB-0B1CCD78C890}", lv1menuGrids.Id, "CheckInOrderGridController");
             AddGrid("Check-In Quantity Items",                "{457BBDD6-B4B4-4671-B651-728A6ABF2BF0}", lv1menuGrids.Id, "CheckInQuantityItemsGridController");
             AddGrid("Check-In Swap",                          "{CDEEA7D1-3738-4BD6-BBDC-75BD044DFE56}", lv1menuGrids.Id, "CheckInSwapGridController");
+            AddGrid("Pending Items",                          "{560D1917-64B0-445D-9101-EED6D7C45811}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
             AddGrid("Company Contact",                        "{6D8B3D23-0954-4765-9FBD-BF3EC756AA97}", lv1menuGrids.Id, "CompanyContactGridController");
             AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
@@ -644,6 +646,9 @@ namespace WebLibrary.Security
             AddGrid("PO Return Bar Code",                     "{4A0DBA79-DCA2-4A57-AF72-FB49A350777C}", lv1menuGrids.Id, "POReturnBarCodeGridController");
             AddGrid("PO Return Items",                        "{B5D69725-CB16-4E12-9457-1B6EB999FD41}", lv1menuGrids.Id, "POReturnItemGridController");
             AddGrid("Rental Inventory Warehouse",             "{9AC6FB16-BC42-42C3-91B7-9346D11CC405}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
+            AddGrid("Staged Items",                           "{2A719A9F-F237-4C3A-92DF-FBC515204A38}", lv1menuGrids.Id, "StagedItemGridController");
+            AddGrid("Stage Holding Items",                    "{1F06BAB4-5D64-43FC-B2A8-FF088064E4A0}", lv1menuGrids.Id, "StageHoldingItemGridController");
+            AddGrid("Stage Quantity Items",                   "{162DCF5B-759A-42E9-82E9-88B628B6901D}", lv1menuGrids.Id, "StageQuantityItemGridController");
         }
         //---------------------------------------------------------------------------------------------
     }

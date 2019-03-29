@@ -178,10 +178,12 @@
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\CheckedInItemGrid\CheckedInItemGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridBrowse.htm" />
+    <Content Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
@@ -216,6 +218,9 @@
     <Content Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridBrowse.htm" />
     <Content Include="Source\Grids\POReturnItemGrid\POReturnItemGridBrowse.htm" />
     <Content Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridBrowse.htm" />
+    <Content Include="Source\Grids\StagedItemGrid\StagedItemGridBrowse.htm" />
+    <Content Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridBrowse.htm" />
+    <Content Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserBrowse.htm" />
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
@@ -250,6 +255,7 @@
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
+    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSession.js" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
@@ -728,10 +734,12 @@
     </Content>
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckedInItemGrid\CheckedInItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInExceptionGrid\CheckInExceptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInOrderGrid\CheckInOrderGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
@@ -766,6 +774,9 @@
     <TypeScriptCompile Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReturnItemGrid\POReturnItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\StagedItemGrid\StagedItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarcodes\AssignBarcodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
