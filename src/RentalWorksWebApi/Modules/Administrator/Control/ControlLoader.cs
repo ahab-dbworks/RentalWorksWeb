@@ -33,8 +33,11 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "rentrestockpercent", modeltype: FwDataTypes.Decimal)]
         public decimal? Rentrestockpercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterunit", modeltype: FwDataTypes.Text)]
-        public string Masterunit { get; set; }
+        [FwSqlDataField(column: "defaultunitid", modeltype: FwDataTypes.Text)]
+        public string DefaultUnitId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultunit", modeltype: FwDataTypes.Text)]
+        public string DefaultUnit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fymonth", modeltype: FwDataTypes.Integer)]
         public int? Fymonth { get; set; }

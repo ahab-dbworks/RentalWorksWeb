@@ -233,6 +233,14 @@
         public const string INVENTORY_SORT_BY_PART_NUMBER = "PARTNO";
         public const string INVENTORY_SORT_BY_INVENTORY_MANAGEMENT = "INVENTORY";
 
+        public const string INVENTORY_RANK_A = "A";
+        public const string INVENTORY_RANK_B = "B";
+        public const string INVENTORY_RANK_C = "C";
+        public const string INVENTORY_RANK_D = "D";
+        public const string INVENTORY_RANK_E = "E";
+        public const string INVENTORY_RANK_F = "F";
+        public const string INVENTORY_RANK_G = "G";
+
 
 
 

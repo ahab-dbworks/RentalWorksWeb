@@ -53,6 +53,8 @@ class Customer {
                     , defaultcustomerstatus: res.DefaultCustomerStatus
                     , defaultdealbillingcycleid: res.DefaultDealBillingCycleId
                     , defaultdealbillingcycle: res.DefaultDealBillingCycle
+                    , defaultunitid: res.DefaultUnitId
+                    , defaultunit: res.DefaultUnit
                 }
                 sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
             }, null, null);

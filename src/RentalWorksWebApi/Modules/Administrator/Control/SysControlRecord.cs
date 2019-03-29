@@ -14,8 +14,8 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "rentrestockpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
         public decimal? Rentrestockpercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masterunit", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 3)]
-        public string Masterunit { get; set; }
+        [FwSqlDataField(column: "defaultunitid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string DefaultUnitId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fymonth", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? Fymonth { get; set; }

@@ -49,6 +49,24 @@
         } catch (ex) {
             FwFunc.showError(ex);
         }
+
+        let hasDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        if (!hasDefaults) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/control/1`, null, FwServices.defaultTimeout, function onSuccess(res) {
+                let ControlDefaults = {
+                    defaultdealstatusid: res.DefaultDealStatusId
+                    , defaultdealstatus: res.DefaultDealStatus
+                    , defaultcustomerstatusid: res.DefaultCustomerStatusId
+                    , defaultcustomerstatus: res.DefaultCustomerStatus
+                    , defaultdealbillingcycleid: res.DefaultDealBillingCycleId
+                    , defaultdealbillingcycle: res.DefaultDealBillingCycle
+                    , defaultunitid: res.DefaultUnitId
+                    , defaultunit: res.DefaultUnit
+                }
+                sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
+            }, null, null);
+        }
+
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
@@ -56,6 +74,13 @@
         var $form, controller, $calendar, inventoryId, $realScheduler;
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+
+
+
+        if (mode === 'NEW') {
+            let controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+            FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit);
+        }
 
         //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
         let self = this;

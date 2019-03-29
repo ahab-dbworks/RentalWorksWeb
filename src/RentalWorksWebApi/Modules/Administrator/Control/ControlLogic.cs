@@ -4,7 +4,7 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Administrator.Control
 {
-    [FwLogic(Id:"MmcvV7h15zsO")]
+    [FwLogic(Id: "MmcvV7h15zsO")]
     public class ControlLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -22,13 +22,13 @@ namespace WebApi.Modules.Administrator.Control
             browseLoader = controlBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id:"sQNl9X1N2HZZ", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "sQNl9X1N2HZZ", IsPrimaryKey: true)]
         public string ControlId { get { return control.ControlId; } set { control.ControlId = value; sysControl.ControlId = value; } }
 
-        [FwLogicProperty(Id:"8ndnCUXzHCr8K")]
+        [FwLogicProperty(Id: "8ndnCUXzHCr8K")]
         public string Company { get { return control.Company; } set { control.Company = value; } }
 
-        [FwLogicProperty(Id:"Aa9e0413UdK9", IsRecordTitle:true)]
+        [FwLogicProperty(Id: "Aa9e0413UdK9", IsRecordTitle: true)]
         public string SystemName { get { return control.System; } set { control.System = value; } }
 
         //[FwLogicProperty(Id:"3RwUcgRBA7gxg")]
@@ -40,7 +40,7 @@ namespace WebApi.Modules.Administrator.Control
         //[FwLogicProperty(Id:"EYCv8EDHIIJJ7")]
         //public string Settings { get { return control.Settings; } set { control.Settings = value; } }
 
-        [FwLogicProperty(Id:"mjQeIXHL6lIKJ")]
+        [FwLogicProperty(Id: "mjQeIXHL6lIKJ")]
         public string DatabaseVersion { get { return control.Dbversion; } set { control.Dbversion = value; } }
 
         //[FwLogicProperty(Id:"11PX6fP8NNq5Q")]
@@ -55,28 +55,31 @@ namespace WebApi.Modules.Administrator.Control
         //[FwLogicProperty(Id:"YixTIZ4ozMPAB")]
         //public decimal? Rentrestockpercent { get { return sysControl.Rentrestockpercent; } set { sysControl.Rentrestockpercent = value; } }
 
-        //[FwLogicProperty(Id:"T7ViEleQjMRLN")]
-        //public string Masterunit { get { return sysControl.Masterunit; } set { sysControl.Masterunit = value; } }
+        [FwLogicProperty(Id: "T7ViEleQjMRLN")]
+        public string DefaultUnitId { get { return sysControl.DefaultUnitId; } set { sysControl.DefaultUnitId = value; } }
+
+        [FwLogicProperty(Id: "5v3RXZYFF8UAb", IsReadOnly: true)]
+        public string DefaultUnit { get; set; }
 
         //[FwLogicProperty(Id:"h3nNvL0CPcra3")]
         //public int? Fymonth { get { return sysControl.Fymonth; } set { sysControl.Fymonth = value; } }
 
-        [FwLogicProperty(Id:"qaFBGGoda7K4z")]
+        [FwLogicProperty(Id: "qaFBGGoda7K4z")]
         public string ICodeMask { get { return sysControl.Invmask; } set { sysControl.Invmask = value; } }
 
-        [FwLogicProperty(Id:"3YsgigYNvtskX")]
+        [FwLogicProperty(Id: "3YsgigYNvtskX")]
         public string DefaultDealStatusId { get { return sysControl.DefaultDealStatusId; } set { sysControl.DefaultDealStatusId = value; } }
 
-        [FwLogicProperty(Id:"S3ypeH3bdn3u", IsReadOnly:true)]
+        [FwLogicProperty(Id: "S3ypeH3bdn3u", IsReadOnly: true)]
         public string DefaultDealStatus { get; set; }
 
         //[FwLogicProperty(Id:"Y2bMhNlUCFsMc")]
         //public decimal? Salesrestockpercent { get { return sysControl.Salesrestockpercent; } set { sysControl.Salesrestockpercent = value; } }
 
-        [FwLogicProperty(Id:"Fd5P5CsJfDPMU")]
+        [FwLogicProperty(Id: "Fd5P5CsJfDPMU")]
         public string DefaultCustomerStatusId { get { return sysControl.DefaultCustomerStatusId; } set { sysControl.DefaultCustomerStatusId = value; } }
 
-        [FwLogicProperty(Id:"GFUsV5JJHmXf", IsReadOnly:true)]
+        [FwLogicProperty(Id: "GFUsV5JJHmXf", IsReadOnly: true)]
         public string DefaultCustomerStatus { get; set; }
 
         //[FwLogicProperty(Id:"l198PWg18nO3d")]
@@ -100,13 +103,13 @@ namespace WebApi.Modules.Administrator.Control
         //[FwLogicProperty(Id:"kfjZCENVfrojh")]
         //public bool? Demomode { get { return sysControl.Demomode; } set { sysControl.Demomode = value; } }
 
-        [FwLogicProperty(Id:"ilW6pZ8VGXX34")]
+        [FwLogicProperty(Id: "ilW6pZ8VGXX34")]
         public bool? UserAssignedICodes { get { return sysControl.Userassignmasterno; } set { sysControl.Userassignmasterno = value; } }
 
-        [FwLogicProperty(Id:"WEPlMoaddmey2")]
+        [FwLogicProperty(Id: "WEPlMoaddmey2")]
         public int? NextICode { get { return sysControl.Masterno; } set { sysControl.Masterno = value; } }
 
-        [FwLogicProperty(Id:"cwGqDxLgDJ0CA")]
+        [FwLogicProperty(Id: "cwGqDxLgDJ0CA")]
         public string ICodePrefix { get { return sysControl.Icodeprefix; } set { sysControl.Icodeprefix = value; } }
 
         //[FwLogicProperty(Id:"9d4YNgmgZJS91")]
@@ -181,10 +184,10 @@ namespace WebApi.Modules.Administrator.Control
         //[FwLogicProperty(Id:"iOwfmHc2u1Zpn")]
         //public string Invoicenofrom { get { return sysControl.Invoicenofrom; } set { sysControl.Invoicenofrom = value; } }
 
-        [FwLogicProperty(Id:"t0eDT6XoXBiaK")]
+        [FwLogicProperty(Id: "t0eDT6XoXBiaK")]
         public string DefaultDealBillingCycleId { get { return sysControl.DefaultDealBillingCycleId; } set { sysControl.DefaultDealBillingCycleId = value; } }
 
-        [FwLogicProperty(Id:"I5ev1tRp5Vht", IsReadOnly:true)]
+        [FwLogicProperty(Id: "I5ev1tRp5Vht", IsReadOnly: true)]
         public string DefaultDealBillingCycle { get; set; }
 
         //[FwLogicProperty(Id:"2pboITyACuAgQ")]
@@ -571,22 +574,22 @@ namespace WebApi.Modules.Administrator.Control
 
         //------------------------------------------------------------------------------------ 
 
-        [FwLogicProperty(Id:"DX9uPbVpvrpC5")]
+        [FwLogicProperty(Id: "DX9uPbVpvrpC5")]
         public string ReportLogoImageId { get { return webControl.ReportLogoImageId; } set { webControl.ReportLogoImageId = value; } }
 
-        [FwLogicProperty(Id:"PIb9sMxpPM6wz")]
+        [FwLogicProperty(Id: "PIb9sMxpPM6wz")]
         public string ReportLogoImage { get; set; }
 
-        [FwLogicProperty(Id:"WSt8FUWjtKL8I")]
+        [FwLogicProperty(Id: "WSt8FUWjtKL8I")]
         public int? ReportLogoImageHeight { get; set; }
 
-        [FwLogicProperty(Id:"dNWR2lpvE2JLp")]
+        [FwLogicProperty(Id: "dNWR2lpvE2JLp")]
         public int? ReportLogoImageWidth { get; set; }
 
         //------------------------------------------------------------------------------------ 
 
 
-        [FwLogicProperty(Id:"aDqR7r0S7E0ZQ")]
+        [FwLogicProperty(Id: "aDqR7r0S7E0ZQ")]
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
