@@ -35,6 +35,8 @@ namespace WebApi.Modules.Home.InvoiceNote
         public string NotesBy { get; set; }
         [FwLogicProperty(Id: "dfQSxS3mnvJ7", IsReadOnly: true)]
         public string Notes { get; set; }
+        [FwLogicProperty(Id: "cGz7BDdal42ZX")]
+        public bool? PrintOnInvoice { get { return invoiceNote.PrintOnInvoice; } set { invoiceNote.PrintOnInvoice = value; } }
         [FwLogicProperty(Id: "Ccw2UPUSAfhgu")]
         public string DateStamp { get { return invoiceNote.DateStamp; } set { invoiceNote.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

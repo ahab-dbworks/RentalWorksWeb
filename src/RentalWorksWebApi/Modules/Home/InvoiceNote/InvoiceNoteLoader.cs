@@ -36,6 +36,9 @@ namespace WebApi.Modules.Home.InvoiceNote
         [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text)]
         public string NotesBy { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "printoninvoice", modeltype: FwDataTypes.Boolean)]
+        public bool? PrintOnInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 

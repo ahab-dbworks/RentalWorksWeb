@@ -28,6 +28,9 @@ namespace WebApi.Modules.Home.InvoiceNote
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string OrderId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "printoninvoice", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? PrintOnInvoice { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
