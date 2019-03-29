@@ -843,11 +843,14 @@
                 const orderInfo: any = {};
                 orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
-                if (this.Module === 'TransferOut') orderInfo.IsTransfer = true;
+                //if (this.Module === 'TransferOut') orderInfo.IsTransfer = true;
+                orderInfo.Type = this.Type;
                 const mode = 'EDIT';
                 const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
-                jQuery('.tab.submodule.active').find('.caption').html(`${type} Status`);
+                const $tabPage = FwTabs.getTabPageByElement($orderStatusForm);
+                const $tab = FwTabs.getTabByElement(jQuery($tabPage));
+                $tab.find('.caption').html(`${type} Status`);
             }
             catch (ex) {
                 FwFunc.showError(ex);

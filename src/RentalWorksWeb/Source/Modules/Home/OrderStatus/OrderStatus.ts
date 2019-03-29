@@ -1,22 +1,20 @@
-﻿//routes.push({ pattern: /^module\/orderstatus$/, action: function (match: RegExpExecArray) { return OrderStatusController.getModuleScreen(); } });
-
-class OrderStatus {
+﻿class OrderStatus {
     Module: string = 'OrderStatus';
     caption: string = 'Order Status';
     nav: string = 'module/orderstatus';
     id: string = 'F6AE5BC1-865D-467B-A201-95C93F8E8D0B';
     Type: string = 'Order';
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
-        var screen: any = {};
+    getModuleScreen = () => {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
-        screen.load = function () {
-            FwModule.openModuleTab($form, 'Order Status', false, 'FORM', true);
+        screen.load = () => {
+            FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
         screen.unload = function () {
         };
@@ -26,7 +24,9 @@ class OrderStatus {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
         if (typeof parentmoduleinfo != 'undefined') {
-            if (parentmoduleinfo.IsTransfer === true) this.Type = 'Transfer';
+            this.Type = parentmoduleinfo.Type;
+        } else {
+            this.Type = 'Order';
         }
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
@@ -37,11 +37,7 @@ class OrderStatus {
         this.toggleView($form);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            if (this.Type === 'Transfer') {
-                FwFormField.setValueByDataField($form, 'TransferId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
-            } else {
-                FwFormField.setValueByDataField($form, 'OrderId', parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
-            }
+            FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
             $form.find(`[data-datafield="${this.Type}Id"]`).change();
         }
 
@@ -56,12 +52,24 @@ class OrderStatus {
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
         const max = 9999;
-        $form.on('change', '[data-datafield="OrderId"], [data-datafield="TransferId"]', () => {
+        $form.on('change', `[data-datafield="${this.Type}Id"]`, () => {
             try {
                 $form.find('.toggle [data-value="Summary"] input').prop('checked', true);
                 $form.find('.summaryview').show();
-                var orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                FwAppData.apiMethod(true, 'GET', `api/v1/${this.Type === 'Order' ? 'order' : 'transferorder'}/${orderId}`, null, FwServices.defaultTimeout, response => {
+                const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                let apiUrl;
+                switch (this.Type) {
+                    case 'Order':
+                        apiUrl = `api/v1/order/${orderId}`;
+                        break;
+                    case 'Transfer':
+                        apiUrl = `api/v1/transferorder/${orderId}`;
+                        break;
+                    case 'Item':
+                        //
+                        break;
+                }
+                FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
                     FwFormField.setValueByDataField($form, 'Description', response.Description);
                     FwFormField.setValueByDataField($form, 'Status', response.Status);
                     FwFormField.setValueByDataField($form, 'PickDate', response.PickDate);
@@ -251,7 +259,7 @@ class OrderStatus {
             const inventoryId = FwFormField.getValueByDataField($form, 'ICode');
             const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
 
-            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+            $orderStatusSummaryGridControl.data('ondatabind', request => {
                 request.uniqueids = {
                     OrderId: orderId
                 };
@@ -275,7 +283,7 @@ class OrderStatus {
             })
             FwBrowse.search($orderStatusSummaryGridControl);
 
-            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+            $orderStatusRentalDetailGridControl.data('ondatabind', request => {
                 request.uniqueids = {
                     OrderId: orderId,
                     RecType: "R"
@@ -300,7 +308,7 @@ class OrderStatus {
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
 
-            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+            $orderStatusSalesDetailGridControl.data('ondatabind', request => {
                 request.uniqueids = {
                     OrderId: orderId,
                     RecType: "S"
@@ -327,12 +335,12 @@ class OrderStatus {
         });
 
         const $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
-        $textFilter.on("change", function () {
+        $textFilter.on("change", () => {
             const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
             const description = FwFormField.getValueByDataField($form, 'FilterDescription');
             const barCode = FwFormField.getValueByDataField($form, 'FilterBarCode');
 
-            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+            $orderStatusSummaryGridControl.data('ondatabind', request => {
                 request.uniqueids = {
                     OrderId: orderId
                 };
@@ -352,7 +360,7 @@ class OrderStatus {
             })
             FwBrowse.search($orderStatusSummaryGridControl);
 
-            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+            $orderStatusRentalDetailGridControl.data('ondatabind', request => {
                 request.uniqueids = {
                     OrderId: orderId,
                     RecType: "R"
@@ -372,7 +380,7 @@ class OrderStatus {
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
 
-            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+            $orderStatusSalesDetailGridControl.data('ondatabind', request => {
                 request.uniqueids = {
                     OrderId: orderId,
                     RecType: "S"
@@ -394,30 +402,40 @@ class OrderStatus {
         });
     }
     //----------------------------------------------------------------------------------------------
-    afterLoad($form: any) {
-    }
-    //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
+        let typeFieldHtml;
+        let caption;
+        switch (this.Type) {
+            case 'Order':
+                caption = 'Order Status';
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>`;
+                break;
+            case 'Transfer':
+                caption = 'Transfer Status';
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>`;
+                break;
+            case 'Item':
+                caption = 'Container Status';
+                //typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="" data-displayfield="" data-validationname="" style="flex:0 1 175px;"></div>`;
+                break;
+        }
         return `
-        <div id="orderstatusform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.Type} Status" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="OrderStatusController">
+        <div id="orderstatusform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="OrderStatusController">
           <div id="dealform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
             </div>
             <div class="tabpages">
               <div class="flexpage">
                 <div class="flexrow">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.Type} Status">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${caption}">
                     <div class="flexrow">
                       <div class="flexcolumn" style="flex:1 1 850px;">
                         <div class="flexrow">
-                           ${this.Type === 'Order' ?
-            '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
-            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
-                          
+                           ${typeFieldHtml}
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
                           ${this.Type === 'Order' ?
-            '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>'
-            : ''}
+                '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>'
+                : ''}
                         </div>
                       </div>
                       <div class="flexcolumn" style="flex:1 1 150px;">
