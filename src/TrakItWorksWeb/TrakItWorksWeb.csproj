@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -778,6 +778,7 @@
     <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarcodes\AssignBarcodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
@@ -865,10 +866,6 @@
     <Folder Include="App_Data\Temp\Downloads\" />
     <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
-    <Folder Include="Source\Modules\Administrator\Control\" />
-    <Folder Include="Source\Modules\Administrator\CustomField\" />
-    <Folder Include="Source\Modules\Administrator\DuplicateRule\" />
-    <Folder Include="Source\Modules\Administrator\Group\" />
     <Folder Include="Source\Modules\Utilities\Dashboard\" />
     <Folder Include="theme\fwaudio\" />
     <Folder Include="theme\fwcursors\" />

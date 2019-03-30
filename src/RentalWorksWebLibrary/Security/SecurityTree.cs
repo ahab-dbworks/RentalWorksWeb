@@ -597,6 +597,9 @@ namespace WebLibrary.Security
             AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "StagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
+
+            // Administrator
+            AddModule("Group",                  "{849D2706-72EC-48C0-B41C-0890297BF24B}", lv1menuAdministrator.Id, "GroupController",       "module/group",             administratoriconbaseurl + "group.png", "USER");
             AddModule("User",                   "{CE9E187C-288F-44AB-A54A-27A8CFF6FF53}", lv1menuAdministrator.Id, "UserController",        "module/user",              administratoriconbaseurl + "user.png",                                     "USER");
            
             //// Add Submodules
