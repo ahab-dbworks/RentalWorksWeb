@@ -4,6 +4,8 @@ class EmailHistory {
     caption: string = 'Email History';
     nav: string = 'module/emailhistory';
     id: string = '3F44AC27-CE34-46BA-B4FB-A8AEBB214167';
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
@@ -28,10 +30,33 @@ class EmailHistory {
     openBrowse() {
         //let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
+        let self = this;
         $browse = FwModule.openBrowse($browse);
+
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = self.ActiveViewFields;
+        });
 
         return $browse;
     }
+    //----------------------------------------------------------------------------------------------
+    addBrowseMenuItems($menuObject: any) {
+        //Location Filter
+        const $me = FwMenu.generateDropDownViewBtn('Me', true, 'ME');
+        const $all = FwMenu.generateDropDownViewBtn('All Users', false, "ALL");
+
+        FwMenu.addVerticleSeparator($menuObject);
+
+        if (typeof this.ActiveViewFields["FromUser"] == 'undefined') {
+            this.ActiveViewFields.FromUser = ["ME"];
+        }
+
+        let sentBy: Array<JQuery> = [];
+        sentBy.push($me, $all);
+        FwMenu.addViewBtn($menuObject, 'Sent By', sentBy, true, "FromUser");
+
+        return $menuObject;
+    };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         // let $form = FwModule.loadFormFromTemplate(this.Module);
