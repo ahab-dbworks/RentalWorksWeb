@@ -139,6 +139,9 @@ class PurchaseOrder {
             FwFormField.setValue($form, 'div[data-datafield="PoTypeId"]', this.DefaultPurchasePoTypeId, this.DefaultPurchasePoType);
         };
 
+        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
@@ -157,6 +160,20 @@ class PurchaseOrder {
         $form.find('.contractSubModule').append(this.openContractBrowse($form));
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    openEmailHistoryBrowse($form) {
+        var $browse;
+
+        $browse = EmailHistoryController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                RelatedToId: $form.find('[data-datafield="PurchaseOrderId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    }
     //----------------------------------------------------------------------------------------------
     openContractBrowse($form) {
         const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -648,6 +665,7 @@ class PurchaseOrder {
                 <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>    
                 <div data-type="tab" id="notetab" class="tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
                 <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
+                <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
               </div>
               <div class="tabpages">
                 <!-- PURCHASE ORDER TAB -->
@@ -1449,6 +1467,7 @@ class PurchaseOrder {
                     </div>
                   </div>
                 </div>
+              <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page" data-tabid="emailhistorytab"></div>
               </div>
             </div>
           </div>`;

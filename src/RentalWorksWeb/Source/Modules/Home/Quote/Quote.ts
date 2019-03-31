@@ -173,6 +173,9 @@ class Quote extends OrderBase {
             $form.find(".frame .add-on").children().hide();
         }
 
+        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
@@ -617,6 +620,20 @@ class Quote extends OrderBase {
         this.disableWithTaxCheckbox($form);
     };
     //----------------------------------------------------------------------------------------------
+    openEmailHistoryBrowse($form) {
+        var $browse;
+
+        $browse = EmailHistoryController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                RelatedToId: $form.find('[data-datafield="QuoteId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Quote" data-control="FwBrowse" data-type="Browse" id="QuoteBrowse" class="fwcontrol fwbrowse" data-orderby="QuoteId" data-sort="desc" data-controller="QuoteController">
@@ -687,6 +704,7 @@ class Quote extends OrderBase {
               <div data-type="tab" id="delivershiptab" class="tab" data-tabpageid="delivershiptabpage" data-caption="Deliver/Ship"></div>
               <div data-type="tab" id="notetab" class="tab notestab" data-tabpageid="notetabpage" data-caption="Notes"></div>
               <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
+              <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
             </div>
             <div class="tabpages">
               <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -1764,10 +1782,11 @@ class Quote extends OrderBase {
                   </div>
                 </div>
               </div>
+             <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page" data-tabid="emailhistorytab"></div>
             </div>
           </div>
         </div>
-        `;
+        `;                      
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
@@ -1847,7 +1866,6 @@ FwApplicationTree.clickEvents['{B918C711-32D7-4470-A8E5-B88AB5712863}'] = functi
         FwFunc.showError(ex);
     }
 };
-
 //-----------------------------------------------------------------------------------------------------
 //Open Search Interface
 FwApplicationTree.clickEvents['{BC3B1A5E-7270-4547-8FD1-4D14F505D452}'] = function (event) {

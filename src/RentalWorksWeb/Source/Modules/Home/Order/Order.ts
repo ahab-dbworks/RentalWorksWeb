@@ -166,6 +166,9 @@ class Order extends OrderBase {
             $form.find('[data-type="tab"][data-caption="Used Sale"]').hide();
         };
 
+        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+
         FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
         FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
@@ -732,6 +735,20 @@ class Order extends OrderBase {
         this.disableWithTaxCheckbox($form);
     };
     //----------------------------------------------------------------------------------------------
+    openEmailHistoryBrowse($form) {
+        var $browse;
+
+        $browse = EmailHistoryController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                RelatedToId: $form.find('[data-datafield="OrderId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Order" data-control="FwBrowse" data-type="Browse" id="OrderBrowse" class="fwcontrol fwbrowse" data-orderby="OrderNumber" data-controller="OrderController" data-hasinactive="false">
@@ -808,6 +825,7 @@ class Order extends OrderBase {
             <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>        
             <div data-type="tab" id="notetab" class="notestab tab" data-tabpageid="notetabpage" data-caption="Notes"></div>
             <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
+            <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
           </div>
           <div class="tabpages">
             <!-- ORDER TAB -->
@@ -1920,6 +1938,7 @@ class Order extends OrderBase {
                 </div>
               </div>
             </div>
+           <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page" data-tabid="emailhistorytab"></div>
           </div>
         </div>
       </div>`;

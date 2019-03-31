@@ -42,6 +42,9 @@ class PickList {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+
         this.events($form);
         return $form;
     };
@@ -87,6 +90,20 @@ class PickList {
                 FwFunc.showError(ex);
             }
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    openEmailHistoryBrowse($form) {
+        var $browse;
+
+        $browse = EmailHistoryController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                RelatedToId: $form.find('[data-datafield="PicklistId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
@@ -191,6 +208,7 @@ class PickList {
           <div id="picklistform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="Pick List"></div>
+              <div data-type="tab" id="emailhistorytab" class="tab" data-tabpageid="emailhistorytabpage" data-caption="Email History"></div>
             </div>
             <div class="tabpages">
               <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -230,6 +248,7 @@ class PickList {
                   </div>
                 </div>
               </div>
+             <div data-type="tabpage" id="emailhistorytabpage" class="tabpage submodule emailhistory-page" data-tabid="emailhistorytab"></div>
             </div>
           </div>
         </div>`;

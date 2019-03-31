@@ -104,6 +104,9 @@ class Invoice {
         FwFormField.disable($form.find('[data-datafield="SubMiscellaneous"]'));
         FwFormField.disable($form.find('[data-datafield="SubVehicle"]'));
 
+        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
 
@@ -515,6 +518,20 @@ class Invoice {
         $form.find('.' + gridType + '-totals [data-totalfield="GrossTotal"] input').val(grossTotal);
         $form.find('.' + gridType + '-totals [data-totalfield="Total"] input').val(total);
     };
+    //----------------------------------------------------------------------------------------------
+    openEmailHistoryBrowse($form) {
+        var $browse;
+
+        $browse = EmailHistoryController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                RelatedToId: $form.find('[data-datafield="InvoiceId"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         //Populate tax info fields with validation
