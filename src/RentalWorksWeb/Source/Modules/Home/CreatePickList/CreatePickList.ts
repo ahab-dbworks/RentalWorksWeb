@@ -36,15 +36,12 @@ class CreatePickList {
         });
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            if (parentmoduleinfo.IsTransfer) {
-                this.Type = 'Transfer';
-                $form.find('[data-datafield="OrderId"]').attr('data-datafield', 'TransferId');
-            } else {
-                this.Type = 'Order';
-            }
-            
-            FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo.OrderId);
+            this.Type = parentmoduleinfo.Type;
+            $form.find('[data-datafield="OrderId"]').attr('data-datafield', `${this.Type}Id`);
+        } else {
+            this.Type = 'Order';
         }
+        FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo.OrderId);
         $form.find('.defaultoptions input').prop('checked', true);
         this.events($form);
         return $form;
@@ -129,7 +126,9 @@ class CreatePickList {
                         FwModule.openSubModuleTab($form, $report);
                         FwModule.closeFormTab($tab);
                         FwFormField.setValueByDataField($report, 'PickListId', response.PickListId, response.PickListNumber);
-                        jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+                        const $tabPage = FwTabs.getTabPageByElement($report);
+                        const $reporttab = FwTabs.getTabByElement(jQuery($tabPage));
+                        $reporttab.find('.caption').html('Print Pick List');
 
                         //refresh pick list browse
                         const $pickListBrowse = jQuery('#PickListBrowse');

@@ -843,7 +843,6 @@
                 const orderInfo: any = {};
                 orderInfo.OrderId = FwFormField.getValueByDataField($form, `${type}Id`);
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${type}Id`);
-                //if (this.Module === 'TransferOut') orderInfo.IsTransfer = true;
                 orderInfo.Type = this.Type;
                 const mode = 'EDIT';
                 const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);

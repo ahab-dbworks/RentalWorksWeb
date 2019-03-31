@@ -285,7 +285,7 @@ FwApplicationTree.clickEvents['{A256288F-238F-4594-8A6A-3B70613925DA}'] = e => {
         const orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'TransferNumber');
-        orderInfo.IsTransfer = true;
+        orderInfo.Type = 'Transfer';
         const $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $orderStatusForm);
         const $tabPage = FwTabs.getTabPageByElement($orderStatusForm);
@@ -369,7 +369,7 @@ FwApplicationTree.clickEvents['{5CA07E25-A93E-4FA0-9206-B3F556684B0C}'] = e => {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const mode = 'EDIT';
         const orderInfo: any = {};
-        orderInfo.IsTransfer = true;
+        orderInfo.Type = 'Transfer';
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
         const $pickListForm = CreatePickListController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $pickListForm);
