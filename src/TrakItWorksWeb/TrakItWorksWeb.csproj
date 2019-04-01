@@ -972,7 +972,11 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp\Downloads" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp\Downloads')" ContinueOnError="false" />
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" IgnoreExitCode="false" />
     <Exec Command="del &quot;$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" ContinueOnError="false" IgnoreExitCode="false" Condition="Exists('$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).min.js')" />
+<<<<<<< HEAD
     <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" ContinueOnError="false" IgnoreExitCode="false" />
+=======
+    <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" ContinueOnError="false" IgnoreExitCode="false" Condition="Exists('$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).min.css')" />
+>>>>>>> Tw: Fixes release builds
   </Target>
   <Target Name="AfterClean">
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" />
