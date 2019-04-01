@@ -32,6 +32,12 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "partnumber", modeltype: FwDataTypes.Text)]
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "mfgid", modeltype: FwDataTypes.Text)]
+        public string ManufacturerId{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
+        public string Manufacturer { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "noavail", modeltype: FwDataTypes.Boolean)]
         public bool? NoAvailabilityCheck { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -242,6 +242,9 @@ namespace WebApi.Modules.Home.Master
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "mfgid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ManufacturerId { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
@@ -264,9 +267,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "tariffcode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 12)]
                 public string Tariffcode { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "mfgid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string MfgId { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string Hazardousmaterial { get; set; }

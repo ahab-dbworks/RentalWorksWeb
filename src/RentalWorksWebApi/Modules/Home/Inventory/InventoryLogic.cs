@@ -48,6 +48,12 @@ namespace WebApi.Modules.Home.Inventory
         [FwLogicProperty(Id: "D80RmiRi3Aff")]
         public string ManufacturerPartNumber { get { return master.ManufacturerPartNumber; } set { master.ManufacturerPartNumber = value; } }
 
+        [FwLogicProperty(Id: "rF1PPmnLaJ0oG")]
+        public string ManufacturerId { get { return master.ManufacturerId; } set { master.ManufacturerId = value; } }
+
+        [FwLogicProperty(Id: "DZne9En4ddJTE", IsReadOnly: true)]
+        public string Manufacturer { get; set; }
+
         [FwLogicProperty(Id: "TIH65zNLyOKl")]
         public bool? NoAvailabilityCheck { get { return master.NoAvailabilityCheck; } set { master.NoAvailabilityCheck = value; } }
 

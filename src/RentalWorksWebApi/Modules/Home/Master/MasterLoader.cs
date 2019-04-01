@@ -47,9 +47,6 @@ namespace WebApi.Modules.Home.Master
         [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
         public string ClassificationDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "classcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        //public string ClassificationColor { get; set; }
-        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ClassificationColor
         {
