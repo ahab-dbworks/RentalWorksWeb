@@ -1,17 +1,11 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
 using WebApi.Data; 
-using System.Collections.Generic;
 namespace WebApi.Modules.Home.MasterWarehouse
 {
     [FwSqlTable("masterwhview")]
     public abstract class MasterWarehouseLoader : AppDataLoadRecord
     {
-        //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "masterid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]
-        //public string MasterId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", isPrimaryKey: true, modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
