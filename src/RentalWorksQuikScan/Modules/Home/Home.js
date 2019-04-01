@@ -3,7 +3,7 @@ var RwHome = {};
 RwHome.getHomeScreen = function(viewModel, properties) {
     var combinedViewModel, screen, applicationOptions, $menuObject, nodeModule;
     combinedViewModel = jQuery.extend({
-        captionPageTitle:         '<div class="apptitle bgothm center" style="padding-top:10px 0;font-size:18px;color:#f2f2f2;">RentalWorks</div>',
+        captionPageTitle:         '<div class="apptitle bgothm center" style="padding-top:10px 0;font-size:18px;color:#f2f2f2;">RentalWorks QuikScan</div>',
         captionPageSubTitle:      ''
     }, viewModel);
     combinedViewModel.htmlPageBody = Mustache.render(jQuery('#tmpl-home').html(), combinedViewModel);
