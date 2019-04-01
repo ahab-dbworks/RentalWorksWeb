@@ -218,6 +218,7 @@
     <Content Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridBrowse.htm" />
     <Content Include="Source\Grids\POReturnItemGrid\POReturnItemGridBrowse.htm" />
     <Content Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridBrowse.htm" />
+    <Content Include="Source\Grids\RepairReleaseGrid\RepairReleaseGridBrowse.htm" />
     <Content Include="Source\Grids\StagedItemGrid\StagedItemGridBrowse.htm" />
     <Content Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridBrowse.htm" />
     <Content Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridBrowse.htm" />
@@ -776,6 +777,7 @@
     <TypeScriptCompile Include="Source\Grids\POReturnBarCodeGrid\POReturnBarCodeGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\POReturnItemGrid\POReturnItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\RepairReleaseGrid\RepairReleaseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StagedItemGrid\StagedItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridController.ts" />
@@ -949,18 +951,11 @@
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwDeploymentDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwDeploymentDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\theme\images&quot; &quot;$(FwDeploymentDirectory)\theme\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\Integration" Condition="!Exists('$(FwDeploymentDirectory)\Integration')" ContinueOnError="false" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\Integration\QBOIntegration" Condition="!Exists('$(FwDeploymentDirectory)\Integration\QBOIntegration')" ContinueOnError="false" />
-    <MakeDir Directories="$(FwDeploymentDirectory)\Integration\QBOIntegration\images" Condition="!Exists('$(FwDeploymentDirectory)\Integration\QBOIntegration\images')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwApplicationDirectory)\Integration\QBOIntegration\images&quot; &quot;$(FwDeploymentDirectory)\Integration\QBOIntegration\images&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" ContinueOnError="false" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Web.config" DestinationFiles="$(FwDeploymentDirectory)\Web.config" ContinueOnError="false" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegration.aspx" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegration.aspx" ContinueOnError="false" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegration.css" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegration.css" ContinueOnError="false" />
-    <Copy SourceFiles="$(FwApplicationDirectory)\Integration\QBOIntegration\QBOIntegrationController.js" DestinationFiles="$(FwDeploymentDirectory)\Integration\QBOIntegration\QBOIntegrationController.js" ContinueOnError="false" />
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwDeploymentDirectory)\web.config&quot; -pattern &quot;debug=&quot;&quot;true&quot;&quot;&quot; -replacement &quot;debug=&quot;&quot;false&quot;&quot;&quot;" ContinueOnError="false" IgnoreExitCode="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\bin" Condition="!Exists('$(FwDeploymentDirectory)\bin')" ContinueOnError="false" />
     <Exec Command="robocopy &quot;$(FwApplicationDirectory)\bin&quot; &quot;$(FwDeploymentDirectory)\bin&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
@@ -976,7 +971,7 @@
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp')" ContinueOnError="false" />
     <MakeDir Directories="$(FwDeploymentDirectory)\App_Data\Temp\Downloads" Condition="!Exists('$(FwDeploymentDirectory)\App_Data\Temp\Downloads')" ContinueOnError="false" />
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\JSAppBuilder\JSAppBuilder.exe&quot; -ConfigFilePath &quot;$(JsAppBuilderConfigFile)&quot; -SolutionDir &quot;$(AppSolutionDir)&quot; -Version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot; -UpdateSchema &quot;$(FwUpdateSchema)&quot; -Publish $(FwPublish) -AttachDebugger false" ContinueOnError="false" IgnoreExitCode="false" />
-    <Exec Command="del &quot;$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" ContinueOnError="false" IgnoreExitCode="false" />
+    <Exec Command="del &quot;$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).debug.js&quot;" ContinueOnError="false" IgnoreExitCode="false" Condition="Exists('$(FwDeploymentDirectory)\script-$(Major).$(Minor).$(Build).$(Revision).min.js')" />
     <Exec Command="del &quot;$(FwDeploymentDirectory)\theme\style-$(Major).$(Minor).$(Build).$(Revision).debug.css&quot;" ContinueOnError="false" IgnoreExitCode="false" />
   </Target>
   <Target Name="AfterClean">
