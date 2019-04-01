@@ -727,7 +727,7 @@
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
     <Content Include="theme\images\rentalworkslogo.png" />
-    <Content Include="theme\rentalworks.css" />
+    <Content Include="theme\trakitworks.css" />
     <Content Include="version.txt" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
