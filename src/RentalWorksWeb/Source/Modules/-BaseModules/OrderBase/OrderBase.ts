@@ -1525,6 +1525,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     afterLoad($form, orderType) {
         //Click Event on tabs to load grids/browses
+        $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
         $form.on('click', '[data-type="tab"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabname = $tab.attr('id');
