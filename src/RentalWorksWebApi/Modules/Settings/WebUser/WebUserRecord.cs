@@ -62,14 +62,35 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1, precision: 0, scale: 0)]
         public bool? LockAccount { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1, precision: 0, scale: 0)]
-        public string Settings { get; set; }
-        //------------------------------------------------------------------------------------
+        //[FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: -1, precision: 0, scale: 0)]
+        //public string Settings { get; set; }
+        ////------------------------------------------------------------------------------------
         [FwSqlDataField(column: "dashboardwidgetsperrow", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? DashboardWidgetsPerRow { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "searchmodepreference", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
         public string SearchModePreference { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "browsedefaultrows", modeltype: FwDataTypes.Integer, sqltype: "int")]
+        public int? BrowseDefaultRows { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "applicationtheme", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        public string ApplicationTheme { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "homemenuguid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100)]
+        public string HomeMenuGuid { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "homemenupath", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100)]
+        public string HomeMenuPath { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "successsoundid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string SuccessSoundId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "errorsoundid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string ErrorSoundId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "notificationsoundid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        public string NotificationSoundId { get; set; }
         //------------------------------------------------------------------------------------
     }
 }

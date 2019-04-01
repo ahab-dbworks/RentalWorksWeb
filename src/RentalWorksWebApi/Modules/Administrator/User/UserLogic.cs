@@ -397,6 +397,36 @@ namespace WebApi.Modules.Administrator.User
         //public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
 
 
+        [FwLogicProperty(Id: "FXfH6IV8OL0HW")]
+        public int? BrowseDefaultRows { get { return webUser.BrowseDefaultRows; } set { webUser.BrowseDefaultRows = value; } }
+        [FwLogicProperty(Id: "dKsvF60zSz8KK")]
+        public string ApplicationTheme { get { return webUser.ApplicationTheme; } set { webUser.ApplicationTheme = value; } }
+        [FwLogicProperty(Id: "if3Cu5Qm5hkPh")]
+        public string HomeMenuGuid { get { return webUser.HomeMenuGuid; } set { webUser.HomeMenuGuid = value; } }
+        [FwLogicProperty(Id: "VOBXEZF5GOcy6")]
+        public string HomeMenuPath { get { return webUser.HomeMenuPath; } set { webUser.HomeMenuPath = value; } }
+        [FwLogicProperty(Id: "BAOVebjzaG5Eb")]
+        public string SuccessSoundId { get { return webUser.SuccessSoundId; } set { webUser.SuccessSoundId = value; } }
+        [FwLogicProperty(Id: "1RvfHBCyLNY6r", IsReadOnly: true)]
+        public string SuccessSound { get; set; }
+        [FwLogicProperty(Id: "1NCCcS6Uetdti", IsReadOnly: true)]
+        public string SuccessSoundFileName { get; set; }
+        [FwLogicProperty(Id: "39lZCXsIzQfoL")]
+        public string ErrorSoundId { get { return webUser.ErrorSoundId; } set { webUser.ErrorSoundId = value; } }
+        [FwLogicProperty(Id: "J2f8cPIy7zPv8", IsReadOnly: true)]
+        public string ErrorSound { get; set; }
+        [FwLogicProperty(Id: "NgqAUw6SWkmq4", IsReadOnly: true)]
+        public string ErrorSoundFileName { get; set; }
+        [FwLogicProperty(Id: "GLp6gEs03MmaP")]
+        public string NotificationSoundId { get { return webUser.NotificationSoundId; } set { webUser.NotificationSoundId = value; } }
+        [FwLogicProperty(Id: "6GJq6P73wLwHt", IsReadOnly: true)]
+        public string NotificationSound { get; set; }
+        [FwLogicProperty(Id: "jj9nN7EG0ANjG", IsReadOnly: true)]
+        public string NotificationSoundFileName { get; set; }
+
+
+
+
         //------------------------------------------------------------------------------------ 
         private void AfterSaveUser(object sender, AfterSaveDataRecordEventArgs e)
         {

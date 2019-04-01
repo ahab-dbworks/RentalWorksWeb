@@ -6,7 +6,7 @@ using WebApi.Data;
 
 namespace WebApi.Modules.Settings.UserSettings
 {
-    [FwSqlTable("dbo.funcwebusersettings2(@webusersid)")]
+    [FwSqlTable("webusersview")]
     public class UserSettingsLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -16,11 +16,8 @@ namespace WebApi.Modules.Settings.UserSettings
         [FwSqlDataField(column: "username", modeltype: FwDataTypes.Text)]
         public string UserName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "settings", modeltype: FwDataTypes.Text)]
-        public string Settings { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "browsedefaultrows", modeltype: FwDataTypes.Text)]
-        public string BrowseDefaultRows { get; set; }
+        [FwSqlDataField(column: "browsedefaultrows", modeltype: FwDataTypes.Integer)]
+        public int? BrowseDefaultRows { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "applicationtheme", modeltype: FwDataTypes.Text)]
         public string ApplicationTheme { get; set; }
@@ -28,7 +25,7 @@ namespace WebApi.Modules.Settings.UserSettings
         [FwSqlDataField(column: "homemenuguid", modeltype: FwDataTypes.Text)]
         public string HomeMenuGuid { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "homemenuitem", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "homemenupath", modeltype: FwDataTypes.Text)]
         public string HomeMenuPath { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "successsoundid", modeltype: FwDataTypes.Text)]
@@ -63,20 +60,8 @@ namespace WebApi.Modules.Settings.UserSettings
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
-            useWithNoLock = false;
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(username > '')");
-            //addFilterToSelect("LocationId", "locationid", select, request);
-            //addFilterToSelect("WarehouseId", "warehouseid", select, request);
-            //addFilterToSelect("GroupId", "groupsid", select, request);
-
-            if (!string.IsNullOrEmpty(UserId))
-            {
-                select.AddParameter("@webusersid", UserId);
-            }
-
-
         }
         //------------------------------------------------------------------------------------ 
     }
