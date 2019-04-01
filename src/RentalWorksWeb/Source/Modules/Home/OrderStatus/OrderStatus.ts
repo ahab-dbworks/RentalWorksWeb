@@ -23,11 +23,6 @@
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        if (typeof parentmoduleinfo != 'undefined') {
-            this.Type = parentmoduleinfo.Type;
-        } else {
-            this.Type = 'Order';
-        }
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -83,8 +78,8 @@
                         FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
                         FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
                     }
-                    var rental = response.Rental;
-                    var sales = response.Sales;
+                    const rental = response.Rental;
+                    const sales = response.Sales;
                     if (rental === false && sales === false) {
                         $form.find('div[data-value="Details"]').hide();
                     } else {
@@ -107,7 +102,7 @@
                 }, null, $form);
 
                 const $orderStatusSummaryGridControl = $form.find('[data-name="OrderStatusSummaryGrid"]');
-                $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+                $orderStatusSummaryGridControl.data('ondatabind', request => {
                     request.uniqueids = {
                         OrderId: orderId
                     }
@@ -116,7 +111,7 @@
                 FwBrowse.search($orderStatusSummaryGridControl);
 
                 const $orderStatusRentalDetailGridControl = $form.find('[data-name="OrderStatusRentalDetailGrid"]');
-                $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+                $orderStatusRentalDetailGridControl.data('ondatabind', request => {
                     request.uniqueids = {
                         OrderId: orderId,
                         RecType: "R"
@@ -126,7 +121,7 @@
                 FwBrowse.search($orderStatusRentalDetailGridControl);
 
                 const $orderStatusSalesDetailGridControl = $form.find('[data-name="OrderStatusSalesDetailGrid"]');
-                $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+                $orderStatusSalesDetailGridControl.data('ondatabind', request => {
                     request.uniqueids = {
                         OrderId: orderId,
                         RecType: "S"
@@ -155,8 +150,7 @@
                                 break;
                         }
                     }
-                }
-                    , 2000);
+                }, 2000);
             }
             catch (ex) {
                 FwFunc.showError(ex);
@@ -165,15 +159,14 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        const type = this.Type;
         const max = 9999;
         //----------------------------------------------------------------------------------------------
         const $orderStatusSummaryGrid = $form.find('div[data-grid="OrderStatusSummaryGrid"]');
         const $orderStatusSummaryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusSummaryGrid');
         $orderStatusSummaryGrid.empty().append($orderStatusSummaryGridControl);
-        $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+        $orderStatusSummaryGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
             };
             request.pagesize = max;
         })
@@ -184,9 +177,9 @@
         const $orderStatusRentalDetailGrid = $form.find('div[data-grid="OrderStatusRentalDetailGrid"]');
         const $orderStatusRentalDetailGridControl = FwBrowse.loadGridFromTemplate('OrderStatusRentalDetailGrid');
         $orderStatusRentalDetailGrid.empty().append($orderStatusRentalDetailGridControl);
-        $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+        $orderStatusRentalDetailGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
                 RecType: "R"
             };
             request.pagesize = max;
@@ -198,9 +191,9 @@
         const $orderStatusSalesDetailGrid = $form.find('div[data-grid="OrderStatusSalesDetailGrid"]');
         const $orderStatusSalesDetailGridControl = FwBrowse.loadGridFromTemplate('OrderStatusSalesDetailGrid');
         $orderStatusSalesDetailGrid.empty().append($orderStatusSalesDetailGridControl);
-        $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+        $orderStatusSalesDetailGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
                 RecType: "S"
             };
             request.pagesize = max;
@@ -210,12 +203,12 @@
         this.addLegend($form, $orderStatusSalesDetailGrid);
         //----------------------------------------------------------------------------------------------
         const $filter = $form.find('.filter[data-type="radio"]');
-        $filter.on("change", function () {
-            var filterValue = $form.find('.filter input[type="radio"]:checked').val().toUpperCase();
+        $filter.on("change", () => {
+            const filterValue = $form.find('.filter input[type="radio"]:checked').val().toUpperCase();
 
-            $orderStatusSummaryGridControl.data('ondatabind', function (request) {
+            $orderStatusSummaryGridControl.data('ondatabind', request => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`)
                 };
                 request.pagesize = max;
                 request.filterfields = {
@@ -224,9 +217,9 @@
             })
             FwBrowse.search($orderStatusSummaryGridControl);
 
-            $orderStatusRentalDetailGridControl.data('ondatabind', function (request) {
+            $orderStatusRentalDetailGridControl.data('ondatabind', request => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
                     RecType: "R"
                 };
                 request.pagesize = max;
@@ -236,9 +229,9 @@
             })
             FwBrowse.search($orderStatusRentalDetailGridControl);
 
-            $orderStatusSalesDetailGridControl.data('ondatabind', function (request) {
+            $orderStatusSalesDetailGridControl.data('ondatabind', request => {
                 request.uniqueids = {
-                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`),
+                    OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
                     RecType: "S"
                 };
                 request.pagesize = max;
@@ -252,7 +245,7 @@
         //Filter field events
         const $filterValidations = $form.find('#filters [data-type="multiselectvalidation"] input.fwformfield-value');
         $filterValidations.on("change", e => {
-            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
+            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
@@ -336,7 +329,7 @@
 
         const $textFilter = $form.find('#filters [data-type="text"] input.fwformfield-value');
         $textFilter.on("change", () => {
-            const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
+            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
             const description = FwFormField.getValueByDataField($form, 'FilterDescription');
             const barCode = FwFormField.getValueByDataField($form, 'FilterBarCode');
 
@@ -527,9 +520,9 @@
     }
     //----------------------------------------------------------------------------------------------
     toggleView($form: any) {
-        var $toggle = $form.find('.toggle[data-type="radio"]');
-        $toggle.on("change", function () {
-            var view = $form.find('.toggle input[type="radio"]:checked').val();
+        const $toggle = $form.find('.toggle[data-type="radio"]');
+        $toggle.on("change", () => {
+            const view = $form.find('.toggle input[type="radio"]:checked').val();
             switch (view) {
                 case 'Summary':
                     $form.find('.summaryview').show();

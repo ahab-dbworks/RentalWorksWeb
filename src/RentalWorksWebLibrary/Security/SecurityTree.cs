@@ -75,13 +75,13 @@ namespace WebLibrary.Security
             AddModule("Receive From Vendor", "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController",  "module/receivefromvendor", homeiconbaseurl + "placeholder.png");
             AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController",     "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             AddModule("Assign Bar Codes",    "{4B9C17DE-7FC0-4C33-B953-26FC90F32EA0}", lv1menuWarehouse.Id, "AssignBarCodesController",     "module/assignbarcodes",    homeiconbaseurl + "placeholder.png");
+            AddModule("Transfer Status",     "{58D5D354-136E-40D5-9675-B74FD7807D6F}", lv1menuWarehouse.Id, "TransferStatusController",     "module/transferstatus",    homeiconbaseurl + "placeholder.png");
             AddModule("Transfer Order",      "{F089C9A9-554D-40BF-B1FA-015FEDE43591}", lv1menuWarehouse.Id, "TransferOrderController",      "module/transferorder",     homeiconbaseurl + "placeholder.png");
             AddModule("Manifest",            "{1643B4CE-D368-4D64-8C05-6EF7C7D80336}", lv1menuWarehouse.Id, "ManifestController",           "module/manifest",          homeiconbaseurl + "placeholder.png");
             AddModule("Transfer Receipt",    "{2B60012B-ED6A-430B-B2CB-C1287FD4CE8B}", lv1menuWarehouse.Id, "TransferReceiptController",    "module/transferreceipt",   homeiconbaseurl + "placeholder.png");
             AddModule("Transfer Out",        "{91E79272-C1CF-4678-A28F-B716907D060C}", lv1menuWarehouse.Id, "TransferOutController",        "module/transferout",       homeiconbaseurl + "placeholder.png");
             AddModule("Transfer In",         "{D9F487C2-5DC1-45DF-88A2-42A05679376C}", lv1menuWarehouse.Id, "TransferInController",         "module/transferin",        homeiconbaseurl + "placeholder.png");
             AddModule("Fill Container",      "{0F1050FB-48DF-41D7-A969-37300B81B7B5}", lv1menuWarehouse.Id, "FillContainerController",      "module/fillcontainer",     homeiconbaseurl + "placeholder.png");
-
 
             // Billing
             AddModule("Billing",             "{34E0472E-9057-4C66-8CC2-1938B3222569}", lv1menuBilling.Id, "BillingController",       "module/billing",       homeiconbaseurl + "placeholder.png");
