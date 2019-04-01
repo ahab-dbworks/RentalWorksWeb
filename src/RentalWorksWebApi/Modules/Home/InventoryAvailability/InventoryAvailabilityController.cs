@@ -68,10 +68,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
         //    }
         //}
         ////------------------------------------------------------------------------------------       
-        // GET api/v1/inventoryavailability/getcalendarandscheduledata?SessionId=ABCDEFG&InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
+        // GET api/v1/inventoryavailability/getcalendarandscheduledata?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
         [HttpGet("getcalendarandscheduledata")]
         [FwControllerMethod(Id: "bi563cSFahD")]
-        public async Task<ActionResult<TInventoryAvailabilityCalendarAndScheduleResponse>> GetCalendarDataAsync(string SessionId, string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
+        public async Task<ActionResult<TInventoryAvailabilityCalendarAndScheduleResponse>> GetCalendarDataAsync(string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
         {
             if (!ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                TInventoryAvailabilityCalendarAndScheduleResponse response = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetCalendarAndScheduleData(AppConfig, UserSession, SessionId, InventoryId, WarehouseId, FromDate, ToDate);
+                TInventoryAvailabilityCalendarAndScheduleResponse response = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetCalendarAndScheduleData(AppConfig, UserSession, InventoryId, WarehouseId, FromDate, ToDate);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

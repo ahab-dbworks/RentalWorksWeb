@@ -1180,7 +1180,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 
 
 
-        public static async Task<TInventoryAvailabilityCalendarAndScheduleResponse> GetCalendarAndScheduleData(FwApplicationConfig appConfig, FwUserSession userSession, string SessionId, string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
+        public static async Task<TInventoryAvailabilityCalendarAndScheduleResponse> GetCalendarAndScheduleData(FwApplicationConfig appConfig, FwUserSession userSession, string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
 
         {
             TInventoryAvailabilityCalendarAndScheduleResponse response = new TInventoryAvailabilityCalendarAndScheduleResponse();
