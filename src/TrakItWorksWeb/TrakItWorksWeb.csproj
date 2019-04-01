@@ -228,6 +228,8 @@
     <Content Include="Source\Modules\Home\AssignBarcodes\AssignBarcodesForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
+    <Content Include="Source\Modules\Home\Deal\DealBrowse.htm" />
+    <Content Include="Source\Modules\Home\Deal\DealForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\InventoryItem\InventoryItemBrowse.htm" />
     <Content Include="Source\Modules\Home\InventoryItem\InventoryItemForm.htm" />

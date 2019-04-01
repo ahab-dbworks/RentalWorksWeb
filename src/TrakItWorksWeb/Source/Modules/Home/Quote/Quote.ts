@@ -254,88 +254,11 @@ class Quote extends OrderBase {
             request.RecType = 'R';
         });
         FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', ($control, dt) => {
-            this.calculateOrderItemGridTotals($form, 'rental', dt.Totals);
-
             let rentalItems = $form.find('.rentalgrid tbody').children();
             rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
         });
         FwBrowse.init($orderItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
-
-        var $orderItemGridSales        = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
-        var $orderItemGridSalesControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        $orderItemGridSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
-        $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
-        $orderItemGridSales.empty().append($orderItemGridSalesControl);
-        $orderItemGridSales.addClass('S');
-        $orderItemGridSalesControl.data('isSummary', false);
-        $orderItemGridSalesControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
-                RecType: 'S'
-            };
-            request.totalfields = totalFields;
-        });
-        $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
-            request.RecType = 'S';
-        });
-        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', ($control, dt) => {
-            this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
-            let salesItems = $form.find('.salesgrid tbody').children();
-            salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
-        });
-        FwBrowse.init($orderItemGridSalesControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
-
-        var $orderItemGridLabor        = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
-        var $orderItemGridLaborControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridLabor.empty().append($orderItemGridLaborControl);
-        $orderItemGridLabor.addClass('L');
-        $orderItemGridLaborControl.data('isSummary', false);
-        $orderItemGridLaborControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
-                RecType: 'L'
-            };
-            request.totalfields = totalFields;
-        });
-        $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
-            request.RecType = 'L';
-        });
-        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', ($control, dt) => {
-            this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
-            let laborItems = $form.find('.laborgrid tbody').children();
-            laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
-        });
-        FwBrowse.init($orderItemGridLaborControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
-
-        var $orderItemGridMisc        = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
-        var $orderItemGridMiscControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridMisc.empty().append($orderItemGridMiscControl);
-        $orderItemGridMisc.addClass('M');
-        $orderItemGridMiscControl.data('isSummary', false);
-        $orderItemGridMiscControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
-                RecType: 'M'
-            };
-            request.totalfields = totalFields;
-        });
-        $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
-            request.RecType = 'M';
-        });
-        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', ($control, dt) => {
-            this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
-            let miscItems = $form.find('.miscgrid tbody').children();
-            miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
-        });
-        FwBrowse.init($orderItemGridMiscControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
 
         var $orderItemGridUsedSale        = $form.find('.usedsalegrid div[data-grid="OrderItemGrid"]');
         var $orderItemGridUsedSaleControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
@@ -410,7 +333,7 @@ class Quote extends OrderBase {
         FwBrowse.init($orderContactGridControl);
         FwBrowse.renderRuntimeHtml($orderContactGridControl);
 
-        let itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
+        let itemGrids = [$orderItemGridRental];
         if ($form.attr('data-mode') === 'NEW') {
             for (var i = 0; i < itemGrids.length; i++) {
                 itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })

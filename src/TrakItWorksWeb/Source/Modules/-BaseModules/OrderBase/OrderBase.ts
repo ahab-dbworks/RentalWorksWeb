@@ -180,9 +180,6 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     activityCheckboxEvents($form: any, mode: string) {
         let rentalTab     = $form.find('[data-type="tab"][data-caption="Rental"]'),
-            salesTab      = $form.find('[data-type="tab"][data-caption="Sales"]'),
-            miscTab       = $form.find('[data-type="tab"][data-caption="Miscellaneous"]'),
-            laborTab      = $form.find('[data-type="tab"][data-caption="Labor"]'),
             lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]'),
             usedSaleTab   = $form.find('[data-type="tab"][data-caption="Used Sale"]');
 
@@ -208,42 +205,7 @@ class OrderBase {
                 }
             }
         });
-        $form.find('[data-datafield="Sales"] input').on('change', e => {
-            if (mode == "NEW") {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    salesTab.show();
-                } else {
-                    salesTab.hide();
-                }
-            } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
-                    if (jQuery(e.currentTarget).prop('checked')) {
-                        salesTab.show();
-                    } else {
-                        salesTab.hide();
-                    }
-                }
-            }
-        });
-        $form.find('[data-datafield="Miscellaneous"] input').on('change', e => {
-            if (mode == "NEW") {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    miscTab.show();
-                } else {
-                    miscTab.hide();
-                }
-            } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
-                    if (jQuery(e.currentTarget).prop('checked')) {
-                        miscTab.show();
-                    } else {
-                        miscTab.hide();
-                    }
-                }
-            }
-        });
+
         $form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
             if (jQuery(e.currentTarget).prop('checked')) {
                 lossDamageTab.show();
@@ -276,24 +238,6 @@ class OrderBase {
                     "rentalSalesEnabled": rentalSalesEnabled
                 });
                 console.log('checkbox val in click: ', $form.data('antiLD'))
-            }
-        });
-        $form.find('[data-datafield="Labor"] input').on('change', e => {
-            if (mode == "NEW") {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    laborTab.show();
-                } else {
-                    laborTab.hide();
-                }
-            } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
-                    if (jQuery(e.currentTarget).prop('checked')) {
-                        laborTab.show();
-                    } else {
-                        laborTab.hide();
-                    }
-                }
             }
         });
 
@@ -549,14 +493,7 @@ class OrderBase {
         $form.find('[data-datafield="MarketSegmentId"] input').on('change', event => {
             FwFormField.setValueByDataField($form, 'MarketSegmentJobId', '');
         });
-        // Bottom Line Total with Tax
-        $form.find('.bottom_line_total_tax').on('change', event => {
-            this.bottomLineTotalWithTaxChange($form, event);
-        });
-        // Bottom Line Discount
-        //$form.find('.bottom_line_discount').on('change', event => {
-        //    this.bottomLineDiscountChange($form, event);
-        //});
+
         // RentalDaysPerWeek for Rental OrderItemGrid
         $form.find('.RentalDaysPerWeek').on('change', '.fwformfield-text, .fwformfield-value', event => {
             let request: any = {},
@@ -653,27 +590,6 @@ class OrderBase {
         // PickDate Validations
         $form.find('.pick_date_validation').on('changeDate', event => {
             this.checkDateRangeForPick($form, event);
-        });
-        // BillingDate Change
-        $form.find('.billing_start_date').on('changeDate', event => {
-            this.adjustWeekorMonthBillingField($form, event);
-        });
-        // BillingDate Change
-        $form.find('.billing_end_date').on('changeDate', event => {
-            this.adjustWeekorMonthBillingField($form, event);
-        });
-        // Billing Weeks or Month field change
-        $form.find('.week_or_month_field').on('change', event => {
-            this.adjustBillingEndDate($form, event);
-        });
-        $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-            if ($this.prop('checked') === true) {
-                FwFormField.enable($form.find('.differentaddress'));
-            }
-            else {
-                FwFormField.disable($form.find('.differentaddress'));
-            }
         });
 
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
@@ -928,158 +844,6 @@ class OrderBase {
         });
     };
     //----------------------------------------------------------------------------------------------
-    //bottomLineDiscountChange($form: any, event: any) {
-    //    // DiscountPercent for all OrderItemGrid
-    //    let $orderItemGrid;
-    //    let request:         any = {};
-    //    var module               = this.Module;
-    //    var $element             = jQuery(event.currentTarget);
-    //    var recType              = $element.attr('data-rectype');
-    //    var orderId              = FwFormField.getValueByDataField($form, `${module}Id`);
-    //    let discountPercent = $element.find('.fwformfield-value').val().slice(0, -1);
-
-    //    if (recType === 'R') {
-    //        $orderItemGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-    //        FwFormField.setValueByDataField($form, 'PeriodRentalTotal', '');
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-    //    } else if (recType === 'S') {
-    //        $orderItemGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-    //        FwFormField.setValueByDataField($form, 'SalesTotal', '');
-    //        FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-    //    } else if (recType === 'L') {
-    //        $orderItemGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-    //        FwFormField.setValueByDataField($form, 'PeriodLaborTotal', '');
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-    //    } else if (recType === 'M') {
-    //        $orderItemGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-    //        FwFormField.setValueByDataField($form, 'PeriodMiscTotal', '');
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-    //    } else if (recType === 'F') {
-    //        $orderItemGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-    //        FwFormField.setValueByDataField($form, 'LossAndDamageTotal', '');
-    //        FwFormField.disable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
-    //    } else if (recType === '') {
-    //        $orderItemGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-    //        FwFormField.setValueByDataField($form, 'PeriodCombinedTotal', '');
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-    //    }
-    //    request.DiscountPercent = parseFloat(discountPercent);
-    //    request.RecType         = recType;
-    //    request.OrderId         = orderId;
-
-    //    FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinediscountpercent/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-    //        FwBrowse.search($orderItemGrid);
-    //    }, function onError(response) {
-    //        FwFunc.showError(response);
-    //    }, $form);
-    //};
-    //----------------------------------------------------------------------------------------------
-    bottomLineTotalWithTaxChange($form: any, event: any) {
-        // Total and With Tax for all OrderItemGrid
-        let $orderItemGrid, total, includeTaxInTotal, totalType;
-        let request: any = {};
-
-        var $element          = jQuery(event.currentTarget);
-        var module            = this.Module;
-        var isWithTaxCheckbox = $element.attr('data-type') === 'checkbox';
-        var recType           = $element.attr('data-rectype');
-        var orderId           = FwFormField.getValueByDataField($form, `${module}Id`);
-
-        if (recType === 'R') {
-            $orderItemGrid    = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-            total             = FwFormField.getValue($form, '.rentalOrderItemTotal:visible');
-            includeTaxInTotal = FwFormField.getValue($form, '.rentalTotalWithTax:visible');
-            totalType         = $form.find('.rentalgrid .totalType input:checked').val();
-            FwFormField.setValue($form, '.rentalAdjustments .rentalOrderItemTotal:hidden', '0.00');
-            if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'RentalDiscountPercent', '');
-            }
-            if (total === '0.00') {
-                FwFormField.disable($form.find('.rentalTotalWithTax:visible'));
-            } else {
-                FwFormField.enable($form.find('.rentalTotalWithTax:visible'));
-            }
-        } else if (recType === 'S') {
-            $orderItemGrid    = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-            total             = FwFormField.getValue($form, '.salesOrderItemTotal');
-            includeTaxInTotal = FwFormField.getValue($form, '.salesTotalWithTax');
-            if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'SalesDiscountPercent', '');
-            }
-            if (total === '0.00') {
-                FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-            } else {
-                FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-            }
-        } else if (recType === 'L') {
-            $orderItemGrid    = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-            total             = FwFormField.getValue($form, '.laborOrderItemTotal:visible');
-            includeTaxInTotal = FwFormField.getValue($form, '.laborTotalWithTax:visible');
-            totalType         = $form.find('.laborgrid .totalType input:checked').val();
-            FwFormField.setValue($form, '.laborAdjustments .laborOrderItemTotal:hidden', '0.00');
-            if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'LaborDiscountPercent', '');
-            }
-            if (total === '0.00') {
-                FwFormField.disable($form.find('.laborTotalWithTax:visible'));
-            } else {
-                FwFormField.enable($form.find('.laborTotalWithTax:visible'));
-            }
-        } else if (recType === 'M') {
-            $orderItemGrid    = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-            total             = FwFormField.getValue($form, '.miscOrderItemTotal:visible');
-            includeTaxInTotal = FwFormField.getValue($form, '.miscTotalWithTax:visible');
-            totalType         = $form.find('.miscgrid .totalType input:checked').val();
-            FwFormField.setValue($form, '.miscAdjustments .miscOrderItemTotal:hidden', '0.00');
-            if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'MiscDiscountPercent', '');
-            }
-            if (total === '0.00') {
-                FwFormField.disable($form.find('.miscTotalWithTax:visible'));
-            } else {
-                FwFormField.enable($form.find('.miscTotalWithTax:visible'));
-            }
-        } else if (recType === 'F') {
-            $orderItemGrid    = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-            total             = FwFormField.getValueByDataField($form, 'LossAndDamageTotal');
-            includeTaxInTotal = FwFormField.getValueByDataField($form, 'LossAndDamageTotalIncludesTax');
-            if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'LossAndDamageDiscountPercent', '');
-            }
-            if (total === '0.00') {
-                FwFormField.disable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
-            } else {
-                FwFormField.enable($form.find('div[data-datafield="LossAndDamageTotalIncludesTax"]'));
-            }
-        } else if (recType === '') {
-            $orderItemGrid    = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-            total             = FwFormField.getValue($form, '.combinedOrderItemTotal:visible');
-            includeTaxInTotal = FwFormField.getValue($form, '.combinedTotalWithTax:visible');
-            totalType         = $form.find('.combinedgrid .totalType input:checked').val();
-            FwFormField.setValue($form, '.combinedAdjustments .combinedOrderItemTotal:hidden', '0.00');
-            if (!isWithTaxCheckbox) {
-                FwFormField.setValueByDataField($form, 'CombinedDiscountPercent', '');
-            }
-            if (total === '0.00') {
-                FwFormField.disable($form.find('.combinedTotalWithTax:visible'));
-            } else {
-                FwFormField.enable($form.find('.combinedTotalWithTax:visible'));
-            }
-        }
-
-        request.TotalType         = totalType;
-        request.IncludeTaxInTotal = includeTaxInTotal;
-        request.RecType           = recType;
-        request.OrderId           = orderId;
-        request.Total             = +total;
-
-        FwAppData.apiMethod(true, 'POST', `api/v1/${module}/applybottomlinetotal/`, request, FwServices.defaultTimeout, function onSuccess(response) {
-            FwBrowse.search($orderItemGrid);
-        }, function onError(response) {
-            FwFunc.showError(response);
-        }, $form);
-    };
-    //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
         let subTotal, discount, salesTax, grossTotal, total;
 
@@ -1207,108 +971,7 @@ class OrderBase {
             $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
             $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
         }
-    };
-    //----------------------------------------------------------------------------------------------
-    adjustBillingEndDate($form, event) {
-        let newEndDate, daysToAdd, parsedBillingStartDate, daysBetweenDates, parsedBillingEndDate, monthValue, weeksValue, billingStartDate;
-        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
-        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
-        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
-        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
-        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
-
-        if (!isNaN(parsedBillingStartDate)) { // only if StartDate is defined
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-                if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
-                    FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/addmonths?Date=${billingStartDate}&Months=${monthValue}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        newEndDate = FwFunc.getDate(response, -1)
-                        FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
-                        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-                        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
-                        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, $form);
-                }
-            }
-            else {
-                if (!isNaN(weeksValue) && weeksValue !== '0' && Math.sign(weeksValue) !== -1 && Math.sign(weeksValue) !== -0) {
-                    daysToAdd = +(weeksValue * 7) - 1;
-                    newEndDate = FwFunc.getDate(billingStartDate, daysToAdd);
-                    FwFormField.setValueByDataField($form, 'BillingEndDate', newEndDate);
-                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
-                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
-                }
-            }
-        }
-
-        if (!isNaN(daysBetweenDates)) {
-            if (Math.sign(daysBetweenDates) >= 0) {
-                $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
-            } else {
-                FwNotification.renderNotification('WARNING', "Your chosen 'Billing Stop Date' is before 'Start Date'.");
-                $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
-                FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
-                FwFormField.setValueByDataField($form, 'BillingMonths', '0');
-            }
-        }
-    };
-
-    //----------------------------------------------------------------------------------------------
-    adjustWeekorMonthBillingField($form, event) {
-        let monthValue, daysBetweenDates, billingStartDate, billingEndDate, weeksValue, parsedBillingStartDate, parsedBillingEndDate;
-        billingStartDate = FwFormField.getValueByDataField($form, 'BillingStartDate');
-        billingEndDate = FwFormField.getValueByDataField($form, 'BillingEndDate');
-        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
-        monthValue = FwFormField.getValueByDataField($form, 'BillingMonths');
-        weeksValue = FwFormField.getValueByDataField($form, 'BillingWeeks');
-        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
-
-        if (!isNaN(parsedBillingStartDate)) { // only if StartDate is defined
-            if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-                monthValue = Math.ceil(daysBetweenDates / 31);
-                if (!isNaN(monthValue) && monthValue !== '0' && Math.sign(monthValue) !== -1 && Math.sign(monthValue) !== -0) {
-                    FwAppData.apiMethod(true, 'GET', `api/v1/datefunctions/numberofmonths?FromDate=${billingStartDate}&ToDate=${billingEndDate}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        monthValue = response;
-                        FwFormField.setValueByDataField($form, 'BillingMonths', monthValue);
-                        parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-                        parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
-                        daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
-                    }, function onError(response) {
-                        FwFunc.showError(response);
-                    }, null);
-                } else if (daysBetweenDates === 0) {
-                    FwFormField.setValueByDataField($form, 'BillingMonths', '0');
-                }
-            } else {
-                weeksValue = Math.ceil(daysBetweenDates / 7);
-                if (!isNaN(weeksValue) && weeksValue !== '0' && Math.sign(weeksValue) !== -1 && Math.sign(weeksValue) !== -0) {
-                    FwFormField.setValueByDataField($form, 'BillingWeeks', weeksValue);
-                    parsedBillingStartDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingStartDate'));
-                    parsedBillingEndDate = Date.parse(FwFormField.getValueByDataField($form, 'BillingEndDate'));
-                    daysBetweenDates = (parsedBillingEndDate - parsedBillingStartDate) / 86400000; // 1 day has 86400000ms
-                } else if (daysBetweenDates === 0) {
-                    FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
-                }
-            }
-        }
-        else {
-            FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
-        }
-        if (!isNaN(daysBetweenDates)) {
-            if (Math.sign(daysBetweenDates) >= 0) {
-                $form.find('div[data-datafield="BillingEndDate"]').removeClass('error');
-            } else {
-                FwNotification.renderNotification('WARNING', "Your chosen 'Billing Stop Date' is before 'Start Date'.");
-                $form.find('div[data-datafield="BillingEndDate"]').addClass('error');
-                FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
-                FwFormField.setValueByDataField($form, 'BillingMonths', '0');
-            }
-        }
-    };
+    }
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
         let $element;
@@ -1394,35 +1057,6 @@ class OrderBase {
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.CountryId, response.Country);
         }
     }
-  
-    //----------------------------------------------------------------------------------------------
-    //disableWithTaxCheckbox($form: any): void {
-    //    if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-    //    } else {
-    //        FwFormField.enable($form.find('div[data-datafield="PeriodRentalTotalIncludesTax"]'));
-    //    }
-    //    if (FwFormField.getValueByDataField($form, 'SalesTotal') === '0.00') {
-    //        FwFormField.disable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-    //    } else {
-    //        FwFormField.enable($form.find('div[data-datafield="SalesTotalIncludesTax"]'));
-    //    }
-    //    if (FwFormField.getValueByDataField($form, 'PeriodLaborTotal') === '0.00') {
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-    //    } else {
-    //        FwFormField.enable($form.find('div[data-datafield="PeriodLaborTotalIncludesTax"]'));
-    //    }
-    //    if (FwFormField.getValueByDataField($form, 'PeriodMiscTotal') === '0.00') {
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-    //    } else {
-    //        FwFormField.enable($form.find('div[data-datafield="PeriodMiscTotalIncludesTax"]'));
-    //    }
-    //    if (FwFormField.getValueByDataField($form, 'PeriodCombinedTotal') === '0.00') {
-    //        FwFormField.disable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-    //    } else {
-    //        FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
-    //    }
-    //};
     //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
         let $confirmation, $yes, $no, id, orderStatus, self, module;
@@ -1551,24 +1185,12 @@ class OrderBase {
         });
         // show / hide tabs
         if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
         // LD Disable checkbox in Order form
-        let rentalVal   = FwFormField.getValueByDataField($form, 'Rental');
-        let usedSaleVal = FwFormField.getValueByDataField($form, 'RentalSale');
-        if (rentalVal === true || usedSaleVal === true) {
+        let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
+        if (rentalVal === true) {
             FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
-        } else if (rentalVal === false && usedSaleVal === false) {
+        } else {
             FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-        }
-        //Show/hide summary buttons based on rate type
-        $form.find('.summaryperiod').addClass('pressed');
-        let rateType = FwFormField.getValueByDataField($form, 'RateType');
-        if (rateType === 'MONTHLY') {
-            $form.find('.summaryweekly').hide();
-            $form.find('.summarymonthly').show();
-        } else if (rateType === 'WEEKLY') {
-            $form.find('.summarymonthly').hide();
-            $form.find('.summaryweekly').show();
         }
     }
     //----------------------------------------------------------------------------------------------
