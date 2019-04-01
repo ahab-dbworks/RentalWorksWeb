@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^module\/transferstatus$/, action: function (match: RegExpExecArray) { return TransferStatusController.getModuleScreen(); } });
 
-class TransferStatus extends OrderStatus {
+class TransferStatus extends OrderStatusBase {
     Module: string = 'TransferStatus';
     caption: string = 'Transfer Status';
     nav: string = 'module/transferstatus';

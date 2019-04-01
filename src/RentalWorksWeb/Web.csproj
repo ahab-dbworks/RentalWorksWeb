@@ -450,6 +450,7 @@
     <Content Include="Source\Grids\GeneratorMakeModelGrid\GeneratorMakeModelGridBrowse.htm" />
     <Content Include="Backup\OrderNote\OrderNoteBrowse.htm" />
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormBrowse.htm" />
@@ -469,6 +470,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\ContainerStatus\ContainerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\FillContainer\FillContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\TransferStatus\TransferStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\TransferIn\TransferIn.ts" />
@@ -879,6 +881,7 @@
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyContactValidation\CompanyContactValidationBrowse.htm" />
+    <Content Include="Source\Validations\ContainerValidation\ContainerValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceCreationBatchValidation\InvoiceCreationBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceValidation\InvoiceValidationBrowse.htm" />
     <Content Include="Source\Validations\TransferOrderValidation\TransferOrderValidationBrowse.htm" />

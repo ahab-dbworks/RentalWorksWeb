@@ -835,7 +835,7 @@
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${this.Type}Id`);
                 //orderInfo.Type = this.Type;
                 const mode = 'EDIT';
-                const $orderStatusForm = window[`${this.Type}StatusController`].openForm(mode, orderInfo);
+                const $orderStatusForm = window[`${this.Type === 'Item' ? 'Container' : this.Type }StatusController`].openForm(mode, orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
                 const $tabPage = FwTabs.getTabPageByElement($orderStatusForm);
                 const $tab = FwTabs.getTabByElement(jQuery($tabPage));
@@ -1149,7 +1149,7 @@
                 break;
             case 'FillContainer':
                 tabCaption = this.caption;
-                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ItemId" data-displayfield="ItemNumber" data-formbeforevalidate="beforeValidate" data-validationname="ItemValidation" style="flex:0 1 175px;"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
                 statusBtnCaption = 'Container Status';
                 createBtnCaption = 'Fill Container';
                 break;
