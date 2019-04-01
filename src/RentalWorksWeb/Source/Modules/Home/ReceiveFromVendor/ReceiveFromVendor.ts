@@ -28,13 +28,11 @@ class ReceiveFromVendor {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        //var $form;
-
-        //$form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        //disables asterisk and save prompt
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         let date = new Date(),
             currentDate = date.toLocaleString(),

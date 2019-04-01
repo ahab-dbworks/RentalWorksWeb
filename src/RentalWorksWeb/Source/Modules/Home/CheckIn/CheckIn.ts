@@ -40,7 +40,8 @@ class CheckIn {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        //disables asterisk and save prompt
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         if (typeof parentmoduleinfo !== 'undefined') {
             if (this.Module === 'CheckIn') {

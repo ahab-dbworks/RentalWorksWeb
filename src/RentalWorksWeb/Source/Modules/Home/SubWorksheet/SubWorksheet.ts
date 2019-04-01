@@ -35,7 +35,8 @@ class SubWorksheet {
         this.OrderId = parentmoduleinfo.OrderId;
         this.RecType = parentmoduleinfo.RecType;
         $form.find('div[data-datafield="CreateNew"] input').prop('checked', true);
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        //disables asterisk and save prompt
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         FwFormField.setValueByDataField($form, 'RequiredDate', parentmoduleinfo.EstimatedStartDate);
         FwFormField.setValueByDataField($form, 'FromDate', parentmoduleinfo.EstimatedStartDate);

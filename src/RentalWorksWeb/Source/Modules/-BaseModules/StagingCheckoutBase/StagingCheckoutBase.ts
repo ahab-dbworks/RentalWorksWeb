@@ -42,7 +42,7 @@
         $form = FwModule.openForm($form, mode);
 
         //disables asterisk and save prompt
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         $form.find('.partial-contract').hide();
         $form.find('.pending-item-grid').hide();

@@ -29,8 +29,8 @@
         FwFormField.setValueByDataField($form, 'FromDate', today);
         FwFormField.setValueByDataField($form, 'ToDate', today);
 
-
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        //disables asterisk and save prompt
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         FwFormField.setValueByDataField($form, 'Process', true);
 
