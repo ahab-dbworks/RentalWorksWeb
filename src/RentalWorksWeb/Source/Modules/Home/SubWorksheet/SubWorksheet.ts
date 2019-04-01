@@ -238,7 +238,6 @@ class SubWorksheet {
                     this.renderPOGrid($form);
 
                     const $subPurchaseOrderItemGridControl = $form.find('[data-name="SubPurchaseOrderItemGrid"]');
-
                     $subPurchaseOrderItemGridControl.data('ondatabind', request => {
                         request.uniqueids = gridUniqueIds;
                         request.totalfields = this.gridTotalFields;

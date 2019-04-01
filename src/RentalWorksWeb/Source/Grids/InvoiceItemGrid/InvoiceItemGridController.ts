@@ -1,10 +1,21 @@
 ﻿﻿class InvoiceItemGrid {
-     Module: string = 'InvoiceItemGrid';
+    Module: string = 'InvoiceItemGrid';
     apiurl: string = 'api/v1/invoiceitem';
 
     onRowNewMode($control: JQuery, $tr: JQuery) {
-        let $form = $control.closest('.fwform');
-        let $grid = $tr.parents('[data-grid="InvoiceItemGrid"]');
+        const $form = $control.closest('.fwform');
+        const $grid = $tr.parents('[data-grid="InvoiceItemGrid"]');
+
+        function beforeValidate($browse, $grid, request, datafield, $tr) {
+            const validationName = request.module;
+
+            const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            if (invoiceId != '') {
+                request.uniqueIds = {
+                    InvoiceId: invoiceId
+                }
+            }
+        }
     }
 
     generateRow($control, $generatedtr) {

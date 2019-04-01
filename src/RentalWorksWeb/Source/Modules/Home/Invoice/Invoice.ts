@@ -25,8 +25,9 @@ class Invoice {
             }
 
             if (typeof filter !== 'undefined') {
+
                 filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);''
             }
 
             FwBrowse.databind($browse);
