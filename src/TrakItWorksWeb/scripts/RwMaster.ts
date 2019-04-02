@@ -181,21 +181,33 @@
     }
     //----------------------------------------------------------------------------------------------
     buildSystemBar($usercontrol: JQuery<HTMLElement>) {
-        var $dashboard = jQuery('<i class="material-icons dashboard">insert_chart</i>');
+        const $dashboard = jQuery('<i class="material-icons dashboard" title="Dashboard">insert_chart</i>');
         $dashboard.on('click', function () {
-            try { program.navigate('home'); } catch (ex) { FwFunc.showError(ex); }
+            try {
+                program.getModule('module/dashboard');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
 
-        var $settings  = jQuery('<i class="material-icons dashboard">settings</i>');
+        const $settings = jQuery('<i class="material-icons dashboard" title="Settings">settings</i>');
         $settings.on('click', function () {
-            try { program.navigate('module/settings'); } catch (ex) { FwFunc.showError(ex); }
+            try {
+                program.getModule('module/settings');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $settings, $usercontrol)
 
-        var $reports   = jQuery('<i class="material-icons dashboard">assignment</i>');
+        const $reports = jQuery('<i class="material-icons dashboard" title="Reports">assignment</i>');
         $reports.on('click', function () {
-            try { program.navigate('module/reports'); } catch (ex) { FwFunc.showError(ex); }
+            try {
+                program.getModule('module/reports');
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
         });
         FwFileMenu.UserControl_addSystemBarControl('dashboard', $reports, $usercontrol)
     }

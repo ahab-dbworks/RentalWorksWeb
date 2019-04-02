@@ -564,7 +564,7 @@ namespace WebLibrary.Security
             string homeiconbaseurl          = "theme/images/icons/home/";
             //string settingsiconbaseurl      = "theme/images/icons/settings/";
             //string reportsiconbaseurl       = "theme/images/icons/reports/";
-            //string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
+            string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
             string administratoriconbaseurl = "theme/images/icons/administrator/";
 
             var application          = AddApplication("TrakitWorks Web",   "{D901DE93-EC22-45A1-BB4A-DD282CAF59FB}", system.Id);
@@ -597,6 +597,10 @@ namespace WebLibrary.Security
             AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "StagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
+
+            // Utilities
+            AddModule("Dashboard",                     "{E01F0032-CFAA-4556-9F24-E4C28C5B50A1}", lv1menuUtilities.Id, "DashboardController",                    "module/dashboard",                 utilitiesiconbaseurl + "placeholder.png");
+            AddModule("Dashboard Settings",            "{AD262A8E-A487-4786-895D-6E3DA1DB13BD}", lv1menuUtilities.Id, "DashboardSettingsController",            "module/dashboardsettings",         utilitiesiconbaseurl + "placeholder.png");
 
             // Administrator
             AddModule("Group",                  "{849D2706-72EC-48C0-B41C-0890297BF24B}", lv1menuAdministrator.Id, "GroupController",       "module/group",             administratoriconbaseurl + "group.png", "USER");

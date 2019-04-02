@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Security\Tree\RentalWorksQuikScan\" />
-    <Folder Include="Security\Tree\TrakitWorksWeb\Modules\Utilities\" />
   </ItemGroup>
 
   <ItemGroup>
