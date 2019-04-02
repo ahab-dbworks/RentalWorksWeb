@@ -2,16 +2,14 @@
     Module: string = 'UserSettings';
     apiurl: string = 'api/v1/usersettings';
     id: string = '510F9B3F-601F-4912-833B-56E649962B0D';
-
-
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm('NEW');
+        const $form = this.openForm('NEW');
 
         screen.load = function () {
             FwModule.openModuleTab($form, 'User Settings', false, 'FORM', true);
@@ -23,19 +21,10 @@
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        let $form, $browsedefaultrows, $applicationtheme, $defaultHomePage, $moduleSelect
-            , node
-            , mainModules
-            , settingsModules
-            , modules
-            , allModules;
-
-        const userId = JSON.parse(sessionStorage.getItem('userid'));
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        $browsedefaultrows = $form.find('.browsedefaultrows');
+        const $browsedefaultrows = $form.find('.browsedefaultrows');
         FwFormField.loadItems($browsedefaultrows, [
             { value: '5', text: '5' },
             { value: '10', text: '10' },
@@ -53,7 +42,7 @@
             { value: '1000', text: '1000' }
         ], true);
 
-        $applicationtheme = $form.find('.applicationtheme');
+        const $applicationtheme = $form.find('.applicationtheme');
         FwFormField.loadItems($applicationtheme, [
             { value: 'theme-default', text: 'Default' },
             { value: 'theme-material', text: 'Material' },
@@ -62,16 +51,16 @@
         ], true);
 
         //load App Modules for Home Page
-        node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        modules = mainModules.concat(settingsModules);
-        allModules = [];
+        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
+        const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        const modules = mainModules.concat(settingsModules);
+        const allModules = [];
         for (let i = 0; i < modules.length; i++) {
-            let moduleNav = modules[i].properties.modulenav;
-            let moduleGUID = modules[i].id
-                , moduleCaption = modules[i].properties.caption
-                , moduleController = modules[i].properties.controller;
+            const moduleNav = modules[i].properties.modulenav;
+            const moduleGUID = modules[i].id;
+            const moduleCaption = modules[i].properties.caption;
+            const moduleController = modules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {
                 allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
             }
@@ -86,9 +75,10 @@
         }
 
         allModules.sort(compare);
-        $defaultHomePage = $form.find('.default-home-page');
+        const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
 
+        const userId = JSON.parse(sessionStorage.getItem('userid'));
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
         this.events($form);
@@ -96,8 +86,6 @@
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
-        let successSound, successSoundFileName, errorSound, errorSoundFileName, notificationSound, notificationSoundFileName;
-
         // Sound Validation
         $form.find('div[data-datafield="SuccessSoundId"]').data('onchange', $tr => {
             FwFormField.setValue($form, 'div[data-datafield="SuccessSoundFileName"]', $tr.find('.field[data-formdatafield="FileName"]').attr('data-originalvalue'));
@@ -110,55 +98,56 @@
         });
         // Sound Preview
         $form.find('.success-play-button').on('click', e => {
-            successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
-            successSound = new Audio(successSoundFileName);
+            const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName');
+            const successSound = new Audio(successSoundFileName);
             successSound.play();
         });
         $form.find('.error-play-button').on('click', e => {
-            errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
-            errorSound = new Audio(errorSoundFileName);
+            const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName');
+            const errorSound = new Audio(errorSoundFileName);
             errorSound.play();
         });
         $form.find('.notification-play-button').on('click', e => {
-            notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
-            notificationSound = new Audio(notificationSoundFileName);
+            const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName');
+            const notificationSound = new Audio(notificationSoundFileName);
             notificationSound.play();
         });
         $form.find('div.default-home-page').on("change", function () {
-            let moduleUrl = jQuery(this).find(':selected').attr('data-apiurl')
+            const moduleUrl = jQuery(this).find(':selected').attr('data-apiurl')
             FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
         });
      
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        let sounds: any = {}, browseDefaultRows, applicationTheme, successSoundFileName, errorSoundFileName, notificationSoundFileName, homePage:any = {};
         FwModule.saveForm(this.Module, $form, parameters);
 
-        browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
-        applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
-        successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
-        errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
-        notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
+        const homePage: any = {};
         homePage.guid = FwFormField.getValueByDataField($form, 'HomeMenuGuid');
         homePage.path = FwFormField.getValueByDataField($form, 'HomeMenuPath');
+
+        const sounds: any = {};
+        const successSoundFileName = FwFormField.getValueByDataField($form, 'SuccessSoundFileName').toString();
         sounds.successSoundFileName = successSoundFileName;
+        const errorSoundFileName = FwFormField.getValueByDataField($form, 'ErrorSoundFileName').toString();
         sounds.errorSoundFileName = errorSoundFileName;
+        const notificationSoundFileName = FwFormField.getValueByDataField($form, 'NotificationSoundFileName').toString();
         sounds.notificationSoundFileName = notificationSoundFileName;
 
+        const browseDefaultRows = jQuery($form.find('[data-datafield="BrowseDefaultRows"] select')).val().toString();
         sessionStorage.setItem('browsedefaultrows', browseDefaultRows);
+        const applicationTheme = jQuery($form.find('[data-datafield="ApplicationTheme"] select')).val().toString();
         sessionStorage.setItem('applicationtheme', applicationTheme);
         sessionStorage.setItem('sounds', JSON.stringify(sounds));
         sessionStorage.setItem('homePage', JSON.stringify(homePage));
-        setTimeout(function () {
-            location.reload();
-        }, 1000);
+
+        setTimeout(function () { location.reload(); }, 1000);
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        const browserows = sessionStorage.getItem('browsedefaultrows');
+        const browseRows = sessionStorage.getItem('browsedefaultrows');
         const theme = sessionStorage.getItem('applicationtheme');
-        jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browserows);
+        jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browseRows);
         jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
     }
     //----------------------------------------------------------------------------------------------
