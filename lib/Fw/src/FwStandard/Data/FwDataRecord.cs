@@ -1602,7 +1602,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected string GetUniqueIdAsString(string uniqueIdFieldName, BrowseRequest request = null)
+        protected string GetUniqueIdAsString(string uniqueIdFieldName, BrowseRequest request)
         {
             string fieldValue = null;
             if ((request != null) && (request.uniqueids != null))
@@ -1616,7 +1616,7 @@ namespace FwStandard.DataLayer
             return fieldValue;
         }
         //------------------------------------------------------------------------------------
-        protected string GetMiscFieldAsString(string miscFieldName, BrowseRequest request = null)
+        protected string GetMiscFieldAsString(string miscFieldName, BrowseRequest request)
         {
             string fieldValue = null;
             if ((request != null) && (request.miscfields != null))
@@ -1630,7 +1630,7 @@ namespace FwStandard.DataLayer
             return fieldValue;
         }
         //------------------------------------------------------------------------------------
-        protected void AddMiscFieldToQueryAsString(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        protected void AddMiscFieldToQueryAsString(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request)
         {
             string fieldValue = GetMiscFieldAsString(miscFieldName, request);
             if (fieldValue != null)
@@ -1643,7 +1643,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected bool? GetUniqueIdAsBoolean(string uniqueIdFieldName, BrowseRequest request = null)
+        protected bool? GetUniqueIdAsBoolean(string uniqueIdFieldName, BrowseRequest request)
         {
             bool? fieldValue = null;
             if ((request != null) && (request.uniqueids != null))
@@ -1657,7 +1657,7 @@ namespace FwStandard.DataLayer
             return fieldValue;
         }
         //------------------------------------------------------------------------------------
-        protected bool? GetMiscFieldAsBoolean(string miscFieldName, BrowseRequest request = null)
+        protected bool? GetMiscFieldAsBoolean(string miscFieldName, BrowseRequest request)
         {
             bool? fieldValue = null;
             if ((request != null) && (request.miscfields != null))
@@ -1671,7 +1671,7 @@ namespace FwStandard.DataLayer
             return fieldValue;
         }
         //------------------------------------------------------------------------------------
-        protected void AddMiscFieldToQueryAsBoolean(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        protected void AddMiscFieldToQueryAsBoolean(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request)
         {
             bool? fieldValue = GetMiscFieldAsBoolean(miscFieldName, request);
             if (fieldValue != null)
@@ -1684,7 +1684,7 @@ namespace FwStandard.DataLayer
             }
         }
         //------------------------------------------------------------------------------------
-        protected DateTime? GetUniqueIdAsDate(string uniqueIdFieldName, BrowseRequest request = null)
+        protected DateTime? GetUniqueIdAsDate(string uniqueIdFieldName, BrowseRequest request)
         {
             DateTime? fieldValue = null;
             if ((request != null) && (request.uniqueids != null))
@@ -1698,7 +1698,7 @@ namespace FwStandard.DataLayer
             return fieldValue;
         }
         //------------------------------------------------------------------------------------
-        protected DateTime? GetMiscFieldAsDate(string miscFieldName, BrowseRequest request = null)
+        protected DateTime? GetMiscFieldAsDate(string miscFieldName, BrowseRequest request)
         {
             DateTime? fieldValue = null;
             if ((request != null) && (request.miscfields != null))
@@ -1712,7 +1712,7 @@ namespace FwStandard.DataLayer
             return fieldValue;
         }
         //------------------------------------------------------------------------------------
-        protected void AddMiscFieldToQueryAsDate(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request = null)
+        protected void AddMiscFieldToQueryAsDate(string miscFieldName, string parameterName, FwSqlCommand qry, BrowseRequest request)
         {
             DateTime? fieldValue = GetMiscFieldAsDate(miscFieldName, request);
             if (fieldValue != null)
