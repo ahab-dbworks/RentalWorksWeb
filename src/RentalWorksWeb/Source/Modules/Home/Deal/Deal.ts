@@ -672,8 +672,8 @@ class Deal {
         FwBrowse.init($taxOptionControl);
         FwBrowse.renderRuntimeHtml($taxOptionControl);
         // ----------
-        const $contactGrid = $form.find('div[data-grid="ContactGrid"]');
-        const $contactControl = FwBrowse.loadGridFromTemplate('ContactGrid');
+        const $contactGrid = $form.find('div[data-grid="CompanyContactGrid"]');
+        const $contactControl = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
         $contactGrid.empty().append($contactControl);
         $contactControl.data('ondatabind', function (request) {
             request.uniqueids = {
