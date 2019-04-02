@@ -382,7 +382,7 @@ class SearchInterface {
 
         //Hide columns based on type
         if (type === 'PurchaseOrder' || type === 'Template') {
-            $popup.find('.hideColumns').css('visibility', 'hidden');
+            $popup.find('.hideColumns').css('display', 'none');
         }
 
         this.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
@@ -833,7 +833,7 @@ class SearchInterface {
 
         let type = $popup.find('#type').text();
         if (type === 'PurchaseOrder' || type === 'Template') {
-            $popup.find('.hideColumns').css('visibility', 'hidden');
+            $popup.find('.hideColumns').css('display', 'none');
         }
 
         this.listGridView($inventory, view);
@@ -1780,7 +1780,7 @@ class SearchInterface {
 
                 let type = $popup.find('#type').text();
                 if (type === 'PurchaseOrder' || type === 'Template') {
-                    $popup.find('.hideColumns').css('visibility', 'hidden');
+                    $popup.find('.hideColumns').css('display', 'none');
                 }
 
                 $popup.find('.accItem').css('display', 'flex');
