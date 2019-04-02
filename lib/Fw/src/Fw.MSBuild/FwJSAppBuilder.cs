@@ -16,6 +16,7 @@ using System.Data;
 using System.Xml.Linq;
 using System.Threading;
 using Microsoft.Win32;
+using Fw.MSBuild;
 
 namespace Fw.MSBuildTasks
 {
@@ -1076,18 +1077,64 @@ namespace Fw.MSBuildTasks
                                                         errorWaitHandle.WaitOne(timeout))
                                                     {
                                                         // Process completed. Check process.ExitCode here.
-                                                        this.Log.LogMessage(MessageImportance.High, "--------");
-                                                        this.Log.LogMessage(MessageImportance.High, "closer compiler standard output stream:");
-                                                        this.Log.LogMessage(MessageImportance.High, output.ToString());
-                                                        this.Log.LogMessage(MessageImportance.High, "--------");
-                                                        this.Log.LogMessage(MessageImportance.High, "closure compiler standard error stream:");
-                                                        this.Log.LogWarning(error.ToString());
-                                                        this.Log.LogMessage(MessageImportance.High, "--------");
+                                                        if (this.BuildEngine.GetType() != typeof(VirtualBuildEngine))
+                                                        {
+                                                            this.Log.LogMessage(MessageImportance.High, "--------");
+                                                            this.Log.LogMessage(MessageImportance.High, "closer compiler standard output stream:");
+                                                            this.Log.LogMessage(MessageImportance.High, output.ToString());
+                                                            this.Log.LogMessage(MessageImportance.High, "--------");
+                                                            this.Log.LogMessage(MessageImportance.High, "closure compiler standard err stream:");
+                                                            this.Log.LogWarning(error.ToString());
+                                                            this.Log.LogMessage(MessageImportance.High, "--------");
+                                                        }
+                                                        else
+                                                        {
+                                                            if (output.Length > 0)
+                                                            {
+                                                                Console.Out.WriteLine();
+                                                                Console.Out.WriteLine("--------");
+                                                                Console.Out.WriteLine("closer compiler standard output stream:");
+                                                                Console.Out.WriteLine(output.ToString());
+                                                                Console.Out.WriteLine("--------");
+                                                                Console.Out.WriteLine();
+
+                                                            }
+                                                            if (error.Length > 0)
+                                                            {
+                                                                if (error.ToString().Contains("0 error(s)"))
+                                                                {
+                                                                    Console.Out.WriteLine();
+                                                                    Console.Out.WriteLine("--------");
+                                                                    Console.Out.WriteLine("closure compiler standard err stream:");
+                                                                    Console.Out.WriteLine(error.ToString());
+                                                                    Console.Out.WriteLine("--------");
+                                                                    Console.Out.WriteLine();
+                                                                }
+                                                                else
+                                                                {
+                                                                    Environment.ExitCode = -1;
+                                                                    Console.Error.WriteLine();
+                                                                    Console.Error.WriteLine("--------");
+                                                                    Console.Error.WriteLine("closure compiler standard err stream:");
+                                                                    Console.Error.WriteLine(error.ToString());
+                                                                    Console.Error.WriteLine("--------");
+                                                                    Console.Error.WriteLine();
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         // Timed out.
-                                                        this.Log.LogError("Timed out trying to run closure compiler.");
+                                                        if (this.BuildEngine.GetType() != typeof(VirtualBuildEngine))
+                                                        {
+                                                            this.Log.LogError("Timed out trying to run closure compiler.");
+
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.Error.WriteLine("Timed out trying to run closure compiler.");
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1117,7 +1164,15 @@ namespace Fw.MSBuildTasks
                                                 process.StartInfo.CreateNoWindow         = true;
                                                 process.StartInfo.RedirectStandardError  = true;
                                                 process.StartInfo.RedirectStandardOutput = true;
-                                                
+                                                process.OutputDataReceived += delegate(object sender, DataReceivedEventArgs e)
+                                                {
+                                                    Console.Out.WriteLine(e.Data);
+                                                };
+                                                process.OutputDataReceived += delegate(object sender, DataReceivedEventArgs e)
+                                                {
+                                                    Console.Error.WriteLine(e.Data);
+                                                };
+
                                                 StringBuilder output = new StringBuilder();
                                                 StringBuilder error = new StringBuilder();
 
@@ -1156,18 +1211,63 @@ namespace Fw.MSBuildTasks
                                                         errorWaitHandle.WaitOne(timeout))
                                                     {
                                                         // Process completed. Check process.ExitCode here.
-                                                        this.Log.LogMessage(MessageImportance.High, "--------");
-                                                        this.Log.LogMessage(MessageImportance.High, "yui standard output stream:");
-                                                        this.Log.LogMessage(MessageImportance.High, output.ToString());
-                                                        this.Log.LogMessage(MessageImportance.High, "--------");
-                                                        this.Log.LogMessage(MessageImportance.High, "yui standard error stream:");
-                                                        this.Log.LogMessage(MessageImportance.High, error.ToString());
-                                                        this.Log.LogMessage(MessageImportance.High, "--------");
+                                                        if (this.BuildEngine.GetType() != typeof(VirtualBuildEngine))
+                                                        {
+                                                            this.Log.LogMessage(MessageImportance.High, "--------");
+                                                            this.Log.LogMessage(MessageImportance.High, "yui standard output stream:");
+                                                            this.Log.LogMessage(MessageImportance.High, output.ToString());
+                                                            this.Log.LogMessage(MessageImportance.High, "--------");
+                                                            this.Log.LogMessage(MessageImportance.High, "yui standard err stream:");
+                                                            this.Log.LogMessage(MessageImportance.High, error.ToString());
+                                                            this.Log.LogMessage(MessageImportance.High, "--------");
+                                                        } 
+                                                        else
+                                                        {
+                                                            if (output.Length > 0)
+                                                            {
+                                                                Console.Out.WriteLine();
+                                                                Console.Out.WriteLine("--------");
+                                                                Console.Out.WriteLine("yui standard output stream:");
+                                                                Console.Out.WriteLine(output.ToString());
+                                                                Console.Out.WriteLine("--------");
+                                                                Console.Out.WriteLine();
+
+                                                            }
+                                                            if (error.Length > 0)
+                                                            {
+                                                                if (error.ToString().Contains("0 error(s)"))
+                                                                {
+                                                                    Console.Out.WriteLine();
+                                                                    Console.Out.WriteLine("--------");
+                                                                    Console.Out.WriteLine("yui standard err stream:");
+                                                                    Console.Out.WriteLine(error.ToString());
+                                                                    Console.Out.WriteLine("--------");
+                                                                    Console.Out.WriteLine();
+                                                                }
+                                                                else
+                                                                {
+                                                                    Environment.ExitCode = -1;
+                                                                    Console.Error.WriteLine();
+                                                                    Console.Error.WriteLine("--------");
+                                                                    Console.Error.WriteLine("yui standard err stream:");
+                                                                    Console.Error.WriteLine(error.ToString());
+                                                                    Console.Error.WriteLine("--------");
+                                                                    Console.Error.WriteLine();
+                                                                }
+                                                            }
+                                                        }
                                                     }
                                                     else
                                                     {
                                                         // Timed out.
-                                                        this.Log.LogError("Timed out trying to run closure compiler.");
+                                                        if (this.BuildEngine.GetType() != typeof(VirtualBuildEngine))
+                                                        {
+                                                            this.Log.LogError("Timed out trying to run closure compiler.");
+                                                        }
+                                                        else
+                                                        {
+                                                            Console.Error.WriteLine("Timed out trying to run closure compiler.");
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1223,6 +1323,7 @@ namespace Fw.MSBuildTasks
 
             return success;
         }
+
         //---------------------------------------------------------------------------------------------
         static string GetJavaInstallationPath()
         {
