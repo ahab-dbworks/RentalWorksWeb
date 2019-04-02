@@ -28,7 +28,7 @@ namespace WebApi.Modules.Home.Order
             select.AddWhere("ordertype = '" + RwConstants.ORDER_TYPE_ORDER + "'");
             //addFilterToSelect("WarehouseId", "warehouseid", select, request);
 
-            string invoiceId = GetUniqueIdAsString("InvoiceId");
+            string invoiceId = GetUniqueIdAsString("InvoiceId", request);
             if (!string.IsNullOrEmpty(invoiceId))
             {
                 select.AddWhere("exists (select * from orderinvoice oi where oi.orderid = " + TableAlias + ".orderid and oi.invoiceid = @invoiceid)");
