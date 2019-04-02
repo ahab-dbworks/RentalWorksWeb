@@ -462,6 +462,7 @@ namespace WebLibrary.Security
             AddGrid("Transfer Order Item Grid",               "{521D83C6-DEA4-4723-A7F3-25C00F940B75}", lv1menuGrids.Id, "TransferOrderItemGridController");
             AddGrid("Vehicle Make Model",                     "{C10EC66E-AA26-4BF6-93BF-35307715FE44}", lv1menuGrids.Id, "VehicleMakeModelGridController");
             AddGrid("Vendor",                                 "{BA43D0E0-119D-495B-B066-8E5E738CFC4C}", lv1menuGrids.Id, "VendorGridController");
+            AddGrid("Vendor Invoice Export Batch",            "{DA44AE35-7F98-4740-AE76-366C421A13BD}", lv1menuGrids.Id, "VendorInvoiceExportBatchGridController");
             AddGrid("Vendor Invoice Item",                    "{C4887310-2572-458F-9691-1ABECB622862}", lv1menuGrids.Id, "VendorInvoiceItemGridController");
             AddGrid("Vendor Invoice Note",                    "{D9DBA1D1-65E7-4CE5-99D0-6C79144DECAD}", lv1menuGrids.Id, "VendorInvoiceNoteGridController");
             AddGrid("Vendor Invoice Payment",                 "{8B63442E-DE46-47BD-B995-342B2A49E77E}", lv1menuGrids.Id, "VendorInvoicePaymentGridController");

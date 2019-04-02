@@ -161,6 +161,17 @@ class VendorInvoice {
         FwBrowse.init($vendorInvoiceHistoryGridControl);
         FwBrowse.renderRuntimeHtml($vendorInvoiceHistoryGridControl);
         // ----------
+        const $exportBatchGrid = $form.find('div[data-grid="VendorInvoiceExportBatchGrid"]');
+        const $exportBatchGridControl = FwBrowse.loadGridFromTemplate('VendorInvoiceExportBatchGrid');
+        $exportBatchGrid.empty().append($exportBatchGridControl);
+        $exportBatchGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+            };
+        });
+        FwBrowse.init($exportBatchGridControl);
+        FwBrowse.renderRuntimeHtml($exportBatchGridControl);
+        // ----------
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -171,20 +182,25 @@ class VendorInvoice {
         }
 
         FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
-        let $vendorInvoiceItemGridControl = $form.find('[data-name="VendorInvoiceItemGrid"]');
+        const $vendorInvoiceItemGridControl = $form.find('[data-name="VendorInvoiceItemGrid"]');
         FwBrowse.search($vendorInvoiceItemGridControl);
 
-        let $glDistributionGridControl = $form.find('[data-name="GlDistributionGrid"]');
+        const $glDistributionGridControl = $form.find('[data-name="GlDistributionGrid"]');
         FwBrowse.search($glDistributionGridControl);
 
-        let $vendorInvoicePaymentGridControl = $form.find('[data-name="VendorInvoicePaymentGrid"]');
+        const $vendorInvoicePaymentGridControl = $form.find('[data-name="VendorInvoicePaymentGrid"]');
         FwBrowse.search($vendorInvoicePaymentGridControl);
 
-        let $vendorInvoiceNoteGridControl = $form.find('[data-name="VendorInvoiceNoteGrid"]');
+        const $vendorInvoiceNoteGridControl = $form.find('[data-name="VendorInvoiceNoteGrid"]');
         FwBrowse.search($vendorInvoiceNoteGridControl);
 
-        let $vendorInvoiceHistoryGridControl = $form.find('[data-name="VendorInvoiceStatusHistoryGrid"]');
+        const $vendorInvoiceHistoryGridControl = $form.find('[data-name="VendorInvoiceStatusHistoryGrid"]');
         FwBrowse.search($vendorInvoiceHistoryGridControl);
+
+        const $exportBatchGridControl = $form.find('[data-name="VendorInvoiceExportBatchGrid"]');
+        FwBrowse.search($exportBatchGridControl);
+
+
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form: JQuery) {
