@@ -20,6 +20,8 @@ namespace WebApi.Modules.Administrator.User
             dataLoader = userLoader;
             browseLoader = userBrowseLoader;
 
+            BeforeSave += OnBeforeSave;
+
             user.AfterSave += AfterSaveUser;
             //webUser.AfterSave += AfterSaveWebUser;
 
@@ -427,7 +429,21 @@ namespace WebApi.Modules.Administrator.User
 
 
 
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------
+
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (e.Original != null)
+                {
+                    UserLogic orig = ((UserLogic)e.Original);
+                    WebUserId = orig.WebUserId;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
+
         private void AfterSaveUser(object sender, AfterSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
