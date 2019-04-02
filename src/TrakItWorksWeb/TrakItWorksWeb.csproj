@@ -657,7 +657,6 @@
     <Error Condition="!Exists('..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
   <Target Name="BeforeBuild">
-    <!--<Exec Command="echo &quot;AppSolutionDir: $(AppSolutionDir)&quot;" />-->
     <Version VersionFile="$(FwApplicationDirectory)\version.txt" BuildType="None" RevisionType="None" ContinueOnError="false">
       <Output TaskParameter="Major" PropertyName="Major" />
       <Output TaskParameter="Minor" PropertyName="Minor" />
@@ -665,12 +664,6 @@
       <Output TaskParameter="Revision" PropertyName="Revision" />
     </Version>
     <Exec Command="&quot;$(AppSolutionDir)\lib\Fw\build\ReplaceInFile\ReplaceInFile.exe&quot; -path &quot;$(FwApplicationDirectory)\Properties\AssemblyInfo.cs&quot; -pattern &quot;AssemblyVersion\(&quot;&quot;.&quot;*&quot;\)&quot; -replacement &quot;AssemblyVersion(&quot;&quot;$(Major).$(Minor).$(Build).$(Revision)&quot;&quot;)&quot;" ContinueOnError="false" IgnoreExitCode="false" />
-    <!--<MakeDir Directories="$(FwApplicationDirectory)\theme\fwcursors" Condition="!Exists('$(FwApplicationDirectory)\theme\fwcursors')" ContinueOnError="false" />
-    <MakeDir Directories="$(FwApplicationDirectory)\theme\fwfonts" Condition="!Exists('$(FwApplicationDirectory)\theme\fwfonts')" ContinueOnError="false" />
-    <MakeDir Directories="$(FwApplicationDirectory)\theme\fwimages" Condition="!Exists('$(FwApplicationDirectory)\theme\fwimages')" ContinueOnError="false" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwcursors&quot; &quot;$(FwApplicationDirectory)\theme\fwcursors&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwfonts&quot; &quot;$(FwApplicationDirectory)\theme\fwfonts&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />
-    <Exec Command="robocopy &quot;$(FwFrontEndLibraryPath)\theme\fwimages&quot; &quot;$(FwApplicationDirectory)\theme\fwimages&quot; /MIR /NFL /NDL /NJH /NJS /NP" ContinueOnError="false" IgnoreExitCode="true" />-->
   </Target>
   <Target Name="AfterBuild">
   </Target>
