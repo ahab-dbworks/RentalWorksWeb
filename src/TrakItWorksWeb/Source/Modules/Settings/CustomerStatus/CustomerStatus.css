@@ -1,6 +1,0 @@
-﻿.CustomerStatusForm .CustomerStatusRow {display: flex; flex-wrap: wrap; min-width: 320px; }
-.CustomerStatusForm .fwcontrol[data-datafield="CustomerStatus"] {flex: 300px 0 0; min-width: 200px; max-width: 300px; }
-.CustomerStatusForm .fwcontrol[data-datafield="Inactive"] {flex: 100px 1 0; }
-.CustomerStatusForm .fwcontrol[data-datafield="StatusType"] { flex: 200px 1 0; }
-.CustomerStatusForm .fwcontrol[data-datafield="CreditStatusId"] { flex: 300px 0 0; min-width: 200px; max-width: 300px; }
-
