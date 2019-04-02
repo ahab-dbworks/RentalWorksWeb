@@ -260,7 +260,6 @@
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
     <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
-    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSession.js" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
@@ -587,7 +586,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="tsconfig.json" />
-    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSession.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
