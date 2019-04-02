@@ -76,6 +76,10 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 /src/TrakitWorksWeb/FwApplicationSchema.config
 /src/TrakitWorksWeb/index.htm
 /src/TrakitWorksWeb/scripts/_references.js
+/src/TrakItWorksWeb/Source/Modules/Administrator/User/User.js
+/src/TrakItWorksWeb/Source/Modules/Administrator/User/User.js.map
+/src/TrakItWorksWeb/Source/Modules/Administrator/Group/Group.js
+/src/TrakItWorksWeb/Source/Modules/Administrator/Group/Group.js.map
 /src/TrakitWorksWeb/Source/Modules/Home/**/*.js
 /src/TrakitWorksWeb/Source/Modules/Home/**/*.js.map
 /src/TrakitWorksWeb/Source/Modules/Settings/**/*.js
@@ -166,4 +170,3 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 **/Fw/scripts/Routes.js.map
 **/Fw/scripts/MasterPages/WebMaster.js
 **/Fw/scripts/MasterPages/WebMaster.js.map
-
