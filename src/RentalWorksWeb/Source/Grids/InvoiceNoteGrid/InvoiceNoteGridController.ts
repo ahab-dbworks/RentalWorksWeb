@@ -18,7 +18,7 @@
 
             switch (validationName) {
                 case 'OrderValidation':
-                    request.uniqueIds = {
+                    request.uniqueids = {
                         InvoiceId: invoiceId
                     }
                     break;

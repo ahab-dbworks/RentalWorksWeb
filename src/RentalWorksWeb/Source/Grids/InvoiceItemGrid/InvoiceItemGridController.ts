@@ -11,7 +11,7 @@
 
             const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             if (invoiceId != '') {
-                request.uniqueIds = {
+                request.uniqueids = {
                     InvoiceId: invoiceId
                 }
             }
