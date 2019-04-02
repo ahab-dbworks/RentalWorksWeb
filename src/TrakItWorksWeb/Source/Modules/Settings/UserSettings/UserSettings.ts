@@ -1,12 +1,15 @@
-﻿class UserSettings {
+﻿routes.push({ pattern: /^module\/usersettings$/, action: function (match: RegExpExecArray) { return UserSettingsController.getModuleScreen(); } });
+
+class UserSettings {
     Module: string = 'UserSettings';
     apiurl: string = 'api/v1/usersettings';
     id: string = '2563927C-8D51-43C4-9243-6F69A52E2657';
 
+
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         let screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -159,24 +162,6 @@
         const theme = sessionStorage.getItem('applicationtheme');
         jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browserows);
         jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
-    }
-    //----------------------------------------------------------------------------------------------
-    getFormTemplate(): string {
-        return `
-        <div id="usersettingsform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="User Settings" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="UserSettingsController">
-          <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-datafield="UserId"></div>
-          <div class="formpage">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User Settings">
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield browsedefaultrows" data-caption="Default Rows per Page (Browse)" data-datafield="BrowseDefaultRows"  style="float:left;width:25%;">
-                </div>
-              </div>
-              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield applicationtheme" data-caption="Theme" data-datafield="ApplicationTheme"  style="float:left;width:25%;"></div>
-              </div>
-            </div>
-          </div>
-        </div>`;
     }
     //----------------------------------------------------------------------------------------------
 }

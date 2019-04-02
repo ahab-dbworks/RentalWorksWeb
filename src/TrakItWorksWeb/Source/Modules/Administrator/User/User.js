@@ -1,4 +1,4 @@
-routes.push({ pattern: /^module\/user/, action: function (match) { return UserController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/user$/, action: function (match) { return UserController.getModuleScreen(); } });
 class User {
     constructor() {
         this.Module = 'User';
