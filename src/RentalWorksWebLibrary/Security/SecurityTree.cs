@@ -89,7 +89,6 @@ namespace WebLibrary.Security
             AddModule("Receipts",            "{57E34535-1B9F-4223-AD82-981CA34A6DEC}", lv1menuBilling.Id, "ReceiptController",       "module/receipt",       homeiconbaseurl + "placeholder.png");
             AddModule("Vendor Invoice",      "{854B3C59-7040-47C4-A8A3-8A336FC970FE}", lv1menuBilling.Id, "VendorInvoiceController", "module/vendorinvoice", homeiconbaseurl + "placeholder.png");
 
-
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
             AddModule("Suspended Session",       "{5FBE7FF8-3770-48C5-855C-4320C961D95A}", null, "SuspendedSessionController", "module/suspendedsession", homeiconbaseurl + "placeholder.png");
 
@@ -311,6 +310,7 @@ namespace WebLibrary.Security
             AddModule("Process Receipts",              "{0BB9B45C-57FA-47E1-BC02-39CEE720792C}", lv1menuUtilities.Id, "ReceiptProcessBatchController",          "module/receiptprocessbatch",       utilitiesiconbaseurl + "placeholder.png", "", "", "");
             AddModule("Process Vendor Invoices",       "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv1menuUtilities.Id, "VendorInvoiceProcessBatchController",    "module/vendorinvoiceprocessbatch", utilitiesiconbaseurl + "placeholder.png", "", "", "");
             AddModule("Export Settings",               "{70CEC5BB-2FD9-4C68-9BE2-F8A3C6A17BB7}", lv1menuUtilities.Id, "ExportSettingsController",               "module/exportsettings",            utilitiesiconbaseurl + "placeholder.png", "", "", "");
+            AddModule("Activity Calendar",             "{897BCF55-6CE7-412C-82CB-557B045F8C0A}", lv1menuUtilities.Id, "ActivityCalendarController",             "module/activitycalendar",          utilitiesiconbaseurl + "placeholder.png", "", "", "");
 
             // Add Administrator 
             AddModule("Control",             "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuAdministrator.Id, "ControlController",        "module/control",        administratoriconbaseurl + "placeholder.png");

@@ -873,6 +873,7 @@
     <TypeScriptCompile Include="Source\Modules\Utilities\InvoiceProcessBatch\InvoiceProcessBatchController.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ReceiptProcessBatch\ReceiptProcessingBatchController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\ActivityCalendar\ActivityCalendar.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\VendorInvoiceProcessBatch\VendorInvoiceProcessBatchController.ts" />
     <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
