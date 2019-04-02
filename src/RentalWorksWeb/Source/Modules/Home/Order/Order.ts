@@ -209,10 +209,6 @@ class Order extends OrderBase {
         this.events($form);
         this.getSoundUrls($form);
         this.activityCheckboxEvents($form, mode);
-        if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
-            this.renderFrames($form, parentModuleInfo.OrderId);
-            this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
-        }
 
         return $form;
     };
@@ -569,7 +565,6 @@ class Order extends OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        super.afterLoad($form, false);
         let status = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
         let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'),
@@ -578,6 +573,9 @@ class Order extends OrderBase {
             laborTab = $form.find('[data-type="tab"][data-caption="Labor"]'),
             usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]'),
             lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]')
+
+        this.renderFrames($form, $form.find('[data-datafield="OrderId"] input.fwformfield-value').val());
+        this.dynamicColumns($form, $form.find('[data-datafield="OrderTypeId"] input.fwformfield-value').val());
 
         if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss and Damage"]').hide() }
         if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {
