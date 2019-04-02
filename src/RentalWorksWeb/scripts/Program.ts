@@ -68,16 +68,16 @@ routes.push({ pattern: /^module\/glaccount$/, action: function (match: RegExpExe
 routes.push({ pattern: /^module\/billingcycle$/, action: function (match: RegExpExecArray) { return BillingCycleController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/paymenttype$/, action: function (match: RegExpExecArray) { return PaymentTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/paymentterms$/, action: function (match: RegExpExecArray) { return PaymentTermsController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/customersettings/, action: function (match: RegExpExecArray) { return RwCustomerSettingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customersettings$/, action: function (match: RegExpExecArray) { return RwCustomerSettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/ordertype$/, action: function (match: RegExpExecArray) { return OrderTypeController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/usersettings/, action: function (match: RegExpExecArray) { return UserSettingsController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/usersettings$/, action: function (match: RegExpExecArray) { return UserSettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vendorclass$/, action: function (match: RegExpExecArray) { return VendorClassController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/warehouse$/, action: function (match: RegExpExecArray) { return WarehouseController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/customercategory$/, action: function (match: RegExpExecArray) { return CustomerCategoryController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/creditstatus$/, action: function (match: RegExpExecArray) { return CreditStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dealtype$/, action: function (match: RegExpExecArray) { return DealTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/dealstatus$/, action: function (match: RegExpExecArray) { return DealStatusController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/dealclassification/, action: function (match: RegExpExecArray) { return DealClassificationController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/dealclassification$/, action: function (match: RegExpExecArray) { return DealClassificationController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/department$/, action: function (match: RegExpExecArray) { return DepartmentController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/productiontype$/, action: function (match: RegExpExecArray) { return ProductionTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/officelocation$/, action: function (match: RegExpExecArray) { return OfficeLocationController.getModuleScreen(); } });
@@ -88,7 +88,7 @@ routes.push({ pattern: /^module\/setsurface$/, action: function (match: RegExpEx
 routes.push({ pattern: /^module\/building$/, action: function (match: RegExpExecArray) { return BuildingController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/walltype$/, action: function (match: RegExpExecArray) { return WallTypeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/walldescription$/, action: function (match: RegExpExecArray) { return WallDescriptionController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/poapprovalstatus/, action: function (match: RegExpExecArray) { return POApprovalStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/poapprovalstatus$/, action: function (match: RegExpExecArray) { return POApprovalStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/setopening$/, action: function (match: RegExpExecArray) { return SetOpeningController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/inventorygroup$/, action: function (match: RegExpExecArray) { return InventoryGroupController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/facilityrate$/, action: function (match: RegExpExecArray) { return FacilityRateController.getModuleScreen(); } });
@@ -120,7 +120,7 @@ routes.push({ pattern: /^module\/facilityschedulestatus$/, action: function (mat
 routes.push({ pattern: /^module\/unit$/, action: function (match: RegExpExecArray) { return UnitController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/poapprover$/, action: function (match: RegExpExecArray) { return POApproverController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/userstatus$/, action: function (match: RegExpExecArray) { return UserStatusController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/crewstatus/, action: function (match: RegExpExecArray) { return CrewStatusController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/crewstatus$/, action: function (match: RegExpExecArray) { return CrewStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/vehiclestatus$/, action: function (match: RegExpExecArray) { return VehicleStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/facilitystatus$/, action: function (match: RegExpExecArray) { return FacilityStatusController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/blackoutstatus$/, action: function (match: RegExpExecArray) { return BlackoutStatusController.getModuleScreen(); } });
@@ -202,27 +202,27 @@ routes.push({ pattern: /^module\/contract$/, action: function (match: RegExpExec
 routes.push({ pattern: /^module\/physicalinventory$/, action: function (match: RegExpExecArray) { return PhysicalInventoryController.getModuleScreen(); } });
 
 //Reports                                             
-routes.push({ pattern: /^module\/dealoutstanding/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/invoicesummaryreport/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/dealoutstanding$/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
 
 //Utilities Modules                                   
-routes.push({ pattern: /^module\/invoiceprocessbatch/, action: function (match: RegExpExecArray) { return InvoiceProcessBatchController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/receiptprocessbatch/, action: function (match: RegExpExecArray) { return ReceiptProcessBatchController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/vendorinvoiceprocessbatch/, action: function (match: RegExpExecArray) { return VendorInvoiceProcessBatchController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/invoiceprocessbatch$/, action: function (match: RegExpExecArray) { return InvoiceProcessBatchController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/receiptprocessbatch$/, action: function (match: RegExpExecArray) { return ReceiptProcessBatchController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/vendorinvoiceprocessbatch$/, action: function (match: RegExpExecArray) { return VendorInvoiceProcessBatchController.getModuleScreen(); } });
 
 //Administrator
 routes.push({ pattern: /^module\/control$/, action: function (match: RegExpExecArray) { return ControlController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/group/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/integration/, action: function (match: RegExpExecArray) { return IntegrationController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/user/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/customfield/, action: function (match: RegExpExecArray) { return CustomFieldController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/emailhistory/, action: function (match: RegExpExecArray) { return EmailHistoryController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/duplicaterules/, action: function (match: RegExpExecArray) { return DuplicateRuleController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/group$/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/integration$/, action: function (match: RegExpExecArray) { return IntegrationController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/user$/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customfield$/, action: function (match: RegExpExecArray) { return CustomFieldController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/emailhistory$/, action: function (match: RegExpExecArray) { return EmailHistoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/duplicaterules$/, action: function (match: RegExpExecArray) { return DuplicateRuleController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/settings$/, action: function (match: RegExpExecArray) { return SettingsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/reports$/, action: function (match: RegExpExecArray) { return ReportsController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/designer$/, action: function (match: RegExpExecArray) { return DesignerController.loadDesigner(); } });
 //Exports                                             
-routes.push({ pattern: /^module\/example/, action: function (match: RegExpExecArray) { return RwExampleController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/example$/, action: function (match: RegExpExecArray) { return RwExampleController.getModuleScreen(); } });
 //---------------------------------------------------------------------------------
 routes.push({
     pattern: /^home$/,

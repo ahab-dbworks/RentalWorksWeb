@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/group/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/group$/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
 
 namespace RentalWorks.Modules.Administrator {
     export class Group extends Fw.Modules.FwGroup {
