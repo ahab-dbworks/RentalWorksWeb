@@ -102,6 +102,8 @@ class Receipt {
             // Deal and Customer fields
             $form.find('.deal-customer').data('onchange', () => {
                 this.loadReceiptInvoiceGrid($form);
+                const $submoduleCreditBrowse = this.openCreditBrowse($form);
+                $form.find('.credits-page').html($submoduleCreditBrowse);
             });
 
             $form.find('div[data-datafield="PaymentBy"]').change(() => {
@@ -158,6 +160,7 @@ class Receipt {
             //let $popup = FwPopup.renderPopup(jQuery(braintreeScipt), { ismodal: true });
             //FwPopup.showPopup($popup);
         })
+      
         // Adds receipt invoice datatable to request
         $form.data('beforesave', request => {
             request.InvoiceDataList = this.getFormTableData($form);
@@ -239,6 +242,11 @@ class Receipt {
         this.paymentByRadioBehavior($form);
         this.loadReceiptInvoiceGrid($form);
         this.events($form);
+        // Credit submodule
+        setTimeout(() => {
+            const $submoduleCreditBrowse = this.openCreditBrowse($form);
+            $form.find('.credits-page').append($submoduleCreditBrowse);
+        }, 0)
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -247,6 +255,34 @@ class Receipt {
             const paymentTypeType = FwFormField.getValueByDataField($form, 'PaymentTypeType');
             paymentTypeType === 'CREDIT CARD' ? $form.find('.braintree-row').show() : $form.find('.braintree-row').hide();
         });
+        $form.find('div.credits-tab').on('click', e => {
+            //Disable clicking  tab w/o a Deal / Customer
+            const dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
+            if (dealCustomer === '') {
+                e.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Select a Deal or Customer first.')
+            } 
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    openCreditBrowse($form) {
+        let $browse;
+        const dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
+        const dealCustomerId = $form.find('.deal-customer:visible').attr('data-datafield');
+        if (dealCustomerId === 'DealId') {
+            $browse = DealCreditController.openBrowse();
+            $browse.data('ondatabind', request => {
+                request.uniqueids = { DealId: dealCustomer }
+            });
+        } else {
+            $browse = CustomerCreditController.openBrowse();
+            $browse.data('ondatabind', request => {
+                request.uniqueids = { CustomerId: dealCustomer }
+            });
+        }
+
+        FwBrowse.databind($browse);
+        return $browse;
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
