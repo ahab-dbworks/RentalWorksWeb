@@ -42,13 +42,13 @@ class EmailHistory {
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         //Location Filter
-        const $me = FwMenu.generateDropDownViewBtn('Me', true, 'ME');
-        const $all = FwMenu.generateDropDownViewBtn('All Users', false, "ALL");
+        const $me = FwMenu.generateDropDownViewBtn('Me', true, JSON.parse(sessionStorage.getItem('userid')).webusersid);
+        const $all = FwMenu.generateDropDownViewBtn('All Users', false, "");
 
         FwMenu.addVerticleSeparator($menuObject);
 
         if (typeof this.ActiveViewFields["FromUser"] == 'undefined') {
-            this.ActiveViewFields.FromUser = ["ME"];
+            this.ActiveViewFields.FromUser = JSON.parse(sessionStorage.getItem('userid')).webusersid;
         }
 
         let sentBy: Array<JQuery> = [];
@@ -77,7 +77,7 @@ class EmailHistory {
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-    //----------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------
     afterLoad($form: any) {
     }
 
