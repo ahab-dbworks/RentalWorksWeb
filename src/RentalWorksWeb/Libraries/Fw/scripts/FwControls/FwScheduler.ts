@@ -650,6 +650,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnDay').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 1;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
@@ -671,6 +675,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnWeek').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 7;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
@@ -689,6 +697,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btn5Week').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 35;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
@@ -710,6 +722,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnMonth').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 31;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);

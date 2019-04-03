@@ -188,7 +188,7 @@
         if ($realScheduler.length > 0) {
             setTimeout(function () {
                 schddate = FwSchedulerDetailed.getTodaysDate();
-                FwSchedulerDetailed.navigate($realScheduler, schddate);
+                FwSchedulerDetailed.navigate($realScheduler, schddate, 35);
                 FwSchedulerDetailed.refresh($realScheduler);
             }, 1);
         }

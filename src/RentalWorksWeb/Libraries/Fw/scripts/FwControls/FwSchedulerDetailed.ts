@@ -119,7 +119,7 @@ class FwSchedulerDetailedClass {
 
         // view
         dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
-        dpscheduler.days = moment().endOf('month').diff(moment().format('YYYY-MM-DD'), 'days');
+        dpscheduler.days = 35;
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
             { groupBy: "Month" },

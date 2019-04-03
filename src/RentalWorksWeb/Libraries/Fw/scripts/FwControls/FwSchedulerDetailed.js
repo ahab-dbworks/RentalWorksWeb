@@ -99,7 +99,7 @@ class FwSchedulerDetailedClass {
         dpscheduler.eventHeight = 30;
         dpscheduler.headerHeight = 25;
         dpscheduler.startDate = moment().format('YYYY-MM-DD');
-        dpscheduler.days = moment().endOf('month').diff(moment().format('YYYY-MM-DD'), 'days');
+        dpscheduler.days = 35;
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
             { groupBy: "Month" },
