@@ -315,24 +315,6 @@ class User {
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalDepartmentId" data-displayfield="RentalDepartment" data-validationname="DepartmentValidation" style="flex:1 1 300px;"></div>
                           </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesDepartmentId" data-displayfield="SalesDepartment" data-validationname="DepartmentValidation" style="flex:1 1 300px;"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Labor" data-datafield="LaborDepartmentId" data-displayfield="LaborDepartment" data-validationname="DepartmentValidation" style="flex:1 1 300px;"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Misc" data-datafield="MiscDepartmentId" data-displayfield="MiscDepartment" data-validationname="DepartmentValidation" style="flex:1 1 300px;"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Parts" data-datafield="PartsDepartmentId" data-displayfield="PartsDepartment" data-validationname="DepartmentValidation" style="flex:1 1 300px;"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Facilities" data-datafield="FacilityDepartmentId" data-displayfield="FacilityDepartment" data-validationname="DepartmentValidation" style="flex:1 1 300px;"></div>
-                          </div>
-                          <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="TransportationDepartmentId" data-displayfield="TransportationDepartment" data-validationname="DepartmentValidation" style="flex:1 1 300px;"></div>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -341,15 +323,6 @@ class User {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Inventory Types">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rental" data-datafield="RentalInventoryTypeId" data-displayfield="RentalInventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 300px;"></div>
-                        </div>
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sales" data-datafield="SalesInventoryTypeId" data-displayfield="SalesInventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 300px;"></div>
-                        </div>
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Parts" data-datafield="PartsInventoryTypeId" data-displayfield="PartsInventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 300px;"></div>
-                        </div>
-                        <div class="flexrow">
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transportation" data-datafield="TransportationTypeId" data-displayfield="TransportationType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="flex:1 1 300px;"></div>
                         </div>
                       </div>
                       <!-- Defatult Rate Departments -->

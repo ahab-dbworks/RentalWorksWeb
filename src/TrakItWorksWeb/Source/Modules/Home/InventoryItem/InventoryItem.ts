@@ -153,6 +153,22 @@ class InventoryItem {
             window[controller]['openFormInventory']($form);
         }
 
+        FwFormField.loadItems($form.find('div[data-datafield="Classification"]'), [
+            {value:'I',     text:'Item'},
+            {value:'A',     text:'Accessory'},
+            {value:'C',     text:'Complete'},
+            {value:'K',     text:'Kit'},
+            {value:'N',     text:'Container'},
+            {value:'M',     text:'Misc.'}
+        ], true);
+
+        FwFormField.loadItems($form.find('div[data-datafield="TrackedBy"]'), [
+            {value:'BARCODE',    text:'Barcode'},
+            {value:'SERIALNO',   text:'Serial No'},
+            {value:'RFID',       text:'RFID'},
+            {value:'QUANTITY',   text:'Quantity'}
+        ], true);
+
         this.events($form);
         return $form;
     };

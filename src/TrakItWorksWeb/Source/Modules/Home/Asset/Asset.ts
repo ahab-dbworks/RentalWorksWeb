@@ -1,21 +1,17 @@
 routes.push({ pattern: /^module\/asset$/, action: function (match: RegExpExecArray) { return AssetController.getModuleScreen(); } });
 
 class Asset {
-    Module: string = 'Asset';
-    apiurl: string = 'api/v1/item';
-    caption: string = 'Asset';
-    nav: string = 'module/asset';
-    id: string = 'E1366299-0008-429C-93CC-B8ED8969B180';
-    nameItemAttributeValueGrid: string = 'ItemAttributeValueGrid';
-    nameItemQcGrid: string = 'ItemQcGrid';
-    ActiveViewFields: any = {};
+    Module:             string = 'Asset';
+    apiurl:             string = 'api/v1/item';
+    caption:            string = 'Asset';
+    nav:                string = 'module/asset';
+    id:                 string = 'E1366299-0008-429C-93CC-B8ED8969B180';
+    ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
-        screen.viewModel = {};
-        screen.properties = {};
 
         var $browse: JQuery = this.openBrowse();
 
@@ -33,7 +29,6 @@ class Asset {
     //---------------------------------------------------------------------------------------------
     openBrowse() {
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
-        //let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
         const self = this;
@@ -77,8 +72,7 @@ class Asset {
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
-        //let $form = jQuery(this.getFormTemplate());
-        $form = FwModule.openForm($form, mode);
+        $form     = FwModule.openForm($form, mode);
         
         return $form;
     };
@@ -118,8 +112,8 @@ class Asset {
     };
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        var $itemAttributeValueGrid: JQuery = $form.find('div[data-grid="' + this.nameItemAttributeValueGrid + '"]');
-        var $itemAttributeValueGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + this.nameItemAttributeValueGrid + 'Browse').html());
+        var $itemAttributeValueGrid: JQuery = $form.find('div[data-grid="ItemAttributeValueGrid"]');
+        var $itemAttributeValueGridControl: JQuery = jQuery(jQuery('#tmpl-grids-ItemAttributeValueGridBrowse').html());
         $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
         $itemAttributeValueGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -131,9 +125,9 @@ class Asset {
         })
         FwBrowse.init($itemAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
-        // ----------
-        var $itemQcGrid: JQuery = $form.find('div[data-grid="' + this.nameItemQcGrid + '"]');
-        var $itemQcGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + this.nameItemQcGrid + 'Browse').html());
+
+        var $itemQcGrid: JQuery = $form.find('div[data-grid="ItemQcGrid"]');
+        var $itemQcGridControl: JQuery = jQuery(jQuery('#tmpl-grids-ItemQcGridBrowse').html());
         $itemQcGrid.empty().append($itemQcGridControl);
         $itemQcGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -142,38 +136,20 @@ class Asset {
         })
         FwBrowse.init($itemQcGridControl);
         FwBrowse.renderRuntimeHtml($itemQcGridControl);
-        // ----------
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
-        //const availFor = FwFormField.getValueByDataField($form, 'AvailFor');
-        //switch (availFor) {
-        //    case 'S':
-        //        $form.find('[data-datafield="InventoryId"]').attr('data-validationname', 'SalesInventoryValidation');
-        //        break;
-        //    case 'P':
-        //        $form.find('[data-datafield="InventoryId"]').attr('data-validationname', 'PartsInventoryValidation');
-        //        break;
-        //    case 'R':
-        //    default:
-        //        break;
-        //}
-
-        var $itemAttributeValueGrid: JQuery = $form.find('[data-name="' + this.nameItemAttributeValueGrid + '"]');
+        var $itemAttributeValueGrid: JQuery = $form.find('[data-name="ItemAttributeValueGrid"]');
         FwBrowse.search($itemAttributeValueGrid);
 
-        var $itemQcGrid: JQuery = $form.find('[data-name="' + this.nameItemQcGrid + '"]');
+        var $itemQcGrid: JQuery = $form.find('[data-name="ItemQcGridBrowse"]');
         FwBrowse.search($itemQcGrid);
 
-        var status: string = FwFormField.getValueByDataField($form, 'InventoryStatus');
-        if (status === "IN") {
-            FwFormField.enable($form.find('.ifin'));
+        if (FwFormField.getValueByDataField($form, 'InventoryStatus') === "IN") {
+            FwFormField.enable($form.find('[data-datafield="BarCode"]'));
+            FwFormField.enable($form.find('[data-datafield="SerialNumber"]'));
+            FwFormField.enable($form.find('[data-datafield="RfId"]'));
         }
-
-        //let isContainer = FwFormField.getValueByDataField($form, 'IsContainer');
-        //if (isContainer == 'true') {
-        //    $form.find('.containertab').show();
-        //}
     };
     //---------------------------------------------------------------------------------------------
 }

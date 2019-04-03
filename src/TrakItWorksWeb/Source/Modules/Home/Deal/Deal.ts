@@ -148,6 +148,10 @@ class Deal {
         this.shippingAddressTypeChange($form);
         this.transferDealAddressValues($form);
 
+        FwTabs.enableTab($form.find('.tab.orders'));
+        FwTabs.enableTab($form.find('.tab.contacts'));
+        FwTabs.enableTab($form.find('.tab.notes'));
+
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             const tabname        = jQuery(e.currentTarget).attr('id');

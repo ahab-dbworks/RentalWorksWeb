@@ -1,6 +1,6 @@
 ﻿using Fw.Json.Services;
 
-namespace TrakitWorksWeb.Source.Validations
+namespace Web.Source.Validations
 {
     class OrderTypeValidation : FwValidation
     {
