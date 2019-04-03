@@ -382,8 +382,7 @@ class RentalInventory extends InventoryBase {
             FwBrowse.search($containerWarehouseGrid);
 
             //Open Container module as submodule
-            let $containerBrowse;
-            $containerBrowse = this.openContainerBrowse($form);
+            const $containerBrowse = this.openContainerBrowse($form);
             $form.find('.containerassetstabpage').html($containerBrowse);
             $form.find('.containerassetstab').show();
 

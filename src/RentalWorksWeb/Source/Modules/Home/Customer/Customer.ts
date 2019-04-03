@@ -123,21 +123,9 @@ class Customer {
             $orderForm = window[controller]['openForm']('NEW', orderFormData);
             FwModule.openSubModuleTab($browse, $orderForm);
         });
-        // Deal  submodule
-        //const $submoduleCustomerCreditsBrowse = this.openCustomerCreditsBrowse($form);
-        //$form.find('.credits-page').append($submoduleCustomerCreditsBrowse);
-        //$submoduleCustomerCreditsBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-        //$submoduleCustomerCreditsBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-        //    const creditsFormData: any = {};
-        //    const $browse = jQuery(this).closest('.fwbrowse');
-        //    const controller = $browse.attr('data-controller');
-        //    creditsFormData.CustomerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        //    creditsFormData.Customer = FwFormField.getValueByDataField($form, 'Customer');
-        //    if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
-        //    if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-        //    const $creditsForm = window[controller]['openForm']('NEW', creditsFormData);
-        //    FwModule.openSubModuleTab($browse, $creditsForm);
-        //});
+        // Customer Credit submodule
+        const $submoduleCustomerCreditBrowse = this.openCustomerCreditBrowse($form);
+        $form.find('.credits-page').append($submoduleCustomerCreditBrowse);
 
         $form.find('[data-datafield="UseDiscountTemplate"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -447,7 +435,7 @@ class Customer {
               <div data-type="tab" id="dealscheduletab" class="tab" data-tabpageid="dealscheduletabpage" data-caption="> Deal Schedule"></div>
               <div data-type="tab" id="ordergroupstab" class="tab" data-tabpageid="ordergroupstabpage" data-caption="> Order Groups"></div>-->
               <div data-type="tab" id="credittab" class="tab" data-tabpageid="credittabpage" data-caption="Credit"></div>
-              <div data-type="tab" id="creditstab" class="tab" data-tabpageid="creditstabpage" data-caption="Credits"></div>
+              <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
               <!--<div data-type="tab" id="aragingtab" class="tab" data-tabpageid="aragingtabpage" data-caption="> A/R Aging"></div>
               <div data-type="tab" id="depletingdepositstab" class="tab" data-tabpageid="depletingdepositstabpage" data-caption="> Depleting Deposits"></div>-->
               <div data-type="tab" id="insurancetab" class="tab" data-tabpageid="insurancetabpage" data-caption="Insurance"></div>
@@ -1829,17 +1817,17 @@ class Customer {
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
-    //openCustomerCreditsBrowse($form) {
-    //    const $browse = CustomerCreditsController.openBrowse();
+    openCustomerCreditBrowse($form) {
+        const $browse = CustomerCreditController.openBrowse();
 
-    //    $browse.data('ondatabind', request => {
-    //        request.uniqueids = {
-    //            CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
-    //        }
-    //    });
-
-    //    return $browse;
-    //}
+        $browse.data('ondatabind', request => {
+            request.uniqueids = {
+                CustomerId: $form.find('[data-datafield="CustomerId"] input.fwformfield-value').val()
+            }
+        });
+        FwBrowse.databind($browse);
+        return $browse;
+    }
     //----------------------------------------------------------------------------------------------
 }
 var CustomerController = new Customer();

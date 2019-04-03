@@ -53,17 +53,17 @@ class CustomerCredit {
     };
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Warehouses', false, "ALL");
-        const $userWarehouse: JQuery = FwMenu.generateDropDownViewBtn(warehouse.warehouse, true, warehouse.warehouseid);
-        if (typeof this.ActiveViewFields["WarehouseId"] == 'undefined') {
-            this.ActiveViewFields.WarehouseId = [warehouse.warehouseid];
-        }
-        const viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($userWarehouse, $all);
-        FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubitems, true, "WarehouseId");
+        //const location = JSON.parse(sessionStorage.getItem('location'));
+        //const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+        //const $userLocation: JQuery = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+        //if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
+        //    this.ActiveViewFields.LocationId = [location.locationid];
+        //}
+        //const viewSubitems: Array<JQuery> = [];
+        //viewSubitems.push($userLocation, $all);
+        //FwMenu.addViewBtn($menuObject, 'Location', viewSubitems, true, "LocationId");
 
-        return $menuObject;
+        //return $menuObject;
     };
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {

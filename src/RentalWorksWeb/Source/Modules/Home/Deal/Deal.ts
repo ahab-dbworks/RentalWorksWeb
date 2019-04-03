@@ -128,6 +128,9 @@ class Deal {
             $orderForm = window[controller]['openForm']('NEW', orderFormData);
             FwModule.openSubModuleTab($browse, $orderForm);
         });
+        // Deal Credit submodule
+        const $submoduleDealCreditBrowse = this.openDealCreditBrowse($form);
+        $form.find('.credits-page').append($submoduleDealCreditBrowse);
         //$defaultrate = $form.find('.defaultrate');
         //FwFormField.loadItems($defaultrate, [
         //    { value: 'DAILY', text: 'Daily Rate' }
@@ -834,6 +837,18 @@ class Deal {
         return $browse;
     };
     //----------------------------------------------------------------------------------------------
+    openDealCreditBrowse($form) {
+        const $browse = DealCreditController.openBrowse();
+
+        $browse.data('ondatabind', request => {
+            request.uniqueids = {
+                DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
+            }
+        });
+        FwBrowse.databind($browse);
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
         <div data-name="Deal" data-control="FwBrowse" data-type="Browse" id="DealBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="DealController" data-hasinactive="true">
@@ -873,6 +888,7 @@ class Deal {
               <div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>
               <div data-type="tab" id="quotetab" class="tab submodule" data-tabpageid="quotetabpage" data-caption="Quote"></div>
               <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Order"></div>
+              <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
               <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
@@ -1308,8 +1324,12 @@ class Deal {
                   </div>
                 </div>
               </div>
+              <!-- QUOTE TAB -->
               <div data-type="tabpage" id="quotetabpage" class="tabpage submodule quote" data-tabid="quotetab"></div>
+              <!-- ORDER TAB -->
               <div data-type="tabpage" id="ordertabpage" class="tabpage submodule order" data-tabid="ordertab"></div>
+              <!-- CREDITS TAB -->
+              <div data-type="tabpage" id="creditstabpage" class="tabpage submodule credits-page" data-tabid="creditstab"></div>
               <div data-type="tabpage" id="shippingtabpage" class="tabpage" data-tabid="shippingtab">
                 <div class="formpage">
                   <div class="flexrow">
