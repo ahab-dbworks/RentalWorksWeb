@@ -48,8 +48,8 @@ namespace WebApi.Modules.Utilities.OrderActivity
                     {
                         TOrderActivityCalendarEvent ev = new TOrderActivityCalendarEvent();
                         ev.id = row[dt.GetColumnNo("id")].ToString();
-                        ev.start = row[dt.GetColumnNo("fromdate")].ToString();
-                        ev.end = row[dt.GetColumnNo("todate")].ToString();
+                        ev.start = FwConvert.ToDateTime(row[dt.GetColumnNo("fromdate")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
+                        ev.end = FwConvert.ToDateTime(row[dt.GetColumnNo("todate")].ToString()).ToString("yyyy-MM-ddTHH:mm:ss tt");
                         ev.text = row[dt.GetColumnNo("description")].ToString();
                         ev.backColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("color")]));
                         ev.textColor = FwConvert.OleColorToHtmlColor(FwConvert.ToInt32(row[dt.GetColumnNo("textcolor")]));

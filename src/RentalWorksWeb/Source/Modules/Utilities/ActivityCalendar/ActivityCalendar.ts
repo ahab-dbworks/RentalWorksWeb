@@ -31,6 +31,7 @@ class ActivityCalendar {
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         this.populateCheckboxes($form);
+        this.calendarEvents($form);
         this.events($form);
         return $form;
     };
@@ -46,7 +47,7 @@ class ActivityCalendar {
                 const colorIndex = response.ColumnIndex.Color;
                 for (let i = 0; i < response.Rows.length; i++) {
                     const self = response.Rows[i];
-                    const item = `<div class="flexrow">
+                    const item = `<div class="flexrow" style="max-height:2em;">
                                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="${self[descriptionIndex]}" data-datafield="${self[activityType]}"></div>
                                     <div style="background-color:${self[colorIndex]}; max-width:30px; margin:16px 0px; border:1px solid black;"></div>
                                   </div>`;
@@ -60,8 +61,63 @@ class ActivityCalendar {
         }, null, $form);
     }
     //----------------------------------------------------------------------------------------------
+    calendarEvents($form: any) {
+        const $calendar = $form.find('.calendar');
+        $calendar
+            .data('ongetevents', request => {
+                const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
+                const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
+                const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+                FwAppData.apiMethod(true, 'GET', `api/v1/orderactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
+                    const calendarEvents = response.OrderActivityCalendarEvents;
+                    //FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], calendarEvents);
+                    for (var i = 0; i < calendarEvents.length; i++) {
+                        if (calendarEvents[i].textColor !== 'rgb(0,0,0)') {
+                            calendarEvents[i].html = `<div style="color:${calendarEvents[i].textColor}">${calendarEvents[i].text}</div>`
+                        }
+                    }
+                    FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], calendarEvents);
+                }, ex => {
+                    FwFunc.showError(ex);
+                }, $calendar)
+            })
+            .data('ontimerangedoubleclicked', event => {
+                try {
+                    const date = event.start.toString('MM/dd/yyyy');
+                    FwScheduler.setSelectedDay($calendar, date);
+                    $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
+                    $form.find('div.tab.schedule').click();
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+
+        if ($calendar.length > 0) {
+            setTimeout(() => {
+                const date = FwScheduler.getTodaysDate();
+                FwScheduler.navigate($calendar, date);
+                FwScheduler.refresh($calendar);
+            }, 1);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     events($form: any) {
         $form.find('.calendarmenu').css('border-left', '1px solid #a9a9a9');
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
+
+        $form.on('change', '[data-datafield="WarehouseId"]', e => {
+            const $calendar = $form.find('.calendar');
+            FwScheduler.refresh($calendar);
+        });
+        ////toggle validation type
+        //$form.on('change', '[data-datafield="QuoteOrderToggle"]', e => {
+        //    const validationType = FwFormField.getValueByDataField($form, 'QuoteOrderToggle');
+        //    validationType === 'QUOTE' ?
+        //        $form.find('[data-validationname="QuoteValidation"]').show() && $form.find('[data-validationname="OrderValidation"]').hide()
+        //        : $form.find('[data-validationname="QuoteValidation"]').hide() && $form.find('[data-validationname="OrderValidation"]').show();
+        //})
     };
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -69,16 +125,8 @@ class ActivityCalendar {
                 <div id="activitycalendarform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Activity Calendar" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ActivityCalendarController">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                         <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
                             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="All Warehouses" data-datafield="AllWarehouses"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-validationname="DepartmentValidation" data-displayfield="Department"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-validationname="DealValidation" data-displayfield="Deal"></div>
-                            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield toggle" data-caption="" data-datafield="" style="flex:0 1 125px;margin-left:15px;">
-                              <div data-value="QUOTE" data-caption="Quote"></div>
-                              <div data-value="ORDER" data-caption="Order"></div>
-                            </div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="" data-datafield="QuoteId" data-validationname="QuoteValidation" data-displayfield="QuoteNumber"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderId" data-validationname="OrderValidation" data-displayfield="OrderNumber"></div>
                         </div>
                     </div>
                     <div class="flexrow" style="max-width:none;">
@@ -88,7 +136,6 @@ class ActivityCalendar {
                         </div>
                         <div class="flexcolumn">
                             <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
-                            <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
                         </div>
                     </div>
                 </div>`;
