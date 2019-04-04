@@ -280,17 +280,62 @@ class Receipt {
                 request.uniqueids = { CustomerId: dealCustomer }
             });
         }
+        FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateCreditTotals($form, dt.Totals);
+        });
 
         FwBrowse.databind($browse);
         return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    calculateCreditTotals($form, data) {
+        console.log('data', data);
+    }
+    //----------------------------------------------------------------------------------------------
+    calculateInvoiceTotals($form) {
+        const $amountFields = $form.find('.invoice-amount input');
+        for (let i = 0; i > $amountFields.length; i++) {
+            console.log('amt', $amountFields.eq(i).val())
+        }
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
         if ($form.attr('data-mode') === 'NEW') {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
+        const calculateInvoiceTotals = ($form) => {
+            let due, total, applied, amount;
+            let amountTotal = new Decimal(0);
+            let totalTotal = new Decimal(0);
+            let dueTotal = new Decimal(0);
+            let appliedTotal = new Decimal(0);
+            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount')
+            const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
+            const $totalFields = $form.find('td[data-invoicefield="InvoiceTotal"]');
+            const $appliedFields = $form.find('td[data-invoicefield="InvoiceApplied"]');
+            const $amountFields = $form.find('td[data-invoicefield="InvoiceAmount"] input');
+            for (let i = 0; i < $amountFields.length; i++) {
+                // Amount Column
+                let amountInput = $amountFields.eq(i).val();
+                amountTotal = amountTotal.plus(amountInput);
+                // Total Column
+                let totalVal = $totalFields.eq(i).text();
+                totalTotal = totalTotal.plus(totalVal);
+                // Due Column
+                let dueVal = $dueFields.eq(i).text();
+                dueTotal = dueTotal.plus(dueVal);
+                // Applied Column
+                let appliedVal = $appliedFields.eq(i).text();
+                appliedTotal = appliedTotal.plus(appliedVal);
+            }
+            amount = amountTotal.toFixed(2);
+            total = totalTotal.toFixed(2);
+            due = dueTotal.toFixed(2);
+            applied = appliedTotal.toFixed(2);
+            const unAppliedTotal = amountToApply - amount
 
-        function getInvoiceData($form: any): void {
+        }
+        const getInvoiceData = ($form) => {
             const request: any = {};
             const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
             const receiptId = FwFormField.getValueByDataField($form, 'ReceiptId');
@@ -309,15 +354,15 @@ class Receipt {
             } else {
                 request.uniqueids.CustomerId = dealCustomer;
             }
-            FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, function onSuccess(res) {
+            FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
                 console.log('rows from receiptinvoicebrowse', rows)
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
                         htmlRows.push(`<tr class="row"><td data-validationname="Deal" data-fieldname="DealId" data-datafield="${rows[i][res.ColumnIndex.DealId]}" data-displayfield="${rows[i][res.ColumnIndex.Deal]}" class="text">${rows[i][res.ColumnIndex.Deal]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text InvoiceId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceId]}</td><td class="text InvoiceReceiptId" style="display:none;">${rows[i][res.ColumnIndex.InvoiceReceiptId]}</td><td data-validationname="Invoice" data-fieldname="InvoiceId" data-datafield="${rows[i][res.ColumnIndex.InvoiceId]}" data-displayfield="${rows[i][res.ColumnIndex.InvoiceNumber]}" class="text">${rows[i][res.ColumnIndex.InvoiceNumber]}<i class="material-icons btnpeek">more_horiz</i></td><td class="text">${rows[i][res.ColumnIndex.InvoiceDate]}</td><td data-validationname="Order" data-fieldname="OrderId" data-datafield="${rows[i][res.ColumnIndex.OrderId]}" data-displayfield="${rows[i][res.ColumnIndex.Description]}" class="text">${rows[i][res.ColumnIndex.OrderNumber]}<i class="material-icons btnpeek">more_horiz</i></td>
-                                       <td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td>
-                                       <td data-enabled="true" data-isuniqueid="false" data-datafield="invoiceamount" class="decimal fwformfield invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`);
+                                       <td class="text">${rows[i][res.ColumnIndex.Description]}</td><td style="text-align:right;" data-invoicefield="InvoiceTotal" class="decimal static-amount">${rows[i][res.ColumnIndex.Total]}</td><td style="text-align:right;" data-invoicefield="InvoiceApplied" class="decimal static-amount">${rows[i][res.ColumnIndex.Applied]}</td><td style="text-align:right;" data-invoicefield="InvoiceDue" class="decimal static-amount">${rows[i][res.ColumnIndex.Due]}</td>
+                                       <td data-enabled="true" data-isuniqueid="false" data-datafield="InvoiceAmount" data-invoicefield="InvoiceAmount" class="decimal fwformfield invoice-amount"><input class="decimal fwformfield fwformfield-value" style="font-size:inherit;" type="text" autocapitalize="none" value="${rows[i][res.ColumnIndex.Amount]}"></td></tr>`);
                     }
                     $form.find('.table-rows').html('');
                     $form.find('.table-rows').html(htmlRows.join(''));
@@ -345,6 +390,7 @@ class Receipt {
                         } else {
                             el.css('background-color', '#F4FFCC');
                         }
+                        calculateInvoiceTotals($form);
                     });
                     // btnpeek
                     $form.find('tbody tr .btnpeek').on('click', function (e: JQuery.Event) {
