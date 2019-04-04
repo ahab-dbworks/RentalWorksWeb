@@ -232,6 +232,8 @@
     <Content Include="Source\Modules\Home\Deal\DealBrowse.htm" />
     <Content Include="Source\Modules\Home\Deal\DealForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
+    <Content Include="Source\Modules\Home\ExpendableItem\ExpendableItemBrowse.htm" />
+    <Content Include="Source\Modules\Home\ExpendableItem\ExpendableItemForm.htm" />
     <Content Include="Source\Modules\Home\InventoryItem\InventoryItemBrowse.htm" />
     <Content Include="Source\Modules\Home\InventoryItem\InventoryItemForm.htm" />
     <Content Include="Source\Modules\Home\Order\OrderBrowse.htm" />
@@ -487,6 +489,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Deal\Deal.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\ExpendableItem\ExpendableItem.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\OrderStatus\OrderStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\Order.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
