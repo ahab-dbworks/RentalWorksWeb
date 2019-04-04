@@ -93,7 +93,7 @@ class Quote extends OrderBase {
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
         //Location Filter
-        const location = JSON.parse(sessionStorage.getItem('location'));
+        const location      = JSON.parse(sessionStorage.getItem('location'));
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
@@ -109,7 +109,6 @@ class Quote extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
-        var self  = this;
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form     = FwModule.openForm($form, mode);
 
@@ -131,34 +130,13 @@ class Quote extends OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
-            $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
             $form.find('div[data-datafield="Rental"] input').prop('checked', true);
 
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
-
-            FwFormField.disable($form.find('.frame'));
-            $form.find(".frame .add-on").children().hide();
         }
 
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
-
-        FwFormField.loadItems($form.find('.outtype'), [
-            { value: 'DELIVER', text: 'Deliver to Customer' },
-            { value: 'SHIP', text: 'Ship to Customer' },
-            { value: 'PICK UP', text: 'Customer Pick Up' }
-        ], true);
-
-        FwFormField.loadItems($form.find('.intype'), [
-            { value: 'DELIVER', text: 'Customer Deliver' },
-            { value: 'SHIP', text: 'Customer Ship' },
-            { value: 'PICK UP', text: 'Pick Up from Customer' }
-        ], true);
-
-        FwFormField.loadItems($form.find('.online'), [
-            { value: 'PARTIAL', text: 'Partial' },
-            { value: 'COMPLETE', text: 'Complete' }
-        ], true);
 
         if (typeof parentModuleInfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
@@ -206,7 +184,7 @@ class Quote extends OrderBase {
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
 
-        var $orderItemGridRental        = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        var $orderItemGridRental        = $form.find('div[data-grid="OrderItemGrid"]');
         var $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
         $orderItemGridRental.empty().append($orderItemGridRentalControl);
         $orderItemGridRental.addClass('R');
@@ -276,7 +254,7 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
-        let $pending    = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+        let pending    = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         let status      = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes    = FwFormField.getValueByDataField($form, 'HasNotes');
         let rentalTab   = $form.find('[data-type="tab"][data-caption="Rental"]');
@@ -296,26 +274,13 @@ class Quote extends OrderBase {
         var $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
         var $orderItemGridRental    = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         var $orderNoteGrid          = $form.find('[data-name="OrderNoteGrid"]');
-        var $orderContactGrid       = $form.find('[data-name="OrderContactGrid"]');
-
-        //if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
-        //    $orderItemGridRental.find('.rates').attr('data-formreadonly', true);
-        //}
 
         //hide subworksheet and add LD items
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
 
-        if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
-            FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
-        }
-
-        if ($pending === true) {
-            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-        } else {
-            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
-            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
-        }
+        //if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
+        //    FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
+        //}
     }
     //----------------------------------------------------------------------------------------------
 }

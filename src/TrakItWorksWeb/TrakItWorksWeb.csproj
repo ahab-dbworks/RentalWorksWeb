@@ -185,6 +185,7 @@
     <Content Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridBrowse.htm" />
     <Content Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
+    <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
     <Content Include="Source\Grids\ContainerWarehouseGrid\ContainerWarehouseGridBrowse.htm" />
@@ -442,6 +443,7 @@
     <TypeScriptCompile Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContainerWarehouseGrid\ContainerWarehouseGridController.ts" />

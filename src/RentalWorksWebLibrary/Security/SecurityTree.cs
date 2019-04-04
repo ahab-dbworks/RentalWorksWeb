@@ -623,6 +623,7 @@ namespace WebLibrary.Security
             AddGrid("Check-In Swap",                          "{CDEEA7D1-3738-4BD6-BBDC-75BD044DFE56}", lv1menuGrids.Id, "CheckInSwapGridController");
             AddGrid("Pending Items",                          "{560D1917-64B0-445D-9101-EED6D7C45811}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
             AddGrid("Company Contact",                        "{6D8B3D23-0954-4765-9FBD-BF3EC756AA97}", lv1menuGrids.Id, "CompanyContactGridController");
+            AddGrid("Contact Company",                        "{D336C756-8380-44D3-B772-3737E8B901B3}", lv1menuGrids.Id, "ContactCompanyGridController");
             AddGrid("Contact Note",                           "{A6BEBACB-24AB-4A5A-9F65-7EF11BF49691}", lv1menuGrids.Id, "ContactNoteGridController");
             AddGrid("Contact Personal Event",                 "{EBEE1B5E-727D-4262-B045-906EC349A259}", lv1menuGrids.Id, "ContactPersonalEventGridController");
             AddGrid("Container Warehouse",                    "{F9766AB6-E3BC-4F3E-9394-9D28BF8C984B}", lv1menuGrids.Id, "ContainerWarehouseGridController");
