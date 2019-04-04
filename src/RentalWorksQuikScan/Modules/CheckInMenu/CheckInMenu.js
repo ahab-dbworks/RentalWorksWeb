@@ -62,6 +62,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
+                    FwMobileMasterController.setTitle('');
                     $ordersearch.hide();
                     $menu.show();
                 }
@@ -204,6 +205,28 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             html = html.join('\n');
             return html;
         },
+        afterLoad: function (plugin, response) {
+            let searchOption = plugin.getSearchOption();
+            let isOrderNoSearch = searchOption === 'ORDERNO';
+            if (isOrderNoSearch) {
+                let searchText = plugin.getSearchText();
+                if (searchText.length > 0) {
+                    if (response.searchresults.TotalRows === 0) {
+                        program.playStatus(false);
+                    } else if (response.searchresults.TotalRows === 1) {
+                        let colOrderNo = response.searchresults.ColumnIndex['orderno'];
+                        if (response.searchresults.Rows[0][colOrderNo].toUpperCase() === searchText.toUpperCase()) {
+                            program.playStatus(true);
+                            let $items = plugin.$element.find('.searchresults .item');
+                            if ($items.length === 1) {
+                                let $item = $items.eq(0);
+                                $item.click();
+                            }
+                        }
+                    }
+                }
+            }
+        },
         recordClick: function(recorddata) {
             var request = {
                 orderid:         recorddata.orderid,
@@ -254,6 +277,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         }
     });
     $ordersearch.showscreen = function() {
+        FwMobileMasterController.setTitle('Select Order...');
         $ordersearch.find('#ordersearch').fwmobilesearch('clearsearchbox');
         $ordersearch.show();
         $ordersearch.find('#ordersearch').fwmobilesearch('search');
@@ -267,6 +291,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
+                    FwMobileMasterController.setTitle('');
                     screen.setOrderInfo({});
                     $sessionsearch.hide();
                     $menu.show();
@@ -278,6 +303,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 icon:        '&#xE5CB;', //chevron_left
                 state:       1,
                 buttonclick: function () {
+                    FwMobileMasterController.setTitle('Select Order...');
                     screen.setOrderInfo({});
                     $sessionsearch.hide();
                     $ordersearch.show();
@@ -427,6 +453,28 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             html = html.join('\n');
             return html;
         },
+        afterLoad: function (plugin, response) {
+            let searchOption = plugin.getSearchOption();
+            let isSessionNoSearch = searchOption === 'sessionno';
+            if (isSessionNoSearch) {
+                let searchText = plugin.getSearchText();
+                if (searchText.length > 0) {
+                    if (response.searchresults.TotalRows === 0) {
+                        program.playStatus(false);
+                    } else if (response.searchresults.TotalRows === 1) {
+                        let colSessionNo = response.searchresults.ColumnIndex['sessionno'];
+                        if (response.searchresults.Rows[0][colSessionNo].toUpperCase() === searchText.toUpperCase()) {
+                            program.playStatus(true);
+                            let $items = plugin.$element.find('.searchresults .item');
+                            if ($items.length === 1) {
+                                let $item = $items.eq(0);
+                                $item.click();
+                            }
+                        }
+                    }
+                }
+            }
+        },
         recordClick: function(recorddata) {
             var props, checkInItemScreen;
             props = {
@@ -450,6 +498,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         }
     });
     $sessionsearch.showscreen = function(searchresults) {
+        FwMobileMasterController.setTitle('Select Session...');
         $sessionsearch.find('#sessionsearch').fwmobilesearch('clearsearchbox');
         $sessionsearch.show();
 
@@ -470,6 +519,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
                 icon:        '&#xE5CB;', //chevron_left
                 state:       0,
                 buttonclick: function () {
+                    FwMobileMasterController.setTitle('');
                     $dealsearch.hide();
                     $menu.show();
                 }
@@ -525,6 +575,28 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
 
             return html;
         },
+        afterLoad: function (plugin, response) {
+            let searchOption = plugin.getSearchOption();
+            let isDealNoSearch = searchOption === 'DEALNO';
+            if (isDealNoSearch) {
+                let searchText = plugin.getSearchText();
+                if (searchText.length > 0) {
+                    if (response.searchresults.TotalRows === 0) {
+                        program.playStatus(false);
+                    } else if (response.searchresults.TotalRows === 1) {
+                        let colDealNo = response.searchresults.ColumnIndex['dealno'];
+                        if (response.searchresults.Rows[0][colDealNo].toUpperCase() === searchText.toUpperCase()) {
+                            program.playStatus(true);
+                            let $items = plugin.$element.find('.searchresults .record');
+                            if ($items.length === 1) {
+                                let $item = $items.eq(0);
+                                $item.click();
+                            }
+                        }
+                    }
+                }
+            }
+        },
         recordClick: function(recorddata) {
             var props, checkInItemScreen;
             props = {
@@ -544,7 +616,8 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             program.pushScreen(checkInItemScreen);
         }
     });
-    $dealsearch.showscreen = function() {
+    $dealsearch.showscreen = function () {
+        FwMobileMasterController.setTitle('Select Deal...');
         $dealsearch.find('#dealsearch').fwmobilesearch('clearsearchbox');
         $dealsearch.show();
         $dealsearch.find('#dealsearch').fwmobilesearch('search');
