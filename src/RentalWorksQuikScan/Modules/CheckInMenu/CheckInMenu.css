@@ -1,4 +1,4 @@
-﻿#checkInMenuView #cim-ordersearch {display:none;}
+#checkInMenuView #cim-ordersearch {display:none;}
 #checkInMenuView #cim-ordersearch .fwmobilesearch .item {padding:.3em;}
 #checkInMenuView #cim-ordersearch .fwmobilesearch .item {border-bottom: 1px solid rgba(80,80,80,1);}
 #checkInMenuView #cim-ordersearch .fwmobilesearch .item:last-child {border-bottom: 0;}
@@ -8,7 +8,7 @@
 #checkInMenuView #cim-ordersearch .fwmobilesearch .col2 {flex: 1 1 0;}
 #checkInMenuView #cim-ordersearch .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;}
 #checkInMenuView #cim-ordersearch .fwmobilesearch .caption {flex: 0 0 6em;/*width:9em;*/font-size:.625em;color: #aaaaaa;}
-#checkInMenuView #cim-ordersearch .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}
+#checkInMenuView #cim-ordersearch .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;overflow:hidden;text-overflow:ellipsis;}
 
 #checkInMenuView #cim-sessionsearch {display:none;}
 #checkInMenuView #cim-sessionsearch .fwmobilesearch .item {padding:.3em;}
@@ -31,4 +31,4 @@
 #checkInMenuView .record .row .caption.fixed {flex: 0 0 90px;width:90px;}
 #checkInMenuView .record .row .caption.dynamic {flex: 0 0 auto;margin-right:5px;}
 #checkInMenuView .record .row .caption.bold {font-weight:bold;}
-#checkInMenuView .record .row .value {-webkit-box-flex:1;-webkit-flex:1;flex: 1 0 0;}
+#checkInMenuView .record .row .value {-webkit-box-flex:1;-webkit-flex:1;flex: 1 0 0;overflow:hidden;text-overflow:ellipsis;}

@@ -7,7 +7,7 @@
 .staging .fwmobilesearch .col2 {flex: 1 1 0;}
 .staging .fwmobilesearch .datafield {display:-webkit-box;display:-moz-box;display:-ms-flexbox;display:flex;}
 .staging .fwmobilesearch .caption {flex: 0 0 9em;width:9em;font-size:.625em;color: #aaaaaa;}
-.staging .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;}
+.staging .fwmobilesearch .value {flex: 1 1 0;font-size:.625em;overflow:hidden;text-overflow:ellipsis;}
 
 .staging .page-stagingmenu .migroupheader {height:44px;line-height:44px;font-weight:bold;background-color:#ffffff;color:#000000;border-bottom:1px solid #cccccc;text-align:center;}
 .staging .page-stagingmenu .mispacer {background-color:#eeeeee;height:22px;border-bottom:1px solid #cccccc;}
