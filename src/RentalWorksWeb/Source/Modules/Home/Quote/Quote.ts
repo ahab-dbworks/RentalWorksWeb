@@ -57,7 +57,7 @@ class Quote extends OrderBase {
         });
 
         const self = this;
-        $browse.data('ondatabind', function (request) {
+        $browse.data('ondatabind', request => { 
             request.activeviewfields = self.ActiveViewFields;
         });
 

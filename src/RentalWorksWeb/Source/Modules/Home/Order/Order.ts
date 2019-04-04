@@ -201,13 +201,12 @@ class Order extends OrderBase {
     }
    //---------------------------------------------------------------------------------------------
     renderGrids($form) {
-        var self = this;
         super.renderGrids($form);
         // ----------
         const $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         const $orderPickListGridControl = FwBrowse.loadGridFromTemplate('OrderPickListGrid');
         $orderPickListGrid.empty().append($orderPickListGridControl);
-        $orderPickListGridControl.data('ondatabind', function (request) {
+        $orderPickListGridControl.data('ondatabind', request => { 
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
@@ -218,7 +217,7 @@ class Order extends OrderBase {
         const $orderSnapshotGrid = $form.find('div[data-grid="OrderSnapshotGrid"]');
         const $orderSnapshotGridControl = FwBrowse.loadGridFromTemplate('OrderSnapshotGrid');
         $orderSnapshotGrid.empty().append($orderSnapshotGridControl);
-        $orderSnapshotGridControl.data('ondatabind', function (request) {
+        $orderSnapshotGridControl.data('ondatabind', request => { 
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
@@ -237,14 +236,14 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3'); 
         $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false'); 
 
-        $orderItemGridLossDamageControl.data('ondatabind', function (request) {
+        $orderItemGridLossDamageControl.data('ondatabind', request => { 
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'F'
             };
-            request.totalfields = self.totalFields;
+            request.totalfields = this.totalFields;
         });
-        $orderItemGridLossDamageControl.data('beforesave', function (request) {
+        $orderItemGridLossDamageControl.data('beforesave', request => { 
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             request.RecType = 'F';
         }

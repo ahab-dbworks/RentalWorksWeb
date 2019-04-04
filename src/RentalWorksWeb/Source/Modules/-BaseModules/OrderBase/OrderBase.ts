@@ -12,14 +12,13 @@ class OrderBase {
     getFormTemplate(): string { return ``; }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        var self = this;
         // ----------
         const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
         const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
         $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
-        $orderStatusHistoryGridControl.data('ondatabind', function (request) {
+        $orderStatusHistoryGridControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
         });
         FwBrowse.init($orderStatusHistoryGridControl);
@@ -28,13 +27,13 @@ class OrderBase {
         const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
         const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
         $orderNoteGrid.empty().append($orderNoteGridControl);
-        $orderNoteGridControl.data('ondatabind', function (request) {
+        $orderNoteGridControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
         });
-        $orderNoteGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`)
+        $orderNoteGridControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`)
         });
         FwBrowse.init($orderNoteGridControl);
         FwBrowse.renderRuntimeHtml($orderNoteGridControl);
@@ -42,13 +41,13 @@ class OrderBase {
         const $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
         const $orderContactGridControl = FwBrowse.loadGridFromTemplate('OrderContactGrid');
         $orderContactGrid.empty().append($orderContactGridControl);
-        $orderContactGridControl.data('ondatabind', function (request) {
+        $orderContactGridControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
         });
-        $orderContactGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        $orderContactGridControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
         });
         FwBrowse.init($orderContactGridControl);
@@ -60,15 +59,15 @@ class OrderBase {
         $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
 
-        $orderItemGridRentalControl.data('ondatabind', function (request) {
+        $orderItemGridRentalControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'R'
             };
-            request.totalfields = self.totalFields;
+            request.totalfields = this.totalFields;
         });
-        $orderItemGridRentalControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        $orderItemGridRentalControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'R';
         }
         );
@@ -91,15 +90,15 @@ class OrderBase {
         $orderItemGridSales.addClass('S');
         $orderItemGridSalesControl.data('isSummary', false);
 
-        $orderItemGridSalesControl.data('ondatabind', function (request) {
+        $orderItemGridSalesControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'S'
             };
-            request.totalfields = self.totalFields;
+            request.totalfields = this.totalFields;
         });
-        $orderItemGridSalesControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        $orderItemGridSalesControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'S';
         });
         FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', ($control, dt) => {
@@ -118,15 +117,15 @@ class OrderBase {
         $orderItemGridLabor.addClass('L');
         $orderItemGridLaborControl.data('isSummary', false);
 
-        $orderItemGridLaborControl.data('ondatabind', function (request) {
+        $orderItemGridLaborControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'L'
             };
-            request.totalfields = self.totalFields;
+            request.totalfields = this.totalFields;
         });
-        $orderItemGridLaborControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        $orderItemGridLaborControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'L';
         });
         FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', ($control, dt) => {
@@ -145,15 +144,15 @@ class OrderBase {
         $orderItemGridMisc.addClass('M');
         $orderItemGridMiscControl.data('isSummary', false);
 
-        $orderItemGridMiscControl.data('ondatabind', function (request) {
+        $orderItemGridMiscControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'M'
             };
-            request.totalfields = self.totalFields;
+            request.totalfields = this.totalFields;
         });
-        $orderItemGridMiscControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        $orderItemGridMiscControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'M';
         }
         );
@@ -174,15 +173,15 @@ class OrderBase {
         $orderItemGridUsedSale.addClass('RS');
         $orderItemGridUsedSaleControl.data('isSummary', false);
 
-        $orderItemGridUsedSaleControl.data('ondatabind', function (request) {
+        $orderItemGridUsedSaleControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'RS'
             };
-            request.totalfields = self.totalFields;
+            request.totalfields = this.totalFields;
         });
-        $orderItemGridUsedSaleControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        $orderItemGridUsedSaleControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'RS';
         });
         FwBrowse.init($orderItemGridUsedSaleControl);
@@ -196,14 +195,14 @@ class OrderBase {
         $combinedOrderItemGrid.addClass('A');
         $combinedOrderItemGridControl.data('isSummary', false);
 
-        $combinedOrderItemGridControl.data('ondatabind', function (request) {
+        $combinedOrderItemGridControl.data('ondatabind', request => { 
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+                OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
-            request.totalfields = self.totalFields;
+            request.totalfields = this.totalFields;
         });
-        $combinedOrderItemGridControl.data('beforesave', function (request) {
-            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        $combinedOrderItemGridControl.data('beforesave', request => { 
+            request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         }
         );
         FwBrowse.addEventHandler($combinedOrderItemGridControl, 'afterdatabindcallback', ($control, dt) => {
@@ -323,16 +322,12 @@ class OrderBase {
 
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
-        var self = this;
-        var $browse;
-        $browse = EmailHistoryController.openBrowse();
-
-        $browse.data('ondatabind', function (request) {
+        var $browse = EmailHistoryController.openBrowse();
+        $browse.data('ondatabind', request => { 
             request.uniqueids = {
-                RelatedToId: $form.find('[data-datafield="' + `${self.Module}Id` + '"] input.fwformfield-value').val()
+                RelatedToId: $form.find('[data-datafield="' + `${this.Module}Id` + '"] input.fwformfield-value').val()
             }
         });
-
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
@@ -1850,7 +1845,9 @@ class OrderBase {
                 $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? $miscTab.show() : $miscTab.hide();
                 $form.find('[data-datafield="Labor"] input').prop('checked') ? $laborTab.show() : $laborTab.hide();
                 $form.find('[data-datafield="RentalSale"] input').prop('checked') ? $usedSaleTab.show() : $usedSaleTab.hide();
-                $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? $lossDamageTab.show() : $lossDamageTab.hide();
+                if ($lossDamageTab !== undefined) {
+                    $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? $lossDamageTab.show() : $lossDamageTab.hide();
+                }
             }
 
             for (var i = 0; i < orderTypeData.hiddenRentals.length; i++) {
@@ -1868,9 +1865,11 @@ class OrderBase {
             for (var l = 0; l < orderTypeData.hiddenUsedSale.length; l++) {
                 jQuery($usedSaleGrid.find('[data-mappedfield="' + orderTypeData.hiddenUsedSale[l] + '"]')).parent().hide();
             }
-            for (let i = 0; i < orderTypeData.hiddenLossDamage.length; i++) {
-                jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
-            }
+            if ($lossDamageTab !== undefined) {
+                for (let i = 0; i < orderTypeData.hiddenLossDamage.length; i++) {
+                    jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
+                }
+            } 
             for (let i = 0; i < orderTypeData.hiddenCombined.length; i++) {
                 jQuery($combinedGrid.find('[data-mappedfield="' + orderTypeData.hiddenCombined[i] + '"]')).parent().hide();
             }
@@ -2058,8 +2057,10 @@ class OrderBase {
         if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
             $usedSaleGrid.find('.rates').attr('data-formreadonly', true);
         }
-        if (FwFormField.getValueByDataField($form, 'DisableEditingLossAndDamageRate')) {
-            $lossDamageGrid.find('.rates').attr('data-formreadonly', true);
+        if ($lossDamageGrid !== undefined) {
+            if (FwFormField.getValueByDataField($form, 'DisableEditingLossAndDamageRate')) {
+                $lossDamageGrid.find('.rates').attr('data-formreadonly', true);
+            }
         }
 
         // disable/enable the No Charge Reason field
