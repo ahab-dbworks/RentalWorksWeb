@@ -37,17 +37,10 @@ class CustomerCredit {
             request.activeviewfields = this.ActiveViewFields;
         });
 
-        //try {
-        //    FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        //        for (var key in response) {
-        //            FwBrowse.addLegend($browse, key, response[key]);
-        //        }
-        //    }, function onError(response) {
-        //        FwFunc.showError(response);
-        //    }, $browse)
-        //} catch (ex) {
-        //    FwFunc.showError(ex);
-        //}
+        FwBrowse.addLegend($browse, 'Credit Memo', '#ABABD6');
+        FwBrowse.addLegend($browse, 'Depleting Deposit', '#37D303');
+        FwBrowse.addLegend($browse, 'Overpayment', '#FFFFFF');
+        FwBrowse.addLegend($browse, 'Refund Check', '#6F6FFF');
 
         return $browse;
     };
@@ -104,7 +97,7 @@ class CustomerCredit {
                <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="off"></div>
              </div>
              <div class="column flexcolumn" max-width="150px" data-visible="true">
-               <div class="field" data-caption="Payment Type" data-datafield="PaymentType" data-browsedatatype="text" data-sort="off"></div>
+               <div class="field" data-caption="Payment Type" data-datafield="PaymentType" data-cellcolor="RecTypeColor" data-browsedatatype="text" data-sort="off"></div>
              </div>
              <div class="column flexcolumn" max-width="150px" data-visible="true">
                <div class="field" data-caption="Ref/Check" data-datafield="CheckNumber" data-browsedatatype="text" data-sort="off"></div>
