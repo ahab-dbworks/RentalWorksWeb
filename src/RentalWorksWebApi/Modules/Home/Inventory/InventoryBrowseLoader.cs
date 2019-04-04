@@ -81,6 +81,13 @@ namespace WebApi.Modules.Home.Inventory
             addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
 
+            string containerId = GetUniqueIdAsString("ContainerId", request);
+            if (!string.IsNullOrEmpty(containerId))
+            {
+                select.AddWhere("exists (select * from masteritem mi where mi.masterid = " + TableAlias + ".masterid and mi.orderid = @containerid)");
+                select.AddParameter("@containerid", containerId);
+            }
+
 
             AddActiveViewFieldToSelect("Classification", "class", select, request);
 

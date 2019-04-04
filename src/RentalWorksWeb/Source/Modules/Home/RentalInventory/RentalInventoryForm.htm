@@ -5,6 +5,7 @@
     <div class="tabs">
       <div data-type="tab" id="rentalitemtab" class="tab" data-tabpageid="rentalitemtabpage" data-caption="Rental Inventory"></div>
       <div data-type="tab" id="containerpackinglisttab" class="containertab tab" data-tabpageid="containerpackinglisttabpage" data-caption="Container" style="display:none;"></div>
+      <div data-type="tab" id="settingstab" class="settingstab tab" data-tabpageid="settingstabpage" data-caption="Settings" style="display:none;"></div>
       <div data-type="tab" id="containerassetstab" class="containerassetstab tab" data-tabpageid="containerassetstabpage" data-caption="Container Assets" style="display:none;"></div>
       <div data-type="tab" id="completetab" class="completetab tab" data-tabpageid="completetabpage" data-caption="Complete" style="display:none;"></div>
       <div data-type="tab" id="kittab" class="kittab tab" data-tabpageid="kittabpage" data-caption="Kit" style="display:none;"></div>
@@ -26,7 +27,6 @@
   <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="> Documents"></div>
   <div data-type="tab" id="glaccountstab" class="tab" data-tabpageid="glaccountstabpage" data-caption="> G/L Accounts"></div>-->
       <div data-type="tab" id="availabilitycalendartab" class="tab" data-tabpageid="availabilitycalendartabpage" data-caption="Availability Calendar"></div>
-      <div data-type="tab" id="settingstab" class="settingstab tab" data-tabpageid="settingstabpage" data-caption="Settings" style="display:none;"></div>
       <div data-type="tab" id="assettab" class="tab asset submodule" data-tabpageid="assettabpage" data-caption="Asset" style="display:none;"></div>
       <div data-type="tab" id="consignmenttab" class="tab" data-tabpageid="consignmenttabpage" data-caption="Consignment"></div>
       <div data-type="tab" id="wardrobetab" class="wardrobetab tab" data-tabpageid="wardrobetabpage" data-caption="Wardrobe" style="display:none;"></div>
@@ -141,33 +141,33 @@
       <!--- SETTINGS TAB -->
       <div data-type="tabpage" id="settingstabpage" class="tabpage" data-tabid="settingstab">
         <div class="flexpage">
-          <div class="flexrow" style="max-width:650px;">
+          <div class="flexrow" style="max-width:700px;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Scannable Item">
               <div class="flexrow">
-                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Scannable Item" data-datafield="ContainerScannableInventoryId" data-displayfield="ContainerScannableICode" data-validationname="RentalInventoryValidation" data-enabled="false" style="flex:1 1 150px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Scannable Item" data-datafield="ContainerScannableInventoryId" data-displayfield="ContainerScannableICode" data-validationname="RentalInventoryValidation" data-formbeforevalidate="beforeValidateScannableICode" data-enabled="true" style="flex:1 1 150px;"></div>
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ContainerScannableDescription" data-enabled="false" style="flex:1 1 400px;"></div>
               </div>
             </div>
           </div>
-          <div class="flexcolumn" style="max-width:700px">
+          <div class="flexrow" style="max-width:700px">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Auto-Rebuild">
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically rebuild Container when Scannable Item is checked-in from an Order" data-datafield="AutomaticallyRebuildContainerAtCheckIn"></div>
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically rebuild Container when Scannable Item is transferred-in from a Transfer Order" data-datafield="AutomaticallyRebuildContainerAtTransferIn"></div>
             </div>
           </div>
-          <div class="flexrow">
-            <div class="flexcolumn">
+          <div class="flexrow" style="max-width:700px">
+            <!--<div class="flexcolumn">-->
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude Contained Items from Availability" data-datafield="ExcludeContainedItemsFromAvailability"></div>
               </div>
-            </div>
-            <div class="flexcolumn">
+            <!--</div>-->
+            <!--<div class="flexcolumn">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Container No." data-datafield="UseContainerNumber"></div>
               </div>
-            </div>
+            </div>-->
           </div>
-          <div class="flexrow" style="max-width:550px">
+          <div class="flexrow" style="max-width:700px">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="When more items are In Container than requested on Order">
               <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="ContainerStagingRule">
                 <div data-value="AUTOADD" data-caption="Automatically add extra items to the Order"></div>
@@ -177,7 +177,7 @@
               </div>
             </div>
           </div>
-          <div class="flexrow" style="max-width:550px">
+          <div class="flexrow" style="max-width:700px">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="When Filling a Container">
               <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="ContainerPackingListBehavior">
                 <div data-value="AUTOPRINT" data-caption="Automatically print a Container Packing List"></div>

@@ -246,6 +246,10 @@ namespace WebApi.Modules.Home.Master
         public string ManufacturerId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ContainerId { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Replacementcost { get; set; }
@@ -376,9 +380,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Excludefromroa { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string ContainerId { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "nestpackages", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Nestpackages { get; set; }

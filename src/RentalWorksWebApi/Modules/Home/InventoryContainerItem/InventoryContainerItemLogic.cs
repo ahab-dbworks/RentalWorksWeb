@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
 using WebApi.Modules.Home.MasterItem;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.InventoryContainerItem
 {
@@ -14,6 +15,7 @@ namespace WebApi.Modules.Home.InventoryContainerItem
         {
             dataRecords.Add(masterItem);
             dataLoader = inventoryContainerItemLoader;
+            RecType = RwConstants.RECTYPE_RENTAL;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"9vChfDlvCfnM", IsPrimaryKey:true)]
@@ -45,6 +47,9 @@ namespace WebApi.Modules.Home.InventoryContainerItem
 
         [FwLogicProperty(Id:"LwuxXYr1z9ha")]
         public string InventoryId { get { return masterItem.InventoryId; } set { masterItem.InventoryId = value; } }
+
+        [FwLogicProperty(Id: "xxxxxxxxxxx")]
+        public string RecType { get { return masterItem.RecType; } set { masterItem.RecType = value; } }
 
         [FwLogicProperty(Id:"MZz6DHCiiZvO", IsReadOnly:true)]
         public int? Ident { get; set; }

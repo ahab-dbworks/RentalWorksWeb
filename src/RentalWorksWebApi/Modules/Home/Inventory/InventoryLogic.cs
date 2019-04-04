@@ -244,7 +244,7 @@ namespace WebApi.Modules.Home.Inventory
         public bool? SeparatePackageOnQuoteOrder { get { return master.SeparatePackageOnQuoteOrder; } set { master.SeparatePackageOnQuoteOrder = value; } }
 
         [FwLogicProperty(Id: "FX897egQHBSX", IsReadOnly: true)]
-        public string ContainerId { get; set; }
+        public string ContainerId { get { return master.ContainerId; } set { master.ContainerId = value; } }
 
         [FwLogicProperty(Id: "8YZvXGKmIVlC", IsReadOnly: true)]
         public string ContainerScannableInventoryId { get; set; }

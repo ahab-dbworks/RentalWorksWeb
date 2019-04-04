@@ -263,6 +263,10 @@ namespace WebApi.Modules.Home.DealOrder
 
 
 
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "scannablemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string ScannableInventoryId { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
         //------------------------------------------------------------------------------------ 
@@ -795,9 +799,6 @@ public bool? Printlock { get; set; }
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "projectmanagerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
 public string ProjectmanagerId { get; set; } 
-//------------------------------------------------------------------------------------ 
-[FwSqlDataField(column: "scannablemasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)] 
-public string ScannablemasterId { get; set; } 
 //------------------------------------------------------------------------------------ 
 [FwSqlDataField(column: "partsdiscpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 8, scale: 5)] 
 public decimal? Partsdiscpercent { get; set; } 

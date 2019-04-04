@@ -14,6 +14,13 @@ class RentalInventory extends InventoryBase {
             { value: '3', text: '3' },
             { value: '4', text: '4' }
         ], true);
+
+
+        $form.find('div[data-datafield="ContainerScannableInventoryId"]').data('onchange', $tr => {
+            FwFormField.setValue($form, 'div[data-datafield="ContainerScannableDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+        });
+
+
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -485,6 +492,17 @@ class RentalInventory extends InventoryBase {
                 break;
         };
     };
+    //----------------------------------------------------------------------------------------------
+    beforeValidateScannableICode($browse, $grid, request) {
+        let $form = $grid.closest('.fwform');
+        const ContainerId = FwFormField.getValueByDataField($form, 'ContainerId');
+
+        request.uniqueids = {
+            ContainerId: ContainerId,
+            TrackedBy: "BARCODE"
+        };
+    };
+    //----------------------------------------------------------------------------------------------
 };
 
 //----------------------------------------------------------------------------------------------
