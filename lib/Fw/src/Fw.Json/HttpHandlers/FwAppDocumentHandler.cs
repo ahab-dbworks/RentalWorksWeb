@@ -146,7 +146,7 @@ namespace Fw.Json.HttpHandlers
             qry.Parameters.AddWithValue("@appimageid", appimageid);
             qry.Execute();
             documentBuffer = qry.GetField("image").ToByteArray();
-            extension      = qry.GetField("extension").ToString().Trim().ToLower();
+            extension      = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("extension").ToString().Trim().ToLower());
             mimetype       = FwAppDocumentHandler.GetMimeType(extension);
             if (documentBuffer != null)
             {

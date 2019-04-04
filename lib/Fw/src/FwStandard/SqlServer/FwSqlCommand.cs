@@ -2481,7 +2481,7 @@ namespace FwStandard.SqlServer
             string result = string.Empty;
             if (FwSqlLogEntry.LogSqlContext)
             {
-                StringBuilder usefulLines = new StringBuilder();
+                List<string> usefulLinesList = new List<string>();
                 System.Diagnostics.StackTrace trace = new System.Diagnostics.StackTrace();
                 var lines = System.Text.RegularExpressions.Regex.Split(trace.ToString(), "\r\n|\r|\n");
                 foreach (var line in lines)
@@ -2503,9 +2503,9 @@ namespace FwStandard.SqlServer
                         //!line.Contains("") &&
                         )
                     {
-                        if (line.Trim().Length > 0)
+                        if (line.Trim().Length > 0 && !usefulLinesList.Contains(line))
                         {
-                            usefulLines.AppendLine(line);
+                            usefulLinesList.Add(line);
                         }
                     }
                 }
@@ -2513,7 +2513,7 @@ namespace FwStandard.SqlServer
                 //{
                 //    usefulLines.Append(trace.ToString());
                 //}
-                result = usefulLines.ToString();
+                result = String.Join(Environment.NewLine, usefulLinesList.ToArray()) + Environment.NewLine;
             }
             return result;
         }

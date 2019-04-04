@@ -95,6 +95,11 @@
                 })
                 .on('change', '.searchbox', function() {
                     try {
+                        if (this.value !== '') {
+                            plugin.$element.find('.clear').addClass('visible');
+                        } else {
+                            plugin.$element.find('.clear').removeClass('visible');
+                        }
                         if (plugin._searchCalled !== true) {
                             plugin._clearSearchResults();
                             plugin._search();

@@ -217,10 +217,10 @@ namespace Fw.Json.HttpHandlers
                 {
                     image = qry.GetField("image").ToByteArray();
                 }
-                description    = qry.GetField("description").ToString().Trim().ToLower();
-                extension      = qry.GetField("extension").ToString().Trim().ToLower();
+                description    = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("description").ToString().Trim().ToLower());
+                extension      = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("extension").ToString().Trim().ToLower());
                 mimetype       = GetMimeType(extension);
-                orderby        = qry.GetField("orderby").ToString();
+                orderby        = FwConvert.StripNonAlphaNumericCharacters(qry.GetField("orderby").ToString());
                 filename       = description + orderby + "." + extension;
                 if (image != null)
                 {
