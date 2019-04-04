@@ -5,7 +5,337 @@ class OrderBase {
     CombineActivity: string;
     Module: string;
     CachedOrderTypes: any = {};
+    totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
 
+    //----------------------------------------------------------------------------------------------
+    getBrowseTemplate(): string { return ``; }
+    getFormTemplate(): string { return ``; }
+    //----------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        var self = this;
+        // ----------
+        const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
+        const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
+        $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
+        $orderStatusHistoryGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+            };
+        });
+        FwBrowse.init($orderStatusHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
+        // ----------
+        const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
+        const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
+        $orderNoteGrid.empty().append($orderNoteGridControl);
+        $orderNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+            };
+        });
+        $orderNoteGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`)
+        });
+        FwBrowse.init($orderNoteGridControl);
+        FwBrowse.renderRuntimeHtml($orderNoteGridControl);
+        // ----------
+        const $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
+        const $orderContactGridControl = FwBrowse.loadGridFromTemplate('OrderContactGrid');
+        $orderContactGrid.empty().append($orderContactGridControl);
+        $orderContactGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+            };
+        });
+        $orderContactGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+            request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
+        });
+        FwBrowse.init($orderContactGridControl);
+        FwBrowse.renderRuntimeHtml($orderContactGridControl);
+        // ----------
+        const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $orderItemGridRental.empty().append($orderItemGridRentalControl);
+        $orderItemGridRentalControl.data('isSummary', false);
+        $orderItemGridRental.addClass('R');
+
+        $orderItemGridRentalControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                RecType: 'R'
+            };
+            request.totalfields = self.totalFields;
+        });
+        $orderItemGridRentalControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+            request.RecType = 'R';
+        }
+        );
+        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'rental', dt.Totals);
+
+            let rentalItems = $form.find('.rentalgrid tbody').children();
+            rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+        });
+
+        FwBrowse.init($orderItemGridRentalControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
+        // ----------
+        const $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $orderItemGridSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
+        $orderItemGridSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
+        $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
+        $orderItemGridSales.empty().append($orderItemGridSalesControl);
+        $orderItemGridSales.addClass('S');
+        $orderItemGridSalesControl.data('isSummary', false);
+
+        $orderItemGridSalesControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                RecType: 'S'
+            };
+            request.totalfields = self.totalFields;
+        });
+        $orderItemGridSalesControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+            request.RecType = 'S';
+        });
+        FwBrowse.addEventHandler($orderItemGridSalesControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'sales', dt.Totals);
+
+            let salesItems = $form.find('.salesgrid tbody').children();
+            salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
+        });
+
+        FwBrowse.init($orderItemGridSalesControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
+        // ----------
+        const $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $orderItemGridLabor.empty().append($orderItemGridLaborControl);
+        $orderItemGridLabor.addClass('L');
+        $orderItemGridLaborControl.data('isSummary', false);
+
+        $orderItemGridLaborControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                RecType: 'L'
+            };
+            request.totalfields = self.totalFields;
+        });
+        $orderItemGridLaborControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+            request.RecType = 'L';
+        });
+        FwBrowse.addEventHandler($orderItemGridLaborControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'labor', dt.Totals);
+
+            let laborItems = $form.find('.laborgrid tbody').children();
+            laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
+        });
+
+        FwBrowse.init($orderItemGridLaborControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridLaborControl);
+        // ----------
+        const $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $orderItemGridMisc.empty().append($orderItemGridMiscControl);
+        $orderItemGridMisc.addClass('M');
+        $orderItemGridMiscControl.data('isSummary', false);
+
+        $orderItemGridMiscControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                RecType: 'M'
+            };
+            request.totalfields = self.totalFields;
+        });
+        $orderItemGridMiscControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+            request.RecType = 'M';
+        }
+        );
+
+        FwBrowse.addEventHandler($orderItemGridMiscControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'misc', dt.Totals);
+
+            let miscItems = $form.find('.miscgrid tbody').children();
+            miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
+        });
+
+        FwBrowse.init($orderItemGridMiscControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridMiscControl);
+        // ----------
+        const $orderItemGridUsedSale = $form.find('.usedsalegrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridUsedSaleControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $orderItemGridUsedSale.empty().append($orderItemGridUsedSaleControl);
+        $orderItemGridUsedSale.addClass('RS');
+        $orderItemGridUsedSaleControl.data('isSummary', false);
+
+        $orderItemGridUsedSaleControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`),
+                RecType: 'RS'
+            };
+            request.totalfields = self.totalFields;
+        });
+        $orderItemGridUsedSaleControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+            request.RecType = 'RS';
+        });
+        FwBrowse.init($orderItemGridUsedSaleControl);
+        FwBrowse.renderRuntimeHtml($orderItemGridUsedSaleControl);
+        // ----------
+        const $combinedOrderItemGrid = $form.find('.combinedgrid div[data-grid="OrderItemGrid"]');
+        const $combinedOrderItemGridControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $combinedOrderItemGridControl.find('.combined').attr('data-visible', 'true');
+        $combinedOrderItemGridControl.find('.individual').attr('data-visible', 'false');
+        $combinedOrderItemGrid.empty().append($combinedOrderItemGridControl);
+        $combinedOrderItemGrid.addClass('A');
+        $combinedOrderItemGridControl.data('isSummary', false);
+
+        $combinedOrderItemGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                OrderId: FwFormField.getValueByDataField($form, `${self.Module}Id`)
+            };
+            request.totalfields = self.totalFields;
+        });
+        $combinedOrderItemGridControl.data('beforesave', function (request) {
+            request.OrderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+        }
+        );
+        FwBrowse.addEventHandler($combinedOrderItemGridControl, 'afterdatabindcallback', ($control, dt) => {
+            this.calculateOrderItemGridTotals($form, 'combined', dt.Totals);
+        });
+
+        FwBrowse.init($combinedOrderItemGridControl);
+        FwBrowse.renderRuntimeHtml($combinedOrderItemGridControl);
+        // ----------
+
+        const itemGrids = [$orderItemGridRental, $orderItemGridSales, $orderItemGridLabor, $orderItemGridMisc];
+        if ($form.attr('data-mode') === 'NEW') {
+            for (let i = 0; i < itemGrids.length; i++) {
+                itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
+                    .off()
+                    .on('click', () => {
+                        this.saveForm($form, { closetab: false });
+                    })
+            }
+        }
+
+        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+        jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
+        jQuery($form.find('.laborgrid .valtype')).attr('data-validationname', 'LaborRateValidation');
+        jQuery($form.find('.miscgrid .valtype')).attr('data-validationname', 'MiscRateValidation');
+        jQuery($form.find('.usedsalegrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
+
+        $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
+
+
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm(mode: string, parentModuleInfo?: any) {
+        let $form = jQuery(this.getFormTemplate());
+        $form = FwModule.openForm($form, mode);
+
+        if (mode === 'NEW') {
+            $form.find('.ifnew').attr('data-enabled', 'true');
+            $form.find('.combinedtab').hide();
+
+            const usersid = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const name = sessionStorage.getItem('name');
+            FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
+            FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
+
+            const today = FwFunc.getDate();
+            FwFormField.setValueByDataField($form, 'PickDate', today);
+            FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
+            FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
+            FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
+            FwFormField.setValueByDataField($form, 'BillingMonths', '0');
+
+
+            const department = JSON.parse(sessionStorage.getItem('department'));
+            FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+
+            $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
+            $form.find('div[data-datafield="Rental"] input').prop('checked', true);
+            $form.find('div[data-datafield="Sales"] input').prop('checked', true);
+            $form.find('div[data-datafield="Miscellaneous"] input').prop('checked', true);
+            $form.find('div[data-datafield="Labor"] input').prop('checked', true);
+
+            FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
+            $form.find('[data-type="tab"][data-caption="Used Sale"]').hide();
+            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+
+            FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
+
+            FwFormField.disable($form.find('.frame'));
+            $form.find(".frame .add-on").children().hide();
+        };
+
+        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
+
+        FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
+        FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
+
+        $form.find('div[data-datafield="PickTime"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
+        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
+
+        FwFormField.loadItems($form.find('.outtype'), [
+            { value: 'DELIVER', text: 'Deliver to Customer' },
+            { value: 'SHIP', text: 'Ship to Customer' },
+            { value: 'PICK UP', text: 'Customer Pick Up' }
+        ], true);
+
+        FwFormField.loadItems($form.find('.intype'), [
+            { value: 'DELIVER', text: 'Customer Deliver' },
+            { value: 'SHIP', text: 'Customer Ship' },
+            { value: 'PICK UP', text: 'Pick Up from Customer' }
+        ], true);
+
+        FwFormField.loadItems($form.find('.online'), [
+            { value: 'PARTIAL', text: 'Partial' },
+            { value: 'COMPLETE', text: 'Complete' }
+        ], true);
+
+        if (typeof parentModuleInfo !== 'undefined') {
+            FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
+            FwFormField.setValue($form, 'div[data-datafield="RateType"]', parentModuleInfo.RateTypeId, parentModuleInfo.RateType);
+            FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', parentModuleInfo.BillingCycleId, parentModuleInfo.BillingCycle);
+        }
+
+        this.events($form);
+        this.activityCheckboxEvents($form, mode);
+
+        return $form;
+    };
+
+    //----------------------------------------------------------------------------------------------
+    openEmailHistoryBrowse($form) {
+        var self = this;
+        var $browse;
+        $browse = EmailHistoryController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.uniqueids = {
+                RelatedToId: $form.find('[data-datafield="' + `${self.Module}Id` + '"] input.fwformfield-value').val()
+            }
+        });
+
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
     renderFrames($form: any, cachedId?, period?) {
         FwFormField.disable($form.find('.frame'));
         let id = FwFormField.getValueByDataField($form, `${this.Module}Id`);
@@ -45,138 +375,8 @@ class OrderBase {
                 })
             }, null, $form);
             $form.find(".frame .add-on").children().hide();
-        }        
+        }
     };
-    //----------------------------------------------------------------------------------------------
-    dynamicColumns($form, orderTypeId?) {
-        let self = this;
-        let orderType,
-            $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-            fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field'),
-            fieldNames = [];
-        let hiddenRentals, hiddenSales, hiddenLabor, hiddenMisc, hiddenUsedSale, hiddenLossDamage, hiddenCombined;
-
-        if (typeof orderTypeId !== 'undefined') {
-            orderType = orderTypeId
-        }
-        for (var i = 3; i < fields.length; i++) {
-            var name = jQuery(fields[i]).attr('data-mappedfield');
-            if (name != "QuantityOrdered") {
-                fieldNames.push(name);
-            }
-        }
-        if (self.CachedOrderTypes[orderType] !== undefined) {
-            this.columnLogic($form, this.CachedOrderTypes[orderType]);
-        } else {
-            FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderType, null, FwServices.defaultTimeout, function onSuccess(response) {
-                hiddenRentals = fieldNames.filter(function (field) {
-                    return !this.has(field)
-                }, new Set(response.RentalShowFields))
-                hiddenSales = fieldNames.filter(function (field) {
-                    return !this.has(field)
-                }, new Set(response.SalesShowFields))
-                hiddenLabor = fieldNames.filter(function (field) {
-                    return !this.has(field)
-                }, new Set(response.LaborShowFields))
-                hiddenMisc = fieldNames.filter(function (field) {
-                    return !this.has(field)
-                }, new Set(response.MiscShowFields))
-                hiddenUsedSale = fieldNames.filter(function (field) {
-                    return !this.has(field)
-                }, new Set(response.RentalSaleShowFields))
-                hiddenLossDamage = fieldNames.filter(function (field) {
-                    return !this.has(field)
-                }, new Set(response.LossAndDamageShowFields))
-                hiddenCombined = fieldNames.filter(function (field) {
-                    return !this.has(field)
-                }, new Set(response.CombinedShowFields))
-
-                self.CachedOrderTypes[orderType] = {
-                    CombineActivityTabs: response.CombineActivityTabs,
-                    hiddenRentals: hiddenRentals,
-                    hiddenSales: hiddenSales,
-                    hiddenLabor: hiddenLabor,
-                    hiddenMisc: hiddenMisc,
-                    hiddenUsedSale: hiddenUsedSale,
-                    hiddenLossDamage: hiddenLossDamage,
-                    hiddenCombined: hiddenCombined
-                }
-                self.columnLogic($form, self.CachedOrderTypes[orderType]);
-                self.afterLoad($form, true);
-            }, null, null);
-        }        
-
-        //sets active tab and opens search interface from a newly saved record 
-        //12-12-18 moved here from afterSave Jason H 
-        let openSearch = $form.attr('data-opensearch');
-        let searchType = $form.attr('data-searchtype');
-        let activeTabId = $form.attr('data-activetabid');
-        let search = new SearchInterface();
-        if (openSearch === "true") {
-            //FwTabs.setActiveTab($form, $tab); //this method doesn't seem to be working correctly
-            let $newTab = $form.find(`#${activeTabId}`);
-            $newTab.click();
-            if ($form.attr('data-controller') === "OrderController") {
-                search.renderSearchPopup($form, FwFormField.getValueByDataField($form, 'OrderId'), 'Order', searchType);
-            } else if ($form.attr('data-controller') === "QuoteController") {
-                search.renderSearchPopup($form, FwFormField.getValueByDataField($form, 'QuoteId'), 'Quote', searchType);
-            }
-            $form.removeAttr('data-opensearch data-searchtype data-activetabid');
-        }
-
-    };
-    //----------------------------------------------------------------------------------------------
-    columnLogic($form, data) {
-        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-            $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-            $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-            $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
-            $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'),
-            $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]'),
-            $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-            rate = FwFormField.getValueByDataField($form, 'RateType');
-
-        $form.find('[data-datafield="CombineActivity"] input').val(data.CombineActivityTabs);
-
-        if (data.CombineActivityTabs === true) {
-            $form.find('.notcombined').css('display', 'none');
-            $form.find('.notcombinedtab').css('display', 'none');
-            $form.find('.combined').show();
-            $form.find('.combinedtab').show();
-        } else {
-            $form.find('.combined').css('display', 'none');
-            $form.find('.combinedtab').css('display', 'none');
-            $form.find('.notcombined').show();
-            $form.find('.notcombinedtab').show();
-        }
-
-        for (var i = 0; i < data.hiddenRentals.length; i++) {
-            jQuery($rentalGrid.find('[data-mappedfield="' + data.hiddenRentals[i] + '"]')).parent().hide();
-        }
-        for (var j = 0; j < data.hiddenSales.length; j++) {
-            jQuery($salesGrid.find('[data-mappedfield="' + data.hiddenSales[j] + '"]')).parent().hide();
-        }
-        for (var k = 0; k < data.hiddenLabor.length; k++) {
-            jQuery($laborGrid.find('[data-mappedfield="' + data.hiddenLabor[k] + '"]')).parent().hide();
-        }
-        for (var l = 0; l < data.hiddenMisc.length; l++) {
-            jQuery($miscGrid.find('[data-mappedfield="' + data.hiddenMisc[l] + '"]')).parent().hide();
-        }
-        for (var l = 0; l < data.hiddenUsedSale.length; l++) {
-            jQuery($usedSaleGrid.find('[data-mappedfield="' + data.hiddenUsedSale[l] + '"]')).parent().hide();
-        }
-        for (let i = 0; i < data.hiddenLossDamage.length; i++) {
-            jQuery($lossDamageGrid.find(`[data-mappedfield="${data.hiddenLossDamage[i]}"]`)).parent().hide();
-        }
-        for (let i = 0; i < data.hiddenCombined.length; i++) {
-            jQuery($combinedGrid.find('[data-mappedfield="' + data.hiddenCombined[i] + '"]')).parent().hide();
-        }
-        if (data.hiddenRentals.indexOf('WeeklyExtended') === -1 && rate === '3WEEK') {
-            $rentalGrid.find('.3weekextended').parent().show();
-        } else if (data.hiddenRentals.indexOf('WeeklyExtended') === -1 && rate !== '3WEEK') {
-            $rentalGrid.find('.weekextended').parent().show();
-        }
-    }
     //----------------------------------------------------------------------------------------------
     activityCheckboxEvents($form: any, mode: string) {
         let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
@@ -513,11 +713,11 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     events($form: any) {
-        let weeklyType = $form.find(".weeklyType");
-        let monthlyType = $form.find(".monthlyType");
-        let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
-        let billingMonths = $form.find(".BillingMonths");
-        let billingWeeks = $form.find(".BillingWeeks");
+        //let weeklyType = $form.find(".weeklyType");
+        //let monthlyType = $form.find(".monthlyType");
+        //let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+        //let billingMonths = $form.find(".BillingMonths");
+        //let billingWeeks = $form.find(".BillingWeeks");
 
         //Populate tax info fields with validation
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', $tr => {
@@ -588,51 +788,58 @@ class OrderBase {
         //        $form.find(".RentalDaysPerWeek").hide();
         //    }
         //});
-        $form.find('.RateType').on('change', $tr => {
-            let rateType = FwFormField.getValueByDataField($form, 'RateType');
-            switch (rateType) {
-                case 'DAILY':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.show();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
-                    $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
-                    break;
-                case 'WEEKLY':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.hide();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-                case '3WEEK':
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.hide();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-                case 'MONTHLY':
-                    weeklyType.hide();
-                    monthlyType.show();
-                    rentalDaysPerWeek.hide();
-                    billingWeeks.hide();
-                    billingMonths.show();
-                    break;
-                default:
-                    weeklyType.show();
-                    monthlyType.hide();
-                    rentalDaysPerWeek.show();
-                    billingMonths.hide();
-                    billingWeeks.show();
-                    break;
-            }
+
+        //$form.find('.RateType').on('change', $tr => {
+        //    let rateType = FwFormField.getValueByDataField($form, 'RateType');
+        //    switch (rateType) {
+        //        case 'DAILY':
+        //            weeklyType.show();
+        //            monthlyType.hide();
+        //            rentalDaysPerWeek.show();
+        //            billingMonths.hide();
+        //            billingWeeks.show();
+        //            $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
+        //            $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
+        //            $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
+        //            $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
+        //            $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
+        //            break;
+        //        case 'WEEKLY':
+        //            weeklyType.show();
+        //            monthlyType.hide();
+        //            rentalDaysPerWeek.hide();
+        //            billingMonths.hide();
+        //            billingWeeks.show();
+        //            break;
+        //        case '3WEEK':
+        //            weeklyType.show();
+        //            monthlyType.hide();
+        //            rentalDaysPerWeek.hide();
+        //            billingMonths.hide();
+        //            billingWeeks.show();
+        //            break;
+        //        case 'MONTHLY':
+        //            weeklyType.hide();
+        //            monthlyType.show();
+        //            rentalDaysPerWeek.hide();
+        //            billingWeeks.hide();
+        //            billingMonths.show();
+        //            break;
+        //        default:
+        //            weeklyType.show();
+        //            monthlyType.hide();
+        //            rentalDaysPerWeek.show();
+        //            billingMonths.hide();
+        //            billingWeeks.show();
+        //            break;
+        //    }
+        //});
+        $form.find('div[data-datafield="RateType"]').on('change', event => {
+            this.applyOrderTypeAndRateTypeToForm($form);
         });
+
+
+
         // Pending PO
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -671,25 +878,31 @@ class OrderBase {
             }
         });
 
-        $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
-            let combineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
-            $form.find('[data-datafield="CombineActivity"] input').val(combineActivity);
+        //$form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
+        //    let combineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
+        //    $form.find('[data-datafield="CombineActivity"] input').val(combineActivity);
 
-            let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
-                , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-                , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
-                , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-            if (combineActivity == "true") {
-                $form.find('.notcombinedtab').hide();
-                $form.find('.combinedtab').show();
-            } else if (combineActivity == "false") {
-                $form.find('.combinedtab').hide();
-                $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
-                $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-                $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-            }
+        //    let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
+        //        , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
+        //        , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
+        //        , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+        //    if (combineActivity == "true") {
+        //        $form.find('.notcombinedtab').hide();
+        //        $form.find('.combinedtab').show();
+        //    } else if (combineActivity == "false") {
+        //        $form.find('.combinedtab').hide();
+        //        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+        //        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+        //        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+        //        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+        //    }
+        //});
+
+        $form.find('div[data-datafield="OrderTypeId"]').on('change', event => {
+            this.renderGrids($form);
+            this.applyOrderTypeAndRateTypeToForm($form);
         });
+
 
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
             let $this = jQuery(this);
@@ -763,7 +976,7 @@ class OrderBase {
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
-        });      
+        });
 
         $form.find('.allFrames').css('display', 'none');
         $form.find('.hideFrames').css('display', 'none');
@@ -792,7 +1005,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="PaymentTermsId"]', $tr.find('.field[data-browsedatafield="PaymentTermsId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentTerms"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="PaymentTypeId"]', $tr.find('.field[data-browsedatafield="PaymentTypeId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="PaymentType"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="CurrencyId"]', $tr.find('.field[data-browsedatafield="CurrencyId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Currency"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));   
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, response => {
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
@@ -1399,7 +1612,7 @@ class OrderBase {
             FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.CountryId, response.Country);
         }
     }
-  
+
     //----------------------------------------------------------------------------------------------
     disableWithTaxCheckbox($form: any): void {
         if (FwFormField.getValueByDataField($form, 'PeriodRentalTotal') === '0.00') {
@@ -1523,9 +1736,351 @@ class OrderBase {
         };
     };
     //----------------------------------------------------------------------------------------------
-    afterLoad($form, orderType) {
+    applyOrderTypeAndRateTypeToForm($form) {
+        let self = this;
+
+        // find all the tabs on the form
+        let $rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]');
+        let $salesTab = $form.find('[data-type="tab"][data-caption="Sales"]');
+        let $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
+        let $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
+        let $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
+        let $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
+
+        // find all the grids on the form
+        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        let $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        let $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        let $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        let $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+        let $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+        let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+        let rateType = FwFormField.getValueByDataField($form, 'RateType');
+
+        // get the OrderTypeId from the form
+        let orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+
+        if (self.CachedOrderTypes[orderTypeId] !== undefined) {
+            applyOrderTypeToColumns($form, self.CachedOrderTypes[orderTypeId]);
+        } else {
+            let fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
+            let fieldNames = [];
+
+            for (var i = 3; i < fields.length; i++) {
+                var name = jQuery(fields[i]).attr('data-mappedfield');
+                if (name != "QuantityOrdered") {
+                    fieldNames.push(name);
+                }
+            }
+            let hiddenRentals, hiddenSales, hiddenLabor, hiddenMisc, hiddenUsedSale, hiddenLossDamage, hiddenCombined;
+
+            FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderTypeId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                hiddenRentals = fieldNames.filter(function (field) {
+                    return !this.has(field)
+                }, new Set(response.RentalShowFields))
+                hiddenSales = fieldNames.filter(function (field) {
+                    return !this.has(field)
+                }, new Set(response.SalesShowFields))
+                hiddenLabor = fieldNames.filter(function (field) {
+                    return !this.has(field)
+                }, new Set(response.LaborShowFields))
+                hiddenMisc = fieldNames.filter(function (field) {
+                    return !this.has(field)
+                }, new Set(response.MiscShowFields))
+                hiddenUsedSale = fieldNames.filter(function (field) {
+                    return !this.has(field)
+                }, new Set(response.RentalSaleShowFields))
+                hiddenLossDamage = fieldNames.filter(function (field) {
+                    return !this.has(field)
+                }, new Set(response.LossAndDamageShowFields))
+                hiddenCombined = fieldNames.filter(function (field) {
+                    return !this.has(field)
+                }, new Set(response.CombinedShowFields))
+
+                self.CachedOrderTypes[orderTypeId] = {
+                    CombineActivityTabs: response.CombineActivityTabs,
+                    hiddenRentals: hiddenRentals,
+                    hiddenSales: hiddenSales,
+                    hiddenLabor: hiddenLabor,
+                    hiddenMisc: hiddenMisc,
+                    hiddenUsedSale: hiddenUsedSale,
+                    hiddenLossDamage: hiddenLossDamage,
+                    hiddenCombined: hiddenCombined
+                }
+                applyOrderTypeToColumns($form, self.CachedOrderTypes[orderTypeId]);
+            }, null, null);
+        }
+
+        //sets active tab and opens search interface from a newly saved record 
+        //12-12-18 moved here from afterSave Jason H 
+        let openSearch = $form.attr('data-opensearch');
+        let searchType = $form.attr('data-searchtype');
+        let activeTabId = $form.attr('data-activetabid');
+        let search = new SearchInterface();
+        if (openSearch === "true") {
+            //FwTabs.setActiveTab($form, $tab); //this method doesn't seem to be working correctly
+            let $newTab = $form.find(`#${activeTabId}`);
+            $newTab.click();
+            if ($form.attr('data-controller') === "OrderController") {
+                search.renderSearchPopup($form, FwFormField.getValueByDataField($form, 'OrderId'), 'Order', searchType);
+            } else if ($form.attr('data-controller') === "QuoteController") {
+                search.renderSearchPopup($form, FwFormField.getValueByDataField($form, 'QuoteId'), 'Quote', searchType);
+            }
+            $form.removeAttr('data-opensearch data-searchtype data-activetabid');
+        }
+
+
+        function applyOrderTypeToColumns($form, orderTypeData) {
+            $form.find('[data-datafield="CombineActivity"] input').val(orderTypeData.CombineActivityTabs);
+
+            if (orderTypeData.CombineActivityTabs === true) {
+                $form.find('.notcombined').css('display', 'none');
+                $form.find('.notcombinedtab').css('display', 'none');
+                $form.find('.combined').show();
+                $form.find('.combinedtab').show();
+            } else {
+                $form.find('.combined').css('display', 'none');
+                $form.find('.combinedtab').css('display', 'none');
+                $form.find('.notcombined').show();
+                $form.find('.notcombinedtab').show();
+
+                // show/hide tabs based on Activity boxes checked
+                $form.find('[data-datafield="Rental"] input').prop('checked') ? $rentalTab.show() : $rentalTab.hide();
+                $form.find('[data-datafield="Sales"] input').prop('checked') ? $salesTab.show() : $salesTab.hide();
+                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? $miscTab.show() : $miscTab.hide();
+                $form.find('[data-datafield="Labor"] input').prop('checked') ? $laborTab.show() : $laborTab.hide();
+                $form.find('[data-datafield="RentalSale"] input').prop('checked') ? $usedSaleTab.show() : $usedSaleTab.hide();
+                $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? $lossDamageTab.show() : $lossDamageTab.hide();
+            }
+
+            for (var i = 0; i < orderTypeData.hiddenRentals.length; i++) {
+                jQuery($rentalGrid.find('[data-mappedfield="' + orderTypeData.hiddenRentals[i] + '"]')).parent().hide();
+            }
+            for (var j = 0; j < orderTypeData.hiddenSales.length; j++) {
+                jQuery($salesGrid.find('[data-mappedfield="' + orderTypeData.hiddenSales[j] + '"]')).parent().hide();
+            }
+            for (var k = 0; k < orderTypeData.hiddenLabor.length; k++) {
+                jQuery($laborGrid.find('[data-mappedfield="' + orderTypeData.hiddenLabor[k] + '"]')).parent().hide();
+            }
+            for (var l = 0; l < orderTypeData.hiddenMisc.length; l++) {
+                jQuery($miscGrid.find('[data-mappedfield="' + orderTypeData.hiddenMisc[l] + '"]')).parent().hide();
+            }
+            for (var l = 0; l < orderTypeData.hiddenUsedSale.length; l++) {
+                jQuery($usedSaleGrid.find('[data-mappedfield="' + orderTypeData.hiddenUsedSale[l] + '"]')).parent().hide();
+            }
+            for (let i = 0; i < orderTypeData.hiddenLossDamage.length; i++) {
+                jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
+            }
+            for (let i = 0; i < orderTypeData.hiddenCombined.length; i++) {
+                jQuery($combinedGrid.find('[data-mappedfield="' + orderTypeData.hiddenCombined[i] + '"]')).parent().hide();
+            }
+            if (orderTypeData.hiddenRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
+                $rentalGrid.find('.3weekextended').parent().show();
+            } else if (orderTypeData.hiddenRentals.indexOf('WeeklyExtended') === -1 && rateType !== '3WEEK') {
+                $rentalGrid.find('.weekextended').parent().show();
+            }
+
+            let weeklyType = $form.find(".weeklyType");
+            let monthlyType = $form.find(".monthlyType");
+            let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+            let billingMonths = $form.find(".BillingMonths");
+            let billingWeeks = $form.find(".BillingWeeks");
+
+
+            switch (rateType) {
+                case 'DAILY':
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    //$form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
+                    //$form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
+                    //$form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
+                    //$form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
+                    //$form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
+                    break;
+                case 'WEEKLY':
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    break;
+                case '3WEEK':
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.hide();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    break;
+                case 'MONTHLY':
+                    weeklyType.hide();
+                    monthlyType.show();
+                    rentalDaysPerWeek.hide();
+                    billingWeeks.hide();
+                    billingMonths.show();
+                    break;
+                default:
+                    weeklyType.show();
+                    monthlyType.hide();
+                    rentalDaysPerWeek.show();
+                    billingMonths.hide();
+                    billingWeeks.show();
+                    break;
+            }
+
+
+            //if (rateType === '3WEEK') {
+            //    $allOrderItemGrid.find('.3week').parent().show();
+            //    $allOrderItemGrid.find('.weekextended').parent().hide();
+            //    $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
+            //    $orderItemGridRental.find('.3week').parent().show();
+            //    $orderItemGridRental.find('.weekextended').parent().hide();
+            //    $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
+            //}
+
+
+
+            //// Display D/W field in rental
+            //if (rateType === 'DAILY') {
+            //    $allOrderItemGrid.find('.dw').parent().show();
+            //    $orderItemGridRental.find('.dw').parent().show();
+            //    $orderItemGridLabor.find('.dw').parent().show();
+            //    $orderItemGridMisc.find('.dw').parent().show();
+            //} else {
+            //    $allOrderItemGrid.find('.dw').parent().hide();
+            //    $orderItemGridRental.find('.dw').parent().hide();
+            //    $orderItemGridLabor.find('.dw').parent().hide();
+            //    $orderItemGridMisc.find('.dw').parent().hide();
+            //}
+
+
+
+        }
+    };
+    //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
+
+    afterLoad($form) {
+
+        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`));
+
+        this.applyOrderTypeAndRateTypeToForm($form);
+
+        // disable/enable PO Number and Amount based on PO Pending
+        let $pending = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
+        if ($pending === true) {
+            FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
+        } else {
+            FwFormField.enable($form.find('[data-datafield="PoNumber"]'));
+            FwFormField.enable($form.find('[data-datafield="PoAmount"]'));
+        }
+
+        // update fields on the form based on Rate Type
+        var rateType = FwFormField.getValueByDataField($form, 'RateType');
+        if (rateType === 'MONTHLY') {
+            $form.find(".BillingWeeks").hide();
+            $form.find(".BillingMonths").show();
+        } else {
+            $form.find(".BillingMonths").hide();
+            $form.find(".BillingWeeks").show();
+        }
+
+        // show/hide D/W field based on Rate Type
+        if (rateType === 'DAILY') {
+            $form.find(".RentalDaysPerWeek").show();
+            $form.find(".combineddw").show();
+        } else {
+            $form.find(".RentalDaysPerWeek").hide();
+            $form.find(".combineddw").hide();
+        }
+
+        //Show/hide summary buttons based on rate type
+        $form.find('.summaryperiod').addClass('pressed');
+        if (rateType === 'MONTHLY') {
+            $form.find('.summaryweekly').hide();
+            $form.find('.summarymonthly').show();
+        } else if (rateType === 'WEEKLY') {
+            $form.find('.summarymonthly').hide();
+            $form.find('.summaryweekly').show();
+        }
+
+        $form.find(".totals .add-on").hide();
+        $form.find('.totals input').css('text-align', 'right');
+
+
+
+
+        // find all the items grids on the form
+        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        let $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        let $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        let $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        let $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+        let $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+        let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
+
+        if (this.Module === 'Quote') {
+            //hide subworksheet and LD menu items
+            $rentalGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $salesGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $laborGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $miscGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $usedSaleGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $combinedGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        }
+        else if (this.Module === 'Order') {
+            //hide LD menu items
+            $rentalGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $salesGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $laborGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $miscGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $usedSaleGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            $lossDamageGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
+            $combinedGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        }
+
+        // disable the Rate column
+        if (FwFormField.getValueByDataField($form, 'DisableEditingRentalRate')) {
+            $rentalGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingSalesRate')) {
+            $salesGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingLaborRate')) {
+            $laborGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingMiscellaneousRate')) {
+            $miscGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingUsedSaleRate')) {
+            $usedSaleGrid.find('.rates').attr('data-formreadonly', true);
+        }
+        if (FwFormField.getValueByDataField($form, 'DisableEditingLossAndDamageRate')) {
+            $lossDamageGrid.find('.rates').attr('data-formreadonly', true);
+        }
+
+        // disable/enable the No Charge Reason field
+        var noChargeValue = FwFormField.getValueByDataField($form, 'NoCharge');
+        if (noChargeValue == false) {
+            FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
+        } else {
+            FwFormField.enable($form.find('[data-datafield="NoChargeReason"]'));
+        }
+
+        // Disable withTax checkboxes if Total field is 0.00
+        this.disableWithTaxCheckbox($form);
+
+
+        // color the Notes tab if notes exist
+        let hasNotes = FwFormField.getValueByDataField($form, 'HasNotes');
+        if (hasNotes) {
+            FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
+        }
+
         //Click Event on tabs to load grids/browses
-        $form.find('.tabGridsLoaded[data-type="tab"]').removeClass('tabGridsLoaded');
         $form.on('click', '[data-type="tab"]', e => {
             const $tab = jQuery(e.currentTarget);
             const tabname = $tab.attr('id');
@@ -1555,14 +2110,25 @@ class OrderBase {
             }
             $tab.addClass('tabGridsLoaded');
         });
-        // show / hide tabs
-        if (!orderType) {
-            if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-            if (!FwFormField.getValueByDataField($form, 'Sales')) { $form.find('[data-type="tab"][data-caption="Sales"]').hide() }
-            if (!FwFormField.getValueByDataField($form, 'Miscellaneous')) { $form.find('[data-type="tab"][data-caption="Miscellaneous"]').hide() }
-            if (!FwFormField.getValueByDataField($form, 'Labor')) { $form.find('[data-type="tab"][data-caption="Labor"]').hide() }
-            if (!FwFormField.getValueByDataField($form, 'RentalSale')) { $form.find('[data-type="tab"][data-caption="Used Sale"]').hide() }
+
+
+        // disable the Activity checkboxes if Items exist
+        if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         }
+        if (FwFormField.getValueByDataField($form, 'HasSalesItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Sales'));
+        }
+        if (FwFormField.getValueByDataField($form, 'HasMiscellaneousItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Miscellaneous'));
+        }
+        if (FwFormField.getValueByDataField($form, 'HasLaborItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'Labor'));
+        }
+        if (FwFormField.getValueByDataField($form, 'HasRentalSaleItem')) {
+            FwFormField.disable(FwFormField.getDataField($form, 'RentalSale'));
+        }
+
         // LD Disable checkbox in Order form
         let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
         let salesVal = FwFormField.getValueByDataField($form, 'Sales');
@@ -1572,16 +2138,33 @@ class OrderBase {
         } else if (rentalVal === false && salesVal === false && usedSaleVal === false) {
             FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
         }
-        //Show/hide summary buttons based on rate type
-        $form.find('.summaryperiod').addClass('pressed');
-        let rateType = FwFormField.getValueByDataField($form, 'RateType');
-        if (rateType === 'MONTHLY') {
-            $form.find('.summaryweekly').hide();
-            $form.find('.summarymonthly').show();
-        } else if (rateType === 'WEEKLY') {
-            $form.find('.summarymonthly').hide();
-            $form.find('.summaryweekly').show();
+
+        // disable all controls on the form based on Quote/Order status
+        let status = FwFormField.getValueByDataField($form, 'Status');
+        if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
+            FwModule.setFormReadOnly($form);
         }
     }
+    //----------------------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+    };
+    //----------------------------------------------------------------------------------------------
+    afterSave($form) {
+        if (this.CombineActivity === 'true') {
+            $form.find('.combined').css('display', 'block');
+            $form.find('.combinedtab').css('display', 'flex');
+            $form.find('.generaltab').click();
+        } else {
+            $form.find('.notcombined').css('display', 'block');
+            $form.find('.notcombinedtab').css('display', 'flex');
+            $form.find('.generaltab').click();
+        }
+        this.renderGrids($form);
+        this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`));
+        //this.dynamicColumns($form);
+        this.applyOrderTypeAndRateTypeToForm($form);
+    };
+    //----------------------------------------------------------------------------------------------
 }
 var OrderBaseController = new OrderBase();
