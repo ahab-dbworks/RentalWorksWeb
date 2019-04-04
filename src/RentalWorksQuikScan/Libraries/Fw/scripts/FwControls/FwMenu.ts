@@ -244,16 +244,12 @@ class FwMenuClass {
                             jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', true);
                             selectedFilterValues = ["All"];
                             fields = ["ALL"];
+                            caption = "All";
                         } else {
                             selectedFilterValues = [];
                             fields = [];
-                            const checkedFilters = $this.siblings().find('input[type="checkbox"]:checked');
-                            for (let i = 0; i < checkedFilters.length; i++) {
-                                let filterCaption = jQuery(checkedFilters[i]).siblings('.ddviewbtn-dropdown-btn-caption').html();
-                                let filterValue = jQuery(checkedFilters[i]).parents('.ddviewbtn-dropdown-btn').attr('data-value');
-                                selectedFilterValues.push(filterCaption);
-                                fields.push(filterValue);
-                            }
+                            jQuery($this).siblings().find('input[type="checkbox"]').prop('checked', false);
+                            caption = '';
                         }
                     } else {
                         jQuery($this).siblings('.select-all-filters').find('input[type="checkbox"]').prop('checked', false);
@@ -273,10 +269,11 @@ class FwMenuClass {
                                 selectedFilterValues.push(caption);
                                 fields.push(value);
                             }
-                        } else if (isChecked === false) {
+                        } else {
                             selectedFilterValues = selectedFilterValues.filter(val => val !== caption);
                             fields = fields.filter(val => val !== value);
                         }
+
                         if (selectedFilterValues.length <= 3) {
                             caption = selectedFilterValues.join(', ');
                         } else {
@@ -291,6 +288,7 @@ class FwMenuClass {
                         WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
                         , ModuleName: window[controller].Module
                         , ActiveViewFields: JSON.stringify(window[controller].ActiveViewFields)
+                        , OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
                     };
 
                     if (typeof window[controller].ActiveViewFieldsId == 'undefined') {
@@ -317,7 +315,14 @@ class FwMenuClass {
         if (typeof filterField !== 'undefined' && typeof window[controller].ActiveViewFields[filterField] !== 'undefined') {
             for (let i = 0; i < window[controller].ActiveViewFields[filterField].length; i++) {
                 const $this = window[controller].ActiveViewFields[filterField][i];
-                const $ddbtn = $btn.find(`[data-value="${$this}"]`);
+                let $ddbtn = $btn.find(`[data-value="${$this}"]`);
+                //To account for changes in location
+                if (filterField == 'LocationId' && $ddbtn.length == 0) {
+                    const loc = JSON.parse(sessionStorage.getItem('location')).locationid;
+                    window[controller].ActiveViewFieldsId = undefined;
+                    $ddbtn = $btn.find(`[data-value="${loc}"]`);
+                    window[controller].ActiveViewFields[filterField][i] = loc;
+                }
                 const caption = $ddbtn.find(`.ddviewbtn-dropdown-btn-caption`).html();
                 if ($this == 'ALL') {
                     $ddbtn.addClass('select-all-filters');

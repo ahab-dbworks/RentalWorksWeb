@@ -8,7 +8,7 @@
         let $btnpeek = $control.find('.btnpeek');
         let $btnvalidate = $control.find('.btnvalidate');
         let $validationbrowse = jQuery(jQuery('#tmpl-validations-' + validationName + 'Browse').html());
-        let $object = ($control.closest('.fwbrowse[data-controller!=""]').length > 0) ? $control.closest('.fwbrowse[data-controller!=""]') : $control.closest('.fwform[data-controller!=""]');
+        let $object = ($control.closest('.fwbrowse:not([data-controller=""])').length > 0) ? $control.closest('.fwbrowse:not([data-controller=""])') : $control.closest('.fwform:not([data-controller=""])');
         let controller = $object.attr('data-controller');
         let formbeforevalidate = $control.attr('data-formbeforevalidate');
         let control_boundfields = $control.attr('data-boundfields');
@@ -286,7 +286,14 @@
 
         $control.find('.btnpeek').on('click', () => {
             try {
-                this.validationPeek($control, validationName.slice(0, -10), $valuefield.val().toString(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
+                let me = this;
+                $control.find('.btnpeek').hide();
+                $validationbrowse.data('$control').find('.validation-loader').show();
+                setTimeout(function () {
+                    me.validationPeek($control, validationName.slice(0, -10), $valuefield.val().toString(), $valuefield.parent().parent().attr('data-datafield'), $object, $searchfield.val());
+                    $validationbrowse.data('$control').find('.validation-loader').hide();
+                    $control.find('.btnpeek').show()
+                })
             } catch (ex) {
                 FwFunc.showError(ex);
             }

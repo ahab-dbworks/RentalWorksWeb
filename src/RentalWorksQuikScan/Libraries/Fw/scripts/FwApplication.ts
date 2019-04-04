@@ -298,18 +298,16 @@ class FwApplication {
         }
     };
     //---------------------------------------------------------------------------------
-    getModule(path) {
-        var screen, $bodyContainer, $modifiedForms, $form, $tab;
-
-        $bodyContainer = jQuery('#master-body');
-        $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
-        path           = path.toLowerCase();
+    getModule(path: string): void {
+        const $bodyContainer = jQuery('#master-body');
+        const $modifiedForms = $bodyContainer.find('div[data-type="form"][data-modified="true"]');
+        path = path.toLowerCase();
         if ($modifiedForms.length > 0) {
             if (jQuery($modifiedForms[0]).parent().data('type') === 'settings-row') {
                 this.navigate(path);
-            } 
-            $form = jQuery($modifiedForms[0]);
-            $tab  = jQuery('#' + $form.parent().attr('data-tabid'));
+            }
+            const $form = jQuery($modifiedForms[0]);
+            const $tab = jQuery(`#${$form.parent().attr('data-tabid')}`);
             $tab.click();
             FwModule.closeForm($form, $tab, path);
         } else {
@@ -321,32 +319,55 @@ class FwApplication {
         return JSON.parse(sessionStorage.getItem('applicationOptions'));
     };
     //---------------------------------------------------------------------------------
-    updateTemplatesWithCustomForms(loadDefaultPage?) {
-        var me = this;
-        if (sessionStorage.getItem('userid') != null) {
-            let request: any = {};
-            var WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
-            request.uniqueids = {
-                WebUserId: WebUserId
-            };
-            FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                let baseFormIndex = response.ColumnIndex.BaseForm;
-                //let activeIndex = response.ColumnIndex.Active;
-                let htmlIndex = response.ColumnIndex.Html;
-                for (let i = 0; i < response.Rows.length; i++) {
-                    let customForm = response.Rows[i];
-                    //if (customForm[activeIndex] == true) {
-                        let baseform = customForm[baseFormIndex];
-                        jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
-                    //}
-                }
-                loadDefaultPage.call(me);
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, null);
-        } else {
-            loadDefaultPage.call(me);
-        }
+    loadCustomFormsAndBrowseViews() {
+        const self = this;
+        try {
+            if (sessionStorage.getItem('userid') != null) {
+                let request: any = {};
+                const WebUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+                request.uniqueids = {
+                    WebUserId: WebUserId
+                };
+                FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, request, FwServices.defaultTimeout, response => {
+                    try {
+                        const baseFormIndex = response.ColumnIndex.BaseForm;
+                        const htmlIndex = response.ColumnIndex.Html;
+                        for (let i = 0; i < response.Rows.length; i++) {
+                            let customForm = response.Rows[i];
+                            let baseform = customForm[baseFormIndex];
+                            jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
+                        }
+
+                        if (sessionStorage.getItem('location') != null) {
+                            request.uniqueids.OfficeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
+                            FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, request, FwServices.defaultTimeout, response => {
+                                try {
+                                    const moduleNameIndex = response.ColumnIndex.ModuleName;
+                                    const activeViewFieldsIndex = response.ColumnIndex.ActiveViewFields;
+                                    const idIndex = response.ColumnIndex.Id;
+                                    for (let i = 0; i < response.Rows.length; i++) {
+                                        let controller = `${response.Rows[i][moduleNameIndex]}Controller`;
+                                        window[controller].ActiveViewFields = JSON.parse(response.Rows[i][activeViewFieldsIndex]);
+                                        window[controller].ActiveViewFieldsId = response.Rows[i][idIndex];
+                                    }
+                                    self.loadDefaultPage();
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            }, null, null);
+                        } else {
+                            self.loadDefaultPage();
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }, null, null);
+            } else {
+                self.loadDefaultPage();
+            }
+        } catch (ex) {
+            FwFunc.showError(ex);
+        };
     }
     //---------------------------------------------------------------------------------
     navigateHashChange(path) {
@@ -394,12 +415,10 @@ class FwApplication {
         }
     };
     //---------------------------------------------------------------------------------
-    navigate(path) {
-        var me, screen;
-        me = this;
+    navigate(path: string): void {
         path = path.toLowerCase();
         if (window.location.hash.replace('#/', '') !== path) {
-            var url = '/' + path;
+            const url = `/${path}`;
             window.location.hash = url;
             //history.pushState(url, '', url);
         } else {

@@ -89,13 +89,18 @@
                 $content.data('afterSaveNewValidation')();
             }
             let popoutUniqueDatafield = $content.data('uniqueids').data('datafield');
-            let popoutKeys = {}
+            let popoutKeys = {};
+            let $this = jQuery(this);
             popoutKeys[popoutUniqueDatafield] = popoutModuleId;
-            var $popoutForm = window[$content.data('controller')].loadForm(popoutKeys);
-            FwModule.openModuleTab($popoutForm, "", true, 'FORM', true);
+            let popupWait = FwOverlay.showPleaseWaitOverlay($content, null);
+            setTimeout(function () {
+                var $popoutForm = window[$content.data('controller')].loadForm(popoutKeys);
+                FwModule.openModuleTab($popoutForm, "", true, 'FORM', true);
+                FwOverlay.hideOverlay(popupWait);
+                me.destroyPopup($this.closest('.fwpopup'));
+            });
 
-            me.destroyPopup(jQuery(this).closest('.fwpopup'));
-            jQuery(this).closest('.fwpopup').off('click');
+            $this.closest('.fwpopup').off('click');
             jQuery(document).off('keydown');
         });
 

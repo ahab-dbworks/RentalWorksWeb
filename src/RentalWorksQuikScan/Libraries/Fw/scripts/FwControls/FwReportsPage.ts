@@ -98,7 +98,10 @@
         html.push('          <div id="myDropdown" class="dropdown-content">');
         html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
         html.push('          </div>');
+        html.push('        <div style="margin-left:auto;">');
+        html.push('          <i class="material-icons pop-out">open_in_new</i>');
         html.push('          <i class="material-icons heading-menu">more_vert</i>');
+        html.push('        </div>');
         html.push('      </h4>');
         html.push('      </div>');
         if (description === "") {
@@ -123,8 +126,10 @@
 
         $reportsPageModules.on('click', '.pop-out', function (e) {
             e.stopPropagation();
-            program.popOutTab('#/module/' + moduleName.slice(2));
-            jQuery(this).parent().hide();
+            program.popOutTab('#/reports/' + moduleName.slice(2));
+            if (jQuery(this).closest('#myDropdown').length !== 0) {
+                jQuery(this).parent().hide();
+            }
         });
 
         $reportsPageModules
@@ -162,17 +167,18 @@
                 e.stopPropagation();
                 let activeMenu = $control.find('.active-menu');
                 let $this: any = jQuery(this);
-                if ($this.prev().css('display') === 'none') {
-                    $this.prev().css('display', 'block').addClass('active-menu');
+                let $dropdown = $this.closest('.panel-title').find('#myDropdown');
+                if ($dropdown.css('display') === 'none') {
+                    $dropdown.css('display', 'block').addClass('active-menu');
                     jQuery(document).one('click', function closeMenu(e) {
                         if ($this.has(e.target).length === 0) {
-                            $this.prev().removeClass('active-menu').css('display', 'none');
+                            $dropdown.removeClass('active-menu').css('display', 'none');
                         } else {
-                            $this.prev().css('display', 'block');
+                            $dropdown.css('display', 'block');
                         }
                     })
                 } else {
-                    $this.prev().removeClass('active-menu').css('display', 'none');
+                    $dropdown.removeClass('active-menu').css('display', 'none');
                 }
 
                 if (activeMenu.length > 0) {

@@ -36,8 +36,8 @@
         FwControl.loadControls($fwcontrols);
         // START CLOSE TAB
         if ($tabControl.find('div[data-tabtype="FORM"]').length > 2) {
-            let iconHtml: Array<string> = [], $closeTabButton;
             $tabControl.find('.closetabbutton').html('');
+            const iconHtml: Array<string> = [];
             iconHtml.push(`<div class="closetab">
                             <i class="material-icons">more_horiz</i>
                             <div style="display:none;" class="close-dialog">
@@ -49,7 +49,7 @@
                               </div>
                             </div>
                           </div>`);
-            $closeTabButton = jQuery(iconHtml.join(''));
+            const $closeTabButton = jQuery(iconHtml.join(''));
             $tabControl.find('.closetabbutton:first').append($closeTabButton);
         } else {
             $tabControl.find('.closetabbutton').html('');
@@ -104,7 +104,6 @@
             $activeTab = $tabControl.find('div[data-tabtype="FORM"].tab.active');
             $activeTabId = $activeTab.attr('data-tabpageid');
             jQuery('body').data('activeTabId', $activeTabId);
-            $bodyContainer = jQuery('#master-body');
             $bodyContainer = jQuery('#master-body');
             $modifiedForms = $bodyContainer.find('div[data-modified="true"]');
             $unmodifiedForms = $bodyContainer.find('div[data-modified="false"]');
@@ -743,7 +742,7 @@
         FwModule.addFormMenu($form);
 
         $form.data('uniqueids', $form.find('.fwformfield[data-isuniqueid="true"]'));
-        $form.data('fields', $form.find('.fwformfield[data-isuniqueid!="true"]'));
+        $form.data('fields', $form.find('.fwformfield:not([data-isuniqueid="true"])'));
 
         $form.attr('data-modified', 'false');
         if (typeof window[controller]['renderGrids'] === 'function') {
@@ -776,7 +775,7 @@
         if ($keys.length !== 0) {
             $formTabControl = jQuery($form.find('.fwtabs'));
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
-            $auditControl = jQuery(jQuery('#tmpl-grids-AuditHistoryGridBrowse').html());
+            $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
             $auditControl.data('ondatabind', function (request) {
                 request.uniqueids = {};
                 request.uniqueids.ModuleName = window[controller].Module;
@@ -814,7 +813,7 @@
 
 
         $form
-            .on('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]', function (event) {
+            .on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', function (event) {
                 var fields, $tab, $tabpage;
                 event.stopPropagation();
 
@@ -1069,11 +1068,10 @@
                         if ($browse.length > 0) {
                             FwBrowse.databind($browse);
                         }
-
                         var tabname = (typeof response.tabname === 'string') ? response.tabname : (typeof response.RecordTitle === 'string') ? response.RecordTitle : 'Unknown';
                         $tab.find('.caption').html(tabname);
                         $tab.find('.modified').html('');
-
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');
                             $formfields = jQuery().add($form.data('uniqueids')).add($form.data('fields'));
@@ -1109,6 +1107,7 @@
                         }
                     }
                     $form.find('.error').removeClass('error')
+
                     FwNotification.renderNotification('SUCCESS', 'Record saved.');
                 } else if (response.saved === true) {
                     if (parameters.closetab === false) {
@@ -1120,7 +1119,7 @@
 
                         $tab.find('.caption').html(response.tabname);
                         $tab.find('.modified').html('');
-                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled')
+                        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
 
                         if ($form.attr('data-mode') === 'NEW') {
                             $form.attr('data-mode', 'EDIT');

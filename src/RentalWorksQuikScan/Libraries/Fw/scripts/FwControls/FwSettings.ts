@@ -588,10 +588,16 @@ class FwSettingsClass {
         }
         html.push('          <div class="show-inactive flexrow"><i class="material-icons">visibility</i>Show Inactive</div>');
         html.push('          <div class="hide-inactive flexrow" style="display:none;"><i class="material-icons">visibility_off</i>Hide Inactive</div>');
-        html.push('          <div class="popout flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
+        html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
         html.push('        </div>');
         html.push('        </div>');
         html.push('        <div style="margin-left:auto;">');
+        if (showNew) {
+            html.push('          <i class="material-icons new-row-menu">add</i>');
+        }
+        html.push('          <i class="material-icons show-inactive">visibility</i>');
+        html.push('          <i class="material-icons hide-inactive" style="display:none">visibility_off</i>');
+        html.push('          <i class="material-icons pop-out">open_in_new</i>');
         html.push('          <i class="material-icons refresh">cached</i>');
         html.push('          <i class="material-icons heading-menu">more_vert</i>');
         html.push('        </div>');
@@ -622,42 +628,51 @@ class FwSettingsClass {
 
         $settingsPageModules.on('click', '.new-row-menu', function (e) {
             e.stopPropagation();
-            if (jQuery(this).parent().find('.hidden').length === 0) {
+            if (jQuery(this).parent().find('.hidden').length === 0 && jQuery(this).closest('#myDropdown').length !== 0) {
                 jQuery(this).parent().find('div[data-mode="NEW"]').addClass('hidden').hide('fast');
+                jQuery(this).closest('#myDropdown').hide();
             } else {
                 jQuery(this).parent().find('div[data-mode="NEW"]').removeClass('hidden').show('fast');
+                jQuery(this).closest('#myDropdown').hide();
             }
             $body = $control.find('#' + moduleName + '.panel-body');
             me.newRow($body, $control, apiurl, $modulecontainer, moduleName, $settingsPageModules);
-            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules.on('click', '.show-inactive', function (e) {
             e.stopPropagation();
-            if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible')) {
-                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').show();
+            if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length !== 0) {
                 jQuery(this).closest('.panel').find('.inactive-panel').parent().show();
-                jQuery(this).hide();
-                jQuery(this).parent().find('.hide-inactive').show();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').show();
+                jQuery(this).closest('.panel-title').find('.show-inactive').hide();
+                jQuery(this).closest('#myDropdown').hide();
+            } else if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length === 0) {
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().show();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').show();
+                jQuery(this).closest('.panel-title').find('.show-inactive').hide();
             }
-            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules.on('click', '.hide-inactive', function (e) {
             e.stopPropagation();
-            if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible')) {
-                jQuery(this).closest('.panel').find('.inactive-panel').closest('.panel-record').hide();
+            if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length !== 0) {
                 jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
-                jQuery(this).hide();
-                jQuery(this).parent().find('.show-inactive').show();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').hide();
+                jQuery(this).closest('.panel-title').find('.show-inactive').show();
+                jQuery(this).closest('#myDropdown').hide();
+            } else if (jQuery(this).closest('.panel').find('.panel-collapse').is(':visible') && jQuery(this).closest('#myDropdown').length === 0) {
+                jQuery(this).closest('.panel').find('.inactive-panel').parent().hide();
+                jQuery(this).closest('.panel-title').find('.hide-inactive').hide();
+                jQuery(this).closest('.panel-title').find('.show-inactive').show();
             }
-            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules.on('click', '.pop-out', function (e) {
             e.stopPropagation();
+            if (jQuery(this).closest('#myDropdown').length !== 0) {
+                jQuery(this).closest('#myDropdown').hide();
+            }
             program.popOutTab('#/module/' + moduleName);
-            jQuery(this).parent().parent().hide();
         });
 
         $settingsPageModules
@@ -892,6 +907,10 @@ class FwSettingsClass {
             .on('click', '.refresh', function (e) {
                 e.stopPropagation();
                 let $body = $control.find('#' + moduleName + '.panel-body');
+                if (jQuery(this).closest('.panel-title').find('.hide-inactive').length !== 0) {
+                    jQuery(this).closest('.panel-title').find('.hide-inactive').hide()
+                    jQuery(this).closest('.panel-title').find('.show-inactive').show();
+                }
                 if (!$body.is(':empty')) {
                     $body.empty();
                     me.getRows($body, $control, apiurl, $modulecontainer, moduleName);

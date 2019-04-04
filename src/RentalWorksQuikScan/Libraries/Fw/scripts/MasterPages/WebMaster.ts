@@ -1,17 +1,29 @@
 ﻿class WebMaster {
     //---------------------------------------------------------------------------------
     getMasterView() {
-        var applicationtheme = sessionStorage.getItem('applicationtheme');
+        const $view = jQuery(`<div id="master" class="fwpage">
+                                <div id="master-header"></div>
+                                <div id="master-body"></div>
+                                <div id="master-footer"></div>
+                              </div>`);
 
-        var $view = jQuery(`<div id="master" class="fwpage">
-                              <div id="master-header"></div>
-                              <div id="master-body"></div>
-                              <div id="master-footer"></div>
-                            </div>`);
+        const applicationTheme = sessionStorage.getItem('applicationtheme');
+        const masterHeader = $view.find('#master-header');
+        masterHeader.append((applicationTheme === 'theme-classic') ? this.getHeaderClassic() : this.getHeaderView());
 
-        $view.find('#master-header').append((applicationtheme === 'theme-classic') ? this.getHeaderClassic() : this.getHeaderView());
 
-        program.setApplicationTheme(applicationtheme);
+        program.setApplicationTheme(applicationTheme);
+
+        // color nav header for non-default user location on app refresh. Event listener in RwMaster.buildOfficeLocation()
+        const userLocation = JSON.parse(sessionStorage.getItem('location'));
+        const defaultLocation = JSON.parse(sessionStorage.getItem('defaultlocation'));
+        if (userLocation.location !== defaultLocation.location) {
+            const nonDefaultStyles = { borderTop: `.3em solid ${userLocation.locationcolor}`, borderBottom: `.3em solid ${userLocation.locationcolor}` };
+            masterHeader.find('div[data-control="FwFileMenu"]').css(nonDefaultStyles);
+        } else {
+            const defaultStyles = { borderTop: `transparent`, borderBottom: `1px solid #9E9E9E` };
+            masterHeader.find('div[data-control="FwFileMenu"]').css(defaultStyles);
+        }
 
         return $view;
     }
@@ -19,9 +31,7 @@
     getHeaderClassic() {
         var $view = jQuery(`<div id="header">
                               <div id="headerRibbon" class="fwcontrol fwribbon" data-control="FwRibbon" data-version="1" data-rendermode="template">
-                                <div class="dashboard">
-                                  <img src="theme/images/icons/home.png" alt="Home" style="width:16px;height:16px;" />
-                                </div>
+                                <div class="dashboard"><img src="theme/images/icons/home.png" alt="Home" style="width:16px;height:16px;" /></div>
                                 <div class="tabs"></div>
                                 <div class="usercontrol"></div>
                                 <div class="tabpages"></div>
@@ -90,25 +100,24 @@
         $view
             .on('click', '.dashboard', function() {
                 try {
-                    program.navigate('home');
+                    program.getModule('module/dashboard');
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
-            })
-        ;
+            });
 
         return $view;
     }
     //----------------------------------------------------------------------------------------------
     getUserControlClassic($userControl: JQuery) {
-        var $user = jQuery(`<div id="username" class="item">${sessionStorage.getItem('userType')}: ${sessionStorage.getItem('fullname')}</div>`);
+        const $user = jQuery(`<div id="username" class="item">${sessionStorage.getItem('userType')}: ${sessionStorage.getItem('fullname')}</div>`);
         $userControl.append($user);
 
         //var $notification = FwNotification.generateNotificationArea();
         //$userControl.append($notification);
 
-        var $usersettings = jQuery(`<div id="usersettings" class="item"><div class="usersettingsicon"></div></div>`);
-        $usersettings.on('click', function() {
+        const $usersettings = jQuery(`<div id="usersettings" class="item"><div class="usersettingsicon"></div></div>`);
+        $usersettings.on('click', function () {
             try {
                 program.getModule('module/usersettings');
             } catch (ex) {
@@ -117,10 +126,10 @@
         });
         $userControl.append($usersettings);
 
-        var $logoff = jQuery(`<div id="logoff" class="item">Logoff</div>`);
-        $logoff.on('click', function() { 
+        const $logoff = jQuery(`<div id="logoff" class="item">Logoff</div>`);
+        $logoff.on('click', function () {
             try {
-                program.navigate('logoff');
+                program.getModule('logoff');
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -129,30 +138,28 @@
     }
     //----------------------------------------------------------------------------------------------
     getHeaderView() {
-        var $view = jQuery(`<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>`);
+        const $view = jQuery(`<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>`);
 
         FwControl.renderRuntimeControls($view);
-
         $view.find('.logo').append(`<div class="bgothm">${program.name}</div>`);
 
         this.buildMainMenu($view);
         this.getUserControl($view);
         $view
-            .on('click', '.bgothm', function () {
+            .on('click', '.bgothm', () => {
                 try {
-                    let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+                    const homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
 
                     if (homePagePath !== null && homePagePath !== '') {
-                        program.navigate(`${homePagePath}`);
+                        program.getModule(homePagePath);
                     } else {
-                        program.navigate('home');
+                        program.getModule('module/dashboard');
                     }
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
                 }
-            })
-        ;
+            });
 
         return $view;
     }

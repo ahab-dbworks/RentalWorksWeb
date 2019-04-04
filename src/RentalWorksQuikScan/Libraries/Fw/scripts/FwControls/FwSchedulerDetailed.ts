@@ -119,7 +119,7 @@ class FwSchedulerDetailedClass {
 
         // view
         dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
-        dpscheduler.days = moment().endOf('month').diff(moment().format('YYYY-MM-DD'), 'days');
+        dpscheduler.days = 35;
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
             { groupBy: "Month" },
@@ -142,7 +142,7 @@ class FwSchedulerDetailedClass {
         dpscheduler.init();
     };
     //---------------------------------------------------------------------------------
-    navigate($control, date) {
+    navigate($control, date, days?) {
         var dpscheduler;
 
         if (typeof date === 'string') {
@@ -154,6 +154,9 @@ class FwSchedulerDetailedClass {
             dpscheduler.days = date.daysInMonth();
         } else {
             dpscheduler.days = date.daysInMonth() - date.d.getDate();
+        }
+        if (days !== undefined) {
+            dpscheduler.days = days;
         }
         dpscheduler.startDate = date;
         FwSchedulerDetailed.loadEvents($control)
