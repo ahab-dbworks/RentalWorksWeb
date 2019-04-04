@@ -446,13 +446,13 @@ class Customer {
               <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
               <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
               <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>
-              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipt"></div>             
+              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipt"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
-              <div data-type="tab" id="imagetab" class="tab" data-tabpageid="imagetabpage" data-caption="Image"></div>
-              <div data-type="tab" id="webcontenttab" class="tab" data-tabpageid="webcontenttabpage" data-caption="> Web Content"></div>
-              <div data-type="tab" id="eventtab" class="tab" data-tabpageid="eventtabpage" data-caption="Event"></div>
-              <div data-type="tab" id="summarytab" class="tab" data-tabpageid="summarytabpage" data-caption="Summary"></div>
-              <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>-->
+              <!-- <div data-type="tab" id="imagetab" class="tab" data-tabpageid="imagetabpage" data-caption="Image"></div> -->
+              <!-- <div data-type="tab" id="webcontenttab" class="tab" data-tabpageid="webcontenttabpage" data-caption="> Web Content"></div> -->
+              <!-- <div data-type="tab" id="eventtab" class="tab" data-tabpageid="eventtabpage" data-caption="Event"></div> -->
+              <!-- <div data-type="tab" id="summarytab" class="tab" data-tabpageid="summarytabpage" data-caption="Summary"></div> -->
+              <!-- <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div> -->
             </div>
             <div class="tabpages">
               <!-- CUSTOMER TAB -->
@@ -1584,7 +1584,8 @@ class Customer {
                   </div>
                 </div>
               </div>
-              <!-- IMAGE TAB -->
+              <!--
+              <##### IMAGE TAB #####>
               <div data-type="tabpage" id="imagetabpage" class="tabpage" data-tabid="imagetab">
                 <div class="flexpage">
                   <div class="flexrow">
@@ -1596,7 +1597,6 @@ class Customer {
                   </div>
                 </div>
               </div>
-              <!--
               <##### RentalWorks.Net tab #####>
               <div data-type="tabpage" id="rentalworksnettabpage" class="tabpage" data-tabid="rentalworksnettab">
                 <div class="formpage">
