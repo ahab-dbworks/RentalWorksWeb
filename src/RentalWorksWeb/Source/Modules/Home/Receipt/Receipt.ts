@@ -281,7 +281,7 @@ class Receipt {
             });
         }
         FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($control, dt) => {
-            this.calculateCreditTotals($form, dt.Totals);
+            //this.calculateCreditTotals($form, dt.Totals);
         });
 
         FwBrowse.databind($browse);
@@ -290,13 +290,6 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     calculateCreditTotals($form, data) {
         console.log('data', data);
-    }
-    //----------------------------------------------------------------------------------------------
-    calculateInvoiceTotals($form) {
-        const $amountFields = $form.find('.invoice-amount input');
-        for (let i = 0; i > $amountFields.length; i++) {
-            console.log('amt', $amountFields.eq(i).val())
-        }
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
@@ -309,7 +302,7 @@ class Receipt {
             let totalTotal = new Decimal(0);
             let dueTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
-            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount')
+            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
             const $totalFields = $form.find('td[data-invoicefield="InvoiceTotal"]');
             const $appliedFields = $form.find('td[data-invoicefield="InvoiceApplied"]');
@@ -332,7 +325,13 @@ class Receipt {
             total = totalTotal.toFixed(2);
             due = dueTotal.toFixed(2);
             applied = appliedTotal.toFixed(2);
-            const unAppliedTotal = amountToApply - amount
+            const unappliedTotal = amountToApply - amount;
+
+            $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val(unappliedTotal);
+            $form.find(`div[data-totalfield="InvoiceTotal"] input`).val(total);
+            $form.find(`div[data-totalfield="InvoiceApplied"] input`).val(applied);
+            $form.find(`div[data-totalfield="InvoiceDue"] input`).val(due);
+            $form.find(`div[data-totalfield="InvoiceAmountTotal"] input`).val(amount);
 
         }
         const getInvoiceData = ($form) => {
@@ -356,7 +355,6 @@ class Receipt {
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/receiptinvoice/browse', request, FwServices.defaultTimeout, res => {
                 const rows = res.Rows;
-                console.log('rows from receiptinvoicebrowse', rows)
                 const htmlRows: Array<string> = [];
                 if (rows.length) {
                     for (let i = 0; i < rows.length; i++) {
@@ -379,6 +377,7 @@ class Receipt {
                                 $amountFields.eq(i).css('background-color', '#F4FFCC');
                             }
                         }
+                        calculateInvoiceTotals($form);
                     })();
                     // Amount column listener
                     $form.find('.invoice-amount input').on('change', e => {

@@ -41,36 +41,53 @@
             </div>
           </div>
           <div class="flexrow invoice-row">
-            <div class="flexcolumn">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoices">
-                <div class="flexrow tablewrapper " style="text-align:center;border:1px solid #1f1f1f;height:auto;margin:15px 0px 0px 5px;max-width:1160px;">
-                  <table class="form-table">
-                    <tr class="header">
-                      <th class="text">Deal</th>
-                      <th class="text" style="display:none;" data-headerfield="InvoiceId">InvoiceId</th>
-                      <th class="text">Invoice No.</th>
-                      <th class="text">Invoice Date</th>
-                      <th class="text">Order No.</th>
-                      <th class="text">Invoice Description</th>
-                      <th class="decimal">Total</th>
-                      <th class="decimal">Applied</th>
-                      <th class="decimal">Due</th>
-                      <th class="decimal" style="width:105px;" data-headerfield="Amount">Amount</th>
-                    </tr>
-                    <tbody class="table-rows">
-                      <tr class="empty-row" style="height:33px;">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+            <div class="flexrow" style="flex:0 1 1200px;">
+              <div class="flexcolumn" style="flex:0 1 1200px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoices">
+                  <div class="flexrow tablewrapper " style="text-align:center;border:1px solid #1f1f1f;height:auto;margin:15px 0px 0px 5px;max-width:1160px;">
+                    <table class="form-table">
+                      <tr class="header">
+                        <th class="text">Deal</th>
+                        <th class="text" style="display:none;" data-headerfield="InvoiceId">InvoiceId</th>
+                        <th class="text">Invoice No.</th>
+                        <th class="text">Invoice Date</th>
+                        <th class="text">Order No.</th>
+                        <th class="text">Invoice Description</th>
+                        <th class="decimal">Total</th>
+                        <th class="decimal">Applied</th>
+                        <th class="decimal">Due</th>
+                        <th class="decimal" style="width:105px;" data-headerfield="Amount">Amount</th>
                       </tr>
-                    </tbody>
-                  </table>
+                      <tbody class="table-rows">
+                        <tr class="empty-row" style="height:33px;">
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flexrow" style="flex:0 1 1200px;justify-content:space-between;">
+              <div class="flexcolumn" style="flex:0 1 10px;"></div>
+              <div class="flexcolumn" style="flex:0 1 500px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Unapplied Amount" data-datafield="" data-enabled="false" data-totalfield="UnappliedInvoiceTotal" style="flex:0 1 115px;"></div>
+                    <div class="spacer" style="width:50px;"></div>
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="InvoiceTotal" style="flex:0 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Applied" data-datafield="" data-enabled="false" data-totalfield="InvoiceApplied" style="flex:0 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Due" data-datafield="" data-enabled="false" data-totalfield="InvoiceDue" style="flex:0 1 100px;"></div>
+                    <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield totals" data-caption="Amount" data-datafield="" data-enabled="false" data-totalfield="InvoiceAmountTotal" style="flex:0 1 100px;"></div>
+                  </div>
                 </div>
               </div>
             </div>
