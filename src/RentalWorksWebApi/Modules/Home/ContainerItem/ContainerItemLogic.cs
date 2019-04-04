@@ -15,6 +15,5 @@ namespace WebApi.Modules.Home.ContainerItem
             browseLoader = itemBrowseLoader;
         }
         //------------------------------------------------------------------------------------ 
- 
     }
 }

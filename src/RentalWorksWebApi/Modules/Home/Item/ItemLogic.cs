@@ -71,6 +71,9 @@ namespace WebApi.Modules.Home.Item
         [FwLogicProperty(Id:"YPNYer7cUWQs", IsReadOnly:true)]
         public string ContainerStatusColor { get; set; }
 
+        [FwLogicProperty(Id: "IIiYemJaXj9K9", IsReadOnly:true)]
+        public string ContainerItemId { get; set; }
+
         [FwLogicProperty(Id:"2vzSapDug3y8", IsReadOnly:true)]
         public string ContainerStatusDate { get; set; }
 

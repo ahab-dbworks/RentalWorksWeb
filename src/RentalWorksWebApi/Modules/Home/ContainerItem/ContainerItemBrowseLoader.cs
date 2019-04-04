@@ -89,6 +89,9 @@ namespace WebApi.Modules.Home.ContainerItem
         [FwSqlDataField(column: "containerstatusdate", modeltype: FwDataTypes.Date)]
         public string ContainerStatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containeritemid", modeltype: FwDataTypes.Text)]
+        public string ContainerItemId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 

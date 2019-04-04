@@ -99,6 +99,9 @@ class Container {
              <div class="column flexcolumn" data-width="0" data-visible="false">
                <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
              </div>
+             <div class="column flexcolumn" data-width="0" data-visible="false">
+               <div class="field" data-isuniqueid="false" data-datafield="ContainerItemId" data-browsedatatype="key"></div>
+             </div>
              <div class="column flexcolumn" max-width="250px" data-visible="true">
                <div class="field" data-caption="Barcode No." data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
              </div>
