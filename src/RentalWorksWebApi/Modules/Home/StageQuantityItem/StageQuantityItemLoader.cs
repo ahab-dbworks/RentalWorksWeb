@@ -35,8 +35,12 @@ namespace WebApi.Modules.Home.StageQuantityItem
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor
+        {
+            get { return getICodeColor(ItemClass); }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
@@ -44,8 +48,12 @@ namespace WebApi.Modules.Home.StageQuantityItem
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(ItemClass); }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
@@ -71,8 +79,12 @@ namespace WebApi.Modules.Home.StageQuantityItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string RecTypeColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor
+        {
+            get { return determineRecTypeColor(RecType); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "itemclass", modeltype: FwDataTypes.Text)]
         public string ItemClass { get; set; }
@@ -80,6 +92,21 @@ namespace WebApi.Modules.Home.StageQuantityItem
         [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
         public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
+        private string getICodeColor(string itemClass)
+        {
+            return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDescriptionColor(string itemClass)
+        {
+            return AppFunc.GetItemClassDescriptionColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string determineRecTypeColor(string recType)
+        {
+            return AppFunc.GetInventoryRecTypeColor(recType);
+        }
+        //------------------------------------------------------------------------------------    
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             string orderId = GetUniqueIdAsString("OrderId", request) ?? "";
@@ -99,6 +126,14 @@ namespace WebApi.Modules.Home.StageQuantityItem
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            foreach (List<object> row in dt.Rows)
+            {
+                row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------

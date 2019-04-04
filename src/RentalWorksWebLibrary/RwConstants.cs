@@ -217,6 +217,9 @@
         public const string INVENTORY_AVAILABLE_FOR_PARTS = "P";
         public const string INVENTORY_AVAILABLE_FOR_VEHICLE = "V";
 
+        public const int INVENTORY_AVAILABLE_FOR_SALE_COLOR = 16728163;  // reddish
+        public const int INVENTORY_AVAILABLE_FOR_PARTS_COLOR = 13004796;  // purplish
+
         public const string INVENTORY_STATUS_TYPE_IN = "IN";
         public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
         public const string INVENTORY_STATUS_TYPE_INCONTAINER = "INCONTAINER";

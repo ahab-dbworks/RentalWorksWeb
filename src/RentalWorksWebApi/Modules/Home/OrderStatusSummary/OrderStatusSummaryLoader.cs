@@ -2,16 +2,21 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes;
-using Newtonsoft.Json;
 using WebApi.Data; 
 using System.Collections.Generic;
 using WebLibrary;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.OrderStatusSummary
 {
     [FwSqlTable("dbo.getorderstatussummary(@orderid)")]
     public class OrderStatusSummaryLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------ 
+        public OrderStatusSummaryLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -22,8 +27,12 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "masternodisplayweb", modeltype: FwDataTypes.Text)]
         public string ICodeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor
+        {
+            get { return getICodeColor(ItemClass); }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
@@ -37,8 +46,12 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(ItemClass); }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
@@ -163,9 +176,13 @@ namespace WebApi.Modules.Home.OrderStatusSummary
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string RecTypeColor { get; set; }
-        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor
+        {
+            get { return determineRecTypeColor(RecType); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
         public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -260,5 +277,37 @@ namespace WebApi.Modules.Home.OrderStatusSummary
             
         }
         //------------------------------------------------------------------------------------ 
+        private string getICodeColor(string itemClass)
+        {
+            return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDescriptionColor(string itemClass)
+        {
+            return AppFunc.GetItemClassDescriptionColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string determineRecTypeColor(string recType)
+        {
+            return AppFunc.GetInventoryRecTypeColor(recType);
+        }
+        //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                        row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 } 

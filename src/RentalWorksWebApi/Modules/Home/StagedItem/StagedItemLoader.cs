@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Reflection;
 using System.Data;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.StagedItem
 {
@@ -59,8 +60,12 @@ namespace WebApi.Modules.Home.StagedItem
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectypecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string RecTypeColor { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string RecTypeColor
+        {
+            get { return determineRecTypeColor(RecType); }
+            set { }
+        }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
         public string OptionColor { get; set; }
@@ -122,15 +127,38 @@ namespace WebApi.Modules.Home.StagedItem
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "masternocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string ICodeColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string ICodeColor
+        {
+            get { return getICodeColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(ItemClass); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
         public bool? Bold { get; set; }
         //------------------------------------------------------------------------------------ 
+        private string getICodeColor(string itemClass)
+        {
+            return AppFunc.GetItemClassICodeColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string getDescriptionColor(string itemClass)
+        {
+            return AppFunc.GetItemClassDescriptionColor(itemClass);
+        }
+        //------------------------------------------------------------------------------------ 
+        private string determineRecTypeColor(string recType)
+        {
+            return AppFunc.GetInventoryRecTypeColor(recType);
+        }
+        //------------------------------------------------------------------------------------    
         public override async Task<FwJsonDataTable> BrowseAsync(BrowseRequest request, FwCustomFields customFields = null)
         {
             bool orderByItemOrder = false;
@@ -171,6 +199,15 @@ namespace WebApi.Modules.Home.StagedItem
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
+            foreach (List<object> row in dt.Rows)
+            {
+                row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(row[dt.GetColumnNo("ItemClass")].ToString());
+                row[dt.GetColumnNo("RecTypeColor")] = determineRecTypeColor(row[dt.GetColumnNo("RecType")].ToString());
+            }
+
+
             return dt;
 
 

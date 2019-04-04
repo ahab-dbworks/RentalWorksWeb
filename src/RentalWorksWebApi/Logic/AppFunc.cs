@@ -367,6 +367,21 @@ namespace WebApi.Logic
             return descriptionColor;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static string GetInventoryRecTypeColor(string recType)
+        {
+            string recTypeColor = null;
+            switch (recType)
+            {
+                case RwConstants.INVENTORY_AVAILABLE_FOR_SALE:
+                    recTypeColor = RwGlobals.INVENTORY_AVAILABLE_FOR_SALE_COLOR;
+                    break;
+                case RwConstants.INVENTORY_AVAILABLE_FOR_PARTS:
+                    recTypeColor = RwGlobals.INVENTORY_AVAILABLE_FOR_PARTS_COLOR;
+                    break;
+            }
+            return recTypeColor;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static string GetReceiptRecTypeColor(string recType)
         {
             string recTypeColor = null;

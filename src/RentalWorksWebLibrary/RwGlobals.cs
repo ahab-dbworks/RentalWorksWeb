@@ -53,6 +53,10 @@ namespace WebLibrary
         public static string PO_ITEMS_NEED_BARCODE_COLOR { get; set; }
         public static string PO_ITEMS_IN_HOLDING_COLOR { get; set; }
 
+        //INVENTORY
+        public static string INVENTORY_AVAILABLE_FOR_SALE_COLOR { get; set; }
+        public static string INVENTORY_AVAILABLE_FOR_PARTS_COLOR { get; set; }
+
         //STAGING / CHECK-OUT
         public static string STAGING_PENDING_ITEMS_MISSING_COLOR { get; set; }
 
@@ -80,6 +84,9 @@ namespace WebLibrary
             MISCELLANEOUS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.MISCELLANEOUS_COLOR);
             ITEM_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ITEM_COLOR);
             ACCESSORY_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.ACCESSORY_COLOR);
+
+            INVENTORY_AVAILABLE_FOR_SALE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_SALE_COLOR);
+            INVENTORY_AVAILABLE_FOR_PARTS_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.INVENTORY_AVAILABLE_FOR_PARTS_COLOR);
 
 
 
