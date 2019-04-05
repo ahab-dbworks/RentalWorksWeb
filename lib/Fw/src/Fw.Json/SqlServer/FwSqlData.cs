@@ -1146,6 +1146,29 @@ namespace Fw.Json.SqlServer
             return control;
         }
         //-----------------------------------------------------------------------------
+        //justin 04/05/2019 RentalWorksWeb#308. query fields from webusers table instead of xml settings
+        public static void GetWebUserSettings2019(FwSqlConnection conn, string webusersid, ref string applicationTheme, ref int browseDefaultRows)
+        {
+            FwSqlCommand qry;
+            DataTable dt;
+
+            // default values
+            applicationTheme = "theme-material";
+            browseDefaultRows = 15; 
+
+            qry = new FwSqlCommand(conn);
+            qry.Add("select top 1 applicationtheme, browsedefaultrows");
+            qry.Add(" from  webusers with (nolock)");
+            qry.Add(" where webusersid = @webusersid");
+            qry.AddParameter("@webusersid", webusersid);
+            dt = qry.QueryToTable();
+            if (dt.Rows.Count > 0)
+            {
+                applicationTheme = dt.Rows[0]["applicationtheme"].ToString().TrimEnd();
+                browseDefaultRows = FwConvert.ToInt32(dt.Rows[0]["browsedefaultrows"].ToString().TrimEnd());
+            }
+        }
+        //-----------------------------------------------------------------------------
         public static string CheckDatabaseVersion(FwSqlConnection conn, string requireddbversion, string requiredhotfixfilename)
         {
             FwSqlCommand qry;

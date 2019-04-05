@@ -104,9 +104,16 @@ namespace Fw.Json.Services
                 tokenData.clientcode                = clientcode;
                 response.clientcode                 = clientcode;
 
-                settings                            = FwSqlData.GetWebUserSettings(conn, webusersid);
-                response.webUser.browsedefaultrows  = settings.Settings.BrowseDefaultRows;
-                response.webUser.applicationtheme   = settings.Settings.ApplicationTheme;
+                //settings                            = FwSqlData.GetWebUserSettings(conn, webusersid);
+                //response.webUser.browsedefaultrows  = settings.Settings.BrowseDefaultRows;
+                //response.webUser.applicationtheme   = settings.Settings.ApplicationTheme;
+
+                //justin 04/05/2019 RentalWorksWeb#308
+                string applicationTheme = "";
+                int browseDefaultRows = 0;
+                FwSqlData.GetWebUserSettings2019(conn, webusersid, ref applicationTheme, ref browseDefaultRows);
+                response.webUser.applicationtheme   = applicationTheme;
+                response.webUser.browsedefaultrows  = browseDefaultRows;
 
                 session.applicationOptions          = FwSqlData.GetApplicationOptions(conn);
                 response.applicationOptions         = new ExpandoObject();
