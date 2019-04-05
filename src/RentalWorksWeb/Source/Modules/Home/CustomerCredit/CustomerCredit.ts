@@ -91,7 +91,7 @@ class CustomerCredit {
                <div class="field" data-isuniqueid="true" data-datafield="ReceiptId" data-browsedatatype="key"></div>
              </div>
              <div class="column flexcolumn" max-width="150px" data-visible="true">
-               <div class="field" data-caption="Date" data-datafield="ReceiptDate" data-browsedatatype="date" data-sort="asc"></div>
+               <div class="field" data-caption="Date" data-datafield="ReceiptDate" data-browsedatatype="date" data-sort="desc"></div>
              </div>
              <div class="column flexcolumn" max-width="250px" data-visible="true">
                <div class="field" data-caption="Customer" data-datafield="Customer" data-browsedatatype="text" data-sort="off"></div>
@@ -100,7 +100,7 @@ class CustomerCredit {
                <div class="field" data-caption="Payment Type" data-datafield="PaymentType" data-cellcolor="RecTypeColor" data-browsedatatype="text" data-sort="off"></div>
              </div>
              <div class="column flexcolumn" max-width="150px" data-visible="true">
-               <div class="field" data-caption="Ref/Check" data-datafield="CheckNumber" data-browsedatatype="text" data-sort="off"></div>
+               <div class="field" data-caption="Ref/Check" data-datafield="CheckNumber" data-browsedatatype="text" data-sort="desc"></div>
              </div>
              <div class="column flexcolumn" max-width="150px" data-visible="true">
                <div class="field" data-caption="Amount" data-datafield="Amount" data-browsedatatype="money" data-sort="off"></div>

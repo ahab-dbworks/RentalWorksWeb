@@ -5,6 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
 using WebApi.Data;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.CustomerCredit
 {
@@ -73,6 +74,8 @@ namespace WebApi.Modules.Home.CustomerCredit
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_CUSTOMER + "'");
+
             addFilterToSelect("CustomerId", "customerid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
         }

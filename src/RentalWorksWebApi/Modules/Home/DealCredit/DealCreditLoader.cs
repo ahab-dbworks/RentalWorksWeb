@@ -5,6 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using System.Collections.Generic;
 using WebApi.Data;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.DealCredit
 {
@@ -79,6 +80,7 @@ namespace WebApi.Modules.Home.DealCredit
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
+            select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_DEAL + "'");
             addFilterToSelect("DealId", "dealid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
         }

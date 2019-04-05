@@ -411,48 +411,48 @@ class Customer {
           <div id="customerform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
               <div data-type="tab" id="customertab" class="tab" data-tabpageid="customertabpage" data-caption="Customer"></div>
+              <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
+              <div data-type="tab" id="credittab" class="tab" data-tabpageid="credittabpage" data-caption="Credit"></div>
+              <div data-type="tab" id="insurancetab" class="tab" data-tabpageid="insurancetabpage" data-caption="Insurance"></div>
+              <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
+              <div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>
+              <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
+
               <div data-type="tab" id="dealtab" class="tab submodule" data-tabpageid="dealtabpage" data-caption="Deal"></div>
               <div data-type="tab" id="quotetab" class="tab submodule" data-tabpageid="quotetabpage" data-caption="Quote"></div>
               <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Order"></div>
-              <!--<div data-type="tab" id="revenuetab" class="tab" data-tabpageid="revenuetabpage" data-caption="> Revenue"></div>
-              <div data-type="tab" id="quotehistorytab" class="tab" data-tabpageid="quotehistorytabpage" data-caption="> Quote History"></div>
-              <div data-type="tab" id="orderhistorytab" class="tab" data-tabpageid="orderhistorytabpage" data-caption="> Order History"></div>
+              <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
+              <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>
+              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipt"></div>
+              <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
+              <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
+              <!--
+              <div data-type="tab" id="revenuetab" class="tab" data-tabpageid="revenuetabpage" data-caption="> Revenue"></div>
               <div data-type="tab" id="repairhistorytab" class="tab" data-tabpageid="repairhistorytabpage" data-caption="> Repair History"></div>
-              <div data-type="tab" id="invoicehistorytab" class="tab" data-tabpageid="invoicehistorytabpage" data-caption="> Invoice History"></div>
               <div data-type="tab" id="actsscenestab" class="tab" data-tabpageid="actsscenestabpage" data-caption="Acts / Scenes" style="background-color:#f5f5f5;"></div>
               <div data-type="tab" id="showscheduletab" class="tab" data-tabpageid="showscheduletabpage" data-caption="Show Schedule" style="background-color:#f5f5f5;"></div>
               <div data-type="tab" id="characterstab" class="tab" data-tabpageid="characterstabpage" data-caption="Characters" style="background-color:#f5f5f5;"></div>
               <div data-type="tab" id="wardrobetab" class="tab" data-tabpageid="wardrobetabpage" data-caption="Wardrobe" style="background-color:#f5f5f5;"></div>
               <div data-type="tab" id="brochuretab" class="tab" data-tabpageid="brochuretabpage" data-caption="Brochure" style="background-color:#f5f5f5;"></div>
-              <div data-type="tab" id="projecttab" class="tab" data-tabpageid="projecttabpage" data-caption="Project"></div>-->
-              <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-              <!--<div data-type="tab" id="discountsdwtab" class="tab" data-tabpageid="discountsdwtabpage" data-caption="> Discounts &amp; D/W"></div>
+              <div data-type="tab" id="projecttab" class="tab" data-tabpageid="projecttabpage" data-caption="Project"></div>
+              <div data-type="tab" id="discountsdwtab" class="tab" data-tabpageid="discountsdwtabpage" data-caption="> Discounts &amp; D/W"></div>
               <div data-type="tab" id="flatpotab" class="tab" data-tabpageid="flatpotabpage" data-caption="Flat PO" style="background-color:#f5f5f5;"></div>
               <div data-type="tab" id="financechargestab" class="tab" data-tabpageid="financechargestabpage" data-caption="> Finance Charges"></div>
               <div data-type="tab" id="episodicscheduletab" class="tab" data-tabpageid="episodicscheduletabpage" data-caption="> Episodic Schedule"></div>
               <div data-type="tab" id="hiatusscheduletab" class="tab" data-tabpageid="hiatusscheduletabpage" data-caption="Hiatus Schedule" style="background-color:#f5f5f5;"></div>
               <div data-type="tab" id="orderprioritytab" class="tab" data-tabpageid="orderprioritytabpage" data-caption="> Order Priority"></div>
               <div data-type="tab" id="dealscheduletab" class="tab" data-tabpageid="dealscheduletabpage" data-caption="> Deal Schedule"></div>
-              <div data-type="tab" id="ordergroupstab" class="tab" data-tabpageid="ordergroupstabpage" data-caption="> Order Groups"></div>-->
-              <div data-type="tab" id="credittab" class="tab" data-tabpageid="credittabpage" data-caption="Credit"></div>
-              <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
-              <!--<div data-type="tab" id="aragingtab" class="tab" data-tabpageid="aragingtabpage" data-caption="> A/R Aging"></div>
-              <div data-type="tab" id="depletingdepositstab" class="tab" data-tabpageid="depletingdepositstabpage" data-caption="> Depleting Deposits"></div>-->
-              <div data-type="tab" id="insurancetab" class="tab" data-tabpageid="insurancetabpage" data-caption="Insurance"></div>
-              <!--<div data-type="tab" id="securitydeposittab" class="tab" data-tabpageid="securitydeposittabpage" data-caption="> Security Deposit"></div>-->
-              <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
-              <div data-type="tab" id="optionstab" class="tab" data-tabpageid="optionstabpage" data-caption="Options"></div>
-              <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
-              <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
-              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoice"></div>
-              <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contract"></div>
-              <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipt"></div>
-              <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
-              <!-- <div data-type="tab" id="imagetab" class="tab" data-tabpageid="imagetabpage" data-caption="Image"></div> -->
-              <!-- <div data-type="tab" id="webcontenttab" class="tab" data-tabpageid="webcontenttabpage" data-caption="> Web Content"></div> -->
-              <!-- <div data-type="tab" id="eventtab" class="tab" data-tabpageid="eventtabpage" data-caption="Event"></div> -->
-              <!-- <div data-type="tab" id="summarytab" class="tab" data-tabpageid="summarytabpage" data-caption="Summary"></div> -->
-              <!-- <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div> -->
+              <div data-type="tab" id="ordergroupstab" class="tab" data-tabpageid="ordergroupstabpage" data-caption="> Order Groups"></div>
+              <div data-type="tab" id="aragingtab" class="tab" data-tabpageid="aragingtabpage" data-caption="> A/R Aging"></div>
+              <div data-type="tab" id="depletingdepositstab" class="tab" data-tabpageid="depletingdepositstabpage" data-caption="> Depleting Deposits"></div>
+              <div data-type="tab" id="securitydeposittab" class="tab" data-tabpageid="securitydeposittabpage" data-caption="> Security Deposit"></div>
+              <div data-type="tab" id="imagetab" class="tab" data-tabpageid="imagetabpage" data-caption="Image"></div>
+              <div data-type="tab" id="webcontenttab" class="tab" data-tabpageid="webcontenttabpage" data-caption="> Web Content"></div>
+              <div data-type="tab" id="eventtab" class="tab" data-tabpageid="eventtabpage" data-caption="Event"></div>
+              <div data-type="tab" id="summarytab" class="tab" data-tabpageid="summarytabpage" data-caption="Summary"></div>
+              <div data-type="tab" id="documentstab" class="tab" data-tabpageid="documentstabpage" data-caption="Documents"></div>
+              -->
             </div>
             <div class="tabpages">
               <!-- CUSTOMER TAB -->
@@ -682,59 +682,6 @@ class Customer {
                       <div class="formrow">
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show All" data-datafield="Inactive" style="float:left;"></div>
                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show All Warehouses" data-datafield="Inactive" style="float:left;margin-left:15px;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <##### Invoice History tab #####>
-              <div data-type="tabpage" id="invoicehistorytabpage" class="tabpage" data-tabid="invoicehistorytab">
-                <div class="formpage">
-                  <div class="formrow" style="width:100%;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice History">
-                      <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div data-control="FwGrid" data-grid="VendorLocationTaxOptions" data-securitycaption="Location Tax Options">########## ADD MISSING INVOICE HISTORY GRID ##########</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="formrow">
-                    <div class="formcolumn" style="width:30%;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice Filer">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Show Invoices" data-datafield="customer.addressoptionflg" style="width:300px;">
-                          <div data-value="All" data-caption="New and Approved"></div>
-                          <div data-value="Rental" data-caption="Processed and Closed"></div>
-                          <div data-value="Sales" data-caption="Processed"></div>
-                          <div data-value="RentalWorksNet" data-caption="Closed"></div>
-                          <div data-value="All" data-caption="Void"></div>
-                          <div data-value="Rental" data-caption="Estimates"></div>
-                          <div data-value="Sales" data-caption="Approved"></div>
-                          <div data-value="RentalWorksNet" data-caption="New"></div>
-                          <div data-value="RentalWorksNet" data-caption="All"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="formcolumn" style="width:40%;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="padding-left:1px;">
-                        <div class="formrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter by Department" data-datafield="department" style="float:left;"></div>
-                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="" data-datafield="vendor.primarycontactname" style="float:left;width:275px;"></div>
-                        </div>
-                        <div class="formrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show All" data-datafield="Inactive" style="float:left;width:150px;margin-top:0px;"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show All Locations" data-datafield="Inactive" style="float:left;width:150px;margin-top:0px;"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Agent Only" data-datafield="Inactive" style="float:left;width:150px;margin-top:0px;"></div>
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Project Manager Only" data-datafield="Inactive" style="float:left;width:200px;margin-top:0px;"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="formcolumn" style="width:15%;">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Invoice History Total" style="padding-left:1px;">
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Amount" data-datafield="vendor.modifiedby" data-enabled="false" style="width:125px;"></div>
-                        </div>
-                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <button class="button theme calculate" style="margin-top:5px;margin-left:5px;line-height:12px;width:115px;font-size:10pt;">Calculate</button>
-                        </div>
                       </div>
                     </div>
                   </div>
