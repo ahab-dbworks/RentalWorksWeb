@@ -48,7 +48,7 @@ class EmailHistory {
         FwMenu.addVerticleSeparator($menuObject);
 
         if (typeof this.ActiveViewFields["FromUserId"] == 'undefined') {
-            this.ActiveViewFields.FromUserId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+            this.ActiveViewFields.FromUserId = JSON.parse(sessionStorage.getItem('userid'));
         }
         
 

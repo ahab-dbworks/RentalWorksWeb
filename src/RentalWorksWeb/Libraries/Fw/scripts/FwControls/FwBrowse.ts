@@ -1137,7 +1137,11 @@ class FwBrowseClass {
                             html.push('<i class="material-icons btndate" style="position:absolute; right:0px; top:5px;">&#xE8DF;</i>');
                             html.push('<span class="searchclear" title="clear" style="right:20px;"><i class="material-icons">clear</i></span>');
                         } else {
-                            html.push('<input type="text" />');
+                            if (applicationConfig.allCaps && $control.attr('data-allcaps') !== 'false') {
+                                html.push('<input type="text" style="text-transform:uppercase" />');
+                            } else {
+                                html.push('<input type="text" />');
+                            }
                             html.push('<span class="searchclear" title="clear"><i class="material-icons">clear</i></span>');
                         }
                         html.push('</div>');
