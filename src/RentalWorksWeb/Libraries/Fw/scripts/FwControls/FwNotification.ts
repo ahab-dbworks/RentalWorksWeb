@@ -2,6 +2,7 @@
     static $notification: JQuery;
     //----------------------------------------------------------------------------------------------
     static renderNotification(type, message, options?) {
+        var html, $notification, maxZIndex;
         jQuery('.fwnotification').each((index: number, element: HTMLElement) => {
             let $this = jQuery(element);
             let top: number = parseInt($this.css('top').substr(0, $this.css('top').length - 2));
@@ -13,7 +14,7 @@
         });
         //FwNotification.closeNotification(jQuery('.fwnotification'));
 
-        const html: Array<string> = [];
+        html = [];
         html.push('<div class="fwnotification advisory');
         switch (type) {
             case 'SUCCESS':
@@ -31,12 +32,13 @@
                 break;
         }
         html.push('">');
-        html.push(`<div class="message">${message}</div>`);
+        html.push('<div class="message">' + message + '</div>');
         html.push('<div class="messageclose"><i class="material-icons">&#xE5CD;</i></div>');
         html.push('</div>');
-        const $notification = jQuery(html.join(''));
+        html = html.join('');
+        $notification = jQuery(html);
 
-        const maxZIndex = FwFunc.getMaxZ('*');
+        maxZIndex = FwFunc.getMaxZ('*');
 
         if (options !== undefined) {
             $notification.css(options)
@@ -46,7 +48,7 @@
             .css('z-index', maxZIndex)
             .appendTo(jQuery('body'))
             .fadeIn('slow', function () {
-                const el = jQuery(this);
+                var el = jQuery(this);
                 if (type !== 'PERSISTENTINFO') {
                     setTimeout(function () {
                         el.fadeOut('slow', function () {

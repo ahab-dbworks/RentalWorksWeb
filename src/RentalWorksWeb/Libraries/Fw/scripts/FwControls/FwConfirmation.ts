@@ -1,28 +1,30 @@
 ﻿class FwConfirmation {
     //----------------------------------------------------------------------------------------------
     static renderConfirmation(title: string, message: string) {
-        const html: Array<string> = [];
+        var html, $control, maxZIndex, $body, $more;
+
+        html = [];
         html.push('<div class="responsive fwconfirmation advisory">');
         html.push('<div class="fwconfirmationbox">');
-        html.push(`<div class="title">${title} </div>`);
+        html.push('<div class="title">' + title + '</div>');
         html.push('<div class="body">');
         if ((typeof message === 'string') && (message.length > 0)) {
-            html.push(`<div class="message">${message}</div>`);
+            html.push('<div class="message">' + message + '</div>');
         }
         html.push('</div>');
         html.push('<div class="more" style="display:none;">Scroll for more...</div>');
         html.push('<div class="fwconfirmation-buttonbar"></div>');
         html.push('</div>');
         html.push('</div>');
-        const $control = jQuery(html.join(''));
+        $control = jQuery(html.join(''));
 
-        const maxZIndex = FwFunc.getMaxZ('*');
+        maxZIndex = FwFunc.getMaxZ('*');
         $control.css('z-index', maxZIndex);
         jQuery('#application').append($control);
 
         // show "Scroll for more..." if the body is scrollable
-        const $body = $control.find('.body');
-        const $more = $control.find('.more');
+        $body = $control.find('.body');
+        $more = $control.find('.more');
         $more.toggle($body[0].scrollHeight > $body[0].clientHeight);
 
         $control.on('click', '.fwconfirmation-button.default', function () {
@@ -33,10 +35,12 @@
     }
     //----------------------------------------------------------------------------------------------
     static addButton($control: JQuery, buttontext: string, hasDefaultEvent?: boolean) {
-        const cssclass = ((typeof hasDefaultEvent === 'boolean') && (!hasDefaultEvent)) ? '' : ' default';
-        const html: Array<string> = [];
+        var html, $button, cssclass;
+
+        cssclass = ((typeof hasDefaultEvent === 'boolean') && (!hasDefaultEvent)) ? '' : ' default';
+        html = [];
         html.push('<div class="fwconfirmation-button' + cssclass + '" tabindex="0" role="button">' + buttontext + '</div>');
-        const $button = jQuery(html.join(''));
+        $button = jQuery(html.join(''));
         $control.find('.fwconfirmation-buttonbar').append($button);
         $button.on('keypress', function (e) {
             if (e.which === 13) {
