@@ -3,6 +3,7 @@ import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
+import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
 const hbHeader = require("./hbHeader.hbs"); 
 const hbReport = require("./hbReport.hbs"); 
