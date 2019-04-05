@@ -42,14 +42,16 @@ class EmailHistory {
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         //Location Filter
-        const $me = FwMenu.generateDropDownViewBtn('Me', true, sessionStorage.getItem('usersid'));
+        let userid = JSON.parse(sessionStorage.getItem('userid'));
+        const $me = FwMenu.generateDropDownViewBtn('Me', true, userid.webusersid);
         const $all = FwMenu.generateDropDownViewBtn('All Users', false, "ALL");
 
         FwMenu.addVerticleSeparator($menuObject);
 
         if (typeof this.ActiveViewFields["FromUserId"] == 'undefined') {
-            this.ActiveViewFields.FromUserId = JSON.parse(sessionStorage.getItem('userid'));
+            this.ActiveViewFields.FromUserId = [userid.webusersid];
         }
+
         
 
         let sentBy: Array<JQuery> = [];

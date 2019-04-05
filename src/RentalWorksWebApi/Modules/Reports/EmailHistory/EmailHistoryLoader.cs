@@ -18,6 +18,9 @@ namespace WebApi.Modules.Reports.EmailHistory
         [FwSqlDataField(column: "fromusersid", modeltype: FwDataTypes.Text)]
         public string FromUserId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromwebusersid", modeltype: FwDataTypes.Text)]
+        public string FromWebUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromuser", modeltype: FwDataTypes.Text)]
         public string FromUser { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -58,7 +61,7 @@ namespace WebApi.Modules.Reports.EmailHistory
             addFilterToSelect("FromUserId", "fromusersid", select, request);
             addFilterToSelect("RelatedToId", "uniqueid", select, request);
 
-            AddActiveViewFieldToSelect("FromUserId", "fromusersid", select, request);
+            AddActiveViewFieldToSelect("FromUserId", "fromwebusersid", select, request);
 
         }
         //------------------------------------------------------------------------------------ 

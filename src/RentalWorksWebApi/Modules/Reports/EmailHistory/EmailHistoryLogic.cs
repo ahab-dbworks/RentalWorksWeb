@@ -20,6 +20,8 @@ namespace WebApi.Modules.Reports.EmailHistory
         public string ReportId { get { return emailHistory.ReportId; } set { emailHistory.ReportId = value; } }
         [FwLogicProperty(Id: "GWZF62AEEeVX")]
         public string FromUserId { get { return emailHistory.FromUserId; } set { emailHistory.FromUserId = value; } }
+        [FwLogicProperty(Id: "5Z2XW2hdQXzdz")]
+        public string FromWebUserId { get; set; }
         [FwLogicProperty(Id: "EDp5xFz69h1fX", IsReadOnly: true)]
         public string FromUser { get; set; }
         [FwLogicProperty(Id: "SxlN6vIxhsw5")]
