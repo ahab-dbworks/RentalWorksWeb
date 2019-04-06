@@ -30,8 +30,15 @@ class EmptyContainer {
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
+        this.events($form);
         return $form;
     };
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        $form.find('[data-datafield="ItemId"]').data('onchange', $tr => {
+            FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+        });
+    }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
