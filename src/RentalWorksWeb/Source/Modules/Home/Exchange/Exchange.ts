@@ -1,6 +1,4 @@
-﻿//routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
-
-class Exchange {
+﻿class Exchange {
     Module: string = 'Exchange';
     apiurl: string = 'api/v1/exchange';
     caption: string = 'Exchange';
@@ -11,9 +9,10 @@ class Exchange {
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
+    Type: string = 'Order';
 
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen = () => {
         let screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -22,7 +21,7 @@ class Exchange {
         let $form = this.openForm('EDIT');
 
         screen.load = () => {
-            FwModule.openModuleTab($form, 'Exchange', false, 'FORM', true);
+            FwModule.openModuleTab($form, `${this.caption}`, false, 'FORM', true);
             this.ContractId = '';
         };
         screen.unload = function () {
