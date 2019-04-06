@@ -1,9 +1,9 @@
-﻿routes.push({ pattern: /^module\/activitycalendar$/, action: function (match: RegExpExecArray) { return ActivityCalendarController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^module\/quikactivitycalendar$/, action: function (match: RegExpExecArray) { return QuikActivityCalendarController.getModuleScreen(); } });
 
-class ActivityCalendar {
-    Module: string = 'ActivityCalendar';
-    caption: string = 'Activity Calendar';
-    nav: string = 'module/activitycalendar';
+class QuikActivityCalendar {
+    Module: string = 'QuikActivityCalendar';
+    caption: string = 'QuikActivity Calendar';
+    nav: string = 'module/quikactivitycalendar';
     id: string = '897BCF55-6CE7-412C-82CB-557B045F8C0A';
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
@@ -94,8 +94,8 @@ class ActivityCalendar {
 
         if ($calendar.length > 0) {
             setTimeout(() => {
-                const date = FwScheduler.getTodaysDate();
-                FwScheduler.navigate($calendar, date);
+                //const date = FwScheduler.getTodaysDate();
+                //FwScheduler.navigate($calendar, date);
                 FwScheduler.refresh($calendar);
             }, 1);
         }
@@ -122,7 +122,7 @@ class ActivityCalendar {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-                <div id="activitycalendarform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Activity Calendar" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ActivityCalendarController">
+                <div id="quikactivitycalendarform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="QuikActivity Calendar" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuikActivityCalendarController">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                         <div class="flexrow">
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Filter Warehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-displayfield="WarehouseCode" style="max-width:250px;"></div>
@@ -141,4 +141,4 @@ class ActivityCalendar {
                 </div>`;
     }
 }
-var ActivityCalendarController = new ActivityCalendar();
+var QuikActivityCalendarController = new QuikActivityCalendar();

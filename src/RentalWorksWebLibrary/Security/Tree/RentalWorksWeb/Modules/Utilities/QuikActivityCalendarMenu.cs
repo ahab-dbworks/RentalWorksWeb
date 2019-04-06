@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Utilities
 {
-    public class ActivityCalendarMenu : FwSecurityTreeBranch
+    public class QuikActivityCalendarMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public ActivityCalendarMenu() : base("{897BCF55-6CE7-412C-82CB-557B045F8C0A}") { }
+        public QuikActivityCalendarMenu() : base("{897BCF55-6CE7-412C-82CB-557B045F8C0A}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {
