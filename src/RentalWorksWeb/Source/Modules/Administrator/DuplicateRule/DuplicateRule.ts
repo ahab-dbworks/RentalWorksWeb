@@ -1,4 +1,5 @@
 routes.push({ pattern: /^module\/duplicaterule/, action: function (match: RegExpExecArray) { return DuplicateRuleController.getModuleScreen(); } });
+
 class DuplicateRule {
     Module: string = 'DuplicateRule';
     apiurl: string = 'api/v1/duplicaterule';
@@ -6,22 +7,20 @@ class DuplicateRule {
     nav: string = 'module/duplicaterule';
     id: string = '2E0EA479-AC02-43B1-87FA-CCE2ABA6E934';
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
-        var screen, $browse;
-
-        screen = {};
+    getModuleScreen = () => {
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, 'Duplicate Rules', false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
-        screen.unload = function () {
+        screen.unload = () => {
             FwBrowse.screenunload($browse);
         };
 
@@ -29,7 +28,7 @@ class DuplicateRule {
     }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var $browse;
+        let $browse;
 
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
@@ -40,14 +39,7 @@ class DuplicateRule {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        var $form
-            , $moduleSelect
-            , node
-            , mainModules
-            , settingsModules
-            , modules
-            , allModules;
-
+        let $form;
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
@@ -58,11 +50,12 @@ class DuplicateRule {
         }
 
         //load modules
-        node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
-        mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
-        settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
-        modules = mainModules.concat(settingsModules);
-        allModules = [];
+        const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
+        const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
+        const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
+        const modules = mainModules.concat(settingsModules);
+        let allModules = [];
+
         for (let i = 0; i < modules.length; i++) { //Traverse security tree and only add modules with 'New' or 'Edit' options 
             let moduleChildren = modules[i].children;
             let browseNodePosition = moduleChildren.map(function (x) { return x.properties.nodetype; }).indexOf('Browse');
@@ -80,7 +73,7 @@ class DuplicateRule {
                         if (typeof window[moduleController] !== 'undefined') {
                             if (window[moduleController].hasOwnProperty('apiurl')) {
                                 var moduleUrl = window[moduleController].apiurl;
-                                allModules.push({ value: moduleNav, text: `${moduleCaption} Form`, apiurl: moduleUrl });
+                                allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
                             }
                         }
                     }
@@ -104,7 +97,7 @@ class DuplicateRule {
                     if (typeof window[moduleController] !== 'undefined') {
                         if (window[moduleController].hasOwnProperty('apiurl')) {
                             let moduleUrl = window[moduleController].apiurl;
-                            allModules.push({ value: moduleNav, text: `${moduleCaption} Grid`, apiurl: moduleUrl });
+                            allModules.push({ value: moduleNav, text: `${moduleCaption}`, apiurl: moduleUrl });
                         }
                     }
                 }
@@ -121,7 +114,7 @@ class DuplicateRule {
         }
         allModules.sort(compare);
 
-        $moduleSelect = $form.find('.modules');
+        const $moduleSelect = $form.find('.modules');
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.getFields($form);
@@ -150,9 +143,6 @@ class DuplicateRule {
         $form.find('div.modules').on("change", function () {
             let moduleUrl, request;
             moduleUrl = jQuery(this).find(':selected').attr('data-apiurl');
-            //request = {
-            //    emptyobject: true
-            //};
 
             FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 let fieldsList = response._Fields;
@@ -223,6 +213,13 @@ class DuplicateRule {
         if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') {
             FwFormField.toggle($form.find('.SystemRuleTRUE'), false);
         }
+
+        //set form as unmodified after saving
+        const $tabpage = $form.parent();
+        const $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+        $tab.find('.modified').html('');
+        $form.attr('data-modified', 'false');
+        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
     }
     //----------------------------------------------------------------------------------------------
     compare(a, b) {
