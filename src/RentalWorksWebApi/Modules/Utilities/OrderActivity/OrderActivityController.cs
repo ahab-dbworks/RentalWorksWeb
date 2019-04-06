@@ -19,7 +19,7 @@ namespace WebApi.Modules.Utilities.OrderActivity
         // GET api/v1/orderactivity/calendardata 
         [HttpGet("calendardata")]
         [FwControllerMethod(Id: "RhaSuoafWaVn0")]
-        public async Task<ActionResult<TOrderActivityCalendarResponse>> GetCalendarDataAsync(string WarehouseId, DateTime FromDate, DateTime ToDate)
+        public async Task<ActionResult<TOrderActivityCalendarResponse>> GetCalendarDataAsync(string WarehouseId, DateTime FromDate, DateTime ToDate, string ActivityType)
         {
             if (!ModelState.IsValid)
             {
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Utilities.OrderActivity
             }
             try
             {
-                TOrderActivityCalendarResponse response = await OrderActivityFunc.GetOrderActivityCalendarData(AppConfig, UserSession, WarehouseId, FromDate, ToDate);
+                TOrderActivityCalendarResponse response = await OrderActivityFunc.GetOrderActivityCalendarData(AppConfig, UserSession, WarehouseId, FromDate, ToDate, ActivityType);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

@@ -25,7 +25,7 @@ namespace WebApi.Modules.Utilities.OrderActivity
             public List<TOrderActivityCalendarEvent> OrderActivityCalendarEvents { get; set; } = new List<TOrderActivityCalendarEvent>();
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TOrderActivityCalendarResponse> GetOrderActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate)
+        public static async Task<TOrderActivityCalendarResponse> GetOrderActivityCalendarData(FwApplicationConfig appConfig, FwUserSession userSession, string WarehouseId, DateTime FromDate, DateTime ToDate, string ActivityType)
         {
             TOrderActivityCalendarResponse response = new TOrderActivityCalendarResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -35,6 +35,7 @@ namespace WebApi.Modules.Utilities.OrderActivity
                     qry.AddParameter("@warehouseid", SqlDbType.NVarChar, ParameterDirection.Input, WarehouseId);
                     qry.AddParameter("@fromdate", SqlDbType.DateTime, ParameterDirection.Input, FromDate);
                     qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, ToDate);
+                    qry.AddParameter("@activitytype", SqlDbType.NVarChar, ParameterDirection.Input, ActivityType);
                     qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                     //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);

@@ -55,6 +55,7 @@ class QuikActivityCalendar {
                 }
                 const $fwcontrols = $activities.find('.fwcontrol');
                 FwControl.renderRuntimeControls($fwcontrols);
+                $form.find('.activities [data-type="checkbox"] input').prop('checked', true);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
@@ -63,12 +64,13 @@ class QuikActivityCalendar {
     //----------------------------------------------------------------------------------------------
     calendarEvents($form: any) {
         const $calendar = $form.find('.calendar');
+        let activityTypes = '';
         $calendar
             .data('ongetevents', request => {
                 const startOfMonth = moment(request.start.value).format('MM/DD/YYYY');
                 const endOfMonth = moment(request.start.value).add(request.days, 'd').format('MM/DD/YYYY');
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                FwAppData.apiMethod(true, 'GET', `api/v1/orderactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'GET', `api/v1/orderactivity/calendardata?WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}&ActivityType=${activityTypes}`, null, FwServices.defaultTimeout, response => {
                     const calendarEvents = response.OrderActivityCalendarEvents;
                     //FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], calendarEvents);
                     for (var i = 0; i < calendarEvents.length; i++) {
@@ -94,11 +96,25 @@ class QuikActivityCalendar {
 
         if ($calendar.length > 0) {
             setTimeout(() => {
-                //const date = FwScheduler.getTodaysDate();
-                //FwScheduler.navigate($calendar, date);
+                const date = FwScheduler.getTodaysDate();
+                FwScheduler.navigate($calendar, date);
                 FwScheduler.refresh($calendar);
             }, 1);
         }
+
+        //Activity checkbox filters
+        $form.on('change', '.activities [data-type="checkbox"]', e => {
+            const activities = $form.find(`.activities [data-type="checkbox"]`);
+            const activityTypesArray: any = [];
+            for (let i = 0; i < activities.length; i++) {
+                const $this = jQuery(activities[i]);
+                if ($this.find('input').prop('checked') === true) {
+                    activityTypesArray.push($this.attr('data-datafield'));
+                }
+            }
+            activityTypesArray.length > 1 ? activityTypes = activityTypesArray.join(',') : activityTypes = activityTypesArray.join('');
+            FwScheduler.refresh($calendar);
+        });
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
@@ -107,10 +123,11 @@ class QuikActivityCalendar {
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
 
+        const $calendar = $form.find('.calendar');
         $form.on('change', '[data-datafield="WarehouseId"]', e => {
-            const $calendar = $form.find('.calendar');
             FwScheduler.refresh($calendar);
         });
+
         ////toggle validation type
         //$form.on('change', '[data-datafield="QuoteOrderToggle"]', e => {
         //    const validationType = FwFormField.getValueByDataField($form, 'QuoteOrderToggle');
@@ -118,6 +135,7 @@ class QuikActivityCalendar {
         //        $form.find('[data-validationname="QuoteValidation"]').show() && $form.find('[data-validationname="OrderValidation"]').hide()
         //        : $form.find('[data-validationname="QuoteValidation"]').hide() && $form.find('[data-validationname="OrderValidation"]').show();
         //})
+
     };
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
