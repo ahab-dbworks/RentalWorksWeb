@@ -35,8 +35,16 @@ class EmptyContainer {
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
+        // Populate Description when selecting container
         $form.find('[data-datafield="ItemId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+        });
+
+        // Toggle checkbox warning text
+        $form.on('change', '[data-datafield="DeleteContainer"]', e => {
+            const isChecked = jQuery(e.currentTarget).find('input').prop('checked');
+            const $warningText = $form.find('.warningText');
+            isChecked ? $warningText.show() : $warningText.hide();
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -48,14 +56,15 @@ class EmptyContainer {
     <div class="tabpages">
       <div class="flexpage">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Container">
-          <div class="flexrow">
+          <div class="flexrow" style="max-width:50%;">
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" style="flex:1 1 175px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
           </div>
           <div class="flexrow">
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Completely Delete this Container instance and all History" data-datafield="DeleteContainer" style="flex:1 1 250px;"></div>
           </div>
-          <div><span>Clicking the "Empty Container" below will empty all contents of this container and move the items back to IN status.</span></div>
+          <div><span>Clicking the "Empty Container" button below will empty all contents of this container and move the items back to IN status.</span></div>
+          <div class="warningText" style="display:none; color:red; margin-top:10px;"><span>This Container instance will be deleted.  All Fill/Empty history will be deleted.  The Item will no longer be associated to this type of Container.</span></div>
           <div class="flexrow">
             <div class="fwformcontrol" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Empty Container</div>
           </div>
