@@ -57,7 +57,7 @@ class EmptyContainer {
           </div>
           <div><span>Clicking the "Empty Container" below will empty all contents of this container and move the items back to IN status.</span></div>
           <div class="flexrow">
-            <div class="fwformcontrol" data-type="button" style="flex:0 1 50px;margin:15px 0 0 10px;text-align:center;">Empty Container</div>
+            <div class="fwformcontrol" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Empty Container</div>
           </div>
         </div>
       </div>
