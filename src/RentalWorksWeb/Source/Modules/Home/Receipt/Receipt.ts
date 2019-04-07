@@ -297,34 +297,39 @@ class Receipt {
             $form.find('.table-rows').html('<tr class="empty-row" style="height:33px;"><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>');
         }
         const calculateInvoiceTotals = ($form) => {
-            let due, total, applied, amount;
-            let amountTotal = new Decimal(0);
             let totalTotal = new Decimal(0);
-            let dueTotal = new Decimal(0);
             let appliedTotal = new Decimal(0);
-            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
-            const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
+            let dueTotal = new Decimal(0);
+            let amountTotal = new Decimal(0);
             const $totalFields = $form.find('td[data-invoicefield="InvoiceTotal"]');
             const $appliedFields = $form.find('td[data-invoicefield="InvoiceApplied"]');
+            const $dueFields = $form.find('td[data-invoicefield="InvoiceDue"]');
             const $amountFields = $form.find('td[data-invoicefield="InvoiceAmount"] input');
+            const amountToApply = FwFormField.getValueByDataField($form, 'PaymentAmount');
             for (let i = 0; i < $amountFields.length; i++) {
-                // Amount Column
-                let amountInput = $amountFields.eq(i).val();
-                amountTotal = amountTotal.plus(amountInput);
                 // Total Column
                 let totalVal = $totalFields.eq(i).text();
+                totalVal = totalVal.replace(/,/g, '');
                 totalTotal = totalTotal.plus(totalVal);
-                // Due Column
-                let dueVal = $dueFields.eq(i).text();
-                dueTotal = dueTotal.plus(dueVal);
                 // Applied Column
                 let appliedVal = $appliedFields.eq(i).text();
+                appliedVal = appliedVal.replace(/,/g, '');
                 appliedTotal = appliedTotal.plus(appliedVal);
+                // Due Column
+                let dueVal = $dueFields.eq(i).text();
+                dueVal = dueVal.replace(/,/g, '');
+                dueTotal = dueTotal.plus(dueVal);
+                // Amount Column
+                let amountInput = $amountFields.eq(i).val();
+                if (amountInput === '') {
+                    amountInput = 0;
+                }
+                amountTotal = amountTotal.plus(amountInput);
             }
-            amount = amountTotal.toFixed(2);
-            total = totalTotal.toFixed(2);
-            due = dueTotal.toFixed(2);
-            applied = appliedTotal.toFixed(2);
+            const amount: any = amountTotal.toFixed(2);
+            const total = totalTotal.toFixed(2);
+            const due = dueTotal.toFixed(2);
+            const applied = appliedTotal.toFixed(2);
             const unappliedTotal = amountToApply - amount;
 
             $form.find(`div[data-totalfield="UnappliedInvoiceTotal"] input`).val(unappliedTotal);
