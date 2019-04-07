@@ -324,6 +324,7 @@ class Receipt {
                 if (amountInput === '') {
                     amountInput = 0;
                 }
+                amountInput = amountInput.replace(/,/g, '');
                 amountTotal = amountTotal.plus(amountInput);
             }
             const amount: any = amountTotal.toFixed(2);
