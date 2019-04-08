@@ -1,21 +1,14 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
-using WebLibrary;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 namespace WebApi.Modules.Reports.CreditsOnAccountReport
 {
     [FwSqlTable("creditsonaccountwebview")]
     public class CreditsOnAccountReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
@@ -59,6 +52,9 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
+                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
+                    addStringFilterToSelect("customerid", request.CustomerId, select);
+                    addStringFilterToSelect("dealid", request.DealId, select);
                     if (request.OnlyRemaining.GetValueOrDefault(false))
                     {
                         select.AddWhere("remaining > 0");

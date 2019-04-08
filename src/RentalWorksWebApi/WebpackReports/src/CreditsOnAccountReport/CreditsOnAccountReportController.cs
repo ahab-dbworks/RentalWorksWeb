@@ -16,6 +16,9 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
 {
     public class CreditsOnAccountReportRequest : AppReportRequest
     {
+        public string OfficeLocationId { get; set; }
+        public string CustomerId { get; set; }
+        public string DealId { get; set; }
         public bool? OnlyRemaining { get; set; }
     }
 
