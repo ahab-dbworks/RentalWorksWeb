@@ -91,6 +91,7 @@ class Receipt {
         if (mode === 'NEW') {
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
+            FwFormField.setValueByDataField($form, 'RecType', 'P');
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'ReceiptDate', today);
             FwFormField.enable($form.find('div[data-datafield="PaymentBy"]'));
@@ -322,7 +323,7 @@ class Receipt {
                 // Amount Column
                 let amountInput = $amountFields.eq(i).val();
                 if (amountInput === '') {
-                    amountInput = 0;
+                    amountInput = '0.00';
                 }
                 amountInput = amountInput.replace(/,/g, '');
                 amountTotal = amountTotal.plus(amountInput);
@@ -390,10 +391,12 @@ class Receipt {
                         e.stopPropagation();
                         const el = jQuery(e.currentTarget);
                         const val = el.val();
-                        if (val === '0.00' || val === '') {
-                            el.css('background-color', 'white');
-                        } else {
-                            el.css('background-color', '#F4FFCC');
+                        if (el.hasClass('decimal')) {
+                            if (val === '0.00' || val === '') {
+                                el.css('background-color', 'white');
+                            } else {
+                                el.css('background-color', '#F4FFCC');
+                            }
                         }
                         calculateInvoiceTotals($form);
                     });
