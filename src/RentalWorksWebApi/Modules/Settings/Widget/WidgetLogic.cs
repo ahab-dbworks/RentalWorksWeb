@@ -1,5 +1,9 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using System.Reflection;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Settings.Widget
 {
     [FwLogic(Id: "eh62kos81TRJh")]
@@ -86,6 +90,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwLogicProperty(Id: "KUKHZiEtDT8uq")]
         public bool? DefaultStacked { get { return widget.DefaultStacked; } set { widget.DefaultStacked = value; } }
 
+        [FwLogicProperty(Id: "o2FIojJBmpwis")]
+        public string AssignTo { get { return widget.AssignTo; } set { widget.AssignTo = value; } }
+
         [FwLogicProperty(Id: "ukHI6jdx08K")]
         public string DateStamp { get { return widget.DateStamp; } set { widget.DateStamp = value; } }
 
@@ -99,6 +106,18 @@ namespace WebApi.Modules.Settings.Widget
         public string text { get { return Widget; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                PropertyInfo property = typeof(WidgetLogic).GetProperty(nameof(WidgetLogic.AssignTo));
+                string[] acceptableValues = { RwConstants.WIDGET_ASSIGN_TO_ALL, RwConstants.WIDGET_ASSIGN_TO_GROUPS, RwConstants.WIDGET_ASSIGN_TO_USERS };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
 
     }
 }

@@ -1,4 +1,4 @@
-namespace WebLibrary
+﻿namespace WebLibrary
 {
     public static class RwConstants
     {
@@ -342,6 +342,10 @@ namespace WebLibrary
         public const string CUSTOM_FORM_ASSIGN_TO_GROUPS = "GROUPS";
         public const string CUSTOM_FORM_ASSIGN_TO_USERS = "USERS";
 
+        //WIDGET
+        public const string WIDGET_ASSIGN_TO_ALL = "ALL";
+        public const string WIDGET_ASSIGN_TO_GROUPS = "GROUPS";
+        public const string WIDGET_ASSIGN_TO_USERS = "USERS";
 
 
     }

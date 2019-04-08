@@ -79,6 +79,9 @@ namespace WebApi.Modules.Settings.Widget
         [FwSqlDataField(column: "defaulttodate", modeltype: FwDataTypes.Date)]
         public string DefaultToDate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "assignto", modeltype: FwDataTypes.Text)]
+        public string AssignTo { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
