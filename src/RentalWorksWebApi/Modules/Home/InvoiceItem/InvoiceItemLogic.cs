@@ -47,6 +47,9 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwLogicProperty(Id:"D3gWInKrmg9O")]
         public string RecType { get { return invoiceItem.RecType; } set { invoiceItem.RecType = value; } }
 
+        [FwLogicProperty(Id: "ohz64hiDWe2BF", IsReadOnly: true)]
+        public string AvailableFor { get; set; }
+
         [FwLogicProperty(Id:"Wx4VHmSLkZgB", IsReadOnly:true)]
         public bool? Bold { get; set; }
 

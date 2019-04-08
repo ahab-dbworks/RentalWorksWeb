@@ -140,6 +140,9 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availfor", modeltype: FwDataTypes.Text)]
+        public string AvailableFor { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
         public bool? Bold { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -204,6 +207,9 @@ namespace WebApi.Modules.Home.InvoiceItem
 
             select.AddParameter("@invoiceid", invoiceId);
             select.AddParameter("@rectype", recType);
+
+            addFilterToSelect("AvailableFor", "availfor", select, request);
+
         }
         //------------------------------------------------------------------------------------ 
     }
