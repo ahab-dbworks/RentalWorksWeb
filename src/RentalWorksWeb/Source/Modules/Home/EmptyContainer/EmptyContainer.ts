@@ -37,7 +37,7 @@ class EmptyContainer {
     events($form) {
         // Populate Description when selecting container
         $form.find('[data-datafield="ItemId"]').data('onchange', $tr => {
-            FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="ContainerDescription"]').attr('data-originalvalue'));
         });
 
         // Toggle checkbox warning text
