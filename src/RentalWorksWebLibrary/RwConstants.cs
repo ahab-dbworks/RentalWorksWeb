@@ -1,4 +1,4 @@
-﻿namespace WebLibrary
+namespace WebLibrary
 {
     public static class RwConstants
     {
@@ -336,6 +336,11 @@
         //STAGING / CHECK-OUT
         public const int STAGING_PENDING_ITEMS_MISSING_COLOR = 16711684; // red
 
+
+        //CUSTOM FORM
+        public const string CUSTOM_FORM_ASSIGN_TO_ALL = "ALL";
+        public const string CUSTOM_FORM_ASSIGN_TO_GROUPS = "GROUPS";
+        public const string CUSTOM_FORM_ASSIGN_TO_USERS = "USERS";
 
 
 

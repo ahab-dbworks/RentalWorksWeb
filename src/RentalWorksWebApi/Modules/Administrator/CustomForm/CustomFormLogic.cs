@@ -1,5 +1,9 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using System.Reflection;
 using WebApi.Logic;
+using WebLibrary;
+
 namespace WebApi.Modules.Administrator.CustomForm
 {
     [FwLogic(Id:"SgSLHzluaM9Kz")]
@@ -42,5 +46,17 @@ namespace WebApi.Modules.Administrator.CustomForm
         public string DateStamp { get { return customForm.DateStamp; } set { customForm.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                PropertyInfo property = typeof(CustomFormLogic).GetProperty(nameof(CustomFormLogic.AssignTo));
+                string[] acceptableValues = { RwConstants.CUSTOM_FORM_ASSIGN_TO_ALL, RwConstants.CUSTOM_FORM_ASSIGN_TO_GROUPS, RwConstants.CUSTOM_FORM_ASSIGN_TO_USERS };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
     }
 }
