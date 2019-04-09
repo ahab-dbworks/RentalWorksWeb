@@ -477,7 +477,6 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\EmptyContainer\EmptyContainer.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\ExchangeContainerItem\ExchangeContainerItem.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\RemoveFromContainer\RemoveFromContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\DealCredit\DealCredit.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CustomerCredit\CustomerCredit.ts" />

@@ -84,8 +84,6 @@ namespace WebLibrary.Security
             AddModule("Fill Container",      "{0F1050FB-48DF-41D7-A969-37300B81B7B5}", lv1menuWarehouse.Id, "FillContainerController",      "module/fillcontainer",     homeiconbaseurl + "placeholder.png");
             AddModule("Empty Container",     "{60CAE944-DE89-459E-86AC-2F1B68211E07}", lv1menuWarehouse.Id, "EmptyContainerController",     "module/emptycontainer",    homeiconbaseurl + "placeholder.png");
             AddModule("Remove From Container", "{FB9876B5-165E-486C-9E06-DFB3ACB3CBF0}", lv1menuWarehouse.Id, "RemoveFromContainerController", "module/removefromcontainer", homeiconbaseurl + "placeholder.png");
-            AddModule("Exchange Container Item", "{6B8D5B55-2B79-4569-B0B8-97920295EEDA}", lv1menuWarehouse.Id, "ExchangeContainerItemController", "module/exchangecontaineritem", homeiconbaseurl + "placeholder.png");
-
             // Billing
             AddModule("Billing",             "{34E0472E-9057-4C66-8CC2-1938B3222569}", lv1menuBilling.Id, "BillingController",       "module/billing",       homeiconbaseurl + "placeholder.png");
             AddModule("Invoice",             "{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}", lv1menuBilling.Id, "InvoiceController",       "module/invoice",       homeiconbaseurl + "placeholder.png");

@@ -16,7 +16,7 @@ class RwMaster extends WebMaster {
                 id: '22D67715-9C24-4A06-A009-CB10A1EC746B',
                 children: [OrderStatusController, PickListController, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController,
                     ReturnToVendorController, AssignBarCodesController, TransferStatusController, TransferOrderController, ManifestController, TransferReceiptController, TransferOutController, TransferInController,
-                    FillContainerController, EmptyContainerController, RemoveFromContainerController, ExchangeContainerItemController]
+                    FillContainerController, EmptyContainerController, RemoveFromContainerController]
             },
             {
                 caption: 'Billing',
