@@ -6,7 +6,7 @@ class Widget {
         this.Module = 'Widget';
         this.apiurl = 'api/v1/widget';
     }
-
+    //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +28,7 @@ class Widget {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -38,7 +38,7 @@ class Widget {
 
         return $browse;
     }
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -51,7 +51,7 @@ class Widget {
             { value: 'BILLINGSTARTDATE', text: 'Billing Start Date' }
         ], true);
 
-        $form.find('div[data-datafield="DefaultDateBehaviorId"]').on('change', function() {
+        $form.find('div[data-datafield="DefaultDateBehaviorId"]').on('change', function () {
             let selected = FwFormField.getValue2(jQuery(this));
             let dateField = $form.find('.date-field');
             let specificDate = $form.find('.specific-date');
@@ -82,11 +82,36 @@ class Widget {
                 fromDate.show();
                 toDate.show();
             }
-        })
+        });
+
+        //Toggles 'Assign To' grids
+        $form.find('[data-datafield="AssignTo"]').on('change', e => {
+            const assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
+            let $gridControl;
+            switch (assignTo) {
+                case 'GROUPS':
+                    $form.find('.groupGrid').show();
+                    $form.find('.userGrid').hide();
+                    $gridControl = $form.find('[data-name="WidgetGroupGrid"]');
+                    FwBrowse.search($gridControl);
+                    break;
+                case 'USERS':
+                    $form.find('.userGrid').show();
+                    $form.find('.groupGrid').hide();
+                    $gridControl = $form.find('[data-name="WidgetUserGrid"]');
+                    FwBrowse.search($gridControl);
+                    break;
+                case 'ALL':
+                default:
+                    $form.find('.userGrid').hide();
+                    $form.find('.groupGrid').hide();
+                    break;
+            }
+        });
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -96,17 +121,47 @@ class Widget {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
         var uniqueid;
         uniqueid = $form.find('div.fwformfield[data-datafield="WidgetId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     }
+    //----------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        const $widgetGroupGrid = $form.find('div[data-grid="WidgetGroupGrid"]');
+        const $widgetGroupGridControl = FwBrowse.loadGridFromTemplate('WidgetGroupGrid');
+        $widgetGroupGrid.empty().append($widgetGroupGridControl);
+        $widgetGroupGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+            };
+        });
+        $widgetGroupGridControl.data('beforesave', request => {
+            request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId')
+        });
+        FwBrowse.init($widgetGroupGridControl);
+        FwBrowse.renderRuntimeHtml($widgetGroupGridControl);
 
+        const $widgetUserGrid = $form.find('div[data-grid="WidgetUserGrid"]');
+        const $widgetUserGridControl = FwBrowse.loadGridFromTemplate('WidgetUserGrid');
+        $widgetUserGrid.empty().append($widgetUserGridControl);
+        $widgetUserGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                WidgetId: FwFormField.getValueByDataField($form, 'WidgetId')
+            };
+        });
+        $widgetUserGridControl.data('beforesave', request => {
+            request.WidgetId = FwFormField.getValueByDataField($form, 'WidgetId')
+        });
+        FwBrowse.init($widgetUserGridControl);
+        FwBrowse.renderRuntimeHtml($widgetUserGridControl);
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         let dateSelectField = $form.find('.datefield');
         let dateSelected = FwFormField.getValue2(dateSelectField);
@@ -121,7 +176,7 @@ class Widget {
         let selectArray = [];
 
         if (defaultDayBehavior === 'SINGLEDATEYESTERDAY' || defaultDayBehavior === 'SINGLEDATETODAY' || defaultDayBehavior === 'SINGLEDATETOMORROW' || defaultDayBehavior === 'DATERANGEPRIORWEEK' || defaultDayBehavior === 'DATERANGECURRENTWEEK' || defaultDayBehavior === 'DATERANGENEXTWEEK' || defaultDayBehavior === 'DATERANGEPRIORMONTH' || defaultDayBehavior === 'DATERANGECURRENTMONTH' || defaultDayBehavior === 'DATERANGENEXTMONTH' || defaultDayBehavior === 'DATERANGEPRIORYEAR' || defaultDayBehavior === 'DATERANGECURRENTYEAR' || defaultDayBehavior === 'DATERANGENEXTYEAR' || defaultDayBehavior === 'DATERANGEYEARTODATE') {
-           dateField.show();
+            dateField.show();
         } else if (defaultDayBehavior === 'SINGLEDATESPECIFICDATE') {
             dateField.show();
             specificDate.show();
@@ -148,6 +203,22 @@ class Widget {
 
         window['FwFormField_select'].loadItems(dateSelectField, selectArray, true);
         window['FwFormField_select'].setValue(dateSelectField, dateSelected);
+
+        //shows/hides "Assign To" grids
+        const assignTo = FwFormField.getValueByDataField($form, 'AssignTo');
+        switch (assignTo) {
+            case 'GROUPS':
+                $form.find('.groupGrid').show();
+                $form.find('.userGrid').hide();
+                break;
+            case 'USERS':
+                $form.find('.groupGrid').hide();
+                $form.find('.userGrid').show();
+                break;
+            case 'ALL':
+                $form.find('.groupGrid').hide();
+                $form.find('.userGrid').hide();
+        }
     }
 }
 
