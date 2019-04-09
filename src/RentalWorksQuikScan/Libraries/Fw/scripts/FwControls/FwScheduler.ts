@@ -410,6 +410,8 @@ class FwSchedulerClass {
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
         dpcalendar.weekStarts = 0;
+        dpcalendar.businessBeginsHour = 0;
+        dpcalendar.businessEndsHour = 11;
         dpcalendar.onTimeRangeSelected = function (args) {
             try {
                 $control.data('selectedstartdate', args.start);
@@ -614,7 +616,7 @@ class FwSchedulerClass {
             case 'Day':
             case 'Week':
                 navcalendar = $control.data('navcalendar');
-                navcalendar.select(date);
+                navcalendar.select(date);   
                 break;
             case '5 Week':
                 nav5week = $control.data('nav5week');

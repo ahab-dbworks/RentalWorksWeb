@@ -15,7 +15,7 @@
         //FwNotification.closeNotification(jQuery('.fwnotification'));
 
         html = [];
-        html.push('<div class="fwnotification');
+        html.push('<div class="fwnotification advisory');
         switch (type) {
             case 'SUCCESS':
                 html.push(' success');
