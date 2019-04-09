@@ -59,8 +59,8 @@ namespace Fw.Json.ValueTypes
                                 cfg.Sites[i].DatabaseConnections[j].ConnectionString = string.Format("Server={0};Database={1};User Id={2};Password={3};Persist Security Info=True;Connect Timeout={4};Max Pool Size={5};Workstation Id={6};Packet Size=4096;",
                                     cfg.Sites[i].DatabaseConnections[j].Server
                                   , cfg.Sites[i].DatabaseConnections[j].Database
-                                  , (cfg.Sites[i].DatabaseConnections[j].Encrypted) ? FwCryptography.AjaxDecrypt2(cfg.Sites[i].DatabaseConnections[j].User)     : cfg.Sites[i].DatabaseConnections[j].User
-                                  , (cfg.Sites[i].DatabaseConnections[j].Encrypted) ? FwCryptography.AjaxDecrypt2(cfg.Sites[i].DatabaseConnections[j].Password) : cfg.Sites[i].DatabaseConnections[j].Password
+                                  , cfg.Sites[i].DatabaseConnections[j].User
+                                  , cfg.Sites[i].DatabaseConnections[j].Password
                                   , cfg.Sites[i].DatabaseConnections[j].ConnectionTimeout
                                   , cfg.Sites[i].DatabaseConnections[j].MaxPoolSize
                                   , System.Net.Dns.GetHostName().ToUpper() + " Mobile Web");
@@ -118,6 +118,7 @@ namespace Fw.Json.ValueTypes
             
             pathApplicationConfig = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Application.config");
             cfg = FwXml.DeserializeFile<FwApplicationConfig>(pathApplicationConfig);
+
             FwApplicationConfig.Current = cfg;
         }
         //---------------------------------------------------------------------------------------------
@@ -163,29 +164,79 @@ namespace Fw.Json.ValueTypes
 
         [XmlElement("WebApi")]
         public FwApplicationConfig_WebApi WebApi { get; set; } = new FwApplicationConfig_WebApi();
+
     }
 
     [XmlRoot("DatabaseConnection")]
     public class FwApplicationConfig_DatabaseConnection
     {
+        //-----------------------------------------
+        // Attributes
+        //-----------------------------------------
         [XmlAttribute("Name")]
         public string Name {get;set;} = string.Empty;
 
-        //[XmlAttribute("Enabled")]
-        //public bool Enabled {get;set;} = true;
-        
+        [XmlAttribute("Encrypted")]
+        public bool Encrypted { get; set; } = false;
+        //-----------------------------------------
+        // Elements
+        //-----------------------------------------
         [XmlElement("Server")]
-        public string Server {get;set;} = string.Empty;
+        public string Server
+        {
+            get
+            {
+                return (this.Encrypted || this.EncryptUserAndPassword) ? FwCryptography.AjaxDecrypt2(this._Server) : this._Server;
+            }
+            set
+            {
+                _Server = value;
+            }
+        }
+        private string _Server = string.Empty;
                 
         [XmlElement("Database")]
-        public string Database {get;set;} = string.Empty;
-                
+        public string Database
+        {
+            get
+            {
+                return (this.Encrypted || this.EncryptUserAndPassword) ? FwCryptography.AjaxDecrypt2(this._Database) : this._Database;
+            }
+            set
+            {
+                _Database = value;
+            }
+        }
+        private string _Database = string.Empty;
+
         [XmlElement("User")]
-        public string User {get;set;} = "dbworks";
-                
+        public string User
+        {
+            get
+            {
+                return (this.Encrypted || this.EncryptUserAndPassword) ? FwCryptography.AjaxDecrypt2(this._User) : this._User;
+            }
+            set
+            {
+                _User = value;
+            }
+        }
+        private string _User = "dbworks";
+
         [XmlElement("Password")]
-        public string Password {get;set;} = "db2424";
-                
+        public string Password
+        {
+            get
+            {
+                return (this.Encrypted || this.EncryptUserAndPassword) ? FwCryptography.AjaxDecrypt2(this._Password) : this._Password;
+            }
+            set
+            {
+                _Password = value;
+            }
+        }
+        private string _Password = "db2424";
+
         [XmlElement("ConnectionTimeout")]
         public int ConnectionTimeout {get;set;} = 15;
                 
@@ -199,11 +250,11 @@ namespace Fw.Json.ValueTypes
         public int MaxPoolSize {get;set;} = 100;
 
         [XmlElement("ConnectionString")]
-        public string ConnectionString {get;set;} = string.Empty;
+        public string ConnectionString { get; set; } = string.Empty;
 
         [XmlElement("Encrypted")]
-        public bool Encrypted {get;set;} = false;
-    }
+        public bool EncryptUserAndPassword {get;set;} = false;
+}
 
     [XmlRoot("APISettings")]
     public class FwApplicationConfig_APISettings
@@ -218,8 +269,16 @@ namespace Fw.Json.ValueTypes
     [XmlRoot("WebApi")]
     public class FwApplicationConfig_WebApi
     {
+        [XmlAttribute]
+        bool Encrypted { get; set; } = false;
+
         [XmlElement("Url")]
-        public string Url {get;set;} = string.Empty;
+        public string Url
+        {
+            get { return Encrypted ? FwCryptography.AjaxDecrypt2(_Url) : _Url; }
+            set { _Url = value; }
+        }
+        public string _Url { get; set; } = string.Empty;
     }
 
     [XmlRoot("ApplicationSettings")]
