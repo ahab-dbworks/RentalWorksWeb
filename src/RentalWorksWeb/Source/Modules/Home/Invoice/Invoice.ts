@@ -122,6 +122,8 @@ class Invoice {
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            // hide tabs
+            $form.find('.hide-new').hide();
         } else {
             FwFormField.disable($form.find('.ifnew'));
         }
