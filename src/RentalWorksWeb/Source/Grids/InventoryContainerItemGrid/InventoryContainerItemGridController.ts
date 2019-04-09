@@ -1,5 +1,5 @@
-﻿class InventoryContainerGrid {
-    Module: string = 'InventoryContainerGrid';
+﻿class InventoryContainerItemGrid {
+    Module: string = 'InventoryContainerItemGrid';
     apiurl: string = 'api/v1/inventorycontaineritem';
 
     generateRow($control, $generatedtr) {
@@ -10,5 +10,5 @@
     };
 }
 
-var InventoryContainerGridController = new InventoryContainerGrid();
+var InventoryContainerItemGridController = new InventoryContainerItemGrid();
 //----------------------------------------------------------------------------------------------

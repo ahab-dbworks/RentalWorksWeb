@@ -259,7 +259,7 @@
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridBrowse.htm" />
-    <Content Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryContainerItemGrid\InventoryContainerItemGridBrowse.htm" />
     <Content Include="Source\Grids\AttributeValueGrid\AttributeValueGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridBrowse.htm" />
     <Content Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridBrowse.htm" />
@@ -393,7 +393,7 @@
     <TypeScriptCompile Include="Source\Grids\OrderTypeNoteGrid\OrderTypeNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\OrderTypeContactTitleGrid\OrderTypeContactTitleGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\InventoryContainerGrid\InventoryContainerGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryContainerItemGrid\InventoryContainerItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AttributeValueGrid\AttributeValueGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemMiscGrid\DiscountItemMiscGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\DiscountItemLaborGrid\DiscountItemLaborGridController.ts" />

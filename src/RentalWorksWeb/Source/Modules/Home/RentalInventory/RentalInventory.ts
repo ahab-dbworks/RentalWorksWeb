@@ -198,21 +198,21 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init($inventoryPrepGridControl);
         FwBrowse.renderRuntimeHtml($inventoryPrepGridControl);
         // ----------
-        const $inventoryContainerGrid = $form.find('div[data-grid="InventoryContainerGrid"]');
-        const $inventoryContainerGridControl = FwBrowse.loadGridFromTemplate('InventoryContainerGrid');
-        $inventoryContainerGrid.empty().append($inventoryContainerGridControl);
-        $inventoryContainerGridControl.data('ondatabind', function (request) {
+        const $inventoryContainerItemGrid = $form.find('div[data-grid="InventoryContainerItemGrid"]');
+        const $inventoryContainerItemGridControl = FwBrowse.loadGridFromTemplate('InventoryContainerItemGrid');
+        $inventoryContainerItemGrid.empty().append($inventoryContainerItemGridControl);
+        $inventoryContainerItemGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
             request.pagesize = maxPageSize;
         });
-        $inventoryContainerGridControl.data('beforesave', function (request) {
+        $inventoryContainerItemGrid.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
             request.ContainerId = $form.find('div.fwformfield[data-datafield="ContainerId"] input').val();
         });
-        FwBrowse.init($inventoryContainerGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryContainerGridControl);
+        FwBrowse.init($inventoryContainerItemGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryContainerItemGridControl);
         // ----------
         const $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
         const $inventoryCompleteGridControl = FwBrowse.loadGridFromTemplate('InventoryCompleteGrid');
@@ -335,7 +335,7 @@ class RentalInventory extends InventoryBase {
         var $inventoryAttributeValueGrid: any;
         var $inventoryVendorGrid: any;
         var $inventoryPrepGrid: any;
-        var $inventoryContainerGrid: any;
+        var $inventoryContainerItemGrid: any;
         var $inventoryCompleteGrid: any;
         var $inventoryWarehouseStagingGrid: any;
         var $inventoryKitGrid: any;
@@ -365,7 +365,7 @@ class RentalInventory extends InventoryBase {
         //FwBrowse.search($inventoryVendorGrid);
         $inventoryPrepGrid = $form.find('[data-name="InventoryPrepGrid"]');
         //FwBrowse.search($inventoryPrepGrid);
-        $inventoryContainerGrid = $form.find('[data-name="InventoryContainerGrid"]');
+        $inventoryContainerItemGrid = $form.find('[data-name="InventoryContainerItemGrid"]');
         //FwBrowse.search($inventoryContainerGrid);
         $inventoryCompleteGrid = $form.find('[data-name="InventoryCompleteGrid"]');
         //FwBrowse.search($inventoryCompleteGrid);

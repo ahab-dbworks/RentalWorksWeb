@@ -383,7 +383,7 @@ namespace WebLibrary.Security
             AddGrid("Inventory Complete",                     "{3CB67F46-92B8-4F42-A04C-DB5BA6B52B29}", lv1menuGrids.Id, "InventoryCompleteGridController");
             AddGrid("Inventory Complete Kit",                 "{797339C1-79C3-4FC0-82E4-7DA2FE150DDA}", lv1menuGrids.Id, "InventoryCompleteKitGridController");
             AddGrid("Inventory Consignment",                  "{0D22AF5B-CF50-41EA-A8CC-D039C402E4CC}", lv1menuGrids.Id, "InventoryConsignmentGridController");
-            AddGrid("Inventory Container",                    "{494F7DD0-0D32-4FE0-B84A-BC7CD71CE9EC}", lv1menuGrids.Id, "InventoryContainerGridController");
+            AddGrid("Inventory Container Item",               "{494F7DD0-0D32-4FE0-B84A-BC7CD71CE9EC}", lv1menuGrids.Id, "InventoryContainerItemGridController");
             AddGrid("Inventory Kit",                          "{989C0F67-5F4D-4BC2-832F-D8009256AF0F}", lv1menuGrids.Id, "InventoryKitGridController");
             AddGrid("Inventory Prep",                         "{338934FD-CA10-48F4-9498-2D5250F4E6FA}", lv1menuGrids.Id, "InventoryPrepGridController");
             AddGrid("Inventory Qc",                           "{C1EE89A8-2C6C-4709-AB0C-2BBC062160B5}", lv1menuGrids.Id, "InventoryQcGridController");
