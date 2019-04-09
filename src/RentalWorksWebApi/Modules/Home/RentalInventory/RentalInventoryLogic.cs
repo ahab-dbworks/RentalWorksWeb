@@ -1,7 +1,11 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using FwStandard.Models;
+using FwStandard.SqlServer;
+using System.Collections.Generic;
 using WebApi.Logic;
 using WebApi.Modules.Home.Container;
+using WebApi.Modules.Home.ContainerItem;
 using WebApi.Modules.Home.Inventory;
 using WebLibrary;
 
@@ -21,6 +25,12 @@ namespace WebApi.Modules.Home.RentalInventory
         {
             bool isValid = base.Validate(saveMode, original, ref validateMsg);
 
+            RentalInventoryLogic lOrig = null;
+            if (original != null)
+            {
+                lOrig = ((RentalInventoryLogic)original);
+            }
+
             if (!string.IsNullOrEmpty(ContainerId))
             {
                 isValid = false;
@@ -28,24 +38,27 @@ namespace WebApi.Modules.Home.RentalInventory
             }
 
             if (saveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
-            { 
-                if (original != null)
+            {
+                if (lOrig != null)
                 {
-                    RentalInventoryLogic lOrig = ((RentalInventoryLogic)original);
-
-                    if (ContainerScannableInventoryId != null)
+                    if (ContainerScannableInventoryId != null)  //attempting to change the scannable i-code
                     {
-                        if (lOrig.ContainerScannableInventoryId == null)
+                        if ((!lOrig.ContainerScannableInventoryId.Equals(string.Empty)) && (!ContainerScannableInventoryId.Equals(lOrig.ContainerScannableInventoryId)))  // prior value was not blank, and also changing the value at this time
                         {
-                            lOrig.ContainerScannableInventoryId = "";
-                        }
-                        if (!ContainerScannableInventoryId.Equals(lOrig.ContainerScannableInventoryId))  // changing the Scannable I-Code on this Container
-                        {
-                            //if (lOrig.HasContainers.GetValueOrDefault(false))
-                            //{
+                            // check to see if any Container bar codes are instantiated yet on this Container definition
+                            BrowseRequest br = new BrowseRequest();
+                            br.uniqueids = new Dictionary<string, object>();
+                            br.uniqueids.Add("ContainerId", lOrig.ContainerId);
+                            ContainerItemLogic cil = new ContainerItemLogic();
+                            cil.SetDependencies(AppConfig, UserSession);
+                            FwJsonDataTable dt = cil.BrowseAsync(br).Result;
+
+                            bool hasContainerBarCodes = (dt.Rows.Count > 0);
+                            if (hasContainerBarCodes)
+                            {
                                 isValid = false;
-                                validateMsg = "Cannot change the Scannable Item on this " + BusinessLogicModuleName + ".";  // because Container Bar Codes exist...
-                            //}
+                                validateMsg = "Cannot change the Scannable Item on this Container because Container Bar Codes exist."; 
+                            }
                         }
                     }
                 }
