@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Threading.Tasks;
@@ -954,7 +954,11 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 
                 foreach (TInventoryWarehouseAvailabilityKey availKey in availCache.Keys)
                 {
-                    AvailabilityCache[availKey] = availCache[availKey];
+                    //AvailabilityCache[availKey] = availCache[availKey];
+                    if (!AvailabilityCache.TryAdd(availKey, availCache[availKey]))  // try to add the value.  if not allowed, then updated it below
+                    {
+                        AvailabilityCache[availKey] = availCache[availKey];
+                    }
                 }
 
                 success = true;
