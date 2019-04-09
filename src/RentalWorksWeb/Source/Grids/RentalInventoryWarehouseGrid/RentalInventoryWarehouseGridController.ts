@@ -1,5 +1,5 @@
 ﻿class RentalInventoryWarehouseGrid {
-    Module: string = 'RentalInventoryWarehouseGrid';
+    Module: string = 'InventoryWarehouseGrid';
     apiurl: string = 'api/v1/inventorywarehouse';
 }
 
