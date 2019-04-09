@@ -15,28 +15,28 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string InvoiceId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "invoicedate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string InvoiceDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingstart", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicedesc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        [FwSqlDataField(column: "invoicedesc", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50, required: true)]
         public string InvoiceDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billingend", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string BillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "statusdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string StatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paytermsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string PaymentTermsId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paytypeid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "approveddate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string Approveddate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoicetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
+        [FwSqlDataField(column: "invoicetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10, required: true)]
         public string InvoiceType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean, sqltype: "char")]
@@ -93,8 +93,8 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "laborcomponentpct", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? Laborcomponentpct { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string LocationId { get; set; }
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "worksheetid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string WorksheetId { get; set; }
@@ -102,7 +102,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "ismisc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Ismisc { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, required: true)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceclass", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
@@ -117,7 +117,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "summaryinvoicegroup", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? Summaryinvoicegroup { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15)]
+        [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 15, required: true)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "adjustcommission", modeltype: FwDataTypes.Boolean, sqltype: "char")]
@@ -321,7 +321,13 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        //------------------------------------------------------------------------------------ 
+        public async Task<bool> SetNumber(FwSqlConnection conn)
+        {
+            InvoiceNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_INVOICE, conn: conn);
+
+            return true;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public async Task<TSpStatusReponse> Void()
         {
             return await InvoiceFunc.VoidInvoice(AppConfig, UserSession, InvoiceId);

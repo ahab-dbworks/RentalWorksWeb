@@ -2,6 +2,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.Tax;
@@ -29,6 +30,7 @@ namespace WebApi.Modules.Home.Invoice
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
 
+            invoice.BeforeSave += OnBeforeSaveInvoice;
             invoice.AfterSave += OnAfterSaveInvoice;
 
         }
@@ -133,7 +135,7 @@ namespace WebApi.Modules.Home.Invoice
         public bool? IsAlteredDates { get { return invoice.IsAlteredDates; } set { invoice.IsAlteredDates = value; } }
 
         [FwLogicProperty(Id:"5uyCk2Eh4fGp")]
-        public string LocationId { get { return invoice.LocationId; } set { invoice.LocationId = value; } }
+        public string OfficeLocationId { get { return invoice.OfficeLocationId; } set { invoice.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id:"aPWbnng5uQaH")]
         public string InvoiceCreationBatchId { get { return invoice.InvoiceCreationBatchId; } set { invoice.InvoiceCreationBatchId = value; } }
@@ -430,19 +432,40 @@ namespace WebApi.Modules.Home.Invoice
             }
             else
             {
+                InvoiceLogic lOrig = null;
                 if (original != null)
                 {
-                    InvoiceLogic lOrig = ((InvoiceLogic)original);
+                    lOrig = ((InvoiceLogic)original);
+                }
 
-                    if (isValid)
+                // no changes allowed to status
+                if (isValid)
+                {
+                    string origStatus = lOrig.Status ?? Status ?? "";
+                    if ((Status != null) && (!Status.Equals(origStatus)))
                     {
-                        if (lOrig.Status.Equals(RwConstants.INVOICE_STATUS_PROCESSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_VOID))
-                        {
-                            isValid = false;
-                            validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName  + ".";
-                        }
+                        isValid = false;
+                        validateMsg = "Cannot modify the status of this " + BusinessLogicModuleName + ".";
                     }
                 }
+
+                // no changes allowed at all if processed, closed, or void
+                if (isValid)
+                {
+                    string origStatus = lOrig.Status ?? Status ?? "";
+                    if (lOrig.Status.Equals(RwConstants.INVOICE_STATUS_PROCESSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_CLOSED) || lOrig.Status.Equals(RwConstants.INVOICE_STATUS_VOID))
+                    {
+                        isValid = false;
+                        validateMsg = "Cannot modify a " + lOrig.Status + " " + BusinessLogicModuleName + ".";
+                    }
+                }
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InvoiceLogic).GetProperty(nameof(InvoiceLogic.InvoiceType));
+                string[] acceptableValues = { RwConstants.INVOICE_TYPE_BILLING, RwConstants.INVOICE_TYPE_CREDIT, RwConstants.INVOICE_TYPE_ESTIMATE, RwConstants.INVOICE_TYPE_WORKSHEET, RwConstants.INVOICE_TYPE_PREVIEW };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
 
             return isValid;
@@ -454,6 +477,7 @@ namespace WebApi.Modules.Home.Invoice
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.INVOICE_STATUS_NEW;
+                InvoiceType = RwConstants.INVOICE_TYPE_BILLING;
                 StatusDate = FwConvert.ToString(DateTime.Today);
             }
             else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
@@ -467,6 +491,18 @@ namespace WebApi.Modules.Home.Invoice
 
         }
         //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveInvoice(object sender, BeforeSaveDataRecordEventArgs e)
+        {
+            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
+            {
+                bool x = invoice.SetNumber(e.SqlConnection).Result;
+                if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
+                {
+                    TaxOptionId = AppFunc.GetLocation(AppConfig, UserSession, OfficeLocationId, "taxoptionid").Result;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public virtual void OnAfterSaveInvoice(object sender, AfterSaveDataRecordEventArgs e)
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)

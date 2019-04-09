@@ -76,7 +76,7 @@ namespace WebApi.Modules.Home.Invoice
         public bool? IsAlteredDates { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
-        public string LocationId { get; set; }
+        public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTotal { get; set; }

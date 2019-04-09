@@ -35,6 +35,7 @@
         public const string MODULE_PROJECT = "PROJECT";
         public const string MODULE_PURCHASE_ORDER = "PO";
         public const string MODULE_TRANSFER = "TRANSFER";
+        public const string MODULE_INVOICE = "INVOICE";
 
         //QUOTE/ORDER
         public const string ORDER_TYPE_QUOTE = "Q";
@@ -140,6 +141,13 @@
         public const string INVOICE_STATUS_PROCESSED = "PROCESSED";
         public const string INVOICE_STATUS_CLOSED = "CLOSED";
         public const string INVOICE_STATUS_VOID = "VOID";
+
+        public const string INVOICE_TYPE_BILLING = "BILLING";
+        public const string INVOICE_TYPE_CREDIT = "CREDIT";
+        public const string INVOICE_TYPE_ESTIMATE = "ESTIMATE";
+        public const string INVOICE_TYPE_WORKSHEET = "WORKSHEET";
+        public const string INVOICE_TYPE_PREVIEW = "PREVIEW";
+
 
         //BATCH PROCESSING
         public const string BATCH_TYPE_INVOICE = "INVOICE";
