@@ -36,6 +36,9 @@ namespace WebApi.Modules.Home.InventoryContainerItem
         [FwLogicProperty(Id:"85Nnh6YlNuG9", IsRecordTitle:true)]
         public string Description { get { return masterItem.Description; } set { masterItem.Description = value; } }
 
+        [FwLogicProperty(Id: "6MDboeDjtVhSN", IsReadOnly: true)]
+        public string TrackedBy { get; set; }
+
         [FwLogicProperty(Id:"MmqhWNq9Y0aQ")]
         public decimal? QuantityOrdered { get { return masterItem.QuantityOrdered; } set { masterItem.QuantityOrdered = value; } }
 

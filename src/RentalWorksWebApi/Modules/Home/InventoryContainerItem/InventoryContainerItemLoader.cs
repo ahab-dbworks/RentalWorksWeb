@@ -31,6 +31,9 @@ namespace WebApi.Modules.Home.InventoryContainerItem
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
+        public string TrackedBy { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtyordered", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityOrdered { get; set; }
         //------------------------------------------------------------------------------------ 
