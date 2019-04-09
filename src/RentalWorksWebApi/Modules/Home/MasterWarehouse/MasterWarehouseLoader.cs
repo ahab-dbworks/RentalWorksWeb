@@ -172,5 +172,11 @@ namespace WebApi.Modules.Home.MasterWarehouse
         [FwSqlDataField(column: "stoptime", modeltype: FwDataTypes.Text)]
         public string DefaultStopTime { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
+        public decimal? UnitValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
+        public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

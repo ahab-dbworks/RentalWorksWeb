@@ -110,6 +110,12 @@ namespace WebApi.Modules.Home.MasterWarehouse
         [FwSqlDataField(column: "stoptime", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 5)]
         public string DefaultStopTime { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
+        public decimal? UnitValue { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
+        public decimal? ReplacementCost { get; set; }
+        //------------------------------------------------------------------------------------ 
 
 
 

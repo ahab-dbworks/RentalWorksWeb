@@ -130,6 +130,10 @@ namespace WebApi.Modules.Home.InventoryWarehouse
         [FwLogicProperty(Id:"IPBggukwKwKk")]
         public bool? AllowAllUsersAddToOrder { get { return masterWarehouse.AllowAllUsersAddToOrder; } set { masterWarehouse.AllowAllUsersAddToOrder = value; } }
 
+        [FwLogicProperty(Id: "IGu61XAFP8WiH")]
+        public decimal? UnitValue { get { return masterWarehouse.UnitValue; } set { masterWarehouse.UnitValue = value; } }
+        [FwLogicProperty(Id: "dqjGqmmSwBFqn")]
+        public decimal? ReplacementCost { get { return masterWarehouse.ReplacementCost; } set { masterWarehouse.ReplacementCost = value; } }
 
 
         //------------------------------------------------------------------------------------
