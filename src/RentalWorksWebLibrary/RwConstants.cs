@@ -132,6 +132,7 @@
         public const string CONTRACT_TYPE_IN = "IN";
         public const string CONTRACT_TYPE_RETURN = "RETURN";
         public const string CONTRACT_TYPE_MANIFEST = "MANIFEST";
+        public const string CONTRACT_TYPE_FILL = "FILL";
 
         //INVOICE
         public const string INVOICE_DATE_TYPE_INVOICE_DATE = "INVOICE_DATE";

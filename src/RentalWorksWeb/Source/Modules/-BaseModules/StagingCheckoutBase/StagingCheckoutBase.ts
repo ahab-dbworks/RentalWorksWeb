@@ -86,7 +86,10 @@
                     sessionType = 'MANIFEST';
                     orderType = 'T';
                     break;
-                //case 'FillContainer':
+                case 'FillContainer':
+                    apiUrl = `api/v1/checkout/containersuspendedsessionsexist`;
+                    sessionType = 'FILL';
+                    orderType = 'N';
             }
             FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
                 $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
@@ -142,7 +145,7 @@
     getOrder($form: JQuery): void {
         const maxPageSize = 20;
         const module = this.Module;
-        $form.on('change', `[data-datafield="${this.Type}Id"]`, () => {
+        $form.find(`[data-datafield="${this.Type}Id"]`).data('onchange', $tr => {
             try {
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
@@ -154,7 +157,7 @@
                     $form.find('div[data-datafield="IncludeZeroRemaining"] input').prop('checked', false);
                 }
 
-                const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                let orderId;
                 let apiName;
                 switch (module) {
                     case 'StagingCheckout':
@@ -167,6 +170,7 @@
                         apiName = 'containeritem';
                         break;
                 }
+                orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 const apiUrl = `api/v1/${apiName}/${orderId}`;
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
@@ -186,6 +190,7 @@
                     }, $form);
                 }, null, $form);
                 // ----------
+                if (this.Type === 'Item') orderId = $tr.find('[data-browsedatafield="ContainerItemId"]').attr('data-originalvalue');
                 const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
                 $stagedItemGridControl.data('ondatabind', request => {
                     request.uniqueids = {

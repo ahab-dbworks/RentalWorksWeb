@@ -56,6 +56,25 @@ namespace WebApi.Modules.Home.CheckOut
             }
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/checkout/containersuspendedsessionsexist
+        [HttpGet("containersuspendedsessionsexist")]
+        [FwControllerMethod(Id: "QnA31soyCzm")]
+        public async Task<ActionResult<bool>> ContainerSuspendedSessionsExist()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await ContractFunc.SuspendedSessionsExist(AppConfig, UserSession, RwConstants.CONTRACT_TYPE_FILL, RwConstants.ORDER_TYPE_CONTAINER);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // GET api/v1/checkout/stagingtabs?OrderId&WarehouseId
         [HttpGet("stagingtabs")]
         [FwControllerMethod(Id: "2EfNs9npvIhkL")]

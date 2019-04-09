@@ -295,11 +295,8 @@
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        let $exchangeItemGrid: any;
-        let $exchangeItemGridControl: any;
-
-        $exchangeItemGrid = $form.find('div[data-grid="ExchangeItemGrid"]');
-        $exchangeItemGridControl = jQuery(jQuery('#tmpl-grids-ExchangeItemGridBrowse').html());
+        const $exchangeItemGrid = $form.find('div[data-grid="ExchangeItemGrid"]');
+        const $exchangeItemGridControl = FwBrowse.loadGridFromTemplate('ExchangeItemGrid');
         $exchangeItemGrid.empty().append($exchangeItemGridControl);
         $exchangeItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -319,8 +316,17 @@
     };
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
+        let typeHTML;
+        switch (this.Module) {
+            case 'Exchange':
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 125px;" data-formbeforevalidate="beforeValidateOrder"></div>`;
+                break;
+            case 'ExchangeContainerItem':
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" style="flex:1 1 125px;"></div>`;
+                break;
+        }
         return `
-        <div id="exchangeform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Exchange" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="ExchangeController">
+        <div id="exchangeform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
           <div id="exchangeform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
             <div class="tabs">
             </div>
@@ -328,10 +334,10 @@
               <div class="flexpage">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Exchange">
                   <div class="flexrow">
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 175px;"></div>
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 125px;" data-formbeforevalidate="beforeValidateOrder"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 175px;"></div>
+                    ${typeHTML}
                     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
-                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 200px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 200px;" data-enabled="false"></div>
                   </div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check-In">
