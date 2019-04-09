@@ -482,6 +482,8 @@ namespace WebLibrary.Security
             AddGrid("Warehouse Availability Hour",            "{DF40BE8D-BAAA-45E8-A6AE-78057281C1EC}", lv1menuGrids.Id, "WarehouseAvailabilityHourGridController");
             AddGrid("Warehouse Office Location",              "{99C692AB-13CE-4113-88CF-6AC15821B9D4}", lv1menuGrids.Id, "WarehouseOfficeLocationGridController");
             AddGrid("Warehouse QuikLocate Approver",          "{597134F6-303E-4B69-A9B7-403082295AE1}", lv1menuGrids.Id, "WarehouseQuikLocateApproverGridController");
+            AddGrid("Widget Group",                           "{F33AEECB-006D-47A6-AB2C-82CEB2614120}", lv1menuGrids.Id, "WidgetGroupGridController");
+            AddGrid("Widget User",                            "{C1341ABD-B5C0-4D8D-8848-D0E58A2EC972}", lv1menuGrids.Id, "WidgetUserGridController");
         }
 
         //---------------------------------------------------------------------------------------------
