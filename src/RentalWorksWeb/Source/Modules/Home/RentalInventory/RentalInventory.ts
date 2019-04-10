@@ -207,7 +207,7 @@ class RentalInventory extends InventoryBase {
             };
             request.pagesize = maxPageSize;
         });
-        $inventoryContainerItemGrid.data('beforesave', function (request) {
+        $inventoryContainerItemGridControl.data('beforesave', function (request) {
             request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
             request.ContainerId = $form.find('div.fwformfield[data-datafield="ContainerId"] input').val();
         });
