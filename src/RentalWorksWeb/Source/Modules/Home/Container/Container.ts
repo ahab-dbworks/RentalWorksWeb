@@ -70,7 +70,7 @@ class Container {
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         // var $form = FwModule.loadFormFromTemplate(this.Module);
-        let $form = jQuery(AssetController.getFormTemplate());
+        let $form = jQuery(this.getFormTemplate());
 
         $form = FwModule.openForm($form, mode);
         return $form;
@@ -136,6 +136,10 @@ class Container {
            </div>
     `;
     };
+    //---------------------------------------------------------------------------------------------
+    getFormTemplate(){
+        return AssetController.getFormTemplate();
+    }
     //---------------------------------------------------------------------------------------------
 }
 
