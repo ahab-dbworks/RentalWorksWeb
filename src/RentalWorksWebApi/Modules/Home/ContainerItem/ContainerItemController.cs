@@ -7,6 +7,9 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers; 
 using System.Threading.Tasks;
 using WebLibrary;
+using System;
+using Microsoft.AspNetCore.Http;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.ContainerItem
 {
@@ -67,6 +70,40 @@ namespace WebApi.Modules.Home.ContainerItem
         public async Task<ActionResult<ContainerItemLogic>> PostAsync([FromBody]ContainerItemLogic l)
         {
             return await DoPostAsync<ContainerItemLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/containeritem/emptycontainer/A0000001 
+        [HttpPost("emptycontainer/{id}")]
+        [FwControllerMethod(Id: "bBSKLVtzUKn")]
+        public async Task<ActionResult<EmptyContainerItemResponse>> Empty([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                ContainerItemLogic container = new ContainerItemLogic();
+                container.SetDependencies(AppConfig, UserSession);
+                if (await container.LoadAsync<ContainerItemLogic>(ids))
+                {
+                    EmptyContainerItemResponse response = await ContainerItemFunc.EmptyContainer(AppConfig, UserSession, id);
+                    return response;
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/containeritem/A0000001 

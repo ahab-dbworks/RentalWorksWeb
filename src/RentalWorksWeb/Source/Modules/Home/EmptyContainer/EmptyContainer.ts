@@ -46,6 +46,17 @@ class EmptyContainer {
             const $warningText = $form.find('.warningText');
             isChecked ? $warningText.show() : $warningText.hide();
         });
+
+        $form.on('click', '.emptyContainer', e => {
+            const id = FwFormField.getValueByDataField($form, 'ItemId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/emptycontainer/${id}`, null, FwServices.defaultTimeout,
+                response => {
+                    FwNotification.renderNotification('SUCCESS', response.msg);
+            },
+                ex => {
+                FwFunc.showError(ex);
+            }, $form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -66,7 +77,7 @@ class EmptyContainer {
           <div><span>Clicking the "Empty Container" button below will empty all contents of this container and move the items back to IN status.</span></div>
           <div class="warningText" style="display:none; color:red; margin-top:10px;"><span>This Container instance will be deleted.  All Fill/Empty history will be deleted.  The Item will no longer be associated to this type of Container.</span></div>
           <div class="flexrow">
-            <div class="fwformcontrol" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Empty Container</div>
+            <div class="fwformcontrol emptyContainer" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Empty Container</div>
           </div>
         </div>
       </div>
