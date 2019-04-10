@@ -322,10 +322,10 @@ class OrderBase {
 
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
-        var $browse = EmailHistoryController.openBrowse();
+        const $browse = EmailHistoryController.openBrowse();
         $browse.data('ondatabind', request => { 
             request.uniqueids = {
-                RelatedToId: $form.find('[data-datafield="' + `${this.Module}Id` + '"] input.fwformfield-value').val()
+                RelatedToId: $form.find(`[data-datafield="${this.Module}Id"] input.fwformfield-value`).val()
             }
         });
         return $browse;

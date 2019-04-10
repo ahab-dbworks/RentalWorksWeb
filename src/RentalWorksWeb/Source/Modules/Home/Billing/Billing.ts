@@ -10,15 +10,14 @@ class Billing {
     SessionId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
-        var self = this;
-        var screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
         var $browse = this.openBrowse();
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
-            self.renderBrowseFilterPopup($browse);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
+            this.renderBrowseFilterPopup($browse);
             //FwBrowse.screenload($browse);
         };
         screen.unload = function () {
@@ -28,7 +27,8 @@ class Billing {
     };
     //----------------------------------------------------------------------------------------------
     renderBrowseFilterPopup($browse) {
-        let $popup = jQuery(`<div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-rendermode="template" style="background-color:white; padding:15px 0px; border:2px solid gray; min-width:350px;">
+        let $popup = jQuery(`
+                <div id="billingSearchPopup" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-rendermode="template" style="background-color:white; padding:15px 0px; border:2px solid gray; min-width:350px;">
                   <div class="close-modal" style="position:absolute; right:5px; top:5px; cursor:pointer;"><i class="material-icons">clear</i></div>
                   <div class="flexpage">
                     <div class="flexrow">
@@ -213,16 +213,13 @@ class Billing {
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode, parentModuleInfo?: any) {
-        let $form;
-
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        let $form;
-        $form = this.openForm('EDIT');
+        let $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="BillingId"] input').val(uniqueids.BillingId);
         FwModule.loadForm(this.Module, $form);
 

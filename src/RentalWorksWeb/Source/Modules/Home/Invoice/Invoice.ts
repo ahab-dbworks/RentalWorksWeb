@@ -25,9 +25,8 @@ class Invoice {
             }
 
             if (typeof filter !== 'undefined') {
-
                 filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);''
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"] input`).val(filter.search);
             }
 
             FwBrowse.databind($browse);
@@ -118,9 +117,10 @@ class Invoice {
 
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'BillingStartDate', today);
-            FwFormField.setValueByDataField($form, 'BillingStopDate', today);
+            FwFormField.setValueByDataField($form, 'BillingEndDate', today);
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
             FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
+            FwFormField.enable($form.find('[data-datafield="RateType"]'));
             FwFormField.setValueByDataField($form, 'StatusDate', today);
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
@@ -155,7 +155,6 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        const maxPageSize = 20;
         // ----------
         const $invoiceItemGridRental = $form.find('.rentalgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
@@ -170,7 +169,6 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'R'
             };
-            request.pagesize = maxPageSize;
         });
         $invoiceItemGridRentalControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -212,7 +210,6 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'S'
             };
-            request.pagesize = maxPageSize;
         });
         $invoiceItemGridSalesControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -243,7 +240,6 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'L'
             };
-            request.pagesize = maxPageSize;
         });
         $invoiceItemGridLaborControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -270,7 +266,6 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'M'
             };
-            request.pagesize = maxPageSize;
         });
         $invoiceItemGridMiscControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -297,7 +292,6 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'RS'
             };
-            request.pagesize = maxPageSize;
         });
         $invoiceItemGridRentalSaleControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -401,7 +395,11 @@ class Invoice {
                 }
             }
         });
-        // Disbles form for certain statuses
+        const IsStandAloneInvoice = FwFormField.getValueByDataField($form, 'IsStandAloneInvoice') === true;
+        if (IsStandAloneInvoice) {
+            FwFormField.enable($form.find('[data-datafield="RateType"]'));
+        }
+        // Disbles form for certain statuses. Maintain position under 'IsStandAloneInvoice' condition since status overrides
         const status = FwFormField.getValueByDataField($form, 'Status');
         if (status === 'CLOSED' || status === 'PROCESSED' || status === 'VOID') {
             FwModule.setFormReadOnly($form);
