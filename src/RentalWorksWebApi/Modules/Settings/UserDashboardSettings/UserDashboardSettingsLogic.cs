@@ -190,38 +190,39 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                 qry.AddColumn("clickpath");                     //04
                 qry.AddColumn("defaulttype");                   //05
                 qry.AddColumn("widgettype");                    //06
-                qry.AddColumn("defaultdatapoints");             //07
-                qry.AddColumn("datapoints");                    //08
-                qry.AddColumn("defaultaxisnumberformatid");     //09
-                qry.AddColumn("defaultaxisnumberformat");       //10
-                qry.AddColumn("defaultaxisnumberformatmask");   //11
-                qry.AddColumn("axisnumberformatid");            //12
-                qry.AddColumn("axisnumberformat");              //13
-                qry.AddColumn("axisnumberformatmask");          //14
-                qry.AddColumn("defaultdatanumberformatid");     //15
-                qry.AddColumn("defaultdatanumberformat");       //16
-                qry.AddColumn("defaultdatanumberformatmask");   //17
-                qry.AddColumn("datanumberformatid");            //18
-                qry.AddColumn("datanumberformat");              //19
-                qry.AddColumn("datanumberformatmask");          //20
-                qry.AddColumn("defaultdatebehaviorid");         //21
-                qry.AddColumn("defaultdatebehavior");           //22
-                qry.AddColumn("datebehaviorid");                //23
-                qry.AddColumn("datebehavior");                  //24
-                qry.AddColumn("datefielddisplaynames");         //25
-                qry.AddColumn("datefields");                    //26
-                qry.AddColumn("defaultdatefield");              //27
-                qry.AddColumn("datefield");                     //28
-                qry.AddColumn("defaultfromdate");               //29
-                qry.AddColumn("fromdate");                      //30
-                qry.AddColumn("defaulttodate");                 //31
-                qry.AddColumn("todate");                        //32
-                qry.AddColumn("locationid");                    //33
-                qry.AddColumn("location");                      //34
-                qry.AddColumn("locationcode");                  //35
-                qry.AddColumn("defaultstacked");                //36
-                qry.AddColumn("stacked");                       //37
-                qry.AddColumn("orderby");                       //38
+                qry.AddColumn("assignto");                      //07
+                qry.AddColumn("defaultdatapoints");             //08
+                qry.AddColumn("datapoints");                    //09
+                qry.AddColumn("defaultaxisnumberformatid");     //10
+                qry.AddColumn("defaultaxisnumberformat");       //11
+                qry.AddColumn("defaultaxisnumberformatmask");   //12
+                qry.AddColumn("axisnumberformatid");            //13
+                qry.AddColumn("axisnumberformat");              //14
+                qry.AddColumn("axisnumberformatmask");          //15
+                qry.AddColumn("defaultdatanumberformatid");     //16
+                qry.AddColumn("defaultdatanumberformat");       //17
+                qry.AddColumn("defaultdatanumberformatmask");   //18
+                qry.AddColumn("datanumberformatid");            //19
+                qry.AddColumn("datanumberformat");              //20
+                qry.AddColumn("datanumberformatmask");          //21
+                qry.AddColumn("defaultdatebehaviorid");         //22
+                qry.AddColumn("defaultdatebehavior");           //23
+                qry.AddColumn("datebehaviorid");                //24
+                qry.AddColumn("datebehavior");                  //25
+                qry.AddColumn("datefielddisplaynames");         //26
+                qry.AddColumn("datefields");                    //27
+                qry.AddColumn("defaultdatefield");              //28
+                qry.AddColumn("datefield");                     //29
+                qry.AddColumn("defaultfromdate");               //30
+                qry.AddColumn("fromdate");                      //31
+                qry.AddColumn("defaulttodate");                 //32
+                qry.AddColumn("todate");                        //33
+                qry.AddColumn("locationid");                    //34
+                qry.AddColumn("location");                      //35
+                qry.AddColumn("locationcode");                  //36
+                qry.AddColumn("defaultstacked");                //37
+                qry.AddColumn("stacked");                       //38
+                qry.AddColumn("orderby");                       //39
                 qry.AddParameter("@webusersid", UserId);
                 FwJsonDataTable table = await qry.QueryToFwJsonTableAsync(true);
                 for (int r = 0; r < table.Rows.Count; r++)
@@ -234,53 +235,54 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
                     string clickPath = table.Rows[r][4].ToString();
                     string defaulttype = table.Rows[r][5].ToString();
                     string widgettype = table.Rows[r][6].ToString();
-                    int defaultdatapoints = Convert.ToInt32(table.Rows[r][7]);
-                    int datapoints = Convert.ToInt32(table.Rows[r][8]);
-                    string defaultaxisnumberformatid = table.Rows[r][9].ToString();
-                    string defaultaxisnumberformat = table.Rows[r][10].ToString();
-                    string defaultaxisnumberformatmask = table.Rows[r][11].ToString();
-                    string axisnumberformatid = table.Rows[r][12].ToString();
-                    string axisnumberformat = table.Rows[r][13].ToString();
-                    string axisnumberformatmask = table.Rows[r][14].ToString();
-                    string defaultdatanumberformatid = table.Rows[r][15].ToString();
-                    string defaultdatanumberformat = table.Rows[r][16].ToString();
-                    string defaultdatanumberformatmask = table.Rows[r][17].ToString();
-                    string datanumberformatid = table.Rows[r][18].ToString();
-                    string datanumberformat = table.Rows[r][19].ToString();
-                    string datanumberformatmask = table.Rows[r][20].ToString();
+                    string assignto = table.Rows[r][7].ToString();
+                    int defaultdatapoints = Convert.ToInt32(table.Rows[r][8]);
+                    int datapoints = Convert.ToInt32(table.Rows[r][9]);
+                    string defaultaxisnumberformatid = table.Rows[r][10].ToString();
+                    string defaultaxisnumberformat = table.Rows[r][11].ToString();
+                    string defaultaxisnumberformatmask = table.Rows[r][12].ToString();
+                    string axisnumberformatid = table.Rows[r][13].ToString();
+                    string axisnumberformat = table.Rows[r][14].ToString();
+                    string axisnumberformatmask = table.Rows[r][15].ToString();
+                    string defaultdatanumberformatid = table.Rows[r][16].ToString();
+                    string defaultdatanumberformat = table.Rows[r][17].ToString();
+                    string defaultdatanumberformatmask = table.Rows[r][18].ToString();
+                    string datanumberformatid = table.Rows[r][19].ToString();
+                    string datanumberformat = table.Rows[r][20].ToString();
+                    string datanumberformatmask = table.Rows[r][21].ToString();
                     string defaultdatebehaviorid = table.Rows[r][21].ToString();
-                    string defaultdatebehavior = table.Rows[r][22].ToString();
-                    string datebehaviorid = table.Rows[r][23].ToString();
-                    string datebehavior = table.Rows[r][24].ToString();
-                    string datefielddisplaynames = table.Rows[r][25].ToString();
-                    string datefields = table.Rows[r][26].ToString();
-                    string defaultdatefield = table.Rows[r][27].ToString();
-                    string datefield = table.Rows[r][28].ToString();
+                    string defaultdatebehavior = table.Rows[r][23].ToString();
+                    string datebehaviorid = table.Rows[r][24].ToString();
+                    string datebehavior = table.Rows[r][25].ToString();
+                    string datefielddisplaynames = table.Rows[r][26].ToString();
+                    string datefields = table.Rows[r][27].ToString();
+                    string defaultdatefield = table.Rows[r][28].ToString();
+                    string datefield = table.Rows[r][29].ToString();
                     DateTime? defaultfromdate = null;
                     DateTime? fromdate = null;
                     DateTime? defaulttodate = null;
                     DateTime? todate = null;
-                    if (!table.Rows[r][29].ToString().Equals(""))
-                    {
-                        defaultfromdate = FwConvert.ToDateTime(table.Rows[r][29].ToString());
-                    }
                     if (!table.Rows[r][30].ToString().Equals(""))
                     {
-                        fromdate = FwConvert.ToDateTime(table.Rows[r][30].ToString());
+                        defaultfromdate = FwConvert.ToDateTime(table.Rows[r][30].ToString());
                     }
                     if (!table.Rows[r][31].ToString().Equals(""))
                     {
-                        defaulttodate = FwConvert.ToDateTime(table.Rows[r][31].ToString());
+                        fromdate = FwConvert.ToDateTime(table.Rows[r][31].ToString());
                     }
                     if (!table.Rows[r][32].ToString().Equals(""))
                     {
-                        todate = FwConvert.ToDateTime(table.Rows[r][32].ToString());
+                        defaulttodate = FwConvert.ToDateTime(table.Rows[r][32].ToString());
                     }
-                    string locationid = table.Rows[r][33].ToString();
-                    string location = table.Rows[r][34].ToString();
-                    string locationcode = table.Rows[r][35].ToString();
-                    bool defaultStacked = FwConvert.ToBoolean(table.Rows[r][36].ToString());
-                    bool stacked = FwConvert.ToBoolean(table.Rows[r][37].ToString());
+                    if (!table.Rows[r][33].ToString().Equals(""))
+                    {
+                        todate = FwConvert.ToDateTime(table.Rows[r][33].ToString());
+                    }
+                    string locationid = table.Rows[r][34].ToString();
+                    string location = table.Rows[r][35].ToString();
+                    string locationcode = table.Rows[r][36].ToString();
+                    bool defaultStacked = FwConvert.ToBoolean(table.Rows[r][37].ToString());
+                    bool stacked = FwConvert.ToBoolean(table.Rows[r][38].ToString());
 
                     w.userWidgetId = UserWidgetId;
                     w.value = widgetId;
