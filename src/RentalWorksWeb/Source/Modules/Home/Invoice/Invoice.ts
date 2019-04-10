@@ -105,7 +105,7 @@ class Invoice {
         FwFormField.disable($form.find('[data-datafield="SubMiscellaneous"]'));
         FwFormField.disable($form.find('[data-datafield="SubVehicle"]'));
 
-        let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
+        const $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
         $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
 
         if (mode === 'NEW') {
@@ -120,8 +120,13 @@ class Invoice {
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'BillingStartDate', today);
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
+            FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
+            FwFormField.setValueByDataField($form, 'StatusDate', today);
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+            FwFormField.setValueByDataField($form, 'InvoiceType', 'BILLING');
+            FwFormField.setValueByDataField($form, 'Status', 'NEW');
+
             // hide tabs
             $form.find('.hide-new').hide();
         } else {
@@ -522,9 +527,7 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
-        var $browse;
-
-        $browse = EmailHistoryController.openBrowse();
+        const $browse = EmailHistoryController.openBrowse();
 
         $browse.data('ondatabind', function (request) {
             request.uniqueids = {
