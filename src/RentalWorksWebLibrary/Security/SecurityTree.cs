@@ -591,7 +591,7 @@ namespace WebLibrary.Security
             //AddModule("Customer",               "{8237418B-923D-4044-951F-98938C1EC3DE}", lv1menuModules.Id, "CustomerController",          "module/customer",          homeiconbaseurl + "placeholder.png");
             AddModule("Deal",                   "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "DealController",              "module/deal",              homeiconbaseurl + "placeholder.png");
             AddModule("Exchange",               "{F9012ABC-B97E-433B-A604-F1DADFD6D7B7}", lv1menuModules.Id, "ExchangeController",          "module/exchange",          homeiconbaseurl + "placeholder.png");
-            AddModule("Expendable Item",        "{4115FFCE-69BB-4D2F-BCDC-3924AE045AA8}", lv1menuModules.Id, "ExpendableItemController",     "module/expendableitem",     homeiconbaseurl + "placeholder.png");
+            AddModule("Expendable Item",        "{4115FFCE-69BB-4D2F-BCDC-3924AE045AA8}", lv1menuModules.Id, "ExpendableItemController",    "module/expendableitem",    homeiconbaseurl + "placeholder.png");
             AddModule("Order",                  "{68B3710E-FE07-4461-9EFD-04E0DBDAF5EA}", lv1menuModules.Id, "OrderController",             "module/order",             homeiconbaseurl + "placeholder.png");
             AddModule("Order Status",           "{7BB8BB8C-8041-41F6-A2FA-E9FA107FF5ED}", lv1menuModules.Id, "OrderStatusController",       "module/orderstatus",       homeiconbaseurl + "placeholder.png");
             AddModule("Pick List",              "{744B371E-5478-42F9-9852-E143A1EC5DDA}", lv1menuModules.Id, "PickListController",          "module/picklist",          homeiconbaseurl + "placeholder.png");

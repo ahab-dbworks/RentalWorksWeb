@@ -529,7 +529,6 @@
     <Compile Include="Source\Service.cs" />
     <Compile Include="Source\ServiceRouting.cs" />
     <Compile Include="Source\UserRoles.cs" />
-    <Compile Include="Source\Validations\OrderTypeValidation\OrderTypeValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Application.sample.config" />

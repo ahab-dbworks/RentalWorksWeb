@@ -639,7 +639,7 @@ FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 // Toggle between Detail and Summary view
-FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
+FwApplicationTree.clickEvents['{87C47D00-E950-4724-8A8B-4528D0B41124}'] = function (event) {
     let $form;
     $form = jQuery(this).closest('.fwform');
 

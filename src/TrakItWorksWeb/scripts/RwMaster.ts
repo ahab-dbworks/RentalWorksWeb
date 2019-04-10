@@ -7,7 +7,7 @@
             {
                 caption: 'TrakitWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [ContactController, CustomerController, DealController, OrderController, PurchaseOrderController, QuoteController/*, ProjectController*/]
+                children: [ContactController, CustomerController, DealController, OrderController, PurchaseOrderController, QuoteController, VendorController]
             },
             {
                 caption: 'Inventory',
