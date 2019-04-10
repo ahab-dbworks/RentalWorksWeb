@@ -1,10 +1,10 @@
 using FwStandard.AppManager;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
-using FwStandard.Models; 
-using Microsoft.AspNetCore.Mvc; 
-using Microsoft.Extensions.Options; 
-using WebApi.Controllers; 
+using FwStandard.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using WebApi.Controllers;
 using System.Threading.Tasks;
 using WebLibrary;
 using System;
@@ -15,14 +15,14 @@ namespace WebApi.Modules.Home.ContainerItem
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id:"2ZVm2vAYTYJC")]
+    [FwController(Id: "2ZVm2vAYTYJC")]
     public class ContainerItemController : AppDataController
     {
         public ContainerItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContainerItemLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id:"iQeXRj8im3k2")]
+        [FwControllerMethod(Id: "iQeXRj8im3k2")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -42,7 +42,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id:"hq7a4e3uXtez")]
+        [FwControllerMethod(Id: "hq7a4e3uXtez")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/containeritem 
         [HttpGet]
-        [FwControllerMethod(Id:"Yb3dL1hmjU37")]
+        [FwControllerMethod(Id: "Yb3dL1hmjU37")]
         public async Task<ActionResult<IEnumerable<ContainerItemLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContainerItemLogic>(pageno, pagesize, sort);
@@ -58,7 +58,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         // GET api/v1/containeritem/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id:"t1bsMSPUNPNx")]
+        [FwControllerMethod(Id: "t1bsMSPUNPNx")]
         public async Task<ActionResult<ContainerItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContainerItemLogic>(id);
@@ -66,7 +66,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem 
         [HttpPost]
-        [FwControllerMethod(Id:"74qvuZNaDoEB")]
+        [FwControllerMethod(Id: "74qvuZNaDoEB")]
         public async Task<ActionResult<ContainerItemLogic>> PostAsync([FromBody]ContainerItemLogic l)
         {
             return await DoPostAsync<ContainerItemLogic>(l);
@@ -95,6 +95,30 @@ namespace WebApi.Modules.Home.ContainerItem
                 {
                     return NotFound();
                 }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/containeritem/removefromcontainer 
+        [HttpPost("removefromcontainer")]
+        [FwControllerMethod(Id: "d3Xu2IaPYpq")]
+        public async Task<ActionResult<RemoveFromContainerResponse>> Remove([FromBody]RemoveFromContainerRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                RemoveFromContainerResponse response = await ContainerItemFunc.RemoveFromContainer(AppConfig, UserSession, request);
+                return response;
             }
             catch (Exception ex)
             {
