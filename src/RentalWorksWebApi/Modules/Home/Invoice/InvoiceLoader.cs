@@ -21,6 +21,9 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
         public string OrderLocation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -284,6 +287,9 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicetax", modeltype: FwDataTypes.Decimal)]
         public decimal? InvoiceTax { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ismisc", modeltype: FwDataTypes.Boolean)]
+        public bool? IsStandAloneInvoice { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

@@ -137,6 +137,9 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"5uyCk2Eh4fGp")]
         public string OfficeLocationId { get { return invoice.OfficeLocationId; } set { invoice.OfficeLocationId = value; } }
 
+        [FwLogicProperty(Id: "TPUmaObMXlUMH", IsReadOnly: true)]
+        public string OfficeLocation { get; set; }
+
         [FwLogicProperty(Id:"aPWbnng5uQaH")]
         public string InvoiceCreationBatchId { get { return invoice.InvoiceCreationBatchId; } set { invoice.InvoiceCreationBatchId = value; } }
 
@@ -419,6 +422,8 @@ namespace WebApi.Modules.Home.Invoice
         public decimal? InvoiceTotal { get { return invoice.InvoiceTotal; } set { invoice.InvoiceTotal = value; } }
 
 
+        [FwLogicProperty(Id: "C5CEuZvg2J4u0", IsReadOnly: true)]
+        public bool? IsStandAloneInvoice { get; set; }
 
 
 
@@ -479,6 +484,8 @@ namespace WebApi.Modules.Home.Invoice
                 Status = RwConstants.INVOICE_STATUS_NEW;
                 InvoiceType = RwConstants.INVOICE_TYPE_BILLING;
                 StatusDate = FwConvert.ToString(DateTime.Today);
+                InputByUserId = UserSession.UsersId;
+                IsStandAloneInvoice = true;  // invoice created from "New" option
             }
             else //if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {

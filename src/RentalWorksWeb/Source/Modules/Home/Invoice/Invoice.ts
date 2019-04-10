@@ -115,15 +115,19 @@ class Invoice {
             const name = sessionStorage.getItem('name');
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
-            FwFormField.setValue($form, 'div[data-datafield="OutsideSalesRepresentativeId"]', usersid, name);
 
             const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'BillingStartDate', today);
+            FwFormField.setValueByDataField($form, 'BillingStopDate', today);
             FwFormField.setValueByDataField($form, 'InvoiceDate', today);
             FwFormField.enable($form.find('[data-datafield="StatusDate"]'));
             FwFormField.setValueByDataField($form, 'StatusDate', today);
             const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
+
             FwFormField.setValueByDataField($form, 'InvoiceType', 'BILLING');
             FwFormField.setValueByDataField($form, 'Status', 'NEW');
 

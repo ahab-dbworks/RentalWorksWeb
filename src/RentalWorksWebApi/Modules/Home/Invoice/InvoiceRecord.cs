@@ -100,9 +100,9 @@ namespace WebApi.Modules.Home.Invoice
         public string WorksheetId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ismisc", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Ismisc { get; set; }
+        public bool? IsStandAloneInvoice { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20, required: true)]
+        [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
         public string InvoiceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceclass", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 50)]
