@@ -584,6 +584,7 @@
     <Copy SourceFiles="$(FwApplicationDirectory)\privacypolicy.html" DestinationFiles="$(FwDeploymentDirectory)\privacypolicy.html" />
     <Copy SourceFiles="$(FwApplicationDirectory)\index.js" DestinationFiles="$(FwDeploymentDirectory)\index.js" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Application.sample.config" DestinationFiles="$(FwDeploymentDirectory)\Application.sample.config" />
+    <Copy SourceFiles="$(FwApplicationDirectory)\EncryptUtility.aspx" DestinationFiles="$(FwDeploymentDirectory)\EncryptUtility.aspx" />
     <Copy SourceFiles="$(FwApplicationDirectory)\Global.asax" DestinationFiles="$(FwDeploymentDirectory)\Global.asax" />
     <Copy SourceFiles="$(FwApplicationDirectory)\ApplicationConfig.sample.js" DestinationFiles="$(FwDeploymentDirectory)\ApplicationConfig.sample.js" />
     <Copy SourceFiles="$(FwApplicationDirectory)\version.txt" DestinationFiles="$(FwDeploymentDirectory)\version.txt" />
