@@ -142,11 +142,11 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhere("(agentid > '')");
-                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
-                    addStringFilterToSelect("departmentid", request.DepartmentId, select);
-                    addStringFilterToSelect("agentid", request.AgentId, select);
-                    addStringFilterToSelect("customerid", request.CustomerId, select);
-                    addStringFilterToSelect("dealid", request.DealId, select);
+                    select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
+                    select.AddWhereIn("agentid", request.AgentId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
 
                     string dateField = "invoicedate";
                     if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
