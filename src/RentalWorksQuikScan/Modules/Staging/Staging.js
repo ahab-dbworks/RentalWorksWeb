@@ -1598,16 +1598,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         //    // refresh the staged list
         //    screen.$tabstaged.click();
         //}
-        if (responseStageItem.request.qty !== 0) {
-            if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
-                // refresh the pending list
-                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
-            } else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
-                // refresh the staged list
-                screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending')
-            }
+        if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabpending')) {
+            // refresh the pending list
+            screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabpending');
+        } else if (screen.$modulemodeselector.fwmobilemoduletabs('isActive', '#tabstaged')) {
+            // refresh the staged list
+            screen.$modulemodeselector.fwmobilemoduletabs('clickTab', '#tabstaged')
         }
-        
 
         jQuery('#staging-popupQty-genericMsg')  .html(responseStageItem.webStageItem.genericMsg);
         jQuery('#staging-popupQty-msg')         .html(responseStageItem.webStageItem.msg);
