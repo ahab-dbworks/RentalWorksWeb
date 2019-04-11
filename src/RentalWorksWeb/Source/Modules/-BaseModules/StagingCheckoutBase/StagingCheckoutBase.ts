@@ -22,8 +22,7 @@
         screen.load = () => {
             FwModule.openModuleTab($form, this.caption, false, 'FORM', true);
         };
-        screen.unload = function () {
-        };
+        screen.unload = function () { };
 
         return screen;
     };
@@ -283,14 +282,15 @@
     startPartialCheckoutItems = ($form: JQuery, event): void => {
         $form.find('.error-msg:not(.qty)').html('');
         const maxPageSize = 20;
-        let requestBody: any = {};
-        let orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        const requestBody: any = {};
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         requestBody.OrderId = orderId;
         if (orderId != '') {
             $form.find('.orderstatus').hide();
             $form.find('.createcontract').hide();
             $form.find('.original-buttons').hide();
             $form.find('.complete-checkout-contract').show();
+            $form.find('.abort-checkout-contract').show();
             $form.find('[data-caption="Items"]').hide();
             $form.find('.partial-contract').show();
             $form.find('.flexrow').css('max-width', '2200px');
@@ -332,6 +332,20 @@
             FwNotification.renderNotification('WARNING', 'Select an Order.')
         }
     };
+    //----------------------------------------------------------------------------------------------
+    abortPartialContract($form: JQuery): void {
+        $form.find('.orderstatus').show();
+        $form.find('.createcontract').show();
+        $form.find('.original-buttons').show();
+        $form.find('.complete-checkout-contract').hide();
+        $form.find('.abort-checkout-contract').hide();
+        $form.find('[data-caption="Items"]').show();
+        $form.find('.partial-contract').hide();
+        $form.find('.flexrow').css('max-width', '1200px');
+        $form.find('.pending-item-grid').hide();
+        $form.find('.staged-item-grid').show();
+        $form.find('[data-datafield="Code"] input').focus();
+    }
     //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the Staged Item Grid controller
     moveStagedItemToOut($form: JQuery): void {
@@ -874,6 +888,10 @@
         $form.find('.options-button').on('click', e => {
             $form.find('.option-list').toggle();
         });
+        // Abort Partial Contract
+        $form.find('.abort-checkout-contract').on('click', e => {
+            this.abortPartialContract($form);
+        });
         //IncludeZeroRemaining Checkbox functionality
         $form.find('[data-datafield="IncludeZeroRemaining"] input').on('change', e => {
             const $stageQuantityItemGrid = $form.find('[data-name="StageQuantityItemGrid"]');
@@ -1230,6 +1248,7 @@
                             <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 145px; margin-left:8px; text-align:center;">${statusBtnCaption}</div>
                             <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="${createBtnCaption}"></div>
                           </div>
+                          <div class="fwformcontrol abort-checkout-contract" data-type="button" style="max-width:157px;display:none;"><< Back to Staging</div>
                         </div>
                         <div class="flexcolumn partial-contract" style="max-width:125px;justify-content:center;">
                           <button type="submit" class="dbl-angle right-arrow"><img src="theme/images/icons/integration/dbl-angle-right.svg" alt="Add" /></button>
@@ -1241,7 +1260,7 @@
                           <div class="flexrow">
                             <div data-control="FwGrid" data-grid="CheckedOutItemGrid" data-securitycaption="Contract Items"></div>
                           </div>
-                          <div class="flexrow" style="align-items:flex-end;">
+                          <div class="flexrow" style="align-items:space-between;">
                             <div class="fwformcontrol complete-checkout-contract" data-type="button" style="max-width:140px;">${createBtnCaption}</div>
                           </div>
                         </div>
