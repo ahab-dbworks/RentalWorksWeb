@@ -390,9 +390,19 @@ namespace FwStandard.SqlServer
             return sb.ToString();
         }
         //---------------------------------------------------------------------------------------------
+        public void AddWhereIn(string column, string parameterList)
+        {
+            AddWhereIn("and", column, parameterList, true);
+        }
+        //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string conjunction, string column, string parameterList)
         {
             AddWhereIn(conjunction, column, parameterList, true);
+        }
+        //---------------------------------------------------------------------------------------------
+        public void AddWhereIn(string column, string parameterList, bool selectAllIfEmpty)
+        {
+            AddWhereIn("and", column, parameterList, selectAllIfEmpty);
         }
         //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string conjunction, string column, string parameterList, bool selectAllIfEmpty)
