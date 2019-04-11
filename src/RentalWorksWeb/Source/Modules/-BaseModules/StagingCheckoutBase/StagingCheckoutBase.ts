@@ -672,37 +672,62 @@
         errorMsg.html('');
         const errorSound = new Audio(this.errorSoundFileName);
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const request: any = {};
-        if (orderId != '') {
-            request.OrderId = orderId;
-            FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, response => {
-                const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-                if (response.success === true) {
-                    $form.find('.grid-view-radio').hide();
-                    const contractInfo: any = {};
-                    $form.find('.flexrow').css('max-width', '1200px');
-                    contractInfo.ContractId = response.ContractId;
-                    const $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
-                    $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
-                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                    FwFormField.enable($form.find(`div[data-datafield="${this.Type}Id"]`));
-                    $form.find('[data-datafield="Code"] input').select();
-                    // Clear out all grids
-                    $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="CheckOutPendingItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
-                    $form.find('.pending-item-grid').hide();
-                    $form.find('.staged-item-grid').show();
-                } else if (response.success === false) {
-                    errorSound.play();
-                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
-                }
-            }, null, $form);
+        if (this.Module === 'StagingCheckout' && warehouse.stagequantityaccessories == true) {
+            const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+            FwBrowse.search($grid);
+            if ($grid.find('tbody tr').length > 0) {
+                FwFormField.setValueByDataField($form, 'GridView', 'PENDING')
+                $form.find('.grid-view-radio input').change();
+                const $confirmation = FwConfirmation.renderConfirmation(`Confirm?`, '');
+                const html = `<div class="flexrow">Pending items exist. Continue with Contract?</div>`;
+                FwConfirmation.addControls($confirmation, html);
+                const $yes = FwConfirmation.addButton($confirmation, 'Create Contract', false);
+                FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', e => {
+                    checkout();
+                    FwConfirmation.destroyConfirmation($confirmation);
+                });
+            } else {
+                checkout();
+            }
         } else {
-            event.stopPropagation();
-            FwNotification.renderNotification('WARNING', 'Select an Order.')
+            checkout();
+        }
+
+        function checkout() {
+            if (orderId != '') {
+                request.OrderId = orderId;
+                FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, response => {
+                    if (response.success === true) {
+                        $form.find('.grid-view-radio').hide();
+                        const contractInfo: any = {};
+                        $form.find('.flexrow').css('max-width', '1200px');
+                        contractInfo.ContractId = response.ContractId;
+                        const $contractForm = ContractController.loadForm(contractInfo);
+                        FwModule.openSubModuleTab($form, $contractForm);
+                        $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
+                        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+                        FwFormField.enable($form.find(`div[data-datafield="${this.Type}Id"]`));
+                        $form.find('[data-datafield="Code"] input').select();
+                        // Clear out all grids
+                        $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+                        $form.find('div[data-name="CheckOutPendingItemGrid"] tr.viewmode').empty();
+                        $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
+                        $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
+                        $form.find('.pending-item-grid').hide();
+                        $form.find('.staged-item-grid').show();
+                    } else if (response.success === false) {
+                        errorSound.play();
+                        errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                    }
+                }, null, $form);
+            } else {
+                event.stopPropagation();
+                FwNotification.renderNotification('WARNING', 'Select an Order.')
+            }
         }
     };
     //----------------------------------------------------------------------------------------------
@@ -871,7 +896,7 @@
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${this.Type}Id`);
                 //orderInfo.Type = this.Type;
                 const mode = 'EDIT';
-                const $orderStatusForm = window[`${this.Type === 'Item' ? 'Container' : this.Type }StatusController`].openForm(mode, orderInfo);
+                const $orderStatusForm = window[`${this.Type === 'Item' ? 'Container' : this.Type}StatusController`].openForm(mode, orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
                 const $tabPage = FwTabs.getTabPageByElement($orderStatusForm);
                 const $tab = FwTabs.getTabByElement(jQuery($tabPage));

@@ -102,7 +102,16 @@ class Base {
                                                 sessionStorage.setItem('department',         JSON.stringify(responseOriginalApi.webUser.department));
                                                 sessionStorage.setItem('userid',             JSON.stringify(responseOriginalApi.webUser.webusersid));
                                                 jQuery('html').removeClass('theme-material');
-                                        
+
+                                                FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${responseOriginalApi.webUser.warehouse.warehouseid}`, null, FwServices.defaultTimeout, response => {
+                                                    const warehouseObj = responseOriginalApi.webUser.warehouse;
+                                                    warehouseObj.stagequantityaccessories = response.StageQuantityAccessories;
+                                                    sessionStorage.setItem('warehouse', JSON.stringify(warehouseObj));
+                                                }, ex => {
+                                                    FwFunc.showError(ex);
+                                                    program.navigate('home');
+                                                }, null);
+
                                                 //J.Pace 08/14/2018 user's sound settings
                                                 FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                                                     let sounds: any = {}, homePage: any = {};
