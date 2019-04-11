@@ -90,10 +90,11 @@ namespace WebLibrary.Security
             AddModule("Receipts",            "{57E34535-1B9F-4223-AD82-981CA34A6DEC}", lv1menuBilling.Id, "ReceiptController",       "module/receipt",       homeiconbaseurl + "placeholder.png");
             AddModule("Vendor Invoice",      "{854B3C59-7040-47C4-A8A3-8A336FC970FE}", lv1menuBilling.Id, "VendorInvoiceController", "module/vendorinvoice", homeiconbaseurl + "placeholder.png");
 
+            AddModule("Billing Message",         "{B232DF4D-462A-4810-952D-73F8DE66800C}", null, "BillingMessageController", "module/billingmessage", homeiconbaseurl + "placeholder.png");
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController", "module/createpicklist", homeiconbaseurl + "placeholder.png");
-            AddModule("Suspended Session",       "{5FBE7FF8-3770-48C5-855C-4320C961D95A}", null, "SuspendedSessionController", "module/suspendedsession", homeiconbaseurl + "placeholder.png");
             AddModule("Customer Credit",         "{CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66}", null, "CustomerCreditController", "module/customercredit", homeiconbaseurl + "placeholder.png");
             AddModule("Deal Credit",             "{3DD1BA32-0213-472E-ADA8-E54D531464CC}", null, "DealCreditController", "module/dealcredit", homeiconbaseurl + "placeholder.png");
+            AddModule("Suspended Session",       "{5FBE7FF8-3770-48C5-855C-4320C961D95A}", null, "SuspendedSessionController", "module/suspendedsession", homeiconbaseurl + "placeholder.png");
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",         "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Chart of Accounts",           "{F03CA227-99EE-42EF-B615-94540DCB21B3}", lv2menuAccountingSettings.Id,   "GlAccountController",                 "module/glaccount",                 settingsiconbaseurl + "placeholder.png", description: "Asset, Income, Liability, and Expense Accounts for tracking revenue and expenses.");

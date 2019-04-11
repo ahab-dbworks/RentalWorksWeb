@@ -67,11 +67,10 @@ class Billing {
         });
 
         //populate browse
+        let hasBillingMessages = true;
         $popup.on('click', 'div.billingSearchButton', e => {
             let request: any = {};
-            let isValid;
-            let self = this;
-            isValid = FwModule.validateForm($popup);
+            const isValid = FwModule.validateForm($popup);
             if (isValid === true) {
                 $popup.hide();
                 request = {
@@ -82,14 +81,14 @@ class Billing {
                     , DepartmentId: FwFormField.getValueByDataField($popup, 'DepartmentId')
                     , AgentId: FwFormField.getValueByDataField($popup, 'UserId')
                     , OrderId: FwFormField.getValueByDataField($popup, 'OrderId')
-                    , ShowOrdersWithPendingPO: (FwFormField.getValueByDataField($popup, 'ShowOrdersWithPendingPO') == 'T' ? true: false)
+                    , ShowOrdersWithPendingPO: (FwFormField.getValueByDataField($popup, 'ShowOrdersWithPendingPO') == 'T' ? true : false)
                     , BillIfComplete: (FwFormField.getValueByDataField($popup, 'BillIfComplete') == 'T' ? true : false)
                     , CombinePeriods: (FwFormField.getValueByDataField($popup, 'CombinePeriods') == 'T' ? true : false)
                 };
-                FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
                     //load browse with sessionId 
-                    let max = 9999;
-                    $browse.data('ondatabind', function (request) {
+                    const max = 9999;
+                    $browse.data('ondatabind', request => {
                         request.uniqueids = {
                             SessionId: response.SessionId
                         }
@@ -101,7 +100,34 @@ class Billing {
                         $browse.find('thead .cbselectrow').click();
                     });
                     FwBrowse.search($browse);
-                    self.SessionId = response.SessionId;
+                    this.SessionId = response.SessionId;
+
+                    const msgRequest: any = {};
+                    msgRequest.uniqueids = {
+                        SessionId: this.SessionId
+                    }
+
+                    if (hasBillingMessages) {
+                        FwAppData.apiMethod(true, 'POST', `api/v1/billingmessage/browse`, msgRequest, FwServices.defaultTimeout, response => {
+                            if (response.Rows.length > 0) {
+                            const $billingMessageBrowse = BillingMessageController.openBrowse();
+                            $billingMessageBrowse.attr('data-newtab', 'false');
+                            $billingMessageBrowse.data('ondatabind', request => {
+                                request.uniqueids = {
+                                    SessionId: this.SessionId
+                                }
+                            });
+                            FwModule.openModuleTab($billingMessageBrowse, 'Search Messages', true, 'BROWSE', false);
+
+                            const $msgTab = FwTabs.getTabByElement($billingMessageBrowse);
+                            $msgTab.off('click').on('click', e => {
+                                FwBrowse.search($billingMessageBrowse);
+                            });
+                                hasBillingMessages = false;
+                            }
+                        }, ex => FwFunc.showError(ex), $browse);
+                    }
+
                 }, null, $browse);
             }
         });
