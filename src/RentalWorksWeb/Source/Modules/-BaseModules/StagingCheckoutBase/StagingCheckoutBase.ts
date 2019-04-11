@@ -448,6 +448,7 @@
         })
 
         FwBrowse.search($stagedItemGridControl);
+        $form.find('.grid-view-radio input').change();
         $form.find('[data-datafield="Code"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
@@ -642,6 +643,7 @@
                     FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
                     $form.find('.partial-contract').hide();
                     $form.find('.complete-checkout-contract').hide();
+                    $form.find('.abort-checkout-contract').hide();
                     $form.find('[data-caption="Items"]').show();
                     FwFormField.enable($form.find(`div[data-datafield="${this.Type}Id"]`));
                     // Clear out all grids
@@ -668,7 +670,6 @@
     createContract($form: JQuery, event): void {
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
-        $form.find('.grid-view-radio').hide();
         const errorSound = new Audio(this.errorSoundFileName);
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const request: any = {};
@@ -677,6 +678,7 @@
             FwAppData.apiMethod(true, 'POST', "api/v1/checkout/checkoutallstaged", request, FwServices.defaultTimeout, response => {
                 const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 if (response.success === true) {
+                    $form.find('.grid-view-radio').hide();
                     const contractInfo: any = {};
                     $form.find('.flexrow').css('max-width', '1200px');
                     contractInfo.ContractId = response.ContractId;
@@ -925,7 +927,7 @@
         // Grid view toggle
         $form.find('.grid-view-radio input').on('change', e => {
             const $target = jQuery(e.currentTarget);
-            const gridView = $target.val();
+            const gridView = FwFormField.getValueByDataField($form, 'GridView');
             const stagedItemGridContainer = $form.find('.staged-item-grid');
             const checkOutPendingItemGridContainier = $form.find('.pending-item-grid');
             const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
@@ -1242,8 +1244,8 @@
                               <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Staged" data-enabled="false" data-datafield="QuantityStaged" style="flex:0 1 100px;"></div>
                               <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Remaining" data-enabled="false" data-datafield="QuantityRemaining" style="flex:0 1 100px;"></div>
                               <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield grid-view-radio" data-caption="" data-datafield="GridView" style="flex:1 1 250px;">
-                                <div data-value="STAGE" class="staged-view" data-caption="View Staged" style="margin-top:15px;"></div>
-                                <div data-value="PENDING" class="pending-item-view" data-caption="View Pending Items" style="margin-top:-4px;"></div>
+                                <div data-value="STAGE" data-caption="View Staged" style="margin-top:15px;"></div>
+                                <div data-value="PENDING" data-caption="View Pending Items" style="margin-top:-4px;"></div>
                               </div>
                             </div>
                           </div>
