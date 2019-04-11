@@ -1,19 +1,16 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using FwStandard.SqlServer;
-using System.Collections.Generic;
-using FwStandard.AppManager;
 using System;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 using WebApi.Logic;
-using Microsoft.AspNetCore.Http;
 
 namespace WebApi.Modules.Home.Billing
 {
-
-
     public class PopulateBillingRequest
     {
         public DateTime BillAsOfDate { get; set; }
