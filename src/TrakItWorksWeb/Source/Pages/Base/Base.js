@@ -72,10 +72,10 @@ class Base {
                                 try {
                                     if (typeof responseOriginalApi.exception !== 'undefined') {
                                         if (applicationConfig.debugMode) {
-                                            $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception + responseOriginalApi.stacktrace).show();
+                                            $loginWindow.find('.errormessage').html(responseOriginalApi.exception + responseOriginalApi.stacktrace).show();
                                         }
                                         else {
-                                            $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception).show();
+                                            $loginWindow.find('.errormessage').html(responseOriginalApi.exception).show();
                                         }
                                     }
                                     else {
@@ -100,7 +100,6 @@ class Base {
                                             sessionStorage.setItem('warehouse', JSON.stringify(responseOriginalApi.webUser.warehouse));
                                             sessionStorage.setItem('department', JSON.stringify(responseOriginalApi.webUser.department));
                                             sessionStorage.setItem('userid', JSON.stringify(responseOriginalApi.webUser.webusersid));
-                                            jQuery('html').removeClass('theme-material');
                                             FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                                                 let sounds = {}, homePage = {};
                                                 sounds.successSoundFileName = response.SuccessSoundFileName;
