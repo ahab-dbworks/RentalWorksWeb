@@ -359,6 +359,73 @@ class Invoice {
         });
         FwBrowse.init($invoiceStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($invoiceStatusHistoryGridControl);
+        // Invoice Item Adjustment Grids
+        // ----------
+        const $invoiceItemGridAdjustmentRental = $form.find('.rental-adjustment div[data-grid="InvoiceItemGrid"]');
+        const $invoiceItemGridAdjustmentRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        $invoiceItemGridAdjustmentRental.empty().append($invoiceItemGridAdjustmentRentalControl);
+
+        $invoiceItemGridAdjustmentRentalControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                RecType: 'A',
+                AvailableFor: 'R',
+                pagesize: 15,
+            };
+        });
+        $invoiceItemGridAdjustmentRentalControl.data('beforesave', request => {
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.RecType = 'A';
+            request.AvailableFor = 'R';
+            request.pagesize = 15;
+        });
+
+        FwBrowse.init($invoiceItemGridAdjustmentRentalControl);
+        FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentRentalControl);
+        // ----------
+        const $invoiceItemGridAdjustmentSales = $form.find('.sales-adjustment div[data-grid="InvoiceItemGrid"]');
+        const $invoiceItemGridAdjustmentSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        $invoiceItemGridAdjustmentSales.empty().append($invoiceItemGridAdjustmentSalesControl);
+
+        $invoiceItemGridAdjustmentSalesControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                pagesize: 15,
+                RecType: 'A',
+                AvailableFor: 'S'
+            };
+        });
+        $invoiceItemGridAdjustmentSalesControl.data('beforesave', request => {
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.RecType = 'A';
+            request.AvailableFor = 'S';
+            request.pagesize = 15;
+        });
+
+        FwBrowse.init($invoiceItemGridAdjustmentSalesControl);
+        FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentSalesControl);
+        // ----------
+        const $invoiceItemGridAdjustmentParts = $form.find('.parts-adjustment div[data-grid="InvoiceItemGrid"]');
+        const $invoiceItemGridAdjustmentPartsControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        $invoiceItemGridAdjustmentParts.empty().append($invoiceItemGridAdjustmentPartsControl);
+
+        $invoiceItemGridAdjustmentPartsControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
+                pagesize: 15,
+                RecType: 'A',
+                AvailableFor: 'P'
+            };
+        });
+        $invoiceItemGridAdjustmentPartsControl.data('beforesave', request => {
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+            request.RecType = 'A';
+            request.AvailableFor = 'P';
+            request.pagesize = 15;
+        });
+
+        FwBrowse.init($invoiceItemGridAdjustmentPartsControl);
+        FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentPartsControl);
         // ----------
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
         jQuery($form.find('.salesgrid .valtype')).attr('data-validationname', 'SalesInventoryValidation');
