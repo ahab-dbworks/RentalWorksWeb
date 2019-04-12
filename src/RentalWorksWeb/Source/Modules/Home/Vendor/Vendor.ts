@@ -8,17 +8,15 @@ class Vendor {
     id: string = 'AE4884F4-CB21-4D10-A0B5-306BD0883F19';
     //---------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse;
-        var self: Vendor = this;
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -30,9 +28,7 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     openBrowse() {
-        //var $browse;
-
-        //$browse = FwBrowse.loadBrowseFromTemplate(this.Module);
+        //let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
@@ -40,9 +36,7 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     openForm(mode: string) {
-        //var $form;
-
-        //$form = FwModule.loadFormFromTemplate(this.Module);
+        //let $form = FwModule.loadFormFromTemplate(this.Module);
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
@@ -53,26 +47,26 @@ class Vendor {
             FwFormField.setValueByDataField($form, 'DefaultSubRentDaysPerWeek', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
             FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
+            $form.find('div[data-datafield="Vendor"]').attr('data-required', 'true');
         }
 
         return $form;
     }
     //---------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'VendorId', uniqueids.VendorId);
         FwModule.loadForm(this.Module, $form);
-        let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
+        const $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
         $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
-        let $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
+        const $submoduleVendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
         $form.find('.vendorInvoiceSubModule').append($submoduleVendorInvoiceBrowse);
         return $form;
     }
     //---------------------------------------------------------------------------------
     openPurchaseOrderBrowse($form) {
-        let vendorId = FwFormField.getValueByDataField($form, 'VendorId');
-        let $browse;
-        $browse = PurchaseOrderController.openBrowse();
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        const $browse = PurchaseOrderController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = PurchaseOrderController.ActiveViewFields;
             request.uniqueids = {
@@ -84,9 +78,8 @@ class Vendor {
     }
    //---------------------------------------------------------------------------------------------
     openVendorInvoiceBrowse($form) {
-        let vendorId = FwFormField.getValueByDataField($form, 'VendorId');
-        let $browse;
-        $browse = VendorInvoiceController.openBrowse();
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
+        const $browse = VendorInvoiceController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = VendorInvoiceController.ActiveViewFields;
             request.uniqueids = {
@@ -102,18 +95,18 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     loadAudit($form: any) {
-        var uniqueid = FwFormField.getValueByDataField($form, 'VendorId');
+        const uniqueid = FwFormField.getValueByDataField($form, 'VendorId');
         FwModule.loadAudit($form, uniqueid);
     }
     //---------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
+        const $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxOptionGrid);
 
-        var $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
+        const $vendorNoteGrid = $form.find('[data-name="VendorNoteGrid"]');
         FwBrowse.search($vendorNoteGrid);
 
-        var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
+        const $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
 
         this.setupEvents($form);
@@ -201,10 +194,9 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        // load companytax Grid
-        var nameCompanyTaxOptionGrid = 'CompanyTaxOptionGrid';
-        var $companyTaxOptionGrid: JQuery = $form.find('div[data-grid="' + nameCompanyTaxOptionGrid + '"]');
-        var $companyTaxOptionControl: JQuery = FwBrowse.loadGridFromTemplate(nameCompanyTaxOptionGrid);
+        // ----------
+        const $companyTaxOptionGrid = $form.find('div[data-grid="CompanyTaxOptionGrid"]');
+        const $companyTaxOptionControl = FwBrowse.loadGridFromTemplate('CompanyTaxOptionGrid');
         $companyTaxOptionGrid.empty().append($companyTaxOptionControl);
         $companyTaxOptionControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -216,11 +208,9 @@ class Vendor {
         });
         FwBrowse.init($companyTaxOptionControl);
         FwBrowse.renderRuntimeHtml($companyTaxOptionControl);
-
-        // load vendornote Grid
-        var nameVendorNoteGrid = 'VendorNoteGrid';
-        var $vendorNoteGrid: JQuery = $form.find('div[data-grid="' + nameVendorNoteGrid + '"]');
-        var $vendorNoteControl: JQuery = FwBrowse.loadGridFromTemplate(nameVendorNoteGrid);
+        // ----------
+        const $vendorNoteGrid = $form.find('div[data-grid="VendorNoteGrid"]');
+        const $vendorNoteControl = FwBrowse.loadGridFromTemplate('VendorNoteGrid');
         $vendorNoteGrid.empty().append($vendorNoteControl);
         $vendorNoteControl.data('ondatabind', function (request) {
             request.uniqueids = {
@@ -229,11 +219,9 @@ class Vendor {
         });
         FwBrowse.init($vendorNoteControl);
         FwBrowse.renderRuntimeHtml($vendorNoteControl);
-
         // ----------
-        var nameCompanyContactGrid: string = 'CompanyContactGrid'
-        var $companyContactGrid: any = $companyContactGrid = $form.find('div[data-grid="' + nameCompanyContactGrid + '"]');
-        var $companyContactControl: any = FwBrowse.loadGridFromTemplate(nameCompanyContactGrid);
+        const $companyContactGrid = $form.find('div[data-grid="CompanyContactGrid"]');
+        const $companyContactControl = FwBrowse.loadGridFromTemplate('CompanyContactGrid');
         $companyContactGrid.empty().append($companyContactControl);
         $companyContactControl.data('ondatabind', function (request) {
             request.uniqueids = {
