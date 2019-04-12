@@ -138,8 +138,8 @@
                     FwFunc.showError(ex);
                 }
             })
-            .off('click', '> .tabs > .tab')
-            .on('click', '> .tabs > .tab', function () {
+            .off('click', '> .tabs > .tabcontainer > .tab')
+            .on('click', '> .tabs > .tabcontainer > .tab', function () {
                 var $tab, $tabs;
                 try {
                     $tab = jQuery(this);
@@ -150,16 +150,16 @@
                         } else {
                             FwTabs.setActiveTab($control, $tab);
                         }
-                        if (typeof $tabs.data('ontabchange') === 'function') {
-                            $tabs.data('ontabchange')($tab);
+                        if (typeof $control.data('ontabchange') === 'function') {
+                            $control.data('ontabchange')($tab);
                         }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
-            .off('click', '> .tabs > .tab .delete')
-            .on('click', '> .tabs > .tab .delete', function (event) {
+            .off('click', '> .tabs > .tabcontainer > .tab .delete')
+            .on('click', '> .tabs > .tabcontainer > .tab .delete', function (event) {
                 var $tab, $tabControl, $newactivetab, isactivetab, $form;
                 try {
                     event.stopPropagation();
@@ -187,7 +187,7 @@
     };
     //---------------------------------------------------------------------------------
     setActiveTab($control, $tab) {
-        var $tabpage, $fwcontrols, allowTabChange, $tabs;
+        var $tabpage, $fwcontrols, allowTabChange;
         allowTabChange = true;
         if (typeof $control.data('beforetabchange') === 'function') {
             allowTabChange = $control.data('beforetabchange')($tab);
@@ -197,14 +197,13 @@
         }
         if ((allowTabChange) && ($tab.length > 0)) {
             $tabpage = FwTabs.getTabPageByTab($tab);
-            $control.find('> .designer > .tabs > .tab,> .tabs > .tab').removeClass('active').addClass('inactive');
+            $control.find('> .designer > .tabs > .tab,> .tabs .tabcontainer > .tab').removeClass('active').addClass('inactive');
             $control.find('> .designer > .tabpages > .tabpage,> .tabpages > .tabpage').removeClass('active').addClass('inactive').hide();
             $tab.removeClass('inactive').addClass('active').show();
             $tabpage.removeClass('inactive').addClass('active').show();
 
-            $tabs = $tab.closest('.tabs');
-            if (typeof $tabs.data('ontabchange') === 'function') {
-                $tabs.data('ontabchange')($tab);
+            if (typeof $control.data('ontabchange') === 'function') {
+                $control.data('ontabchange')($tab);
             }
 
             // call event handlers on any child fwcontrols that subscribed to the onactivatetab event (this was created for fwscheduler)
@@ -307,9 +306,15 @@
         data_version = $control.attr('data-version');
         $control.attr('data-rendermode', 'runtime');
         html = [];
-        html.push('<div class="tabs"></div>');
-        html.push('<div class="newtabbutton"></div>');
-        html.push('<div class="closetabbutton"></div>');
+        html.push('<div class="tabs">');
+        html.push('  <div class="tabcontainer"></div>');
+        if ($control.attr('data-version') === '1') {
+            html.push('<div class="rightsidebuttons">')
+            html.push('  <div class="newtabbutton"></div>');
+            html.push('  <div class="closetabbutton"></div>');
+            html.push('</div>');
+        }
+        html.push('</div>');
         html.push('<div class="tabpages"></div>');
         switch (data_rendermode) {
             case 'designer':
@@ -317,7 +322,7 @@
                 $tabpagesChildren = $control.children('.designer').children('.tabpages').children().detach();
                 break;
             case 'runtime':
-                $tabsChildren = $control.children('.tabs').children().detach();
+                $tabsChildren = $control.children('.tabs').children('.tabcontainer').children().detach();
                 $tabpagesChildren = $control.children('.tabpages').children()
                     .removeAttr('designer-dropcontainer')
                     .detach()
@@ -329,7 +334,7 @@
                 break;
         }
         $control.html(html.join(''));
-        $tabs = $control.children('.tabs');
+        $tabs = $control.children('.tabs').children('.tabcontainer');
         $tabs.append($tabsChildren);
         $tabsChildren
             .each(function (index, tab) {
@@ -372,7 +377,7 @@
         html.push('<div class="tabpages"></div>');
         switch (data_rendermode) {
             case 'designer':
-                $tabsChildren = $control.children('.designer').children('.tabs').children('.tab')
+                $tabsChildren = $control.children('.designer').children('.tabs').children('.tabcontainer').children('.tab')
                     .detach()
                     .removeClass('inactive')
                     .removeClass('active')
@@ -411,7 +416,7 @@
     };
     //---------------------------------------------------------------------------------
     addTab($control, caption, hasClose, tabType, setActive) {
-        var $newtab, $tab, $tabpage, tabHtml, newtabids, version;
+        var $tab, $tabpage, tabHtml, newtabids, version;
         newtabids = {};
         version = $control.attr('data-version');
         try {
@@ -424,7 +429,9 @@
             }
             tabHtml = [];
             tabHtml.push('<div data-type="tab" id="' + newtabids.tabid + '" class="tab inactive" data-tabpageid="' + newtabids.tabpageid + '" data-caption="' + caption + '" data-tabtype="' + tabType + '">');
-            if (version == '2') tabHtml.push('<div class="border"></div>');
+            if (version === '2') {
+                tabHtml.push('<div class="border"></div>');
+            }
             tabHtml.push('<div class="caption">' + caption + '</div>');
             tabHtml.push('<div class="modified"></div>');
             if (hasClose) {
@@ -434,9 +441,9 @@
             tabHtml = tabHtml.join('');
             $tab = jQuery(tabHtml);
             $tabpage = jQuery('<div data-type="tabpage" id="' + newtabids.tabpageid + '" class="tabpage inactive" data-tabid="' + newtabids.tabid + '" data-tabtype="' + tabType + '" style="display:none;"></div>');
-            $control.children('.tabs').append($tab);
+            $control.children('.tabs').children('.tabcontainer').append($tab);
             $control.children('.tabpages').append($tabpage);
-            if (setActive == true) {
+            if (setActive === true) {
                 FwTabs.setActiveTab($control, $tab);
             }
         } catch (ex) {
@@ -463,7 +470,7 @@
     closeTabs($control) {
         var $tabs, $tabpages;
 
-        $tabs = $control.find('.tabs');
+        $tabs = $control.find('.tabs > .tabcontainer');
         $tabpages = $control.find('.tabpages');
 
         $tabs.empty();

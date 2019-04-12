@@ -410,6 +410,8 @@ class FwSchedulerClass {
         dpcalendar.eventMoveHandling = 'Disabled';
         dpcalendar.eventResizeHandling = 'Disabled';
         dpcalendar.weekStarts = 0;
+        dpcalendar.businessBeginsHour = 0;
+        dpcalendar.businessEndsHour = 11;
         dpcalendar.onTimeRangeSelected = function (args) {
             try {
                 $control.data('selectedstartdate', args.start);
@@ -614,7 +616,7 @@ class FwSchedulerClass {
             case 'Day':
             case 'Week':
                 navcalendar = $control.data('navcalendar');
-                navcalendar.select(date);
+                navcalendar.select(date);   
                 break;
             case '5 Week':
                 nav5week = $control.data('nav5week');
@@ -650,6 +652,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnDay').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 1;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
@@ -671,6 +677,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnWeek').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 7;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
@@ -689,6 +699,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btn5Week').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 35;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);
@@ -710,6 +724,10 @@ class FwSchedulerClass {
         $control.find('.yearcontainer').hide();
         $control.find('.changeview').attr('data-selected', 'false');
         $control.find('.btnMonth').attr('data-selected', 'true');
+        if ($control.next().data('dpscheduler') !== undefined) {
+            $control.next().data('dpscheduler').days = 31;
+            $control.next().data('dpscheduler').update();
+        }
         if (typeof $control.data('selectedstartdate') !== 'undefined') {
             selectedstartdate = $control.data('selectedstartdate');
             FwScheduler.navigate($control, selectedstartdate);

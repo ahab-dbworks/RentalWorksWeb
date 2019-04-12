@@ -19,7 +19,7 @@ namespace Fw.Json.Services
             int errNo;
             string errMsg, webUsersId=null, usertype, usersid, contactid, webusersid, groupsid, webadministrator, sitename, version, authtoken, fullname, name, clientcode;
             dynamic tokenData, webUsersView;
-            FwWebUserSettings settings;
+            //FwWebUserSettings settings;
             
             errNo      = 0;
             errMsg     = string.Empty;
@@ -136,7 +136,7 @@ namespace Fw.Json.Services
             response.errNo  = errNo;
             response.errMsg = errMsg;
         }
-
+        //---------------------------------------------------------------------------------------------
         public abstract dynamic GetGroupsTree(string groupsid, bool removeHiddenNodes);
         //---------------------------------------------------------------------------------------------
         public string GetAuthToken(string email, dynamic userData)

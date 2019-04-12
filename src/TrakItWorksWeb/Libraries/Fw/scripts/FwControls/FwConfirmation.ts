@@ -4,7 +4,7 @@
         var html, $control, maxZIndex, $body, $more;
 
         html = [];
-        html.push('<div class="responsive fwconfirmation">');
+        html.push('<div class="responsive fwconfirmation advisory">');
         html.push('<div class="fwconfirmationbox">');
         html.push('<div class="title">' + title + '</div>');
         html.push('<div class="body">');

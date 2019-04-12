@@ -291,12 +291,17 @@ FwMobileMasterController.generateLinkGroup = function(caption) {
 FwMobileMasterController.setTitle = function(object) {
     var $title;
     if (typeof object === 'string') {
-        object = jQuery('<div>' + object + '</div>');
+        if (object.length > 0) {
+            object = jQuery('<div>' + object + '</div>');
+        } else {
+            jQuery('#master-header-row2').empty().hide();
+            return;
+        }
     }
     $title = jQuery('<div class="title"></div>');
     $title.append(object);
 
-    jQuery('#master-header-row2').empty().append($title);
+    jQuery('#master-header-row2').empty().append($title).show();
 };
 //----------------------------------------------------------------------------------------------
 FwMobileMasterController.setModuleCaption = function($object) {

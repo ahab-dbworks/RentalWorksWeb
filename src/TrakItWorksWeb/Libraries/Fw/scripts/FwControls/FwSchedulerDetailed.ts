@@ -119,11 +119,11 @@ class FwSchedulerDetailedClass {
 
         // view
         dpscheduler.startDate = moment().format('YYYY-MM-DD');  // or just dpscheduler.startDate = "2013-03-25";
-        dpscheduler.days = moment().endOf('month').diff(moment().format('YYYY-MM-DD'), 'days');
+        dpscheduler.days = 35;
         dpscheduler.scale = "Day";
         dpscheduler.timeHeaders = [
             { groupBy: "Month" },
-            { groupBy: "Day", format: "dddd" }
+            { groupBy: "Day", format: "d" }
         ];
         dpscheduler.treeEnabled = true;
         dpscheduler.bubble = new DayPilot.Bubble({
@@ -133,7 +133,7 @@ class FwSchedulerDetailedClass {
                 args.async = true;  // notify manually using .loaded()
 
                 // simulating slow server-side load
-                args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.start().toString("MM/dd/yyyy HH:mm") + "</div><div>End: " + ev.end().toString("MM/dd/yyyy HH:mm") + "</div><div>Id: " + ev.id() + "</div>";
+                args.html = "<div style='font-weight:bold'>" + ev.text() + "</div><div>Order Number: " + ev.data.orderNumber + "</div><div>Order Status: " + ev.data.orderStatus + "</div><div>Deal: " + ev.data.deal + "</div><div>Start: " + ev.start().toString("MM/dd/yyyy HH:mm") + "</div><div>End: " + ev.end().toString("MM/dd/yyyy HH:mm") + "</div>";
                 args.loaded();
 
             }

@@ -95,6 +95,11 @@
                 })
                 .on('change', '.searchbox', function() {
                     try {
+                        if (this.value !== '') {
+                            plugin.$element.find('.clear').addClass('visible');
+                        } else {
+                            plugin.$element.find('.clear').removeClass('visible');
+                        }
                         if (plugin._searchCalled !== true) {
                             plugin._clearSearchResults();
                             plugin._search();
@@ -275,6 +280,14 @@
         clearsearchbox: function () {
             var plugin = this;
             plugin.$element.find('.searchbox').val('');
+        },
+        getSearchText: function () {
+            let searchText = this.$element.find('.searchbox').val();
+            return searchText;
+        },
+        getSearchOption: function () {
+            let searchOption = this.$element.find('.option.active').attr('data-value');
+            return searchOption;
         }
     };
 
@@ -317,7 +330,8 @@
         pageSize:          100,
         recordClick:       null,
         queryTimeout:      null,
-        afterLoad:         function(plugin, response) {}
+        afterLoad: function (plugin, response) { }
     };
 
 })( jQuery, window, document );
+ 
