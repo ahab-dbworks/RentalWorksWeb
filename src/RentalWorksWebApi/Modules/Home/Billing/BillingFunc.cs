@@ -44,8 +44,10 @@ namespace WebApi.Modules.Home.Billing
                     //               @flatorder       char(01) = 'F',
                     //               @flatbill        char(01) = 'F',
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@billingmsgs", SqlDbType.Int, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();
                     response.SessionId = qry.GetParameter("@sessionid").ToString();
+                    response.BillingMessages = qry.GetParameter("@billingmsgs").ToInt32();
                     response.success = true;
                     response.msg = "";
                 }

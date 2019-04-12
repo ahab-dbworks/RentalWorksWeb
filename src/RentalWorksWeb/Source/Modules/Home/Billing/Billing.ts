@@ -66,8 +66,19 @@ class Billing {
             $popup.show();
         });
 
+        //selects all checkboxes/records
+        $browse.data('afterdatabindcallback', () => {
+            $browse.find('thead .cbselectrow').click();
+        });
+
+        //Creates Search Messages tab
+        const $billingMessageBrowse = BillingMessageController.openBrowse();
+        $billingMessageBrowse.attr('data-newtab', 'false');
+        FwModule.openModuleTab($billingMessageBrowse, 'Search Messages', true, 'BROWSE', false);
+        const $msgTab = FwTabs.getTabByElement($billingMessageBrowse);
+        $msgTab.css({ 'background-color': '#e08080', 'color': '#000077', 'display': 'none' });
+
         //populate browse
-        let hasBillingMessages = true;
         $popup.on('click', 'div.billingSearchButton', e => {
             let request: any = {};
             const isValid = FwModule.validateForm($popup);
@@ -86,7 +97,7 @@ class Billing {
                     , CombinePeriods: (FwFormField.getValueByDataField($popup, 'CombinePeriods') == 'T' ? true : false)
                 };
                 FwAppData.apiMethod(true, 'POST', `api/v1/billing/populate`, request, FwServices.defaultTimeout, response => {
-                    //load browse with sessionId 
+                    //load browse with sessionId
                     const max = 9999;
                     $browse.data('ondatabind', request => {
                         request.uniqueids = {
@@ -95,40 +106,27 @@ class Billing {
                         request.pagesize = max;
                     });
 
-                    //selects all checkboxes/records
-                    FwBrowse.addEventHandler($browse, 'afterdatabindcallback', () => {
-                        $browse.find('thead .cbselectrow').click();
-                    });
                     FwBrowse.search($browse);
                     this.SessionId = response.SessionId;
 
-                    const msgRequest: any = {};
-                    msgRequest.uniqueids = {
-                        SessionId: this.SessionId
-                    }
-
-                    if (hasBillingMessages) {
-                        FwAppData.apiMethod(true, 'POST', `api/v1/billingmessage/browse`, msgRequest, FwServices.defaultTimeout, response => {
-                            if (response.Rows.length > 0) {
-                            const $billingMessageBrowse = BillingMessageController.openBrowse();
-                            $billingMessageBrowse.attr('data-newtab', 'false');
-                            $billingMessageBrowse.data('ondatabind', request => {
-                                request.uniqueids = {
-                                    SessionId: this.SessionId
-                                }
-                            });
-                            FwModule.openModuleTab($billingMessageBrowse, 'Search Messages', true, 'BROWSE', false);
-
-                            const $msgTab = FwTabs.getTabByElement($billingMessageBrowse);
-                            $msgTab.off('click').on('click', e => {
-                                FwBrowse.search($billingMessageBrowse);
-                            });
-                                hasBillingMessages = false;
+                    if (response.BillingMessages > 0) {
+                        $msgTab.show();
+                        $billingMessageBrowse.data('ondatabind', request => {
+                            request.uniqueids = {
+                                SessionId: this.SessionId
                             }
+                        });
+                        const msgRequest: any = {};
+                        msgRequest.uniqueids = {
+                            SessionId: this.SessionId
+                        }
+                        FwAppData.apiMethod(true, 'POST', `api/v1/billingmessage/browse`, msgRequest, FwServices.defaultTimeout, response => {
+                            FwBrowse.search($billingMessageBrowse);
                         }, ex => FwFunc.showError(ex), $browse);
+                    } else {
+                        $msgTab.hide();
                     }
-
-                }, null, $browse);
+                }, ex => FwFunc.showError(ex), $browse);
             }
         });
 

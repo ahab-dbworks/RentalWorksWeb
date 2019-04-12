@@ -29,6 +29,7 @@ namespace WebApi.Modules.Home.Billing
     public class PopulateBillingResponse : TSpStatusReponse
     {
         public string SessionId { get; set; }
+        public int BillingMessages { get; set; }
     }
 
     [Route("api/v1/[controller]")]
