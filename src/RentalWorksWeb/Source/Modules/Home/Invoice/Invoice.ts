@@ -232,6 +232,7 @@ class Invoice {
         $invoiceItemGridLabor.find('div[data-datafield="OrderNumber"]').attr('data-formreadonly', 'true');
         $invoiceItemGridLabor.find('div[data-datafield="Taxable"]').attr('data-formreadonly', 'true');
         $invoiceItemGridLaborControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+        $invoiceItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
 
         $invoiceItemGridLaborControl.data('isSummary', false);
 
@@ -260,6 +261,7 @@ class Invoice {
         $invoiceItemGridMisc.find('div[data-datafield="Extended"]').attr('data-formreadonly', 'true')
         $invoiceItemGridMiscControl.data('isSummary', false);
         $invoiceItemGridMiscControl.find('div[data-datafield="Rate"]').attr('data-caption', 'Unit Rate');
+        $invoiceItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
 
         $invoiceItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -370,7 +372,7 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'A',
                 AvailableFor: 'R',
-                pagesize: 15,
+                pagesize: 15
             };
         });
         $invoiceItemGridAdjustmentRentalControl.data('beforesave', request => {
@@ -557,6 +559,20 @@ class Invoice {
         const $rentalSaleGrid = $form.find('.rentalsalegrid [data-name="InvoiceItemGrid"]');
         for (let i = 0; i < hiddenRentalSale.length; i++) {
             jQuery($rentalSaleGrid.find(`[data-mappedfield="${hiddenRentalSale[i]}"]`)).parent().hide();
+        }
+        // ----------
+        // Item Adjustment Grids - Rental, Sales, Parts
+        const adjustmentShowFields: Array<string> = ["ICode", "Description", "BarCode", "SerialNumber", "Quantity", "Rate", "Extended", "Taxable"];
+        const hiddenAdjustment = fieldNames.filter(function (field) {
+            return !this.has(field)
+        }, new Set(adjustmentShowFields))
+        const $rentalAdjustmentGrid = $form.find('.rental-adjustment [data-name="InvoiceItemGrid"]');
+        const $salesAdjustmentGrid = $form.find('.sales-adjustment [data-name="InvoiceItemGrid"]');
+        const $partsAdjustmentGrid = $form.find('.parts-adjustment [data-name="InvoiceItemGrid"]');
+        for (let i = 0; i < hiddenAdjustment.length; i++) {
+            jQuery($rentalAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
+            jQuery($salesAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
+            jQuery($partsAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
         }
     };
     //----------------------------------------------------------------------------------------------
