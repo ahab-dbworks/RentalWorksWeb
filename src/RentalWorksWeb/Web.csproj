@@ -580,8 +580,6 @@
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekBrowse.htm" />
     <Content Include="Source\Modules\Settings\WorkWeek\WorkWeekForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
-    <Content Include="Source\Modules\Home\Quote\QuoteBrowse.htm" />
-    <Content Include="Source\Modules\Home\Quote\QuoteForm.htm" />
     <Content Include="Source\Modules\Home\Contact\Contact.css" />
     <TypeScriptCompile Include="Source\Grids\CustomerNoteGrid\CustomerNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\MiscCategoryGrid\MiscCategoryGridController.ts" />

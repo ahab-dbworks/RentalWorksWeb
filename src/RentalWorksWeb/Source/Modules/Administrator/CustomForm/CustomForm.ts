@@ -158,21 +158,10 @@ class CustomForm {
             //get the html from the template and set it as codemirror's value
             switch (type) {
                 case 'Browse':
-                    modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
-
-                    //For modules where the html is in the TS file
-                    if (typeof modulehtml == 'undefined') {
-                        modulehtml = window[controller].getBrowseTemplate();
-                    }
+                    typeof window[controller].getBrowseTemplate == "function" ? modulehtml = window[controller].getBrowseTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
                     break;
-
                 case 'Form':
-                    modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
-
-                    //For modules where the html is in the TS file
-                    if (typeof modulehtml == 'undefined') {
-                        modulehtml = window[controller].getFormTemplate();
-                    }
+                    typeof window[controller].getFormTemplate == "function" ? modulehtml = window[controller].getFormTemplate() : modulehtml = jQuery(`#tmpl-modules-${moduleName}`).html();
                     break;
                 case 'Grid':
                     modulehtml = jQuery(`#tmpl-grids-${moduleName}`).html();
