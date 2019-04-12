@@ -170,3 +170,5 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 **/Fw/scripts/Routes.js.map
 **/Fw/scripts/MasterPages/WebMaster.js
 **/Fw/scripts/MasterPages/WebMaster.js.map
+
+Sync_Core_to_TrakitWorks\.ps1\.log
