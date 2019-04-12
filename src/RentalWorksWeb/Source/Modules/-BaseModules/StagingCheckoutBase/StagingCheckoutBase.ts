@@ -674,7 +674,7 @@
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const request: any = {};
-        if (this.Module === 'StagingCheckout' && warehouse.stagequantityaccessories == true) {
+        if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
             const $grid = $form.find('[data-name="CheckOutPendingItemGrid"]');
             FwBrowse.search($grid);
             if ($grid.find('tbody tr').length > 0) {
