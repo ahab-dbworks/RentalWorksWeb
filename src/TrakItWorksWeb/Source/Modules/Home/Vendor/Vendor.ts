@@ -30,20 +30,14 @@ class Vendor {
     }
     //---------------------------------------------------------------------------------
     openBrowse() {
-        //var $browse;
-
-        //$browse = FwBrowse.loadBrowseFromTemplate(this.Module);
-        let $browse = jQuery(this.getBrowseTemplate());
+        let $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
         return $browse;
     }
     //---------------------------------------------------------------------------------
     openForm(mode: string) {
-        //var $form;
-
-        //$form = FwModule.loadFormFromTemplate(this.Module);
-        let $form = jQuery(this.getFormTemplate());
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         this.events($form);
