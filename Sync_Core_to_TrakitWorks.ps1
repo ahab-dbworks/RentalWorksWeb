@@ -19,9 +19,11 @@ try {
     # sync the Settings modules from RentalWorksWeb
     $settingsmodules = @( 
         "Attribute",
-        "AttributeValue",
+        #"AttributeValue",
+        "BillingCycle",
         "ContactTitle",
         "Country",
+        "Currency",
         "Department",
         "DealClassification",
         "DealStatus",
@@ -35,11 +37,15 @@ try {
         "MiscType",
         "OfficeLocation",
         "OrderType",
+        "OrganizationType",
+        "PaymentTerms",
+        "POClassification",
         "POType",
         "RepairItemStatus",
         "RentalCategory",
         "ShipVia",
         "State",
+        "TaxOption",
         "Unit",
         "Warehouse"
     )
