@@ -428,7 +428,7 @@
         var $fwformfield, data_type, keys, $inputtext, $inputvalue;
         $fwformfield = $parent.find(selector);
         data_type = $fwformfield.attr('data-type');
-        if ($fwformfield.length === 0) throw 'FwFormField.setValue: Unable to find: ' + selector;
+        if ($fwformfield.length === 0) return;
         if ($fwformfield.attr('data-control') !== 'FwFormField') throw 'FwFormField.setValue: ' + selector + ' is not a FwFormField';
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
             (typeof window['FwFormField_' + data_type].setValue === 'function')) {
@@ -439,7 +439,7 @@
      setValue2($fwformfield: JQuery, value: string | number, text?: string | number | boolean, firechangeevent?: boolean) {
         var data_type, keys, $inputtext, $inputvalue;
         data_type = $fwformfield.attr('data-type');
-        if ($fwformfield.length === 0) throw 'FwFormField.setValue2: $fwformfield is empty';
+        if ($fwformfield.length === 0) return;
         if ($fwformfield.attr('data-control') !== 'FwFormField') throw 'FwFormField.setValue2: $fwformfield is not a FwFormField';
         if ((typeof window['FwFormField_' + data_type] === 'object') &&
             (typeof window['FwFormField_' + data_type].setValue === 'function')) {
