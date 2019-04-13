@@ -8,12 +8,9 @@
       <div data-type="tab" id="containerassetstab" class="containerassetstab tab" data-tabpageid="containerassetstabpage" data-caption="Container Assets" style="display:none;"></div>
       <div data-type="tab" id="completetab" class="completetab tab" data-tabpageid="completetabpage" data-caption="Complete" style="display:none;"></div>
       <div data-type="tab" id="kittab" class="kittab tab" data-tabpageid="kittabpage" data-caption="Kit" style="display:none;"></div>
-
       <div data-type="tab" id="availabilitycalendartab" class="tab" data-tabpageid="availabilitycalendartabpage" data-caption="Availability Calendar"></div>
-
       <div data-type="tab" id="settingstab" class="settingstab tab" data-tabpageid="settingstabpage" data-caption="Settings" style="display:none;"></div>
       <div data-type="tab" id="assettab" class="tab asset submodule" data-tabpageid="assettabpage" data-caption="Asset" style="display:none;"></div>
-      <div data-type="tab" id="consignmenttab" class="tab" data-tabpageid="consignmenttabpage" data-caption="Consignment"></div>
       <div data-type="tab" id="wardrobetab" class="wardrobetab tab" data-tabpageid="wardrobetabpage" data-caption="Wardrobe" style="display:none;"></div>
       <div data-type="tab" id="availabilitytab" class="tab" data-tabpageid="availabilitytabpage" data-caption="Availability"></div>
       <div data-type="tab" id="completeskitstab" class="completeskitstab tab" data-tabpageid="completeskitstabpage" data-caption="Completes / Kits"></div>
@@ -45,10 +42,8 @@
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield subcategory" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="true" data-formbeforevalidate="beforeValidate" style="flex:1 1 200px;"></div>
                 </div>
                 <div class="flexrow">
-
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield rank" data-caption="Classification" data-datafield="Classification" style="flex:1 1 150px;"></div>
                   <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield rank" data-caption="Tracked By" data-datafield="TrackedBy" style="flex:1 1 150px;"></div>
-
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Unit" data-datafield="UnitId" data-displayfield="Unit" data-validationname="UnitValidation" data-required="true" style="flex:1 1 75px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Rank" data-datafield="Rank" data-displayfield="Rank" data-validationname="RankValidation" style="flex:1 1 75px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Manufacturer Part Number" data-datafield="ManufacturerPartNumber" style="flex:2 1 150px;"></div>
@@ -105,26 +100,13 @@
         </div>
       </div>
 
-
-
-
-
-
-
-
-
-
-
       <!-- Container Assets tab -->
       <div data-type="tabpage" id="containerassetstabpage" class="containerassetstabpage tabpage" data-tabid="containerassetstab">
       </div>
 
-
       <!-- Repair Order tab -->
       <div data-type="tabpage" id="repairordertabpage" class="tabpage repairOrderSubModule" data-tabid="repairordertab">
       </div>
-
-
 
       <!--- SETTINGS TAB -->
       <div data-type="tabpage" id="settingstabpage" class="tabpage" data-tabid="settingstab">
@@ -176,12 +158,6 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-
 
       <!-- Order History tab -->
       <div data-type="tabpage" id="orderhistorytabpage" class="tabpage" data-tabid="orderhistorytab">
@@ -261,21 +237,6 @@
           </div>
         </div>
       </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       <!-- Transfer History tab -->
       <div data-type="tabpage" id="transferhistorytabpage" class="tabpage" data-tabid="transferhistorytab">
@@ -357,8 +318,6 @@
         </div>
       </div>
 
-
-
       <!-- Inventory tab -->
       <div data-type="tabpage" id="inventorytabpage" class="tabpage" data-tabid="inventorytab">
         <div class="formpage">
@@ -433,9 +392,7 @@
       <div data-type="tabpage" id="availabilitycalendartabpage" class="tabpage" data-tabid="availabilitycalendartab">
         <div class="formpage" style="width:auto;">
           <div data-control="FwScheduler" class="fwcontrol fwscheduler calendar"></div>
-          <!--
-          <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>
-          -->
+          <!--<div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>-->
         </div>
       </div>
       <!-- Out Items tab -->
@@ -655,19 +612,6 @@
             <!-- Options section -->
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="width:150px;">
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show All" data-datafield="Inactive" style="width:125px;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Consignment tab -->
-      <div data-type="tabpage" id="consignmenttabpage" class="tabpage" data-tabid="consignmenttab">
-        <div class="flexpage">
-          <div class="wideflexrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Consigned Items">
-              <div class="wideflexrow">
-                <div data-control="FwGrid" data-grid="InventoryConsignmentGrid" data-securitycaption="Inventory Consignment"></div>
-              </div>
             </div>
           </div>
         </div>
@@ -962,7 +906,6 @@
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Required by All Warehouses" data-datafield="QcRequired" style="flex:1 1 225px;margin-left:25px;"></div>
               </div>
             </div>
-
           </div>
         </div>
       </div>

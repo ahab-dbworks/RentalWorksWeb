@@ -45,8 +45,6 @@ class Contract {
                 FwBrowse.addLegend($browse, 'Pending Exchanges', '#FFFF00');
                 FwBrowse.addLegend($browse, 'Migrated', '#8080FF');
                 FwBrowse.addLegend($browse, 'Inactive Deal', '#C0C0C0');
-                FwBrowse.addLegend($browse, 'Truck (No Charge)', '#FFFF00');
-                FwBrowse.addLegend($browse, 'Adjusted Billing Date', '#FF8080');
                 FwBrowse.addLegend($browse, 'Voided Items', '#00FFFF');
                 break;
             case 'Manifest':

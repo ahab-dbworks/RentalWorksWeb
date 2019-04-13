@@ -4,20 +4,21 @@ routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: 
 class Quote extends OrderBase {
     Module:             string = 'Quote';
     apiurl:             string = 'api/v1/quote';
-    caption:            string = 'Quote';
+    caption:            string = 'Request';
     nav:                string = 'module/quote';
     id:                 string = '9213AF53-6829-4276-9DF9-9DAA704C2CCF';
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
+        var self        = this;
         var screen: any = {};
         screen.$view    = FwModule.getModuleControl(this.Module + 'Controller');
 
         var $browse = this.openBrowse();
 
         screen.load = function () {
-            FwModule.openModuleTab($browse, 'Quote', false, 'BROWSE', true);
+            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
                 filter.search = filter.search.replace(/%20/, ' ');

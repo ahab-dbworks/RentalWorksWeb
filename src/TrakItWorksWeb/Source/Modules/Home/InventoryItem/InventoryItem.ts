@@ -1168,21 +1168,6 @@ class InventoryItem {
         FwBrowse.init($inventoryAvailabilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
 
-        // InventoryConsignmentGrid
-        let $inventoryConsignmentGrid = $form.find('div[data-grid="InventoryConsignmentGrid"]');
-        let $inventoryConsignmentGridControl = jQuery(jQuery('#tmpl-grids-InventoryConsignmentGridBrowse').html());
-        $inventoryConsignmentGrid.empty().append($inventoryConsignmentGridControl);
-        $inventoryConsignmentGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-            };
-        });
-        $inventoryConsignmentGridControl.data('beforesave', function (request) {
-            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
-        });
-        FwBrowse.init($inventoryConsignmentGridControl);
-        FwBrowse.renderRuntimeHtml($inventoryConsignmentGridControl);
-
         // InventoryCompleteKitGrid
         let $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
         let $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());
