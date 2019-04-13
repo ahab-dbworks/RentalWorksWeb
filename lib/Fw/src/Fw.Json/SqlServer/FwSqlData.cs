@@ -1167,6 +1167,16 @@ namespace Fw.Json.SqlServer
                 applicationTheme = dt.Rows[0]["applicationtheme"].ToString().TrimEnd();
                 browseDefaultRows = FwConvert.ToInt32(dt.Rows[0]["browsedefaultrows"].ToString().TrimEnd());
             }
+
+            if (!string.IsNullOrEmpty(applicationTheme))
+            {
+                applicationTheme = "theme-material";
+            }
+            if (browseDefaultRows == 0)
+            {
+                browseDefaultRows = 15;
+            }
+
         }
         //-----------------------------------------------------------------------------
         public static string CheckDatabaseVersion(FwSqlConnection conn, string requireddbversion, string requiredhotfixfilename)
