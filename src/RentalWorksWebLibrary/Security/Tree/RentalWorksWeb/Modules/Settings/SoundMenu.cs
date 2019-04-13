@@ -1,6 +1,6 @@
 ﻿using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Administrator
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
     public class SoundMenu : FwSecurityTreeBranch
     {

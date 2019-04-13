@@ -1,6 +1,6 @@
 using FwStandard.Security;
 
-namespace Web.Source.Modules
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
     public class MiscTypeMenu : FwSecurityTreeBranch
     {

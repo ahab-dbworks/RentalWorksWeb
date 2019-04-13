@@ -1,6 +1,6 @@
 using FwStandard.Security;
 
-namespace Web.Material.Modules
+namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
 {
     public class WardrobeMaterialMenu : FwSecurityTreeBranch
     {
