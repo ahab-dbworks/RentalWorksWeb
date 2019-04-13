@@ -176,7 +176,7 @@ namespace WebLibrary.Security
                                                      AddSettingsModule("Misc Rate",                   "{15B5AA83-4C3A-4136-B74B-574BDC0141B2}", lv2menuMiscSettings.Id,         "MiscRateController",                  "module/miscrate",                  settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Misc Type",                   "{EAFEE5C7-84BB-419E-905A-3AE86E18DFAB}", lv2menuMiscSettings.Id,         "MiscTypeController",                  "module/misctype",                  settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Misc Category",               "{D5318A2F-ECB8-498A-9D9A-0846F4B9E4DF}", lv2menuMiscSettings.Id,         "MiscCategoryController",              "module/misccategory",              settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Office Location",             "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id,             "OfficeLocationController",            "module/officelocation",            settingsiconbaseurl + "placeholder.png");
+                                              AddSettingsModule("Office Location",             "{8A8EE5CC-458E-4E4B-BA09-9C514588D3BD}", lv1menuSettings.Id,             "OfficeLocationController",            "module/officelocation",            settingsiconbaseurl + "placeholder.png");
             var lv2menuOrderSettings        = AddSettingsMenu("Order Settings",              "{3D7A8032-9D56-4C89-BB53-E25799BE91BE}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Order Type",                  "{CF3E22CB-F836-4277-9589-998B0BEC3500}", lv2menuOrderSettings.Id,        "OrderTypeController",                 "module/ordertype",                 settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Discount Reason",             "{CBBBFA51-DE2D-4A24-A50E-F7F4774016F6}", lv2menuOrderSettings.Id,        "DiscountReasonController",            "module/discountreason",            settingsiconbaseurl + "placeholder.png");
@@ -208,18 +208,18 @@ namespace WebLibrary.Security
                                                      AddSettingsModule("Items Ordered",               "{25507FAD-E140-4A19-8FED-2C381DA653D9}", lv2menuProjectSettings.Id,      "ProjectItemsOrderedController",       "module/projectitemsordered",       settingsiconbaseurl + "placeholder.png");
             var lv2menuPropsSettings        = AddSettingsMenu("Props Settings",              "{B210CBF6-9CCE-442F-B11B-6B7AC60C3216}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Props Condition",             "{86C769E8-F8E6-4C59-BC0B-8F2D563C698F}", lv2menuPropsSettings.Id,        "PropsConditionController",            "module/propscondition",            settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Region",                      "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id,             "RegionController",                    "module/region",                    settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Repair Item Status",          "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id,             "RepairItemStatusController",          "module/repairitemstatus",          settingsiconbaseurl + "placeholder.png");
+                                              AddSettingsModule("Region",                      "{A50C7F59-AF91-44D5-8253-5C4A4D5DFB8B}", lv1menuSettings.Id,             "RegionController",                    "module/region",                    settingsiconbaseurl + "placeholder.png");
+                                              AddSettingsModule("Repair Item Status",          "{D952672A-DCF6-47C8-9B99-47561C79B3F8}", lv1menuSettings.Id,             "RepairItemStatusController",          "module/repairitemstatus",          settingsiconbaseurl + "placeholder.png");
             var lv2menuSetSettings          = AddSettingsMenu("Set Settings",                "{210AB6DE-159D-4979-B321-3BC1EA6574D7}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Set Condition",               "{0FFC8940-C060-49E4-BC24-688E25250C5F}", lv2menuSetSettings.Id,          "SetConditionController",              "module/setcondition",              settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Set Surface",                 "{EC55E743-0CB1-4A74-9D10-6C4C6045AAAB}", lv2menuSetSettings.Id,          "SetSurfaceController",                "module/setsurface",                settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Set Opening",                 "{15E52CA3-475D-4BDA-B940-525E5EEAF8CD}", lv2menuSetSettings.Id,          "SetOpeningController",                "module/setopening",                settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Wall Description",            "{F34F1A9B-53C6-447C-B52B-7FF5BAE38AB5}", lv2menuSetSettings.Id,          "WallDescriptionController",           "module/walldescription",           settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Wall Type",                   "{4C9D2D20-D129-461D-9589-ABC896DD9BC6}", lv2menuSetSettings.Id,          "WallTypeController",                  "module/walltype",                  settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Ship Via",                    "{F9E01296-D240-4E16-B267-898787B29509}", lv1menuSettings.Id,             "ShipViaController",                   "module/shipvia",                   settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Source",                      "{6D6165D1-51F2-4616-A67C-DCC803B549AF}", lv1menuSettings.Id,             "SourceController",                    "module/source",                    settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Tax Option",                  "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id,             "TaxOptionController",                 "module/taxoption",                 settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Template",                    "{BDDB1439-F128-4AB7-9657-B1CDFFA12721}", lv1menuSettings.Id,             "TemplateController",                  "module/template",                  settingsiconbaseurl + "placeholder.png");
+                                            AddSettingsModule("Ship Via",                    "{F9E01296-D240-4E16-B267-898787B29509}", lv1menuSettings.Id,             "ShipViaController",                   "module/shipvia",                   settingsiconbaseurl + "placeholder.png");
+                                            AddSettingsModule("Source",                      "{6D6165D1-51F2-4616-A67C-DCC803B549AF}", lv1menuSettings.Id,             "SourceController",                    "module/source",                    settingsiconbaseurl + "placeholder.png");
+                                            AddSettingsModule("Tax Option",                  "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id,             "TaxOptionController",                 "module/taxoption",                 settingsiconbaseurl + "placeholder.png");
+                                            AddSettingsModule("Template",                    "{BDDB1439-F128-4AB7-9657-B1CDFFA12721}", lv1menuSettings.Id,             "TemplateController",                  "module/template",                  settingsiconbaseurl + "placeholder.png");
             var lv2menuSystemSettings       = AddSettingsMenu("System Settings",             "{EF0A0F0D-F76B-4F25-8AF4-10F7934CFDC0}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Email Settings",              "{8C9613E0-E7E5-4242-9DF6-4F57F59CE2B9}", lv2menuSystemSettings.Id,       "EmailSettingsController",             "module/emailsettings",             settingsiconbaseurl + "placeholder.png");
             var lv2menuUserSettings         = AddSettingsMenu("User Settings",               "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id,                                                                                        settingsiconbaseurl + "placeholder.png");
@@ -249,9 +249,9 @@ namespace WebLibrary.Security
                                                      AddSettingsModule("Wardrobe Pattern",            "{2BE7072A-5588-4205-8DCD-0FFE6F0C48F7}", lv2menuWardrobeSettings.Id,     "WardrobePatternController",           "module/wardrobepattern",           settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Wardrobe Period",             "{BF51623D-ABA6-471A-BC00-4729067C64CF}", lv2menuWardrobeSettings.Id,     "WardrobePeriodController",            "module/wardrobeperiod",            settingsiconbaseurl + "placeholder.png");
                                                      AddSettingsModule("Wardrobe Source",             "{6709D1A1-3319-435C-BF0E-15D2602575B0}", lv2menuWardrobeSettings.Id,     "WardrobeSourceController",            "module/wardrobesource",            settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Warehouse",                   "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id,             "WarehouseController",                 "module/warehouse",                 settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Widget",                      "{0CAF7264-D1FB-46EC-96B9-68D242985812}", lv1menuSettings.Id,             "WidgetController",                    "module/widget",                    settingsiconbaseurl + "placeholder.png");
-                                                     AddSettingsModule("Work Week",                   "{AF91AE34-ADED-4A5A-BD03-113ED817F575}", lv1menuSettings.Id,             "WorkWeekController",                  "module/workweek",                  settingsiconbaseurl + "placeholder.png");
+                                            AddSettingsModule("Warehouse",                   "{931D3E75-68CB-4280-B12F-9A955444AA0C}", lv1menuSettings.Id,             "WarehouseController",                 "module/warehouse",                 settingsiconbaseurl + "placeholder.png");
+                                            AddSettingsModule("Widget",                      "{0CAF7264-D1FB-46EC-96B9-68D242985812}", lv1menuSettings.Id,             "WidgetController",                    "module/widget",                    settingsiconbaseurl + "placeholder.png");
+                                            AddSettingsModule("Work Week",                   "{AF91AE34-ADED-4A5A-BD03-113ED817F575}", lv1menuSettings.Id,             "WorkWeekController",                  "module/workweek",                  settingsiconbaseurl + "placeholder.png");
             //Reports
             var lv2menuAccountingReports      = AddReportsMenu("Accounting Reports",                    "{51A99056-CDB7-48C4-AD5D-FADE02B925B6}", lv1menuReports.Id,                                                                                                          reportsiconbaseurl + "placeholder.png");
                                                        AddReportsModule("A/R Aging",                    "{03497C4E-CFDE-4156-8DDC-8125B84CA96C}", lv2menuAccountingReports.Id,      "RwArAgingReportController",                    "module/aragingreport",                   reportsiconbaseurl + "placeholder.png", "A/R Aging", description: "List unpaid Invoices, and their corresponding aging totals.  Report is subtotalled by Deal and Customer.");
@@ -568,7 +568,7 @@ namespace WebLibrary.Security
         private void BuildTrakitWorksWebTree(FwSecurityTreeNode system)
         {
             string homeiconbaseurl          = "theme/images/icons/home/";
-            //string settingsiconbaseurl      = "theme/images/icons/settings/";
+            string settingsiconbaseurl      = "theme/images/icons/settings/";
             //string reportsiconbaseurl       = "theme/images/icons/reports/";
             string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
             string administratoriconbaseurl = "theme/images/icons/administrator/";
@@ -604,6 +604,51 @@ namespace WebLibrary.Security
             AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "StagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
+
+            // Settings
+            var lv2menuAddressSettings = AddSettingsMenu("Address Settings", "{4F91453D-A03E-43BF-8825-BEAA8FEA2979}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Country", "{31F55A90-8EA2-418F-93E6-18AD5CAE8366}", lv2menuAddressSettings.Id, "CountryController", "module/country", settingsiconbaseurl + "placeholder.png", description: "List Countries to relate to your Customers, Deals, and Vendors");
+                AddSettingsModule("State/Province", "{D98F68C1-E567-424E-AF44-9016AA112131}", lv2menuAddressSettings.Id, "StateController", "module/state", settingsiconbaseurl + "placeholder.png", description: "List States to relate to your Customers, Deals, and Vendors");
+                AddSettingsModule("Billing Cycle", "{01CF64BF-DCCC-4ECA-9262-3BDBD001649E}", lv1menuSettings.Id, "BillingCycleController", "module/billingcycle", settingsiconbaseurl + "placeholder.png", description: "Define and configure Billing Cycles for your Quotes and Orders");
+                AddSettingsModule("Company Department", "{043F9EB4-F31C-441F-8011-B5263B88B16B}", lv1menuSettings.Id, "DepartmentController", "module/department", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuContactSettings = AddSettingsMenu("Contact Settings", "{65EA6245-6097-45F0-B3BC-49923DB09E06}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Contact Title", "{11df6c43-809e-4eff-990b-e7b15fd352f8}", lv2menuContactSettings.Id, "ContactTitleController", "module/contacttitle", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Currency", "{54dc9926-f6da-42a9-8d06-3e2aa3ba5052}", lv1menuSettings.Id, "CurrencyController", "module/currency", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuDealSettings = AddSettingsMenu("Deal Settings", "{8D94F1D8-FD46-40BA-BE59-70A96EEF03AD}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Deal Classification", "{BC795D50-F8D8-40C8-9F9E-63A60B07E514}", lv2menuDealSettings.Id, "DealClassificationController", "module/dealclassification", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Deal Type", "{4FA964A3-4D02-432E-8E13-D7C003C67584}", lv2menuDealSettings.Id, "DealTypeController", "module/dealtype", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Deal Status", "{2B66A033-1E35-44B7-9DDE-8A13DD26AE04}", lv2menuDealSettings.Id, "DealStatusController", "module/dealstatus", settingsiconbaseurl + "placeholder.png");
+
+
+            var lv2menuInventorySettings = AddSettingsMenu("Inventory Settings", "{51647016-DFE5-4050-82F9-3B9EA87295B1}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Inventory Attribute", "{625A684E-DE81-4827-992F-B89B01671D38}", lv2menuInventorySettings.Id, "AttributeController", "module/attribute", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Inventory Condition", "{9CCB253D-3518-4908-9D20-CD82E01C9F9F}", lv2menuInventorySettings.Id, "InventoryConditionController", "module/inventorycondition", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Inventory Rank", "{93021F1B-A379-4D3E-9668-1444E13D9952}", lv2menuInventorySettings.Id, "InventoryRankController", "module/inventoryrank", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Inventory Type", "{8D8CBE05-2111-40B9-AE5E-560AF549AE03}", lv2menuInventorySettings.Id, "InventoryTypeController", "module/inventorytype", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Rental Category", "{FE2EF49E-D178-4DAE-9293-4019FFD7E52B}", lv2menuInventorySettings.Id, "RentalCategoryController", "module/rentalcategory", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Unit of Measure", "{7D1964B8-E6BD-4DF8-8A15-A811474B15D6}", lv2menuInventorySettings.Id, "UnitController", "module/unit", settingsiconbaseurl + "placeholder.png");
+
+
+            AddSettingsModule("Office Location", "{D561C701-BF89-4FE4-B7F4-912AB0B6F7A2}", lv1menuSettings.Id, "OfficeLocationController", "module/officelocation", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuOrderSettings = AddSettingsMenu("Order Settings", "{8DEDA84B-230C-4AA0-9AA1-2EEF5770FA52}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Order Type", "{E593AA0F-28AE-4B4A-BFFA-EEDB5FBC4E24}", lv2menuOrderSettings.Id, "OrderTypeController", "module/ordertype", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuPOSettings = AddSettingsMenu("PO Settings", "{DA9846BB-C2B4-4B06-A9AD-B3F1EAE04781}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("PO Classification", "{7291695A-4659-45B5-9086-8F6E66E2583B}", lv2menuPOSettings.Id, "POClassificationController", "module/poclassification", settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("PO Type", "{0FF30649-FD58-4FC6-9F5E-C8AC2FB87D8B}", lv2menuPOSettings.Id, "POTypeController", "module/potype", settingsiconbaseurl + "placeholder.png");
+
+            AddSettingsModule("Repair Item Status", "{7D08F487-C6D7-4C54-ACA1-4C4A1AD27188}", lv1menuSettings.Id, "RepairItemStatusController", "module/repairitemstatus", settingsiconbaseurl + "placeholder.png");
+            AddSettingsModule("Ship Via", "{86FB4938-CD09-4898-BCEC-5E209879201A}", lv1menuSettings.Id, "ShipViaController", "module/shipvia", settingsiconbaseurl + "placeholder.png");
+
+            var lv2menuVendorSettings = AddSettingsMenu("Vendor Settings", "{A0FE5063-A7BB-489D-83FE-E99642CF57B1}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
+                AddSettingsModule("Organization Type", "{11290C88-D1C8-4FAA-A660-0C4A53200CBD}", lv2menuVendorSettings.Id, "OrganizationTypeController", "module/organizationtype", settingsiconbaseurl + "placeholder.png");
+
+            AddSettingsModule("Warehouse", "{8DD21206-86D4-4C69-9094-A8CF0A5C93FF}", lv1menuSettings.Id, "WarehouseController", "module/warehouse", settingsiconbaseurl + "placeholder.png");
+
+
 
             // Utilities
             AddModule("Dashboard",                     "{E01F0032-CFAA-4556-9F24-E4C28C5B50A1}", lv1menuUtilities.Id, "DashboardController",                    "module/dashboard",                 utilitiesiconbaseurl + "placeholder.png");
