@@ -343,6 +343,8 @@ class RentalInventory extends InventoryBase {
         var $wardrobeInventoryMaterialGrid: any;
         let $containerWarehouseGrid: any;
 
+        this.iCodeMask($form);
+
         $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
         $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
@@ -503,6 +505,17 @@ class RentalInventory extends InventoryBase {
         };
     };
     //----------------------------------------------------------------------------------------------
+    iCodeMask($form) {
+        let inputmask = JSON.parse(sessionStorage.getItem('controldefaults')).defaulticodemask;
+        let inputmasksplit = inputmask.split('');
+        for (var i = 0; i < inputmasksplit.length; i++) {
+            if (inputmasksplit[i] !== '-') {
+                inputmasksplit[i] = '*'
+            }
+        }
+        let wildcardMask = inputmasksplit.join('');
+        $form.find('[data-datafield="ICode"] input').inputmask({ mask: wildcardMask });
+    }
 };
 
 //----------------------------------------------------------------------------------------------

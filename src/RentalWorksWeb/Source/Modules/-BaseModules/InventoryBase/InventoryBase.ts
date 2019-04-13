@@ -35,6 +35,14 @@
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        if (this.Module === 'RentalInventory') {
+            FwAppData.apiMethod(true, 'GET', 'api/v1/control/', null, FwServices.defaultTimeout, function onSuccess(response) {
+                console.log(response);
+            }, function onError(response) {
+                FwFunc.showError(response);
+                }, null);
+        }
+
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = self.ActiveViewFields;
         });
@@ -62,6 +70,7 @@
                     , defaultdealbillingcycle: res.DefaultDealBillingCycle
                     , defaultunitid: res.DefaultUnitId
                     , defaultunit: res.DefaultUnit
+                    , defaulticodemask: res.ICodeMask
                 }
                 sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
             }, null, null);
@@ -80,6 +89,9 @@
         if (mode === 'NEW') {
             let controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit);
+            if (this.Module === 'RentalInventory') {
+               RentalInventoryController.iCodeMask($form);
+            }
         }
 
         //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
