@@ -206,7 +206,7 @@
                 $tr = jQuery(this);
                 FwValidation.selectRow($control, $tr, $valuefield, $searchfield, $btnvalidate, $validationbrowse);
                 originalcolor = $searchfield.css('background-color');
-                $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('style', '') });
+                $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('background-color', '') });
                 jQuery(document).off('keydown');
 
                 $rows = $validationbrowse.find('table > tbody > tr');
