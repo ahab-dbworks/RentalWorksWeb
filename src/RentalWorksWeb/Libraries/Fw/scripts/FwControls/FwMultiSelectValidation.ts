@@ -247,13 +247,14 @@ class FwMultiSelectValidationClass {
                     //removes item from text
                     const itemText = $item.find('span').text();
                     const $textField = $valuefield.siblings('.fwformfield-text');
+                    const multiSeparator = $control.attr('data-multiwordseparator') || ',';
                     let text: any = $textField.val();
                     text = text
-                        .split(',')
+                        .split(multiSeparator)
                         .filter((text) => {
                             return text !== itemText;
                         })
-                        .join(',');
+                        .join(multiSeparator);
                     $textField.val(text);
 
                     $item.remove();
@@ -362,6 +363,7 @@ class FwMultiSelectValidationClass {
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
         const multiselectfield = $control.find('.multiselectitems');
+        const multiSeparator = $control.attr('data-multiwordseparator') || ',';
         let fieldToDisplay;
         if ($control.hasClass('email')) {
             fieldToDisplay = "Email";
@@ -379,15 +381,12 @@ class FwMultiSelectValidationClass {
         let selectedRowUniqueIds = $browse.data('selectedrowsuniqueids');
         let selectedRowText: any = $textField.val();
 
-        if ($control.hasClass('email')) {
-            if (selectedRowText.length > 0) {
-                selectedRowText = selectedRowText.split(';');
-            } else {
-                selectedRowText = [];
-            }
+        if (selectedRowText.length > 0) {
+            selectedRowText = selectedRowText.split($control.hasClass('email') ? ';' : multiSeparator);
         } else {
-            selectedRowText = selectedRowText.split(',');
+            selectedRowText = [];
         }
+
         $trs = $browse.find('tbody > tr');
         for (let i = 0; i < $trs.length; i++) {
             var $tr, uniqueIdValue;
@@ -413,7 +412,7 @@ class FwMultiSelectValidationClass {
         if ($control.hasClass('email')) {
             $textField.val(selectedRowText.join(';'));
         } else {
-            $textField.val(selectedRowText.join(','));
+            $textField.val(selectedRowText.join(multiSeparator));
         }
 
         if ((typeof controller === 'string') && (typeof window[controller] !== 'undefined') && (typeof window[controller]['loadRelatedValidationFields'] === 'function')) {

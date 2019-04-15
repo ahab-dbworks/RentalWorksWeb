@@ -105,14 +105,11 @@ FwFormField_multiselectvalidation.setValue = function ($fwformfield, value, text
     multiselectfield.find('.multiitem').remove();
     if (value !== '') {
         let valueArr;
-        if ($fwformfield.hasClass('email')) {
-            valueArr = value.split(';');
-        } else {
-            valueArr = value.split(',');
-        }
+        $fwformfield.hasClass('email') ? valueArr = value.split(';') : valueArr = value.split(',');
         let textArr;
+        const multiSeparator = $fwformfield.attr('data-multiwordseparator') || ',';
         if (typeof text !== 'undefined') {
-            textArr = text.split(',');
+            textArr = text.split(multiSeparator);
         }
 
         for (let i = 0; i < valueArr.length; i++) {
