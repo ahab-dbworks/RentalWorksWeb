@@ -64,6 +64,7 @@ class Billing {
 
         $browse.on('click', 'div.openBrowseFilter', e => {
             $popup.show();
+            $popup.find('[data-datafield="DealId"] input').focus();
         });
 
         //selects all checkboxes/records
@@ -157,6 +158,7 @@ class Billing {
                 }
             });
 
+        $popup.find('[data-datafield="DealId"] input').focus();
         this.createInvoicesEvents($browse);
     }
     //----------------------------------------------------------------------------------------------
