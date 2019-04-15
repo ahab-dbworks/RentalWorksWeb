@@ -233,7 +233,7 @@
     getOrder($form: JQuery): void {
         const maxPageSize = 20;
         const module = this.Module;
-        $form.find(`[data-datafield="${this.Type}Id"]`).data('onchange', $tr => {
+        $form.on('change', `[data-datafield="${this.Type}Id"]`, $tr => {
             try {
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
@@ -278,7 +278,7 @@
                     }, $form);
                 }, null, $form);
                 // ----------
-                if (this.Type === 'Item') orderId = $tr.find('[data-browsedatafield="ContainerItemId"]').attr('data-originalvalue');
+                //if (this.Type === 'Item') orderId = $tr.find('[data-browsedatafield="ContainerItemId"]').attr('data-originalvalue');
                 const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
                 $stagedItemGridControl.data('ondatabind', request => {
                     request.uniqueids = {
