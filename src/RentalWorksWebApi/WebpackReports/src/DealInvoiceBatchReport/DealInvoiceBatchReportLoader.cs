@@ -112,7 +112,7 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
                 dt.InsertSubTotalRows("Location", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "invoicetotal", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
         }

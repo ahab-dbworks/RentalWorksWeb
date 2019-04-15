@@ -16,11 +16,10 @@ export class DealInvoiceBatchReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/dealinvoicebatchreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const report: any = {};
-                    report.Items = DataTable.toObjectList(response);
+                    const report: any = DataTable.toObjectList(response);
                     report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     report.Date = parameters.BatchDate;
-                    report.Report = 'Charge Batch Report';
+                    report.Report = 'Deal Invoice Batch Report';
                     report.System = 'RENTALWORKS';
                     report.Company = '4WALL ENTERTAINMENT';
                     report.BatchNumber = parameters.BatchNumber;
