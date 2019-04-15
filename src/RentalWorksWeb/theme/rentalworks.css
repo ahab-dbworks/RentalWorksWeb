@@ -240,7 +240,7 @@ Form tables
 .form-table .text { text-align:left; }
 .form-table .decimal { text-align:right; }
 .form-table input { height:100%;width:97%;padding:3px 0px 0px 0px;font-family:inherit; }
-.form-table i { top:7px;left:3px;position:relative;cursor:pointer; }
+.form-table i { left:3px;float:right;position:relative;cursor:pointer; }
 .form-table tr:nth-child(even) { background-color:#f1eded; }
 
 
