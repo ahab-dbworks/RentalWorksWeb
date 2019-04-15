@@ -16,17 +16,17 @@ export class BillingProgressReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/billingprogressreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
-                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    data.AsOfDate = parameters.AsOfDate;
-                    data.Report = 'Billing Progress Report';
-                    data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(data);
+                    const report: any = DataTable.toObjectList(response);
+                    report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    report.AsOfDate = parameters.AsOfDate;
+                    report.Report = 'Billing Progress Report';
+                    report.System = 'RENTALWORKS';
+                    report.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(report);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(data);
+                    document.getElementById('pageBody').innerHTML = hbReport(report);
 
                     this.onRenderReportCompleted();
                 })
