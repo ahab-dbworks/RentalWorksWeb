@@ -16,8 +16,7 @@ export class ReceiptBatchReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/receiptbatchreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const report: any = {};
-                    report.Items = DataTable.toObjectList(response);
+                    const report: any = DataTable.toObjectList(response);
                     report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     report.Date = parameters.BatchDate;
                     report.Report = 'Receipt Batch Report';

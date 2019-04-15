@@ -89,7 +89,7 @@ namespace WebApi.Modules.Reports.ReceiptBatchReport
                 dt.InsertSubTotalRows("Location", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "receipttotal", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
         }

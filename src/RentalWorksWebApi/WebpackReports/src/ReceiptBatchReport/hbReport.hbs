@@ -1,62 +1,60 @@
-﻿<!-- Receipt Batch Report-->
+﻿<!-- Deal Invoice Batch Report-->
 <div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Batch No: {{BatchNumber}} - Date: {{Date}}</span>
+    <span class="rpt-header-center">Batch No. {{BatchNumber}} {{Date}}</span>
   </div>
   <div class="rpt-flexcolumn">
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:25px;">
+<div class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead class="mainHeader">
-      <tr class="columnheadings">
-        <th>Date</th>
-        <th>Ref/Check No.</th>
-        <th>Payment Type</th>
-        <th style="text-align:right;">Amount</th>
+    <thead>
+      <tr>
+        <th class="text">Date</th>
+        <th class="text">Ref/Check No.</th>
+        <th class="text">Payment Type</th>
+        <th class="number">Amount</th>
       </tr>
     </thead>
     <tbody>
-      {{#with Items}}
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "Locationheader"}}
-        <td colspan="4" class="rowHeader">Office: {{Location}}</td>
+        <td colspan="8" class="header-row">Office: {{Location}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerheader"}}
-        <td colspan="4" class="rowHeader">Customer: {{Customer}}</td>
+        <td colspan="8" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="4" class="rowHeader">Deal: {{Deal}}</td>
+        <td colspan="8" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="ReceiptDate">{{ReceiptDate}}</td>
-        <td class="CheckNumber">{{CheckNumber}}</td>
-        <td class="PaymentType">{{PaymentType}}</td>
-        <td class="Amount" data-value="{{Amount}}"></td>
+        <td class="text">{{ReceiptDate}}</td>
+        <td class="text">{{CheckNumber}}</td>
+        <td class="text">{{PaymentType}}</td>
+        <td class="number" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Deal}}:</td>
-        <td class="total-row number" data-value="{{Amount}}"></td>
+        <td colspan="3" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Customer}}:</td>
-        <td class="total-row number" data-value="{{Amount}}"></td>
+        <td colspan="3" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Locationfooter"}}
-        <td colspan="3" style="font-weight:bold;text-align:right;padding-top:11px">{{Location}}:</td>
-        <td class="total-row number" data-value="{{Amount}}"></td>
+        <td colspan="3" class="total-name">{{Location}}&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
         {{/ifEquals}}
-        {{#ifEquals RowType "receipttotal"}}
-        <td colspan="3" class="receiptTotalRowTitle">Total for Batch {{../../BatchNumber}}:</td>
-        <td class="total-row receiptTotalRowTotal" data-value="{{Amount}}"></td>
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
-      {{/with}}
     </tbody>
   </table>
 </div>

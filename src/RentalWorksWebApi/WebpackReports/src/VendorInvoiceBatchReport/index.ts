@@ -24,7 +24,6 @@ export class VendorInvoiceBatchReport extends WebpackReport {
                     report.Company = '4WALL ENTERTAINMENT';
                     report.BatchNumber = parameters.BatchNumber;
                     this.renderFooterHtml(report);
-                    console.log('report', report)
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
