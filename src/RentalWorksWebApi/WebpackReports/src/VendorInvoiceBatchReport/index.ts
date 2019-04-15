@@ -16,8 +16,7 @@ export class VendorInvoiceBatchReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/vendorinvoicebatchreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const report: any = {};
-                    report.Items = DataTable.toObjectList(response);
+                    const report: any = DataTable.toObjectList(response);
                     report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     report.Date = parameters.BatchDate;
                     report.Report = 'Vendor Invoice Batch Report';
@@ -25,7 +24,7 @@ export class VendorInvoiceBatchReport extends WebpackReport {
                     report.Company = '4WALL ENTERTAINMENT';
                     report.BatchNumber = parameters.BatchNumber;
                     this.renderFooterHtml(report);
-
+                    console.log('report', report)
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

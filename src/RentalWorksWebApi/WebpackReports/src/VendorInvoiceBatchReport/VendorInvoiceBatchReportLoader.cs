@@ -76,7 +76,7 @@ namespace WebApi.Modules.Reports.VendorInvoiceBatchReport
                 string[] totalFields = new string[] { "InvoiceTotal" };
                 dt.InsertSubTotalRows("Location", "RowType", totalFields);
                 dt.InsertSubTotalRows("Vendor", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "invoicetotal", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
         }

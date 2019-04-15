@@ -1,96 +1,4 @@
-﻿$page-width: 1110px;
-$line-height: 16px;
-$normal-text: 1em;
-
-@page {
-    margin: 130px 32px 96px 32px;
-    /*margin: 48px 24px 48px 24px;*/
-    /*size: auto;*/
-    size: landscape;
-}
-
-html.preview {
-    #pageno {
-        visibility: hidden;
-    }
-}
-
-html.pdf {
-    body {
-        /*margin: 130px 24px 96px 24px;*/
-    }
-}
-
-@media only screen {
-    .parameters {
-        display: block;
-    }
-}
-
-@media only print {
-    .parameters {
-        display: none;
-    }
-}
-
-@media screen {
-    #pageContainer {
-        width: $page-width;
-    }
-}
-
-#pageContainer {
-    #pageHeader {
-    }
-
-    #contract {
-    }
-
-    #pageFooter {
-        margin: $line-height 0 0 0;
-    }
-}
-
-#pageContainer {
-    #header, #footer {
-        width: auto !important;
-    }
-}
-
-.columnheadings {
-    border-bottom: 2px solid black;
-    font-size:12px;
-    text-align:left;
-    border-top:2px solid black;
-}
-
-.officeLocation {
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.InvoiceTotal {
-    text-align: right;
-}
-
-.invoiceTotalRowTitle {
-    font-weight: bold;
-    text-align: right;
-    padding-top: 11px;
-}
-
-.invoiceTotalRowTotal {
-    font-weight: bold;
-    text-align: right;
-    padding-top: 11px;
-    border-top: 2px solid black;
-}
-
-.rowHeader {
-    font-size: 12px;
-    font-weight: bold;
-}
-
+﻿/*Vendor Invoice Batch Report*/
 tbody {
     tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
@@ -99,10 +7,18 @@ tbody {
     td:after {
         content: attr(data-value);
     }
+
+    td {
+        padding: 3px;
+    }
 }
 
-.total-row {
-    font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
 }
