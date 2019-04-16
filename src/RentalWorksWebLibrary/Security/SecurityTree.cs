@@ -657,9 +657,19 @@ namespace WebLibrary.Security
             AddModule("Dashboard Settings",            "{AD262A8E-A487-4786-895D-6E3DA1DB13BD}", lv1menuUtilities.Id, "DashboardSettingsController",            "module/dashboardsettings",         utilitiesiconbaseurl + "placeholder.png");
 
             // Administrator
-            AddModule("Group",                  "{849D2706-72EC-48C0-B41C-0890297BF24B}", lv1menuAdministrator.Id, "GroupController",       "module/group",             administratoriconbaseurl + "group.png", "USER");
-            AddModule("User",                   "{CE9E187C-288F-44AB-A54A-27A8CFF6FF53}", lv1menuAdministrator.Id, "UserController",        "module/user",              administratoriconbaseurl + "user.png",                                     "USER");
-           
+            AddModule("Control", "{044829ED-579F-4AAD-B464-B4823FDB5A35}", lv1menuAdministrator.Id, "ControlController", "module/control", administratoriconbaseurl + "placeholder.png");
+            AddModule("Custom Field", "{99D56DA6-5779-44A5-8BA6-E033F343C6D0}", lv1menuAdministrator.Id, "CustomFieldController", "module/customfield", administratoriconbaseurl + "placeholder.png");
+            AddModule("Custom Forms", "{2F07BFC4-A120-4C97-9D96-F16906CD1B88}", lv1menuAdministrator.Id, "CustomFormController", "module/customform", administratoriconbaseurl + "placeholder.png");
+            AddModule("Duplicate Rules", "{8A1EA4A2-6019-4B9B-8324-6143BD7916A1}", lv1menuAdministrator.Id, "DuplicateRuleController", "module/duplicaterule", administratoriconbaseurl + "placeholder.png");
+            AddModule("Email History", "{34092164-500A-46BB-8F09-86BBE0FEA082}", lv1menuAdministrator.Id, "EmailHistoryController", "module/emailhistory", administratoriconbaseurl + "placeholder.png");
+            AddModule("Group", "{849D2706-72EC-48C0-B41C-0890297BF24B}", lv1menuAdministrator.Id, "GroupController", "module/group", administratoriconbaseurl + "group.png", "USER");
+            AddModule("Hotfix", "{B7336B5E-4BA4-4A99-97D6-60385045238B}", lv1menuAdministrator.Id, "HotfixController", "module/hotfix", administratoriconbaseurl + "placeholder.png");
+            //AddModule("Integration", "{A68213D3-809F-4591-9EE9-F4E06FC6984E}", lv1menuAdministrator.Id, "IntegrationController",  "module/integration",    administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
+            AddModule("User", "", lv1menuAdministrator.Id, "UserController", "module/user", administratoriconbaseurl + "user.png", "USER");
+            AddModule("Settings", "{AD8656B4-F161-4568-9AFF-64C81A3680E6}", lv1menuAdministrator.Id, "SettingsController", "module/settings", administratoriconbaseurl + "placeholder.png");
+            AddModule("User", "{CE9E187C-288F-44AB-A54A-27A8CFF6FF53}", lv1menuAdministrator.Id, "UserController", "module/user", administratoriconbaseurl + "user.png", "USER");
+            AddModule("Reports", "{CEAFF154-60DF-4491-96D4-4D4685665E60}", lv1menuAdministrator.Id, "ReportsController", "module/reports", administratoriconbaseurl + "placeholder.png");
+
             //// Add Submodules
             AddSubModule("User Settings",   "{2563927C-8D51-43C4-9243-6F69A52E2657}", lv1menuSubModules.Id, "UserSettingsController");
             AddSubModule("SubWorksheet",    "{2227B6C3-587D-48B1-98B6-B9125E0E4D9D}", lv1menuSubModules.Id, "SubWorksheetController");

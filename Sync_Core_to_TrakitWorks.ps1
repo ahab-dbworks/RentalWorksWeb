@@ -54,6 +54,25 @@ try {
         robocopy "$source" "$destination" /mir
     }
 
+    # sync the Administrator modules from RentalWorksWeb
+    $administratormodules = @(
+        'Control',
+        'CustomForm',
+        'CustomField',
+        'DuplicateRule',
+        'EmailHistory',
+        #'Group',
+        'Hotfix',
+        'Integration',
+        'Reports', 
+        'Settings'
+        #'User'
+    )
+    foreach ($administratormodule in $administratormodules) {
+        $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\Modules\Administrator\" + $administratormodule
+        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\Modules\Administrator\" + $administratormodule
+        robocopy "$source" "$destination" /mir
+    }
 }
 catch {
     # log the error that got thrown

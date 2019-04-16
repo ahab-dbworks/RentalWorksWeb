@@ -470,7 +470,7 @@
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldForm.htm" />
     <Content Include="Source\Modules\Administrator\Reports\Reports.htm" />
-    <Content Include="Source\Modules\Administrator\Reports\ReportsPage.css" />
+    <Content Include="Source\Modules\Administrator\Reports\Reports.css" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomForm\CustomForm.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
@@ -600,7 +600,7 @@
     <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryForm.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\SalesInventory\SalesInventoryForm.htm" />
-    <Content Include="Source\Modules\Administrator\Settings\SettingsPage.css" />
+    <Content Include="Source\Modules\Administrator\Settings\Settings.css" />
     <Content Include="Source\Modules\Administrator\Settings\Settings.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeForm.htm" />
@@ -1146,7 +1146,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\AccountService.cs" />
     <Compile Include="Source\Grids\AuditHistory.cs" />
-    <Compile Include="Source\Modules\Administrator\Integration\Integration.cs" />
     <Compile Include="Source\RwAppData.cs" />
     <Compile Include="Source\RwReport.cs" />
     <Compile Include="Source\RwService.cs" />

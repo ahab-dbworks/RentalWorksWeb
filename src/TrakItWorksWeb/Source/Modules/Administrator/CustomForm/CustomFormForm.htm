@@ -1,0 +1,76 @@
+<div id="customformform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Custom Form" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="CustomFormController">
+  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="CustomFormId"></div>
+  <div id="customformform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+    <div class="tabs">
+      <div data-type="tab" id="designertab" class="tab" data-tabpageid="designertabpage" data-caption="Designer"></div>
+      <div data-type="tab" id="assigntotab" class="tab" data-tabpageid="assigntotabpage" data-caption="Assign To"></div>
+      <div data-type="tab" id="htmltab" class="tab" data-tabpageid="htmltabpage" data-caption="HTML"></div>
+      <div data-type="tab" id="previewtab" class="tab" data-tabpageid="previewtabpage" data-caption="Preview"></div>
+    </div>
+    <div class="tabpages">
+      <!-- DESIGNER TAB-->
+      <div data-type="tabpage" id="designertabpage" class="tabpage" data-tabid="designertab">
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Custom Form">
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Web User Id" data-datafield="WebUserId" data-required="true" style="display:none"></div>
+            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield modules" data-caption="Base Form" data-datafield="BaseForm" data-enabled="false" style="flex:1 1 0;"></div>
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 200px;"></div>
+            <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Active" data-datafield="Active" style="flex:1 1 0;"></div>
+          </div>
+        </div>
+        <div class="flexrow" style="max-width:1750px;">
+          <div class="flexcolumn" style="max-width:1350px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Designer">
+              <div id="designerContent"></div>
+            </div>
+          </div>
+          <div class="flexcolumn" style="max-width:400px; max-height:700px; overflow:auto;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Properties">
+              <div class="fwformcontrol addColumn" data-type="button" style="display:none; margin-bottom:10px;">Add New Column</div>
+              <div class="fwformcontrol addColumn" data-type="btnmenu" style="display:none; margin-bottom:10px;" data-caption="Add New Field"></div>
+              <div id="controlProperties"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ASSIGN TO TAB-->
+      <div data-type="tabpage" id="assigntotabpage" class="tabpage" data-tabid="assigntotab">
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Assign To">
+          <div class="flexrow">
+            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-datafield="AssignTo" style="flex:1 1 250px;">
+              <div data-value="ALL" data-caption="All"></div>
+              <div data-value="GROUPS" data-caption="Groups"></div>
+              <div data-value="USERS" data-caption="Users"></div>
+            </div>
+          </div>
+          <div class="flexrow groupGrid">
+            <div data-control="FwGrid" data-grid="CustomFormGroupGrid" data-securitycaption="Custom Form Group"></div>
+          </div>
+          <div class="flexrow userGrid">
+            <div data-control="FwGrid" data-grid="CustomFormUserGrid" data-securitycaption="Custom Form User"></div>
+          </div>
+        </div>
+      </div>
+      <!-- HTML TAB-->
+      <div data-type="tabpage" id="htmltabpage" class="tabpage" data-tabid="htmltab">
+        <div class="flexrow" style="max-width:1650px;">
+          <div class="flexcolumn" style="max-width:1450px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Form HTML">
+              <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="" data-datafield="Html" data-allcaps="false" style="display:none;"></div>
+              <textarea id="codeEditor" style="display:none;"></textarea>
+            </div>
+          </div>
+          <div class="flexcolumn" style="max-width:330px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fields">
+              <div class="modulefields" style="font-size:.9em; max-height:600px; overflow:auto;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- PREVIEW TAB-->
+      <div data-type="tabpage" id="previewtabpage" class="tabpage" data-tabid="previewtab">
+        <div id="previewWebForm"></div>
+      </div>
+    </div>
+  </div>
+</div>

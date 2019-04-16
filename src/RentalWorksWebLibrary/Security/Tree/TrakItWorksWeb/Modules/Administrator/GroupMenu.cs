@@ -1,6 +1,6 @@
 using FwStandard.Security;
 
-namespace WebLibrary.Security.Tree.TrakitworkWeb.Modules.Administrator
+namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Administrator
 {
     public class GroupMenu : FwSecurityTreeBranch
     {

@@ -1,6 +1,6 @@
 ﻿routes.push({ pattern: /^module\/group$/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
 
-namespace RentalWorks.Modules.Administrator {
+namespace TrakitWorks.Modules.Administrator {
     export class Group extends Fw.Modules.FwGroup {
         constructor() {                             
             super();
@@ -9,4 +9,4 @@ namespace RentalWorks.Modules.Administrator {
     }
 }
 
-var GroupController = new RentalWorks.Modules.Administrator.Group();
+var GroupController = new TrakitWorks.Modules.Administrator.Group();
