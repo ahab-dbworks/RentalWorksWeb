@@ -523,7 +523,8 @@ class RentalInventory extends InventoryBase {
                 inputmasksplit[i] = '*'
             }
         }
-        let wildcardMask = inputmasksplit.join('');
+        //let wildcardMask = inputmasksplit.join('');
+        let wildcardMask = '[' + inputmasksplit.join('') + ']';  //justin 04/16/2019 optional digits are converted to blanks instead of '_' on blur
         $form.find('[data-datafield="ICode"] input').inputmask({ mask: wildcardMask });
     }
 };
