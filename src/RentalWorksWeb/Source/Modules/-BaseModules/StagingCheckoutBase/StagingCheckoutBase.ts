@@ -1,4 +1,4 @@
-abstract class StagingCheckoutBase {
+﻿abstract class StagingCheckoutBase {
     Module: string;
     caption: string;
     nav: string;
@@ -57,7 +57,7 @@ abstract class StagingCheckoutBase {
             FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo[`${this.Type}Id`], parentmoduleinfo[`${this.Type}Number`]);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', parentmoduleinfo.WarehouseId, parentmoduleinfo.Warehouse);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.description);
-            jQuery($form.find(`[data-datafield="${this.Type}Id"]`)).trigger('change');
+            $form.find(`[data-datafield="${this.Type}Id"]`).data('onchange').call();
             $form.attr('data-showsuspendedsessions', 'false');
         }
 
@@ -131,7 +131,7 @@ abstract class StagingCheckoutBase {
         $checkOutPendingItemGrid.empty().append($checkOutPendingItemGridControl);
         $checkOutPendingItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
+                OrderId: this.Type === 'Item' ? FwFormField.getValueByDataField($form, `ContainerItemId`) : FwFormField.getValueByDataField($form, `${this.Type}Id`),
                 WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
             request.pagesize = maxPageSize;
@@ -233,7 +233,8 @@ abstract class StagingCheckoutBase {
     getOrder($form: JQuery): void {
         const maxPageSize = 20;
         const module = this.Module;
-        $form.on('change', `[data-datafield="${this.Type}Id"]`, $tr => {
+
+        $form.find(`[data-datafield="${this.Type}Id"]`).data('onchange', $tr => {
             try {
                 FwFormField.setValueByDataField($form, 'Quantity', '');
                 FwFormField.setValueByDataField($form, 'Code', '');
@@ -256,29 +257,49 @@ abstract class StagingCheckoutBase {
                         break;
                     case 'FillContainer':
                         apiName = 'containeritem';
+                        const containerItemId = $tr.find('[data-browsedatafield="ContainerItemId"]').attr('data-originalvalue');
+                        FwFormField.setValueByDataField($form, 'ContainerItemId', containerItemId);
                         break;
                 }
-                orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-                const apiUrl = `api/v1/${apiName}/${orderId}`;
+                this.Type === 'Item' ? orderId = FwFormField.getValueByDataField($form, `ContainerItemId`) : orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 const warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
                 FwFormField.setValueByDataField($form, 'GridView', 'STAGE');
-                FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
-                    FwFormField.setValueByDataField($form, 'Description', response.Description);
-                    FwFormField.setValueByDataField($form, 'Location', response.Location);
-                    if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
-                    // Determine tabs to render
-                    FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
-                        res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
-                        res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
-                        res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
-                        //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
-                        res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
-                    }, ex => {
-                        FwFunc.showError(ex)
-                    }, $form);
-                }, null, $form);
+                //const apiUrl = `api/v1/${apiName}/${orderId}`;
+                //FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {              //not sure if this call is necessary if we can obtain the info from the $tr - jason 4/16/19
+                //    FwFormField.setValueByDataField($form, 'Description', response.Description);
+                //    FwFormField.setValueByDataField($form, 'Location', response.Location);
+                //    if (module == 'StagingCheckout') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
+                //    // Determine tabs to render
+                //    FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
+                //        res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
+                //        res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
+                //        res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
+                //        //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
+                //        res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
+                //    }, ex => {
+                //        FwFunc.showError(ex)
+                //    }, $form);
+                //}, null, $form);
+
+                const description = $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue');
+                FwFormField.setValueByDataField($form, 'Description', description);
+                if (module == 'StagingCheckout') {
+                    const dealId = $tr.find('[data-browsedatafield="DealId"]').attr('data-originalvalue');
+                    const dealName = $tr.find('[data-browsedatafield="Deal"]').attr('data-originalvalue');
+                    FwFormField.setValueByDataField($form, 'DealId', dealId, dealName);
+                }
+
+                // Determine tabs to render
+                FwAppData.apiMethod(true, 'GET', `api/v1/checkout/stagingtabs?OrderId=${orderId}&WarehouseId=${warehouseId}`, null, FwServices.defaultTimeout, res => {
+                    res.QuantityTab === true ? $form.find('.quantity-items-tab').show() : $form.find('.quantity-items-tab').hide();
+                    res.HoldingTab === true ? $form.find('.holding-items-tab').show() : $form.find('.holding-items-tab').hide();
+                    res.SerialTab === true ? $form.find('.serial-items-tab').show() : $form.find('.serial-items-tab').hide();
+                    //res.UsageTab === true ? $form.find('.usage-tab').show() : $form.find('.usage-tab').hide();
+                    res.ConsignmentTab === true ? $form.find('.consignment-tab').show() : $form.find('.consignment-tab').hide();
+                }, ex => {
+                    FwFunc.showError(ex)
+                }, $form);
                 // ----------
-                //if (this.Type === 'Item') orderId = $tr.find('[data-browsedatafield="ContainerItemId"]').attr('data-originalvalue');
                 const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
                 $stagedItemGridControl.data('ondatabind', request => {
                     request.uniqueids = {
@@ -322,7 +343,6 @@ abstract class StagingCheckoutBase {
             catch (ex) {
                 FwFunc.showError(ex);
             }
-            //module == 'StagingCheckout' ? FwFormField.disable($form.find('div[data-datafield="OrderId"]')) : FwFormField.disable($form.find('div[data-datafield="TransferId"]'));
             FwFormField.disable($form.find(`div[data-datafield="${this.Type}Id"]`));
             $form.find('.orderstatus').show();
             $form.find('.createcontract').show();
@@ -892,9 +912,11 @@ abstract class StagingCheckoutBase {
         $form.find('.orderstatus').on('click', e => {
             try {
                 const orderInfo: any = {};
-                orderInfo.OrderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                orderInfo.OrderId = this.Type === 'Item' ? FwFormField.getValueByDataField($form, `ContainerItemId`) : FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 orderInfo.OrderNumber = FwFormField.getTextByDataField($form, `${this.Type}Id`);
-                //orderInfo.Type = this.Type;
+                if (this.Type === 'Item') {
+                    orderInfo.ItemId = FwFormField.getValueByDataField($form, `ItemId`);
+                }
                 const mode = 'EDIT';
                 const $orderStatusForm = window[`${this.Type === 'Item' ? 'Container' : this.Type}StatusController`].openForm(mode, orderInfo);
                 FwModule.openSubModuleTab($form, $orderStatusForm);
