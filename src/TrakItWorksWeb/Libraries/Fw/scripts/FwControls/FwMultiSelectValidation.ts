@@ -247,7 +247,8 @@ class FwMultiSelectValidationClass {
                     //removes item from text
                     const itemText = $item.find('span').text();
                     const $textField = $valuefield.siblings('.fwformfield-text');
-                    const multiSeparator = $control.attr('data-multiwordseparator') || ',';
+                    const fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
+                    const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
                     let text: any = $textField.val();
                     text = text
                         .split(multiSeparator)
@@ -363,13 +364,13 @@ class FwMultiSelectValidationClass {
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
         const multiselectfield = $control.find('.multiselectitems');
-        const multiSeparator = $control.attr('data-multiwordseparator') || ',';
         let fieldToDisplay;
         if ($control.hasClass('email')) {
             fieldToDisplay = "Email";
         } else {
             fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
         }
+        const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
         const $inputField = multiselectfield.find('span.addItem');
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {

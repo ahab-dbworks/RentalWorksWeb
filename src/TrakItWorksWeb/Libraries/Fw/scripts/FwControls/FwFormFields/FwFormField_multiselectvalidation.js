@@ -107,7 +107,8 @@ FwFormField_multiselectvalidation.setValue = function ($fwformfield, value, text
         let valueArr;
         $fwformfield.hasClass('email') ? valueArr = value.split(';') : valueArr = value.split(',');
         let textArr;
-        const multiSeparator = $fwformfield.attr('data-multiwordseparator') || ',';
+        const fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
+        const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
         if (typeof text !== 'undefined') {
             textArr = text.split(multiSeparator);
         }
