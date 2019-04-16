@@ -424,7 +424,7 @@ abstract class FwWebApiReport {
         const $reportSettingsGrid = $form.find('div[data-grid="ReportSettingsGrid"]');
         const $reportSettingsGridControl = FwBrowse.loadGridFromTemplate('ReportSettingsGrid');
         $reportSettingsGrid.empty().append($reportSettingsGridControl);
-        $reportSettingsGridControl.data('ondatabind', request => {
+        $reportSettingsGridControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 WebUserId: JSON.parse(sessionStorage.getItem('userid')).webusersid
                 , ReportName: $form.attr('data-reportname')
@@ -436,7 +436,7 @@ abstract class FwWebApiReport {
         //load default settings
         let loadDefaults: boolean = true;
         FwBrowse.search($reportSettingsGridControl);
-        $reportSettingsGridControl.data('afterdatabindcallback', () => {
+        $reportSettingsGridControl.data('afterdatabindcallback', function () {
             if (loadDefaults) {
                 $form.find('.load-settings').click();
                 loadDefaults = false;
@@ -453,7 +453,7 @@ abstract class FwWebApiReport {
                 if ($settingsControls.length > 0) {
                     for (let i = 0; i < $settingsControls.length; i++) {
                         let $this = jQuery($settingsControls[i]);
-                        const datafield = $this.attr('data-datafield');
+                        const datafield = $this.attr('data-datafield')
                         const type = $this.attr('data-type');
                         $settingsObj.push({
                             DataField: datafield
@@ -477,7 +477,7 @@ abstract class FwWebApiReport {
                         (successResponse) => {
                             try {
                                 FwBrowse.search($reportSettingsGridControl);
-                                $reportSettingsGridControl.data('afterdatabindcallback', () => {
+                                $reportSettingsGridControl.data('afterdatabindcallback', function () {
                                     FwBrowse.selectRow($reportSettingsGridControl,
                                         $reportSettingsGridControl.find(`[data-browsedatafield="Id"][data-originalvalue="${successResponse.Id}"]`).parents('tr'));
                                 });

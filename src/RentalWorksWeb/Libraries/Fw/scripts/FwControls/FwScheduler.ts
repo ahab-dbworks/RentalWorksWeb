@@ -616,7 +616,7 @@ class FwSchedulerClass {
             case 'Day':
             case 'Week':
                 navcalendar = $control.data('navcalendar');
-                navcalendar.select(date);
+                navcalendar.select(date);   
                 break;
             case '5 Week':
                 nav5week = $control.data('nav5week');

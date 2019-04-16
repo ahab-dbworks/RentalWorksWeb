@@ -3789,7 +3789,7 @@ class FwBrowseClass {
                 } else {
                     $control = jQuery(jQuery(`#tmpl-grids-${modulename}Browse`).html());
                 }
-                
+
             }
         } else {
             if (typeof window[modulename + 'Controller'] !== undefined && typeof window[modulename + 'Controller'].getBrowseTemplate === 'function') {

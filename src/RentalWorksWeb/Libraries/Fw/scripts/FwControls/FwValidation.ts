@@ -301,6 +301,9 @@
     }
     //---------------------------------------------------------------------------------
     validate($control: JQuery, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $validationbrowse: JQuery, useSearchFieldValue: boolean) {
+        if ($validationbrowse.length === 0) {
+            throw `Missing validation template for: ${validationName}`;
+        }
         if (typeof $control.data('getapiurl') === 'function') {
             $validationbrowse.data('validationmode', 2);
             $validationbrowse.attr('data-apiurl', $control.data('getapiurl')());
