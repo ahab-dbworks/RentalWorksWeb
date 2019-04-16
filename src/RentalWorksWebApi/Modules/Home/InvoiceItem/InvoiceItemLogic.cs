@@ -173,6 +173,12 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwLogicProperty(Id:"4bD2Ejj0dsVG")]
         public bool? Taxable { get { return invoiceItem.Taxable; } set { invoiceItem.Taxable = value; } }
 
+        [FwLogicProperty(Id: "JIhwZoleX2ti8", IsReadOnly: true)]
+        public decimal? Tax { get; set; }
+
+        [FwLogicProperty(Id: "K4EkPdPU2v4Fb", IsReadOnly: true)]
+        public decimal? LineTotalWithTax { get; set; }
+
         [FwLogicProperty(Id:"uMrfuVdo6XgL")]
         public decimal? Adjustment { get { return invoiceItem.Adjustment; } set { invoiceItem.Adjustment = value; } }
 
