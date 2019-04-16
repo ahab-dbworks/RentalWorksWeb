@@ -1,4 +1,4 @@
-﻿abstract class StagingCheckoutBase {
+abstract class StagingCheckoutBase {
     Module: string;
     caption: string;
     nav: string;
@@ -1051,7 +1051,11 @@
                     TransferOutWarehouseId: warehouse.warehouseid
                 };
                 break;
-            //case 'ItemValidation':
+            case 'ContainerValidation':
+                request.uniqueids = {
+                    WarehouseId: warehouse.warehouseid
+                };
+                break;
         };
     }
     //----------------------------------------------------------------------------------------------
@@ -1214,7 +1218,8 @@
                 break;
             case 'FillContainer':
                 tabCaption = this.caption;
-                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Item Id" data-datafield="ContainerItemId" style="display:none;"></div>`;
                 statusBtnCaption = 'Container Status';
                 createBtnCaption = 'Fill Container';
                 break;
