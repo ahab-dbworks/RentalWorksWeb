@@ -1,4 +1,4 @@
-﻿var RwBarcodeLabel = {};
+var RwBarcodeLabel = {};
 RwRoutes.push({
     url: 'barcodelabel',
     action: function () {
@@ -655,7 +655,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                             {
                                 if (typeof window.ZebraLinkOS !== 'undefined') {
                                     if (typeof window.ZebraLinkOS.printBluetooth === 'undefined') {
-                                        throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (https://www.dbwcloud.com/androidapps/) to the latest version.';
+                                        throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (Google Play Store or https://www.dbwcloud.com/androidapps/) to the latest version.';
                                     }
                                     window.ZebraLinkOS.printBluetooth(labeldata,
                                         function success() { },
@@ -670,7 +670,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                                 }
                                 else if (typeof window.DwCordovaFunc !== 'undefined') {
                                     if (typeof window.DwCordovaFunc.printBluetoothSocket === 'undefined') {
-                                        throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (https://www.dbwcloud.com/androidapps/) to the latest version.';
+                                        throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (Google Play Store or https://www.dbwcloud.com/androidapps/) to the latest version.';
                                     }
                                     window.DwCordovaFunc.printBluetoothSocket(labeldata,
                                         function success() { },
@@ -692,7 +692,7 @@ RwBarcodeLabel.getModuleScreen = function (viewModel, properties) {
                                     labeldata = labeldata + "! U1 setvar \"device.languages\" \"hybrid_xml_zpl\"\r\n";
                                 }
                                 if (typeof window.DwCordovaFunc.printNetworkSocket === 'undefined') {
-                                    throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (https://www.dbwcloud.com/androidapps/) to the latest version.';
+                                    throw 'Please update your iOS app (RentalWorks on the App Store) or Android app (Google Play Store or https://www.dbwcloud.com/androidapps/) to the latest version.';
                                 }
                                 window.DwCordovaFunc.printNetworkSocket(labeldata, host, port,
                                     function success() { },
