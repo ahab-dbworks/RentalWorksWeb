@@ -11,148 +11,119 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="header rpt-flexrow">
-  <div class="body rpt-flexrow">
-    <br /><br />
-    <div class="tblCustomerRevenue">
-      <table>
-        <thead>
-          <tr class="columnheadings">
-            <td>
-              <div style="padding-left:40px;">Customer / Deal / Order No.</div>
-            </td>
-            <td>
-              <div>Inoice No.</div>
-            </td>
-            <td>
-              <div>Billing Start Date</div>
-            </td>
-            <td>
-              <div>Billing End Date</div>
-            </td>
-            <td>
-              <div>Agent</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Rental</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Sales</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Facilities</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Labor</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Misc</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Asset Sale</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Parts</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Tax</div>
-            </td>
-            <td>
-              <div style="text-align:right;">Total</div>
-            </td>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each this}}
-          <tr data-rowtype="{{RowType}}">
-            {{#ifEquals RowType "OfficeLocationheader"}}
-            <td class="OfficeLocationHeader" colspan="4">{{OfficeLocation}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "Departmentheader"}}
-            <td class="DepartmentHeader" colspan="4">{{Department}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "Customerheader"}}
-            <td class="CustomerHeader" colspan="4">{{Customer}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "Dealheader"}}
-            <td class="DealHeader" colspan="4">{{Deal}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "detail"}}
-            <td class="firstTd">{{OrderNumber}}</td>
-            <td class="">{{InvoiceNumber}}</td>
-            <td class="">{{BillingStart}}</td>
-            <td class="">{{BillingEnd}}</td>
-            <td class="">{{Agent}}</td>
-            <td class="total">{{Rental}}</td>
-            <td class="total">{{Sales}}</td>
-            <td class="total">{{Facilities}}</td>
-            <td class="total">{{Labor}}</td>
-            <td class="total">{{Miscellaneous}}</td>
-            <td class="total">{{AssetSale}}</td>
-            <td class="total">{{Parts}}</td>
-            <td class="total">{{Tax}}</td>
-            <td class="total">{{Total}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "Dealfooter"}}
-            <td class=""></td>
-            <td class=""></td>
-            <td class="" style="font-weight:bold;" colspan="3">{{Deal}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Rental}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Sales}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Facilities}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Labor}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Miscellaneous}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{AssetSale}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Parts}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Tax}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Total}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "Departmentfooter"}}
-            <td class=""></td>
-            <td class=""></td>
-            <td class="" style="font-weight:bold;" colspan="3">{{Department}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Rental}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Sales}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Facilities}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Labor}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Miscellaneous}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{AssetSale}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Parts}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Tax}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Total}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "OfficeLocationfooter"}}
-            <td class=""></td>
-            <td class=""></td>
-            <td class="" style="font-weight:bold;" colspan="3">{{OfficeLocation}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Rental}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Sales}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Facilities}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Labor}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Miscellaneous}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{AssetSale}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Parts}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Tax}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Total}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "grandtotal"}}
-            <td class=""></td>
-            <td class=""></td>
-            <td class="" style="font-weight:bold;" colspan="3">Grand Total</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Rental}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Sales}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Facilities}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Labor}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Miscellaneous}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{AssetSale}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Parts}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Tax}}</td>
-            <td class="total" style="border-top:2px solid black;font-weight:bold;">{{Total}}</td>
-            {{/ifEquals}}
-          </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="text">Order No.</th>
+        <th class="text">Invoice No.</th>
+        <th class="text">Billing Start Date</th>
+        <th class="text">Billing End Date</th>
+        <th class="text">Agent</th>
+        <th class="number">Rental</th>
+        <th class="number">Sales</th>
+        <th class="number">Facilities</th>
+        <th class="number">Labor</th>
+        <th class="number">Misc</th>
+        <th class="number">Asset Sale</th>
+        <th class="number">Parts</th>
+        <th class="number">Tax</th>
+        <th class="number">Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype="{{RowType}}">
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="4" class="lower header-row">Department: {{Department}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerheader"}}
+        <td colspan="4" class="lower header-row">Customer: {{Customer}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="4" class="lower header-row">Deal: {{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="text">{{OrderNumber}}</td>
+        <td class="text">{{InvoiceNumber}}</td>
+        <td class="text">{{BillingStart}}</td>
+        <td class="text">{{BillingEnd}}</td>
+        <td class="text">{{Agent}}</td>
+        <td class="number">{{Rental}}</td>
+        <td class="number">{{Sales}}</td>
+        <td class="number">{{Facilities}}</td>
+        <td class="number">{{Labor}}</td>
+        <td class="number">{{Miscellaneous}}</td>
+        <td class="number">{{AssetSale}}</td>
+        <td class="number">{{Parts}}</td>
+        <td class="number">{{Tax}}</td>
+        <td class="number">{{Total}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val">{{Rental}}</td>
+        <td class="total-val">{{Sales}}</td>
+        <td class="total-val">{{Facilities}}</td>
+        <td class="total-val">{{Labor}}</td>
+        <td class="total-val">{{Miscellaneous}}</td>
+        <td class="total-val">{{AssetSale}}</td>
+        <td class="total-val">{{Parts}}</td>
+        <td class="total-val">{{Tax}}</td>
+        <td class="total-val">{{Total}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerfooter"}}
+        <td colspan="5" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val">{{Rental}}</td>
+        <td class="total-val">{{Sales}}</td>
+        <td class="total-val">{{Facilities}}</td>
+        <td class="total-val">{{Labor}}</td>
+        <td class="total-val">{{Miscellaneous}}</td>
+        <td class="total-val">{{AssetSale}}</td>
+        <td class="total-val">{{Parts}}</td>
+        <td class="total-val">{{Tax}}</td>
+        <td class="total-val">{{Total}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="5" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val">{{Rental}}</td>
+        <td class="total-val">{{Sales}}</td>
+        <td class="total-val">{{Facilities}}</td>
+        <td class="total-val">{{Labor}}</td>
+        <td class="total-val">{{Miscellaneous}}</td>
+        <td class="total-val">{{AssetSale}}</td>
+        <td class="total-val">{{Parts}}</td>
+        <td class="total-val">{{Tax}}</td>
+        <td class="total-val">{{Total}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val">{{Rental}}</td>
+        <td class="total-val">{{Sales}}</td>
+        <td class="total-val">{{Facilities}}</td>
+        <td class="total-val">{{Labor}}</td>
+        <td class="total-val">{{Miscellaneous}}</td>
+        <td class="total-val">{{AssetSale}}</td>
+        <td class="total-val">{{Parts}}</td>
+        <td class="total-val">{{Tax}}</td>
+        <td class="total-val">{{Total}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val">{{Rental}}</td>
+        <td class="total-val">{{Sales}}</td>
+        <td class="total-val">{{Facilities}}</td>
+        <td class="total-val">{{Labor}}</td>
+        <td class="total-val">{{Miscellaneous}}</td>
+        <td class="total-val">{{AssetSale}}</td>
+        <td class="total-val">{{Parts}}</td>
+        <td class="total-val">{{Tax}}</td>
+        <td class="total-val">{{Total}}</td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>

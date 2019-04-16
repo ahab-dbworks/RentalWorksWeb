@@ -18,19 +18,20 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/customerrevenuebytypereport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const customerRevenueByType: any = DataTable.toObjectList(response);
-                    customerRevenueByType.FromDate = parameters.FromDate;
-                    customerRevenueByType.ToDate = parameters.ToDate;
-                    customerRevenueByType.Report = 'Customer Revenue By Type Report';
-                    customerRevenueByType.System = 'RENTALWORKS';
-                    customerRevenueByType.Company = '4WALL ENTERTAINMENT';
-                    customerRevenueByType.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    customerRevenueByType.ContractTime = moment(customerRevenueByType.ContractTime, 'h:mm a').format('h:mm a');
-                    this.renderFooterHtml(customerRevenueByType);
+                    const report: any = DataTable.toObjectList(response);
+                    report.FromDate = parameters.FromDate;
+                    report.ToDate = parameters.ToDate;
+                    report.Report = 'Customer Revenue By Type Report';
+                    report.System = 'RENTALWORKS';
+                    report.Company = '4WALL ENTERTAINMENT';
+                    report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    report.ContractTime = moment(report.ContractTime, 'h:mm a').format('h:mm a');
+                    console.log('rpt', report)
+                    this.renderFooterHtml(report);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(customerRevenueByType);
+                    document.getElementById('pageBody').innerHTML = hbReport(report);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
