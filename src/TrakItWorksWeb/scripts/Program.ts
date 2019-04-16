@@ -13,8 +13,33 @@ class Program extends FwApplication {
 var program: Program = new Program();
 //---------------------------------------------------------------------------------
 jQuery(function () {
-    program.load();
-    program.loadDefaultPage();
+    function start() {
+        function loadApp() {
+            program.load();
+            program.loadCustomFormsAndBrowseViews();
+        }
+        var $templates = jQuery('script[data-ajaxload="true"]');
+        if ($templates.length > 0) {
+            do {
+                setTimeout(() => {
+                    $templates = jQuery('script[data-ajaxload="true"]');
+                    if ($templates.length === 0) {
+                        loadApp();
+                    }
+                }, 250);
+            } while ($templates.length > 0)
+        } else {
+            loadApp();
+        }
+    }
+    if (applicationConfig.debugMode) {
+        setTimeout(function () {
+            start();
+        }, 1000);
+    } else {
+        start();
+
+    }
 });
 //---------------------------------------------------------------------------------
 // Home Modules
