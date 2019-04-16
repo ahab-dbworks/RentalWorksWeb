@@ -94,9 +94,7 @@
             }
         }
 
-        //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
         let self = this;
-        let warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;   //justin 11/11/2018 fixing build error
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
 
@@ -110,6 +108,7 @@
             .data('ongetevents', function (calendarRequest) {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
+                let warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
@@ -154,6 +153,7 @@
             .data('ongetevents', function (request) {
                 var start = moment(request.start.value).format('MM/DD/YYYY');
                 var end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
+                let warehouseId = FwFormField.getValue($form, '.warehousefilter');  
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;

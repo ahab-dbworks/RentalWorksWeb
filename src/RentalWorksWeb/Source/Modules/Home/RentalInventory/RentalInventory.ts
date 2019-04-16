@@ -20,6 +20,16 @@ class RentalInventory extends InventoryBase {
             FwFormField.setValue($form, 'div[data-datafield="ContainerScannableDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
 
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, '.warehousefilter', warehouse.warehouseid, warehouse.warehouse);
+
+        const $calendar = $form.find('.calendar');
+        const $realscheduler = $form.find('.realscheduler');
+        $form.on('change', '.warehousefilter', e => {
+            FwScheduler.refresh($calendar);
+            FwSchedulerDetailed.refresh($realscheduler);
+        });
+
 
     };
     //----------------------------------------------------------------------------------------------

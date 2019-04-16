@@ -771,7 +771,7 @@ class FwSchedulerClass {
                     break;
                 case '5 Week':
                     start = dp5week.startDate.addDays(-dp5week.startDate.dayOfWeek());
-                    days = dp5week.days + dp5week.startDate.dayOfWeek() + (6 - dp5week.startDate.addDays(dp5week.days).dayOfWeek());
+                    days = 34;
                     break;
                 case 'Month':
                     start = dpmonth.startDate.addDays(-dpmonth.startDate.dayOfWeek());
