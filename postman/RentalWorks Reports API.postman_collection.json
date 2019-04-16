@@ -1430,6 +1430,46 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Vendor Invoice Summary Report",
+			"item": [
+				{
+					"name": "Vendor Invoice Summary Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"DateType\": \"BILLING_START_DATE\",        \"xDateTypeValues\": \"INVOICE_DATE or BILLING_START_DATE\",\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"Statuses\": [\n    \t\t\t{\"value\": \"NEW\"},\n    \t\t\t{\"value\": \"APPROVED\"}\n    \t\t\t],\n    \t\t\"xOfficeLocationId\": \"B001WH00\",\n    \t\t\"xDepartmentId\": \"B003KSM1\",\n    \t\t\"VendorId\": \"\",\n    \t\t\"DealId\": \"\",\n    \t\t\"PurchaseOrderId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/vendorinvoicesummaryreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"vendorinvoicesummaryreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
