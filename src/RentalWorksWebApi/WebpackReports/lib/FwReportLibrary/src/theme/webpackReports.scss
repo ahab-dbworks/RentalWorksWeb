@@ -170,6 +170,7 @@ body {
 @media print {
     @page {
         margin: 20px 20px 20px 20px; // Adds margin on the pdf
+        size: portrait;
     }
 
     body {
