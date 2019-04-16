@@ -982,60 +982,63 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 
             foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
             {
-                bool foundInCache = false;
-                bool stale = false;
-
-                TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId);
-                DateTime fromDate = availRequestItem.FromDateTime;
-                DateTime toDate = availRequestItem.ToDateTime;
-
-                if (AvailabilityNeedRecalc.Contains(availKey))
+                if ((!availRequestItem.InventoryId.Equals("undefined")) && (!availRequestItem.WarehouseId.Equals("undefined")))
                 {
-                    stale = true;
-                }
+                    bool foundInCache = false;
+                    bool stale = false;
 
-                if (fromDate < DateTime.Today)
-                {
-                    fromDate = DateTime.Today;
-                }
+                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId);
+                    DateTime fromDate = availRequestItem.FromDateTime;
+                    DateTime toDate = availRequestItem.ToDateTime;
 
-                if (toDate < DateTime.Today)
-                {
-                    toDate = DateTime.Today;
-                }
-
-                TInventoryWarehouseAvailability availData = null;
-                if (AvailabilityCache.TryGetValue(availKey, out availData))
-                {
-                    foundInCache = true;
-                    DateTime theDate = availData.AvailDataFromDateTime;
-                    while (theDate <= availData.AvailDataToDateTime)
+                    if (AvailabilityNeedRecalc.Contains(availKey))
                     {
-                        if ((theDate < fromDate) || (toDate < theDate))
-                        {
-                            availData.Dates.Remove(theDate);
-                        }
-                        theDate = theDate.AddDays(1);
+                        stale = true;
                     }
 
-                    theDate = fromDate;
-                    while (theDate <= toDate)
+                    if (fromDate < DateTime.Today)
                     {
-                        if (!availData.Dates.ContainsKey(theDate))
-                        {
-                            foundInCache = false;
-                            break;
-                        }
-                        theDate = theDate.AddDays(1);
+                        fromDate = DateTime.Today;
                     }
-                    availCache[availKey] = availData;
-                }
 
-                if ((stale) || (!foundInCache))
-                {
-                    if (refreshIfNeeded)
+                    if (toDate < DateTime.Today)
                     {
-                        availRequestToRefresh.Add(availRequestItem);
+                        toDate = DateTime.Today;
+                    }
+
+                    TInventoryWarehouseAvailability availData = null;
+                    if (AvailabilityCache.TryGetValue(availKey, out availData))
+                    {
+                        foundInCache = true;
+                        DateTime theDate = availData.AvailDataFromDateTime;
+                        while (theDate <= availData.AvailDataToDateTime)
+                        {
+                            if ((theDate < fromDate) || (toDate < theDate))
+                            {
+                                availData.Dates.Remove(theDate);
+                            }
+                            theDate = theDate.AddDays(1);
+                        }
+
+                        theDate = fromDate;
+                        while (theDate <= toDate)
+                        {
+                            if (!availData.Dates.ContainsKey(theDate))
+                            {
+                                foundInCache = false;
+                                break;
+                            }
+                            theDate = theDate.AddDays(1);
+                        }
+                        availCache[availKey] = availData;
+                    }
+
+                    if ((stale) || (!foundInCache))
+                    {
+                        if (refreshIfNeeded)
+                        {
+                            availRequestToRefresh.Add(availRequestItem);
+                        }
                     }
                 }
             }
@@ -1053,13 +1056,20 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         public static async Task<TInventoryWarehouseAvailability> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string inventoryId, string warehouseId, DateTime fromDate, DateTime toDate, bool refreshIfNeeded)
 
         {
-            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-            TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
-            availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDate, toDate));
+            TInventoryWarehouseAvailability availData = null;
 
-            TAvailabilityCache availCache = await GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded);
-            TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
-            availCache.TryGetValue(availKey, out availData);
+            if ((!inventoryId.Equals("undefined")) && (!warehouseId.Equals("undefined")))
+            {
+                availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
+
+                TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+                availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDate, toDate));
+
+                TAvailabilityCache availCache = await GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded);
+                availCache.TryGetValue(availKey, out availData);
+            }
+
             return availData;
         }
         //-------------------------------------------------------------------------------------------------------
