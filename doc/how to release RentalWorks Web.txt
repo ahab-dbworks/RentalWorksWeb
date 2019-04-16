@@ -11,7 +11,7 @@ Publish WebAPI:
 	Open command prompt at WebApi directory
 	cd %DwRentalWorksWebPath%\src\RentalWorksWebApi
 	npm run publish
-Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2018.1.1.X"
+Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2019.1.1.X"
 Navigate to the "build" directory: <repo root>\build
 Use 7Zip to compress the RentalWorksWeb and RentalWorksWebApi directories together "RentalWorksWeb_2018_001_XX.zip"
 Upload zip file to ftp or web server.
