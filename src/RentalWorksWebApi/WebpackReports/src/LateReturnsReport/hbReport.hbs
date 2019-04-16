@@ -1,236 +1,208 @@
 ﻿<!--Late Returns Report-->
-<div class="Header">
-  <div>
-    <div style="text-align: left; font-weight: bold; float:left;">RENTALWORKS</div>
-    <div style="text-align: right; font-weight: bold; float:right;">4WALL ENTERTAINMENT</div>
-    <div style="text-align: center; font-size: 17px;font-weight: bold; margin:0 auto;">Late Returns / Due Back Report</div>
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">{{subtitle}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="header flexrow">
-  <div class="body flexrow">
-    <br /><br />
-    <div class="tblLateReturns">
-      <table>
-        <tr class="columnheadings">
-          <td>
-            <div>Customer / Deal / Order</div>
-          </td>
-          <td>
-            <div>Date</div>
-          </td>
-          <td>
-            <div>Description</div>
-          </td>
-          <td>
-            <div>Agent</div>
-          </td>
-          <td>
-            <div></div>
-          </td>
-          <td>
-            <div>Ordered By</div>
-          </td>
-          <td>
-            <div></div>
-          </td>
-          <td>
-            <div>Billing Dates</div>
-          </td>
-          {{#ifEquals ShowUnit "true"}}
-          <td>
-            <div>Unit Value</div>
-          </td>
-          {{else}}
-          <td></td>
-          {{/ifEquals}}
-          {{#ifEquals ShowReplacement "true"}}
-          <td>
-            <div>Replacement Cost</div>
-          </td>
-          {{else}}
-          <td></td>
-          {{/ifEquals}}
-          <td>
-            <div>Rent From</div>
-          </td>
-          <td>
-            <div>Rent To</div>
-          </td>
-          {{#ifEquals Type "PASTDUE"}}
-          <td>
-            <div>Days Past Due</div>
-          </td>
-          {{else}}
-          <td>
-            <div>Due In Days</div>
-          </td>
-          {{/ifEquals}}
-        </tr>
-        <tbody>
-          {{#each this.data}}
-          <tr data-rowtype="{{RowType}}">
-            {{#ifEquals RowType "OfficeLocationheader"}}
-            <td class="OfficeLocationHeader" colspan="4">{{OfficeLocation}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "Dealheader"}}
-            <td class="DealHeader" colspan="4">{{Deal}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "OrderNumberheader"}}
-            <td class="first-order">{{OrderNumber}}</td>
-            <td class="OrderNumberHeader">{{OrderDate}}</td>
-            <td class="OrderNumberHeader">{{OrderDescription}}</td>
-            <td class="OrderNumberHeader" colspan="2">{{Agent}}</td>
-            <td class="OrderNumberHeader">{{OrderedByName}}</td>
-            <td class="OrderNumberHeader"></td>
-            <td class="OrderNumberHeader" colspan="2">{{BillDateRange}}</td>
-            <td class="OrderNumberHeader number">{{OrderReplacementCost}}</td>
-            <td class="OrderNumberHeader number">{{OrderFromDate}}</td>
-            <td class="OrderNumberHeader number">{{OrderToDate}}</td>
-            <td class="OrderNumberHeader number">{{OrderPastDue}}</td>
-          </tr>
-          <tr>
-            <td class="first-order-icode">
-              <div>I-Code</div>
-            </td>
-            <td class="order-columnheadings" colspan="2" style="width:100%">
-              <div>Description</div>
-            </td>
-            {{#ifEquals ../ShowBarCode "true"}}
-            <td class="order-columnheadings">
-              <div>Bar Code</div>
-            </td>
-            {{else}}
-            <td class="order-columnheadings"></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowSerial "true"}}
-            <td class="order-columnheadings">
-              <div>Serial Number</div>
-            </td>
-            {{else}}
-            <td class="order-columnheadings"></td>
-            {{/ifEquals}}
-            <td class="order-columnheadings">
-              <div>Quantity</div>
-            </td>
-            {{#ifEquals ../ShowUnit "true"}}
-            <td class="order-columnheadings">
-              <div style="text-align: right;">Unit Value</div>
-            </td>
-            {{else}}
-            <td class="order-columnheadings"></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowReplacement "true"}}
-            <td class="order-columnheadings">
-              <div style="text-align: right;">Replacement Cost</div>
-            </td>
-            {{else}}
-            <td class="order-columnheadings"></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowUnit "true"}}
-            <td class="order-columnheadings">
-              <div style="text-align: right;">Unit Value Extended</div>
-            </td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowReplacement "true"}}
-            <td class="order-columnheadings">
-              <div style="text-align: right;">Replacement Cost Extended</div>
-            </td>
-            {{else}}
-            <td class="order-columnheadings"></td>
-            {{/ifEquals}}
-            {{/ifEquals}}
-            {{#ifEquals RowType "detail"}}
-            <td class="first-detail">{{ICode}}</td>
-            <td class="" colspan="2">{{Description}}</td>
-            {{#ifEquals ../ShowBarCode "true"}}
-            <td>{{BarCode}}</td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowSerial "true"}}
-            <td>{{SerialNumber}}</td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            <td class="number">{{Quantity}}</td>
-            {{#ifEquals ../ShowUnit "true"}}
-            <td class="number">{{ItemUnitValue}}</td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowReplacement "true"}}
-            <td class="number">{{ItemReplacementCost}}</td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowUnit "true"}}
-            <td class="number">{{ItemUnitValueExtended}}</td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowReplacement "true"}}
-            <td class="number">{{ItemReplacementCostExtended}}</td>
-            {{else}}
-            <td></td>
-            {{/ifEquals}}
-            <td class="number">{{ItemFromDate}}</td>
-            <td class="number">{{ItemToDate}}</td>
-            <td class="number">{{ItemPastDue}}</td>
-            {{/ifEquals}}
-            {{#ifEquals RowType "OrderNumberfooter"}}
-            <td colspan="3"></td>
-            <td style="border-top:2px solid black;font-weight:bold;text-align:right;" colspan="2">{{OrderNumber}}</td>
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{Quantity}}</td>
-            <td class="number" style="border-top:2px solid black;" colspan="2"></td>
-            {{#ifEquals ../ShowUnit "true"}}
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemUnitValueExtended}}</td>
-            {{else}}
-            <td style="border-top:2px solid black;"></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowReplacement "true"}}
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemReplacementCostExtended}}</td>
-            {{else}}
-            <td style="border-top:2px solid black;"></td>
-            {{/ifEquals}}
-            {{/ifEquals}}
-            {{#ifEquals RowType "Dealfooter"}}
-            <td colspan="3"></td>
-            <td style="border-top:2px solid black;font-weight:bold;text-align:right;" colspan="2">{{Deal}}</td>
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{Quantity}}</td>
-            <td class="number" style="border-top:2px solid black;" colspan="2"></td>
-            {{#ifEquals ../ShowUnit "true"}}
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemUnitValueExtended}}</td>
-            {{else}}
-            <td style="border-top:2px solid black;"></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowReplacement "true"}}
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemReplacementCostExtended}}</td>
-            {{else}}
-            <td style="border-top:2px solid black;"></td>
-            {{/ifEquals}}
-            {{/ifEquals}}
-            {{#ifEquals RowType "OfficeLocationfooter"}}
-            <td colspan="3"></td>
-            <td style="border-top:2px solid black;font-weight:bold;text-align:right;" colspan="2">{{OfficeLocation}}</td>
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{Quantity}}</td>
-            <td class="number" style="border-top:2px solid black;" colspan="2"></td>
-            {{#ifEquals ../ShowUnit "true"}}
-            <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemUnitValueExtended}}</td>
-            {{else}}
-            <td style="border-top:2px solid black;"></td>
-            {{/ifEquals}}
-            {{#ifEquals ../ShowReplacement "true"}}
-            <td class="number" style="border-top:2px solid black;font-weight:bold;text-align:right;">{{ItemReplacementCostExtended}}</td>
-            {{else}}
-            <td style="border-top:2px solid black;"></td>
-            {{/ifEquals}}
-            {{/ifEquals}}
-          </tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="text">Order No.</th>
+        <th class="text">Date</th>
+        <th class="text">Description</th>
+        <th colspan="2" class="text">Agent</th>
+        <th class="text">Ordered By</th>
+        <th colspan="2" class="text">Billing Dates</th>
+        {{#ifEquals ShowUnit true}}
+        <th class="text">Unit Value</th>
+        {{else}}
+        <th></th>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <th class="number">Replacement Cost</th>
+        {{else}}
+        <th></th>
+        {{/ifEquals}}
+        <th class="text">Rent From</th>
+        <th class="text">Rent To</th>
+        {{#ifEquals Type "PASTDUE"}}
+        <th class="text">Days Past</th>
+        {{else}}
+        <th class="text">Due In</th>
+        {{/ifEquals}}
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype="{{RowType}}">
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="4" class="lower header-row">Deal: {{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OrderNumberheader"}}
+        <td class="first-order">{{OrderNumber}}</td>
+        <td class="OrderNumberHeader">{{OrderDate}}</td>
+        <td class="OrderNumberHeader">{{OrderDescription}}</td>
+        <td class="OrderNumberHeader" colspan="2">{{Agent}}</td>
+        <td class="OrderNumberHeader">{{OrderedByName}}</td>
+        <td class="OrderNumberHeader"></td>
+        <td class="OrderNumberHeader" colspan="2">{{BillDateRange}}</td>
+        <td class="OrderNumberHeader number">{{OrderReplacementCost}}</td>
+        <td class="OrderNumberHeader number">{{OrderFromDate}}</td>
+        <td class="OrderNumberHeader number">{{OrderToDate}}</td>
+        <td class="OrderNumberHeader number">{{OrderPastDue}}</td>
+      </tr>
+      <tr>
+        <td class="first-order-icode">
+          <div>I-Code</div>
+        </td>
+        <td class="order-columnheadings" colspan="2" style="width:100%">
+          <div>Description</div>
+        </td>
+        {{#ifEquals ShowBarCode true}}
+        <td class="order-columnheadings">
+          <div>Bar Code</div>
+        </td>
+        {{else}}
+        <td class="order-columnheadings"></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowSerial true}}
+        <td class="order-columnheadings">
+          <div>Serial Number</div>
+        </td>
+        {{else}}
+        <td class="order-columnheadings"></td>
+        {{/ifEquals}}
+        <td class="order-columnheadings">
+          <div>Quantity</div>
+        </td>
+        {{#ifEquals ShowUnit true}}
+        <td class="order-columnheadings">
+          <div style="text-align: right;">Unit Value</div>
+        </td>
+        {{else}}
+        <td class="order-columnheadings"></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <td class="order-columnheadings">
+          <div style="text-align: right;">Replacement Cost</div>
+        </td>
+        {{else}}
+        <td class="order-columnheadings"></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowUnit true}}
+        <td class="order-columnheadings">
+          <div style="text-align: right;">Unit Value Extended</div>
+        </td>
+        {{else}}
+        <td></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <td class="order-columnheadings">
+          <div style="text-align: right;">Replacement Cost Extended</div>
+        </td>
+        {{else}}
+        <td class="order-columnheadings"></td>
+        {{/ifEquals}}
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="first-detail">{{ICode}}</td>
+        <td class="" colspan="2">{{Description}}</td>
+        {{#ifEquals ShowBarCode true}}
+        <td>{{BarCode}}</td>
+        {{else}}
+        <td></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowSerial true}}
+        <td>{{SerialNumber}}</td>
+        {{else}}
+        <td></td>
+        {{/ifEquals}}
+        <td class="number">{{Quantity}}</td>
+        {{#ifEquals ShowUnit true}}
+        <td class="number">{{ItemUnitValue}}</td>
+        {{else}}
+        <td></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <td class="number">{{ItemReplacementCost}}</td>
+        {{else}}
+        <td></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowUnit true}}
+        <td class="number">{{ItemUnitValueExtended}}</td>
+        {{else}}
+        <td></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <td class="number">{{ItemReplacementCostExtended}}</td>
+        {{else}}
+        <td></td>
+        {{/ifEquals}}
+        <td class="number">{{ItemFromDate}}</td>
+        <td class="number">{{ItemToDate}}</td>
+        <td class="number">{{ItemPastDue}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OrderNumberfooter"}}
+        <td colspan="3"></td>
+        <td style="border-top:2px solid black;font-weight:bold;text-align:right;" colspan="2">{{OrderNumber}}</td>
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{Quantity}}</td>
+        <td class="number" style="border-top:2px solid black;" colspan="2"></td>
+        {{#ifEquals ShowUnit true}}
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemUnitValueExtended}}</td>
+        {{else}}
+        <td style="border-top:2px solid black;"></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemReplacementCostExtended}}</td>
+        {{else}}
+        <td style="border-top:2px solid black;"></td>
+        {{/ifEquals}}
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="3"></td>
+        <td style="border-top:2px solid black;font-weight:bold;text-align:right;" colspan="2">{{Deal}}</td>
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{Quantity}}</td>
+        <td class="number" style="border-top:2px solid black;" colspan="2"></td>
+        {{#ifEquals ShowUnit true}}
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemUnitValueExtended}}</td>
+        {{else}}
+        <td style="border-top:2px solid black;"></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemReplacementCostExtended}}</td>
+        {{else}}
+        <td style="border-top:2px solid black;"></td>
+        {{/ifEquals}}
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="3"></td>
+        <td style="border-top:2px solid black;font-weight:bold;text-align:right;" colspan="2">{{OfficeLocation}}</td>
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{Quantity}}</td>
+        <td class="number" style="border-top:2px solid black;" colspan="2"></td>
+        {{#ifEquals ShowUnit true}}
+        <td class="number" style="border-top:2px solid black;font-weight:bold;">{{ItemUnitValueExtended}}</td>
+        {{else}}
+        <td style="border-top:2px solid black;"></td>
+        {{/ifEquals}}
+        {{#ifEquals ShowReplacement true}}
+        <td class="number" style="border-top:2px solid black;font-weight:bold;text-align:right;">{{ItemReplacementCostExtended}}</td>
+        {{else}}
+        <td style="border-top:2px solid black;"></td>
+        {{/ifEquals}}
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>

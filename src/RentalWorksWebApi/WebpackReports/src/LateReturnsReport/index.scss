@@ -1,7 +1,4 @@
-﻿$page-width: 1210px;
-$line-height: 16px;
-$normal-text: 1em;
-
+﻿
 @page {
     margin: 130px 32px 96px 32px;
     /*margin: 48px 24px 48px 24px;*/
@@ -9,29 +6,6 @@ $normal-text: 1em;
     size: landscape;
 }
 
-html.preview {
-    #pageno {
-        visibility: hidden;
-    }
-}
-
-html.pdf {
-    body {
-        /*margin: 130px 24px 96px 24px;*/
-    }
-}
-
-@media only screen {
-    .parameters {
-        display: block;
-    }
-}
-
-@media only print {
-    .parameters {
-        display: none;
-    }
-}
 
 .Header {
     div {
@@ -149,13 +123,7 @@ html.pdf {
                 padding-left: 40px;
             }
 
-            td.number {
-                text-align: right;
-            }
 
-            td.total {
-                text-align: right;
-            }
 
             td {
                 padding: 2px 5px;
@@ -165,64 +133,26 @@ html.pdf {
     }
 }
 
-.rentalItems {
-}
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
+    }
 
-.salesItems {
-    page-break-before: always;
-}
+    td:after {
+        content: attr(data-value);
+    }
 
-@media screen {
-    #pageContainer {
-        width: $page-width;
+    td {
+        padding: 3px;
     }
 }
 
-#pageContainer {
-    #pageHeader {
-    }
-
-    #contract {
-    }
-
-    #pageFooter {
-        margin: $line-height 0 0 0;
-    }
-}
-
-#pageContainer {
-    #header, #footer {
-        width: auto !important;
-    }
-}
-
-fieldset {
-    border: 1px solid #000000;
-    height: 120px;
-
-    legend {
-        text-align: center;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
         font-weight: bold;
-    }
-}
-
-.receivedBy {
-    page-break-inside: avoid;
-    margin: $line-height 0 0 0;
-}
-
-.receivedbyfield {
-    flex: 0 1 50%;
-    margin: 0 $line-height/2;
-
-    .value {
-        border-bottom: 1px solid #000000;
+        padding: 5px;
         white-space: nowrap;
-        height: $line-height*2;
-    }
-
-    .caption {
-        white-space: nowrap;
-        height: $line-height;
     }
 }

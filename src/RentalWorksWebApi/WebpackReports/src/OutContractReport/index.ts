@@ -11,7 +11,7 @@ const hbFooter = require("./hbFooter.hbs");
 
 export class OutContractReport extends WebpackReport {
     contract: OutContract = null;
-
+    // DO NOT USE THIS REPORT AS A TEMPLATE
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -23,10 +23,10 @@ export class OutContractReport extends WebpackReport {
                 .then((response: OutContract) => {
                     const contract: any = response;
                     contract.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    console.log('rpt', contract)
                     this.renderHeaderHtml(contract);
                     this.renderFooterHtml(contract);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                        document.getElementById('pageHeader').innerHTML = this.headerHtml;
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(contract);

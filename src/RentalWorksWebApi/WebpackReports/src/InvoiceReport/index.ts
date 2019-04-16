@@ -21,20 +21,20 @@ export class InvoiceReport extends WebpackReport {
                     const controlObject: any = response;
                     Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, parameters)
                     .then((response: Invoice) => {
-                        const invoice: any = response;
-                        invoice.Items = DataTable.toObjectList(response.Items);
-                        invoice.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                        invoice.System = 'RENTALWORKS';
-                        invoice.Company = '4WALL ENTERTAINMENT';
-                        invoice.Report = 'INVOICE';
+                        const report: any = response;
+                        report.Items = DataTable.toObjectList(response.Items);
+                        report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                        report.System = 'RENTALWORKS';
+                        report.Company = '4WALL ENTERTAINMENT';
+                        report.Report = 'INVOICE';
                         if (controlObject.ReportLogoImage != '') {
-                            invoice.Logosrc = controlObject.ReportLogoImage;
+                            report.Logosrc = controlObject.ReportLogoImage;
                         } 
-                        this.renderFooterHtml(invoice);
+                        this.renderFooterHtml(report);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;
                         }
-                        document.getElementById('pageBody').innerHTML = hbReport(invoice);
+                        document.getElementById('pageBody').innerHTML = hbReport(report);
                         this.onRenderReportCompleted();
                     })
                     .catch((ex) => {

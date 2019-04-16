@@ -9,7 +9,7 @@ const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs"); 
 
 export class LateReturnDueBackReport extends WebpackReport {
-
+    // DO NOT USE THIS REPORT AS A TEMPLATE
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -17,40 +17,38 @@ export class LateReturnDueBackReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const lateReturnDueBack:any = DataTable.toObjectList(response); 
-                    for (let i = 0; i < lateReturnDueBack.length; i++) {
-                        if (lateReturnDueBack[i].RowType === 'OrderNumberheader') {
-                            lateReturnDueBack[i].OrderDate = lateReturnDueBack[i + 1].OrderDate;
-                            lateReturnDueBack[i].OrderDescription = lateReturnDueBack[i + 1].OrderDescription;
-                            lateReturnDueBack[i].Agent = lateReturnDueBack[i + 1].Agent;
-                            lateReturnDueBack[i].OrderedByName = lateReturnDueBack[i + 1].OrderedByName;
-                            lateReturnDueBack[i].BillDateRange = lateReturnDueBack[i + 1].BillDateRange;
-                            lateReturnDueBack[i].OrderUnitValue = lateReturnDueBack[i + 1].OrderUnitValue;
-                            lateReturnDueBack[i].OrderReplacementCost = lateReturnDueBack[i + 1].OrderReplacementCost;
-                            lateReturnDueBack[i].OrderFromDate = lateReturnDueBack[i + 1].OrderFromDate;
-                            lateReturnDueBack[i].OrderToDate = lateReturnDueBack[i + 1].OrderToDate;
-                            lateReturnDueBack[i].OrderPastDue = lateReturnDueBack[i + 1].OrderPastDue;
+                    const report:any = DataTable.toObjectList(response); 
+                    for (let i = 0; i < report.length; i++) {
+                        if (report[i].RowType === 'OrderNumberheader') {
+                            report[i].OrderDate = report[i + 1].OrderDate;
+                            report[i].OrderDescription = report[i + 1].OrderDescription;
+                            report[i].Agent = report[i + 1].Agent;
+                            report[i].OrderedByName = report[i + 1].OrderedByName;
+                            report[i].BillDateRange = report[i + 1].BillDateRange;
+                            report[i].OrderUnitValue = report[i + 1].OrderUnitValue;
+                            report[i].OrderReplacementCost = report[i + 1].OrderReplacementCost;
+                            report[i].OrderFromDate = report[i + 1].OrderFromDate;
+                            report[i].OrderToDate = report[i + 1].OrderToDate;
+                            report[i].OrderPastDue = report[i + 1].OrderPastDue;
                         }
                     }
-                    const globals:any = {};
-                    globals.data = lateReturnDueBack;
-                    globals.Type = parameters.Type;
-                    globals.headerText = parameters.headerText;
-                    globals.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    if (parameters.ShowUnit) { globals.ShowUnit = 'true' };
-                    if (parameters.ShowReplacement) { globals.ShowReplacement = 'true' };
-                    if (parameters.ShowBarCode) { globals.ShowBarCode = 'true' };
-                    if (parameters.ShowSerial) { globals.ShowSerial = 'true' };
+                    report.System = 'RENTALWORKS';
+                    report.Company = '4WALL ENTERTAINMENT';
+                    report.Report = 'Late Return / Due Back Report';
+                    report.Type = parameters.Type;
+                    report.subtitle = parameters.headerText;
+                    report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    if (parameters.ShowUnit) { report.ShowUnit = true };
+                    if (parameters.ShowReplacement) { report.ShowReplacement = true };
+                    if (parameters.ShowBarCode) { report.ShowBarCode = true };
+                    if (parameters.ShowSerial) { report.ShowSerial = true };
 
-                    this.renderFooterHtml(globals.data);
+                    this.renderFooterHtml(report);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(globals);
-                    const headerNode: HTMLDivElement = document.createElement('div');
-                    headerNode.innerHTML = globals.headerText;
-                    headerNode.style.cssText = 'text-align:center;font-weight:bold;margin:0 auto;font-size:12px;';
-                    document.getElementsByClassName('Header')[0].appendChild(headerNode);
+                    console.log('report', report)
+                    document.getElementById('pageBody').innerHTML = hbReport(report);
 
                     this.onRenderReportCompleted();
                 })
@@ -70,13 +68,3 @@ export class LateReturnDueBackReport extends WebpackReport {
 }
 
 (<any>window).report = new LateReturnDueBackReport();
-
-class globals {
-    ShowUnit = '';
-    ShowReplacement = '';
-    ShowBarCode = '';
-    ShowSerial = '';
-    Type = '';
-    PrintTime = '';
-    data: DataTable;
-}
