@@ -20,7 +20,7 @@ try {
     $settingsmodules = @( 
         "Attribute",
         #"AttributeValue",
-        "BillingCycle",
+        #"BillingCycle",
         "ContactTitle",
         "Country",
         "Currency",

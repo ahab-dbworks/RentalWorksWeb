@@ -284,8 +284,6 @@
     <Content Include="Source\Modules\Home\Vendor\VendorForm.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeBrowse.htm" />
     <Content Include="Source\Modules\Settings\Attribute\AttributeForm.htm" />
-    <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleBrowse.htm" />
-    <Content Include="Source\Modules\Settings\BillingCycle\BillingCycleForm.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleBrowse.htm" />
     <Content Include="Source\Modules\Settings\ContactTitle\ContactTitleForm.htm" />
     <Content Include="Source\Modules\Settings\Country\CountryBrowse.htm" />
@@ -582,7 +580,6 @@
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />
-    <TypeScriptCompile Include="Source\Modules\Settings\BillingCycle\BillingCycle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ContactTitle\ContactTitle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Country\Country.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Currency\Currency.ts" />

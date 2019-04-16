@@ -16,6 +16,7 @@
     <Compile Remove="Security\Tree\RentalWorksWeb\Modules\Settings\PresentationLayerActivityMenu.cs" />
     <Compile Remove="Security\Tree\TrakItWorksWeb\Modules\Administrator\IntegrationMenu.cs" />
     <Compile Remove="Security\Tree\TrakItWorksWeb\Modules\Home\CustomerMenu.cs" />
+    <Compile Remove="Security\Tree\TrakItWorksWeb\Modules\Settings\BillingCycleMenu.cs" />
     <Compile Remove="Security\Tree\TrakItWorksWeb\Modules\Settings\FacilityTypeMenu.cs" />
     <Compile Remove="Security\Tree\TrakItWorksWeb\Modules\Settings\LaborTypeMenu.cs" />
     <Compile Remove="Security\Tree\TrakItWorksWeb\Modules\Settings\MiscTypeMenu.cs" />

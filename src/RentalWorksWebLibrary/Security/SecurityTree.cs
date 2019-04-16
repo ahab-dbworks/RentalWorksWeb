@@ -611,7 +611,7 @@ namespace WebLibrary.Security
             var lv2menuAddressSettings = AddSettingsMenu("Address Settings", "{4F91453D-A03E-43BF-8825-BEAA8FEA2979}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
                 AddSettingsModule("Country", "{31F55A90-8EA2-418F-93E6-18AD5CAE8366}", lv2menuAddressSettings.Id, "CountryController", "module/country", settingsiconbaseurl + "placeholder.png", description: "List Countries to relate to your Customers, Deals, and Vendors");
                 AddSettingsModule("State/Province", "{D98F68C1-E567-424E-AF44-9016AA112131}", lv2menuAddressSettings.Id, "StateController", "module/state", settingsiconbaseurl + "placeholder.png", description: "List States to relate to your Customers, Deals, and Vendors");
-                AddSettingsModule("Billing Cycle", "{01CF64BF-DCCC-4ECA-9262-3BDBD001649E}", lv1menuSettings.Id, "BillingCycleController", "module/billingcycle", settingsiconbaseurl + "placeholder.png", description: "Define and configure Billing Cycles for your Quotes and Orders");
+                //AddSettingsModule("Billing Cycle", "{01CF64BF-DCCC-4ECA-9262-3BDBD001649E}", lv1menuSettings.Id, "BillingCycleController", "module/billingcycle", settingsiconbaseurl + "placeholder.png", description: "Define and configure Billing Cycles for your Quotes and Orders");
                 AddSettingsModule("Company Department", "{043F9EB4-F31C-441F-8011-B5263B88B16B}", lv1menuSettings.Id, "DepartmentController", "module/department", settingsiconbaseurl + "placeholder.png");
 
             var lv2menuContactSettings = AddSettingsMenu("Contact Settings", "{65EA6245-6097-45F0-B3BC-49923DB09E06}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
