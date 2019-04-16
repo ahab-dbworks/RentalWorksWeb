@@ -297,12 +297,10 @@ class SearchInterface {
 
 
         //Render preview grid
-        let $previewGrid
-            , $previewGridControl;
-        $previewGrid = $previewTabControl.find('[data-grid="SearchPreviewGrid"]');
-        $previewGridControl = jQuery(jQuery('#tmpl-grids-SearchPreviewGridBrowse').html());
+        const $previewGrid = $previewTabControl.find('[data-grid="SearchPreviewGrid"]');
+        const $previewGridControl = FwBrowse.loadGridFromTemplate('SearchPreviewGrid');
         $previewGrid.empty().append($previewGridControl);
-        $previewGridControl.data('ondatabind', function (request) {
+        $previewGridControl.data('ondatabind', request => {
             request.SessionId = id;
             request.ShowAvailability = true;
             request.FromDate = FwFormField.getValueByDataField($popup, 'FromDate');

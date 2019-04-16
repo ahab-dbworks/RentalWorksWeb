@@ -73,16 +73,12 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $billingCycleEventsGrid: any;
-        var $billingCycleEventsGridControl: any;
-
-        // load Billing Cycle Event Grid
-        $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
-        $billingCycleEventsGridControl = jQuery(jQuery('#tmpl-grids-BillingCycleEventsGridBrowse').html());
+        const $billingCycleEventsGrid = $form.find('div[data-grid="BillingCycleEventsGrid"]');
+        const $billingCycleEventsGridControl = FwBrowse.loadGridFromTemplate('BillingCycleEventsGrid');
         $billingCycleEventsGrid.empty().append($billingCycleEventsGridControl);
-        $billingCycleEventsGridControl.data('ondatabind', function (request) {
+        $billingCycleEventsGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                BillingCycleId: $form.find('div.fwformfield[data-datafield="BillingCycleId"] input').val()
+                BillingCycleId: FwFormField.getValueByDataField($form, 'BillingCycleId')
             };
         });
         FwBrowse.init($billingCycleEventsGridControl);
@@ -90,12 +86,10 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $billingCycleEventsGrid: any;
-
-        $billingCycleEventsGrid = $form.find('[data-name="BillingCycleEventsGrid"]');
+        const $billingCycleEventsGrid = $form.find('[data-name="BillingCycleEventsGrid"]');
         FwBrowse.search($billingCycleEventsGrid);
 
-        var radioType = FwFormField.getValueByDataField($form, 'BillingCycleType');
+        const radioType = FwFormField.getValueByDataField($form, 'BillingCycleType');
         if (radioType === "EVENTS") {
             $form.find(".eventstab").show();
         } else {

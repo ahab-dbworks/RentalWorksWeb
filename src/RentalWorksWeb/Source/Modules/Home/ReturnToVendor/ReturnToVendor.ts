@@ -65,8 +65,8 @@ class ReturnToVendor {
             }, null, $form);
 
             $form.on('click', '.suspendedsession', e => {
-                let html = 
-                  `<div>
+                let html =
+                    `<div>
                      <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
                      <div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
                    </div>`;
@@ -152,24 +152,18 @@ class ReturnToVendor {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $pOReturnItemGrid: any,
-            $pOReturnItemGridControl: any;
-
-        $pOReturnItemGrid = $form.find('div[data-grid="POReturnItemGrid"]');
-        $pOReturnItemGridControl = jQuery(jQuery('#tmpl-grids-POReturnItemGridBrowse').html());
+        const $pOReturnItemGrid = $form.find('div[data-grid="POReturnItemGrid"]');
+        const $pOReturnItemGridControl = FwBrowse.loadGridFromTemplate('POReturnItemGrid');
         $pOReturnItemGrid.empty().append($pOReturnItemGridControl);
-        $pOReturnItemGridControl.data('ondatabind', function (request) {
+        $pOReturnItemGridControl.data('ondatabind', request => {
         })
         FwBrowse.init($pOReturnItemGridControl);
         FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
 
-        let $poReturnBarCodeGrid: any,
-            $poReturnBarCodeGridControl: any;
-
-        $poReturnBarCodeGrid = $form.find('div[data-grid="POReturnBarCodeGrid"]');
-        $poReturnBarCodeGridControl = jQuery(jQuery('#tmpl-grids-POReturnBarCodeGridBrowse').html());
+        const $poReturnBarCodeGrid = $form.find('div[data-grid="POReturnBarCodeGrid"]');
+        const $poReturnBarCodeGridControl = FwBrowse.loadGridFromTemplate('POReturnBarCodeGrid');
         $poReturnBarCodeGrid.empty().append($poReturnBarCodeGridControl);
-        $poReturnBarCodeGridControl.data('ondatabind', function (request) {
+        $poReturnBarCodeGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 ReturnContractId: FwFormField.getValueByDataField($form, 'ContractId')

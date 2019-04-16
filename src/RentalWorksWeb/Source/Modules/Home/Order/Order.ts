@@ -1627,18 +1627,17 @@ class Order extends OrderBase {
                         $popup.find('.sub-header').hide();
                         $popup.find('.session-buttons').show();
                         const $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
-                        $lossAndDamageItemGridControl = jQuery(jQuery('#tmpl-grids-LossAndDamageItemGridBrowse').html());
+                        $lossAndDamageItemGridControl = FwBrowse.loadGridFromTemplate('LossAndDamageItemGrid');
                         $lossAndDamageItemGrid.data('sessionId', sessionId);
                         $lossAndDamageItemGrid.data('orderId', orderId);
                         $lossAndDamageItemGrid.empty().append($lossAndDamageItemGridControl);
-                        $lossAndDamageItemGridControl.data('ondatabind', function (request) {
+                        $lossAndDamageItemGridControl.data('ondatabind', request => {
                             request.uniqueids = {
                                 SessionId: sessionId
                             };
                         });
                         FwBrowse.init($lossAndDamageItemGridControl);
                         FwBrowse.renderRuntimeHtml($lossAndDamageItemGridControl);
-
                         FwBrowse.search($lossAndDamageItemGridControl);
                     }
                 }, null, $browse);

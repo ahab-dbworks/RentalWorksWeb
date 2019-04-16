@@ -97,7 +97,7 @@
         //var $orderItemGridTransportation;
         //var $orderItemGridTransportationControl;
         //$orderItemGridTransportation = $form.find('.transportationgrid div[data-grid="OrderItemGrid"]');
-        //$orderItemGridTransportationControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
+        //$orderItemGridTransportationControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         //$orderItemGridTransportation.empty().append($orderItemGridTransportationControl);
         //$orderItemGridTransportationControl.data('ondatabind', function (request) {
         //    request.uniqueids = {

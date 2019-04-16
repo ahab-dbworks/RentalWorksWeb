@@ -82,15 +82,12 @@ class SpaceType {
     }
 
     renderGrids($form: any) {
-        var $spaceWarehouseRateGrid: any;
-        var $spaceWarehouseRateGridControl: any;
-
-        $spaceWarehouseRateGrid = $form.find('div[data-grid="SpaceWarehouseRateGrid"]');
-        $spaceWarehouseRateGridControl = jQuery(jQuery('#tmpl-grids-SpaceWarehouseRateGridBrowse').html());
+        const $spaceWarehouseRateGrid = $form.find('div[data-grid="SpaceWarehouseRateGrid"]');
+        const $spaceWarehouseRateGridControl = FwBrowse.loadGridFromTemplate('SpaceWarehouseRateGrid');
         $spaceWarehouseRateGrid.empty().append($spaceWarehouseRateGridControl);
-        $spaceWarehouseRateGridControl.data('ondatabind', function (request) {
+        $spaceWarehouseRateGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                RateId: $form.find('div.fwformfield[data-datafield="RateId"] input').val()
+                RateId: FwFormField.getValueByDataField($form, 'RateId')
             };
         });
         FwBrowse.init($spaceWarehouseRateGridControl);
@@ -98,9 +95,7 @@ class SpaceType {
     }
 
     afterLoad($form: any) {
-        var $spaceWarehouseRateGrid: any;
-
-        $spaceWarehouseRateGrid = $form.find('[data-name="SpaceWarehouseRateGrid"]');
+        const $spaceWarehouseRateGrid = $form.find('[data-name="SpaceWarehouseRateGrid"]');
         FwBrowse.search($spaceWarehouseRateGrid);
     }
 }

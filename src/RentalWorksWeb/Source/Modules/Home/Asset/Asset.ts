@@ -118,24 +118,24 @@ class RwAsset {
     };
     //---------------------------------------------------------------------------------------------
     renderGrids($form: JQuery) {
-        var $itemAttributeValueGrid: JQuery = $form.find('div[data-grid="' + this.nameItemAttributeValueGrid + '"]');
-        var $itemAttributeValueGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + this.nameItemAttributeValueGrid + 'Browse').html());
+        const $itemAttributeValueGrid: JQuery = $form.find(`div[data-grid="${this.nameItemAttributeValueGrid}"]`);
+        const $itemAttributeValueGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemAttributeValueGrid)
         $itemAttributeValueGrid.empty().append($itemAttributeValueGridControl);
-        $itemAttributeValueGridControl.data('ondatabind', function (request) {
+        $itemAttributeValueGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 ItemId: FwFormField.getValueByDataField($form, 'ItemId')
             };
         });
-        $itemAttributeValueGridControl.data('beforesave', function (request) {
+        $itemAttributeValueGridControl.data('beforesave', request => {
             request.ItemId = FwFormField.getValueByDataField($form, 'ItemId');
         })
         FwBrowse.init($itemAttributeValueGridControl);
         FwBrowse.renderRuntimeHtml($itemAttributeValueGridControl);
         // ----------
-        var $itemQcGrid: JQuery = $form.find('div[data-grid="' + this.nameItemQcGrid + '"]');
-        var $itemQcGridControl: JQuery = jQuery(jQuery('#tmpl-grids-' + this.nameItemQcGrid + 'Browse').html());
+        const $itemQcGrid: JQuery = $form.find(`div[data-grid="${this.nameItemQcGrid}"]`);
+        const $itemQcGridControl: JQuery = FwBrowse.loadGridFromTemplate(this.nameItemQcGrid);
         $itemQcGrid.empty().append($itemQcGridControl);
-        $itemQcGridControl.data('ondatabind', function (request) {
+        $itemQcGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 ItemId: FwFormField.getValueByDataField($form, 'ItemId')
             };
@@ -159,10 +159,10 @@ class RwAsset {
                 break;
         }
 
-        var $itemAttributeValueGrid: JQuery = $form.find('[data-name="' + this.nameItemAttributeValueGrid + '"]');
+        const $itemAttributeValueGrid: JQuery = $form.find(`[data-name="${this.nameItemAttributeValueGrid}"]`);
         FwBrowse.search($itemAttributeValueGrid);
 
-        var $itemQcGrid: JQuery = $form.find('[data-name="' + this.nameItemQcGrid + '"]');
+        const $itemQcGrid: JQuery = $form.find(`[data-name="${this.nameItemQcGrid}"]`);
         FwBrowse.search($itemQcGrid);
 
         var status: string = FwFormField.getValueByDataField($form, 'InventoryStatus');

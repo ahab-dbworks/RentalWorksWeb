@@ -43,15 +43,12 @@ class VehicleType {
     }
 
     renderGrids($form: any) {
-        var $vehicleTypeWarehouseGrid, $vehicleTypeWarehouseControl;
-
-        // load vendornote Grid
-        $vehicleTypeWarehouseGrid = $form.find('div[data-grid="VehicleTypeWarehouseGrid"]');
-        $vehicleTypeWarehouseControl = jQuery(jQuery('#tmpl-grids-VehicleTypeWarehouseGridBrowse').html());
+        const $vehicleTypeWarehouseGrid = $form.find('div[data-grid="VehicleTypeWarehouseGrid"]');
+        const $vehicleTypeWarehouseControl = FwBrowse.loadGridFromTemplate('VehicleTypeWarehouseGrid');
         $vehicleTypeWarehouseGrid.empty().append($vehicleTypeWarehouseControl);
-        $vehicleTypeWarehouseControl.data('ondatabind', function (request) {
+        $vehicleTypeWarehouseControl.data('ondatabind', request => {
             request.uniqueids = {
-                VehicleTypeId: $form.find('div.fwformfield[data-datafield="VehicleTypeId"] input').val()
+                VehicleTypeId: FwFormField.getValueByDataField($form, 'VehicleTypeId')
             }
         });
         FwBrowse.init($vehicleTypeWarehouseControl);
@@ -88,9 +85,7 @@ class VehicleType {
     }
 
     afterLoad($form: any) {
-        var $vehicleTypeWarehouseGrid;
-
-        $vehicleTypeWarehouseGrid = $form.find('[data-name="VehicleTypeWarehouseGrid"]');
+        const $vehicleTypeWarehouseGrid = $form.find('[data-name="VehicleTypeWarehouseGrid"]');
         FwBrowse.search($vehicleTypeWarehouseGrid);
 
         this.disableFields();

@@ -68,50 +68,40 @@ class PresentationLayer {
     }
 
     renderGrids($form: any) {
-        var $presentationLayerActivityGrid: any;
-        var $presentationLayerActivityGridControl: any;
-        var $presentationLayerActivityOverrideGrid: any;
-        var $presentationLayerActivityOverrideGridControl: any;
-        var $presentationLayerFormGrid: any;
-        var $presentationLayerFormGridControl: any;
-
-        // load presentationlayeractivity Grid
-        $presentationLayerActivityGrid = $form.find('div[data-grid="PresentationLayerActivityGrid"]');
-        $presentationLayerActivityGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerActivityGridBrowse').html());
+        const $presentationLayerActivityGrid = $form.find('div[data-grid="PresentationLayerActivityGrid"]');
+        const $presentationLayerActivityGridControl = FwBrowse.loadGridFromTemplate('PresentationLayerActivityGrid');
         $presentationLayerActivityGrid.empty().append($presentationLayerActivityGridControl);
-        $presentationLayerActivityGridControl.data('ondatabind', function (request) {
+        $presentationLayerActivityGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
+                PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
             };
         });
-        $presentationLayerActivityGridControl.data('beforesave', function (request) {
+        $presentationLayerActivityGridControl.data('beforesave', request => {
             request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
         });
         FwBrowse.init($presentationLayerActivityGridControl);
         FwBrowse.renderRuntimeHtml($presentationLayerActivityGridControl);
 
-        // load presentationlayeractivityoverride Grid
-        $presentationLayerActivityOverrideGrid = $form.find('div[data-grid="PresentationLayerActivityOverrideGrid"]');
-        $presentationLayerActivityOverrideGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerActivityOverrideGridBrowse').html());
+        const $presentationLayerActivityOverrideGrid = $form.find('div[data-grid="PresentationLayerActivityOverrideGrid"]');
+        const $presentationLayerActivityOverrideGridControl = FwBrowse.loadGridFromTemplate('PresentationLayerActivityOverrideGrid');
         $presentationLayerActivityOverrideGrid.empty().append($presentationLayerActivityOverrideGridControl);
-        $presentationLayerActivityOverrideGridControl.data('ondatabind', function (request) {
+        $presentationLayerActivityOverrideGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
+                PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
             };
         });
-        $presentationLayerActivityOverrideGridControl.data('beforesave', function (request) {
+        $presentationLayerActivityOverrideGridControl.data('beforesave', request => {
             request.PresentationLayerId = FwFormField.getValueByDataField($form, 'PresentationLayerId');
         });
         FwBrowse.init($presentationLayerActivityOverrideGridControl);
         FwBrowse.renderRuntimeHtml($presentationLayerActivityOverrideGridControl);
 
-        // load presentationlayerform Grid
-        $presentationLayerFormGrid = $form.find('div[data-grid="PresentationLayerFormGrid"]');
-        $presentationLayerFormGridControl = jQuery(jQuery('#tmpl-grids-PresentationLayerFormGridBrowse').html());
+        const $presentationLayerFormGrid = $form.find('div[data-grid="PresentationLayerFormGrid"]');
+        const $presentationLayerFormGridControl = FwBrowse.loadGridFromTemplate('PresentationLayerFormGrid');
         $presentationLayerFormGrid.empty().append($presentationLayerFormGridControl);
-        $presentationLayerFormGridControl.data('ondatabind', function (request) {
+        $presentationLayerFormGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                PresentationLayerId: $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val()
+                PresentationLayerId: FwFormField.getValueByDataField($form, 'PresentationLayerId')
             };
         });
         FwBrowse.init($presentationLayerFormGridControl);
@@ -119,17 +109,13 @@ class PresentationLayer {
     }
 
     afterLoad($form: any) {
-        var $presentationLayerActivityGrid: any;
-        var $presentationLayerActivityOverrideGrid: any;
-        var $presentationLayerFormGrid: any;
-
-        $presentationLayerActivityGrid = $form.find('[data-name="PresentationLayerActivityGrid"]');
+        const $presentationLayerActivityGrid = $form.find('[data-name="PresentationLayerActivityGrid"]');
         FwBrowse.search($presentationLayerActivityGrid);
 
-        $presentationLayerActivityOverrideGrid = $form.find('[data-name="PresentationLayerActivityOverrideGrid"]');
+        const $presentationLayerActivityOverrideGrid = $form.find('[data-name="PresentationLayerActivityOverrideGrid"]');
         FwBrowse.search($presentationLayerActivityOverrideGrid);
 
-        $presentationLayerFormGrid = $form.find('[data-name="PresentationLayerFormGrid"]');
+        const $presentationLayerFormGrid = $form.find('[data-name="PresentationLayerFormGrid"]');
         FwBrowse.search($presentationLayerFormGrid);
     }
 }

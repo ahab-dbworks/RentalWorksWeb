@@ -107,41 +107,34 @@ class RwMiscRate {
 
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $rateLocationTaxGrid: any;
-        var $rateLocationTaxGridControl: any;
-        var $rateWarehouseGrid: any;
-        var $rateWarehouseGridControl: any;
-        var $singleRateWarehouseGrid: any;
-        var $singleRateWarehouseGridControl: any;
-
-        $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-        $rateLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-RateLocationTaxGridBrowse').html());
+        const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
+        const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
         $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-        $rateLocationTaxGridControl.data('ondatabind', function (request) {
+        $rateLocationTaxGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                RateId: $form.find('div.fwformfield[data-datafield="RateId"] input').val()
+                RateId: FwFormField.getValueByDataField($form, 'RateId')
             };
         })
         FwBrowse.init($rateLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
 
-        $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
-        $rateWarehouseGridControl = jQuery(jQuery('#tmpl-grids-RateWarehouseGridBrowse').html());
+        const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
+        const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
         $rateWarehouseGrid.empty().append($rateWarehouseGridControl);
-        $rateWarehouseGridControl.data('ondatabind', function (request) {
+        $rateWarehouseGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                RateId: $form.find('div.fwformfield[data-datafield="RateId"] input').val()
+                RateId: FwFormField.getValueByDataField($form, 'RateId')
             };
         })
         FwBrowse.init($rateWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($rateWarehouseGridControl);
 
-        $singleRateWarehouseGrid = $form.find('div[data-grid="SingleRateWarehouseGrid"]');
-        $singleRateWarehouseGridControl = jQuery(jQuery('#tmpl-grids-SingleRateWarehouseGridBrowse').html());
+        const $singleRateWarehouseGrid = $form.find('div[data-grid="SingleRateWarehouseGrid"]');
+        const $singleRateWarehouseGridControl = FwBrowse.loadGridFromTemplate('SingleRateWarehouseGrid');
         $singleRateWarehouseGrid.empty().append($singleRateWarehouseGridControl);
-        $singleRateWarehouseGridControl.data('ondatabind', function (request) {
+        $singleRateWarehouseGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                RateId: $form.find('div.fwformfield[data-datafield="RateId"] input').val()
+                RateId: FwFormField.getValueByDataField($form, 'RateId')
             };
         })
         FwBrowse.init($singleRateWarehouseGridControl);
@@ -150,17 +143,13 @@ class RwMiscRate {
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $rateLocationTaxGrid: any;
-        var $rateWarehouseGrid: any;
-        var $singleRateWarehouseGrid: any;
-
-        $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
+        const $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
         FwBrowse.search($rateLocationTaxGrid);
 
-        $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
+        const $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
         FwBrowse.search($rateWarehouseGrid);
 
-        $singleRateWarehouseGrid = $form.find('[data-name="SingleRateWarehouseGrid"]');
+        const $singleRateWarehouseGrid = $form.find('[data-name="SingleRateWarehouseGrid"]');
         FwBrowse.search($singleRateWarehouseGrid);
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {

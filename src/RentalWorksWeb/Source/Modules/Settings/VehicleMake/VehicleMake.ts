@@ -68,29 +68,23 @@ class VehicleMake {
     }
 
     renderGrids($form: any) {
-        var $vehicleMakeModelGrid: any;
-        var $vehicleMakeModelGridControl: any;
-
-        // load AttributeValue Grid
-        $vehicleMakeModelGrid = $form.find('div[data-grid="VehicleMakeModelGrid"]');
-        $vehicleMakeModelGridControl = jQuery(jQuery('#tmpl-grids-VehicleMakeModelGridBrowse').html());
+        const $vehicleMakeModelGrid = $form.find('div[data-grid="VehicleMakeModelGrid"]');
+        const $vehicleMakeModelGridControl = FwBrowse.loadGridFromTemplate('VehicleMakeModelGrid');
         $vehicleMakeModelGrid.empty().append($vehicleMakeModelGridControl);
-        $vehicleMakeModelGridControl.data('ondatabind', function (request) {
+        $vehicleMakeModelGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                VehicleMakeId: $form.find('div.fwformfield[data-datafield="VehicleMakeId"] input').val()
+                VehicleMakeId: FwFormField.getValueByDataField($form, 'VehicleMakeId')
             };
         });
-        $vehicleMakeModelGridControl.data('beforesave', function (request) {
-            request.VehicleMakeId = $form.find('div.fwformfield[data-datafield="VehicleMakeId"] input').val()
+        $vehicleMakeModelGridControl.data('beforesave', request => {
+            request.VehicleMakeId = FwFormField.getValueByDataField($form, 'VehicleMakeId');
         });
         FwBrowse.init($vehicleMakeModelGridControl);
         FwBrowse.renderRuntimeHtml($vehicleMakeModelGridControl);
     }
 
     afterLoad($form: any) {
-        var $vehicleMakeModelGrid: any;
-
-        $vehicleMakeModelGrid = $form.find('[data-name="VehicleMakeModelGrid"]');
+        const $vehicleMakeModelGrid = $form.find('[data-name="VehicleMakeModelGrid"]');
         FwBrowse.search($vehicleMakeModelGrid);
     }
 }

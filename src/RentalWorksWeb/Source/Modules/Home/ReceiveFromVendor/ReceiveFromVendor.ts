@@ -156,21 +156,16 @@ class ReceiveFromVendor {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $receiveItemsGrid: any,
-            $receiveItemsGridControl: any;
-
-        $receiveItemsGrid = $form.find('div[data-grid="POReceiveItemGrid"]');
-        $receiveItemsGridControl = jQuery(jQuery('#tmpl-grids-POReceiveItemGridBrowse').html());
+        const $receiveItemsGrid = $form.find('div[data-grid="POReceiveItemGrid"]');
+        const $receiveItemsGridControl = FwBrowse.loadGridFromTemplate('POReceiveItemGrid');
         $receiveItemsGrid.empty().append($receiveItemsGridControl);
-        $receiveItemsGridControl.data('ondatabind', function (request) {
+        $receiveItemsGridControl.data('ondatabind', request => {
         })
         FwBrowse.init($receiveItemsGridControl);
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let self = this;
-
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -186,7 +181,7 @@ class ReceiveFromVendor {
                 }
             }
             if (contractId) {
-                FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, response => {
                     try {
                         for (let i = 0; i < response.length; i++) {
                             let contractInfo: any = {}, $contractForm;
@@ -196,7 +191,7 @@ class ReceiveFromVendor {
                         }
                         $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
                         let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                        $receiveItemsGridControl.data('ondatabind', function (request) {
+                        $receiveItemsGridControl.data('ondatabind', request => {
                             request.uniqueids = {
                                 ContractId: contractId
                                 , PurchaseOrderId: ''
@@ -219,17 +214,17 @@ class ReceiveFromVendor {
         });
         // Select None
         $form.find('.selectnone').on('click', e => {
-            let request: any = {}, quantity;
+            let request: any = {};
             const $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectnone`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
-            }, function onError(response) {
-                FwFunc.showError(response);
+            }, ex => {
+                FwFunc.showError(ex);
             }, $form, contractId);
 
             $form.find('.createcontract[data-type="button"]').show();
@@ -244,10 +239,10 @@ class ReceiveFromVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectall`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
-            }, function onError(response) {
-                FwFunc.showError(response);
+            }, ex => {
+                FwFunc.showError(ex);
             }, $form, contractId);
 
             let $itemsTrackedByBarcode = $receiveItemsGridControl.find('[data-browsedatafield="TrackedBy"][data-originalvalue="BARCODE"]');
@@ -257,9 +252,9 @@ class ReceiveFromVendor {
             }
         });
         //Hide/Show Options
-        var $optionToggle = $form.find('.optiontoggle');
+        const $optionToggle = $form.find('.optiontoggle');
         $form.find('.options').toggle();
-        $optionToggle.on('click', function () {
+        $optionToggle.on('click', () => {
             $form.find('.options').toggle();
         });
     };

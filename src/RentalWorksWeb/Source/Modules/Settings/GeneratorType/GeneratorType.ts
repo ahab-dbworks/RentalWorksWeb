@@ -43,14 +43,12 @@ class GeneratorType {
     }
 
     renderGrids($form: any) {
-        var $generatorTypeWarehouseGrid, $generatorTypeWarehouseControl;
-
-        $generatorTypeWarehouseGrid = $form.find('div[data-grid="GeneratorTypeWarehouseGrid"]');
-        $generatorTypeWarehouseControl = jQuery(jQuery('#tmpl-grids-GeneratorTypeWarehouseGridBrowse').html());
+        const $generatorTypeWarehouseGrid = $form.find('div[data-grid="GeneratorTypeWarehouseGrid"]');
+        const $generatorTypeWarehouseControl = FwBrowse.loadGridFromTemplate('GeneratorTypeWarehouseGrid');
         $generatorTypeWarehouseGrid.empty().append($generatorTypeWarehouseControl);
-        $generatorTypeWarehouseControl.data('ondatabind', function (request) {
+        $generatorTypeWarehouseControl.data('ondatabind', request => {
             request.uniqueids = {
-                GeneratorTypeId: $form.find('div.fwformfield[data-datafield="GeneratorTypeId"] input').val()
+                GeneratorTypeId: FwFormField.getValueByDataField($form, 'GeneratorTypeId')
             }
         });
         FwBrowse.init($generatorTypeWarehouseControl);
@@ -87,9 +85,7 @@ class GeneratorType {
     }
 
     afterLoad($form: any) {
-        var $generatorTypeWarehouseGrid;
-
-        $generatorTypeWarehouseGrid = $form.find('[data-name="GeneratorTypeWarehouseGrid"]');
+        const $generatorTypeWarehouseGrid = $form.find('[data-name="GeneratorTypeWarehouseGrid"]');
         FwBrowse.search($generatorTypeWarehouseGrid);
 
         this.disableFields();

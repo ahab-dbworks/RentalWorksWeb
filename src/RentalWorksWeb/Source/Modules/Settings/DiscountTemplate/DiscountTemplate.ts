@@ -39,73 +39,64 @@
     }
 
     renderGrids($form: any) {
-        var $discountItemRentalGrid
-            , $discountItemRentalGridControl
-            , $discountItemSalesGrid
-            , $discountItemSalesGridControl
-            , $discountItemLaborGrid
-            , $discountItemLaborGridControl
-            , $discountItemMiscGrid
-            , $discountItemMiscGridControl;
-
-        $discountItemRentalGrid = $form.find('div[data-grid="DiscountItemRentalGrid"]');
-        $discountItemRentalGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemRentalGridBrowse').html());
+        const $discountItemRentalGrid = $form.find('div[data-grid="DiscountItemRentalGrid"]');
+        const $discountItemRentalGridControl = FwBrowse.loadGridFromTemplate('DiscountItemRentalGrid');
         $discountItemRentalGrid.empty().append($discountItemRentalGridControl);
-        $discountItemRentalGridControl.data('ondatabind', function (request) {
+        $discountItemRentalGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                DiscountTemplateId: $form.find('div.fwformfield[data-datafield="DiscountTemplateId"] input').val(),
+                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
                 RecType: "R"
             };
         })
-        $discountItemRentalGridControl.data('beforesave', function (request) {
+        $discountItemRentalGridControl.data('beforesave', request => {
             request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
             request.RecType = "R";
         })
         FwBrowse.init($discountItemRentalGridControl);
         FwBrowse.renderRuntimeHtml($discountItemRentalGridControl);
 
-        $discountItemSalesGrid = $form.find('div[data-grid="DiscountItemSalesGrid"]');
-        $discountItemSalesGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemSalesGridBrowse').html());
+        const $discountItemSalesGrid = $form.find('div[data-grid="DiscountItemSalesGrid"]');
+        const $discountItemSalesGridControl = FwBrowse.loadGridFromTemplate('DiscountItemSalesGrid');
         $discountItemSalesGrid.empty().append($discountItemSalesGridControl);
-        $discountItemSalesGridControl.data('ondatabind', function (request) {
+        $discountItemSalesGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                DiscountTemplateId: $form.find('div.fwformfield[data-datafield="DiscountTemplateId"] input').val(),
+                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
                 RecType: "S"
             };
         })
-        $discountItemSalesGridControl.data('beforesave', function (request) {
+        $discountItemSalesGridControl.data('beforesave', request => {
             request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
             request.RecType = "S";
         })
         FwBrowse.init($discountItemSalesGridControl);
         FwBrowse.renderRuntimeHtml($discountItemSalesGridControl);
 
-        $discountItemLaborGrid = $form.find('div[data-grid="DiscountItemLaborGrid"]');
-        $discountItemLaborGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemLaborGridBrowse').html());
+        const $discountItemLaborGrid = $form.find('div[data-grid="DiscountItemLaborGrid"]');
+        const $discountItemLaborGridControl = FwBrowse.loadGridFromTemplate('DiscountItemLaborGrid');
         $discountItemLaborGrid.empty().append($discountItemLaborGridControl);
-        $discountItemLaborGridControl.data('ondatabind', function (request) {
+        $discountItemLaborGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                DiscountTemplateId: $form.find('div.fwformfield[data-datafield="DiscountTemplateId"] input').val(),
+                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
                 RecType: "L"
             };
         })
-        $discountItemLaborGridControl.data('beforesave', function (request) {
+        $discountItemLaborGridControl.data('beforesave', request => {
             request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
             request.RecType = "L";
         })
         FwBrowse.init($discountItemLaborGridControl);
         FwBrowse.renderRuntimeHtml($discountItemLaborGridControl);
 
-        $discountItemMiscGrid = $form.find('div[data-grid="DiscountItemMiscGrid"]');
-        $discountItemMiscGridControl = jQuery(jQuery('#tmpl-grids-DiscountItemMiscGridBrowse').html());
+        const $discountItemMiscGrid = $form.find('div[data-grid="DiscountItemMiscGrid"]');
+        const $discountItemMiscGridControl = FwBrowse.loadGridFromTemplate('DiscountItemMiscGrid');
         $discountItemMiscGrid.empty().append($discountItemMiscGridControl);
-        $discountItemMiscGridControl.data('ondatabind', function (request) {
+        $discountItemMiscGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                DiscountTemplateId: $form.find('div.fwformfield[data-datafield="DiscountTemplateId"] input').val(),
+                DiscountTemplateId: FwFormField.getValueByDataField($form, 'DiscountTemplateId'),
                 RecType: "M"
             };
         })
-        $discountItemMiscGridControl.data('beforesave', function (request) {
+        $discountItemMiscGridControl.data('beforesave', request => {
             request.DiscountTemplateId = FwFormField.getValueByDataField($form, 'DiscountTemplateId');
             request.RecType = "M";
         })
@@ -143,34 +134,28 @@
     }
 
     afterLoad($form: any) {
-        var $discountItemControl
-            , $discountItemRentalControl
-            , $discountItemSalesControl
-            , $discountItemLaborControl
-            , $discountItemMiscControl;
-
-        $discountItemControl = $form.find('[data-name="DiscountItemGrid"]');
+        const $discountItemControl = $form.find('[data-name="DiscountItemGrid"]');
         FwBrowse.search($discountItemControl);
 
-        $discountItemRentalControl = $form.find('[data-name="DiscountItemRentalGrid"]');
+        const $discountItemRentalControl = $form.find('[data-name="DiscountItemRentalGrid"]');
         FwBrowse.search($discountItemRentalControl);
 
-        $discountItemSalesControl = $form.find('[data-name="DiscountItemSalesGrid"]');
+        const $discountItemSalesControl = $form.find('[data-name="DiscountItemSalesGrid"]');
         FwBrowse.search($discountItemSalesControl);
 
-        $discountItemLaborControl = $form.find('[data-name="DiscountItemLaborGrid"]');
+        const $discountItemLaborControl = $form.find('[data-name="DiscountItemLaborGrid"]');
         FwBrowse.search($discountItemLaborControl);
 
-        $discountItemLaborControl = $form.find('[data-name="DiscountItemMiscGrid"]');
-        FwBrowse.search($discountItemLaborControl);
+        const $discountItemMiscControl = $form.find('[data-name="DiscountItemMiscGrid"]');
+        FwBrowse.search($discountItemMiscControl);
 
-        var rentalDays = parseFloat($form.find('div.fwformfield[data-datafield="RentalDaysPerWeek"] input').val());
-        var rentalDecimals = rentalDays.toFixed(3);
-        $form.find('div.fwformfield[data-datafield="RentalDaysPerWeek"] input').val(rentalDecimals);
+        const rentalDays = parseFloat(FwFormField.getValueByDataField($form, 'RentalDaysPerWeek'));
+        const rentalDecimals = rentalDays.toFixed(3);
+        FwFormField.setValueByDataField($form, 'RentalDaysPerWeek', rentalDecimals);
 
-        var spaceDays = parseFloat($form.find('div.fwformfield[data-datafield="SpaceDaysPerWeek"] input').val());
-        var spaceDecimals = spaceDays.toFixed(3);
-        $form.find('div.fwformfield[data-datafield="SpaceDaysPerWeek"] input').val(spaceDecimals);
+        const spaceDays = parseFloat(FwFormField.getValueByDataField($form, 'SpaceDaysPerWeek'));
+        const spaceDecimals = spaceDays.toFixed(3);
+        FwFormField.setValueByDataField($form, 'SpaceDaysPerWeek', spaceDecimals);
     }
 }
 

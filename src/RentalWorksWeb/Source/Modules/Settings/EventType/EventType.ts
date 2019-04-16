@@ -30,34 +30,29 @@ class EventType {
     }
 
     renderGrids($form: any) {
-        var nameOrderTypePersonnelTypeGrid: string = 'EventTypePersonnelTypeGrid';
-        var $orderTypePersonnelTypeGrid: any = $form.find('div[data-grid="' + nameOrderTypePersonnelTypeGrid + '"]');
-        var $orderTypePersonnelTypeGridControl: any = FwBrowse.loadGridFromTemplate(nameOrderTypePersonnelTypeGrid);
-
+        const $orderTypePersonnelTypeGrid = $form.find('div[data-grid="EventTypePersonnelTypeGrid"]');
+        const $orderTypePersonnelTypeGridControl = FwBrowse.loadGridFromTemplate('EventTypePersonnelTypeGrid');
         $orderTypePersonnelTypeGrid.empty().append($orderTypePersonnelTypeGridControl);
-        $orderTypePersonnelTypeGridControl.data('ondatabind', function (request) {
+        $orderTypePersonnelTypeGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 EventTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
             };
         });
-        $orderTypePersonnelTypeGridControl.data('beforesave', function (request) {
+        $orderTypePersonnelTypeGridControl.data('beforesave', request => {
             request.EventTypeId = FwFormField.getValueByDataField($form, 'EventTypeId')
         });
         FwBrowse.init($orderTypePersonnelTypeGridControl);
         FwBrowse.renderRuntimeHtml($orderTypePersonnelTypeGridControl);
         // --------------
-        var $orderTypeActivityDatesGrid: any;
-        var $orderTypeActivityDatesGridControl: any;
-
-        $orderTypeActivityDatesGrid = $form.find('div[data-grid="OrderTypeActivityDatesGrid"]');
-        $orderTypeActivityDatesGridControl = jQuery(jQuery('#tmpl-grids-OrderTypeActivityDatesGridBrowse').html());
+        const $orderTypeActivityDatesGrid = $form.find('div[data-grid="OrderTypeActivityDatesGrid"]');
+        const $orderTypeActivityDatesGridControl = FwBrowse.loadGridFromTemplate('OrderTypeActivityDatesGrid');
         $orderTypeActivityDatesGrid.empty().append($orderTypeActivityDatesGridControl);
-        $orderTypeActivityDatesGridControl.data('ondatabind', function (request) {
+        $orderTypeActivityDatesGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                OrderTypeId: $form.find('div.fwformfield[data-datafield="EventTypeId"] input').val()
+                OrderTypeId: FwFormField.getValueByDataField($form, 'EventTypeId')
             };
         })
-        $orderTypeActivityDatesGridControl.data('beforesave', function (request) {
+        $orderTypeActivityDatesGridControl.data('beforesave', request => {
             request.OrderTypeId = FwFormField.getValueByDataField($form, 'EventTypeId');
         });
         FwBrowse.init($orderTypeActivityDatesGridControl);
@@ -103,13 +98,10 @@ class EventType {
     }
 
     afterLoad($form: any) {
-        var $personnelTypeGrid: any;
-
-        $personnelTypeGrid = $form.find('[data-name="EventTypePersonnelTypeGrid"]');
+        const $personnelTypeGrid = $form.find('[data-name="EventTypePersonnelTypeGrid"]');
         FwBrowse.search($personnelTypeGrid);
 
-        var $orderTypeActivityDatesGrid: any;
-        $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
+        const $orderTypeActivityDatesGrid = $form.find('[data-name="OrderTypeActivityDatesGrid"]');
         FwBrowse.search($orderTypeActivityDatesGrid);
 
         $orderTypeActivityDatesGrid.find('.eventType').parent().hide();

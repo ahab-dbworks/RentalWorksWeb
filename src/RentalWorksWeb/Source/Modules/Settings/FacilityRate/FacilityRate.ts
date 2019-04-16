@@ -95,28 +95,23 @@ class RwFacilityRate {
     }
 
     renderGrids($form: any) {
-        var $rateLocationTaxGrid: any;
-        var $rateLocationTaxGridControl: any;
-        var $rateWarehouseGrid: any;
-        var $rateWarehouseGridControl: any;
-
-        $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
-        $rateLocationTaxGridControl = jQuery(jQuery('#tmpl-grids-RateLocationTaxGridBrowse').html());
+       const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');
+       const $rateLocationTaxGridControl = FwBrowse.loadGridFromTemplate('RateLocationTaxGrid');
         $rateLocationTaxGrid.empty().append($rateLocationTaxGridControl);
-        $rateLocationTaxGridControl.data('ondatabind', function (request) {
+        $rateLocationTaxGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                RateId: $form.find('div.fwformfield[data-datafield="RateId"] input').val()
+                RateId: FwFormField.getValueByDataField($form, 'RateId')
             };
         })
         FwBrowse.init($rateLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($rateLocationTaxGridControl);
 
-        $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
-        $rateWarehouseGridControl = jQuery(jQuery('#tmpl-grids-RateWarehouseGridBrowse').html());
+        const $rateWarehouseGrid = $form.find('div[data-grid="RateWarehouseGrid"]');
+        const $rateWarehouseGridControl = FwBrowse.loadGridFromTemplate('RateWarehouseGrid');
         $rateWarehouseGrid.empty().append($rateWarehouseGridControl);
-        $rateWarehouseGridControl.data('ondatabind', function (request) {
+        $rateWarehouseGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                RateId: $form.find('div.fwformfield[data-datafield="RateId"] input').val()
+                RateId: FwFormField.getValueByDataField($form, 'RateId')
             };
         })
         FwBrowse.init($rateWarehouseGridControl);
@@ -124,14 +119,12 @@ class RwFacilityRate {
     }
 
     afterLoad($form: any) {
-        var $rateLocationTaxGrid: any;
-        var $rateWarehouseGrid: any;
         var $limit = $form.find('div.fwformfield[data-datafield="OverrideProfitAndLossCategory"] input').prop('checked');
 
-        $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
+        const $rateLocationTaxGrid = $form.find('[data-name="RateLocationTaxGrid"]');
         FwBrowse.search($rateLocationTaxGrid);
 
-        $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
+        const $rateWarehouseGrid = $form.find('[data-name="RateWarehouseGrid"]');
         FwBrowse.search($rateWarehouseGrid);
 
         if ($limit === true) {

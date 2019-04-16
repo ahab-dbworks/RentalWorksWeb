@@ -73,50 +73,43 @@
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var nameCrewPositionGrid: string = 'CrewPositionGrid';
-        var $crewPositionGrid: any = $crewPositionGrid = $form.find('div[data-grid="' + nameCrewPositionGrid + '"]');
-        var $crewPositionGridControl: any = FwBrowse.loadGridFromTemplate(nameCrewPositionGrid);
-
+        const $crewPositionGrid = $form.find('div[data-grid="CrewPositionGrid"]');
+        const $crewPositionGridControl = FwBrowse.loadGridFromTemplate('CrewPositionGrid');
         $crewPositionGrid.empty().append($crewPositionGridControl);
-        $crewPositionGridControl.data('ondatabind', function (request) {
+        $crewPositionGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 CrewId: FwFormField.getValueByDataField($form, 'CrewId')
             };
         });
-        $crewPositionGridControl.data('beforesave', function (request) {
+        $crewPositionGridControl.data('beforesave', request => {
             request.CrewId = FwFormField.getValueByDataField($form, 'CrewId')
         });
         FwBrowse.init($crewPositionGridControl);
         FwBrowse.renderRuntimeHtml($crewPositionGridControl);
 
-        var nameCrewLocationGrid: string = 'CrewLocationGrid';
-        var $crewLocationGrid: any = $crewLocationGrid = $form.find('div[data-grid="' + nameCrewLocationGrid + '"]');
-        var $crewLocationGridControl: any = FwBrowse.loadGridFromTemplate(nameCrewLocationGrid);
-
+        const $crewLocationGrid = $form.find('div[data-grid="CrewLocationGrid"]');
+        const $crewLocationGridControl = FwBrowse.loadGridFromTemplate('CrewLocationGrid');
         $crewLocationGrid.empty().append($crewLocationGridControl);
-        $crewLocationGridControl.data('ondatabind', function (request) {
+        $crewLocationGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 CrewId: FwFormField.getValueByDataField($form, 'CrewId')
             };
         });
-        $crewLocationGridControl.data('beforesave', function (request) {
+        $crewLocationGridControl.data('beforesave', request => {
             request.CrewId = FwFormField.getValueByDataField($form, 'CrewId')
         });
         FwBrowse.init($crewLocationGridControl);
         FwBrowse.renderRuntimeHtml($crewLocationGridControl);
 
-        var $contactNoteGrid: any;
-        var $contactNoteGridControl: any;
-
-        $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
-        $contactNoteGridControl = jQuery(jQuery('#tmpl-grids-ContactNoteGridBrowse').html());
+        const $contactNoteGrid = $form.find('div[data-grid="ContactNoteGrid"]');
+        const $contactNoteGridControl = FwBrowse.loadGridFromTemplate('ContactNoteGrid');
         $contactNoteGrid.empty().append($contactNoteGridControl);
-        $contactNoteGridControl.data('ondatabind', function (request) {
+        $contactNoteGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                ContactId: $form.find('div.fwformfield[data-datafield="CrewId"] input').val(),
+                ContactId: FwFormField.getValueByDataField($form, 'CrewId')
             };
         })
-        $contactNoteGridControl.data('beforesave', function (request) {
+        $contactNoteGridControl.data('beforesave', request => {
             request.ContactId = FwFormField.getValueByDataField($form, 'CrewId');
         });
         FwBrowse.init($contactNoteGridControl);
@@ -124,15 +117,13 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $crewPositionGrid: any = $form.find('[data-name="CrewPositionGrid"]');
+        const $crewPositionGrid = $form.find('[data-name="CrewPositionGrid"]');
         FwBrowse.search($crewPositionGrid);
 
-        var $crewLocationGrid: any = $form.find('[data-name="CrewLocationGrid"]');
+        const $crewLocationGrid = $form.find('[data-name="CrewLocationGrid"]');
         FwBrowse.search($crewLocationGrid);
 
-        var $contactNoteGrid: any;
-
-        $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
+        const $contactNoteGrid = $form.find('[data-name="ContactNoteGrid"]');
         FwBrowse.search($contactNoteGrid);
 
         if ($form.find('[data-datafield="ExpirePassword"] .fwformfield-value').prop('checked')) {

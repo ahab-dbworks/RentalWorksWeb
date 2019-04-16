@@ -46,17 +46,15 @@ class SalesCategory {
     }
 
     renderGrids($form: any) {
-        var $subCategoryGrid, $subCategoryControl;
-
-        $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
-        $subCategoryControl = jQuery(jQuery('#tmpl-grids-SubCategoryGridBrowse').html());
+        const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
+        const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
         $subCategoryGrid.empty().append($subCategoryControl);
-        $subCategoryControl.data('ondatabind', function (request) {
+        $subCategoryControl.data('ondatabind', request => {
             request.uniqueids = {
-                CategoryId: $form.find('div.fwformfield[data-datafield="CategoryId"] input').val()
+                CategoryId: FwFormField.getValueByDataField($form, 'CategoryId')
             }
         });
-        $subCategoryControl.data('beforesave', function (request) {
+        $subCategoryControl.data('beforesave', request => {
             request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         })
         FwBrowse.init($subCategoryControl);
@@ -133,8 +131,7 @@ class SalesCategory {
     }
 
     afterLoad($form: any) {
-        var $subCategoryGrid;
-        $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+        const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($subCategoryGrid);
 
         if ($form.find('[data-datafield="CatalogCategory"] .fwformfield-value').prop('checked')) {

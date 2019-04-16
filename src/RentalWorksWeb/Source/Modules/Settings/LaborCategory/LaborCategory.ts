@@ -46,17 +46,15 @@ class LaborCategory {
     }
 
     renderGrids($form: any) {
-        var $subCategoryGrid, $subCategoryControl;
-
-        $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
-        $subCategoryControl = jQuery(jQuery('#tmpl-grids-SubCategoryGridBrowse').html());
+        const $subCategoryGrid = $form.find('div[data-grid="SubCategoryGrid"]');
+        const $subCategoryControl = FwBrowse.loadGridFromTemplate('SubCategoryGrid');
         $subCategoryGrid.empty().append($subCategoryControl);
-        $subCategoryControl.data('ondatabind', function (request) {
+        $subCategoryControl.data('ondatabind', request => {
             request.uniqueids = {
-                CategoryId: $form.find('div.fwformfield[data-datafield="CategoryId"] input').val()
+                CategoryId: FwFormField.getValueByDataField($form, 'CategoryId')
             }
         });
-        $subCategoryControl.data('beforesave', function (request) {
+        $subCategoryControl.data('beforesave', request => {
             request.CategoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         })
         FwBrowse.init($subCategoryControl);
@@ -118,8 +116,7 @@ class LaborCategory {
     }
 
     afterLoad($form: any) {
-        var $laborCategoryGrid;
-        $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
+        const $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);
     }
 }

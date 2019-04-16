@@ -146,128 +146,108 @@
     }
 
     renderGrids($form: any) {
-        var $warehouseDepartmentGrid: any;
-        var $warehouseDepartmentGridControl: any;
-        var $warehouseInventoryTypeGrid: any;
-        var $warehouseInventoryTypeGridControl: any;
-        var $warehouseAvailabilityHourGrid: any;
-        var $warehouseAvailabilityHourGridControl: any;
-        var $warehouseDepartmentUserGrid: any;
-        var $warehouseDepartmentUserGridControl: any;
-        var $warehouseOfficeLocationGrid: any;
-        var $warehouseOfficeLocationGridControl: any;
-        var $warehouseQuikLocateApproverGrid: any;
-        var $warehouseQuikLocateApproverGridControl: any;
-
-        $warehouseDepartmentGrid = $form.find('div[data-grid="WarehouseDepartmentGrid"]');
-        $warehouseDepartmentGridControl = jQuery(jQuery('#tmpl-grids-WarehouseDepartmentGridBrowse').html());
+        const $warehouseDepartmentGrid = $form.find('div[data-grid="WarehouseDepartmentGrid"]');
+        const $warehouseDepartmentGridControl = FwBrowse.loadGridFromTemplate('WarehouseDepartmentGrid');
         $warehouseDepartmentGrid.empty().append($warehouseDepartmentGridControl);
-        $warehouseDepartmentGridControl.data('ondatabind', function (request) {
+        $warehouseDepartmentGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
         });
-        $warehouseDepartmentGridControl.data('beforesave', function (request) {
-            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        $warehouseDepartmentGridControl.data('beforesave', request => {
+            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
         });
         FwBrowse.init($warehouseDepartmentGridControl);
         FwBrowse.renderRuntimeHtml($warehouseDepartmentGridControl);
 
-        $warehouseInventoryTypeGrid = $form.find('div[data-grid="WarehouseInventoryTypeGrid"]');
-        $warehouseInventoryTypeGridControl = jQuery(jQuery('#tmpl-grids-WarehouseInventoryTypeGridBrowse').html());
+        const $warehouseInventoryTypeGrid = $form.find('div[data-grid="WarehouseInventoryTypeGrid"]');
+        const $warehouseInventoryTypeGridControl = FwBrowse.loadGridFromTemplate('WarehouseInventoryTypeGrid');
         $warehouseInventoryTypeGrid.empty().append($warehouseInventoryTypeGridControl);
-        $warehouseInventoryTypeGridControl.data('ondatabind', function (request) {
+        $warehouseInventoryTypeGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
         });
-        $warehouseInventoryTypeGridControl.data('beforesave', function (request) {
-            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        $warehouseInventoryTypeGridControl.data('beforesave', request => {
+            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
         });
         FwBrowse.init($warehouseInventoryTypeGridControl);
         FwBrowse.renderRuntimeHtml($warehouseInventoryTypeGridControl);
 
-        $warehouseAvailabilityHourGrid = $form.find('div[data-grid="WarehouseAvailabilityHourGrid"]');
-        $warehouseAvailabilityHourGridControl = jQuery(jQuery('#tmpl-grids-WarehouseAvailabilityHourGridBrowse').html());
+        const $warehouseAvailabilityHourGrid = $form.find('div[data-grid="WarehouseAvailabilityHourGrid"]');
+        const $warehouseAvailabilityHourGridControl = FwBrowse.loadGridFromTemplate('WarehouseAvailabilityHourGrid');
         $warehouseAvailabilityHourGrid.empty().append($warehouseAvailabilityHourGridControl);
-        $warehouseAvailabilityHourGridControl.data('ondatabind', function (request) {
+        $warehouseAvailabilityHourGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
         });
-        $warehouseAvailabilityHourGridControl.data('beforesave', function (request) {
-            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        $warehouseAvailabilityHourGridControl.data('beforesave', request => {
+            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId')
         });
         FwBrowse.init($warehouseAvailabilityHourGridControl);
         FwBrowse.renderRuntimeHtml($warehouseAvailabilityHourGridControl);
 
-        $warehouseDepartmentUserGrid = $form.find('div[data-grid="WarehouseDepartmentUserGrid"]');
-        $warehouseDepartmentUserGridControl = jQuery(jQuery('#tmpl-grids-WarehouseDepartmentUserGridBrowse').html());
+        const $warehouseDepartmentUserGrid = $form.find('div[data-grid="WarehouseDepartmentUserGrid"]');
+        const $warehouseDepartmentUserGridControl = FwBrowse.loadGridFromTemplate('WarehouseDepartmentUserGrid');
         $warehouseDepartmentUserGrid.empty().append($warehouseDepartmentUserGridControl);
-        $warehouseDepartmentUserGridControl.data('ondatabind', function (request) {
+        $warehouseDepartmentUserGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
         });
-        $warehouseDepartmentUserGridControl.data('beforesave', function (request) {
-            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        $warehouseDepartmentUserGridControl.data('beforesave', request => {
+            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         });
         FwBrowse.init($warehouseDepartmentUserGridControl);
         FwBrowse.renderRuntimeHtml($warehouseDepartmentUserGridControl);
 
-        $warehouseOfficeLocationGrid = $form.find('div[data-grid="WarehouseOfficeLocationGrid"]');
-        $warehouseOfficeLocationGridControl = jQuery(jQuery('#tmpl-grids-WarehouseOfficeLocationGridBrowse').html());
+        const $warehouseOfficeLocationGrid = $form.find('div[data-grid="WarehouseOfficeLocationGrid"]');
+        const $warehouseOfficeLocationGridControl = FwBrowse.loadGridFromTemplate('WarehouseOfficeLocationGrid');
         $warehouseOfficeLocationGrid.empty().append($warehouseOfficeLocationGridControl);
-        $warehouseOfficeLocationGridControl.data('ondatabind', function (request) {
+        $warehouseOfficeLocationGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
         });
-        $warehouseOfficeLocationGridControl.data('beforesave', function (request) {
-            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        $warehouseOfficeLocationGridControl.data('beforesave', request => {
+            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         });
         FwBrowse.init($warehouseOfficeLocationGridControl);
         FwBrowse.renderRuntimeHtml($warehouseOfficeLocationGridControl);
 
-        $warehouseQuikLocateApproverGrid = $form.find('div[data-grid="WarehouseQuikLocateApproverGrid"]');
-        $warehouseQuikLocateApproverGridControl = jQuery(jQuery('#tmpl-grids-WarehouseQuikLocateApproverGridBrowse').html());
+        const $warehouseQuikLocateApproverGrid = $form.find('div[data-grid="WarehouseQuikLocateApproverGrid"]');
+        const $warehouseQuikLocateApproverGridControl = FwBrowse.loadGridFromTemplate('WarehouseQuikLocateApproverGrid');
         $warehouseQuikLocateApproverGrid.empty().append($warehouseQuikLocateApproverGridControl);
-        $warehouseQuikLocateApproverGridControl.data('ondatabind', function (request) {
+        $warehouseQuikLocateApproverGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                WarehouseId: $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+                WarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
             };
         });
-        $warehouseQuikLocateApproverGridControl.data('beforesave', function (request) {
-            request.WarehouseId = $form.find('div.fwformfield[data-datafield="WarehouseId"] input').val()
+        $warehouseQuikLocateApproverGridControl.data('beforesave', request => {
+            request.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         });
         FwBrowse.init($warehouseQuikLocateApproverGridControl);
         FwBrowse.renderRuntimeHtml($warehouseQuikLocateApproverGridControl);
     }
 
     afterLoad($form: any) {
-        var $warehouseDepartmentGrid: any;
-        var $warehouseInventoryTypeGrid: any;
-        var $warehouseAvailabilityHourGrid: any;
-        var $warehouseDepartmentUserGrid: any;
-        var $warehouseOfficeLocationGrid: any;
-        var $warehouseQuikLocateApproverGrid: any;
-
-        $warehouseDepartmentGrid = $form.find('[data-name="WarehouseDepartmentGrid"]');
+        const $warehouseDepartmentGrid = $form.find('[data-name="WarehouseDepartmentGrid"]');
         FwBrowse.search($warehouseDepartmentGrid);
 
-        $warehouseInventoryTypeGrid = $form.find('[data-name="WarehouseInventoryTypeGrid"]');
+        const $warehouseInventoryTypeGrid = $form.find('[data-name="WarehouseInventoryTypeGrid"]');
         FwBrowse.search($warehouseInventoryTypeGrid);
 
-        $warehouseAvailabilityHourGrid = $form.find('[data-name="WarehouseAvailabilityHourGrid"]');
+        const $warehouseAvailabilityHourGrid = $form.find('[data-name="WarehouseAvailabilityHourGrid"]');
         FwBrowse.search($warehouseAvailabilityHourGrid);
 
-        $warehouseDepartmentUserGrid = $form.find('[data-name="WarehouseDepartmentUserGrid"]');
+        const $warehouseDepartmentUserGrid = $form.find('[data-name="WarehouseDepartmentUserGrid"]');
         FwBrowse.search($warehouseDepartmentUserGrid);
 
-        $warehouseOfficeLocationGrid = $form.find('[data-name="WarehouseOfficeLocationGrid"]');
+        const $warehouseOfficeLocationGrid = $form.find('[data-name="WarehouseOfficeLocationGrid"]');
         FwBrowse.search($warehouseOfficeLocationGrid);
 
-        $warehouseQuikLocateApproverGrid = $form.find('[data-name="WarehouseQuikLocateApproverGrid"]');
+        const $warehouseQuikLocateApproverGrid = $form.find('[data-name="WarehouseQuikLocateApproverGrid"]');
         FwBrowse.search($warehouseQuikLocateApproverGrid);
 
         if (FwFormField.getValue($form, 'div[data-datafield="AssignBarCodesBy"]') === 'S') {

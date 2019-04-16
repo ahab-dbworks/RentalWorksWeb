@@ -127,50 +127,44 @@ class Project {
     }
 
     renderGrids($form) {
-        var $projectContactGrid;
-        var $projectContactGridControl;
-        $projectContactGrid = $form.find('div[data-grid="ProjectContactGrid"]');
-        $projectContactGridControl = jQuery(jQuery('#tmpl-grids-ProjectContactGridBrowse').html());
+        const $projectContactGrid = $form.find('div[data-grid="ProjectContactGrid"]');
+        const $projectContactGridControl = FwBrowse.loadGridFromTemplate('ProjectContactGrid');
         $projectContactGrid.empty().append($projectContactGridControl);
-        $projectContactGridControl.data('ondatabind', function (request) {
+        $projectContactGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
             };
         });
-        $projectContactGridControl.data('beforesave', function (request) {
+        $projectContactGridControl.data('beforesave', request => {
             request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
             request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
         });
         FwBrowse.init($projectContactGridControl);
         FwBrowse.renderRuntimeHtml($projectContactGridControl);
 
-        var $poApproverGrid;
-        var $poApproverGridControl;
-        $poApproverGrid = $form.find('div[data-grid="POApproverGrid"]');
-        $poApproverGridControl = jQuery(jQuery('#tmpl-grids-POApproverGridBrowse').html());
+        const $poApproverGrid = $form.find('div[data-grid="POApproverGrid"]');
+        const $poApproverGridControl = FwBrowse.loadGridFromTemplate('POApproverGrid');
         $poApproverGrid.empty().append($poApproverGridControl);
-        $poApproverGridControl.data('ondatabind', function (request) {
+        $poApproverGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
             };
         });
-        $poApproverGridControl.data('beforesave', function (request) {
+        $poApproverGridControl.data('beforesave', request => {
             request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
         });
         FwBrowse.init($poApproverGridControl);
         FwBrowse.renderRuntimeHtml($poApproverGridControl);
 
-        var $projectNoteGrid;
-        var $projectNoteGridControl;
-        $projectNoteGrid = $form.find('div[data-grid="ProjectNoteGrid"]');
-        $projectNoteGridControl = jQuery(jQuery('#tmpl-grids-ProjectNoteGridBrowse').html());
+        const $projectNoteGrid = $form.find('div[data-grid="ProjectNoteGrid"]');
+        const $projectNoteGridControl = FwBrowse.loadGridFromTemplate('ProjectNoteGrid');
         $projectNoteGrid.empty().append($projectNoteGridControl);
-        $projectNoteGridControl.data('ondatabind', function (request) {
+        $projectNoteGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 ProjectId: FwFormField.getValueByDataField($form, 'ProjectId')
             };
         });
-        $projectNoteGridControl.data('beforesave', function (request) {
+        $projectNoteGridControl.data('beforesave', request => {
             request.ProjectId = FwFormField.getValueByDataField($form, 'ProjectId');
         });
         FwBrowse.init($projectNoteGridControl);
@@ -178,16 +172,13 @@ class Project {
     }
 
     afterLoad($form: any) {
-        var $projectContactGrid;
-        $projectContactGrid = $form.find('[data-name="ProjectContactGrid"]');
+        const $projectContactGrid = $form.find('[data-name="ProjectContactGrid"]');
         FwBrowse.search($projectContactGrid);
 
-        var $poApproverGrid;
-        $poApproverGrid = $form.find('[data-name="POApproverGrid"]');
+        const $poApproverGrid = $form.find('[data-name="POApproverGrid"]');
         FwBrowse.search($poApproverGrid);
 
-        var $projectNoteGrid;
-        $projectNoteGrid = $form.find('[data-name="ProjectNoteGrid"]');
+        const $projectNoteGrid = $form.find('[data-name="ProjectNoteGrid"]');
         FwBrowse.search($projectNoteGrid);
     }
 }

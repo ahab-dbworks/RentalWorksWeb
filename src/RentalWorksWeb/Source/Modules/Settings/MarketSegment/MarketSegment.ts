@@ -27,17 +27,15 @@ class MarketSegment {
     }
 
     renderGrids($form: any) {
-        var marketSegmentJobGrid, $marketSegmentJobGridControl;
-
-        marketSegmentJobGrid = $form.find('div[data-grid="MarketSegmentJobGrid"]');
-        $marketSegmentJobGridControl = jQuery(jQuery('#tmpl-grids-MarketSegmentJobGridBrowse').html());
+        const marketSegmentJobGrid = $form.find('div[data-grid="MarketSegmentJobGrid"]');
+        const $marketSegmentJobGridControl = FwBrowse.loadGridFromTemplate('MarketSegmentJobGrid');
         marketSegmentJobGrid.empty().append($marketSegmentJobGridControl);
-        $marketSegmentJobGridControl.data('ondatabind', function (request) {
+        $marketSegmentJobGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                MarketSegmentId: $form.find('div.fwformfield[data-datafield="MarketSegmentId"] input').val()
+                MarketSegmentId: FwFormField.getValueByDataField($form, 'MarketSegmentId')
             }
         });
-        $marketSegmentJobGridControl.data('beforesave', function (request) {
+        $marketSegmentJobGridControl.data('beforesave', request => {
             request.MarketSegmentId = FwFormField.getValueByDataField($form, 'MarketSegmentId');
         })
         FwBrowse.init($marketSegmentJobGridControl);
@@ -83,7 +81,7 @@ class MarketSegment {
     }
 
     afterLoad($form: any) {
-        var $marketSegmentJobGrid: any = $form.find('[data-name="MarketSegmentJobGrid"]');
+        const $marketSegmentJobGrid = $form.find('[data-name="MarketSegmentJobGrid"]');
         FwBrowse.search($marketSegmentJobGrid);
     }
 }

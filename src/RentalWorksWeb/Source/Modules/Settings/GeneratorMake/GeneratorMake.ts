@@ -68,29 +68,23 @@ class GeneratorMake {
     }
 
     renderGrids($form: any) {
-        var $generatorMakeModelGrid: any;
-        var $generatorMakeModelGridControl: any;
-
-        // load AttributeValue Grid
-        $generatorMakeModelGrid = $form.find('div[data-grid="GeneratorMakeModelGrid"]');
-        $generatorMakeModelGridControl = jQuery(jQuery('#tmpl-grids-GeneratorMakeModelGridBrowse').html());
+        const $generatorMakeModelGrid = $form.find('div[data-grid="GeneratorMakeModelGrid"]');
+        const $generatorMakeModelGridControl = FwBrowse.loadGridFromTemplate('GeneratorMakeModelGrid');
         $generatorMakeModelGrid.empty().append($generatorMakeModelGridControl);
-        $generatorMakeModelGridControl.data('ondatabind', function (request) {
+        $generatorMakeModelGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                GeneratorMakeId: $form.find('div.fwformfield[data-datafield="GeneratorMakeId"] input').val()
+                GeneratorMakeId: FwFormField.getValueByDataField($form, 'GeneratorMakeId')
             };
         });
-        $generatorMakeModelGridControl.data('beforesave', function (request) {
-            request.GeneratorMakeId = $form.find('div.fwformfield[data-datafield="GeneratorMakeId"] input').val()
+        $generatorMakeModelGridControl.data('beforesave', request => {
+            request.GeneratorMakeId = FwFormField.getValueByDataField($form, 'GeneratorMakeId')
         });
         FwBrowse.init($generatorMakeModelGridControl);
         FwBrowse.renderRuntimeHtml($generatorMakeModelGridControl);
     }
 
     afterLoad($form: any) {
-        var $generatorMakeModelGrid: any;
-
-        $generatorMakeModelGrid = $form.find('[data-name="GeneratorMakeModelGrid"]');
+        const $generatorMakeModelGrid = $form.find('[data-name="GeneratorMakeModelGrid"]');
         FwBrowse.search($generatorMakeModelGrid);
     }
 }
