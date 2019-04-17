@@ -9,9 +9,9 @@ namespace WebApi.Modules.Home.Item
     public class ItemLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        ItemRecord item = new ItemRecord();
-        ItemLoader itemLoader = new ItemLoader();
-        ItemBrowseLoader itemBrowseLoader = new ItemBrowseLoader();
+        protected ItemRecord item = new ItemRecord();
+        protected ItemLoader itemLoader = new ItemLoader();
+        protected ItemBrowseLoader itemBrowseLoader = new ItemBrowseLoader();
         public ItemLogic()
         {
             dataRecords.Add(item);
@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.Item
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"ow9igbdLMgEw", IsPrimaryKey:true)]
-        public string ItemId { get { return item.ItemId; } set { item.ItemId = value; } }
+        public virtual string ItemId { get { return item.ItemId; } set { item.ItemId = value; } }
 
         [FwLogicProperty(Id:"uG5tES8ozJya")]
         public string InventoryId { get { return item.InventoryId; } set { item.InventoryId = value; } }
@@ -72,7 +72,7 @@ namespace WebApi.Modules.Home.Item
         public string ContainerStatusColor { get; set; }
 
         [FwLogicProperty(Id: "IIiYemJaXj9K9", IsReadOnly:true)]
-        public string ContainerItemId { get; set; }
+        public virtual string ContainerItemId { get; set; }
 
         [FwLogicProperty(Id:"2vzSapDug3y8", IsReadOnly:true)]
         public string ContainerStatusDate { get; set; }
