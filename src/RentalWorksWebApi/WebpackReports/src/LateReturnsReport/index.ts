@@ -25,8 +25,8 @@ export class LateReturnDueBackReport extends WebpackReport {
                             report[i].Agent = report[i + 1].Agent;
                             report[i].OrderedByName = report[i + 1].OrderedByName;
                             report[i].BillDateRange = report[i + 1].BillDateRange;
-                            report[i].OrderUnitValue = report[i + 1].OrderUnitValue;
-                            report[i].OrderReplacementCost = report[i + 1].OrderReplacementCost;
+                            //report[i].OrderUnitValue = report[i + 1].OrderUnitValue;
+                            //report[i].OrderReplacementCost = report[i + 1].OrderReplacementCost;
                             report[i].OrderFromDate = report[i + 1].OrderFromDate;
                             report[i].OrderToDate = report[i + 1].OrderToDate;
                             report[i].OrderPastDue = report[i + 1].OrderPastDue;

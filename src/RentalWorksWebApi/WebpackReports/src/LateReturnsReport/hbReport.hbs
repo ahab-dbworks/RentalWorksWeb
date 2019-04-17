@@ -1,5 +1,5 @@
 ﻿<!--Late Returns Report-->
-<div class="rpt-flexrow" style="width: 1600px;">
+<div class="rpt-flexrow" style="width:1525px;">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,32 +11,22 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width: 1600px;">
+<div class="rpt-flexrow" style="margin-top:40px;width:1525px;">
   <table>
     <thead>
       <tr>
         <th class="text">Order No.</th>
-        <th class="text">Date</th>
         <th class="text">Description</th>
+        <th class="text">Date</th>
         <th class="text">Agent</th>
-        <th class="text">Ordered By</th>
+        <th class="text" colspan="4">Ordered By</th>
         <th class="text">Billing Dates</th>
-        {{#ifEquals ShowUnit true}}
-        <th class="number">Unit Value</th>
-        {{else}}
-        <th></th>
-        {{/ifEquals}}
-        {{#ifEquals ShowReplacement true}}
-        <th class="number">Replacement Cost</th>
-        {{else}}
-        <th></th>
-        {{/ifEquals}}
         <th class="text">Rent From</th>
         <th class="text">Rent To</th>
         {{#ifEquals Type "PASTDUE"}}
-        <th class="text">Days Past</th>
+        <th class="number">Days Past</th>
         {{else}}
-        <th class="text">Due In</th>
+        <th class="number">Due In</th>
         {{/ifEquals}}
       </tr>
     </thead>
@@ -51,14 +41,13 @@
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberheader"}}
         <td class="header-row text">{{OrderNumber}}</td>
-        <td class="header-row text">{{OrderDate}}</td>
         <td class="header-row text">{{OrderDescription}}</td>
+        <td class="header-row text">{{OrderDate}}</td>
         <td class="header-row text">{{Agent}}</td>
-        <td class="header-row text">{{OrderedByName}}</td>
+        <td class="header-row text" colspan="4">{{OrderedByName}}</td>
         <td class="header-row text">{{BillDateRange}}</td>
-        <td class="header-row number">{{OrderReplacementCost}}</td>
-        <td class="header-row number">{{OrderFromDate}}</td>
-        <td class="header-row number">{{OrderToDate}}</td>
+        <td class="header-row text">{{OrderFromDate}}</td>
+        <td class="header-row text">{{OrderToDate}}</td>
         <td class="header-row number">{{OrderPastDue}}</td>
       </tr>
       <tr>
@@ -81,7 +70,7 @@
         <td class="order-header"></td>
         {{/ifEquals}}
         {{#ifEquals ../ShowReplacement true}}
-        <td class="order-header number">Replacement Cost</td>
+        <td class="order-header number">Rep. Cost</td>
         {{else}}
         <td class="order-header"></td>
         {{/ifEquals}}
@@ -91,7 +80,7 @@
         <td class="order-header"></td>
         {{/ifEquals}}
         {{#ifEquals ../ShowReplacement true}}
-        <td class="order-header number">Replacement Cost Ext</td>
+        <td class="order-header number">Rep. Cost Ext</td>
         {{else}}
         <td class="order-header"></td>
         {{/ifEquals}}
