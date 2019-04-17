@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"oPBmsLfmVQDA", IsPrimaryKey:true)]
         public string InvoiceId { get { return invoice.InvoiceId; } set { invoice.InvoiceId = value; } }
 
-        [FwLogicProperty(Id:"Eg8VdZEbbo25", IsRecordTitle:true)]
+        [FwLogicProperty(Id:"Eg8VdZEbbo25", IsRecordTitle:true, DisableDirectAssign: true, DisableDirectModify: true)]
         public string InvoiceNumber { get { return invoice.InvoiceNumber; } set { invoice.InvoiceNumber = value; } }
 
         [FwLogicProperty(Id:"muDfynMff7Hy")]
@@ -47,7 +47,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"pyloqM7YJynM", IsReadOnly:true)]
         public string InvoiceDueDate { get; set; }
 
-        [FwLogicProperty(Id:"xSvVrp2IR3db")]
+        [FwLogicProperty(Id:"xSvVrp2IR3db", DisableDirectAssign: true, DisableDirectModify: true)]
         public string InvoiceType { get { return invoice.InvoiceType; } set { invoice.InvoiceType = value; } }
 
         [FwLogicProperty(Id:"jqgSo9AZFl3s")]
@@ -110,7 +110,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"gbjEsq2kr1wh")]
         public string WaNo { get { return invoice.WaNo; } set { invoice.WaNo = value; } }
 
-        [FwLogicProperty(Id:"ru1fRazQa3dV")]
+        [FwLogicProperty(Id:"ru1fRazQa3dV", DisableDirectAssign: true, DisableDirectModify: true)]
         public string Status { get { return invoice.Status; } set { invoice.Status = value; } }
 
         [FwLogicProperty(Id:"9TmbcT4DPrUQ")]
@@ -134,16 +134,16 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"F39EfTR3DvBi")]
         public bool? IsAlteredDates { get { return invoice.IsAlteredDates; } set { invoice.IsAlteredDates = value; } }
 
-        [FwLogicProperty(Id:"5uyCk2Eh4fGp")]
+        [FwLogicProperty(Id:"5uyCk2Eh4fGp", DisableDirectModify: true)]
         public string OfficeLocationId { get { return invoice.OfficeLocationId; } set { invoice.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id: "TPUmaObMXlUMH", IsReadOnly: true)]
         public string OfficeLocation { get; set; }
 
-        [FwLogicProperty(Id:"aPWbnng5uQaH")]
+        [FwLogicProperty(Id:"aPWbnng5uQaH", DisableDirectAssign: true, DisableDirectModify: true)]
         public string InvoiceCreationBatchId { get { return invoice.InvoiceCreationBatchId; } set { invoice.InvoiceCreationBatchId = value; } }
 
-        [FwLogicProperty(Id:"eRMKEC7W0NQK")]
+        [FwLogicProperty(Id:"eRMKEC7W0NQK", IsReadOnly: true)]
         public int? InvoiceCreationBatchNumber { get; set; }
 
         [FwLogicProperty(Id:"jvaNK3ANoOZL")]
@@ -266,7 +266,7 @@ namespace WebApi.Modules.Home.Invoice
         public string PaymentType { get; set; }
 
 
-        [FwLogicProperty(Id:"578Sa5Ns8Ute")]
+        [FwLogicProperty(Id:"578Sa5Ns8Ute", DisableDirectAssign: true, DisableDirectModify: true)]
         public string TaxId { get { return invoice.TaxId; } set { invoice.TaxId = value; tax.TaxId = value; } }
 
         [FwLogicProperty(Id:"H0RhmRE6Y7u7", IsReadOnly:true)]
@@ -441,17 +441,6 @@ namespace WebApi.Modules.Home.Invoice
                 if (original != null)
                 {
                     lOrig = ((InvoiceLogic)original);
-                }
-
-                // no changes allowed to status
-                if (isValid)
-                {
-                    string origStatus = lOrig.Status ?? Status ?? "";
-                    if ((Status != null) && (!Status.Equals(origStatus)))
-                    {
-                        isValid = false;
-                        validateMsg = "Cannot modify the status of this " + BusinessLogicModuleName + ".";
-                    }
                 }
 
                 // no changes allowed at all if processed, closed, or void

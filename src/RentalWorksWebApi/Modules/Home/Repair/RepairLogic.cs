@@ -39,7 +39,7 @@ namespace WebApi.Modules.Home.Repair
         [FwLogicProperty(Id: "mD3GkEIjJcjlt", IsPrimaryKey: true)]
         public string RepairId { get { return repair.RepairId; } set { repair.RepairId = value; } }
 
-        [FwLogicProperty(Id: "PW1aZC7K768Z")]
+        [FwLogicProperty(Id: "PW1aZC7K768Z", DisableDirectModify: true)]
         public string LocationId { get { return repair.LocationId; } set { repair.LocationId = value; } }
 
         [FwLogicProperty(Id: "gM13Bzg7LAand", IsReadOnly: true)]
@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.Repair
         [FwLogicProperty(Id: "qQVibe5BCbKDw", IsReadOnly: true)]
         public string BillingLocation { get; set; }
 
-        [FwLogicProperty(Id: "xhKzfNoDKAdj")]
+        [FwLogicProperty(Id: "xhKzfNoDKAdj", DisableDirectModify: true)]
         public string WarehouseId { get { return repair.WarehouseId; } set { repair.WarehouseId = value; } }
 
         [FwLogicProperty(Id: "7q34E1LMVlwM2", IsReadOnly: true)]
@@ -84,7 +84,7 @@ namespace WebApi.Modules.Home.Repair
         [FwLogicProperty(Id: "ToBTTYQUnNZE")]
         public bool? PendingRepair { get { return repair.PendingRepair; } set { repair.PendingRepair = value; } }
 
-        [FwLogicProperty(Id: "QWRGXatCbG6fh", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "QWRGXatCbG6fh", IsRecordTitle: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public string RepairNumber { get { return repair.RepairNumber; } set { repair.RepairNumber = value; } }
 
         [FwLogicProperty(Id: "QWRGXatCbG6fh", IsReadOnly: true)]
@@ -132,7 +132,7 @@ namespace WebApi.Modules.Home.Repair
         [FwLogicProperty(Id: "pxcaM2UGEmS7s", IsReadOnly: true)]
         public string ItemDescription { get; set; }
 
-        [FwLogicProperty(Id: "cujeKfMv8h88")]
+        [FwLogicProperty(Id: "cujeKfMv8h88", DisableDirectModify: true)]
         public int? Quantity { get { return repair.Quantity; } set { repair.Quantity = value; } }
 
         [FwLogicProperty(Id: "AaD37MCZAdWrB", IsReadOnly: true)]
@@ -197,7 +197,7 @@ namespace WebApi.Modules.Home.Repair
         [FwLogicProperty(Id: "ERfYjekONDwjP", IsReadOnly: true)]
         public string ChargeInvoiceNumber { get; set; }
 
-        [FwLogicProperty(Id: "zjm001TpOyfr")]
+        [FwLogicProperty(Id: "zjm001TpOyfr", IsReadOnly: true)]
         public string ChargeInvoiceDescription { get; set; }
 
 
@@ -210,7 +210,7 @@ namespace WebApi.Modules.Home.Repair
 
 
 
-        [FwLogicProperty(Id: "qtqhN6tF6Wy4")]
+        [FwLogicProperty(Id: "qtqhN6tF6Wy4", DisableDirectAssign: true, DisableDirectModify: true)]
         public string TaxId { get { return repair.TaxId; } set { repair.TaxId = value; } }
 
         [FwLogicProperty(Id: "vltcbayDnlgb")]
@@ -232,13 +232,13 @@ namespace WebApi.Modules.Home.Repair
         public decimal? LaborTaxRate2 { get { return tax.LaborTaxRate2; } set { tax.LaborTaxRate2 = value; } }
 
 
-        [FwLogicProperty(Id: "7gBhhI2LZZSZ")]
+        [FwLogicProperty(Id: "7gBhhI2LZZSZ", DisableDirectAssign: true, DisableDirectModify: true)]
         public string Status { get { return repair.Status; } set { repair.Status = value; } }
 
         [FwLogicProperty(Id: "xFJ3ZADD2bQ8n", IsReadOnly: true)]
         public string StatusColor { get; set; }
 
-        [FwLogicProperty(Id: "fxjvsvnm47Pp")]
+        [FwLogicProperty(Id: "fxjvsvnm47Pp", DisableDirectAssign: true, DisableDirectModify: true)]
         public string StatusDate { get { return repair.StatusDate; } set { repair.StatusDate = value; } }
 
         [FwLogicProperty(Id: "47EzD22tiJRH")]

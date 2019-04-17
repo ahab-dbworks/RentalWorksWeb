@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string Description { get { return purchaseOrder.Description; } set { purchaseOrder.Description = value; } }
 
         [JsonIgnore]
-        [FwLogicProperty(Id:"R3qdAmIZf7SZ")]
+        [FwLogicProperty(Id:"R3qdAmIZf7SZ", DisableDirectModify: true)]
         public string Type { get { return purchaseOrder.Type; } set { purchaseOrder.Type = value; } }
 
         [FwLogicProperty(Id:"eMypPac6XH9t")]
@@ -76,10 +76,10 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id:"oDM7VaQjF3HKd", IsReadOnly:true)]
         public string Agent { get; set; }
 
-        [FwLogicProperty(Id:"GeBFSHGC85Hf")]
+        [FwLogicProperty(Id:"GeBFSHGC85Hf", DisableDirectModify: true)]
         public string Status { get { return purchaseOrder.Status; } set { purchaseOrder.Status = value; } }
 
-        [FwLogicProperty(Id:"cpHP83yfqMvW")]
+        [FwLogicProperty(Id:"cpHP83yfqMvW", DisableDirectModify: true)]
         public string StatusDate { get { return purchaseOrder.StatusDate; } set { purchaseOrder.StatusDate = value; } }
 
         [FwLogicProperty(Id:"xGr0YxadipyP")]
@@ -100,13 +100,13 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id:"TKeJIOFmtxvQa", IsReadOnly:true)]
         public string Department { get; set; }
 
-        [FwLogicProperty(Id:"wMLGaz491jp3")]
+        [FwLogicProperty(Id:"wMLGaz491jp3", DisableDirectModify: true)]
         public string OfficeLocationId { get { return purchaseOrder.OfficeLocationId; } set { purchaseOrder.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id:"01yCQOud66XnC", IsReadOnly:true)]
         public string OfficeLocation { get; set; }
 
-        [FwLogicProperty(Id:"uxqpq3ELNy79")]
+        [FwLogicProperty(Id:"uxqpq3ELNy79", DisableDirectModify: true)]
         public string WarehouseId { get { return purchaseOrder.WarehouseId; } set { purchaseOrder.WarehouseId = value; } }
 
         [FwLogicProperty(Id:"8XKphJFdmXUxA", IsReadOnly:true)]
@@ -283,7 +283,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
 
 
 
-        [FwLogicProperty(Id:"gNNYzTTDz8v8")]
+        [FwLogicProperty(Id:"gNNYzTTDz8v8", DisableDirectModify: true)]
         public string TaxId { get { return purchaseOrder.TaxId; } set { purchaseOrder.TaxId = value; } }
 
         [FwLogicProperty(Id:"krjw2wDrUP6R")]

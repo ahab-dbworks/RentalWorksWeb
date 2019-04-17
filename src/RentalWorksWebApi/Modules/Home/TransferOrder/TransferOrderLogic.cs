@@ -44,64 +44,90 @@ namespace WebApi.Modules.Home.TransferOrder
 
 
         [JsonIgnore]
-        [FwLogicProperty(Id: "WBixPxC9V26zF")]
+        [FwLogicProperty(Id: "WBixPxC9V26zF", DisableDirectModify: true)]
         public string Type { get { return transferOrder.Type; } set { transferOrder.Type = value; } }
 
 
-        [FwLogicProperty(Id: "MLLWReJbTVSv", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "MLLWReJbTVSv", IsRecordTitle: true, DisableDirectAssign: true, DisableDirectModify: true)]
         public string TransferNumber { get { return transferOrder.OrderNumber; } set { transferOrder.OrderNumber = value; } }
+
         [FwLogicProperty(Id: "ZDlV73IYEcvy")]
         public string TransferDate { get { return transferOrder.OrderDate; } set { transferOrder.OrderDate = value; } }
+
         [FwLogicProperty(Id: "FGez2l5px1Dx")]
         public string Description { get { return transferOrder.Description; } set { transferOrder.Description = value; } }
-        [FwLogicProperty(Id: "v6W1vhrrWm2k")]
+
+        [FwLogicProperty(Id: "v6W1vhrrWm2k", DisableDirectAssign: true, DisableDirectModify: true)]
         public string Status { get { return transferOrder.Status; } set { transferOrder.Status = value; } }
-        [FwLogicProperty(Id: "ATnCWGYBdRofG")]
+
+        [FwLogicProperty(Id: "ATnCWGYBdRofG", DisableDirectAssign: true, DisableDirectModify: true)]
         public string StatusDate { get { return transferOrder.StatusDate; } set { transferOrder.StatusDate = value; } }
+
         [FwLogicProperty(Id: "PC4LY7FVRbyx")]
         public string FromWarehouseId { get { return transferOrder.FromWarehouseId; } set { transferOrder.FromWarehouseId = value; } }
+
         [FwLogicProperty(Id: "pAJbBxN0u0iu", IsReadOnly: true)]
         public string FromWarehouse { get; set; }
+
         [FwLogicProperty(Id: "4Z71LHyG45F3j")]
         public string ToWarehouseId { get { return transferOrder.WarehouseId; } set { transferOrder.WarehouseId = value; } }
+
         [FwLogicProperty(Id: "hEaKt19UKcRz", IsReadOnly: true)]
         public string ToWarehouse { get; set; }
+
         [FwLogicProperty(Id: "FJQLU7kwlJOR")]
         public string DepartmentId { get { return transferOrder.DepartmentId; } set { transferOrder.DepartmentId = value; } }
+
         [FwLogicProperty(Id: "Ei1ou8nWqGxd", IsReadOnly: true)]
         public string Department { get; set; }
+
         [FwLogicProperty(Id: "cAw9W17inqZBr")]
         public bool? Rental { get { return transferOrder.Rental; } set { transferOrder.Rental = value; } }
+
         [FwLogicProperty(Id: "2KGlQTb3nceEL")]
         public bool? Sales { get { return transferOrder.Sales; } set { transferOrder.Sales = value; } }
+
         [FwLogicProperty(Id: "6EcHrt37R4zIA")]
         public string AgentId { get { return transferOrder.AgentId; } set { transferOrder.AgentId = value; } }
+
         [FwLogicProperty(Id: "veS3S3InSvQDS", IsReadOnly: true)]
         public string Agent { get; set; }
+
+        [FwLogicProperty(Id: "GKJHWdgxCEtUS", IsReadOnly: true)]
         public string RelatedToOrderId { get; set; }
+
         [FwLogicProperty(Id: "dCW5zlMgVqQs", IsReadOnly: true)]
         public string RelatedToOrderNumber { get; set; }
-        [FwLogicProperty(Id: "SZosgj3Ktskim")]
+
+        [FwLogicProperty(Id: "SZosgj3Ktskim", DisableDirectAssign: true, DisableDirectModify: true)]
         public string OfficeLocationId { get { return transferOrder.OfficeLocationId; } set { transferOrder.OfficeLocationId = value; } }
+
         [FwLogicProperty(Id: "YqNC9HI9TjfyP", IsReadOnly: true)]
         public string OfficeLocation { get; set; }
-        [FwLogicProperty(Id: "kBx2hobWvMgT")]
+
+        [FwLogicProperty(Id: "kBx2hobWvMgT", DisableDirectAssign: true, DisableDirectModify: true)]
         public bool? IsReturnTransferOrder { get { return transferOrderDetail.IsReturnTransferOrder; } set { transferOrderDetail.IsReturnTransferOrder = value; } }
+
         [FwLogicProperty(Id: "EgZDjXm8CZKGD")]
         public string PickDate { get { return transferOrder.PickDate; } set { transferOrder.PickDate = value; } }
+
         [FwLogicProperty(Id: "nfDtDF2adG84y")]
         public string PickTime { get { return transferOrder.PickTime; } set { transferOrder.PickTime = value; } }
+
         [FwLogicProperty(Id: "dgIJeuGQtj4l", IsReadOnly: true)]
         public string ShipDate { get { return transferOrder.EstimatedStartDate; } set { transferOrder.EstimatedStartDate = value; outDelivery.TargetShipDate = value; } }
+
         [FwLogicProperty(Id: "QW1dQRJ6eKsl5", IsReadOnly: true)]
         public string ShipTime { get { return transferOrder.EstimatedStartTime; } set { transferOrder.EstimatedStartTime = value; outDelivery.TargetShipTime = value; } }
+
         [FwLogicProperty(Id: "AjVkvBVuspGif", IsReadOnly: true)]
         public string RequiredDate { get { return transferOrderDetail.ReceiveDate; } set { transferOrderDetail.ReceiveDate = value; } }
+
         [FwLogicProperty(Id: "io1lEB0j5r3mo", IsReadOnly: true)]
         public string RequiredTime { get { return transferOrderDetail.ReceiveTime; } set { transferOrderDetail.ReceiveTime = value; } }
 
 
-        [FwLogicProperty(Id: "CaQAkkrCbFg8g")]
+        [FwLogicProperty(Id: "CaQAkkrCbFg8g", DisableDirectAssign: true, DisableDirectModify: true)]
         public string OutDeliveryId { get { return transferOrder.OutDeliveryId; } set { transferOrder.OutDeliveryId = value; outDelivery.DeliveryId = value; } }
 
         [FwLogicProperty(Id: "5hz7xVp0qRtdD")]
@@ -272,7 +298,7 @@ namespace WebApi.Modules.Home.TransferOrder
 
 
 
-        [FwLogicProperty(Id: "n4Y5DOxU2BFwr")]
+        [FwLogicProperty(Id: "n4Y5DOxU2BFwr", DisableDirectAssign: true, DisableDirectModify: true)]
         public string InDeliveryId { get { return transferOrder.InDeliveryId; } set { transferOrder.InDeliveryId = value; inDelivery.DeliveryId = value; } }
 
         [FwLogicProperty(Id: "3TRnr2iBmMxnc")]

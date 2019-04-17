@@ -27,13 +27,13 @@ namespace WebApi.Modules.Home.Quote
         [FwLogicProperty(Id:"PZaTT296KqnzM", IsPrimaryKey:true)]
         public string QuoteId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
 
-        [FwLogicProperty(Id:"kwFYukQcQp9o")]
+        [FwLogicProperty(Id:"kwFYukQcQp9o", DisableDirectAssign: true, DisableDirectModify: true)]
         public string QuoteNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
 
-        [FwLogicProperty(Id:"aN8TGE6a4YFv")]
+        [FwLogicProperty(Id:"aN8TGE6a4YFv", DisableDirectAssign: true, DisableDirectModify: true)]
         public string QuoteDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
 
-        [FwLogicProperty(Id:"cVKvrBbjaH2B")]
+        [FwLogicProperty(Id:"cVKvrBbjaH2B", DisableDirectModify: true)]
         public int? VersionNumber { get { return dealOrder.VersionNumber; } set { dealOrder.VersionNumber = value; } }
 
         //------------------------------------------------------------------------------------
@@ -45,6 +45,7 @@ namespace WebApi.Modules.Home.Quote
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 QuoteDate = FwConvert.ToString(DateTime.Today);
                 Status = ((string.IsNullOrEmpty(DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
+                VersionNumber = 1;
             }
             else // (updating)
             {

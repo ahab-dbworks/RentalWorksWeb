@@ -12,6 +12,7 @@ using WebApi.Modules.Home.Tax;
 using System;
 using FwStandard.SqlServer;
 using WebApi.Modules.Home.Delivery;
+using System.Reflection;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -51,7 +52,7 @@ namespace WebApi.Modules.Home.Order
         public string Description { get { return dealOrder.Description; } set { dealOrder.Description = value; } }
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id: "HlE6RYRoSi5n")]
+        [FwLogicProperty(Id: "HlE6RYRoSi5n", DisableDirectModify: true)]
         public string OfficeLocationId { get { return dealOrder.OfficeLocationId; } set { dealOrder.OfficeLocationId = value; } }
 
         //------------------------------------------------------------------------------------
@@ -59,7 +60,7 @@ namespace WebApi.Modules.Home.Order
         public string OfficeLocation { get; set; }
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id: "TkkVVDhB0PDs")]
+        [FwLogicProperty(Id: "TkkVVDhB0PDs", DisableDirectModify: true)]
         public string WarehouseId { get { return dealOrder.WarehouseId; } set { dealOrder.WarehouseId = value; } }
 
         //------------------------------------------------------------------------------------
@@ -248,16 +249,16 @@ namespace WebApi.Modules.Home.Order
 
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id: "nR470R51RViU")]
+        [FwLogicProperty(Id: "nR470R51RViU", DisableDirectModify: true)]
         public string Status { get { return dealOrder.Status; } set { dealOrder.Status = value; } }
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id: "N5xzl3zlK1Nf")]
+        [FwLogicProperty(Id: "N5xzl3zlK1Nf", DisableDirectModify: true)]
         public string StatusDate { get { return dealOrder.StatusDate; } set { dealOrder.StatusDate = value; } }
 
         //------------------------------------------------------------------------------------
         [JsonIgnore]
-        [FwLogicProperty(Id: "cKuWw9UhShBU")]
+        [FwLogicProperty(Id: "cKuWw9UhShBU", DisableDirectModify: true)]
         public string Type { get { return dealOrder.Type; } set { dealOrder.Type = value; } }
 
         //------------------------------------------------------------------------------------
@@ -328,7 +329,7 @@ namespace WebApi.Modules.Home.Order
 
 
 
-        [FwLogicProperty(Id: "DlnfpRI6Axwa")]
+        [FwLogicProperty(Id: "DlnfpRI6Axwa", DisableDirectAssign: true, DisableDirectModify: true)]
         public string TaxId { get { return dealOrder.TaxId; } set { dealOrder.TaxId = value; tax.TaxId = value; } }
 
         [FwLogicProperty(Id: "VYgPeImeXW9g")]
@@ -527,7 +528,7 @@ namespace WebApi.Modules.Home.Order
 
 
 
-        [FwLogicProperty(Id: "qOTud9ezil3W")]
+        [FwLogicProperty(Id: "qOTud9ezil3W", DisableDirectAssign: true, DisableDirectModify: true)]
         public string OutDeliveryId { get { return dealOrder.OutDeliveryId; } set { dealOrder.OutDeliveryId = value; outDelivery.DeliveryId = value; } }
 
         [FwLogicProperty(Id: "W0AtOhbvg6tC")]
@@ -701,7 +702,7 @@ namespace WebApi.Modules.Home.Order
 
 
 
-        [FwLogicProperty(Id: "8q5n6SFpVUdm")]
+        [FwLogicProperty(Id: "8q5n6SFpVUdm", DisableDirectAssign: true, DisableDirectModify: true)]
         public string InDeliveryId { get { return dealOrder.InDeliveryId; } set { dealOrder.InDeliveryId = value; inDelivery.DeliveryId = value; } }
 
         [FwLogicProperty(Id: "woUOUjMvdBVn")]
@@ -1090,6 +1091,7 @@ namespace WebApi.Modules.Home.Order
 
         //------------------------------------------------------------------------------------
 
+
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = true;
@@ -1155,6 +1157,24 @@ namespace WebApi.Modules.Home.Order
                             }
                         }
                     }
+
+                    //// make sure certain values are not modified directly
+                    //if (isValid)
+                    //{
+
+                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.OfficeLocationId)), lOrig, ref validateMsg));
+                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.WarehouseId)), lOrig, ref validateMsg));
+                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.Status)), lOrig, ref validateMsg));
+                    //    //isValid = (isValid && ValidateNotChangingProperty(this.GetType().GetProperty(nameof(OrderBaseLogic.StatusDate)), lOrig, ref validateMsg));
+
+                    //    PropertyInfo[] properties = {
+                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.OfficeLocationId)),
+                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.WarehouseId)),
+                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.Status)),
+                    //       this.GetType().GetProperty(nameof(OrderBaseLogic.StatusDate))
+                    //    };
+                    //    isValid = (isValid && ValidateNotChangingProperty(properties, lOrig, ref validateMsg));
+                    //}
 
                     if (isValid)
                     {

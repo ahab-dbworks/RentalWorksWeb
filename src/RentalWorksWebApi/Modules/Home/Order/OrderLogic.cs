@@ -27,11 +27,11 @@ namespace WebApi.Modules.Home.Order
         public string OrderId { get { return dealOrder.OrderId; } set { dealOrder.OrderId = value; dealOrderDetail.OrderId = value; } }
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"LDW97FNr8Vrz")]
+        [FwLogicProperty(Id:"LDW97FNr8Vrz", DisableDirectAssign: true, DisableDirectModify: true)]
         public string OrderNumber { get { return dealOrder.OrderNumber; } set { dealOrder.OrderNumber = value; } }
 
         //------------------------------------------------------------------------------------
-        [FwLogicProperty(Id:"ntviBtfhLqsd")]
+        [FwLogicProperty(Id:"ntviBtfhLqsd", DisableDirectAssign: true, DisableDirectModify: true)]
         public string OrderDate { get { return dealOrder.OrderDate; } set { dealOrder.OrderDate = value; } }
 
         //------------------------------------------------------------------------------------
