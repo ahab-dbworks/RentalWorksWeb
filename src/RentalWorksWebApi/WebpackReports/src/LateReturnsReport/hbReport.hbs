@@ -20,7 +20,7 @@
         <th class="text">Date</th>
         <th class="text">Agent</th>
         <th class="text" colspan="4">Ordered By</th>
-        <th class="text">Billing Dates</th>
+        <th class="text" style="width:98px;">Billing Dates</th>
         <th class="text">Rent From</th>
         <th class="text">Rent To</th>
         {{#ifEquals Type "PASTDUE"}}
@@ -40,18 +40,18 @@
         <td colspan="4" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberheader"}}
-        <td class="header-row text">{{OrderNumber}}</td>
-        <td class="header-row text">{{OrderDescription}}</td>
-        <td class="header-row text">{{OrderDate}}</td>
-        <td class="header-row text">{{Agent}}</td>
-        <td class="header-row text" colspan="4">{{OrderedByName}}</td>
-        <td class="header-row text">{{BillDateRange}}</td>
-        <td class="header-row text">{{OrderFromDate}}</td>
-        <td class="header-row text">{{OrderToDate}}</td>
-        <td class="header-row number">{{OrderPastDue}}</td>
+        <td class="order-row text">{{OrderNumber}}</td>
+        <td class="order-row text">{{OrderDescription}}</td>
+        <td class="order-row text">{{OrderDate}}</td>
+        <td class="order-row text">{{Agent}}</td>
+        <td class="order-row text" colspan="4">{{OrderedByName}}</td>
+        <td class="order-row text">{{BillDateRange}}</td>
+        <td class="order-row text">{{OrderFromDate}}</td>
+        <td class="order-row text">{{OrderToDate}}</td>
+        <td class="order-row number">{{OrderPastDue}}</td>
       </tr>
       <tr>
-        <td class="order-header text">I-Code</td>
+        <td class="order-header text" style="padding-left:20px;">I-Code</td>
         <td class="order-header text">Description</td>
         {{#ifEquals ../ShowBarCode true}}
         <td class="order-header text">Bar Code</td>
@@ -75,7 +75,7 @@
         <td class="order-header"></td>
         {{/ifEquals}}
         {{#ifEquals ../ShowUnit true}}
-        <td class="order-header  number">Unit Value Ext</td>
+        <td class="order-header number">Unit Value Ext</td>
         {{else}}
         <td class="order-header"></td>
         {{/ifEquals}}
@@ -86,7 +86,7 @@
         {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text">{{ICode}}</td>
+        <td class="text" style="padding-left:20px;">{{ICode}}</td>
         <td class="text">{{Description}}</td>
         {{#ifEquals ../ShowBarCode true}}
         <td class="text">{{BarCode}}</td>
