@@ -63,29 +63,23 @@ class Attribute {
     }
     //---------------------------------------------------------------------------------
     renderGrids($form: any) {
-        var $attributeValueGrid: any;
-        var $attributeValueGridControl: any;
-
-        // load AttributeValue Grid
-        $attributeValueGrid = $form.find('div[data-grid="AttributeValueGrid"]');
-        $attributeValueGridControl = jQuery(jQuery('#tmpl-grids-AttributeValueGridBrowse').html());
+        const $attributeValueGrid = $form.find('div[data-grid="AttributeValueGrid"]');
+        const $attributeValueGridControl = FwBrowse.loadGridFromTemplate('AttributeValueGrid');
         $attributeValueGrid.empty().append($attributeValueGridControl);
-        $attributeValueGridControl.data('ondatabind', function (request) {
+        $attributeValueGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                AttributeId: $form.find('div.fwformfield[data-datafield="AttributeId"] input').val()
+                AttributeId: FwFormField.getValueByDataField($form, 'AttributeId')
             };
         });
-        $attributeValueGridControl.data('beforesave', function (request) {
-            request.AttributeId = $form.find('div.fwformfield[data-datafield="AttributeId"] input').val()
+        $attributeValueGridControl.data('beforesave', request => {
+            request.AttributeId = FwFormField.getValueByDataField($form, 'AttributeId')
         });
         FwBrowse.init($attributeValueGridControl);
         FwBrowse.renderRuntimeHtml($attributeValueGridControl);
     }
     //---------------------------------------------------------------------------------
     afterLoad($form: any) {
-        var $attributeValueGrid: any;
-
-        $attributeValueGrid = $form.find('[data-name="AttributeValueGrid"]');
+        const $attributeValueGrid = $form.find('[data-name="AttributeValueGrid"]');
         FwBrowse.search($attributeValueGrid);
     }
 }

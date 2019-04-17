@@ -4,7 +4,7 @@ class Settings {
         this.caption = 'Settings';
         this.nav = 'module/settings';
         this.id = '57150967-486A-42DE-978D-A2B0F843341A';
-        this.settingsMenuId = 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485';
+        this.settingsMenuId = '730C9659-B33B-493E-8280-76A060A07DCE';
     }
     getModuleScreen() {
         var combinedViewModel;

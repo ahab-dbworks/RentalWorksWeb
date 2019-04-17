@@ -397,7 +397,7 @@ class CustomForm {
         for (let i = 0; i < $grids.length; i++) {
             let $this = jQuery($grids[i]);
             let gridName = $this.attr('data-grid');
-            let $gridControl = jQuery(jQuery(`#tmpl-grids-${gridName}Browse`).html());
+            let $gridControl = FwBrowse.loadGridFromTemplate(gridName);
             $this.empty().append($gridControl);
             FwBrowse.init($gridControl);
             FwBrowse.renderRuntimeHtml($gridControl);

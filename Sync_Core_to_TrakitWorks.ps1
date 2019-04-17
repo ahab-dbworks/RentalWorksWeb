@@ -16,6 +16,26 @@ try {
     If (-not(Test-Path "$Env:DwRentalWorksWebPath" -PathType Container)) { throw "The System Environment Variable 'DwRentalWorksWebPath' is set to a directory that does not exist: $Env:DwRentalWorksWebPath" }
     # If (-not(Test-Path "$Env:DwFwPath" -PathType Container))           { throw "The System Environment Variable 'DwFwPath' is set to a directory that does not exist: $Env:DwFwPath" }
 
+    # sync the Administrator modules from RentalWorksWeb
+    $administratormodules = @(
+        'Control',
+        'CustomForm',
+        'CustomField',
+        'DuplicateRule',
+        'EmailHistory',
+        #'Group',
+        'Hotfix',
+        'Integration',
+        'Reports', 
+        'Settings'
+        #'User'
+    )
+    foreach ($administratormodule in $administratormodules) {
+        $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\Modules\Administrator\" + $administratormodule
+        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\Modules\Administrator\" + $administratormodule
+        robocopy "$source" "$destination" /mir
+    }
+
     # sync the Settings modules from RentalWorksWeb
     $settingsmodules = @( 
         "Attribute",
@@ -54,23 +74,19 @@ try {
         robocopy "$source" "$destination" /mir
     }
 
-    # sync the Administrator modules from RentalWorksWeb
-    $administratormodules = @(
-        'Control',
-        'CustomForm',
-        'CustomField',
-        'DuplicateRule',
-        'EmailHistory',
-        #'Group',
-        'Hotfix',
-        'Integration',
-        'Reports', 
-        'Settings'
-        #'User'
+    # sync the Report frontends from RentalWorksWeb
+    $reportmodules = @(
+        'DealOutstandingItemsReport',
+        'LateReturnDueBackReport',
+        'QuoteReport',
+        'OrderReport',
+        'RentalInventoryCatalogReport',
+        'RetiredRentalInventoryReport',
+        'UnretiredRentalInventoryReport'
     )
-    foreach ($administratormodule in $administratormodules) {
-        $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\Modules\Administrator\" + $administratormodule
-        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\Modules\Administrator\" + $administratormodule
+    foreach ($reportmodule in $reportmodules) {
+        $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\Modules\Reports\" + $reportmodule
+        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\Modules\Reports\" + $reportmodule
         robocopy "$source" "$destination" /mir
     }
 }

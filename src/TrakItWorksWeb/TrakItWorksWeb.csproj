@@ -579,6 +579,13 @@
     <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Vendor\Vendor.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\User\User.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\DealOutstandingItemsReport\RwDealOutstandingItemsReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\LateReturnDueBackReport\RwLateReturnDueBackReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OrderReport\RwOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\QuoteReport\RwQuoteReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryCatalogReport\RwRentalInventoryCatalogReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RetiredRentalInventoryReport\RwRetiredRentalInventoryReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\UnretiredRentalInventoryReport\RwUnretiredRentalInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\ContactTitle\ContactTitle.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Country\Country.ts" />
