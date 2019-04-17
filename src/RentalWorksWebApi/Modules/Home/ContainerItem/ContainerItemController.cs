@@ -88,7 +88,7 @@ namespace WebApi.Modules.Home.ContainerItem
                 container.SetDependencies(AppConfig, UserSession);
                 if (await container.LoadAsync<ContainerItemLogic>(ids))
                 {
-                    EmptyContainerItemResponse response = await ContainerItemFunc.EmptyContainer(AppConfig, UserSession, id);
+                    EmptyContainerItemResponse response = await ContainerItemFunc.EmptyContainer(AppConfig, UserSession, container.ItemId);
                     return response;
                 }
                 else
@@ -98,11 +98,7 @@ namespace WebApi.Modules.Home.ContainerItem
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 
@@ -122,11 +118,7 @@ namespace WebApi.Modules.Home.ContainerItem
             }
             catch (Exception ex)
             {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
+                return GetApiExceptionResult(ex);
             }
         }
         //------------------------------------------------------------------------------------ 

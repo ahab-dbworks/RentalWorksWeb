@@ -38,6 +38,7 @@ class EmptyContainer {
         // Populate Description when selecting container
         $form.find('[data-datafield="ItemId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="ContainerDescription"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'ContainerItemId', $tr.find('.field[data-browsedatafield="ContainerItemId"]').attr('data-originalvalue'));
         });
 
         // Toggle checkbox warning text
@@ -48,7 +49,8 @@ class EmptyContainer {
         });
 
         $form.on('click', '.emptyContainer', e => {
-            const id = FwFormField.getValueByDataField($form, 'ItemId');
+            //const id = FwFormField.getValueByDataField($form, 'ItemId');
+            const id = FwFormField.getValueByDataField($form, 'ContainerItemId');
             FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/emptycontainer/${id}`, null, FwServices.defaultTimeout,
                 response => {
                     if (response.success === true) {
@@ -90,6 +92,12 @@ class EmptyContainer {
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" data-formbeforevalidate="beforeValidate" style="flex:1 1 175px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
           </div>
+
+          <!--Hidden field for storing ContainerItemId -->
+          <div class="flexrow" style="display:none;">
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContainerItemId" data-datafield="ContainerItemId" style="flex:1 1 250px;" data-enabled="false"></div>
+          </div>
+
           <div class="flexrow">
             <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Completely Delete this Container instance and all History" data-datafield="DeleteContainer" style="flex:1 1 250px;"></div>
           </div>
