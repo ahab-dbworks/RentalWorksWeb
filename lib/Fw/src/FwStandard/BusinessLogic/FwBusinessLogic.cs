@@ -70,7 +70,7 @@ namespace FwStandard.BusinessLogic
 
     public class InsteadOfDeleteEventArgs : EventArgs
     {
-            public bool Success { get; set; }
+        public bool Success { get; set; }
     };
 
     public class InsteadOfDataRecordDeleteEventArgs : EventArgs
@@ -890,6 +890,119 @@ namespace FwStandard.BusinessLogic
             return isValidValue;
         }
         //------------------------------------------------------------------------------------ 
+        public bool ChangingProperty(PropertyInfo property, FwBusinessLogic original)
+        {
+            bool changing = false;
+            object newValue = property.GetValue(this);
+            if (newValue != null) // new value is specified
+            {
+                if (original == null)
+                {
+                    changing = !newValue.ToString().Equals(string.Empty);
+                }
+                else
+                {
+                    object oldValue = property.GetValue(original);
+
+                    if (!newValue.Equals(oldValue))  // new value is different from old value
+                    {
+                        changing = true;
+                    }
+                }
+            }
+            return changing;
+        }
+        //------------------------------------------------------------------------------------ 
+        public bool ValidateNotChangingProperty(PropertyInfo property, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = !ChangingProperty(property, original);
+            if (!isValid)
+            {
+                validateMsg = "Cannot change the " + property.Name + " on this " + BusinessLogicModuleName + ".";
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------ 
+        public bool ValidateNotChangingProperty(List<PropertyInfo> properties, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            foreach (PropertyInfo property in properties)
+            {
+                isValid = ValidateNotChangingProperty(property, original, ref validateMsg);
+                if (!isValid)
+                {
+                    break;
+                }
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected virtual List<PropertyInfo> GetUnassignableProperties()  //properties that cannot be assigned on New
+        {
+            List<PropertyInfo> unassignableProperties = new List<PropertyInfo>();
+            PropertyInfo[] properties = this.GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.IsDefined(typeof(FwLogicPropertyAttribute)))
+                {
+                    foreach (Attribute attribute in property.GetCustomAttributes())
+                    {
+                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                        {
+                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
+                            if (businessLogicFieldAttribute.DisableDirectAssign)
+                            {
+                                unassignableProperties.Add(property);
+                            }
+                        }
+                    }
+                }
+            }
+            return unassignableProperties;
+        }
+        //------------------------------------------------------------------------------------
+        protected virtual List<PropertyInfo> GetUnmodifiableProperties()  //properties that cannot be modified on Edit
+        {
+            List<PropertyInfo> unmodifiableProperties = new List<PropertyInfo>();
+            PropertyInfo[] properties = this.GetType().GetProperties();
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.IsDefined(typeof(FwLogicPropertyAttribute)))
+                {
+                    foreach (Attribute attribute in property.GetCustomAttributes())
+                    {
+                        if (attribute.GetType() == typeof(FwLogicPropertyAttribute))
+                        {
+                            FwLogicPropertyAttribute businessLogicFieldAttribute = (FwLogicPropertyAttribute)attribute;
+                            if (businessLogicFieldAttribute.DisableDirectModify)
+                            {
+                                unmodifiableProperties.Add(property);
+                            }
+                        }
+                    }
+                }
+            }
+            return unmodifiableProperties;
+        }
+        //------------------------------------------------------------------------------------
+        public bool ValidateNotChangingProhibitedProperties(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+
+            List<PropertyInfo> properties;
+            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                properties = GetUnassignableProperties();
+            }
+            else //if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                properties = GetUnmodifiableProperties();
+            }
+            isValid = ValidateNotChangingProperty(properties, original, ref validateMsg);
+
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------ 
         protected virtual bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             //override this method on a derived class to implement custom validation logic
@@ -908,6 +1021,12 @@ namespace FwStandard.BusinessLogic
                 args.SaveMode = saveMode;
                 args.Original = original;
                 BeforeValidate(this, args);
+            }
+
+            // validate not assignig any prohibited properties on New or Edit
+            if (isValid)
+            {
+                isValid = ValidateNotChangingProhibitedProperties(saveMode, original, ref validateMsg);
             }
 
             if (isValid)
