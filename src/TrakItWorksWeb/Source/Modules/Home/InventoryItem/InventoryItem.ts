@@ -72,10 +72,10 @@ class InventoryItem {
         $form = FwModule.openForm($form, mode);
 
         //let warehouseId = JSON.parse(sessionStorage.warehouse).warehouseid;
-        let self = this;
-        let warehouseId = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;   //justin 11/11/2018 fixing build error
+        let self         = this;
+        let warehouseId  = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
-        let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
+        let endOfMonth   = moment().endOf('month').format('MM/DD/YYYY');
 
         if (typeof uniqueids !== 'undefined') {
             inventoryId = uniqueids.InventoryId;
@@ -127,26 +127,22 @@ class InventoryItem {
                 }
             });
         $realScheduler = $form.find('.realscheduler');
-        $realScheduler
-            .data('ongetevents', function (request) {
-                var start = moment(request.start.value).format('MM/DD/YYYY');
-                var end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
+        $realScheduler.data('ongetevents', function (request) {
+            var start = moment(request.start.value).format('MM/DD/YYYY');
+            var end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
-                    for (var i = 0; i < schedulerEvents.length; i++) {
-                        if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
-                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
-                        }
+            FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
+                for (var i = 0; i < schedulerEvents.length; i++) {
+                    if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
+                        schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
                     }
-                    FwSchedulerDetailed.loadEventsCallback($realScheduler, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);
-                }, function onError(response) {
-                    FwFunc.showError(response);
-                }, $calendar)
-            })
-        if (mode === 'NEW') {
-            this.setupNewMode($form);
-        }
+                }
+                FwSchedulerDetailed.loadEventsCallback($realScheduler, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $calendar)
+        });
 
         controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
@@ -160,39 +156,102 @@ class InventoryItem {
             {value:'K',     text:'Kit'},
             {value:'N',     text:'Container'},
             {value:'M',     text:'Misc.'}
-        ], true);
+        ], false);
 
         FwFormField.loadItems($form.find('div[data-datafield="TrackedBy"]'), [
             {value:'BARCODE',    text:'Barcode'},
             {value:'SERIALNO',   text:'Serial No'},
             {value:'RFID',       text:'RFID'},
             {value:'QUANTITY',   text:'Quantity'}
-        ], true);
+        ], false);
+
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            if ($form.data('mode') !== 'NEW') {
+                const tabpageid = jQuery(e.currentTarget).data('tabpageid');
+
+                const $gridControls = $form.find(`#${tabpageid} [data-type="Grid"]`);
+                if ($gridControls.length > 0) {
+                    for (let i = 0; i < $gridControls.length; i++) {
+                        const $gridcontrol = jQuery($gridControls[i]);
+                        FwBrowse.search($gridcontrol);
+                    }
+                }
+
+                const $browseControls = $form.find(`#${tabpageid} [data-type="Browse"]`);
+                if ($browseControls.length > 0) {
+                    for (let i = 0; i < $browseControls.length; i++) {
+                        const $browseControl = jQuery($browseControls[i]);
+                        FwBrowse.search($browseControl);
+                    }
+                }
+            }
+        });
+
+        $form.on('change', 'div[data-datafield="Classification"] .fwformfield-value', function () {
+            var $this      = jQuery(this);
+            var $trackedby = $form.find('div[data-datafield="TrackedBy"]');
+
+            $form.find('.completeskitstab').hide();
+            $form.find('.containertab').hide();
+            $form.find('.completetab').hide();
+            $form.find('.kittab').hide();
+
+            switch ($this.val()) {
+                case 'I':
+                    $form.find('.completeskitstab').show();
+                    FwFormField.enable($trackedby);
+                    break;
+                case 'A':
+                    $form.find('.completeskitstab').show();
+                    FwFormField.enable($trackedby);
+                    break;
+                case 'C':
+                    $form.find('.completetab').show();
+                    FwFormField.disable($trackedby);
+                    FwFormField.setValueByDataField($form, 'TrackedBy', '');
+                    break;
+                case 'K':
+                    $form.find('.kittab').show();
+                    $form.find('.completeskitstab').show();
+                    FwFormField.disable($trackedby);
+                    FwFormField.setValueByDataField($form, 'TrackedBy', '');
+                    break;
+                case 'N':
+                    $form.find('.containertab').show();
+                    FwFormField.disable($trackedby);
+                    FwFormField.setValueByDataField($form, 'TrackedBy', '');
+                    break;
+                case 'M':
+                    $form.find('.completeskitstab').show();
+                    FwFormField.disable($trackedby);
+                    FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
+                    break;
+            }
+        });
 
         this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form, $calendar, schddate, $realScheduler;
-
-        $form = this.openForm('EDIT', uniqueids);
+        var $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(uniqueids.InventoryId);
         FwModule.loadForm(this.Module, $form);
 
-        $calendar = $form.find('.calendar');
+        var $calendar = $form.find('.calendar');
         if ($calendar.length > 0) {
             setTimeout(function () {
-                schddate = FwScheduler.getTodaysDate();
+                var schddate = FwScheduler.getTodaysDate();
                 FwScheduler.navigate($calendar, schddate);
                 FwScheduler.refresh($calendar);
             }, 1);
         }
 
-        $realScheduler = $form.find('.realscheduler');
+        var $realScheduler = $form.find('.realscheduler');
         if ($realScheduler.length > 0) {
             setTimeout(function () {
-                schddate = FwSchedulerDetailed.getTodaysDate();
+                var schddate = FwSchedulerDetailed.getTodaysDate();
                 FwSchedulerDetailed.navigate($realScheduler, schddate);
                 FwSchedulerDetailed.refresh($realScheduler);
             }, 1);
@@ -206,8 +265,7 @@ class InventoryItem {
     //----------------------------------------------------------------------------------------------
     openRepairOrderBrowse($form) {
         let inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-        let $browse;
-        $browse = RepairController.openBrowse();
+        let $browse     = RepairController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = RepairController.ActiveViewFields;
             request.uniqueids = {
@@ -223,20 +281,16 @@ class InventoryItem {
     };
     //----------------------------------------------------------------------------------------------
     loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
+        var uniqueid = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val();
         FwModule.loadAudit($form, uniqueid);
     };
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let classificationValue, trackedByValue;
-
         $form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').on('change', function () {
             let $this = jQuery(this);
             if ($this.prop('checked') === true) {
                 FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
-            }
-            else {
+            } else {
                 FwFormField.disable($form.find('[data-datafield="ProfitAndLossCategoryId"]'));
             }
         });
@@ -255,20 +309,6 @@ class InventoryItem {
                 FwFormField.enable($form.find('.subcategory'));
             } else {
                 FwFormField.setValueByDataField($form, 'SubCategoryId', '')
-            }
-        });
-        // Hides or shows Asset tab for particular settings on the form
-        $form.find('.class-tracked-radio input').on('change', () => {
-            classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-            trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
-            if (classificationValue === 'I' || classificationValue === 'A') {
-                if (trackedByValue !== 'QUANTITY') {
-                    $form.find('.asset-submodule').show();
-                } else {
-                    $form.find('.asset-submodule').hide();
-                }
-            } else {
-                $form.find('.asset-submodule').hide();
             }
         });
     }
@@ -484,119 +524,60 @@ class InventoryItem {
         return $menuObject;
     };
     //----------------------------------------------------------------------------------------------
-    setupNewMode($form: any) {
-        FwFormField.enable($form.find('[data-datafield="Classification"]'));
-
-        $form.find('div[data-datafield="Classification"] .fwformfield-value').on('change', function () {
-            var $this = jQuery(this);
-
-            $form.find('.completeskitstab').show();
-            $form.find('.containertab').hide();
-            $form.find('.completetab').hide();
-            $form.find('.kittab').hide();
-
-            if ($this.prop('checked') === true && $this.val() === 'I') {
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').show();
-            }
-            if ($this.prop('checked') === true && $this.val() === 'A') {
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').show();
-            }
-            if ($this.prop('checked') === true && $this.val() === 'C') {
-                $form.find('.completetab').show();
-                $form.find('.completeskitstab').hide();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            if ($this.prop('checked') === true && $this.val() === 'K') {
-                $form.find('.kittab').show();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            if ($this.prop('checked') === true && $this.val() === 'N') {
-                $form.find('.containertab').show();
-                $form.find('.completeskitstab').hide();
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            if ($this.prop('checked') === true && $this.val() === 'S') {
-                FwFormField.enable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').hide();
-                $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-            }
-            if ($this.prop('checked') === true && $this.val() === 'M') {
-                FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
-                FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
-                $form.find('.tracked-by-column').show();
-            }
-        })
-    }
-    //----------------------------------------------------------------------------------------------
     afterLoadSetClassification($form: any) {
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'I' || FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'A') {
-            FwFormField.enable($form.find('[data-datafield="Classification"]'));
-            $form.find('.completeradio').hide();
-            $form.find('.kitradio').hide();
-            $form.find('.containerradio').hide();
-            $form.find('.miscradio').hide();
-        }
+        var $classification = $form.find('div[data-datafield="Classification"]');
+        var $trackedby      = $form.find('div[data-datafield="TrackedBy"]');
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'N') {
-            $form.find('.containertab').show();
-            $form.find('.completeskitstab').hide();
-            $form.find('.kitradio').hide();
-            $form.find('.completeradio').hide();
-            $form.find('.itemradio').hide();
-            $form.find('.accessoryradio').hide();
-            $form.find('.miscradio').hide();
-            $form.find('.tracked-by-column').hide();
-            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-        }
+        var $completeskitstab = $form.find('.completeskitstab');
+        var $containertab     = $form.find('.containertab');
+        var $completetab      = $form.find('.completetab');
+        var $kittab           = $form.find('.kittab');
+        var $settingstab      = $form.find('.settingstab');
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'C') {
-            $form.find('.completetab').show();
-            $form.find('.completeskitstab').hide();
-            $form.find('.itemradio').hide();
-            $form.find('.accessoryradio').hide();
-            $form.find('.containerradio').hide();
-            $form.find('.miscradio').hide();
-            $form.find('.tracked-by-column').hide();
-            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-        }
+        var $rentalinventorywarehousegrid = $form.find('[data-grid="RentalInventoryWarehouseGrid"]');
+        var $containerwarehousegrid       = $form.find('[data-grid="ContainerWarehouseGrid"]');
 
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'K') {
-            $form.find('.kittab').show();
-            $form.find('.itemradio').hide();
-            $form.find('.accessoryradio').hide();
-            $form.find('.containerradio').hide();
-            $form.find('.miscradio').hide();
-            $form.find('.tracked-by-column').hide();
-            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-        }
-
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'M') {
-            $form.find('.completeradio').hide();
-            $form.find('.kitradio').hide();
-            $form.find('.itemradio').hide();
-            $form.find('.accessoryradio').hide();
-            $form.find('.containerradio').hide();
-            FwFormField.setValueByDataField($form, 'TrackedBy', 'QUANTITY');
-            FwFormField.disable($form.find('div[data-datafield="TrackedBy"]'));
-        }
-
-        if (FwFormField.getValue($form, 'div[data-datafield="Classification"]') === 'S') {
-            $form.find('.completeradio').hide();
-            $form.find('.kitradio').hide();
-            $form.find('.itemradio').hide();
-            $form.find('.accessoryradio').hide();
-            $form.find('.containerradio').hide();
-            $form.find('.tracked-by-column').hide();
-            $form.find('div[data-datafield="TrackedBy"] input').prop('checked', false);
-        }
+        switch (FwFormField.getValue2($classification)) {
+            case 'I':
+            case 'A':
+                $classification.find('option[value="N"]').hide();
+                $classification.find('option[value="C"]').hide();
+                $classification.find('option[value="K"]').hide();
+                $classification.find('option[value="M"]').hide();
+                FwBrowse.search($rentalinventorywarehousegrid);
+                break;
+            case 'N':
+                $completeskitstab.hide();
+                $containertab.show();
+                $settingstab.show();
+                $rentalinventorywarehousegrid.hide();
+                $containerwarehousegrid.show();
+                FwBrowse.search($containerwarehousegrid);
+                FwFormField.disable($classification);
+                FwFormField.disable($trackedby);
+                FwFormField.setValue2($trackedby, '');
+                break;
+            case 'C':
+                $completeskitstab.hide();
+                $completetab.show();
+                FwBrowse.search($rentalinventorywarehousegrid);
+                FwFormField.disable($classification);
+                FwFormField.disable($trackedby);
+                FwFormField.setValue2($trackedby, '');
+                break;
+            case 'K':
+                $kittab.show();
+                FwBrowse.search($rentalinventorywarehousegrid);
+                FwFormField.disable($classification);
+                FwFormField.disable($trackedby);
+                FwFormField.setValue2($trackedby, '');
+                break;
+            case 'M':
+                FwBrowse.search($rentalinventorywarehousegrid);
+                FwFormField.disable($classification);
+                FwFormField.disable($trackedby);
+                break;
+        };
     }
     //----------------------------------------------------------------------------------------------
     calculateYearly() {
@@ -1277,22 +1258,8 @@ class InventoryItem {
 
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        this.afterLoadSetClassification($form);
         this.addAssetTab($form);
-
-        let classificationType = FwFormField.getValueByDataField($form, 'Classification');
-        //Change the grid on primary to tab when classification is container
-        if (classificationType == 'N') {
-            $form.find('[data-grid="RentalInventoryWarehouseGrid"]').hide();
-            $form.find('[data-grid="ContainerWarehouseGrid"]').show();
-            let $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
-            FwBrowse.search($containerWarehouseGrid);
-
-            //Show settings tab
-            $form.find('.settingstab').show();
-        } else {
-            let $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
-            FwBrowse.search($rentalInventoryWarehouseGrid);
-        }
 
         if ($form.find('[data-datafield="OverrideProfitAndLossCategory"] .fwformfield-value').prop('checked')) {
             FwFormField.enable($form.find('[data-datafield="ProfitAndLossCategoryId"]'))
@@ -1309,31 +1276,30 @@ class InventoryItem {
         } else {
             FwFormField.disable($form.find('.subcategory'));
         }
-
     };
     //----------------------------------------------------------------------------------------------
     addAssetTab($form: any): void {
-        let $submoduleAssetBrowse, classificationValue, trackedByValue;
-        classificationValue = FwFormField.getValueByDataField($form, 'Classification');
-        trackedByValue = FwFormField.getValueByDataField($form, 'TrackedBy');
+        var classificationValue = FwFormField.getValueByDataField($form, 'Classification');
+        var trackedByValue      = FwFormField.getValueByDataField($form, 'TrackedBy');
 
-        if (classificationValue === 'I' || classificationValue === 'A') {
-            if (trackedByValue !== 'QUANTITY') {
-                $form.find('.tab.asset').show();
-                $submoduleAssetBrowse = this.openAssetBrowse($form);
-                $form.find('.tabpage.asset').html($submoduleAssetBrowse);
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').off('click');
-                $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]').on('click', function () {
-                    var $assetForm, controller, $browse, assetFormData: any = {};
-                    $browse = jQuery(this).closest('.fwbrowse');
-                    controller = $browse.attr('data-controller');
-                    assetFormData.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        if ((classificationValue === 'I' || classificationValue === 'A') && (trackedByValue !== 'QUANTITY')) {
+            $form.find('.tab.asset').show();
+            var $submoduleAssetBrowse = this.openAssetBrowse($form);
+            $form.find('.tabpage.asset').html($submoduleAssetBrowse);
+            $submoduleAssetBrowse.find('div.btn[data-type="NewMenuBarButton"]')
+                .off('click')
+                .on('click', function () {
+                    var $browse       = jQuery(this).closest('.fwbrowse');
+                    var controller    = $browse.attr('data-controller');
+                    var assetFormData = {
+                        InventoryId: FwFormField.getValueByDataField($form, 'InventoryId')
+                    };
                     if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
                     if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';
-                    $assetForm = window[controller]['openForm']('NEW', assetFormData);
+                    var $assetForm = window[controller]['openForm']('NEW', assetFormData);
                     FwModule.openSubModuleTab($browse, $assetForm);
-                });
-            }
+                })
+            ;
         }
     };
     //----------------------------------------------------------------------------------------------

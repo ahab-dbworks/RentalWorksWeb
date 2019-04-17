@@ -142,7 +142,7 @@ class Asset {
         var $itemAttributeValueGrid: JQuery = $form.find('[data-name="ItemAttributeValueGrid"]');
         FwBrowse.search($itemAttributeValueGrid);
 
-        var $itemQcGrid: JQuery = $form.find('[data-name="ItemQcGridBrowse"]');
+        var $itemQcGrid: JQuery = $form.find('[data-name="ItemQcGrid"]');
         FwBrowse.search($itemQcGrid);
 
         if (FwFormField.getValueByDataField($form, 'InventoryStatus') === "IN") {

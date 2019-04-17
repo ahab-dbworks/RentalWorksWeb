@@ -157,6 +157,28 @@ class Customer {
                 FwFormField.disable($form.find('.shippingaddress'));
             }
         });
+        //Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            if ($form.data('mode') !== 'NEW') {
+                const tabpageid = jQuery(e.currentTarget).data('tabpageid');
+
+                const $gridControls = $form.find(`#${tabpageid} [data-type="Grid"]`);
+                if ($gridControls.length > 0) {
+                    for (let i = 0; i < $gridControls.length; i++) {
+                        const $gridcontrol = jQuery($gridControls[i]);
+                        FwBrowse.search($gridcontrol);
+                    }
+                }
+
+                const $browseControls = $form.find(`#${tabpageid} [data-type="Browse"]`);
+                if ($browseControls.length > 0) {
+                    for (let i = 0; i < $browseControls.length; i++) {
+                        const $browseControl = jQuery($browseControls[i]);
+                        FwBrowse.search($browseControl);
+                    }
+                }
+            }
+        });
 
         this.events($form);
 
@@ -302,29 +324,6 @@ class Customer {
         if (FwFormField.getValue($form, 'div[data-datafield="UseDiscountTemplate"]') === true) {
             FwFormField.enable($form.find('.discount-validation'));
         };
-
-        //Click Event on tabs to load grids/browses
-        $form.on('click', '[data-type="tab"]', e => {
-            const tabname = jQuery(e.currentTarget).attr('id');
-            const lastIndexOfTab = tabname.lastIndexOf('tab');
-            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
-
-            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
-            if ($gridControls.length > 0) {
-                for (let i = 0; i < $gridControls.length; i++) {
-                    const $gridcontrol = jQuery($gridControls[i]);
-                    FwBrowse.search($gridcontrol);
-                }
-            }
-
-            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
-            if ($browseControls.length > 0) {
-                for (let i = 0; i < $browseControls.length; i++) {
-                    const $browseControl = jQuery($browseControls[i]);
-                    FwBrowse.search($browseControl);
-                }
-            }
-        });
 
         this.addressTypeChange($form);
     }

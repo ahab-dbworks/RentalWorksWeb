@@ -57,10 +57,7 @@ class Repair {
             const out = response.filter(item => item.StatusType === 'OUT');
             const intransit = response.filter(item => item.StatusType === 'INTRANSIT');
 
-            FwBrowse.addLegend($browse, 'Foreign Currency', '#95FFCA');
             FwBrowse.addLegend($browse, 'Priority', '#EA300F');
-            FwBrowse.addLegend($browse, 'Not Billed', '#0fb70c');
-            FwBrowse.addLegend($browse, 'Billable', '#0c6fcc');
             FwBrowse.addLegend($browse, 'Outside', '#fffb38');
             FwBrowse.addLegend($browse, 'Released', '#d6d319');
             FwBrowse.addLegend($browse, 'Pending Repair', out[0].Color);
@@ -93,17 +90,6 @@ class Repair {
         $form.find('.inputbyuserid').hide();
         $form.find('.icodesales').hide();
 
-        // Complete / Estimate
-        $form.find('.complete').on('click', $tr => {
-            this.completeOrder($form);
-        });
-        $form.find('.estimate').on('click', $tr => {
-            this.estimateOrder($form);
-        });
-        // Release Items
-        $form.find('.releaseitems').on('click', $tr => {
-            this.releaseItems($form);
-        });
         // New Orders
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');

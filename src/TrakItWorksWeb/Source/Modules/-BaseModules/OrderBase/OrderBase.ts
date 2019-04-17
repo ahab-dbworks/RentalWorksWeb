@@ -1156,12 +1156,10 @@ class OrderBase {
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             const $tab           = jQuery(e.currentTarget);
-            const tabname        = $tab.attr('id');
-            const lastIndexOfTab = tabname.lastIndexOf('tab');  // for cases where "tab" is included in the name of the tab
-            const tabpage        = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+            const tabpageid = jQuery(e.currentTarget).data('tabpageid');
 
             if ($tab.hasClass('audittab') == false) {
-                const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+                const $gridControls = $form.find(`#${tabpageid} [data-type="Grid"]`);
                 if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
                     for (let i = 0; i < $gridControls.length; i++) {
                         try {
@@ -1173,7 +1171,7 @@ class OrderBase {
                     }
                 }
 
-                const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+                const $browseControls = $form.find(`#${tabpageid} [data-type="Browse"]`);
                 if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
                     for (let i = 0; i < $browseControls.length; i++) {
                         const $browseControl = jQuery($browseControls[i]);
