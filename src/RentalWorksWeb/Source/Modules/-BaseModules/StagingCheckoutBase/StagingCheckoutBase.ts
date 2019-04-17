@@ -29,7 +29,6 @@
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         let $form: JQuery = this.openForm('EDIT');
-        $form = this.openForm('EDIT');
         $form.find(`div.fwformfield[data-datafield="${this.Type}Id"] input`).val(uniqueids[`${this.Type}Id`]);
         FwModule.loadForm(this.Module, $form);
 
