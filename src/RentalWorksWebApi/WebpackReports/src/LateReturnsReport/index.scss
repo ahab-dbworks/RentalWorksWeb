@@ -1,139 +1,4 @@
-﻿
-@page {
-    margin: 130px 32px 96px 32px;
-    /*margin: 48px 24px 48px 24px;*/
-    /*size: auto;*/
-    size: landscape;
-}
-
-
-.Header {
-    div {
-        flex: 1 0 1210px;
-
-        div {
-            min-width: 33.33333%;
-            flex: 1 1 0;
-            font-size: 13px;
-            white-space: nowrap;
-        }
-    }
-}
-
-.tblLateReturns {
-    flex: 1 0 1110px;
-    border-collapse: collapse;
-    margin: 40px 0 0 0;
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-
-        colgroup {
-            .GLAccount {
-                flex: 1 1 0;
-            }
-
-            .Description {
-                flex: 1 1 0;
-            }
-
-            .Debit {
-                flex: 1 1 0;
-            }
-
-            .Credit {
-                flex: 1 1 0;
-            }
-        }
-
-        tr.columnheadings {
-            td {
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-                border-top: 1px solid #000000;
-                border-bottom: 1px solid #000000;
-            }
-        }
-
-        tbody {
-            tr[data-rowtype="detail"]:nth-child(even) {
-                background-color: #DCDCDC;
-            }
-
-            tr.caption {
-                display: block;
-                text-align: center;
-                font-size: 1.5em;
-                font-weight: bold;
-            }
-
-            td.OfficeLocationHeader {
-                padding-top: .8em;
-                padding-bottom: .8em;
-                font-weight: bold;
-                font-size: 1.1em;
-                text-decoration: underline;
-            }
-
-            td.first-order {
-                padding-bottom: .8em;
-                font-weight: bold;
-                padding-left: 40px;
-                padding-top: 2em;
-            }
-
-            td.first-order-icode {
-                padding-bottom: .8em;
-                font-weight: bold;
-                padding-left: 40px;
-                position: relative
-            }
-
-            td.first-order-icode:after {
-                position: absolute;
-                content: '';
-                border-bottom: 1px solid #000000;
-                width: 80%;
-                transform: translateX(-50%);
-                bottom: -1px;
-                left: 60%;
-            }
-
-            td.order-columnheadings {
-                font-weight: bold;
-                border-bottom: 1px solid #000000;
-            }
-
-            td.OrderNumberHeader {
-                padding-bottom: .8em;
-                font-weight: bold;
-                padding-top: 2em;
-            }
-
-            td.DealHeader {
-                padding-bottom: .8em;
-                font-weight: bold;
-                text-decoration: underline;
-                padding-left: 20px;
-            }
-
-            td.first-detail {
-                padding-left: 40px;
-            }
-
-
-
-            td {
-                padding: 2px 5px;
-                font-size: .9em;
-            }
-        }
-    }
-}
-
-tbody {
+﻿tbody {
     tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
@@ -145,6 +10,11 @@ tbody {
     td {
         padding: 3px;
     }
+
+    .order-header {
+        font-weight: bold;
+        border-bottom: 1px solid #000000;
+    }
 }
 
 thead {
@@ -155,4 +25,8 @@ thead {
         padding: 5px;
         white-space: nowrap;
     }
+}
+
+@page {
+    size: landscape;
 }
