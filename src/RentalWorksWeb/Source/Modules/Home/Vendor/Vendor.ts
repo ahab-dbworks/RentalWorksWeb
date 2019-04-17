@@ -511,7 +511,7 @@ class Vendor {
                   <div class="flexcolumn" style="flex:0 1 300px;">
                     <div class="flexrow">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Delivery">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultIncomingDeliveryType" style="flex: 1 1 265px;">
+                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultOutgoingDeliveryType" style="flex: 1 1 265px;">
                           <div data-value="DELIVER" data-caption="Vendor Deliver"></div>
                           <div data-value="SHIP" data-caption="Ship"></div>
                           <div data-value="PICK UP" data-caption="Pick Up"></div>
@@ -522,7 +522,7 @@ class Vendor {
                   <div class="flexcolumn" style="flex:0 1 300px;">
                     <div class="flexrow">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Default Return Delivery" style="padding-left:1px;">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultOutgoingDeliveryType" style="flex: 1 1 265px;">
+                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="DefaultIncomingDeliveryType" style="flex: 1 1 265px;">
                           <div data-value="DELIVER" data-caption="Deliver"></div>
                           <div data-value="SHIP" data-caption="Ship"></div>
                           <div data-value="PICK UP" data-caption="Vendor Pick Up"></div>
