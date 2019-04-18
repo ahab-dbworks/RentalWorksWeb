@@ -169,7 +169,7 @@
                                 department: department,
                                 userid: userid.webusersid
                             };
-                            RwServices.session.updatelocation(request, function (response) {
+                            FwAppData.jsonPost(true, 'services.ashx?path=/session/updatelocation', request, FwServices.defaultTimeout, function (response: any) {
                                 sessionStorage.setItem('authToken', response.authToken);
                                 sessionStorage.setItem('location', JSON.stringify(response.location));
                                 sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
@@ -219,7 +219,7 @@
                                 }, function onError(r) {
                                     FwFunc.showError(r);
                                 }, null);
-                            });
+                            }, null, jQuery('body'));
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);

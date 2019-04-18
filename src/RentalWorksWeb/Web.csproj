@@ -174,7 +174,6 @@
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="scripts\RwLanguages.js" />
-    <Content Include="scripts\RwServices.js" />
     <Content Include="Application.dev.config" />
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
