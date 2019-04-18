@@ -101,7 +101,7 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwSqlDataField(column: "taxable", modeltype: FwDataTypes.Boolean)]
         public bool? Taxable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxamount", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "tax", modeltype: FwDataTypes.Decimal)]
         public decimal? Tax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "linetotalwithtax", modeltype: FwDataTypes.Decimal)]
