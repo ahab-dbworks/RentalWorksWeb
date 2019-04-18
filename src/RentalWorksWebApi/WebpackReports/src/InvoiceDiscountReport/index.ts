@@ -17,20 +17,20 @@ export class InvoiceDiscountReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/invoicediscountreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const invoiceDiscount: any = DataTable.toObjectList(response);
-                    invoiceDiscount.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    invoiceDiscount.FromDate = parameters.FromDate;
-                    invoiceDiscount.ToDate = parameters.ToDate;
-                    invoiceDiscount.DiscountPercent = parameters.DiscountPercent;
-                    invoiceDiscount.Report = 'Invoice Discount Report';
-                    invoiceDiscount.System = 'RENTALWORKS';
-                    invoiceDiscount.Company = '4WALL ENTERTAINMENT';
+                    const report: any = DataTable.toObjectList(response);
+                    report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    report.FromDate = parameters.FromDate;
+                    report.ToDate = parameters.ToDate;
+                    report.DiscountPercent = parameters.DiscountPercent;
+                    report.Report = 'Invoice Discount Report';
+                    report.System = 'RENTALWORKS';
+                    report.Company = '4WALL ENTERTAINMENT';
                     
-                    this.renderFooterHtml(invoiceDiscount);
+                    this.renderFooterHtml(report);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(invoiceDiscount);
+                    document.getElementById('pageBody').innerHTML = hbReport(report);
 
                     this.onRenderReportCompleted();
                 })
