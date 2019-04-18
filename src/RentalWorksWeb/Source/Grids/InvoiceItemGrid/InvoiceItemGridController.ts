@@ -19,7 +19,7 @@
     }
 
     generateRow($control, $generatedtr) {
-        var $form = $control.closest('.fwform');
+        const $form = $control.closest('.fwform');
         //$generatedtr.find('div[data-browsedatafield="ItemId"]').data('onchange', function ($tr) {
         //    $generatedtr.find('.field[data-browsedatafield="InventoryId"] input').val($tr.find('.field[data-browsedatafield="InventoryId"]').attr('data-originalvalue'));
         //    $generatedtr.find('.field[data-browsedatafield="InventoryId"] input.text').val($tr.find('.field[data-browsedatafield="ICode"]').attr('data-originalvalue'));
@@ -27,92 +27,16 @@
         //    $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
         //});
 
-        //$generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-        //    var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
-        //    var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        //    let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
-        //    let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
-        //    let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
-        //    let rateType = $form.find('[data-datafield="RateType"] input').val();
-        //    let inventoryType = $generatedtr.find('[data-browsedatafield="InventoryId"]').attr('data-validationname');
-        //    $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-        //    $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-        //    let discountPercent;
-        //    let daysPerWeek;
-
-        //    $generatedtr.find('.field[data-browsedatafield="ItemId"] input').val('');
-        //    $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
-
-            //switch (inventoryType) {
-            //    case 'RentalInventoryValidation':
-            //        discountPercent = FwFormField.getValueByDataField($form, 'RentalDiscountPercent');
-            //        daysPerWeek = FwFormField.getValueByDataField($form, `RentalDaysPerWeek`);
-            //        break;
-            //    case 'SalesInventoryValidation':
-            //        discountPercent = FwFormField.getValueByDataField($form, 'SalesDiscountPercent');
-            //        daysPerWeek = FwFormField.getValueByDataField($form, `SalesDaysPerWeek`);
-            //        break;
-            //    case 'LaborRateValidation':
-            //        discountPercent = FwFormField.getValueByDataField($form, 'LaborDiscountPercent');
-            //        daysPerWeek = FwFormField.getValueByDataField($form, `LaborDaysPerWeek`);
-            //        break;
-            //    case 'MiscRateValidation':
-            //        discountPercent = FwFormField.getValueByDataField($form, 'MiscDiscountPercent');
-            //        daysPerWeek = FwFormField.getValueByDataField($form, `MiscDaysPerWeek`);
-            //        break;
+        $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
+            //const rowQty = $tr.find('.field[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+            $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+            //if (rowQty === '' || rowQty === undefined) {
+                $generatedtr.find('.field[data-browsedatafield="Quantity"] input').val("1");
             //}
+            });
 
-          
-            //FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercent', { value: discountPercent });
-            //FwBrowse.setFieldValue($control, $generatedtr, 'DiscountPercentDisplay', { value: discountPercent });
-            //FwBrowse.setFieldValue($control, $generatedtr, 'DaysPerWeek', { value: daysPerWeek });
        
-
-            if ($generatedtr.hasClass("newmode")) { }
-            //});
-
-            //$generatedtr.find('div[data-browsedatafield="FromDate"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Extended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="ToDate"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Extended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="QuantityOrdered"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Extended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="Price"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Extended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="DaysPerWeek"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Extended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="DiscountPercentDisplay"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Extended', 'DiscountPercent');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="UnitExtended"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'UnitExtended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="WeeklyExtended"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'WeeklyExtended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="MonthlyExtended"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'MonthlyExtended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="PeriodExtended"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'PeriodExtended');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="UnitDiscountAmount"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'UnitDiscountAmount');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="WeeklyDiscountAmount"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'WeeklyDiscountAmount');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="MonthlyDiscountAmount"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'MonthlyDiscountAmount');
-            //});
-            //$generatedtr.find('div[data-browsedatafield="PeriodDiscountAmount"]').on('change', 'input.value', function ($tr) {
-            //    calculateExtended('Discount', 'PeriodDiscountAmount');
-            //});
+        if ($generatedtr.hasClass("newmode")) { }
         
         //if ($form.attr('data-controller') === 'TemplateController') {
         //    $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
