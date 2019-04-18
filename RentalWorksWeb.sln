@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2026
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "src\RentalWorksWeb\Web.csproj", "{5FFA9EA3-4357-44D0-BD80-B6842529F0E1}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -48,6 +48,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RwQBO", "src\RwQBO\RwQBO.csproj", "{5A1B32D5-4C84-456A-9D28-A1D3696BC594}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityTreeBuilder", "src\SecurityTreeBuilder\SecurityTreeBuilder.csproj", "{8323F78C-1359-4DC1-831C-4C8B7B25F916}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuartzScheduler", "src\QuartzScheduler\QuartzScheduler.csproj", "{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -327,6 +329,30 @@ Global
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8323F78C-1359-4DC1-831C-4C8B7B25F916}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug API|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug API|Any CPU.Build.0 = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug MiddleTier|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug MiddleTier|Any CPU.Build.0 = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug QuikScan Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug QuikScan Fast|Any CPU.Build.0 = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug RentalWorksTest|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug RentalWorksTest|Any CPU.Build.0 = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug Web Fast|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug Web Fast|Any CPU.Build.0 = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug Web|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug Web|Any CPU.Build.0 = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release API|Any CPU.ActiveCfg = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release API|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release MiddleTier|Any CPU.ActiveCfg = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release MiddleTier|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release QuikScan Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release QuikScan Fast|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release Web Fast|Any CPU.ActiveCfg = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release Web Fast|Any CPU.Build.0 = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E4387DB-3F03-4C59-8C8D-48529C01C7DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

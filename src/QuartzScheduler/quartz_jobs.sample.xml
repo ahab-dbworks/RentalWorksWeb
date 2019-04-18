@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This file contains job definitions in schema version 2.0 format -->
+
+<job-scheduling-data xmlns="http://quartznet.sourceforge.net/JobSchedulingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0">
+
+  <processing-directives>
+    <overwrite-existing-data>true</overwrite-existing-data>
+  </processing-directives>
+
+  <schedule>
+    <!-- ************************************************************************************************************* -->
+    <!-- Amag Integration Job - Uploads new Persons from GateWorks to Amag -->
+    <!-- ************************************************************************************************************* -->
+    <job>
+      <name>amagIntegrationJob</name>
+      <group>mainGroup</group>
+      <description>Job to sync Person changes between GateWorks and AMAG</description>
+      <job-type>QuartzScheduler.Jobs.AmagIntegrationJob, QuartzScheduler</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+      <job-data-map>
+        <entry>
+          <key>verboseLogging</key>
+          <value>false</value>
+        </entry>
+      </job-data-map>
+    </job>
+    <trigger>
+      <cron>
+        <name>amagIntegrationJobTrigger</name>
+        <group>mainGroup</group>
+        <description>Trigger to fire amagIntegrationJob</description>
+        <job-name>amagIntegrationJob</job-name>
+        <job-group>mainGroup</job-group>
+        <misfire-instruction>SmartPolicy</misfire-instruction>
+        <!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
+          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). -->
+        <cron-expression>0 * * * * ?</cron-expression>
+      </cron>
+    </trigger>
+    <!-- ************************************************************************************************************* -->
+
+  </schedule>
+</job-scheduling-data>
