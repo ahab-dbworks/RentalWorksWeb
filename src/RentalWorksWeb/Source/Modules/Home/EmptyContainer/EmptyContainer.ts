@@ -49,23 +49,27 @@ class EmptyContainer {
         });
 
         $form.on('click', '.emptyContainer', e => {
-            //const id = FwFormField.getValueByDataField($form, 'ItemId');
             const id = FwFormField.getValueByDataField($form, 'ContainerItemId');
+            const $responseMsg = $form.find('.response-msg');
+            const $containerField = $form.find('[data-datafield="ItemId"]');
             FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/emptycontainer/${id}`, null, FwServices.defaultTimeout,
                 response => {
-                    if (response.success === true) {
+                    $responseMsg.html(`<div style="margin:0px 0px 0px 5px;"><span>${response.msg}</span></div>`);
+                    if (response.success) {
                         try {
-                            FwNotification.renderNotification('SUCCESS', response.msg);
                             $form.find('.fwformfield input').val('');
                             $form.find('.warningText').hide();
                             FwFormField.setValueByDataField($form, 'DeleteContainer', false);
-
+                            $responseMsg.removeClass('error-msg').addClass('success-msg');
+                            $containerField.removeClass('error');
                         }
                         catch (ex) {
                             FwFunc.showError(ex);
                         }
+                    } else {
+                        $containerField.addClass('error');
+                        $responseMsg.removeClass('success-msg').addClass('error-msg');
                     }
-                   
                 },
                 ex => {
                     FwFunc.showError(ex);
@@ -105,6 +109,9 @@ class EmptyContainer {
           <div class="warningText" style="display:none; color:red; margin-top:10px;"><span>This Container instance will be deleted.  All Fill/Empty history will be deleted.  The Item will no longer be associated to this type of Container.</span></div>
           <div class="flexrow">
             <div class="fwformcontrol emptyContainer" data-type="button" style="flex:0 1 140px;margin:15px 0 0 10px;text-align:center;">Empty Container</div>
+          </div>
+          <div class="flexrow">
+            <div class="response-msg"></div>
           </div>
         </div>
       </div>
