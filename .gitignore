@@ -173,4 +173,6 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 **/Fw/scripts/MasterPages/WebMaster.js
 **/Fw/scripts/MasterPages/WebMaster.js.map
 
-Sync_Core_to_TrakitWorks\.ps1\.log
+/Sync_Core_to_TrakitWorks.ps1.log
+
+/src/QuartzScheduler/app.config
