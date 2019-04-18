@@ -79,7 +79,7 @@ class PurchaseOrder {
         const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
         const $void = FwMenu.generateDropDownViewBtn('Void', false, "VOID");
         const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
-        
+
         const viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $new, $open, $received, $complete, $void, $closed);
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
@@ -92,7 +92,7 @@ class PurchaseOrder {
         if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
             this.ActiveViewFields.LocationId = [location.locationid];
         }
-        
+
         const viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
@@ -521,16 +521,15 @@ class PurchaseOrder {
         let $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
         let $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
         let $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
-        let $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
 
         // find all the grids on the form
-        let $rentalGrid = $form.find('.rentalgrid [data-name="InvoiceItemGrid"]');
-        let $salesGrid = $form.find('.salesgrid [data-name="InvoiceItemGrid"]');
-        let $laborGrid = $form.find('.laborgrid [data-name="InvoiceItemGrid"]');
-        let $miscGrid = $form.find('.miscgrid [data-name="InvoiceItemGrid"]');
-        let $usedSaleGrid = $form.find('.usedsalegrid [data-name="InvoiceItemGrid"]');
-        let $lossDamageGrid = $form.find('.lossdamagegrid [data-name="InvoiceItemGrid"]');
-        let $combinedGrid = $form.find('.combinedgrid [data-name="InvoiceItemGrid"]');
+        let $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
+        let $subSalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
+        let $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+        let $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+        let $usedSaleGrid = $form.find('.purchasegrid [data-name="OrderItemGrid"]');
+        let $subLaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]');
+        let $subMiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]');
         let rateType = FwFormField.getValueByDataField($form, 'RateType');
 
         // get the PurchaseOrderTypeId from the form
@@ -539,7 +538,7 @@ class PurchaseOrder {
         if (self.CachedPurchaseOrderTypes[purchaseOrderTypeId] !== undefined) {
             applyPurchaseOrderTypeToColumns($form, self.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
         } else {
-            let fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
+            let fields = jQuery($subRentalGrid).find('thead tr.fieldnames > td.column > div.field');
             let fieldNames = [];
 
             for (var i = 3; i < fields.length; i++) {
@@ -548,40 +547,39 @@ class PurchaseOrder {
                     fieldNames.push(name);
                 }
             }
-            let hiddenRentals, hiddenSales, hiddenLabor, hiddenMisc, hiddenUsedSale, hiddenLossDamage, hiddenCombined;
+            let hiddenSubRentals, hiddenSubSales, hiddenLabor, hiddenMisc, hiddenPurchase, hiddenSubLabor, hiddenSubMisc;
 
             FwAppData.apiMethod(true, 'GET', "api/v1/potype/" + purchaseOrderTypeId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                hiddenRentals = fieldNames.filter(function (field) {
+                hiddenSubRentals = fieldNames.filter(function (field) {
                     return !this.has(field)
-                }, new Set(response.RentalShowFields))
-                hiddenSales = fieldNames.filter(function (field) {
+                }, new Set(response.SubRentalShowFields))
+                hiddenSubSales = fieldNames.filter(function (field) {
                     return !this.has(field)
-                }, new Set(response.SalesShowFields))
+                }, new Set(response.SubSaleShowFields))
                 hiddenLabor = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.LaborShowFields))
                 hiddenMisc = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.MiscShowFields))
-                hiddenUsedSale = fieldNames.filter(function (field) {
+                hiddenPurchase = fieldNames.filter(function (field) {
                     return !this.has(field)
-                }, new Set(response.RentalSaleShowFields))
-                hiddenLossDamage = fieldNames.filter(function (field) {
+                }, new Set(response.PuchaseShowFields))
+                hiddenSubLabor = fieldNames.filter(function (field) {
                     return !this.has(field)
-                }, new Set(response.LossAndDamageShowFields))
-                hiddenCombined = fieldNames.filter(function (field) {
+                }, new Set(response.SubLaborShowFields))
+                hiddenSubMisc = fieldNames.filter(function (field) {
                     return !this.has(field)
-                }, new Set(response.CombinedShowFields))
+                }, new Set(response.SubMiscShowFields))
 
                 self.CachedPurchaseOrderTypes[purchaseOrderTypeId] = {
-                    CombineActivityTabs: response.CombineActivityTabs,
-                    hiddenRentals: hiddenRentals,
-                    hiddenSales: hiddenSales,
+                    hiddenSubRentals: hiddenSubRentals,
+                    hiddenSubSales: hiddenSubSales,
                     hiddenLabor: hiddenLabor,
                     hiddenMisc: hiddenMisc,
-                    hiddenUsedSale: hiddenUsedSale,
-                    hiddenLossDamage: hiddenLossDamage,
-                    hiddenCombined: hiddenCombined
+                    hiddenPurchase: hiddenPurchase,
+                    hiddenSubLabor: hiddenSubLabor,
+                    hiddenSubMisc: hiddenSubMisc
                 }
                 applyPurchaseOrderTypeToColumns($form, self.CachedPurchaseOrderTypes[purchaseOrderTypeId]);
             }, null, null);
@@ -607,35 +605,11 @@ class PurchaseOrder {
 
 
         function applyPurchaseOrderTypeToColumns($form, purchaseOrderTypeData) {
-            $form.find('[data-datafield="CombineActivity"] input').val(purchaseOrderTypeData.CombineActivityTabs);
-
-            if (purchaseOrderTypeData.CombineActivityTabs === true) {
-                $form.find('.notcombined').css('display', 'none');
-                $form.find('.notcombinedtab').css('display', 'none');
-                $form.find('.combined').show();
-                $form.find('.combinedtab').show();
-            } else {
-                $form.find('.combined').css('display', 'none');
-                $form.find('.combinedtab').css('display', 'none');
-                $form.find('.notcombined').show();
-                $form.find('.notcombinedtab').show();
-
-                // show/hide tabs based on Activity boxes checked
-                $form.find('[data-datafield="Rental"] input').prop('checked') ? $rentalTab.show() : $rentalTab.hide();
-                $form.find('[data-datafield="Sales"] input').prop('checked') ? $salesTab.show() : $salesTab.hide();
-                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? $miscTab.show() : $miscTab.hide();
-                $form.find('[data-datafield="Labor"] input').prop('checked') ? $laborTab.show() : $laborTab.hide();
-                $form.find('[data-datafield="RentalSale"] input').prop('checked') ? $usedSaleTab.show() : $usedSaleTab.hide();
-                if ($lossDamageTab !== undefined) {
-                    $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? $lossDamageTab.show() : $lossDamageTab.hide();
-                }
+            for (var i = 0; i < purchaseOrderTypeData.hiddenSubRentals.length; i++) {
+                jQuery($subRentalGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubRentals[i] + '"]')).parent().hide();
             }
-
-            for (var i = 0; i < purchaseOrderTypeData.hiddenRentals.length; i++) {
-                jQuery($rentalGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenRentals[i] + '"]')).parent().hide();
-            }
-            for (var j = 0; j < purchaseOrderTypeData.hiddenSales.length; j++) {
-                jQuery($salesGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSales[j] + '"]')).parent().hide();
+            for (var j = 0; j < purchaseOrderTypeData.hiddenSubSales.length; j++) {
+                jQuery($subSalesGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubSales[j] + '"]')).parent().hide();
             }
             for (var k = 0; k < purchaseOrderTypeData.hiddenLabor.length; k++) {
                 jQuery($laborGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenLabor[k] + '"]')).parent().hide();
@@ -643,21 +617,19 @@ class PurchaseOrder {
             for (var l = 0; l < purchaseOrderTypeData.hiddenMisc.length; l++) {
                 jQuery($miscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenMisc[l] + '"]')).parent().hide();
             }
-            for (var l = 0; l < purchaseOrderTypeData.hiddenUsedSale.length; l++) {
-                jQuery($usedSaleGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenUsedSale[l] + '"]')).parent().hide();
+            for (var l = 0; l < purchaseOrderTypeData.hiddenPurchase.length; l++) {
+                jQuery($usedSaleGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[l] + '"]')).parent().hide();
             }
-            if ($lossDamageTab !== undefined) {
-                for (let i = 0; i < purchaseOrderTypeData.hiddenLossDamage.length; i++) {
-                    jQuery($lossDamageGrid.find(`[data-mappedfield="${purchaseOrderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
-                }
+            for (let i = 0; i < purchaseOrderTypeData.hiddenSubLabor.length; i++) {
+                jQuery($subLaborGrid.find(`[data-mappedfield="${purchaseOrderTypeData.hiddenSubLabor[i]}"]`)).parent().hide();
             }
-            for (let i = 0; i < purchaseOrderTypeData.hiddenCombined.length; i++) {
-                jQuery($combinedGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenCombined[i] + '"]')).parent().hide();
+            for (let i = 0; i < purchaseOrderTypeData.hiddenSubMisc.length; i++) {
+                jQuery($subMiscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubMisc[i] + '"]')).parent().hide();
             }
-            if (purchaseOrderTypeData.hiddenRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
-                $rentalGrid.find('.3weekextended').parent().show();
-            } else if (purchaseOrderTypeData.hiddenRentals.indexOf('WeeklyExtended') === -1 && rateType !== '3WEEK') {
-                $rentalGrid.find('.weekextended').parent().show();
+            if (purchaseOrderTypeData.hiddenSubRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
+                $subRentalGrid.find('.3weekextended').parent().show();
+            } else if (purchaseOrderTypeData.hiddenSubRentals.indexOf('WeeklyExtended') === -1 && rateType !== '3WEEK') {
+                $subRentalGrid.find('.weekextended').parent().show();
             }
 
             let weeklyType = $form.find(".weeklyType");
@@ -709,34 +681,6 @@ class PurchaseOrder {
                     billingWeeks.show();
                     break;
             }
-
-
-            //if (rateType === '3WEEK') {
-            //    $allOrderItemGrid.find('.3week').parent().show();
-            //    $allOrderItemGrid.find('.weekextended').parent().hide();
-            //    $allOrderItemGrid.find('.price').find('.caption').text('Week 1 Rate');
-            //    $orderItemGridRental.find('.3week').parent().show();
-            //    $orderItemGridRental.find('.weekextended').parent().hide();
-            //    $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
-            //}
-
-
-
-            //// Display D/W field in rental
-            //if (rateType === 'DAILY') {
-            //    $allOrderItemGrid.find('.dw').parent().show();
-            //    $orderItemGridRental.find('.dw').parent().show();
-            //    $orderItemGridLabor.find('.dw').parent().show();
-            //    $orderItemGridMisc.find('.dw').parent().show();
-            //} else {
-            //    $allOrderItemGrid.find('.dw').parent().hide();
-            //    $orderItemGridRental.find('.dw').parent().hide();
-            //    $orderItemGridLabor.find('.dw').parent().hide();
-            //    $orderItemGridMisc.find('.dw').parent().hide();
-            //}
-
-
-
         }
     };
     //----------------------------------------------------------------------------------------------
@@ -808,7 +752,7 @@ class PurchaseOrder {
         const $orderItemGridSubSales = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
         const $orderItemGridSubLabor = $form.find('.sublaborgrid [data-name="OrderItemGrid"]');
         const $orderItemGridSubMisc = $form.find('.submiscgrid [data-name="OrderItemGrid"]');
-    
+
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
         $orderItemGridSales.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
         $orderItemGridPart.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
@@ -829,7 +773,7 @@ class PurchaseOrder {
         $orderItemGridSubLabor.find('.buttonbar').hide();
         $orderItemGridSubMisc.find('.buttonbar').hide();
 
-        this.dynamicColumns($form);
+        // this.dynamicColumns($form);
         this.disableCheckboxesOnLoad($form);
     };
     //----------------------------------------------------------------------------------------------
@@ -2014,51 +1958,51 @@ class PurchaseOrder {
         //}
     }
     //----------------------------------------------------------------------------------------------
-    dynamicColumns($form: any): void {
-        const POTYPE = FwFormField.getValueByDataField($form, "PoTypeId"),
-            $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-            $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-            $partGrid = $form.find('.partgrid [data-name="OrderItemGrid"]'),
-            $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-            $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
-            $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
-            $subSaleGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]'),
-            $subLaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]'),
-            $subMiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]'),
-            fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
-        let fieldNames: Array<string> = [];
+    //dynamicColumns($form: any): void {
+    //    const POTYPE = FwFormField.getValueByDataField($form, "PoTypeId"),
+    //        $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
+    //        $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
+    //        $partGrid = $form.find('.partgrid [data-name="OrderItemGrid"]'),
+    //        $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
+    //        $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
+    //        $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
+    //        $subSalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]'),
+    //        $subLaborGrid = $form.find('.sublaborgrid [data-name="OrderItemGrid"]'),
+    //        $subMiscGrid = $form.find('.submiscgrid [data-name="OrderItemGrid"]'),
+    //        fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
+    //    let fieldNames: Array<string> = [];
 
-        for (let i = 3; i < fields.length; i++) {
-            let name = jQuery(fields[i]).attr('data-mappedfield');
-            if (name !== "QuantityOrdered") {
-                fieldNames.push(name);
-            }
-        }
+    //    for (let i = 3; i < fields.length; i++) {
+    //        let name = jQuery(fields[i]).attr('data-mappedfield');
+    //        if (name !== "QuantityOrdered") {
+    //            fieldNames.push(name);
+    //        }
+    //    }
 
-        FwAppData.apiMethod(true, 'GET', `api/v1/potype/${POTYPE}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            let hiddenPurchase: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.PurchaseShowFields));
-            let hiddenMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.MiscShowFields));
-            let hiddenLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.LaborShowFields));
-            let hiddenSubRental: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubRentalShowFields));
-            let hiddenSubSale: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubSaleShowFields));
-            let hiddenSubMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubMiscShowFields));
-            let hiddenSubLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubLaborShowFields));
-            // Non-specific showfields
-            for (let i = 0; i < hiddenPurchase.length; i++) {
-                jQuery($rentalGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
-                jQuery($salesGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
-                jQuery($partGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
-            }
-            // Specific showfields
-            for (let i = 0; i < hiddenMisc.length; i++) { jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide(); }
-            for (let i = 0; i < hiddenLabor.length; i++) { jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide(); }
-            for (let i = 0; i < hiddenSubSale.length; i++) { jQuery($subSaleGrid.find(`[data-mappedfield="${hiddenSubSale[i]}"]`)).parent().hide(); }
-            for (let i = 0; i < hiddenSubRental.length; i++) { jQuery($subRentalGrid.find(`[data-mappedfield="${hiddenSubRental[i]}"]`)).parent().hide(); }
-            for (let i = 0; i < hiddenSubLabor.length; i++) { jQuery($subLaborGrid.find(`[data-mappedfield="${hiddenSubLabor[i]}"]`)).parent().hide(); }
-            for (let i = 0; i < hiddenSubMisc.length; i++) { jQuery($subMiscGrid.find(`[data-mappedfield="${hiddenSubMisc[i]}"]`)).parent().hide(); }
-        }, null, null);
-    };
-    //----------------------------------------------------------------------------------------------
+    //    FwAppData.apiMethod(true, 'GET', `api/v1/potype/${POTYPE}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+    //        let hiddenPurchase: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.PurchaseShowFields));
+    //        let hiddenMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.MiscShowFields));
+    //        let hiddenLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.LaborShowFields));
+    //        let hiddenSubRental: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubRentalShowFields));
+    //        let hiddenSubSale: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubSaleShowFields));
+    //        let hiddenSubMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubMiscShowFields));
+    //        let hiddenSubLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubLaborShowFields));
+    //        // Non-specific showfields
+    //        for (let i = 0; i < hiddenPurchase.length; i++) {
+    //            jQuery($rentalGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+    //            jQuery($salesGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+    //            jQuery($partGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+    //        }
+    //        // Specific showfields
+    //        for (let i = 0; i < hiddenMisc.length; i++) { jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide(); }
+    //        for (let i = 0; i < hiddenLabor.length; i++) { jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide(); }
+    //        for (let i = 0; i < hiddenSubSale.length; i++) { jQuery($subSalesGrid.find(`[data-mappedfield="${hiddenSubSale[i]}"]`)).parent().hide(); }
+    //        for (let i = 0; i < hiddenSubRental.length; i++) { jQuery($subRentalGrid.find(`[data-mappedfield="${hiddenSubRental[i]}"]`)).parent().hide(); }
+    //        for (let i = 0; i < hiddenSubLabor.length; i++) { jQuery($subLaborGrid.find(`[data-mappedfield="${hiddenSubLabor[i]}"]`)).parent().hide(); }
+    //        for (let i = 0; i < hiddenSubMisc.length; i++) { jQuery($subMiscGrid.find(`[data-mappedfield="${hiddenSubMisc[i]}"]`)).parent().hide(); }
+    //    }, null, null);
+    //};
+    ////----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string): void {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
         let extendedTotal = new Decimal(0);
@@ -2294,7 +2238,7 @@ FwApplicationTree.clickEvents['{D512214F-F6BD-4098-8473-0AC7F675893D}'] = functi
 //----------------------------------------------------------------------------------------------
 //Assign Bar Codes
 FwApplicationTree.clickEvents['{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}'] = function (e) {
-    const $form = jQuery(this).closest('.fwform'); 
+    const $form = jQuery(this).closest('.fwform');
     try {
         const mode = 'EDIT';
         let purchaseOrderInfo: any = {};
