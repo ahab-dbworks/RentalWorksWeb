@@ -16,20 +16,19 @@ export class GLDistributionReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/gldistributionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const glDistribution: any = DataTable.toObjectList(response);
-                    glDistribution.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    glDistribution.FromDate = parameters.FromDate;
-                    glDistribution.ToDate = parameters.ToDate;
-                    glDistribution.Location = parameters.Location;
-                    glDistribution.Report = 'G/L Distribution Report';
-                    glDistribution.System = 'RENTALWORKS';
-                    glDistribution.Company = '4WALL ENTERTAINMENT';
-                    console.log('report:', glDistribution)
-                    this.renderFooterHtml(glDistribution);
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Location = parameters.Location;
+                    data.Report = 'G/L Distribution Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(glDistribution);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })

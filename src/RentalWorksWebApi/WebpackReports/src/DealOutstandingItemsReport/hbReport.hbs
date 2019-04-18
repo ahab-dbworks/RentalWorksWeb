@@ -39,7 +39,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each this.rows}}
+      {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
          <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
@@ -191,7 +191,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each this.rows}}
+      {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
          <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>

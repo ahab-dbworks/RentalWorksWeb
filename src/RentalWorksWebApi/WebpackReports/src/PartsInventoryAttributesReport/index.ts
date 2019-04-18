@@ -18,18 +18,18 @@ export class PartsInventoryAttributesReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventoryattributesreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const partsInventoryAttributes: any = DataTable.toObjectList(response);
-                    partsInventoryAttributes.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    partsInventoryAttributes.Report = 'Parts Inventory Attributes Report';
-                    partsInventoryAttributes.System = 'RENTALWORKS';
-                    partsInventoryAttributes.Company = '4WALL ENTERTAINMENT';
-                    partsInventoryAttributes.Today = moment().format('LL');
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.Report = 'Parts Inventory Attributes Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Today = moment().format('LL');
 
-                    this.renderFooterHtml(partsInventoryAttributes);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(partsInventoryAttributes);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

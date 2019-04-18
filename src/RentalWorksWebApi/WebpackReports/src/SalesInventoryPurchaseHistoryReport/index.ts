@@ -16,41 +16,40 @@ export class SalesInventoryPurchaseHistoryReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorypurchasehistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const salesInventoryPurchaseHistory: any = DataTable.toObjectList(response);
-                    salesInventoryPurchaseHistory.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    salesInventoryPurchaseHistory.PurchasedFromDate = parameters.PurchasedFromDate;
-                    salesInventoryPurchaseHistory.PurchasedToDate = parameters.PurchasedToDate;
-                    salesInventoryPurchaseHistory.ReceivedFromDate = parameters.ReceivedFromDate;
-                    salesInventoryPurchaseHistory.ReceivedToDate = parameters.ReceivedToDate;
-                    salesInventoryPurchaseHistory.Report = 'Sales Inventory Purchase History Report';
-                    salesInventoryPurchaseHistory.System = 'RENTALWORKS';
-                    salesInventoryPurchaseHistory.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.PurchasedFromDate = parameters.PurchasedFromDate;
+                    data.PurchasedToDate = parameters.PurchasedToDate;
+                    data.ReceivedFromDate = parameters.ReceivedFromDate;
+                    data.ReceivedToDate = parameters.ReceivedToDate;
+                    data.Report = 'Sales Inventory Purchase History Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
 
                     if (parameters.PurchasedFromDate !== '' || parameters.PurchasedToDate !== '') {
-                        salesInventoryPurchaseHistory.showPurchaseDates = true;
+                        data.showPurchaseDates = true;
                         if (parameters.PurchasedFromDate === '') {
-                            salesInventoryPurchaseHistory.PurchasedFromDate = '(no date)';
+                            data.PurchasedFromDate = '(no date)';
                         }
                         if (parameters.PurchasedToDate === '') {
-                            salesInventoryPurchaseHistory.PurchasedToDate = '(no date)';
+                            data.PurchasedToDate = '(no date)';
                         }
                     }
                     if (parameters.ReceivedFromDate !== '' || parameters.ReceivedToDate !== '') {
-                        salesInventoryPurchaseHistory.showReceiveDates = true;
+                        data.showReceiveDates = true;
                         if (parameters.ReceivedFromDate === '') {
-                            salesInventoryPurchaseHistory.ReceivedFromDate = '(no date)';
+                            data.ReceivedFromDate = '(no date)';
                         }
                         if (parameters.ReceivedToDate === '') {
-                            salesInventoryPurchaseHistory.ReceivedToDate = '(no date)';
+                            data.ReceivedToDate = '(no date)';
                         }
                     }
 
-                    this.renderFooterHtml(salesInventoryPurchaseHistory);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(salesInventoryPurchaseHistory);
-                    console.log('salesInventoryPurchaseHistory: ', salesInventoryPurchaseHistory)
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

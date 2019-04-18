@@ -21,20 +21,20 @@ export class InvoiceReport extends WebpackReport {
                     const controlObject: any = response;
                     Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, parameters)
                     .then((response: Invoice) => {
-                        const report: any = response;
-                        report.Items = DataTable.toObjectList(response.Items);
-                        report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                        report.System = 'RENTALWORKS';
-                        report.Company = '4WALL ENTERTAINMENT';
-                        report.Report = 'INVOICE';
+                        const data: any = response;
+                        data.Items = DataTable.toObjectList(response.Items);
+                        data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                        data.System = 'RENTALWORKS';
+                        data.Company = '4WALL ENTERTAINMENT';
+                        data.Report = 'INVOICE';
                         if (controlObject.ReportLogoImage != '') {
-                            report.Logosrc = controlObject.ReportLogoImage;
+                            data.Logosrc = controlObject.ReportLogoImage;
                         } 
-                        this.renderFooterHtml(report);
+                        this.renderFooterHtml(data);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;
                         }
-                        document.getElementById('pageBody').innerHTML = hbReport(report);
+                        document.getElementById('pageBody').innerHTML = hbReport(data);
                         this.onRenderReportCompleted();
                     })
                     .catch((ex) => {

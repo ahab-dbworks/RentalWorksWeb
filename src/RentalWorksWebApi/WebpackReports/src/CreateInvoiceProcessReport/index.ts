@@ -26,19 +26,19 @@ export class CreateInvoiceProcessReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/createinvoiceprocessreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const createInvoiceProcess: any = DataTable.toObjectList(response);
-                    createInvoiceProcess.BatchNumber = batchNumber;
-                    createInvoiceProcess.Today = moment().format('LL');
-                    createInvoiceProcess.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    createInvoiceProcess.Report = 'Create Invoice Process Report';
-                    createInvoiceProcess.System = 'RENTALWORKS';
-                    createInvoiceProcess.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.BatchNumber = batchNumber;
+                    data.Today = moment().format('LL');
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.Report = 'Create Invoice Process Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
 
-                    this.renderFooterHtml(createInvoiceProcess);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(createInvoiceProcess);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })

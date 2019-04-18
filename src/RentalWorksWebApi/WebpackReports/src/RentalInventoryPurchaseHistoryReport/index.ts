@@ -16,40 +16,40 @@ export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorypurchasehistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const rentalInventoryPurchaseHistory: any = DataTable.toObjectList(response);
-                    rentalInventoryPurchaseHistory.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    rentalInventoryPurchaseHistory.PurchasedFromDate = parameters.PurchasedFromDate;
-                    rentalInventoryPurchaseHistory.PurchasedToDate = parameters.PurchasedToDate;
-                    rentalInventoryPurchaseHistory.ReceivedFromDate = parameters.ReceivedFromDate;
-                    rentalInventoryPurchaseHistory.ReceivedToDate = parameters.ReceivedToDate;
-                    rentalInventoryPurchaseHistory.Report = 'Rental Inventory Purchase History Report';
-                    rentalInventoryPurchaseHistory.System = 'RENTALWORKS';
-                    rentalInventoryPurchaseHistory.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.PurchasedFromDate = parameters.PurchasedFromDate;
+                    data.PurchasedToDate = parameters.PurchasedToDate;
+                    data.ReceivedFromDate = parameters.ReceivedFromDate;
+                    data.ReceivedToDate = parameters.ReceivedToDate;
+                    data.Report = 'Rental Inventory Purchase History Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
 
                     if (parameters.PurchasedFromDate !== '' || parameters.PurchasedToDate !== '') {
-                        rentalInventoryPurchaseHistory.showPurchaseDates = true;
+                        data.showPurchaseDates = true;
                         if (parameters.PurchasedFromDate === '') {
-                            rentalInventoryPurchaseHistory.PurchasedFromDate = '(no date)';
+                            data.PurchasedFromDate = '(no date)';
                         }
                         if (parameters.PurchasedToDate === '') {
-                            rentalInventoryPurchaseHistory.PurchasedToDate = '(no date)';
+                            data.PurchasedToDate = '(no date)';
                         }
                     }
                     if (parameters.ReceivedFromDate !== '' || parameters.ReceivedToDate !== '') {
-                        rentalInventoryPurchaseHistory.showReceiveDates = true;
+                        data.showReceiveDates = true;
                         if (parameters.ReceivedFromDate === '') {
-                            rentalInventoryPurchaseHistory.ReceivedFromDate = '(no date)';
+                            data.ReceivedFromDate = '(no date)';
                         }
                         if (parameters.ReceivedToDate === '') {
-                            rentalInventoryPurchaseHistory.ReceivedToDate = '(no date)';
+                            data.ReceivedToDate = '(no date)';
                         }
                     }
 
-                    this.renderFooterHtml(rentalInventoryPurchaseHistory);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(rentalInventoryPurchaseHistory);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

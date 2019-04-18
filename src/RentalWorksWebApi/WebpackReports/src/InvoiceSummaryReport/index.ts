@@ -18,18 +18,18 @@ export class InvoiceSummaryReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/invoicesummaryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const invoiceSummary: any = DataTable.toObjectList(response);
-                    invoiceSummary.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    invoiceSummary.FromDate = parameters.FromDate;
-                    invoiceSummary.ToDate = parameters.ToDate;
-                    invoiceSummary.Report = 'Invoice Summary Report';
-                    invoiceSummary.System = 'RENTALWORKS';
-                    invoiceSummary.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(invoiceSummary);
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Invoice Summary Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(invoiceSummary);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

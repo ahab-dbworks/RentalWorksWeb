@@ -19,19 +19,19 @@ export class CrewSignInReport extends WebpackReport {
    
             Ajax.post<DataTable>(`${apiUrl}/api/v1/crewsigninreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const crewSignIn: any = DataTable.toObjectList(response);
-                    crewSignIn.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    crewSignIn.FromDate = parameters.FromDate;
-                    crewSignIn.ToDate = parameters.ToDate;
-                    crewSignIn.Report = 'Crew Sign-In Report';
-                    crewSignIn.System = 'RENTALWORKS';
-                    crewSignIn.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Crew Sign-In Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
 
-                    this.renderFooterHtml(crewSignIn);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(crewSignIn);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })

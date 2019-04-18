@@ -17,18 +17,17 @@ export class RentalInventoryChangeReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/RentalInventoryChangeReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const rentalInventoryChange: any = {};
-                    rentalInventoryChange.rows = DataTable.toObjectList(response);
-                    rentalInventoryChange.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    rentalInventoryChange.Report = 'Rental Inventory Change Report';
-                    rentalInventoryChange.System = 'RENTALWORKS';
-                    rentalInventoryChange.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.Report = 'Rental Inventory Change Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
 
-                    this.renderFooterHtml(rentalInventoryChange);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(rentalInventoryChange);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })

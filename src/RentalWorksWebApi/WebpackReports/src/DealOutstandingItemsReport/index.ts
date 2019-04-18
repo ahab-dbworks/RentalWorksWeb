@@ -17,55 +17,52 @@ export class DealOutstandingReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/dealoutstandingitemsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const dealOutstanding: any = {};
-                    dealOutstanding.trimmedRows = [];
-                    dealOutstanding.IncludeFullImages = false;
-                    dealOutstanding.rows = DataTable.toObjectList(response);
+                    const data: any = DataTable.toObjectList(response);
+                    data.IncludeFullImages = false;
                     if (parameters.ShowResponsiblePerson === true) {
-                        dealOutstanding.ShowResponsiblePerson = true;
+                        data.ShowResponsiblePerson = true;
                     }
                     if (parameters.ShowBarcodes === true) {
-                        dealOutstanding.ShowBarcodes = true;
+                        data.ShowBarcodes = true;
                     }
                     if (parameters.ShowVendors === true) {
-                        dealOutstanding.ShowVendors = true;
+                        data.ShowVendors = true;
                     }
                     if (parameters.IncludeFullImages === true || parameters.IncludeThumbnailImages === true) {
-                        dealOutstanding.ShowImages = true;
+                        data.ShowImages = true;
                     } else {
-                        dealOutstanding.ShowImages = false;
+                        data.ShowImages = false;
                     }
                     if (parameters.IncludeThumbnailImages === true) {
-                        dealOutstanding.IncludeThumbnailImages = true;
+                        data.IncludeThumbnailImages = true;
                     }
                     if (parameters.IncludeFullImages === true) {
-                        dealOutstanding.IncludeFullImages = true;
+                        data.IncludeFullImages = true;
                     }
                     if (parameters.IncludeValueCost === 'R') {
-                        dealOutstanding.IncludeValueCost = 'R';
-                        dealOutstanding.IncludeValue = true;
+                        data.IncludeValueCost = 'R';
+                        data.IncludeValue = true;
                     }
                     if (parameters.IncludeValueCost === 'U') {
-                        dealOutstanding.IncludeValueCost = 'U';
-                        dealOutstanding.IncludeValue = true;
+                        data.IncludeValueCost = 'U';
+                        data.IncludeValue = true;
                     }
                     if (parameters.IncludeValueCost === 'P') {
-                        dealOutstanding.IncludeValueCost = 'P';
-                        dealOutstanding.IncludeValue = true;
+                        data.IncludeValueCost = 'P';
+                        data.IncludeValue = true;
                     }
               
-                    dealOutstanding.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    dealOutstanding.FromDate = parameters.FromDate;
-                    dealOutstanding.ToDate = parameters.ToDate;
-                    dealOutstanding.Report = 'Deal Outstanding Items Report';
-                    dealOutstanding.System = 'RENTALWORKS';
-                    dealOutstanding.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(dealOutstanding);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Deal Outstanding Items Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(dealOutstanding);
-                    console.log('dealOutstanding: ', dealOutstanding )
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

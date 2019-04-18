@@ -43,7 +43,6 @@
         </th>
       </tr>
     </thead>
-    {{#with Items}}
     {{#each this}}
     {{#ifEquals RowType "Warehouseheader"}}
     <thead data-rowtype="{{RowType}}">
@@ -150,6 +149,5 @@
     </tfoot>
     {{/ifEquals}}
     {{/each}}
-    {{/with}}
   </table>
 </div>

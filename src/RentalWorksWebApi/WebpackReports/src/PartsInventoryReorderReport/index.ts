@@ -17,19 +17,19 @@ export class PartsInventoryReorderReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventoryreorderreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const partsInventoryReorder: any = DataTable.toObjectList(response);
-                    partsInventoryReorder.PrintDate = moment().format('MM/DD/YYYY');
-                    partsInventoryReorder.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    partsInventoryReorder.FromDate = parameters.FromDate;
-                    partsInventoryReorder.ToDate = parameters.ToDate;
-                    partsInventoryReorder.Report = 'Parts Inventory Reorder Report';
-                    partsInventoryReorder.System = 'RENTALWORKS';
-                    partsInventoryReorder.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(partsInventoryReorder);
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintDate = moment().format('MM/DD/YYYY');
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Parts Inventory Reorder Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(partsInventoryReorder);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

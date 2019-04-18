@@ -16,35 +16,35 @@ export class RentalInventoryValueReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryvaluereport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const rentalInventoryValue: any = DataTable.toObjectList(response);
-                    rentalInventoryValue.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    rentalInventoryValue.FromDate = parameters.FromDate;
-                    rentalInventoryValue.ToDate = parameters.ToDate;
-                    rentalInventoryValue.Report = 'Rental Inventory Value Report';
-                    rentalInventoryValue.System = 'RENTALWORKS';
-                    rentalInventoryValue.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Rental Inventory Value Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
                     // Consigned or Owned Items header text
                     if (parameters.IncludeConsigned === true && parameters.IncludeOwned === false) {
-                        rentalInventoryValue.ConsignedOwnedHeader = 'Includes Consigned Items Only';
+                        data.ConsignedOwnedHeader = 'Includes Consigned Items Only';
                     } else if (parameters.IncludeOwned === true && parameters.IncludeConsigned === false) {
-                        rentalInventoryValue.ConsignedOwnedHeader = 'Includes Owned Items Only';
+                        data.ConsignedOwnedHeader = 'Includes Owned Items Only';
                     } else if (parameters.IncludeOwned === true && parameters.IncludeConsigned === true) {
-                        rentalInventoryValue.ConsignedOwnedHeader = 'Includes Owned and Consigned Items';
+                        data.ConsignedOwnedHeader = 'Includes Owned and Consigned Items';
                     } else {
-                        rentalInventoryValue.ConsignedOwnedHeader = '';
+                        data.ConsignedOwnedHeader = '';
                     }
                     // Determine Summary or Detail View
                     if (parameters.Summary === 'true') {
-                        rentalInventoryValue.ViewSetting = 'SummaryView';
+                        data.ViewSetting = 'SummaryView';
                     } else {
-                        rentalInventoryValue.ViewSetting = 'DetailView';
+                        data.ViewSetting = 'DetailView';
                     }
 
-                    this.renderFooterHtml(rentalInventoryValue);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(rentalInventoryValue);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

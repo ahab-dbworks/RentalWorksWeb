@@ -16,18 +16,18 @@ export class PartsInventoryTransactionReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             Ajax.post<DataTable>(`${apiUrl}/api/v1/partsinventorytransactionreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const partsInventoryTransaction: any = DataTable.toObjectList(response);
-                    partsInventoryTransaction.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    partsInventoryTransaction.FromDate = parameters.FromDate;
-                    partsInventoryTransaction.ToDate = parameters.ToDate;
-                    partsInventoryTransaction.Report = 'Parts Inventory Transaction Report';
-                    partsInventoryTransaction.System = 'RENTALWORKS';
-                    partsInventoryTransaction.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(partsInventoryTransaction);
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Parts Inventory Transaction Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(partsInventoryTransaction);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

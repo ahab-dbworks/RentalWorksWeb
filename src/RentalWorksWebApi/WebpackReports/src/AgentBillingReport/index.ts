@@ -17,18 +17,18 @@ export class AgentBillingReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/agentbillingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const agentBilling: any = DataTable.toObjectList(response);
-                    agentBilling.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    agentBilling.FromDate = parameters.FromDate;
-                    agentBilling.ToDate = parameters.ToDate;
-                    agentBilling.Report = 'Agent Billing Report';
-                    agentBilling.System = 'RENTALWORKS';
-                    agentBilling.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(agentBilling);
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Agent Billing Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(agentBilling);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })

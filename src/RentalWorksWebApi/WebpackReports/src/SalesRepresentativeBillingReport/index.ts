@@ -17,18 +17,18 @@ export class SalesRepresentativeBillingReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesrepresentativebillingreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const SalesRepresentativeBilling: any = DataTable.toObjectList(response);
-                    SalesRepresentativeBilling.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    SalesRepresentativeBilling.FromDate = parameters.FromDate;
-                    SalesRepresentativeBilling.ToDate = parameters.ToDate;
-                    SalesRepresentativeBilling.Report = 'Sales Representative Billing Report';
-                    SalesRepresentativeBilling.System = 'RENTALWORKS';
-                    SalesRepresentativeBilling.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(SalesRepresentativeBilling);
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Sales Representative Billing Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(SalesRepresentativeBilling);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

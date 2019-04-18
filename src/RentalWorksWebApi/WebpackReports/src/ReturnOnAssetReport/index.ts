@@ -17,77 +17,76 @@ export class ReturnOnAssetReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/returnonassetreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const returnAsset: any = {};
-                    returnAsset.rows = DataTable.toObjectList(response);
-                    returnAsset.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    returnAsset.Report = 'Return On Asset Report';
-                    returnAsset.System = 'RENTALWORKS';
-                    returnAsset.ReportYear = parameters.ReportYear;
-                    returnAsset.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.Report = 'Return On Asset Report';
+                    data.System = 'RENTALWORKS';
+                    data.ReportYear = parameters.ReportYear;
+                    data.Company = '4WALL ENTERTAINMENT';
                     
                     if (parameters.ReportPeriod === "FY") {
-                        returnAsset.ReportPeriod = "Full Year";
+                        data.ReportPeriod = "Full Year";
                     }
                     if (parameters.ReportPeriod === "M1") {
-                        returnAsset.ReportPeriod = "January";
+                        data.ReportPeriod = "January";
                     }
                     if (parameters.ReportPeriod === "M2") {
-                        returnAsset.ReportPeriod = "February";
+                        data.ReportPeriod = "February";
                     }
                     if (parameters.ReportPeriod === "M3") {
-                        returnAsset.ReportPeriod = "March";
+                        data.ReportPeriod = "March";
                     }
                     if (parameters.ReportPeriod === "M4") {
-                        returnAsset.ReportPeriod = "April";
+                        data.ReportPeriod = "April";
                     }
                     if (parameters.ReportPeriod === "M5") {
-                        returnAsset.ReportPeriod = "May";
+                        data.ReportPeriod = "May";
                     }
                     if (parameters.ReportPeriod === "M6") {
-                        returnAsset.ReportPeriod = "June";
+                        data.ReportPeriod = "June";
                     }
                     if (parameters.ReportPeriod === "M7") {
-                        returnAsset.ReportPeriod = "July";
+                        data.ReportPeriod = "July";
                     }
                     if (parameters.ReportPeriod === "M8") {
-                        returnAsset.ReportPeriod = "August";
+                        data.ReportPeriod = "August";
                     }
                     if (parameters.ReportPeriod === "M9") {
-                        returnAsset.ReportPeriod = "September";
+                        data.ReportPeriod = "September";
                     }
                     if (parameters.ReportPeriod === "M10") {
-                        returnAsset.ReportPeriod = "October";
+                        data.ReportPeriod = "October";
                     }
                     if (parameters.ReportPeriod === "M11") {
-                        returnAsset.ReportPeriod = "November";
+                        data.ReportPeriod = "November";
                     }
                     if (parameters.ReportPeriod === "M12") {
-                        returnAsset.ReportPeriod = "December";
+                        data.ReportPeriod = "December";
                     }
                     if (parameters.ReportPeriod === "Q1") {
-                        returnAsset.ReportPeriod = "First Quarter";
+                        data.ReportPeriod = "First Quarter";
                     }
                     if (parameters.ReportPeriod === "Q2") {
-                        returnAsset.ReportPeriod = "Second Quarter";
+                        data.ReportPeriod = "Second Quarter";
                     }
                     if (parameters.ReportPeriod === "Q3") {
-                        returnAsset.ReportPeriod = "Third Quarter";
+                        data.ReportPeriod = "Third Quarter";
                     }
                     if (parameters.ReportPeriod === "Q4") {
-                        returnAsset.ReportPeriod = "Fourth Quarter";
+                        data.ReportPeriod = "Fourth Quarter";
                     }
                     if (parameters.ReportPeriod === "S1") {
-                        returnAsset.ReportPeriod = "First Semester";
+                        data.ReportPeriod = "First Semester";
                     }
                     if (parameters.ReportPeriod === "S2") {
-                        returnAsset.ReportPeriod = "Second Semester";
+                        data.ReportPeriod = "Second Semester";
                     }
 
-                    this.renderFooterHtml(returnAsset);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(returnAsset);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })

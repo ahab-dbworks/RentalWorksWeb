@@ -17,20 +17,18 @@ export class PickListReport extends WebpackReport {
 
             HandlebarsHelpers.registerHelpers();
 
-            Ajax.post<Picklist>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, parameters)
-                .then((response: Picklist) => {
-                    let picklist = new Picklist();
-                    picklist = response;
-                    picklist.Items = DataTable.toObjectList(response.Items);
-                    picklist.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    picklist.Report = 'PICK LIST';
-                    picklist.System = 'RENTALWORKS';
-                    picklist.Company = '4WALL ENTERTAINMENT';
-                    this.renderFooterHtml(picklist);
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, parameters)
+                .then((response: DataTable) => {
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.Report = 'PICK LIST';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(picklist);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
@@ -48,44 +46,3 @@ export class PickListReport extends WebpackReport {
 }
 
 (<any>window).report = new PickListReport();
-
-class Picklist {
-    _Custom = new Array<CustomField>();
-    Report: string;
-    Company: string;
-    System: string;
-    PicklistId: string;
-    OrderId: string;
-    Customer: string;
-    CustomerNumber: string;
-    Deal: string;
-    DealNumber: string;
-    OrderNumber: string;
-    OrderDescription: string;
-    Location: string;
-    WarehouseId: string;
-    Warehouse: string;
-    TransferToWarehouseId: string;
-    TransferToWarehouse: string;
-    PoNumber: string;
-    DeliverType: string;
-    RequiredDate: string;
-    RequiredTime: string;
-    RequiredDateTime: string;
-    TargetShipDate: string;
-    PickNumber: string;
-    PhoneExtension: string;
-    Agent: string;
-    AgentPhoneExtension: string;
-    RequestSentTo: string;
-    PrepDate: string;
-    PrepTime: string;
-    EstimatedStartDate: string;
-    EstimatedStartTime: string;
-    EstimatedStopDate: string;
-    EstimatedStopTime: string;
-    OrderedBy: string;
-    OrderedByPhoneExtension: string;
-    Items: any;
-    PrintTime: string;
-}

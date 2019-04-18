@@ -17,20 +17,19 @@ export class UnretiredRentalInventoryReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/UnretiredRentalInventoryReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const unretiredRentalInventory: any = DataTable.toObjectList(response);
-                    unretiredRentalInventory.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    unretiredRentalInventory.FromDate = parameters.FromDate;
-                    unretiredRentalInventory.ToDate = parameters.ToDate;
-                    unretiredRentalInventory.Report = 'Unretired Rental Inventory Report';
-                    unretiredRentalInventory.System = 'RENTALWORKS';
-                    unretiredRentalInventory.Company = '4WALL ENTERTAINMENT';
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Unretired Rental Inventory Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
 
-                    this.renderFooterHtml(unretiredRentalInventory);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(unretiredRentalInventory);
-                    console.log('unretiredRentalInventory: ', unretiredRentalInventory)
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

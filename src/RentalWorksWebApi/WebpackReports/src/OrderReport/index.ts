@@ -22,26 +22,26 @@ export class OrderReport extends WebpackReport {
                     const controlObject: any = response;
                     Ajax.post<Order>(`${apiUrl}/api/v1/orderreport/runreport`, authorizationHeader, parameters)
                         .then((response: Order) => {
-                        const order: any = response;
-                        order.Items = DataTable.toObjectList(response.Items);
-                        order.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                        order.System = 'RENTALWORKS';
-                        order.Company = '4WALL ENTERTAINMENT';
+                            const data: any = response;
+                            data.Items = DataTable.toObjectList(response.Items);
+                            data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                            data.System = 'RENTALWORKS';
+                            data.Company = '4WALL ENTERTAINMENT';
                         if (controlObject.ReportLogoImage != '') {
-                            order.Logosrc = controlObject.ReportLogoImage;
+                            data.Logosrc = controlObject.ReportLogoImage;
                         } 
                         if (parameters.isQuote) {
-                            order.Report = 'QUOTE';
+                            data.Report = 'QUOTE';
                             document.title = 'Quote Report'
                         } else {
-                            order.Report = 'ORDER';
+                            data.Report = 'ORDER';
                         }
 
-                        this.renderFooterHtml(order);
+                            this.renderFooterHtml(data);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;
                         }
-                        document.getElementById('pageBody').innerHTML = hbReport(order);
+                            document.getElementById('pageBody').innerHTML = hbReport(data);
                         this.onRenderReportCompleted();
                     })
                     .catch((ex) => {

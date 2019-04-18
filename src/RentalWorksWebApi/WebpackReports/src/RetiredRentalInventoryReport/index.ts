@@ -16,23 +16,22 @@ export class RetiredRentalInventoryReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/retiredrentalinventoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const retiredRentalInventory: any = {};
-                    retiredRentalInventory.Items = DataTable.toObjectList(response);
-                    retiredRentalInventory.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    retiredRentalInventory.FromDate = parameters.FromDate;
-                    retiredRentalInventory.ToDate = parameters.ToDate;
-                    retiredRentalInventory.Report = 'Retired Rental Inventory Report';
-                    retiredRentalInventory.System = 'RENTALWORKS';
-                    retiredRentalInventory.Company = '4WALL ENTERTAINMENT';
-                    retiredRentalInventory.ShowSellInformation = parameters.ShowSellInformation;
-                    retiredRentalInventory.IncludeUnretired = parameters.IncludeUnretired;
-                    this.renderFooterHtml(retiredRentalInventory);
+                    const data: any = DataTable.toObjectList(response);
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Retired Rental Inventory Report';
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    data.ShowSellInformation = parameters.ShowSellInformation;
+                    data.IncludeUnretired = parameters.IncludeUnretired;
+                    this.renderFooterHtml(data);
 
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(retiredRentalInventory);
-
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
+console.log('data', data)
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

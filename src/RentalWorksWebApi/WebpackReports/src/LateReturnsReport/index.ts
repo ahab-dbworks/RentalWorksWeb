@@ -17,38 +17,38 @@ export class LateReturnDueBackReport extends WebpackReport {
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/latereturnsreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const report:any = DataTable.toObjectList(response); 
-                    for (let i = 0; i < report.length; i++) {
-                        if (report[i].RowType === 'OrderNumberheader') {
-                            report[i].OrderDate = report[i + 1].OrderDate;
-                            report[i].OrderDescription = report[i + 1].OrderDescription;
-                            report[i].Agent = report[i + 1].Agent;
-                            report[i].OrderedByName = report[i + 1].OrderedByName;
-                            report[i].BillDateRange = report[i + 1].BillDateRange;
-                            //report[i].OrderUnitValue = report[i + 1].OrderUnitValue;
-                            //report[i].OrderReplacementCost = report[i + 1].OrderReplacementCost;
-                            report[i].OrderFromDate = report[i + 1].OrderFromDate;
-                            report[i].OrderToDate = report[i + 1].OrderToDate;
-                            report[i].OrderPastDue = report[i + 1].OrderPastDue;
+                    const data: any = DataTable.toObjectList(response); 
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].RowType === 'OrderNumberheader') {
+                            data[i].OrderDate = data[i + 1].OrderDate;
+                            data[i].OrderDescription = data[i + 1].OrderDescription;
+                            data[i].Agent = data[i + 1].Agent;
+                            data[i].OrderedByName = data[i + 1].OrderedByName;
+                            data[i].BillDateRange = data[i + 1].BillDateRange;
+                            //data[i].OrderUnitValue = data[i + 1].OrderUnitValue;
+                            //data[i].OrderReplacementCost = data[i + 1].OrderReplacementCost;
+                            data[i].OrderFromDate = data[i + 1].OrderFromDate;
+                            data[i].OrderToDate = data[i + 1].OrderToDate;
+                            data[i].OrderPastDue = data[i + 1].OrderPastDue;
                         }
                     }
-                    report.System = 'RENTALWORKS';
-                    report.Company = '4WALL ENTERTAINMENT';
-                    report.Report = 'Late Return / Due Back Report';
-                    report.Type = parameters.Type;
-                    report.subtitle = parameters.headerText;
-                    report.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    if (parameters.ShowUnit) { report.ShowUnit = true };
-                    if (parameters.ShowReplacement) { report.ShowReplacement = true };
-                    if (parameters.ShowBarCode) { report.ShowBarCode = true };
-                    if (parameters.ShowSerial) { report.ShowSerial = true };
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Report = 'Late Return / Due Back Report';
+                    data.Type = parameters.Type;
+                    data.subtitle = parameters.headerText;
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    if (parameters.ShowUnit) { data.ShowUnit = true };
+                    if (parameters.ShowReplacement) { data.ShowReplacement = true };
+                    if (parameters.ShowBarCode) { data.ShowBarCode = true };
+                    if (parameters.ShowSerial) { data.ShowSerial = true };
 
-                    this.renderFooterHtml(report);
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    console.log('report', report)
-                    document.getElementById('pageBody').innerHTML = hbReport(report);
+                    console.log('report', data)
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
                 })
