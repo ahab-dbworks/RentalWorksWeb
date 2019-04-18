@@ -29,6 +29,8 @@
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
+        this.Module === 'ContainerStatus' ? $form.find('.hide-on-container').hide() : '';
+
         this.getOrder($form);
         this.toggleView($form);
 
@@ -39,6 +41,8 @@
 
         $form.find('.rentalview').hide();
         $form.find('.salesview').hide();
+
+
 
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
@@ -78,6 +82,11 @@
                         FwFormField.setValueByDataField($form, 'EstimatedStartTime', response.EstimatedStartTime);
                         FwFormField.setValueByDataField($form, 'EstimatedStopDate', response.EstimatedStopDate);
                         FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
+                    }
+
+                    if (this.Type === 'Item') {
+                        FwFormField.setValueByDataField($form, 'Status', response.InventoryStatus);
+                        FwFormField.setValueByDataField($form, 'ContainerStatus', response.ContainerStatus);
                     }
                     const rental = response.Rental;
                     const sales = response.Sales;
@@ -429,6 +438,9 @@
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
                           ${this.Type === 'Order' ?
                 '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>'
+            : ''}
+                         ${this.Type === 'Item' ?
+                '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Status" data-datafield="ContainerStatus" style="flex:1 1 300px;" data-enabled="false"></div>'
                 : ''}
                         </div>
                       </div>
@@ -438,7 +450,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="flexrow">
+                    <div class="flexrow hide-on-container">
                       <div class="flexcolumn" style="flex:1 1 850px;">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="PickDate" style="flex:1 1 150px;" data-enabled="false"></div>
