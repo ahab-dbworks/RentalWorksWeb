@@ -221,6 +221,7 @@
     <Content Include="Source\Grids\POReturnItemGrid\POReturnItemGridBrowse.htm" />
     <Content Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\RepairReleaseGrid\RepairReleaseGridBrowse.htm" />
+    <Content Include="Source\Grids\ReportSettingsGrid\ReportSettingsGridBrowse.htm" />
     <Content Include="Source\Grids\StagedItemGrid\StagedItemGridBrowse.htm" />
     <Content Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridBrowse.htm" />
     <Content Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridBrowse.htm" />
@@ -540,6 +541,7 @@
     <TypeScriptCompile Include="Source\Grids\POReturnItemGrid\POReturnItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RentalInventoryWarehouseGrid\RentalInventoryWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\RepairReleaseGrid\RepairReleaseGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\ReportSettingsGrid\ReportSettingsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StagedItemGrid\StagedItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridController.ts" />
@@ -582,8 +584,14 @@
     <TypeScriptCompile Include="Source\Modules\Reports\DealOutstandingItemsReport\RwDealOutstandingItemsReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\LateReturnDueBackReport\RwLateReturnDueBackReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderReport\RwOrderReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\OutContract\RwOutContractReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\PickListReport\RwPickListReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\QuoteReport\RwQuoteReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryAttributesReport\RwRentalInventoryAttributesReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryCatalogReport\RwRentalInventoryCatalogReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryChangeReport\RentalInventoryChangeReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryPurchaseHistoryReport\RentalInventoryPurchaseHistoryReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryValueReport\RwRentalInventoryValueReport Controller.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RetiredRentalInventoryReport\RwRetiredRentalInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\UnretiredRentalInventoryReport\RwUnretiredRentalInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Attribute\Attribute.ts" />

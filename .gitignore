@@ -80,6 +80,8 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 /src/TrakItWorksWeb/Source/Modules/Administrator/User/User.js.map
 /src/TrakItWorksWeb/Source/Modules/Administrator/Group/Group.js
 /src/TrakItWorksWeb/Source/Modules/Administrator/Group/Group.js.map
+/src/TrakItWorksWeb/Source/Modules/Administrator/Reports/ReportsController.js
+/src/TrakItWorksWeb/Source/Modules/Administrator/Reports/ReportsController.js.map
 /src/TrakitWorksWeb/Source/Modules/Home/**/*.js
 /src/TrakitWorksWeb/Source/Modules/Home/**/*.js.map
 /src/TrakitWorksWeb/Source/Modules/Settings/**/*.js

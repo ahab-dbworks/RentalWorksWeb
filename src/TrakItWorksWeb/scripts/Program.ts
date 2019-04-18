@@ -1,5 +1,4 @@
-﻿//var program, ScannerDevice, LineaScanner;
-class Program extends FwApplication {
+﻿class Program extends FwApplication {
     RENTALWORKS = 'RentalWorks';
     TRAKITWORKS = 'TrakitWorks';
     name = this.TRAKITWORKS;
@@ -7,6 +6,12 @@ class Program extends FwApplication {
     constructor() {
         super();
         FwApplicationTree.currentApplicationId = 'D901DE93-EC22-45A1-BB4A-DD282CAF59FB';
+
+        ReportsController.id = 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4';
+        ReportsController.reportsMenuId = 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4';
+
+        SettingsController.id = 'AD8656B4-F161-4568-9AFF-64C81A3680E6';
+        SettingsController.settingsMenuId = 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485';
     }
 }
 //---------------------------------------------------------------------------------
@@ -97,10 +102,16 @@ routes.push({ pattern: /^module\/warehouse$/, action: function (match: RegExpExe
 //---------------------------------------------------------------------------------
 // Administrator
 //---------------------------------------------------------------------------------
+routes.push({ pattern: /^module\/control$/, action: function (match: RegExpExecArray) { return ControlController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/group$/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/integration$/, action: function (match: RegExpExecArray) { return IntegrationController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/user$/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/customfield$/, action: function (match: RegExpExecArray) { return CustomFieldController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/emailhistory$/, action: function (match: RegExpExecArray) { return EmailHistoryController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/duplicaterules$/, action: function (match: RegExpExecArray) { return DuplicateRuleController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/settings$/, action: function (match: RegExpExecArray) { return SettingsController.getModuleScreen(); } });
-SettingsController.id = 'AD8656B4-F161-4568-9AFF-64C81A3680E6';
-SettingsController.settingsMenuId = 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485';
-
+routes.push({ pattern: /^module\/reports$/, action: function (match: RegExpExecArray) { return ReportsController.getModuleScreen(); } });
+//routes.push({ pattern: /^module\/designer$/, action: function (match: RegExpExecArray) { return DesignerController.loadDesigner(); } });
 //---------------------------------------------------------------------------------
 routes.push({
     pattern: /^home$/,

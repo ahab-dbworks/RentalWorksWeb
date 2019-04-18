@@ -3,13 +3,14 @@
     caption: string = 'Reports';
     nav: string = 'module/reports';
     id: string = '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C';
+    reportsMenuId = '7FEC9D55-336E-44FE-AE01-96BF7B74074C';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var combinedViewModel: any;
         var screen: any = {};
         var $reports: any = {};
+        let self = this;
 
-        combinedViewModel = {
+        let combinedViewModel = {
             captionPageTitle: "Reports"
         };
         screen.$view = FwModule.getModuleControl(this.Module + "Controller");
@@ -19,7 +20,7 @@
 
         screen.load = function () {
             FwModule.openModuleTab($reports, 'Reports', false, 'REPORTS', true)
-            var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '7FEC9D55-336E-44FE-AE01-96BF7B74074C');
+            var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, self.reportsMenuId);
             var moduleArray = [];
 
             for (var i = 0; i < node.children.length; i++) {

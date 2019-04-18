@@ -80,13 +80,29 @@ try {
         'LateReturnDueBackReport',
         'QuoteReport',
         'OrderReport',
+        'OutContract',
+        'PickListReport',
+        'RentalInventoryAttributesReport',
         'RentalInventoryCatalogReport',
+        'RentalInventoryChangeReport',
+        'RentalInventoryPurchaseHistoryReport',
+        'RentalInventoryValueReport',
         'RetiredRentalInventoryReport',
         'UnretiredRentalInventoryReport'
     )
     foreach ($reportmodule in $reportmodules) {
         $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\Modules\Reports\" + $reportmodule
         $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\Modules\Reports\" + $reportmodule
+        robocopy "$source" "$destination" /mir
+    }
+
+    # sync the Grids from RentalWorksWeb
+    $reportmodules = @(
+        'ReportSettingsGrid'
+    )
+    foreach ($reportmodule in $reportmodules) {
+        $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\Grids\" + $reportmodule
+        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\Grids\" + $reportmodule
         robocopy "$source" "$destination" /mir
     }
 }

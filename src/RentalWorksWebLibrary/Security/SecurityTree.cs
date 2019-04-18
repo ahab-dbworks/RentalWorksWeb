@@ -571,7 +571,7 @@ namespace WebLibrary.Security
         {
             string homeiconbaseurl          = "theme/images/icons/home/";
             string settingsiconbaseurl      = "theme/images/icons/settings/";
-            //string reportsiconbaseurl       = "theme/images/icons/reports/";
+            string reportsiconbaseurl       = "theme/images/icons/reports/";
             string utilitiesiconbaseurl     = "theme/images/icons/utilities/";
             string administratoriconbaseurl = "theme/images/icons/administrator/";
 
@@ -606,6 +606,28 @@ namespace WebLibrary.Security
             AddModule("Return To Vendor",       "{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}", lv1menuModules.Id, "ReturnToVendorController",    "module/returntovendor",    homeiconbaseurl + "placeholder.png");
             AddModule("Staging / Check-Out",    "{AD92E203-C893-4EB9-8CA7-F240DA855827}", lv1menuModules.Id, "StagingCheckoutController",   "module/checkout",          homeiconbaseurl + "placeholder.png");
             AddModule("Vendor",                 "{92E6B1BE-C9E1-46BD-91A0-DF257A5F909A}", lv1menuModules.Id, "VendorController",            "module/vendor",            homeiconbaseurl + "placeholder.png");
+
+            //Reports
+            var lv2menuContractReports = AddReportsMenu("Contract Reports", "{B59499EC-C399-464D-8E7B-3FC9D609917C}", lv1menuReports.Id, reportsiconbaseurl + "placeholder.png");
+            AddReportsModule("Out Contract", "{F096F311-AB1D-4F99-BF2E-28E162B4C589}", lv2menuContractReports.Id, "RwOutContractReportController", "reports/outcontractreport", reportsiconbaseurl + "placeholder.png", description: "Check-Out Contract document.");
+
+            var lv2menuDealReports = AddReportsMenu("Deal Reports", "{018C2F78-0B86-446A-8ABC-8E0D9005C7D8}", lv1menuReports.Id, reportsiconbaseurl + "placeholder.png");
+            AddReportsModule("Deal Outstanding Items", "{64F06943-8DC7-40B1-8EFE-8CE7FE8837DB}", lv2menuDealReports.Id, "RwDealOutstandingItemsReportController", "module/dealoutstandingitemsreport", reportsiconbaseurl + "placeholder.png", "Deal Outstanding Items", "", "", description: "List all items still Checked-Out to a specific Deal.");
+
+            var lv2menuOrderReports = AddReportsMenu("Order Reports", "{B8890ECF-7373-4CEC-97F2-BC1F3BDFDBCF}", lv1menuReports.Id, reportsiconbaseurl + "placeholder.png");
+            AddReportsModule("Late Return / Due Back", "{6AF06E65-7F20-453C-9DB2-E1B3EC87E93A}", lv2menuOrderReports.Id, "RwLateReturnDueBackReportController", "module/latereturnduebackreport", reportsiconbaseurl + "placeholder.png", "Late Return / Due Back", "", "", description: "List all items that are Late or Due Back on a specific date.  Data is subtotalled by Order and Deal.");
+            AddReportsModule("Pick List", "{89886648-AFD2-4D54-85F4-736D6C9F1FDC}", lv2menuOrderReports.Id, "RwPickListReportController", "module/picklistreport", reportsiconbaseurl + "placeholder.png", "Pick List", "", "", description: "Pick List document.");
+            AddReportsModule("Print Order", "{C564316B-CCF1-4A1B-8136-522EE60AA34B}", lv2menuOrderReports.Id, "RwOrderReportController", "module/orderreport", reportsiconbaseurl + "placeholder.png", "Print Order", "", "", description: "Print Order.");
+            AddReportsModule("Print Quote", "{BA8C6E26-C377-48F5-AD11-6EC6F59BCF63}", lv2menuOrderReports.Id, "RwQuoteReportController", "module/orderreport", reportsiconbaseurl + "placeholder.png", "Print Quote", "", "", description: "Print Quote.");
+
+            var lv2menuRentalInventoryReports = AddReportsMenu("Rental Inventory Reports", "{D558F2EF-6D99-4E06-8823-54FB462B92B3}", lv1menuReports.Id, reportsiconbaseurl + "placeholder.png");
+            AddReportsModule("Rental Inventory Attributes", "{660DF4D8-A8EB-4E34-9CAE-FAC34C44F8E0}", lv2menuRentalInventoryReports.Id, "RwRentalInventoryAttributesReportController", "module/rentalinventoryattributesreport", reportsiconbaseurl + "placeholder.png", "Rental Inventory Attributes", "", "", description: "List all Rental Inventory with their Attributes and Values.");
+            AddReportsModule("Rental Inventory Catalog", "{2805C340-3DDE-4156-8A81-8CB0356A78C1}", lv2menuRentalInventoryReports.Id, "RwRentalInventoryCatalogReportController", "module/rentalinventorycatalog", reportsiconbaseurl + "placeholder.png", "Rental Inventory Catalog", "", "", description: "List all Rental Inventory, current Rates, Replacement Cost, and Owned Quantity.");
+            AddReportsModule("Rental Inventory Change", "{7EE36577-798B-404B-9A18-38EC3E284FEA}", lv2menuRentalInventoryReports.Id, "RwRentalInventoryChangeReportController", "module/RentalInventoryChangeReport", reportsiconbaseurl + "placeholder.png", "Rental Inventory Change", "", "", description: "List all Rental Inventory changes.");
+            AddReportsModule("Rental Inventory Purchase History", "{C6409505-228B-4B3F-83B4-F98152BE32D5}", lv2menuRentalInventoryReports.Id, "RwRentalInventoryPurchaseHistoryReportController", "module/rentalinventorypurchasehistoryreport", reportsiconbaseurl + "placeholder.png", "Rental Inventory Purchase History", "", "", description: "List all Rental Inventory Purchase History.");
+            AddReportsModule("Rental Inventory Value", "{F970DA66-7CC9-4977-86AF-A8BD4C6E0E7F}", lv2menuRentalInventoryReports.Id, "RwRentalInventoryValueReportController", "module/rentalinventoryvalue", reportsiconbaseurl + "placeholder.png", "Rental Inventory Value", "", "", description: "List all Rental Inventory and get a current value, historical value, or change in value over a date range.");
+            AddReportsModule("Retired Rental Inventory", "{C12DA77E-ECE9-467B-91AF-48CDA7B5EDB1}", lv2menuRentalInventoryReports.Id, "RwRetiredRentalInventoryReportController", "module/retiredrentalinventory", reportsiconbaseurl + "placeholder.png", "Retired Rental Inventory", "", "", description: "List all Rental Inventory Retired during a specified date range.");
+            AddReportsModule("Unretired Rental Inventory", "{2FB76545-1869-4CFB-8F30-C05AB390D45B}", lv2menuRentalInventoryReports.Id, "RwUnretiredRentalInventoryReportController", "module/UnretiredRentalInventoryReport", reportsiconbaseurl + "placeholder.png", "Unretired Rental Inventory", "", "", description: "List all Rental Inventory unretired during a specified date range.");
 
             // Settings
             var lv2menuAddressSettings = AddSettingsMenu("Address Settings", "{4F91453D-A03E-43BF-8825-BEAA8FEA2979}", lv1menuSettings.Id, settingsiconbaseurl + "placeholder.png");
@@ -720,6 +742,7 @@ namespace WebLibrary.Security
             AddGrid("PO Return Items",                        "{B5D69725-CB16-4E12-9457-1B6EB999FD41}", lv1menuGrids.Id, "POReturnItemGridController");
             AddGrid("Rental Inventory Warehouse",             "{9AC6FB16-BC42-42C3-91B7-9346D11CC405}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
             AddGrid("Repair Release",                         "{33DACEA3-20F0-4D7F-A0E3-C2D21BF60BAC}", lv1menuGrids.Id, "RepairReleaseGridController");
+            AddGrid("Report Settings",                        "{748FFFB6-175B-4425-A63C-FFFAA6F425E7}", lv1menuGrids.Id, "ReportSettingsGridController");
             AddGrid("Staged Items",                           "{2A719A9F-F237-4C3A-92DF-FBC515204A38}", lv1menuGrids.Id, "StagedItemGridController");
             AddGrid("Stage Holding Items",                    "{1F06BAB4-5D64-43FC-B2A8-FF088064E4A0}", lv1menuGrids.Id, "StageHoldingItemGridController");
             AddGrid("Stage Quantity Items",                   "{162DCF5B-759A-42E9-82E9-88B628B6901D}", lv1menuGrids.Id, "StageQuantityItemGridController");
