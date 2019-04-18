@@ -28,8 +28,8 @@ const invoiceDiscountTemplate = `
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Type">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-caption="From:" data-datafield="DateType" style="float:left;max-width:200px;">
-                    <div data-value="InvoiceDate" data-caption="Invoice Date"></div>
-                    <div data-value="BillingStartDate" data-caption="Billing Start Date"></div>
+                    <div data-value="INVOICE_DATE" data-caption="Invoice Date"></div>
+                    <div data-value="BILLING_START_DATE" data-caption="Billing Start Date"></div>
                   </div>
                 </div>
               </div>
