@@ -36,22 +36,22 @@ class RemoveFromContainer {
     };
     //----------------------------------------------------------------------------------------------
     events($form) {
-        const errorMsg = $form.find('.error-msg');
+        const $responseMsg = $form.find('.response-msg');
         // Remove by BarCode or Serial Number
         $form.find('.itemid').data('onchange', $tr => {
             const itemId = $tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue');
-            FwFormField.setValue($form, 'div[data-displayfield="BarCode"]', itemId, $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
-            FwFormField.setValue($form, 'div[data-displayfield="SerialNumber"] ', itemId, $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', itemId, $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
+            FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', itemId, $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
             const request: any = {};
             request.ItemId = itemId;
             FwAppData.apiMethod(true, 'POST', 'api/v1/containeritem/removefromcontainer', request, FwServices.defaultTimeout, response => {
-                errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                $responseMsg.html(`<div><span>${response.msg}</span></div>`);
                 if (response.success) {
                     $form.find('.fwformfield input').val('');
-                    errorMsg.css('background-color', 'green');
+                    $responseMsg.removeClass('error-msg').addClass('success-msg');
                 } else {
-                    errorMsg.css('background-color', '');
+                    $responseMsg.removeClass('success-msg').addClass('error-msg');
                 }
             }, ex => FwFunc.showError(ex), $form);
         });
@@ -64,12 +64,12 @@ class RemoveFromContainer {
                 request.ContainerItemId = FwFormField.getValue($form, '.container');
                 request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
                 FwAppData.apiMethod(true, 'POST', 'api/v1/containeritem/removefromcontainer', request, FwServices.defaultTimeout, response => {
-                    errorMsg.html(`<div><span>${response.msg}</span></div>`);
+                    $responseMsg.html(`<div><span>${response.msg}</span></div>`);
                     if (response.success) {
                         $form.find('.fwformfield input').val('');
-                        errorMsg.css('background-color', 'green');
+                        $responseMsg.removeClass('error-msg').addClass('success-msg');
                     } else {
-                        errorMsg.css('background-color', '');
+                        $responseMsg.removeClass('success-msg').addClass('error-msg');
                     }
                 }, ex => FwFunc.showError(ex), $form);
             }
@@ -135,7 +135,7 @@ class RemoveFromContainer {
             <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="Quantity" style="flex:0 1 125px;"></div>
           </div>
           <div class="flexrow" style="margin-top:8px;">
-            <div class="error-msg" ></div>
+            <div class="response-msg"></div>
           </div>
       </div>
     </div>
