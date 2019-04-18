@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.TrakitWorksWeb.Grids
 {
-    internal class CompanyTaxOptionGridMenu : FwSecurityTreeBranch
+    internal class VendorTaxOptionGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public CompanyTaxOptionGridMenu() : base("{87E47D86-C161-4337-8B0D-5BC9003E890E}") { }
+        public VendorTaxOptionGridMenu() : base("{87E47D86-C161-4337-8B0D-5BC9003E890E}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

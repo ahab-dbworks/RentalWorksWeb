@@ -2,12 +2,12 @@
   <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="VendorId"></div>
   <div id="vendorform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
-      <div data-type="tab" id="vendortab" class="tab" data-tabpageid="vendortabpage" data-caption="Vendor"></div>
-      <div data-type="tab" id="billingtab" class="tab" data-tabpageid="billingtabpage" data-caption="Billing"></div>
-      <div data-type="tab" id="taxtab" class="tab" data-tabpageid="taxtabpage" data-caption="Tax"></div>
+      <div data-type="tab" id="vendortab"   class="tab" data-tabpageid="vendortabpage"   data-caption="Vendor"></div>
+      <div data-type="tab" id="billingtab"  class="tab" data-tabpageid="billingtabpage"  data-caption="Billing"></div>
+      <div data-type="tab" id="taxtab"      class="tab" data-tabpageid="taxtabpage"      data-caption="Tax"></div>
       <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
       <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
-      <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
+      <div data-type="tab" id="notestab"    class="tab" data-tabpageid="notestabpage"    data-caption="Notes"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="vendortabpage" class="tabpage" data-tabid="vendortab">
@@ -168,25 +168,8 @@
       </div>
       <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
         <div class="flexrow">
-          <div class="flexcolumn" style="flex:0 1 425px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Location Tax Option">
-              <div class="flexrow">
-                <div id="companytaxoptiongrid" data-control="FwGrid" data-grid="CompanyTaxOptionGrid" data-securitycaption="Company Tax Grid" style="min-width:240px;max-width:400px;"></div>
-              </div>
-            </div>
-          </div>
-          <div class="flexcolumn" style="flex:0 1 200px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Location Tax Rates">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield TaxOption" data-datafield="" data-displayfield="" data-caption="Tax Option" data-enabled="false" style="flex:0 1 175px;"></div>
-              </div>
-              <div class="flexrow">
-                <div data-control="FwFormField" data-digits="4" data-type="percent" class="fwcontrol fwformfield RentalTaxRate1" data-datafield="" data-displayfield="" data-caption="Inventory %" data-enabled="false" style="flex:0 1 175px;"></div>
-              </div>
-              <div class="flexrow">
-                <div data-control="FwFormField" data-digits="4" data-type="percent" class="fwcontrol fwformfield SalesTaxRate1" data-datafield="" data-displayfield="" data-caption="Expendable %" data-enabled="false" style="flex:0 1 175px;"></div>
-              </div>
-            </div>
+          <div class="flexcolumn" style="flex:0 1 560px;">
+            <div data-control="FwGrid" data-grid="VendorTaxOptionGrid" data-securitycaption="Vendor Tax Grid"></div>
           </div>
         </div>
       </div>
@@ -206,12 +189,8 @@
         </div>
       </div>
       <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
-        <div class="flexcolumn">
-          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contacts">
-            <div class="flexrow">
-              <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Vendor Contacts"></div>
-            </div>
-          </div>
+        <div class="flexrow">
+          <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Vendor Contacts"></div>
         </div>
       </div>
       <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">

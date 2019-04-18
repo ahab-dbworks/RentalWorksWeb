@@ -704,7 +704,6 @@ namespace WebLibrary.Security
             AddGrid("Check-In Order",                         "{C1752A81-400D-46F7-82BB-0B1CCD78C890}", lv1menuGrids.Id, "CheckInOrderGridController");
             AddGrid("Check-In Quantity Items",                "{457BBDD6-B4B4-4671-B651-728A6ABF2BF0}", lv1menuGrids.Id, "CheckInQuantityItemsGridController");
             AddGrid("Check-In Swap",                          "{CDEEA7D1-3738-4BD6-BBDC-75BD044DFE56}", lv1menuGrids.Id, "CheckInSwapGridController");
-            AddGrid("Company Tax Option",                     "{87E47D86-C161-4337-8B0D-5BC9003E890E}", lv1menuGrids.Id, "CompanyTaxOptionGridController");
             AddGrid("Pending Items",                          "{560D1917-64B0-445D-9101-EED6D7C45811}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
             AddGrid("Company Contact",                        "{6D8B3D23-0954-4765-9FBD-BF3EC756AA97}", lv1menuGrids.Id, "CompanyContactGridController");
             AddGrid("Contact Company",                        "{D336C756-8380-44D3-B772-3737E8B901B3}", lv1menuGrids.Id, "ContactCompanyGridController");
@@ -747,6 +746,7 @@ namespace WebLibrary.Security
             AddGrid("Stage Holding Items",                    "{1F06BAB4-5D64-43FC-B2A8-FF088064E4A0}", lv1menuGrids.Id, "StageHoldingItemGridController");
             AddGrid("Stage Quantity Items",                   "{162DCF5B-759A-42E9-82E9-88B628B6901D}", lv1menuGrids.Id, "StageQuantityItemGridController");
             AddGrid("Vendor Note",                            "{87681463-5C45-4A84-ABEB-FE010E31BC06}", lv1menuGrids.Id, "VendorNoteGridController");
+            AddGrid("Vendor Tax Option",                      "{87E47D86-C161-4337-8B0D-5BC9003E890E}", lv1menuGrids.Id, "VendorTaxOptionGridController");
         }
         //---------------------------------------------------------------------------------------------
     }

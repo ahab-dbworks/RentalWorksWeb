@@ -185,7 +185,7 @@
     <Content Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridBrowse.htm" />
     <Content Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
-    <Content Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridBrowse.htm" />
+    <Content Include="Source\Grids\VendorTaxOptionGrid\VendorTaxOptionGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
     <Content Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridBrowse.htm" />
@@ -368,9 +368,11 @@
     <Content Include="Source\Validations\OfficeLocationValidation\OfficeLocationValidationBrowse.htm" />
     <Content Include="Source\Validations\OrderTypeValidation\OrderTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\OrderValidation\OrderValidationBrowse.htm" />
+    <Content Include="Source\Validations\OrganizationTypeValidation\OrganizationTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PartsCategoryValidation\PartsCategoryValidationBrowse.htm" />
     <Content Include="Source\Validations\PaymentTermsValidation\PaymentTermsValidationBrowse.htm" />
     <Content Include="Source\Validations\PaymentTypeValidation\PaymentTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\POClassificationValidation\POClassificationValidationBrowse.htm" />
     <Content Include="Source\Validations\POTypeValidation\POTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\ProductionTypeValidation\ProductionTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PurchaseOrderValidation\PurchaseOrderValidationBrowse.htm" />
@@ -505,7 +507,7 @@
     <TypeScriptCompile Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
-    <TypeScriptCompile Include="Source\Grids\CompanyTaxOptionGrid\CompanyTaxOptionGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\VendorTaxOptionGrid\VendorTaxOptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactPersonalEventGrid\ContactPersonalEventGridController.ts" />

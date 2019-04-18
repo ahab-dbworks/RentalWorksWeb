@@ -1306,6 +1306,7 @@ class FwBrowseClass {
                                 htmlPager.push('    <option value="active">Show Active</option>');
                                 htmlPager.push('    <option value="inactive">Show Inactive</option>');
                                 htmlPager.push('    <option value="all">Show All</option>');
+                                htmlPager.push('  </select>')
                                 htmlPager.push('</div>');
                             }
                             break;
@@ -1329,6 +1330,7 @@ class FwBrowseClass {
                             htmlPager.push('    <option value="active">Show Active</option>');
                             htmlPager.push('    <option value="inactive">Show Inactive</option>');
                             htmlPager.push('    <option value="all">Show All</option>');
+                            htmlPager.push('  </select>')
                             htmlPager.push('</div>');
                         }
                         break;
