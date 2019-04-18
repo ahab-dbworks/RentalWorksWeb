@@ -129,7 +129,7 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
         });
         // Expose date fields if Filter Date
         $form.on('change', '.filter-dates input[type=checkbox]', e => {
-            var isChecked = jQuery(e.currentTarget).is(':checked');
+            const isChecked = jQuery(e.currentTarget).is(':checked');
             FwFormField.setValueByDataField($form, 'FromDate', '');
             FwFormField.setValueByDataField($form, 'ToDate', '');
             FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), isChecked);

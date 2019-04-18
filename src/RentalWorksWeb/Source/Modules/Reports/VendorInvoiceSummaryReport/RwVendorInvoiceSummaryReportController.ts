@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/invoicediscountreport/, action: function (match: RegExpExecArray) {
-        return RwInvoiceDiscountReportController.getModuleScreen();
+    pattern: /^reports\/vendorinvoicesummaryreport/, action: function (match: RegExpExecArray) {
+        return RwVendorInvoiceSummaryReportController.getModuleScreen();
     }
 });
 
-const invoiceDiscountTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport invoicediscountreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwInvoiceDiscountReportController">
+const vendorInvoiceSummaryTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Vendor Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwVendorInvoiceSummaryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -24,7 +24,7 @@ const invoiceDiscountTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
+            <div class="flexcolumn" style="max-width:230px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Type">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-caption="From:" data-datafield="DateType" style="float:left;max-width:200px;">
@@ -33,11 +33,14 @@ const invoiceDiscountTemplate = `
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="flexcolumn" style="max-width:250px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="DiscountPercent" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-required="true" data-caption="Show Invoices with a Discount Percent </br> Greater than or Equal to" style="float:left;max-width:420px;"></div>
+              <div class="flexcolumn" style="max-width:230px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-datafield="IncludeAccruals" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield include-accruals" data-caption="Include Accruals" style="float:left;max-width:110px;"></div>
+                    <div data-datafield="AccrualFromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Accrual From Date" data-enabled="false" style="float:left;max-width:160px;"></div>
+                    <div data-datafield="AccrualToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Accrual To Date" data-enabled="false" style="float:left;max-width:160px;"></div>
+                    <div data-datafield="AccrualsOnly" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Accruals Only" data-enabled="false" style="float:left;max-width:110px;"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -50,13 +53,13 @@ const invoiceDiscountTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Discount Reason" data-datafield="DiscountReasonId" data-displayfield="DiscountReason" data-validationname="DiscountReasonValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Purchase Order" data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrder" data-formbeforevalidate="beforeValidate" data-validationname="PurchaseOrderValidation" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -68,10 +71,10 @@ const invoiceDiscountTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwInvoiceDiscountReportClass extends FwWebApiReport {
+class RwVendorInvoiceSummaryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('InvoiceDiscountReport', 'api/v1/invoicediscountreport', invoiceDiscountTemplate);
+        super('VendorInvoiceSummaryReport', 'api/v1/vendorinvoicesummaryreport', vendorInvoiceSummaryTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -93,13 +96,23 @@ class RwInvoiceDiscountReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+        // Expose date fields if Include Accruals
+        $form.on('change', '.include-accruals input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            FwFormField.setValueByDataField($form, 'AccrualFromDate', '');
+            FwFormField.setValueByDataField($form, 'AccrualToDate', '');
+            FwFormField.toggle($form.find('div[data-datafield="AccrualFromDate"]'), isChecked);
+            FwFormField.toggle($form.find('div[data-datafield="AccrualToDate"]'), isChecked);
+            $form.find('div[data-datafield="AccrualsOnly"] input').prop('checked', false);
+            FwFormField.toggle($form.find('div[data-datafield="AccrualsOnly"]'), isChecked);
+        });
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+        this.loadLists($form);
 
-        $form.find('div[data-datafield="DiscountPercent"] .fwformfield-caption').css('margin-bottom', "2em");
         const department = JSON.parse(sessionStorage.getItem('department'));
         const location = JSON.parse(sessionStorage.getItem('location'));
 
@@ -113,19 +126,31 @@ class RwInvoiceDiscountReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
         request.uniqueids = {};
 
         switch (validationName) {
-            case 'DealValidation':
-                if (customerId !== "") {
-                    request.uniqueids.CustomerId = customerId;
+            case 'PurchaseOrderValidation':
+                if (vendorId !== "") {
+                    request.uniqueids.VendorId = vendorId;
                 }
                 break;
         };
     };
     //----------------------------------------------------------------------------------------------
+    loadLists($form: JQuery): void {
+        FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [
+            { value: "NEW", text: "New", selected: "T" },
+            { value: "RETURNED", text: "Returned", selected: "T" },
+            { value: "REVISED", text: "Revised", selected: "T" },
+            { value: "APPROVED", text: "Approved", selected: "T" },
+            { value: "PROCESSED", text: "Processed", selected: "T" },
+            { value: "CLOSED", text: "Closed", selected: "T" },
+            { value: "VOID", text: "Void" }
+        ]);
+    }
+    //----------------------------------------------------------------------------------------------
 };
 
-var RwInvoiceDiscountReportController: any = new RwInvoiceDiscountReportClass();
+var RwVendorInvoiceSummaryReportController: any = new RwVendorInvoiceSummaryReportClass();
 //----------------------------------------------------------------------------------------------
