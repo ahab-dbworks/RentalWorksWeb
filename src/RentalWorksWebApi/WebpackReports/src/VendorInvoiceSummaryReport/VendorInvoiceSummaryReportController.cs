@@ -20,8 +20,8 @@ namespace WebApi.Modules.Reports.VendorInvoiceSummaryReport
         public SelectedCheckBoxListItems Statuses { get; set; } = new SelectedCheckBoxListItems();
 
         public bool? IncludeAccruals { get; set; }
-        public DateTime AccrualFromDate { get; set; }
-        public DateTime AccrualToDate { get; set; }
+        public DateTime? AccrualFromDate { get; set; }
+        public DateTime? AccrualToDate { get; set; }
         public bool? AccrualsOnly { get; set; }
 
         public string OfficeLocationId { get; set; }
