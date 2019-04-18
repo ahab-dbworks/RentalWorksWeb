@@ -50,7 +50,7 @@
     }
     //----------------------------------------------------------------------------------------------
     getCaptions(screen) {
-        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '7FEC9D55-336E-44FE-AE01-96BF7B74074C');
+        var node = FwApplicationTree.getNodeById(FwApplicationTree.tree, FwApplicationTree.currentApplicationId);
         var modules = FwApplicationTree.getChildrenByType(node, 'ReportsModule');
         for (var i = 0; i < modules.length; i++) {
             var moduleName = modules[i].properties.controller;
@@ -310,7 +310,7 @@
         var nodeApplications, nodeApplication = null, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
         nodeApplications = FwApplicationTree.getMyTree();
         for (var appno = 0; appno < nodeApplications.children.length; appno++) {
-            if (nodeApplications.children[appno].id === '0A5F2584-D239-480F-8312-7C2B552A30BA') {
+            if (nodeApplications.children[appno].id === FwApplicationTree.currentApplicationId) {
                 nodeApplication = nodeApplications.children[appno];
             }
         }
