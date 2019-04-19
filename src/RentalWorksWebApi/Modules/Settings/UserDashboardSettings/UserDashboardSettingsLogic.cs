@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
+using WebApi.Modules.Settings.AvailableWidget;
 using WebApi.Modules.Settings.WebUserWidget;
 using WebApi.Modules.Settings.Widget;
 
@@ -143,7 +144,7 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
         public string DashboardSettingsTitle { get; set; }
 
         [FwLogicProperty(Id: "lqNWOoaHp83RB")]
-        public List<WidgetLogic> AvailableWidgets { get; set; }
+        public List<AvailableWidgetLogic> AvailableWidgets { get; set; }
         [FwLogicProperty(Id: "oZMIf4l1CVS5")]
         public List<UserDashboardSetting> UserWidgets { get; set; }
 
@@ -174,10 +175,17 @@ namespace WebApi.Modules.Settings.UserDashboardSettings
             request.pagesize = 0;
             request.orderby = "Widget";
 
-            WidgetLogic l = new WidgetLogic();
-            l.SetDependencies(AppConfig, UserSession);
-            AvailableWidgets = await l.SelectAsync<WidgetLogic>(request);
+            //WidgetLogic l = new WidgetLogic();
+            //l.SetDependencies(AppConfig, UserSession);
+            //AvailableWidgets = await l.SelectAsync<WidgetLogic>(request);
 
+            // now the available widgets list is filtered by my WebUsersId
+            IDictionary<string, object> uniqueIds = new Dictionary<string, object>();
+            uniqueIds.Add("WebUserId", UserSession.WebUsersId);
+            request.uniqueids = uniqueIds;
+            AvailableWidgetLogic l = new AvailableWidgetLogic();
+            l.SetDependencies(AppConfig, UserSession);
+            AvailableWidgets = await l.SelectAsync<AvailableWidgetLogic>(request);
 
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
