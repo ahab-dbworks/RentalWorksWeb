@@ -48,7 +48,7 @@
               </div>
               <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
                 <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 109px; margin-left:8px;margin-top:15px;">Order Status</div>
-                <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;margin-top:15px;" data-caption="Create Contract"></div>
+                <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;margin-top:15px;z-index:999;" data-caption="Create Contract"></div>
               </div>
               <div class="flexrow error-msg"></div>
               <div class="flexrow AddItemToOrder"></div>
@@ -57,21 +57,23 @@
           <div class="flexrow">
             <div class="flexcolumn summaryview">
               <div class="flexrow staged-item-grid">
-                <div data-control="FwGrid" data-grid="StagedItemGrid" data-securitycaption="Staged Items" ></div>
+                <div data-control="FwGrid" data-grid="StagedItemGrid" data-securitycaption="Staged Items"></div>
               </div>
               <div class="flexrow pending-item-grid">
                 <div class="pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid" data-securitycaption=""></div>
               </div>
-                <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
-                <!--<div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 109px; margin-left:8px;">Order Status</div>
-                <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="Create Contract"></div>-->
-              </div>
+              <!--<div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
+                <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 109px; margin-left:8px;">Order Status</div>
+                <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="Create Contract"></div>
+              </div>-->
             </div>
             <div class="flexcolumn partial-contract" style="max-width:125px;justify-content:center;">
               <button type="submit" class="dbl-angle right-arrow"><img src="theme/images/icons/integration/dbl-angle-right.svg" alt="Add" /></button>
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield partial-contract-inputs partial-contract-barcode clearable" data-caption="Bar Code / I-Code" data-datafield="" style="margin-top:30px;"></div>
               <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield partial-contract-inputs partial-contract-quantity clearable" data-caption="Quantity" data-datafield="" style="max-width:72px;"></div>
               <button type="submit" class="dbl-angle left-arrow" style="margin-top:40px;"><img src="theme/images/icons/integration/dbl-angle-left.svg" alt="Remove" /></button>
+              <div class="fwformcontrol abort-checkout-contract" data-type="button" style="max-width:157px;visibility:visible;margin-top:15px;">Cancel</div>
+
             </div>
             <div class="flexcolumn partial-contract">
               <div class="flexrow">
