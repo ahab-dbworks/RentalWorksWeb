@@ -92,11 +92,11 @@ namespace WebApi.Modules.Reports.CrewSignInReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
-                    addStringFilterToSelect("departmentid", request.DepartmentId, select);
-                    addStringFilterToSelect("customerid", request.CustomerId, select);
-                    addStringFilterToSelect("dealid", request.DealId, select);
-                    addStringFilterToSelect("orderid", request.OrderId, select);
+                    select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
+                    select.AddWhereIn("orderid", request.OrderId);
                     select.AddParameter("@rentfromdate", request.FromDate);
                     select.AddParameter("@renttodate", request.ToDate);
                     select.AddOrderBy("location,deal,rentfromdate");

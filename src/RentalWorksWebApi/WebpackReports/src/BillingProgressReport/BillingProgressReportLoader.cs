@@ -1,18 +1,13 @@
-using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
 using WebLibrary;
 using System.Threading.Tasks;
 using System.Data;
-using System.Reflection;
 
 namespace WebApi.Modules.Reports.BillingProgressReport
 {
-
     public class BillingProgressReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 

@@ -52,9 +52,11 @@ namespace WebApi.Modules.Reports.CreditsOnAccountReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
-                    addStringFilterToSelect("customerid", request.CustomerId, select);
-                    addStringFilterToSelect("dealid", request.DealId, select);
+
+                    select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
+
                     if (request.OnlyRemaining.GetValueOrDefault(false))
                     {
                         select.AddWhere("remaining > 0");
