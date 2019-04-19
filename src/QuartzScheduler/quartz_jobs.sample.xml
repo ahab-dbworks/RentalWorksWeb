@@ -9,14 +9,16 @@
   </processing-directives>
 
   <schedule>
-    <!-- ************************************************************************************************************* -->
-    <!-- Amag Integration Job - Uploads new Persons from GateWorks to Amag -->
-    <!-- ************************************************************************************************************* -->
-    <job>
-      <name>amagIntegrationJob</name>
+    <!-- 
+    *************************************************************************************************************
+    CustomerSync Integration Job - Uploads new Customers from external applicaiton to RentalWorks
+    ************************************************************************************************************* 
+    -->
+    <!--<job>
+      <name>CustomerSyncIntegrationJob</name>
       <group>mainGroup</group>
-      <description>Job to sync Person changes between GateWorks and AMAG</description>
-      <job-type>QuartzScheduler.Jobs.AmagIntegrationJob, QuartzScheduler</job-type>
+      <description>Sync Customers from external application to RentalWorks</description>
+      <job-type>QuartzScheduler.Jobs.CustomerSyncIntegration, QuartzScheduler</job-type>
       <durable>true</durable>
       <recover>false</recover>
       <job-data-map>
@@ -28,18 +30,51 @@
     </job>
     <trigger>
       <cron>
-        <name>amagIntegrationJobTrigger</name>
+        <name>CustomerSyncIntegrationJobTrigger</name>
         <group>mainGroup</group>
-        <description>Trigger to fire amagIntegrationJob</description>
-        <job-name>amagIntegrationJob</job-name>
+        <description>Trigger to fire CustomerSyncIntegrationJob</description>
+        <job-name>CustomerSyncIntegrationJob</job-name>
         <job-group>mainGroup</job-group>
         <misfire-instruction>SmartPolicy</misfire-instruction>
-        <!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
-          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). -->
+        --><!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
+          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). --><!--
         <cron-expression>0 * * * * ?</cron-expression>
       </cron>
-    </trigger>
-    <!-- ************************************************************************************************************* -->
+    </trigger>-->
+
+    <!-- 
+    *************************************************************************************************************
+    InvoiceSync Integration Job -
+    ************************************************************************************************************* 
+    -->
+    <!--<job>
+      <name>InvoiceSyncIntegrationJob</name>
+      <group>mainGroup</group>
+      <description>Sync invoices</description>
+      <job-type>QuartzScheduler.Jobs.InvoiceSyncIntegration, QuartzScheduler</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+      <job-data-map>
+        <entry>
+          <key>verboseLogging</key>
+          <value>false</value>
+        </entry>
+      </job-data-map>
+    </job>
+    <trigger>
+      <cron>
+        <name>InvoiceSyncIntegrationJobTrigger</name>
+        <group>mainGroup</group>
+        <description>Trigger to fire InvoiceSyncIntegrationJob</description>
+        <job-name>InvoiceSyncIntegrationJob</job-name>
+        <job-group>mainGroup</job-group>
+        <misfire-instruction>SmartPolicy</misfire-instruction>
+        --><!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
+          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). --><!--
+        <cron-expression>0 * * * * ?</cron-expression>
+      </cron>
+    </trigger>-->
+
 
   </schedule>
 </job-scheduling-data>

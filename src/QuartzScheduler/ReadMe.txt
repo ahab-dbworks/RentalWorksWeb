@@ -4,9 +4,16 @@ This is a Windows service which is based on Quartz.NET for scheduling jobs to ru
 -----------------------------------------------------------------------
 Installation:
 
-Copy the software to a directory on the server such as C:\GateWorks\QuartzScheduler
+Copy the software to a directory on the server such as C:\RentalWorks\QuartzScheduler
 -----------------------------------------------------------------------
-Open app.config in a text editor and set SQL Server connection strings:
+Open QuartzScheduler.exe.config in a text editor:
+
+Enable Verbose Logging: When intially configuring the system set verboseLogging to true.
+  <appSettings>
+    <add key="verboseLogging" value="true" />
+  </appSettings>
+
+Edit the SQL Connection Strings:
 For more info see: https://www.connectionstrings.com/sql-server/
 
 To login with an SQL server user account:
@@ -19,10 +26,11 @@ You can also do active directory logins into the database using the service proc
     <add name="gateworks" connectionString="Server=sql01.yourdomain.com;Database=gateworks;Trusted_Connection=True;"/>
 </connectionStrings>
 
-Whether you use an SQL login or a Windows login, the user will require write access to the database.
+You may need to give the SQL login write access to the database.
 -----------------------------------------------------------------------
 Configuring jobs:
 
+Copy the file quartz_jobs.sample.xml to quartz_jobs.xml
 Edit the file quartz_jobs.xml in a text editor.
 
 Jobs Settings:

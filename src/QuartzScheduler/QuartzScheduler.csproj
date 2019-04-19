@@ -18,6 +18,21 @@
     <AppSolutionDir>$([System.IO.Path]::GetDirectoryName($(AppSrcDir)))</AppSolutionDir>
     <FwBuildFolder>$(AppSolutionDir)\build</FwBuildFolder>
     <FwDeploymentDirectory>$(FwBuildFolder)\$(FwApplicationName)</FwDeploymentDirectory>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -70,6 +85,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -91,7 +107,10 @@
     <Compile Include="Server\QuartzServerFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilites\FwColorTranslator.cs" />
+    <Compile Include="Utilites\FwConvert.cs" />
     <Compile Include="Utilites\FwDatabaseField.cs" />
+    <Compile Include="Utilites\FwDateTime.cs" />
     <Compile Include="Utilites\FwFields.cs" />
     <Compile Include="Utilites\QuartzSqlCommand.cs" />
   </ItemGroup>
@@ -116,15 +135,19 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="quartz_jobs.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="quartz_jobs.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\lib\Fw\src\FwStandard\FwStandard.csproj">
-      <Project>{bf70fe28-da24-40ec-aa7e-613803411e12}</Project>
-      <Name>FwStandard</Name>
-    </ProjectReference>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuildRelease" Condition="$(FwPublish)=='true'" AfterTargets="Build">

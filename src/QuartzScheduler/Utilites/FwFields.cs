@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace FwStandard.SqlServer
+namespace QuartzScheduler.Utilities
 {
     [Serializable]
     public class FwFields : IDictionary<string, object>

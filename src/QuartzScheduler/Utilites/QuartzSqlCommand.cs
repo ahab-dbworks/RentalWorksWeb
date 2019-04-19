@@ -1,13 +1,9 @@
-﻿using FwStandard.SqlServer;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Dynamic;
-using System.Linq;
 using System.Text;
-using System.Web;
 
 namespace QuartzScheduler.Utilities
 {
@@ -41,6 +37,7 @@ namespace QuartzScheduler.Utilities
             this.reader = null;
             this.eof = true;
             this.RowCount = 0;
+            this.fields = new FwFields();
         }
         //------------------------------------------------------------------------------------
         public QuartzSqlCommand(string connectionString, string storedProcedureName)
@@ -55,6 +52,7 @@ namespace QuartzScheduler.Utilities
             this.reader = null;
             this.eof = true;
             this.RowCount = 0;
+            this.fields = new FwFields();
         }
         //------------------------------------------------------------------------------------
         public void Clear()

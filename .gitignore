@@ -176,3 +176,4 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 /Sync_Core_to_TrakitWorks.ps1.log
 
 /src/QuartzScheduler/app.config
+/src/QuartzScheduler/quartz_jobs.xml

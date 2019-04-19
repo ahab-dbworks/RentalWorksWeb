@@ -14,11 +14,10 @@ namespace QuartzScheduler.Jobs
 {
     public class CustomerSyncIntegration : IJob
     {
-        bool   verboseLogging              = false;
-        string rentalworksConnectionString = string.Empty;
-        string syncConnectionString        = string.Empty;
-        DateTime syncDate;
-
+        const string JOB_NAME = "CustomerSyncIntegration";
+        bool verboseLogging = false;
+        string rentalworksdbConnectionString = string.Empty;
+        string customerdbConnectionString = string.Empty;
         //---------------------------------------------------------------------------------------------
         public async Task Execute(IJobExecutionContext context)
         {
@@ -26,15 +25,15 @@ namespace QuartzScheduler.Jobs
 
             Console.Out.WriteLine();
             Console.Out.WriteLine("-----------------------------------------------------------------------------------------------");
-            Console.Out.WriteLine("Starting CustomerSyncIntegration");
+            Console.Out.WriteLine($"Starting {JOB_NAME}");
             try
             {
                 GetDatabaseConnection();
                 DefaultControlSync();
-                GetSyncDate();
-                synclist = GetData();
-                ProcessData(synclist);
-                SaveSyncDate();
+                DateTime syncDate = GetSyncDate();
+                synclist = GetData(syncDate);
+                ProcessData(syncDate, synclist);
+                SaveSyncDate(syncDate);
             }
             catch (Exception ex)
             {
@@ -42,7 +41,7 @@ namespace QuartzScheduler.Jobs
                 Console.Error.WriteLine(ex.Message + ex.StackTrace);
             }
             Console.Error.WriteLine();
-            Console.Out.WriteLine("Finished CustomerSyncIntegration");
+            Console.Out.WriteLine($"Finished {JOB_NAME}");
 
             await Task.CompletedTask;
         }
@@ -50,54 +49,54 @@ namespace QuartzScheduler.Jobs
         public void GetDatabaseConnection()
         {
             // please note in development the file is in app.config
-            if (ConfigurationManager.ConnectionStrings["rentalworks"] == null || ConfigurationManager.ConnectionStrings["rentalworks"].ConnectionString.Length == 0)
+            if (ConfigurationManager.ConnectionStrings["rentalworksdb"] == null || ConfigurationManager.ConnectionStrings["rentalworksdb"].ConnectionString.Length == 0)
             {
-                Console.Error.WriteLine("QuartzScheduler.exe.config is missing a ConnectionString for `rentalworks`");
+                Console.Error.WriteLine("QuartzScheduler.exe.config is missing a ConnectionString for \"rentalworksdb\"");
                 return;
             }
             if (ConfigurationManager.ConnectionStrings["customerdb"] == null || ConfigurationManager.ConnectionStrings["customerdb"].ConnectionString.Length == 0)
             {
-                Console.Error.WriteLine("QuartzScheduler.exe.config is missing a ConnectionString for `customerdb`");
+                Console.Error.WriteLine("QuartzScheduler.exe.config is missing a ConnectionString for \"customerdb\"");
                 return;
             }
             verboseLogging = ((string)ConfigurationManager.AppSettings["verboseLogging"]).ToLower() == "true";
-            rentalworksConnectionString = ConfigurationManager.ConnectionStrings["rentalworks"].ConnectionString;
-            syncConnectionString= ConfigurationManager.ConnectionStrings["customerdb"].ConnectionString;
+            rentalworksdbConnectionString = ConfigurationManager.ConnectionStrings["rentalworksdb"].ConnectionString;
+            customerdbConnectionString= ConfigurationManager.ConnectionStrings["customerdb"].ConnectionString;
             if (verboseLogging)
             {
                 Console.Out.WriteLine();
-                Console.Out.WriteLine("SyncConnectionString: " + syncConnectionString);
-                Console.Out.WriteLine("rentalworksConnectionString: " + rentalworksConnectionString);
+                Console.Out.WriteLine($"ConnectionStrings[rentalworksdb]: {rentalworksdbConnectionString}");
+                Console.Out.WriteLine($"ConnectionStrings[customerdb]: {customerdbConnectionString}");
             }
         }
         //---------------------------------------------------------------------------------------------
         public void DefaultControlSync()
         {
-            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksConnectionString, "dbo.defaultcontrolsync"))
+            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString, "dbo.defaultcontrolsync"))
             {
                 qry.Execute();
             }
         }
         //---------------------------------------------------------------------------------------------
-        public void GetSyncDate()
+        public DateTime GetSyncDate()
         {
-            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksConnectionString))
+            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
             {
                 qry.Add("select top 1 synccustomerdate");
-                qry.Add("from   controlsync");
+                qry.Add("from controlsync with(nolock)");
                 qry.Execute();
-                syncDate = qry.GetField("synccustomerdate").ToDateTime();
-                //default controlsync table
+                DateTime syncDate = qry.GetField("synccustomerdate").ToDateTime();
+                return syncDate;
             }
         }
         //---------------------------------------------------------------------------------------------
-        public dynamic GetData()
+        public dynamic GetData(DateTime syncDate)
         {
             dynamic result;
-            using (QuartzSqlCommand qry = new QuartzSqlCommand(syncConnectionString))
+            using (QuartzSqlCommand qry = new QuartzSqlCommand(customerdbConnectionString))
             {
                 qry.Add("select *");
-                qry.Add("from   customerexportview");
+                qry.Add("from customerexportview with(nolock)");
                 if (syncDate != null)
                 {
                     qry.Add("where  processdate >= @synccustomerdate");
@@ -109,11 +108,11 @@ namespace QuartzScheduler.Jobs
             return result;
         }
         //---------------------------------------------------------------------------------------------
-        public void ProcessData(dynamic syncList)
+        public void ProcessData(FwDateTime syncDate, dynamic syncList)
         {
             for (int i = 0; i < syncList.Count; i++)
             {
-                using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksConnectionString, "dbo.processsynccustomer"))
+                using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString, "dbo.processsynccustomer"))
                 {
                     qry.AddParameter("@companydivision", syncList[i].companydivision);
                     qry.AddParameter("custno", syncList[i].custno);
@@ -149,19 +148,19 @@ namespace QuartzScheduler.Jobs
             syncDate = syncList[syncList.Count-1].processdate;
         }
         //---------------------------------------------------------------------------------------------
-        public void SaveSyncDate()
+        public void SaveSyncDate(FwDateTime syncDate)
         {
             Console.Error.WriteLine();
             Console.Out.WriteLine("Executing: update controlsync in rentalworks database.");
             if (verboseLogging)
             {
-                Console.Out.WriteLine("  @synccustomerdate: " + syncDate);
+                Console.Out.WriteLine($"  @synccustomerdate: {syncDate}");
             }
 
-            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksConnectionString))
+            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
             {
                 qry.Add("update controlsync");
-                qry.Add("   set synccustomerdate=@synccustomerdate");
+                qry.Add("set synccustomerdate = @synccustomerdate");
                 qry.AddParameter("@synccustomerdate", syncDate);
                 qry.Execute();
             }

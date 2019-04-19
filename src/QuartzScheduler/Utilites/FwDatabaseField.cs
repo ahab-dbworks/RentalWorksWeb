@@ -1,9 +1,7 @@
-﻿using FwStandard.Utilities;
-using System;
+﻿using System;
 using System.Globalization;
-using System.IO;
 
-namespace FwStandard.SqlServer
+namespace QuartzScheduler.Utilities
 {
     public class FwDatabaseField : IConvertible
     {
