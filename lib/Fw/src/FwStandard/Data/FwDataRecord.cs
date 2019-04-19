@@ -1373,7 +1373,7 @@ namespace FwStandard.DataLayer
                     // call the generic method SelectAsync<T> on the qry using reflection
                     MethodInfo method = typeof(FwSqlCommand).GetMethod("GetManyAsync");
                     MethodInfo generic = method.MakeGenericMethod(this.GetType());
-                    Task<GetManyResponse<T>> result = (Task<GetManyResponse<T>>)generic.Invoke(qry, new object[] {customFields });
+                    Task<GetManyResponse<T>> result = (Task<GetManyResponse<T>>)generic.Invoke(qry, new object[] { customFields });
                     var response = await result;
                     return response;
                 }
@@ -1526,14 +1526,31 @@ namespace FwStandard.DataLayer
                 IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
                 if (uniqueIds.ContainsKey(filterFieldName))
                 {
-                    select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
                     if (uniqueIds[filterFieldName] is bool)
                     {
-                        select.AddParameter("@" + databaseFieldName, ((bool)uniqueIds[filterFieldName] ? "T" : "F"));
+                        bool filterValue = (bool)uniqueIds[filterFieldName];
+                        if (filterValue)
+                        {
+                            select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                        }
+                        else
+                        {
+                            select.AddWhere(databaseFieldName + " <> @" + databaseFieldName);
+                        }
+                        select.AddParameter("@" + databaseFieldName, "T");
                     }
                     else
                     {
-                        select.AddParameter("@" + databaseFieldName, uniqueIds[filterFieldName].ToString());
+                        string filterValue = uniqueIds[filterFieldName].ToString();
+                        if (filterValue.Contains(","))
+                        {
+                            select.AddWhereIn(databaseFieldName, filterValue, false);
+                        }
+                        else
+                        {
+                            select.AddWhere(databaseFieldName + " = @" + databaseFieldName);
+                            select.AddParameter("@" + databaseFieldName, filterValue);
+                        }
                     }
                 }
             }
