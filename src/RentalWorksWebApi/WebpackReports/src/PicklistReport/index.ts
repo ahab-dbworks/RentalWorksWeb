@@ -10,7 +10,7 @@ const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
 export class PickListReport extends WebpackReport {
-    picklist: Picklist = null;
+    picklist: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -39,7 +39,7 @@ export class PickListReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: Picklist): string {
+    renderFooterHtml(model: any): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
