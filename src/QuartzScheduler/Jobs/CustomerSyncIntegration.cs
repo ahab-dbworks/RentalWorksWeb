@@ -18,16 +18,18 @@ namespace QuartzScheduler.Jobs
         bool verboseLogging = false;
         string rentalworksdbConnectionString = string.Empty;
         string customerdbConnectionString = string.Empty;
+
         //---------------------------------------------------------------------------------------------
         public async Task Execute(IJobExecutionContext context)
         {
             dynamic synclist;
 
-            Console.Out.WriteLine();
-            Console.Out.WriteLine("-----------------------------------------------------------------------------------------------");
-            Console.Out.WriteLine($"Starting {JOB_NAME}");
             try
             {
+                Console.Out.WriteLine();
+                Console.Out.WriteLine("-----------------------------------------------------------------------------------------------");
+                Console.Out.WriteLine($"Starting {JOB_NAME}");
+
                 GetDatabaseConnection();
                 DefaultControlSync();
                 DateTime syncDate = GetSyncDate();
@@ -40,8 +42,11 @@ namespace QuartzScheduler.Jobs
                 Console.Error.WriteLine();
                 Console.Error.WriteLine(ex.Message + ex.StackTrace);
             }
-            Console.Error.WriteLine();
-            Console.Out.WriteLine($"Finished {JOB_NAME}");
+            finally
+            {
+                Console.Error.WriteLine();
+                Console.Out.WriteLine($"Finished {JOB_NAME}");
+            }
 
             await Task.CompletedTask;
         }
@@ -93,12 +98,19 @@ namespace QuartzScheduler.Jobs
         public dynamic GetData(DateTime syncDate)
         {
             dynamic result;
+            Console.Error.WriteLine();
+            Console.Out.WriteLine("Executing: GetData.");
+            if (verboseLogging)
+            {
+                Console.Out.WriteLine($"  @synccustomerdate: {syncDate}");
+            }
+
             using (QuartzSqlCommand qry = new QuartzSqlCommand(customerdbConnectionString))
             {
-                qry.Add("select *");
+                qry.Add("select top 1000 *");
                 qry.Add("from customerexportview with(nolock)");
-                if (syncDate != null)
-                {
+                if (syncDate != DateTime.MinValue)
+                { 
                     qry.Add("where  processdate >= @synccustomerdate");
                     qry.AddParameter("@synccustomerdate", syncDate);
                 }
@@ -110,10 +122,19 @@ namespace QuartzScheduler.Jobs
         //---------------------------------------------------------------------------------------------
         public void ProcessData(FwDateTime syncDate, dynamic syncList)
         {
+            if (verboseLogging)
+            {
+                Console.Out.WriteLine($"  @customer count: {syncList.Count}");
+            }
             for (int i = 0; i < syncList.Count; i++)
             {
                 using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString, "dbo.processsynccustomer"))
                 {
+                    if (verboseLogging)
+                    {
+                        Console.Out.WriteLine($"  @processing record i: {i}");
+                    }
+
                     qry.AddParameter("@companydivision", syncList[i].companydivision);
                     qry.AddParameter("custno", syncList[i].custno);
                     qry.AddParameter("custstatus", syncList[i].custstatus);
@@ -129,7 +150,7 @@ namespace QuartzScheduler.Jobs
                     qry.AddParameter("faxno", syncList[i].faxno);
                     qry.AddParameter("payterms", syncList[i].payterms);
                     qry.AddParameter("taxoption", syncList[i].taxoption);
-                    qry.AddParameter("billtoatt", syncList[i].billtoadd);
+                    qry.AddParameter("billtoatt", syncList[i].billtoatt);
                     qry.AddParameter("termsandconditiononfile", syncList[i].termsandconditiononfile);
                     qry.AddParameter("certonins", syncList[i].certonins);
                     qry.AddParameter("insurancecompany", syncList[i].insurancecompany);
@@ -143,9 +164,9 @@ namespace QuartzScheduler.Jobs
                     qry.AddParameter("moddate", syncList[i].moddate);
                     qry.AddParameter("processdate", syncList[i].processdate);
                     qry.Execute();
+                    syncDate = syncList[i].processdate;
                 }
             }
-            syncDate = syncList[syncList.Count-1].processdate;
         }
         //---------------------------------------------------------------------------------------------
         public void SaveSyncDate(FwDateTime syncDate)
@@ -157,12 +178,15 @@ namespace QuartzScheduler.Jobs
                 Console.Out.WriteLine($"  @synccustomerdate: {syncDate}");
             }
 
-            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
+            if (syncDate != DateTime.MinValue)
             {
-                qry.Add("update controlsync");
-                qry.Add("set synccustomerdate = @synccustomerdate");
-                qry.AddParameter("@synccustomerdate", syncDate);
-                qry.Execute();
+                using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
+                {
+                    qry.Add("update controlsync");
+                    qry.Add("set synccustomerdate = @synccustomerdate");
+                    qry.AddParameter("@synccustomerdate", syncDate);
+                    qry.Execute();
+                }
             }
         }
         //---------------------------------------------------------------------------------------------

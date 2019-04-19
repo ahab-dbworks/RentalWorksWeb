@@ -154,7 +154,8 @@
     <RemoveDir Directories="$(FwDeploymentDirectory)" Condition="Exists('$(FwDeploymentDirectory)')" />
     <MakeDir Directories="$(FwDeploymentDirectory)" Condition="!Exists('$(FwDeploymentDirectory)')" />
     <Exec Command="xcopy &quot;$(AppSolutionDir)\src\QuartzScheduler\bin\Release&quot; &quot;$(FwDeploymentDirectory)&quot; /E /Y" />
-    <Exec Command="move /y &quot;$(FwDeploymentDirectory)\app.sample.config&quot; &quot;$(FwDeploymentDirectory)\QuartzScheduler.exe.config&quot;" />
-    <Exec Command="move /y &quot;$(FwDeploymentDirectory)\quartz_jobs.sample.xml&quot; &quot;$(FwDeploymentDirectory)\quartz_jobs.xml&quot;" />
+    <Exec Command="move /y &quot;$(FwDeploymentDirectory)\app.sample.config&quot; &quot;$(FwDeploymentDirectory)\QuartzScheduler.exe.sample.config&quot;" />
+    <Exec Command="del &quot;$(FwDeploymentDirectory)\QuartzScheduler.exe.config&quot;" ContinueOnError="false" IgnoreExitCode="false" />
+    <!--<Exec Command="move /y &quot;$(FwDeploymentDirectory)\quartz_jobs.sample.xml&quot; &quot;$(FwDeploymentDirectory)\quartz_jobs.xml&quot;" />-->
   </Target>
 </Project>

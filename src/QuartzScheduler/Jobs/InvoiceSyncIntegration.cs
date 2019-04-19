@@ -116,7 +116,10 @@ namespace QuartzScheduler.Jobs
             {
                 using (QuartzSqlCommand qry = new QuartzSqlCommand(invoicedbConnectionString))
                 {
+                    //create transaction in the invoice db
+                    //
                 }
+
             }
         }
         //---------------------------------------------------------------------------------------------
