@@ -20,7 +20,7 @@
         <th class="text">Date</th>
         <th class="text">Agent</th>
         <th class="text" colspan="4">Ordered By</th>
-        <th class="text" style="width:98px;">Billing Dates</th>
+        <th class="text" colspan="2" style="width:98px;">Billing Dates</th>
         <th class="text">Rent From</th>
         <th class="text">Rent To</th>
         {{#ifEquals Type "PASTDUE"}}
@@ -45,13 +45,14 @@
         <td class="order-row text">{{OrderDate}}</td>
         <td class="order-row text">{{Agent}}</td>
         <td class="order-row text" colspan="4">{{OrderedByName}}</td>
-        <td class="order-row text">{{BillDateRange}}</td>
+        <td class="order-row text" colspan="2">{{BillDateRange}}</td>
         <td class="order-row text">{{OrderFromDate}}</td>
         <td class="order-row text">{{OrderToDate}}</td>
         <td class="order-row number">{{OrderPastDue}}</td>
       </tr>
       <tr>
-        <td class="order-header text" style="padding-left:20px;">I-Code</td>
+        <td class="" style="width:64px;background-color:white;"></td>
+        <td class="order-header text">I-Code</td>
         <td class="order-header text">Description</td>
         {{#ifEquals ../ShowBarCode true}}
         <td class="order-header text">Bar Code</td>
@@ -86,7 +87,8 @@
         {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" style="padding-left:20px;">{{ICode}}</td>
+        <td class="" style="width:64px;background-color:white;"></td>
+        <td class="text">{{ICode}}</td>
         <td class="text">{{Description}}</td>
         {{#ifEquals ../ShowBarCode true}}
         <td class="text">{{BarCode}}</td>
@@ -124,7 +126,7 @@
         <td class="number">{{ItemPastDue}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberfooter"}}
-        <td colspan="4" class="total-name">{{OrderNumber}}&nbsp;</td>
+        <td colspan="5" class="total-name">{{OrderNumber}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td class="total-val" colspan="2"></td>
         {{#ifEquals ../ShowUnit true}}
@@ -139,7 +141,7 @@
         {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="4" class="total-name">{{Deal}}&nbsp;</td>
+        <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td class="total-val" colspan="2"></td>
         {{#ifEquals ../ShowUnit true}}
@@ -154,7 +156,7 @@
         {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="4" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td class="total-val" colspan="2"></td>
         {{#ifEquals ../ShowUnit true}}

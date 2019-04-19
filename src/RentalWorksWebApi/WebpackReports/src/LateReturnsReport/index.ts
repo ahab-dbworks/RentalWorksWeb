@@ -25,7 +25,7 @@ export class LateReturnDueBackReport extends WebpackReport {
                             data[i].Agent = data[i + 1].Agent;
                             data[i].OrderedByName = data[i + 1].OrderedByName;
                             data[i].BillDateRange = data[i + 1].BillDateRange;
-                            //data[i].OrderUnitValue = data[i + 1].OrderUnitValue;
+                            //data[i].OrderUnitValue = data[i + 1].OrderUnitValue; // These values were not served by the API => Undefined
                             //data[i].OrderReplacementCost = data[i + 1].OrderReplacementCost;
                             data[i].OrderFromDate = data[i + 1].OrderFromDate;
                             data[i].OrderToDate = data[i + 1].OrderToDate;
@@ -47,7 +47,6 @@ export class LateReturnDueBackReport extends WebpackReport {
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    console.log('report', data)
                     document.getElementById('pageBody').innerHTML = hbReport(data);
 
                     this.onRenderReportCompleted();
@@ -64,7 +63,6 @@ export class LateReturnDueBackReport extends WebpackReport {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
-
 }
 
 (<any>window).report = new LateReturnDueBackReport();
