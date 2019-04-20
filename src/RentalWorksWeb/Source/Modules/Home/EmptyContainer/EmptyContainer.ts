@@ -54,7 +54,7 @@ class EmptyContainer {
             const $containerField = $form.find('[data-datafield="ItemId"]');
             FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/emptycontainer/${id}`, null, FwServices.defaultTimeout,
                 response => {
-                    $responseMsg.html(`<div style="margin:0px 0px 0px 5px;"><span>${response.msg}</span></div>`);
+                    $responseMsg.html(`<div style="margin: 5px;"><span>${response.msg}</span></div>`);
                     if (response.success) {
                         try {
                             $form.find('.fwformfield input').val('');

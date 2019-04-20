@@ -85,7 +85,6 @@
                     }
 
                     if (this.Type === 'Item') {
-                        FwFormField.setValueByDataField($form, 'Status', response.InventoryStatus);
                         FwFormField.setValueByDataField($form, 'ContainerStatus', response.ContainerStatus);
                     }
                     const rental = response.Rental;
@@ -444,7 +443,7 @@
                 : ''}
                         </div>
                       </div>
-                      <div class="flexcolumn" style="flex:1 1 150px;">
+                      <div class="flexcolumn hide-on-container" style="flex:1 1 150px;">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" style="flex:1 1 125px;" data-enabled="false"></div>
                         </div>
@@ -470,7 +469,7 @@
                   </div>
                 </div>
                 <div class="flexrow">
-                  <div class="flexcolumn" style="flex:0 1 325px;">
+                  <div class="flexcolumn" style="flex:0 1 350px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View">
                       <div class="flexrow">
                         <div class="flexcolumn">
@@ -483,10 +482,14 @@
                           </div>
                         </div>
                         <div class="flexcolumn">
-                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield toggle" data-caption="" data-datafield="" style="flex:0 1 125px;margin-left:15px;">
+                          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield toggle" data-caption="" data-datafield="" style="flex:0 1 125px;margin-left:15px; max-height:75px;">
                             <div data-value="Summary" data-caption="Summary"></div>
                             <div data-value="Details" data-caption="Detail"></div>
                           </div>
+                            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield show-all-history" data-caption="" data-datafield="" style="display:none; flex:0 1 125px;margin-left:15px;">
+                                 <div data-value="Current" data-caption="Current Status"></div>
+                                 <div data-value="ShowAll" data-caption="Show All History"></div>
+                            </div>
                         </div>
                       </div>
                     </div>
@@ -523,7 +526,7 @@
                 <div class="flexrow rentalview details" style="max-width:1800px;">
                   <div data-control="FwGrid" data-grid="OrderStatusRentalDetailGrid" data-securitycaption="Rental Detail"></div>
                 </div>
-                <div class="flexrow salesview details" style="max-width:1800px;">
+                <div class="flexrow salesview details hide-on-container" style="max-width:1800px;">
                   <div data-control="FwGrid" data-grid="OrderStatusSalesDetailGrid" data-securitycaption="Sales Detail"></div>
                 </div>
               </div>
@@ -544,8 +547,32 @@
                 case 'Details':
                     $form.find('.details').show();
                     $form.find('.summaryview').hide();
+                    if (this.Type === 'Item') {
+                        $form.find('.show-all-history').show();
+                        $form.find('.salesview').hide();
+                    } else {
+                        $form.find('.show-all-history').hide();
+                    }
                     break;
             }
+        });
+
+        const $orderStatusRentalDetailGrid = $form.find('div[data-name="OrderStatusRentalDetailGrid"]');
+        const onDataBind = $orderStatusRentalDetailGrid.data('ondatabind');
+
+        $form.on('change', '.show-all-history', e => {
+            const val = FwFormField.getValue($form, '.show-all-history');
+            if (val === 'ShowAll') {
+                if (typeof onDataBind == 'function') {
+                    $orderStatusRentalDetailGrid.data('ondatabind', request => {
+                        onDataBind(request);
+                        request.uniqueids.AllHistory = true;
+                    });
+                }
+            } else {
+                $orderStatusRentalDetailGrid.data('ondatabind', onDataBind);
+            }
+            FwBrowse.search($orderStatusRentalDetailGrid);
         });
     }
     //----------------------------------------------------------------------------------------------
