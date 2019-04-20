@@ -18,7 +18,7 @@ class SearchInterface {
         //Build and invoke popup
         html.push('<div id="searchpopup">');
         html.push('     <div id="searchTabs" class="fwcontrol fwtabs" data-rendermode="runtime" data-version="1" data-control="FwTabs">');
-        html.push('         <div class="tabs"></div>');
+        html.push('         <div class="tabs"><div class="tabcontainer"></div></div>');
         html.push('         <div class="tabpages"></div>');
         html.push('     </div>');
         html.push('     <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
