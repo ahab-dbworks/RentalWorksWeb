@@ -5,6 +5,7 @@
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
       <div data-type="tab" id="settingstab" class="tab" data-tabpageid="settingstabpage" data-caption="Settings"></div>
       <div data-type="tab" id="counttab" class="tab" data-tabpageid="counttabpage" data-caption="Count"></div>
+      <div data-type="tab" id="completetab" class="tab" data-tabpageid="completetabpage" data-caption="Complete"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -137,7 +138,78 @@
       <div data-type="tabpage" id="counttabpage" class="tabpage" data-tabid="counttab">
         <div class="flexpage">
           <div class="flexrow">
-
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Schedule">
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield prescancount" data-caption="Pre-Scan Count" data-datafield="StepPreScan" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol prescan" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Pre-Scan</div>
+                Physical Inventory (Pre-Scan Bar Coded Items/Pre-Print Count Sheets)
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield initiatecount" data-caption="Initiate Count" data-datafield="StepInitiate" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol initate" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Initiate</div>
+                Physical Inventory Initiated On
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printcountsheetcount" data-caption="Count Sheet Count" data-datafield="StepPrintCountSheets" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol printcountsheet" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Print</div>
+                Physical Inventory (Pre-Scan Bar Coded Items/Pre-Print Count Sheets)
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield manualcount" data-caption="Perform Counts" data-datafield="StepCount" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol quantity" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Quantity</div>
+                <div class="fwformcontrol serialnos" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Serial Numbers</div>
+                <div class="fwformcontrol barcodes" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Bar Codes</div>
+                Perform Counts
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printexceptioncount" data-caption="Exception Count" data-datafield="StepPrintExceptionReport" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol printexception" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Print</div>
+                Exception Report   (I-Codes not yet counted)
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printdiscrepancycount" data-caption="Discrepancy Count" data-datafield="StepPrintDiscrepancyReport" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol printediscrepancy" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Print</div>
+                Discrepancy Report   (Items counted not equal to Owned count)
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield recountcount" data-caption="Recount count" data-datafield="StepRecount" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol recount" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Recount</div>
+                Inventory   (Flag Items to be Recounted)
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield prescancount" data-caption="Recount Analysis Count" data-datafield="StepPrintRecountAnalysisReport" style="flex:0 1 100px;" data-enabled="false"></div>
+                <div class="fwformcontrol printrecount" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Print</div>
+                Recounted Analysis Report
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="completetabpage" class="tabpage" data-tabid="completetab">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Schedule">
+              <div class="flexrow" style="margin-top: 15px;">
+                <div class="fwformcontrol printreconciliation" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Print</div>
+                Reconciliation Report
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div class="fwformcontrol approve" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Approve</div>
+                Physical Counts
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div class="fwformcontrol closeinventorywithadj" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Close</div>
+                Retire Inventory Shortages / Increase Overages and Close
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div class="fwformcontrol closeinventorywithoutadj" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Close</div>
+                Physical Inventory
+              </div>
+              <div class="flexrow" style="margin-top: 15px;">
+                <div class="fwformcontrol printphysicalinventory" data-type="button" style="margin-left:15px;flex:0 1 150px;text-align:center;">Print</div>
+                Physical Inventory Results
+              </div>
+            </div>
           </div>
         </div>
       </div>

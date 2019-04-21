@@ -66,6 +66,36 @@
             FwFormField.setValueByDataField($form, 'CycleIncludeOwned', true);
         }
 
+        $form.find('.prescan').on('click', function (e) {
+            const $confirmation = FwConfirmation.renderConfirmation(`Pre-Scan`, 'Pre-Initializing Physical Inventory make take several minutes! </br> Continue?');
+            const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
+            var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
+        });
+
+        $form.find('.initate').on('click', function (e) {
+            const $confirmation = FwConfirmation.renderConfirmation(`Initiate`, 'Initializing Physical Inventory make take several minutes.');
+            const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
+            var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
+        });
+
+        $form.find('.approve').on('click', function (e) {
+            const $confirmation = FwConfirmation.renderConfirmation(`Approve`, 'Approve Physical Inventory Counts?');
+            const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+            var $no = FwConfirmation.addButton($confirmation, 'No', true);
+        });
+
+        $form.find('.closeinventorywithadj').on('click', function (e) {
+            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (With Adjustments)`, 'Close Physical Inventory And Adjust Any Inventory?');
+            const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+            var $no = FwConfirmation.addButton($confirmation, 'No', true);
+        });
+
+        $form.find('.closeinventorywithoutadj').on('click', function (e) {
+            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (Without Adjustments)`, 'Close Physical Inventory Without Adjusting Any Inventory?');
+            const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+            var $no = FwConfirmation.addButton($confirmation, 'No', true);
+        });
+
         return $form;
     }
 
