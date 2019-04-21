@@ -31,3 +31,8 @@ thead {
     border-top: 1.5px solid black;
     padding-top: 10px;
 }
+
+@page {
+    size: landscape;
+    margin: 10px 10px 10px 10px; // Adds margin on the pdf
+}

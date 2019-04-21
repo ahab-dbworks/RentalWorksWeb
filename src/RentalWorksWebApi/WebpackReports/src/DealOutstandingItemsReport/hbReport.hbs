@@ -1,5 +1,5 @@
 ﻿<!--Deal Outstanding Items Report-->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow" style="width:1525px;">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -10,7 +10,7 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="width:1525px;margin-top:40px;">
 {{#ifEquals ShowImages true}}
 {{#ifEquals IncludeFullImages true}}
   <table>
@@ -168,7 +168,7 @@
         <th class="text">I-Code</th>
         <th class="text">Item Description</th>
         <th class="text">Contract No.</th>
-        <th class="text">PO No.</th>
+        <th class="text" style="width:55px;">PO No.</th>
         <th class="number">Quantity</th>
         {{#ifEquals IncludeValue true}}
           <th class="number">Unit Value</th>
