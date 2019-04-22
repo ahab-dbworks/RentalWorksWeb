@@ -58,7 +58,6 @@ class RwUnretiredRentalInventoryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('UnretiredRentalInventoryReport', 'api/v1/UnretiredRentalInventoryReport', unretiredRentalTemplate);
-        this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

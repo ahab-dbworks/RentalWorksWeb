@@ -1,0 +1,34 @@
+﻿/*ReturnedToInventoryReport*/
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd):not(.detail-view-row) {
+        background-color: #DCDCDC;
+    }
+
+    .detail-view-row[data-rowtype="detail"]:nth-child(even) {
+        background-color: #DCDCDC;
+    }
+
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+    }
+}
+
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
+}
+
+.total-row {
+    font-weight: bold;
+    border-top: 1.5px solid black;
+    padding-top: 10px;
+}

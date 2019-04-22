@@ -1,0 +1,66 @@
+﻿<!--ReturnedToInventoryReport-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="text">I-Code</th>
+        <th class="text">Description</th>
+        <th class="number">Quantity</th>
+        <th class="text">Contract No</th>
+        <th class="text">Date</th>
+        <th class="text">By</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="5" class="lower header-row">Category: {{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="text" data-value="{{ICode}}"></td>
+        <td class="text" data-value="{{Description}}"></td>
+        <td class="number" data-value="{{Quantity}}"></td>
+        <td class="text" data-value="{{ContractNumber}}"></td>
+        <td class="text" data-value="{{CheckInDateTime}}"></td>
+        <td class="text" data-value="{{UserName}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypefooter"}}
+        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="2" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehousefooter"}}
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
