@@ -15,12 +15,12 @@
   <table>
     <thead>
       <tr>
-        <th class="text">I-Code</th>
-        <th class="text">Description</th>
+        <th>I-Code</th>
+        <th>Description</th>
         <th class="number">Quantity</th>
-        <th class="text">Contract No</th>
-        <th class="text">Date</th>
-        <th class="text">By</th>
+        <th>Contract No</th>
+        <th>Date</th>
+        <th>By</th>
       </tr>
     </thead>
     <tbody>
@@ -36,12 +36,12 @@
         <td colspan="5" class="lower header-row">Category: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{ICode}}"></td>
-        <td class="text" data-value="{{Description}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
-        <td class="text" data-value="{{ContractNumber}}"></td>
-        <td class="text" data-value="{{CheckInDateTime}}"></td>
-        <td class="text" data-value="{{UserName}}"></td>
+        <td data-value="{{ContractNumber}}"></td>
+        <td data-value="{{CheckInDateTime}}"></td>
+        <td data-value="{{UserName}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypefooter"}}
         <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>

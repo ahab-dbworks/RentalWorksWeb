@@ -1,10 +1,14 @@
 ﻿table {
     border-collapse: collapse;
+    th {
+        text-align: left;
+    }
 }
 
 body {
     font-family: Arial, sans-serif;
     font-size: 13px;
+    text-align: left;
     margin: 0;
     padding: 0;
 }
