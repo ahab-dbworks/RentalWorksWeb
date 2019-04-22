@@ -8,6 +8,8 @@ using FwStandard.SqlServer;
 using System;
 using Microsoft.AspNetCore.Http;
 using WebApi.Logic;
+using System.Net.Mail;
+using System.Net;
 
 namespace WebApi.Modules.Utilities.UtilityFunctions
 {
@@ -37,5 +39,38 @@ namespace WebApi.Modules.Utilities.UtilityFunctions
             }
         }
         //------------------------------------------------------------------------------------ 
+
+
+            // TEMPORARY
+
+        // POST api/v1/utilityfunctions/sendmail
+        [HttpPost("sendmail")]
+        [FwControllerMethod(Id: "eBf4i3QqhOPAf")]
+        public async Task<ActionResult<bool>> SendEmailAsync(string from, string to, string cc, string subject, string body)
+        {
+            var message = new MailMessage(from, to, subject, body);
+            message.IsBodyHtml = true;
+            string accountname = string.Empty, accountpassword = string.Empty, authtype = string.Empty, host = string.Empty, domain = "";
+            int port = 25;
+            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 *");
+                    qry.Add("from emailreportcontrol with (nolock)");
+                    await qry.ExecuteAsync();
+                    accountname = qry.GetField("accountname").ToString().TrimEnd();
+                    accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
+                    authtype = qry.GetField("authtype").ToString().TrimEnd();
+                    host = qry.GetField("host").ToString().TrimEnd();
+                    port = qry.GetField("port").ToInt32();
+                }
+            }
+            var client = new SmtpClient(host, port);
+            client.Credentials = new NetworkCredential(accountname, accountpassword, domain);
+            await client.SendMailAsync(message);
+            return true;
+        }
+
     }
 }
