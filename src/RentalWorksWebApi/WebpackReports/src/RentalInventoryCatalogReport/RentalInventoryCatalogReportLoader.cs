@@ -1,14 +1,7 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
-using WebLibrary;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
 {
     [FwSqlTable("inventorycatalogrptview")]
@@ -132,11 +125,11 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhere("(availfor = 'R')");
-                    addStringFilterToSelect("warehouseid", request.WarehouseId, select);
-                    addStringFilterToSelect("inventorydepartmentid", request.InventoryTypeId, select);
-                    addStringFilterToSelect("categoryid", request.CategoryId, select);
-                    addStringFilterToSelect("subcategoryid", request.SubCategoryId, select);
-                    addStringFilterToSelect("masterid", request.InventoryId, select);
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
+                    select.AddWhereIn("categoryid", request.CategoryId);
+                    select.AddWhereIn("subcategoryid", request.SubCategoryId);
+                    select.AddWhereIn("masterid", request.InventoryId);
 
                     select.AddWhereIn("and", "class", request.Classifications.ToString(), false);
                     select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);

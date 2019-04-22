@@ -1,14 +1,9 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 using WebLibrary;
 using System;
-using System.Collections.Generic;
 
 namespace WebApi.Modules.Reports.InvoiceDiscountReport
 {
@@ -135,11 +130,12 @@ namespace WebApi.Modules.Reports.InvoiceDiscountReport
                     select.AddParameter("@discountpct", request.DiscountPercent);
                     select.AddParameter("@includedeptswithnodata", "F");
 
-                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
-                    addStringFilterToSelect("departmentid", request.DepartmentId, select);
-                    addStringFilterToSelect("customerid", request.CustomerId, select);
-                    addStringFilterToSelect("dealid", request.DealId, select);
-                    addStringFilterToSelect("invoicediscountreasonid", request.DiscountReasonId, select);
+                    select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
+                    select.AddWhereIn("invoicediscountreasonid", request.DiscountReasonId);
+
                     select.AddOrderBy("location, department,invoicediscountreason, deal, invoicedate, orderno, agent, discountpct");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

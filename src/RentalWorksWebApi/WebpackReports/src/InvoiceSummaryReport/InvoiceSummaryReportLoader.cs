@@ -1,14 +1,8 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
-using System;
 using WebLibrary;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 namespace WebApi.Modules.Reports.InvoiceSummaryReport
 {
     [FwSqlTable("invoicesummaryrptview")]
@@ -129,11 +123,10 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
 
-                    //select.AddWhere("(xxxxid ^> ')"); 
-                    addStringFilterToSelect("locationid", request.OfficeLocationId, select);
-                    addStringFilterToSelect("departmentid", request.DepartmentId, select);
-                    addStringFilterToSelect("customerid", request.CustomerId, select);
-                    addStringFilterToSelect("dealid", request.DealId, select);
+                    select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
 
                     string dateField = "invoicedate";
                     if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))

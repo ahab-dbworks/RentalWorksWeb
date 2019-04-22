@@ -2,7 +2,6 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using WebLibrary;
 using System;
 using FwStandard.Models;
 using WebApi.Controllers;
@@ -139,11 +138,11 @@ namespace WebApi.Modules.Reports.InventoryPurchaseHistoryReport
                     addDateFilterToSelect("receivedate", request.ReceivedFromDate, select, ">=", "receivefromdate");
                     addDateFilterToSelect("receivedate", request.ReceivedToDate, select, "<=", "receivetodate");
 
-                    addStringFilterToSelect("warehouseid", request.WarehouseId, select);
-                    addStringFilterToSelect("inventorydepartmentid", request.InventoryTypeId, select);
-                    addStringFilterToSelect("categoryid", request.CategoryId, select);
-                    addStringFilterToSelect("subcategoryid", request.SubCategoryId, select);
-                    addStringFilterToSelect("masterid", request.InventoryId, select);
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
+                    select.AddWhereIn("categoryid", request.CategoryId);
+                    select.AddWhereIn("subcategoryid", request.SubCategoryId);
+                    select.AddWhereIn("masterid", request.InventoryId);
 
                     select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
                     select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);

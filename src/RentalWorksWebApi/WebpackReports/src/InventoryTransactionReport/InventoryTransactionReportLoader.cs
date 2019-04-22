@@ -1,14 +1,9 @@
-using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
 using System;
-using WebLibrary;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 using WebApi.Controllers;
 
 namespace WebApi.Modules.Reports.InventoryTransactionReport
@@ -106,11 +101,11 @@ namespace WebApi.Modules.Reports.InventoryTransactionReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhere("(rectype = '" + AvailableForFilter + "')");
-                    addStringFilterToSelect("warehouseid", request.WarehouseId, select);
-                    addStringFilterToSelect("inventorydepartmentid", request.InventoryTypeId, select);
-                    addStringFilterToSelect("categoryid", request.CategoryId, select);
-                    addStringFilterToSelect("subcategoryid", request.SubCategoryId, select);
-                    addStringFilterToSelect("masterid", request.InventoryId, select);
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
+                    select.AddWhereIn("categoryid", request.CategoryId);
+                    select.AddWhereIn("subcategoryid", request.SubCategoryId);
+                    select.AddWhereIn("masterid", request.InventoryId);
 
                     addDateFilterToSelect("transdate", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("transdate", request.ToDate, select, "<=", "todate");

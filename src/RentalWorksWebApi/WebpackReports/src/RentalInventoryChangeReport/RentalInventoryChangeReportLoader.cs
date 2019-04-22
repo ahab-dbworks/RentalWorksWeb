@@ -1,11 +1,7 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryChangeReport
 {
     [FwSqlTable("dbo.dwinventorychange(@fromdate, @todate)")]
@@ -102,32 +98,17 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
 
-                    if (!string.IsNullOrEmpty(request.WarehouseId))
-                    {
-                        select.AddWhereIn("and", "WarehouseKey", request.WarehouseId, false);
-                    }
-                    if (!string.IsNullOrEmpty(request.InventoryTypeId))
-                    {
-                        select.AddWhereIn("and", "DepartmentKey", request.InventoryTypeId, false);
-                    }
-                    if (!string.IsNullOrEmpty(request.CategoryId))
-                    {
-                        select.AddWhereIn("and", "CategoryKey", request.CategoryId, false);
-                    }
-                    if (!string.IsNullOrEmpty(request.SubCategoryId))
-                    {
-                        select.AddWhereIn("and", "SubCategoryKey", request.SubCategoryId, false);
-                    }
-                    if (!string.IsNullOrEmpty(request.InventoryId))
-                    {
-                        select.AddWhereIn("and", "InventoryKey", request.InventoryId, false);
-                    }
-                    select.AddWhereIn("and", "TrackedBy", request.TrackedBys.ToString(), false);
-                    select.AddWhereIn("and", "ICodeRank", request.Ranks.ToString(), false);
+                    select.AddWhereIn("WarehouseKey", request.WarehouseId);
+                    select.AddWhereIn("DepartmentKey", request.InventoryTypeId);
+                    select.AddWhereIn("CategoryKey", request.CategoryId);
+                    select.AddWhereIn("SubCategoryKey", request.SubCategoryId);
+                    select.AddWhereIn("InventoryKey", request.InventoryId);
+
+                    select.AddWhereIn("TrackedBy", request.TrackedBys.ToString());
+                    select.AddWhereIn("ICodeRank", request.Ranks.ToString());
 
                     select.AddOrderBy("Warehouse, Department, CategoryOrderBy, SubCategoryOrderBy, ICodeRank, ICode, ICodeDescription, TransactionDate, TransactionSequence");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

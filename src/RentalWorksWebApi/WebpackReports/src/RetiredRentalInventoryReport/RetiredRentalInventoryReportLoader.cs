@@ -1,11 +1,8 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
-using System.Reflection;
 using WebLibrary;
 
 namespace WebApi.Modules.Reports.RetiredRentalInventoryReport

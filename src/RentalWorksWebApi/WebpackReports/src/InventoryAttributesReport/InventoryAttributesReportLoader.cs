@@ -98,11 +98,11 @@ namespace WebApi.Modules.Reports.InventoryAttributesReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhere("(availfor = '" + AvailableForFilter + "')");
-                    addStringFilterToSelect("inventorydepartmentid", request.InventoryTypeId, select);
-                    addStringFilterToSelect("categoryid", request.CategoryId, select);
-                    addStringFilterToSelect("subcategoryid", request.SubCategoryId, select);
-                    addStringFilterToSelect("masterid", request.InventoryId, select);
-                    addStringFilterToSelect("attributeid", request.AttributeId, select);
+                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
+                    select.AddWhereIn("categoryid", request.CategoryId);
+                    select.AddWhereIn("subcategoryid", request.SubCategoryId);
+                    select.AddWhereIn("masterid", request.InventoryId);
+                    select.AddWhereIn("attributeid", request.AttributeId);
 
                     StringBuilder orderBy = new StringBuilder();
                     if ((request.SortBy == null) || (request.SortBy.Count.Equals(0)))
