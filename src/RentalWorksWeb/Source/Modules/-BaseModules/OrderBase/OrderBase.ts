@@ -113,6 +113,7 @@ class OrderBase {
         // ----------
         const $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $orderItemGridLaborControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
         $orderItemGridLabor.addClass('L');
         $orderItemGridLaborControl.data('isSummary', false);
@@ -140,6 +141,7 @@ class OrderBase {
         // ----------
         const $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
+        $orderItemGridMiscControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
         $orderItemGridMisc.addClass('M');
         $orderItemGridMiscControl.data('isSummary', false);
@@ -1588,6 +1590,7 @@ class OrderBase {
         if (!response) {
             const DEALID = FwFormField.getValueByDataField($form, 'DealId');
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, res => {
+                console.log('res', res)
                 response = res
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, res.Attention);
                 FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, res.Address1);
