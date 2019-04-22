@@ -105,6 +105,20 @@ namespace WebApi.Modules.Home.Order
     public class CopyTemplateResponse : TSpStatusReponse
     {
     }
+
+
+    public class CopyOrderItemsRequest
+    {
+        public string OrderId { get; set; }
+        public List<string> OrderItemIds { get; set; } = new List<string>();
+    }
+
+    public class CopyOrderItemsResponse : TSpStatusReponse
+    {
+        public List<string> OrderItemIds { get; set; } = new List<string>();
+    }
+
+
     public static class OrderFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -363,6 +377,33 @@ namespace WebApi.Modules.Home.Order
                         qry.AddParameter("@rectype", SqlDbType.NVarChar, ParameterDirection.Input, request.RecType);
                         qry.AddParameter("@combinesubs", SqlDbType.NVarChar, ParameterDirection.Input, "T");
                         await qry.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<CopyOrderItemsResponse> CopyOrderItems (FwApplicationConfig appConfig, FwUserSession userSession, CopyOrderItemsRequest request)
+        {
+            CopyOrderItemsResponse response = new CopyOrderItemsResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                foreach(string OrderItemId in request.OrderItemIds)
+                {
+                    using (FwSqlCommand qry = new FwSqlCommand(conn, "copymasteritem", appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                        qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, OrderItemId);
+                        //qry.AddParameter("@poorderid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                        //qry.AddParameter("@pomasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                        //qry.AddParameter("@updateitemorder", SqlDbType.NVarChar, ParameterDirection.Input, "T");
+                        //qry.AddParameter("@newparentid", SqlDbType.NVarChar, ParameterDirection.Input, "");  // if not specified, copy from source
+                        //qry.AddParameter("@copyfrommasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, "");  //used for forcing itemorder
+                        //qry.AddParameter("@issubs", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                        qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                        qry.AddParameter("@newmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                        await qry.ExecuteNonQueryAsync();
+                        response.OrderItemIds.Add(qry.GetParameter("@newmasteritemid").ToString());
                     }
                 }
             }
