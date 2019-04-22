@@ -363,7 +363,8 @@ class Invoice {
         FwBrowse.renderRuntimeHtml($invoiceStatusHistoryGridControl);
         // Invoice Item Adjustment Grids
         // ----------
-        const $invoiceItemGridAdjustmentRental = $form.find('.rental-adjustment div[data-grid="InvoiceItemGrid"]');
+        const itemAdjustmentTotalFields = ["LineTotalWithTax", "Tax", "LineTotal"];
+        const $invoiceItemGridAdjustmentRental = $form.find('.rentaladjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridAdjustmentRental.empty().append($invoiceItemGridAdjustmentRentalControl);
 
@@ -374,6 +375,7 @@ class Invoice {
                 AvailableFor: 'R',
                 pagesize: 15
             };
+            request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentRentalControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -381,11 +383,14 @@ class Invoice {
             request.AvailableFor = 'R';
             request.pagesize = 15;
         });
+        FwBrowse.addEventHandler($invoiceItemGridAdjustmentRentalControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentRentalControl, dt) => {
+            this.calculateInvoiceItemAdjustmentGridTotals($form, 'rentaladjustment', dt.Totals);
+        });
 
         FwBrowse.init($invoiceItemGridAdjustmentRentalControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentRentalControl);
         // ----------
-        const $invoiceItemGridAdjustmentSales = $form.find('.sales-adjustment div[data-grid="InvoiceItemGrid"]');
+        const $invoiceItemGridAdjustmentSales = $form.find('.salesadjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridAdjustmentSales.empty().append($invoiceItemGridAdjustmentSalesControl);
 
@@ -396,6 +401,7 @@ class Invoice {
                 RecType: 'A',
                 AvailableFor: 'S'
             };
+            request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentSalesControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -403,11 +409,14 @@ class Invoice {
             request.AvailableFor = 'S';
             request.pagesize = 15;
         });
+        FwBrowse.addEventHandler($invoiceItemGridAdjustmentSalesControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentSalesControl, dt) => {
+            this.calculateInvoiceItemAdjustmentGridTotals($form, 'salesadjustment', dt.Totals);
+        });
 
         FwBrowse.init($invoiceItemGridAdjustmentSalesControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentSalesControl);
         // ----------
-        const $invoiceItemGridAdjustmentParts = $form.find('.parts-adjustment div[data-grid="InvoiceItemGrid"]');
+        const $invoiceItemGridAdjustmentParts = $form.find('.partsadjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentPartsControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridAdjustmentParts.empty().append($invoiceItemGridAdjustmentPartsControl);
 
@@ -418,6 +427,7 @@ class Invoice {
                 RecType: 'A',
                 AvailableFor: 'P'
             };
+            request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentPartsControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -425,7 +435,9 @@ class Invoice {
             request.AvailableFor = 'P';
             request.pagesize = 15;
         });
-
+        FwBrowse.addEventHandler($invoiceItemGridAdjustmentPartsControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentPartsControl, dt) => {
+            this.calculateInvoiceItemAdjustmentGridTotals($form, 'partsadjustment', dt.Totals);
+        });
         FwBrowse.init($invoiceItemGridAdjustmentPartsControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentPartsControl);
         // ----------
@@ -576,7 +588,7 @@ class Invoice {
         }
     };
     //----------------------------------------------------------------------------------------------
-    calculateInvoiceItemGridTotals($form: JQuery, gridType: string): void {
+    calculateInvoiceItemGridTotals($form: JQuery, gridType: string,  totals?): void {
         let subTotal, discount, salesTax, grossTotal, total, rateType;
         let extendedTotal = new Decimal(0);
         let discountTotal = new Decimal(0);
@@ -604,11 +616,21 @@ class Invoice {
         grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
         total = taxTotal.plus(extendedTotal).toFixed(2);
 
-        $form.find('.' + gridType + '-totals [data-totalfield="SubTotal"] input').val(subTotal);
-        $form.find('.' + gridType + '-totals [data-totalfield="Discount"] input').val(discount);
-        $form.find('.' + gridType + '-totals [data-totalfield="Tax"] input').val(salesTax);
-        $form.find('.' + gridType + '-totals [data-totalfield="GrossTotal"] input').val(grossTotal);
-        $form.find('.' + gridType + '-totals [data-totalfield="Total"] input').val(total);
+        $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
+        $form.find(`.${gridType}-totals [data-totalfield="Discount"] input`).val(discount);
+        $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
+        $form.find(`.${gridType}-totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
+        $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
+    };
+    //----------------------------------------------------------------------------------------------
+    calculateInvoiceItemAdjustmentGridTotals($form: JQuery, gridType: string, totals?): void {
+        const total = totals.LineTotalWithTax;
+        const salesTax = totals.Tax;
+        const subTotal = totals.LineTotal;
+
+        $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
+        $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
+        $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
     };
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
