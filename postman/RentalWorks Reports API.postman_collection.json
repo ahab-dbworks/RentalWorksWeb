@@ -1472,6 +1472,46 @@
 			]
 		},
 		{
+			"name": "Value Of Out Rental Inventory Report",
+			"item": [
+				{
+					"name": "Value Of Out Rental Inventory Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"AsOfDate\": \"01/01/2018\",\n            \"TrackedBys\": [\n            \t{\"value\": \"BARCODE\"},\n            \t{\"value\": \"QUANTITY\"},\n            \t{\"value\": \"SERIALNO\"}\n            \t],\n            \"Ownerships\": [\n            \t{\"value\": \"OWNED\"},\n            \t{\"value\": \"CONSIGNED\"}\n            \t],\n    \t\t\"xWarehouseId\": \"B0029AY5\",\n    \t\t\"InventoryTypeId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/valueofoutrentalinventoryreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"valueofoutrentalinventoryreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Vendor Invoice Summary Report",
 			"item": [
 				{
