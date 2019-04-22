@@ -11,7 +11,7 @@ namespace WebApi.Modules.Home.Item
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public virtual string ItemId { get; set; } = "";
+        public virtual string ItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
         public string InventoryId { get; set; }
