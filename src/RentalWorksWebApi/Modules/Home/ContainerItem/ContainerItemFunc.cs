@@ -6,6 +6,12 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.ContainerItem
 {
+    public class EmptyContainerRequest
+    {
+        public string ContainerItemId { get; set; }
+        public string DeleteAll { get; set; }
+    }
+
     public class EmptyContainerItemResponse : TSpStatusReponse
     {
         public string InContractId = "";
@@ -31,14 +37,14 @@ namespace WebApi.Modules.Home.ContainerItem
     public static class ContainerItemFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<EmptyContainerItemResponse> EmptyContainer(FwApplicationConfig appConfig, FwUserSession userSession, string id)
+        public static async Task<EmptyContainerItemResponse> EmptyContainer(FwApplicationConfig appConfig, FwUserSession userSession, EmptyContainerRequest request)
         {
             EmptyContainerItemResponse response = new EmptyContainerItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "emptycontainer", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@containerrentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, id);
-                qry.AddParameter("@deleteall", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                qry.AddParameter("@containerrentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContainerItemId);
+                qry.AddParameter("@deleteall", SqlDbType.NVarChar, ParameterDirection.Input, request.DeleteAll);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@incontractid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);

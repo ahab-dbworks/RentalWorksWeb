@@ -72,10 +72,10 @@ namespace WebApi.Modules.Home.ContainerItem
             return await DoPostAsync<ContainerItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/containeritem/emptycontainer/A0000001 
-        [HttpPost("emptycontainer/{id}")]
+        // POST api/v1/containeritem/emptycontainer
+        [HttpPost("emptycontainer")]
         [FwControllerMethod(Id: "bBSKLVtzUKn")]
-        public async Task<ActionResult<EmptyContainerItemResponse>> Empty([FromRoute]string id)
+        public async Task<ActionResult<EmptyContainerItemResponse>> Empty([FromBody]EmptyContainerRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -83,18 +83,8 @@ namespace WebApi.Modules.Home.ContainerItem
             }
             try
             {
-                string[] ids = id.Split('~');
-                ContainerItemLogic container = new ContainerItemLogic();
-                container.SetDependencies(AppConfig, UserSession);
-                if (await container.LoadAsync<ContainerItemLogic>(ids))
-                {
-                    EmptyContainerItemResponse response = await ContainerItemFunc.EmptyContainer(AppConfig, UserSession, container.ItemId);
-                    return response;
-                }
-                else
-                {
-                    return NotFound();
-                }
+                EmptyContainerItemResponse response = await ContainerItemFunc.EmptyContainer(AppConfig, UserSession, request);
+                return response;
             }
             catch (Exception ex)
             {

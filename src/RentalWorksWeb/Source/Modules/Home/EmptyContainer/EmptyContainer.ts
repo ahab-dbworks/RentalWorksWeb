@@ -52,7 +52,10 @@ class EmptyContainer {
             const id = FwFormField.getValueByDataField($form, 'ContainerItemId');
             const $responseMsg = $form.find('.response-msg');
             const $containerField = $form.find('[data-datafield="ItemId"]');
-            FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/emptycontainer/${id}`, null, FwServices.defaultTimeout,
+            const request: any = {};
+            request.ContainerItemId = id;
+            request.DeleteAll = FwFormField.getValueByDataField($form, 'DeleteContainer');
+            FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/emptycontainer`, request, FwServices.defaultTimeout,
                 response => {
                     $responseMsg.html(`<div style="margin: 5px;"><span>${response.msg}</span></div>`);
                     if (response.success) {
