@@ -40,7 +40,7 @@
                 console.log(response);
             }, function onError(response) {
                 FwFunc.showError(response);
-                }, null);
+            }, null);
         }
 
         $browse.data('ondatabind', function (request) {
@@ -84,13 +84,11 @@
         $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-
-
         if (mode === 'NEW') {
             let controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
             FwFormField.setValue($form, 'div[data-datafield="UnitId"]', controlDefaults.defaultunitid, controlDefaults.defaultunit);
             if (this.Module === 'RentalInventory') {
-               RentalInventoryController.iCodeMask($form);
+                RentalInventoryController.iCodeMask($form);
             }
         }
 
@@ -153,7 +151,7 @@
             .data('ongetevents', function (request) {
                 var start = moment(request.start.value).format('MM/DD/YYYY');
                 var end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
-                let warehouseId = FwFormField.getValue($form, '.warehousefilter');  
+                let warehouseId = FwFormField.getValue($form, '.warehousefilter');
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
@@ -609,6 +607,12 @@
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        //Disable "Create Complete" if classification isn't Item or Accessory
+        const classification = FwFormField.getValueByDataField($form, 'Classification');
+        if (classification !== 'A' && classification !== 'I') {
+            $form.find('.fwform-menu .submenu-btn').css({ 'pointer-events': 'none', 'color': 'lightgray' });
+        }
+
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             const tabname = jQuery(e.currentTarget).attr('id');
@@ -1150,5 +1154,4 @@
         },
     ]
 }
-
 //var InventoryBaseController = new InventoryBase();

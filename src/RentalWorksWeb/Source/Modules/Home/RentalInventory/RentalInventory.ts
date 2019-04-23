@@ -528,6 +528,24 @@ class RentalInventory extends InventoryBase {
         $form.find('[data-datafield="ICode"] input').inputmask({ mask: wildcardMask });
     }
 };
-
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{B3371C86-740C-44C4-A8FA-E8DE750800F3}'] = e => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/inventorycompletekit/createcomplete/${inventoryId}`, null, FwServices.defaultTimeout,
+            response => {
+                const uniqueIds: any = {};
+                uniqueIds.InventoryId = response.PackageId;
+                const $completeForm = RentalInventoryController.loadForm(uniqueIds);
+                FwModule.openSubModuleTab($form, $completeForm);
+            }, ex => {
+                FwFunc.showError(ex);
+            }, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //----------------------------------------------------------------------------------------------
 var RentalInventoryController = new RentalInventory();

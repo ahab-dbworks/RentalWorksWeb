@@ -197,7 +197,7 @@ class SalesInventory extends InventoryBase {
             let primaryRowIndex;
             if (primaryRowIndex === undefined) {
                 const orderByIndex = dt.ColumnIndex.OrderBy;
-                const  inventoryIdIndex = dt.ColumnIndex.InventoryId
+                const inventoryIdIndex = dt.ColumnIndex.InventoryId
                 for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
                         primaryRowIndex = i
@@ -228,7 +228,7 @@ class SalesInventory extends InventoryBase {
         $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
             let primaryRowIndex;
             if (primaryRowIndex === undefined) {
-                const  orderByIndex = dt.ColumnIndex.OrderBy;
+                const orderByIndex = dt.ColumnIndex.OrderBy;
                 const inventoryIdIndex = dt.ColumnIndex.InventoryId
                 for (let i = 0; i < dt.Rows.length; i++) {
                     if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
@@ -328,5 +328,24 @@ class SalesInventory extends InventoryBase {
     };
 };
 
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{B13C0180-D25C-4AFC-9B2C-556C7B0FA53F}'] = e => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/inventorycompletekit/createcomplete/${inventoryId}`, null, FwServices.defaultTimeout,
+            response => {
+                const uniqueIds: any = {};
+                uniqueIds.InventoryId = response.PackageId;
+                const $completeForm = SalesInventoryController.loadForm(uniqueIds);
+                FwModule.openSubModuleTab($form, $completeForm);
+            }, ex => {
+                FwFunc.showError(ex);
+            }, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //----------------------------------------------------------------------------------------------
 var SalesInventoryController = new SalesInventory();

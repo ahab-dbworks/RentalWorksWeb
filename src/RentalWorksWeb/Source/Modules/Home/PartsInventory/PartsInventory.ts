@@ -276,6 +276,24 @@ class PartsInventory extends InventoryBase {
         };
     };
 };
-
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents['{1881D7B6-E17A-4D20-A2E5-71F383FBD8CB}'] = e => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/inventorycompletekit/createcomplete/${inventoryId}`, null, FwServices.defaultTimeout,
+            response => {
+                const uniqueIds: any = {};
+                uniqueIds.InventoryId = response.PackageId;
+                const $completeForm = PartsInventoryController.loadForm(uniqueIds);
+                FwModule.openSubModuleTab($form, $completeForm);
+            }, ex => {
+                FwFunc.showError(ex);
+            }, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //----------------------------------------------------------------------------------------------
 var PartsInventoryController = new PartsInventory();
