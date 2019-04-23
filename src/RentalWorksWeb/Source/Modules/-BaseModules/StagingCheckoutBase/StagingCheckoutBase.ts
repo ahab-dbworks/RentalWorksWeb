@@ -1341,6 +1341,7 @@
               <div data-type="tabpage" id="quantityitemtabpage" class="tabpage" data-tabid="quantityitemtab">
                 <div class="flexpage">
                   <div class="flexrow error-msg qty"></div>
+                  <div class="formrow add-item-qty"></div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>
                   </div>
@@ -1357,7 +1358,7 @@
               <!--HOLDING PAGE-->
               <div data-type="tabpage" id="holdingitemtabpage" class="tabpage" data-tabid="holdingitemtab">
                 <div class="flexpage">
-                  <div class="flexrow error-msg qty"></div>
+                  <div class="flexrow error-msg holding"></div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="StageHoldingItemGrid" data-securitycaption=""></div>
                   </div>
