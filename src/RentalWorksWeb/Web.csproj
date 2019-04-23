@@ -1152,7 +1152,6 @@
     <Compile Include="Source\AccountService.cs" />
     <Compile Include="Source\Grids\AuditHistory.cs" />
     <Compile Include="Source\RwAppData.cs" />
-    <Compile Include="Source\RwReport.cs" />
     <Compile Include="Source\RwService.cs" />
     <Compile Include="Source\RwServiceRouting.cs" />
     <Compile Include="Source\RwUserRoles.cs" />
