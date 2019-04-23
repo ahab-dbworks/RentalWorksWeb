@@ -306,7 +306,7 @@ class PurchaseOrder {
         const $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridLaborControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        $orderItemGridLaborControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
+        $orderItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridLaborControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
@@ -334,7 +334,7 @@ class PurchaseOrder {
         // ----------
         const $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridMiscControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
+        $orderItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridMiscControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
         $orderItemGridMiscControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
@@ -431,7 +431,7 @@ class PurchaseOrder {
         const $orderItemGridSubLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridSubLaborControl.find('.suborder').attr('data-visible', 'true');
         $orderItemGridSubLaborControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        $orderItemGridSubLaborControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
+        $orderItemGridSubLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridSubLaborControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridSubLaborControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubLabor.empty().append($orderItemGridSubLaborControl);
@@ -465,7 +465,7 @@ class PurchaseOrder {
         const $orderItemGridSubMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridSubMiscControl.find('.suborder').attr('data-visible', 'true');
         $orderItemGridSubMiscControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
-        $orderItemGridSubMiscControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
+        $orderItemGridSubMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridSubMiscControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridSubMiscControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
         $orderItemGridSubMisc.empty().append($orderItemGridSubMiscControl);

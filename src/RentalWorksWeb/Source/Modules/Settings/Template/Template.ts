@@ -114,7 +114,7 @@
         // ----------
         const $orderItemGridLabor = $form.find('.laborgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridLaborControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridLaborControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
+        $orderItemGridLaborControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridLaborControl.find('.column').attr('data-visible', 'false');
         $orderItemGridLaborControl.find('.template').parent().attr('data-visible', 'true');
         $orderItemGridLabor.empty().append($orderItemGridLaborControl);
@@ -133,7 +133,7 @@
         // ----------
         const $orderItemGridMisc = $form.find('.miscgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridMiscControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
-        $orderItemGridMiscControl.find('div[data-datafield="ICode"]').attr('data-caption', 'Item No.');
+        $orderItemGridMiscControl.find('div[data-datafield="InventoryId"]').attr('data-caption', 'Item No.');
         $orderItemGridMiscControl.find('.column').attr('data-visible', 'false');
         $orderItemGridMiscControl.find('.template').parent().attr('data-visible', 'true');
         $orderItemGridMisc.empty().append($orderItemGridMiscControl);
