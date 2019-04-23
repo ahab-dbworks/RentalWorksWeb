@@ -818,4 +818,28 @@ FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = functi
     }
 };
 //---------------------------------------------------------------------------------
+// Copy Line Items
+FwApplicationTree.clickEvents['{01EB96CB-6C62-4D5C-9224-8B6F45AD9F63}'] = e => {
+    const $grid = jQuery(e.currentTarget).closest('.fwbrowse');
+    const $form = jQuery(e.currentTarget).closest('.fwform');
+    const module = $form.attr('data-controller').replace('Controller', '');
+    const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+    const ids = [];
+    const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
+    for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+        const $this = jQuery($selectedCheckBoxes[i]);
+        const id = $this.closest('tr').find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
+        ids.push(id);
+    };
+    const request: any = {};
+    request.OrderId = orderId;
+    request.OrderItemIds = ids;
+    FwAppData.apiMethod(true, 'POST', `api/v1/order/copyorderitems`, request, FwServices.defaultTimeout,
+        response => {
+        jQuery(document).trigger('click');
+        FwBrowse.search($grid);
+        },
+        ex => FwFunc.showError(ex), $grid);
+};
+//----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();

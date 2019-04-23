@@ -133,6 +133,26 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------
+        // POST api/v1/order/copyorderitems
+        [HttpPost("copyorderitems")]
+        [FwControllerMethod(Id: "i11GB44Ddvm")]
+        public async Task<ActionResult<CopyOrderItemsResponse>> CopyOrderItems([FromBody]CopyOrderItemsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                CopyOrderItemsResponse response = await OrderFunc.CopyOrderItems(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/order/cancel/A0000001
         [HttpPost("cancel/{id}")]
         [FwControllerMethod(Id:"b8eSiRATn80I")]

@@ -400,7 +400,7 @@ namespace WebApi.Modules.Home.Order
                         //qry.AddParameter("@newparentid", SqlDbType.NVarChar, ParameterDirection.Input, "");  // if not specified, copy from source
                         //qry.AddParameter("@copyfrommasteritemid", SqlDbType.NVarChar, ParameterDirection.Input, "");  //used for forcing itemorder
                         //qry.AddParameter("@issubs", SqlDbType.NVarChar, ParameterDirection.Input, "F");
-                        qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                        //qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
                         qry.AddParameter("@newmasteritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                         await qry.ExecuteNonQueryAsync();
                         response.OrderItemIds.Add(qry.GetParameter("@newmasteritemid").ToString());
