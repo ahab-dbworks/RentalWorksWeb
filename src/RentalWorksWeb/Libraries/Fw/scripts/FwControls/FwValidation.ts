@@ -465,7 +465,7 @@
                     }
                 });
 
-                jQuery('.fwpopupbox').on('click', function (e: JQuery.Event) {
+                jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
                     if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                     } else {
@@ -500,7 +500,7 @@
 
             FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
 
-            jQuery('.fwpopup.new-validation').on('click', function (e: JQuery.Event) {
+            jQuery('.fwpopup.new-validation').on('click', function (e: JQuery.ClickEvent) {
                 if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                 } else {
@@ -525,7 +525,7 @@
                 }
             });
 
-            jQuery('.fwpopupbox').on('click', function (e: JQuery.Event) {
+            jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
                 if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                 } else {

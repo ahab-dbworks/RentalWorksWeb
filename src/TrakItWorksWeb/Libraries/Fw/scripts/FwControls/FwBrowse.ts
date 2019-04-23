@@ -1571,7 +1571,7 @@ class FwBrowseClass {
                                                 switch (FwApplicationTree.getNodeType(gridSubMenuItem)) {
                                                     case 'SubMenuItem':
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                        $submenuitem.on('click', function (e: JQuery.ClickEvent) {
                                                             try {
                                                                 e.stopPropagation();
                                                                 const securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
@@ -1584,7 +1584,7 @@ class FwBrowseClass {
                                                         break;
                                                     case 'DownloadExcelSubMenuItem':
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                        $submenuitem.on('click', function (e: JQuery.ClickEvent) {
                                                             try {
                                                                 FwBrowse.downloadExcelWorkbook($browse, controller);
                                                             } catch (ex) {
@@ -2542,7 +2542,7 @@ class FwBrowseClass {
             }
 
             if (typeof onrowdblclick !== 'undefined') {
-                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.Event) => {
+                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
                     onrowdblclick.apply(event.currentTarget, [event]);
@@ -2805,7 +2805,7 @@ class FwBrowseClass {
                         $control.find('thead .tdselectrow .divselectrow').hide();
                         jQuery(window)
                             .off('click.FwBrowse')
-                            .on('click.FwBrowse', function (e: JQuery.Event) {
+                            .on('click.FwBrowse', function (e: JQuery.ClickEvent) {
                                 try {
                                     let triggerAutoSave = true;
                                     let clockPicker = jQuery(document.body).find('.clockpicker-popover');
