@@ -308,9 +308,8 @@ html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .vi
 html.theme-material .fwbrowse .field[data-browsedatatype="appdocumentimage"] .viewcell .col2 i {cursor:pointer;color:#F44336;font-size:16px;vertical-align:middle;}
 
 html.theme-material .fwbrowse table tbody td.flexgridspacer{width:26px;float:right;display:block !important;}
-html.theme-material .fwbrowse table tbody td.browsecontextmenucell{position:absolute;right:0px;}
-html.theme-material .fwbrowse table tbody td.gridspacer{width:26px;float:left;display:block !important;}
-html.theme-material .fwbrowse table tbody td.tdselectrow{position:absolute;left:0px;padding-right:12px !important;z-index:1;}
+html.theme-material .fwbrowse table tbody td.browsecontextmenucell{position:sticky;right:0px;}
+html.theme-material .fwbrowse table tbody td.tdselectrow{position:sticky;left:0px;z-index:1;}
 /********************
 Theme
 ********************/

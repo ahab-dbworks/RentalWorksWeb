@@ -1248,7 +1248,7 @@ class FwSettingsClass {
         var nodeApplications, nodeApplication = null, baseiconurl, $menu, ribbonItem, dropDownMenuItems, caption;
         nodeApplications = FwApplicationTree.getMyTree();
         for (var appno = 0; appno < nodeApplications.children.length; appno++) {
-            if (nodeApplications.children[appno].id === '0A5F2584-D239-480F-8312-7C2B552A30BA') {
+            if (nodeApplications.children[appno].id === FwApplicationTree.currentApplicationId) {
                 nodeApplication = nodeApplications.children[appno];
             }
         }

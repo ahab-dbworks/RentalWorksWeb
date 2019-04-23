@@ -1094,7 +1094,6 @@ class FwBrowseClass {
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     if ($control.attr('data-hasmultirowselect') !== 'false') {
                         html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
-                        html.push('<td class="column gridspacer" style="display:none;"></td>');
                     }
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
@@ -3841,7 +3840,7 @@ class FwBrowseClass {
 var FwBrowse = new FwBrowseClass();
 
 interface IFwBrowseColumn {
-    databindfield($browse, $field, dt, dtRow, $tr): void;
+    databindfield($browse: JQuery, $field: JQuery, dt: DataTable, dtRow: any, $tr: JQuery): void;
     getFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, field: any, originalvalue: string): void;
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void;
     isModified($browse: JQuery, $tr: JQuery, $field: JQuery): boolean;

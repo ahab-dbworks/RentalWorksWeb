@@ -1305,6 +1305,7 @@ class FwBrowseClass {
                                 htmlPager.push('    <option value="active">Show Active</option>');
                                 htmlPager.push('    <option value="inactive">Show Inactive</option>');
                                 htmlPager.push('    <option value="all">Show All</option>');
+                                htmlPager.push('  </select>')
                                 htmlPager.push('</div>');
                             }
                             break;
@@ -1328,6 +1329,7 @@ class FwBrowseClass {
                             htmlPager.push('    <option value="active">Show Active</option>');
                             htmlPager.push('    <option value="inactive">Show Inactive</option>');
                             htmlPager.push('    <option value="all">Show All</option>');
+                            htmlPager.push('  </select>')
                             htmlPager.push('</div>');
                         }
                         break;
@@ -3838,7 +3840,7 @@ class FwBrowseClass {
 var FwBrowse = new FwBrowseClass();
 
 interface IFwBrowseColumn {
-    databindfield($browse, $field, dt, dtRow, $tr): void;
+    databindfield($browse: JQuery, $field: JQuery, dt: DataTable, dtRow: any, $tr: JQuery): void;
     getFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, field: any, originalvalue: string): void;
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void;
     isModified($browse: JQuery, $tr: JQuery, $field: JQuery): boolean;

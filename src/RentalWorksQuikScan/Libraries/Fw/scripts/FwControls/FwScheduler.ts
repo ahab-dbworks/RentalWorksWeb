@@ -790,7 +790,7 @@ class FwSchedulerClass {
                     break;
                 case '5 Week':
                     start = dp5week.startDate.addDays(-dp5week.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible
-                    days = dp5week.days + dp5week.startDate.dayOfWeek() + (6 - dp5week.startDate.addDays(dp5week.days).dayOfWeek()) // add the first few days from the next month that are visible
+                    days = 34; // add the first few days from the next month that are visible
                     break;
                 case 'Month':
                     start = dpmonth.startDate.addDays(-dpmonth.startDate.dayOfWeek()) // add the trailing days from the previous month that are visible

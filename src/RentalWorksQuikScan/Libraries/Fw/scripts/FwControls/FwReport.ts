@@ -167,7 +167,7 @@
             FwFormField.setValue($form, 'div[data-datafield="footerheight"]', response.printoptions.FooterHeight);
         }, null, $form);
 
-        $form.find('.exporttab').closest('.tabs').data('ontabchange', function($tab) {
+        $form.find('.exporttab').closest('.fwtabs').data('ontabchange', function($tab) {
             try {
                 if ($tab.hasClass('exporttab')) {
                     $form.data('stylesheetcodemirror').refresh();
