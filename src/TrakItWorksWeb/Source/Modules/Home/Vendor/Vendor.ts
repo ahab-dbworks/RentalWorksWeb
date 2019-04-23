@@ -39,6 +39,9 @@ class Vendor {
 
         this.events($form);
 
+        var $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
+        $form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
+
         FwFormField.setValueByDataField($form, 'DefaultSubRentDaysPerWeek', 0);
         FwFormField.setValueByDataField($form, 'DefaultSubRentDiscountPercent', 0);
         FwFormField.setValueByDataField($form, 'DefaultSubSaleDiscountPercent', 0);
@@ -73,23 +76,22 @@ class Vendor {
         var $form = this.openForm('EDIT');
         FwFormField.setValueByDataField($form, 'VendorId', uniqueids.VendorId);
         FwModule.loadForm(this.Module, $form);
-        //let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
-        //$form.find('.purchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
+
         return $form;
     }
     //---------------------------------------------------------------------------------
-    //openPurchaseOrderBrowse($form) {
-    //    let vendorId = FwFormField.getValueByDataField($form, 'VendorId');
-    //    let $browse = PurchaseOrderController.openBrowse();
-    //    $browse.data('ondatabind', function (request) {
-    //        request.activeviewfields = PurchaseOrderController.ActiveViewFields;
-    //        request.uniqueids = {
-    //            VendorId: vendorId
-    //        };
-    //    });
-    //    FwBrowse.search($browse);
-    //    return $browse;
-    //}
+    openPurchaseOrderBrowse($form) {
+        let $browse = PurchaseOrderController.openBrowse();
+
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = PurchaseOrderController.ActiveViewFields;
+            request.uniqueids = {
+                VendorId: FwFormField.getValueByDataField($form, 'VendorId')
+            };
+        });
+
+        return $browse;
+    }
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
@@ -109,6 +111,9 @@ class Vendor {
 
         var $companyContactGrid: any = $form.find('[data-name="CompanyContactGrid"]');
         FwBrowse.search($companyContactGrid);
+
+        var $purchaseOrderBrowse = $form.find('#PurchaseOrderBrowse')
+        FwBrowse.search($purchaseOrderBrowse);
 
         this.toggleType($form, FwFormField.getValueByDataField($form, 'VendorNameType'));
     }

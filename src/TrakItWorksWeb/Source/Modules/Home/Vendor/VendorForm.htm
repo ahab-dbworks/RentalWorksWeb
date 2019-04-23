@@ -2,12 +2,13 @@
   <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="VendorId"></div>
   <div id="vendorform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
-      <div data-type="tab" id="vendortab"   class="tab" data-tabpageid="vendortabpage"   data-caption="Vendor"></div>
-      <div data-type="tab" id="billingtab"  class="tab" data-tabpageid="billingtabpage"  data-caption="Billing"></div>
-      <div data-type="tab" id="taxtab"      class="tab" data-tabpageid="taxtabpage"      data-caption="Tax"></div>
-      <div data-type="tab" id="shippingtab" class="tab" data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
-      <div data-type="tab" id="contactstab" class="tab" data-tabpageid="contactstabpage" data-caption="Contacts"></div>
-      <div data-type="tab" id="notestab"    class="tab" data-tabpageid="notestabpage"    data-caption="Notes"></div>
+      <div data-type="tab" id="vendortab"        class="tab"           data-tabpageid="vendortabpage"        data-caption="Vendor"></div>
+      <div data-type="tab" id="billingtab"       class="tab"           data-tabpageid="billingtabpage"       data-caption="Billing"></div>
+      <div data-type="tab" id="taxtab"           class="tab"           data-tabpageid="taxtabpage"           data-caption="Tax"></div>
+      <div data-type="tab" id="shippingtab"      class="tab"           data-tabpageid="shippingtabpage"      data-caption="Shipping"></div>
+      <div data-type="tab" id="contactstab"      class="tab"           data-tabpageid="contactstabpage"      data-caption="Contacts"></div>
+      <div data-type="tab" id="purchaseordertab" class="tab submodule" data-tabpageid="purchaseordertabpage" data-caption="Purchase Order"></div>
+      <div data-type="tab" id="notestab"         class="tab"           data-tabpageid="notestabpage"         data-caption="Notes"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="vendortabpage" class="tabpage" data-tabid="vendortab">
@@ -157,13 +158,6 @@
               </div>
             </div>
           </div>
-          <div class="flexcolumn" style="flex:1 1 150px;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="External ID">
-              <div class="flexrow">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ID" data-datafield="ExternalId" style="flex:1 1 125px;"></div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       <div data-type="tabpage" id="taxtabpage" class="tabpage" data-tabid="taxtab">
@@ -193,6 +187,7 @@
           <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Vendor Contacts"></div>
         </div>
       </div>
+      <div data-type="tabpage" id="purchaseordertabpage" class="tabpage purchaseOrderSubModule" data-tabid="purchaseordertab"></div>
       <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
         <div class="flexrow">
           <div data-control="FwGrid" id="vendornotegrid" data-grid="VendorNoteGrid" data-securitycaption="Note Grid" style="min-width:240px;"></div>

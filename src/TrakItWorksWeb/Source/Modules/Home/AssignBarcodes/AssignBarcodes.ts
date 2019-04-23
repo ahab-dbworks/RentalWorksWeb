@@ -1,19 +1,17 @@
 ﻿routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarcodesController.getModuleScreen(); } });
 
 class AssignBarcodes {
-    Module: string = 'AssignBarcodes';
-    caption: string = 'Assign Barcodes';
-    nav: string = 'module/assignbarcodes';
-    id: string = '81B0D93C-9765-4340-8B40-63040E0343B8';
-    successSoundFileName: string;
-    errorSoundFileName: string;
+    Module:                    string = 'AssignBarcodes';
+    caption:                   string = 'Assign Barcodes';
+    nav:                       string = 'module/assignbarcodes';
+    id:                        string = '81B0D93C-9765-4340-8B40-63040E0343B8';
+    successSoundFileName:      string;
+    errorSoundFileName:        string;
     notificationSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
-        screen.viewModel = {};
-        screen.properties = {};
 
         var $form = this.openForm('EDIT');
 
@@ -30,7 +28,7 @@ class AssignBarcodes {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         this.events($form);
 

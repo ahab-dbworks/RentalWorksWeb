@@ -73,7 +73,7 @@ class Asset {
     openForm(mode: string) {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form     = FwModule.openForm($form, mode);
-        
+
         return $form;
     };
     //---------------------------------------------------------------------------------------------

@@ -31,7 +31,7 @@ class ReturnToVendor {
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
         //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-text input').focus();
         //$form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
         //$form.find('div[data-displayfield="PurchaseOrderNumber"] input').focus();

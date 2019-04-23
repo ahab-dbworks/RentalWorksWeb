@@ -54,7 +54,7 @@ class StagingCheckout {
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
         //disables asterisk and save prompt
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         this.getSoundUrls();
         this.getOrder($form);
@@ -87,9 +87,8 @@ class StagingCheckout {
             $form.on('click', '.suspendedsession', e => {
                 let html = `<div>
                               <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-                               <div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
+                              <div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
                             </div>`;
-
 
                 const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
                 const $browse = SuspendedSessionController.openBrowse();

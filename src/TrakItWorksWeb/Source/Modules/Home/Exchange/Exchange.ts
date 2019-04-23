@@ -39,7 +39,7 @@ class Exchange {
         $form = FwModule.openForm($form, mode);
         department = JSON.parse(sessionStorage.getItem('department'));
 
-        $form.off('change keyup', '.fwformfield[data-isuniqueid!="true"][data-enabled="true"][data-datafield!=""]');
+        $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid, department.department);
 

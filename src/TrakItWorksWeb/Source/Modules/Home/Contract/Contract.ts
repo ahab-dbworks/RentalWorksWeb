@@ -14,8 +14,6 @@ class Contract {
 
         screen = {};
         screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
-        screen.viewModel = {};
-        screen.properties = {};
 
         $browse = this.openBrowse();
 
@@ -205,43 +203,33 @@ class Contract {
         } else {
             $form.find('.exchange').hide();
         }
-
-        //$form.find('.print').on('click', e => {
-        //    let $report, contractNumber, contractId, recordTitle, printTab;
-        //    const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
-        //    try {
-        //        contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-        //        contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-        //        recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-        //        $report = RwOutContractReportController.openForm();
-
-        //        FwModule.openSubModuleTab($form, $report);
-
-        //        $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(contractId);
-        //        $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(contractNumber);
-        //        jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
-
-        //        printTab = jQuery('.tab.submodule.active');
-        //        printTab.find('.caption').html(`Print ${module}`);
-        //        printTab.attr('data-caption', `${module} ${recordTitle}`);
-        //    }
-        //    catch (ex) {
-        //        FwFunc.showError(ex);
-        //    }
-        //});
     }
     //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents['{8C34754E-B27F-4FE1-93F3-8D6D84339322}'] = function (e) {
-    var $form;
-    try {
-        $form = jQuery(this).closest('.fwform');
-        $form.find('.print').trigger('click');
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
+    var $form = jQuery(this).closest('.fwform');
+    //    let $report, contractNumber, contractId, recordTitle, printTab;
+    //    const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
+    //    try {
+    //        contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
+    //        contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
+    //        recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+    //        $report = RwOutContractReportController.openForm();
+
+    //        FwModule.openSubModuleTab($form, $report);
+
+    //        $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(contractId);
+    //        $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(contractNumber);
+    //        jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+
+    //        printTab = jQuery('.tab.submodule.active');
+    //        printTab.find('.caption').html(`Print ${module}`);
+    //        printTab.attr('data-caption', `${module} ${recordTitle}`);
+    //    }
+    //    catch (ex) {
+    //        FwFunc.showError(ex);
+    //    }
 };
 //----------------------------------------------------------------------------------------------
 var ContractController = new Contract();

@@ -559,6 +559,8 @@
     <Content Include="Source\Modules\Home\CompleteQc\CompleteQcForm.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryForm.htm" />
+    <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderBrowse.html" />
+    <Content Include="Source\Modules\Home\PurchaseOrder\PurchaseOrderForm.html" />
     <Content Include="Source\Modules\Home\Receipt\ReceiptBrowse.htm" />
     <Content Include="Source\Modules\Home\Receipt\ReceiptForm.htm" />
     <Content Include="Source\Modules\Home\Billing\BillingBrowse.htm" />
