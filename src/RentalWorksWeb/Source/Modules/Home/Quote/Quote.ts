@@ -896,7 +896,7 @@ class Quote extends OrderBase {
               </div>
 
               <!-- ALL TAB -->
-              <div data-type="tabpage" id="alltabpage" class="combined combined tabpage" data-tabid="alltab">
+              <div data-type="tabpage" id="alltabpage" class="combined tabpage" data-tabid="alltab">
                 <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Items">
                   <div class="fwcontrol fwcontainer fwform-fieldrow combinedgrid" data-control="FwContainer" data-type="fieldrow">
                     <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Quote Items"></div>
