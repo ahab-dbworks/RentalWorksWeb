@@ -8,19 +8,18 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class ReturnedToInventoryReport extends WebpackReport {
+export class ValueOfOutRentalInventoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
 
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/returnedtoinventoryreport/runreport`, authorizationHeader, parameters)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/valueofoutrentalinventoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
-                    data.Report = 'Returned To Inventory Report';
+                    data.AsOfDate = parameters.AsOfDate;
+                    data.Report = 'Value Of Out Rental Inventory Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
                     this.renderFooterHtml(data);
@@ -44,4 +43,4 @@ export class ReturnedToInventoryReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new ReturnedToInventoryReport();
+(<any>window).report = new ValueOfOutRentalInventoryReport();
