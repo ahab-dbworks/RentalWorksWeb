@@ -13,3 +13,5 @@ declare var FwFormField_checkboxlist: any;
 declare var Sortable: any;
 declare var DayPilot: any;
 declare var moment: any;
+declare var Sortable: any;
+declare var CKEDITOR: any;
