@@ -1,0 +1,62 @@
+﻿<!--DailyReceiptsReport-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Name</th>
+        <th>Payment By</th>
+        <th>Type</th>
+        <th>Ref/Check No.</th>
+        <th class="number">Amount</th>
+        <th class="number">Overpayment</th>
+        <th>Invoice No.</th>
+        <th class="number">Applied</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td data-value="{{ReceiptDate}}"></td>
+        <td data-value="{{Name}}"></td>
+        <td data-value="{{PaymentBy}}"></td>
+        <td data-value="{{PaymentType}}"></td>
+        <td data-value="{{CheckNumber}}"></td>
+        <td class="number" data-value="{{Amount}}"></td>
+        <td class="number" data-value="{{Overpayment}}"></td>
+        <td data-value="{{InvoiceNumber}}"></td>
+        <td class="number" data-value="{{Applied}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
+        <td class="total-val" data-value="{{Overpayment}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
+        <td class="total-val" data-value="{{Overpayment}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
