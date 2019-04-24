@@ -52,8 +52,7 @@
         const max = 9999;
         $form.on('change', `[data-datafield="${this.Type}Id"]`, e => {
             try {
-                $form.find('.toggle [data-value="Summary"] input').prop('checked', true);
-                $form.find('.summaryview').show();
+                $form.find('.toggle [data-value="Summary"] input').prop('checked', true).change();
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 let apiUrl;
                 switch (this.Type) {
@@ -541,6 +540,7 @@
                 case 'Summary':
                     $form.find('.summaryview').show();
                     $form.find('.details').hide();
+                    $form.find('.show-all-history').hide();
                     break;
                 case 'Details':
                     $form.find('.details').show();

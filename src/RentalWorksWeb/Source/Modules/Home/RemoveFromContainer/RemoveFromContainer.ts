@@ -39,7 +39,7 @@ class RemoveFromContainer {
         const $responseMsg = $form.find('.response-msg');
         // Remove by BarCode or Serial Number
         $form.find('.itemid').data('onchange', $tr => {
-            const itemId = $tr.find('.field[data-formdatafield="ItemId"]').attr('data-originalvalue');
+            const itemId = jQuery($tr.find('.field[data-formdatafield="ItemId"]')).attr('data-originalvalue');
             FwFormField.setValue($form, '.itemid[data-displayfield="BarCode"]', itemId, $tr.find('.field[data-formdatafield="BarCode"]').attr('data-originalvalue'));
             FwFormField.setValue($form, '.itemid[data-displayfield="SerialNumber"]', itemId, $tr.find('.field[data-formdatafield="SerialNumber"]').attr('data-originalvalue'));
             FwFormField.setValue($form, 'div[data-datafield="ItemDescription"]', $tr.find('.field[data-formdatafield="Description"]').attr('data-originalvalue'));
@@ -60,7 +60,7 @@ class RemoveFromContainer {
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (e.which === 13) {
                 const request: any = {};
-                request.ItemId = FwFormField.getValueByDataField($form, 'InventoryId');
+                request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 request.ContainerItemId = FwFormField.getValue($form, '.container');
                 request.Quantity = FwFormField.getValueByDataField($form, 'Quantity');
                 FwAppData.apiMethod(true, 'POST', 'api/v1/containeritem/removefromcontainer', request, FwServices.defaultTimeout, response => {
@@ -87,7 +87,7 @@ class RemoveFromContainer {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
-        $form.find('.barCode input').focus();
+        $form.find('.itemid[data-displayfield="BarCode"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
@@ -118,7 +118,7 @@ class RemoveFromContainer {
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Container" style="max-width:700px">
           <div class="flexrow">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield container" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 200px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield container" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 200px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Description" data-datafield="ContainerDescription" style="flex:0 1 400px;" data-enabled="false"></div>
           </div>
         </div>
