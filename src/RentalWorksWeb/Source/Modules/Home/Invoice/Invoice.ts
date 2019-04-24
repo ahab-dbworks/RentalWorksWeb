@@ -578,9 +578,9 @@ class Invoice {
         const hiddenAdjustment = fieldNames.filter(function (field) {
             return !this.has(field)
         }, new Set(adjustmentShowFields))
-        const $rentalAdjustmentGrid = $form.find('.rental-adjustment [data-name="InvoiceItemGrid"]');
-        const $salesAdjustmentGrid = $form.find('.sales-adjustment [data-name="InvoiceItemGrid"]');
-        const $partsAdjustmentGrid = $form.find('.parts-adjustment [data-name="InvoiceItemGrid"]');
+        const $rentalAdjustmentGrid = $form.find('.rentaladjustment [data-name="InvoiceItemGrid"]');
+        const $salesAdjustmentGrid = $form.find('.salesadjustment [data-name="InvoiceItemGrid"]');
+        const $partsAdjustmentGrid = $form.find('.partsadjustment [data-name="InvoiceItemGrid"]');
         for (let i = 0; i < hiddenAdjustment.length; i++) {
             jQuery($rentalAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
             jQuery($salesAdjustmentGrid.find(`[data-mappedfield="${hiddenAdjustment[i]}"]`)).parent().hide();
