@@ -157,12 +157,11 @@
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
         const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
-        const module = this.Module;
         if (showSuspendedSessions != "false") {
             let apiUrl;
             let sessionType;
             let orderType;
-            switch (module) {
+            switch (this.Module) {
                 case 'StagingCheckout':
                     apiUrl = `api/v1/checkout/suspendedsessionsexist`;
                     sessionType = 'OUT';
@@ -178,37 +177,24 @@
                     sessionType = 'FILL';
                     orderType = 'N';
             }
-            FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout, response => {
-                $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
-            }, null, $form);
+            FwAppData.apiMethod(true, 'GET', apiUrl, null, FwServices.defaultTimeout,
+                response => {
+                    $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+                },
+                ex => FwFunc.showError(ex), $form);
 
             $form.on('click', '.suspendedsession', e => {
-                let html = `<div>
-                              <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-                               <div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
-                            </div>`;
-
-                const officeLocationId = JSON.parse(sessionStorage.getItem('location')).locationid;
                 const $browse = SuspendedSessionController.openBrowse();
-
+                const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Suspended Sessions');
+                FwPopup.showPopup($popup);
                 $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: officeLocationId
+                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
                         , SessionType: sessionType
                         , OrderType: orderType
                     }
                 });
-
-                const $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
-                FwPopup.showPopup($popup);
-                jQuery('#suspendedSessions').append($browse);
                 FwBrowse.search($browse);
-
-                $popup.find('.close-modal > i').one('click', e => {
-                    FwPopup.destroyPopup($popup);
-                    jQuery(document).find('.fwpopup').off('click');
-                    jQuery(document).off('keydown');
-                });
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
                     const $this = jQuery(e.currentTarget);
@@ -832,7 +818,7 @@
                     $form.find('[data-datafield="Code"] input').select();
                 }, $form);
             }
-        })​;
+        });
         //Quantity change
         $form.find('[data-datafield="Quantity"] input').on('keydown', e => {
             if (this.showAddItemToOrder != true) {
@@ -1061,23 +1047,23 @@
         const $form = jQuery($element).closest('.fwform');
         let request: any = {};
 
-            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-            const code = FwFormField.getValueByDataField($form, 'Code');
-            const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-            if (quantity != 0) {
-                request = {
-                    OrderId: orderId,
-                    Code: code,
-                    AddItemToOrder: true,
-                    Quantity: quantity
-                }
-            } else {
-                request = {
-                    OrderId: orderId,
-                    Code: code,
-                    AddItemToOrder: true
-                }
+        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        const code = FwFormField.getValueByDataField($form, 'Code');
+        const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
+        if (quantity != 0) {
+            request = {
+                OrderId: orderId,
+                Code: code,
+                AddItemToOrder: true,
+                Quantity: quantity
             }
+        } else {
+            request = {
+                OrderId: orderId,
+                Code: code,
+                AddItemToOrder: true
+            }
+        }
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
             try {
