@@ -29,7 +29,7 @@
         //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
-        this.Module === 'ContainerStatus' ? $form.find('.hide-on-container').hide() : '';
+        if (this.Module === 'ContainerStatus') $form.find('.hide-on-container').hide();
 
         this.getOrder($form);
         this.toggleView($form);
@@ -42,8 +42,6 @@
         $form.find('.rentalview').hide();
         $form.find('.salesview').hide();
 
-
-
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
         });
@@ -52,7 +50,7 @@
     //----------------------------------------------------------------------------------------------
     getOrder($form: JQuery): void {
         const max = 9999;
-        $form.on('change', `[data-datafield="${this.Type}Id"]`, () => {
+        $form.on('change', `[data-datafield="${this.Type}Id"]`, e => {
             try {
                 $form.find('.toggle [data-value="Summary"] input').prop('checked', true);
                 $form.find('.summaryview').show();
@@ -65,7 +63,7 @@
                     case 'Transfer':
                         apiUrl = `api/v1/transferorder/${orderId}`;
                         break;
-                    case 'Item':
+                    case 'ContainerItem':
                         apiUrl = `api/v1/containeritem/${orderId}`;
                         break;
                 }
@@ -84,7 +82,7 @@
                         FwFormField.setValueByDataField($form, 'EstimatedStopTime', response.EstimatedStopTime);
                     }
 
-                    if (this.Type === 'Item') {
+                    if (this.Type === 'ContainerItem') {
                         FwFormField.setValueByDataField($form, 'ContainerStatus', response.ContainerStatus);
                     }
                     const rental = response.Rental;
@@ -416,9 +414,9 @@
                 caption = 'Transfer Status';
                 typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>`;
                 break;
-            case 'Item':
+            case 'ContainerItem':
                 caption = 'Container Status';
-                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
                 break;
         }
         return `
@@ -437,8 +435,8 @@
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
                           ${this.Type === 'Order' ?
                 '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>'
-            : ''}
-                         ${this.Type === 'Item' ?
+                : ''}
+                         ${this.Type === 'ContainerItem' ?
                 '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Status" data-datafield="ContainerStatus" style="flex:1 1 300px;" data-enabled="false"></div>'
                 : ''}
                         </div>
@@ -547,7 +545,7 @@
                 case 'Details':
                     $form.find('.details').show();
                     $form.find('.summaryview').hide();
-                    if (this.Type === 'Item') {
+                    if (this.Type === 'ContainerItem') {
                         $form.find('.show-all-history').show();
                         $form.find('.salesview').hide();
                     } else {

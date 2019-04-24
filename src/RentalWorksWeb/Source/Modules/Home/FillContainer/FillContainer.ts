@@ -10,6 +10,6 @@ class FillContainer extends StagingCheckoutBase{
     notificationSoundFileName: string;
     contractId: string;
     isPendingItemGridView: boolean = false;
-    Type: string = 'Item';
+    Type: string = 'ContainerItem';
 }
 var FillContainerController = new FillContainer();

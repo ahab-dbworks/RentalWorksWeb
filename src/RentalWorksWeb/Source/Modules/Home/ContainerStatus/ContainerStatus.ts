@@ -5,6 +5,6 @@ class ContainerStatus extends OrderStatusBase {
     caption: string = 'Container Status';
     nav: string = 'module/containerstatus';
     id: string = '0CD07ACF-D9A4-42A3-A288-162398683F8A';
-    Type: string = 'Item';
+    Type: string = 'ContainerItem';
 }
 var ContainerStatusController = new ContainerStatus();
