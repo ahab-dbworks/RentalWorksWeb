@@ -31,7 +31,6 @@ class Order extends OrderBase {
                 filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
                 $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             }
-
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -1541,10 +1540,8 @@ class Order extends OrderBase {
         HTML.push(
             `<div class="fwcontrol fwcontainer fwform popup" data-control="FwContainer" data-type="form" data-caption="Loss and Damage">
               <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
-                <div style="float:right;" class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>
                 <div class="tabpages">
                   <div class="formpage">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Loss and Damage">
                       <div class="formrow">
                         <div class="formcolumn" style="width:100%;margin-top:50px;">
                           <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -1570,7 +1567,6 @@ class Order extends OrderBase {
                     </div>
                   </div>
                 </div>
-              </div>
             </div>`
         );
 
@@ -1647,13 +1643,6 @@ class Order extends OrderBase {
         }
         const events = () => {
             let $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-            let gridContainer = $popup.find('.container');
-            //Close the popup
-            $popup.find('.close-modal').one('click', e => {
-                FwPopup.destroyPopup($popup);
-                jQuery(document).find('.fwpopup').off('click');
-                jQuery(document).off('keydown');
-            });
             // Starts LD session
             $popup.find('.select-items').on('click', event => {
                 startLDSession();
@@ -1721,7 +1710,7 @@ class Order extends OrderBase {
             });
         }
         const $popupHtml = HTML.join('');
-        const $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        const $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true }, 'Loss and Damage');
         FwPopup.showPopup($popup);
         const $orderBrowse = addOrderBrowse();
         $popup.find('.container').append($orderBrowse);

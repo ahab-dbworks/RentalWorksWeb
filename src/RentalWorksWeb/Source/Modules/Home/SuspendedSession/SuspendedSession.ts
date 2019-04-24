@@ -5,11 +5,9 @@ class SuspendedSession {
     apiurl: string = 'api/v1/suspendedsession';
     nav: string = 'module/suspendedsession';
     id: string = '5FBE7FF8-3770-48C5-855C-4320C961D95A';
-   
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
-        var $browse;
+        let $browse;
 
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
