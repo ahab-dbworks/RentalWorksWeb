@@ -1057,6 +1057,52 @@
     addItemToOrder(element: any): void {
         this.showAddItemToOrder = false;
         const $element = jQuery(element);
+
+        const $form = jQuery($element).closest('.fwform');
+        let request: any = {};
+
+            const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+            const code = FwFormField.getValueByDataField($form, 'Code');
+            const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
+            if (quantity != 0) {
+                request = {
+                    OrderId: orderId,
+                    Code: code,
+                    AddItemToOrder: true,
+                    Quantity: quantity
+                }
+            } else {
+                request = {
+                    OrderId: orderId,
+                    Code: code,
+                    AddItemToOrder: true
+                }
+            }
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
+            try {
+                if (this.isPendingItemGridView === false) {
+                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
+                    FwBrowse.search($stagedItemGrid);
+                } else {
+                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
+                    FwBrowse.search($checkOutPendingItemGrid);
+                }
+                $form.find('.error-msg:not(.qty)').html('');
+                $form.find('div.AddItemToOrder').html('');
+                const successSound = new Audio(this.successSoundFileName);
+                successSound.play();
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        }, null, $form);
+        $form.find('[data-datafield="Code"] input').select();
+    }
+    //----------------------------------------------------------------------------------------------
+    addCompleteToOrder(element: any): void {
+        this.showAddItemToOrder = false;
+        const $element = jQuery(element);
         const $form = jQuery($element).closest('.fwform');
 
         let request: any = {};
@@ -1111,51 +1157,6 @@
             OrderId: orderId,
             Code: code,
             UnstageItem: true,
-        }
-
-        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
-            try {
-                if (this.isPendingItemGridView === false) {
-                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                    FwBrowse.search($stagedItemGrid);
-                } else {
-                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-                    FwBrowse.search($checkOutPendingItemGrid);
-                }
-                $form.find('.error-msg:not(.qty)').html('');
-                $form.find('div.AddItemToOrder').html('');
-                const successSound = new Audio(this.successSoundFileName);
-                successSound.play();
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        }, null, $form);
-        $form.find('[data-datafield="Code"] input').select();
-    }
-    //----------------------------------------------------------------------------------------------
-    addCompleteToOrder(element: any): void {
-        this.showAddItemToOrder = false;
-        const $element = jQuery(element);
-        const $form = jQuery($element).closest('.fwform');
-
-        let request: any = {};
-        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-        const code = FwFormField.getValueByDataField($form, 'Code');
-        const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-        if (quantity != 0) {
-            request = {
-                OrderId: orderId,
-                Code: code,
-                AddItemToOrder: true,
-                Quantity: quantity
-            }
-        } else {
-            request = {
-                OrderId: orderId,
-                Code: code,
-                AddItemToOrder: true
-            }
         }
 
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
