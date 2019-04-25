@@ -1,6 +1,4 @@
-﻿routes.push({ pattern: /^module\/user$/, action: function (match: RegExpExecArray) { return UserController.getModuleScreen(); } });
-
-class User {
+﻿class User {
     Module:             string = 'User';
     apiurl:             string = 'api/v1/user';
     caption:            string = 'User';

@@ -1,6 +1,4 @@
-﻿routes.push({ pattern: /^module\/group$/, action: function (match: RegExpExecArray) { return GroupController.getModuleScreen(); } });
-
-namespace TrakitWorks.Modules.Administrator {
+﻿namespace TrakitWorks.Modules.Administrator {
     export class Group extends Fw.Modules.FwGroup {
         constructor() {                             
             super();
