@@ -4,11 +4,10 @@
     errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
-        let $form, errorSound, $quantityColumn;
-        $form = $control.closest('.fwform');
-        $quantityColumn = $generatedtr.find('.quantity');
+        const $form = $control.closest('.fwform');
+        const $quantityColumn = $generatedtr.find('.quantity');
         this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
-        errorSound = new Audio(this.errorSoundFileName);
+        const errorSound = new Audio(this.errorSoundFileName);
 
         FwBrowse.setAfterRenderRowCallback($control, ($tr: JQuery, dt: FwJsonDataTable, rowIndex: number) => {
             let originalquantity = $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue');
@@ -74,13 +73,13 @@
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/stageitem", request, FwServices.defaultTimeout,
                             function onSuccess(response) {
-                                $form.find('.error-msg.qty').html('');
+                                $form.find('.error-msg.holding').html('');
                                 if (response.success) {
                                     $tr.find('[data-browsedatafield="Quantity"]').attr('data-originalvalue', Number(newValue));
                                     FwBrowse.setFieldValue($grid, $tr, 'QuantityHolding', { value: response.InventoryStatus.QuantityRemaining });
                                 } else {
                                     errorSound.play();
-                                    $form.find('.error-msg.qty').html(`<div><span>${response.msg}</span></div>`);
+                                    $form.find('.error-msg.holding').html(`<div><span>${response.msg}</span></div>`);
                                     $tr.find('[data-browsedatafield="Quantity"] input').val(Number(oldValue));
                                 }
                             },
