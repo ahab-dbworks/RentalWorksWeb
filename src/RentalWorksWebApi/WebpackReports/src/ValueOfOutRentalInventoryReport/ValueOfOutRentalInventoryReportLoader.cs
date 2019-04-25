@@ -2,7 +2,6 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using System.Data;
 namespace WebApi.Modules.Reports.ValueOfOutRentalInventoryReport
 {
     [FwSqlTable("valueofoutinventoryrptview")]
@@ -66,11 +65,11 @@ namespace WebApi.Modules.Reports.ValueOfOutRentalInventoryReport
         [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date)]
         public string ReceiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
-        public decimal? UnitCost { get; set; }
+        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "icodecost", modeltype: FwDataTypes.Decimal)]
-        public decimal? InventoryUnitCost { get; set; }
+        [FwSqlDataField(column: "icodecost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? Value { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealoutto", modeltype: FwDataTypes.Text)]
         public string DealOutTo { get; set; }
@@ -120,7 +119,7 @@ namespace WebApi.Modules.Reports.ValueOfOutRentalInventoryReport
                     select.AddParameter("@asofdate", request.AsOfDate);
 
 
-                    select.AddWhereIn("warehouse", request.WarehouseId); 
+                    select.AddWhereIn("warehouseid", request.WarehouseId); 
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("ownership", request.OwnerShips.ToString());
                     select.AddWhereIn("trackedby", request.TrackedBys.ToString());
