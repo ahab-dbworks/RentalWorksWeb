@@ -130,7 +130,7 @@ namespace WebApi.Modules.Reports.ValueOfOutRentalInventoryReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Quantity", "UnitCost", "InventoryUnitCost" };
+                string[] totalFields = new string[] { "Quantity", "Cost", "Value" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
