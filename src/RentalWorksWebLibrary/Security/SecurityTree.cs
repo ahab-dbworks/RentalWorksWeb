@@ -687,6 +687,7 @@ namespace WebLibrary.Security
             AddSubModule("SubWorksheet",    "{2227B6C3-587D-48B1-98B6-B9125E0E4D9D}", lv1menuSubModules.Id, "SubWorksheetController");
 
             // Add Grids
+            AddGrid("Attribute Value",                        "{75647141-0545-442F-9A4D-03C90742E745}", lv1menuGrids.Id, "AttributeValueGridController");
             AddGrid("Audit History",                          "{977B65BB-DD67-4B5E-9B62-944E5DBECFD4}", lv1menuGrids.Id, "AuditHistoryGridController");
             AddGrid("Check-In Exception",                     "{81282AE6-63B5-4A97-A066-0592CE276D58}", lv1menuGrids.Id, "CheckInExceptionGridController");
             AddGrid("Checked-In Item",                        "{85778C01-2ACC-4ADF-97EC-7386E6F32415}", lv1menuGrids.Id, "CheckedInItemGridController");
