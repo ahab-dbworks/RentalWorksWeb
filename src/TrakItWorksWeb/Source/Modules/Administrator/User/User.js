@@ -36,8 +36,6 @@ class User {
     getModuleScreen() {
         const screen = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
-        screen.viewModel = {};
-        screen.properties = {};
         const $browse = this.openBrowse();
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);

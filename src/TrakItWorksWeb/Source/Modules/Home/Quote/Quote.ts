@@ -273,10 +273,11 @@ class Quote extends OrderBase {
         }
 
         var $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        var $orderItemGridRental    = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        var $orderItemGridRental    = $form.find('[data-name="OrderItemGrid"]');
         var $orderNoteGrid          = $form.find('[data-name="OrderNoteGrid"]');
 
         //hide subworksheet and add LD items
+        FwBrowse.search($orderItemGridRental);
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
 
         //if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
@@ -285,5 +286,286 @@ class Quote extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
 }
+
+//----------------------------------------------------------------------------------------------
+//Copy Quote
+FwApplicationTree.clickEvents['{85B7FD07-74CD-4320-AFB0-9718EE5C8CDD}'] = function (event) {
+    try {
+        var $form           = jQuery(this).closest('.fwform');
+        const $confirmation = FwConfirmation.renderConfirmation('Copy Request', '');
+        const $yes          = FwConfirmation.addButton($confirmation, 'Copy', false);
+        const $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+        const html          = [];
+        html.push('<div class="fwform" data-controller="none">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="No" data-datafield="RequestNo" data-enabled="false" style="width:90px;float:left;"></div>');
+        html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="RequestDescription" data-enabled="false" style="width:340px;float:left;"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
+        html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
+        html.push('  </div>');
+        html.push('</div>');
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        FwFormField.setValue($confirmation, 'div[data-datafield="RequestNo"]', FwFormField.getValueByDataField($form, 'QuoteNumber'));
+        FwFormField.setValue($confirmation, 'div[data-datafield="RequestDescription"]', FwFormField.getValueByDataField($form, 'Description'));
+        FwFormField.setValue($confirmation, 'div[data-datafield="CopyDates"]', true);
+        FwFormField.setValue($confirmation, 'div[data-datafield="CopyLineItemNotes"]', true);
+
+        $yes.on('click', function makeACopy () {
+            const request: any = {
+                CopyToType:             'Q',
+                CopyToDealId:           '',
+                CopyDates:              (FwFormField.getValueByDataField($confirmation, 'CopyDates') === 'T' ? 'True' : 'False'),
+                CopyLineItemNotes:      (FwFormField.getValueByDataField($confirmation, 'CopyLineItemNotes') === 'T' ? 'True' : 'False'),
+                CopyRatesFromInventory: 'False',
+                CombineSubs:            'False',
+                CopyDocuments:          'False'
+            };
+
+            FwFormField.disable($confirmation.find('.fwformfield'));
+            FwFormField.disable($yes);
+            $yes.text('Copying...');
+            $yes.off('click');
+            const quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/copytoquote/${quoteId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Request Successfully Copied');
+                FwConfirmation.destroyConfirmation($confirmation);
+                const uniqueids: any = {
+                    QuoteId:     response.QuoteId,
+                    OrderTypeId: response.OrderTypeId
+                };
+                let $control = QuoteController.loadForm(uniqueids);
+                FwModule.openModuleTab($control, "", true, 'FORM', true);
+            }, function onError(response) {
+                $yes.on('click', makeACopy);
+                $yes.text('Copy');
+                FwFunc.showError(response);
+                FwFormField.enable($confirmation.find('.fwformfield'));
+                FwFormField.enable($yes);
+            }, $confirmation);
+        });
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+//Search
+FwApplicationTree.clickEvents['{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}'] = function (event) {
+    let search, $form, quoteId;
+    $form = jQuery(this).closest('.fwform');
+    quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+
+    if ($form.attr('data-mode') === 'NEW') {
+        QuoteController.saveForm($form, { closetab: false });
+        return;
+    }
+
+    if (quoteId == "") {
+        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+    } else {
+        search = new SearchInterface();
+        search.renderSearchPopup($form, quoteId, 'Quote');
+    }
+};
+//----------------------------------------------------------------------------------------------
+//Print Quote
+FwApplicationTree.clickEvents['{CC3F3DB4-21A4-4E70-8992-30886B2D1515}'] = function (e) {
+    try {
+        var $form       = jQuery(this).closest('.fwform');
+        var quoteNumber = FwFormField.getValue($form, 'div[data-datafield="QuoteNumber"]');
+        var quoteId     = FwFormField.getValue($form, 'div[data-datafield="QuoteId"]');
+        var $report     = RwQuoteReportController.openForm();
+
+        FwModule.openSubModuleTab($form, $report);
+
+        FwFormField.setValue($report, 'div[data-datafield="QuoteId"]', quoteId, quoteNumber);
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+//New Version
+//FwApplicationTree.clickEvents['{18ECF5BB-18E0-45F5-AB9A-98A377E38D1F}'] = function (event) {
+//    let $form         = jQuery(this).closest('.fwform');
+//    let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
+//    let quoteId       = FwFormField.getValueByDataField($form, 'QuoteId');
+//    var $confirmation = FwConfirmation.renderConfirmation('Create New Version', `<div>Create New Version for Quote ${quoteNumber}?</div>`);
+//    var $yes          = FwConfirmation.addButton($confirmation, 'Create New Version', false);
+//    var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+//    $yes.on('click', function () {
+//        FwAppData.apiMethod(true, 'POST', `api/v1/quote/createnewversion/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+//            FwNotification.renderNotification('SUCCESS', 'New Version Successfully Created.');
+//            FwConfirmation.destroyConfirmation($confirmation);
+//            let uniqueids: any = {
+//                QuoteId: response.QuoteId
+//            };
+//            var $quoteform = QuoteController.loadForm(uniqueids);
+//            FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+
+//            FwModule.refreshForm($form, QuoteController);
+//        }, null, $confirmation);
+//    });
+//};
+//----------------------------------------------------------------------------------------------
+//Cancel / Uncancel - Form
+FwApplicationTree.clickEvents['{8F3E3263-B5AE-4CB4-8CBB-E9F680AA8C11}'] = function (event) {
+    try {
+        let $confirmation, $yes, $no;
+        let $form       = jQuery(this).closest('.fwform');
+        var self        = this;
+        var id          = FwFormField.getValueByDataField($form, 'QuoteId');
+        var orderStatus = FwFormField.getValueByDataField($form, 'Status');
+
+        if (id != null) {
+            if (orderStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to un-cancel this request?</div>');
+                $yes          = FwConfirmation.addButton($confirmation, 'Un-Cancel Request', false);
+                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', function uncancelOrder() {
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Retrieving...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Request Successfully Retrieved');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwModule.refreshForm($form, self);
+                    }, function onError(response) {
+                        $yes.on('click', uncancelOrder);
+                        $yes.text('Cancel');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwModule.refreshForm($form, self);
+                    }, $form);
+                });
+            } else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to cancel this request?</div>');
+                $yes          = FwConfirmation.addButton($confirmation, 'Cancel Request', false);
+                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', function cancelOrder() {
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Canceling...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${id}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Request Successfully Cancelled');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwModule.refreshForm($form, self);
+                    }, function onError(response) {
+                        $yes.on('click', cancelOrder);
+                        $yes.text('Cancel');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwModule.refreshForm($form, self);
+                    }, $form);
+                });
+            }
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');
+        }
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
+//Create Order
+FwApplicationTree.clickEvents['{F9B8EAC3-07BD-4286-B4F8-CCBE53710B1F}'] = function (event) {
+    let $form         = jQuery(this).closest('.fwform');
+    let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
+    var $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Request ${quoteNumber}?</div>`);
+    var $yes          = FwConfirmation.addButton($confirmation, 'Create Order', false);
+    var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+    $yes.on('click', function () {
+        var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
+            FwConfirmation.destroyConfirmation($confirmation);
+            let uniqueids: any = {
+                OrderId: response.OrderId
+            };
+            var $orderform = OrderController.loadForm(uniqueids);
+            FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+
+            FwModule.refreshForm($form, QuoteController);
+        }, null, $confirmation);
+    });
+};
+//----------------------------------------------------------------------------------------------
+//Cancel / Uncancel - Browse
+FwApplicationTree.clickEvents['{86412C14-9351-4C03-8D13-5338AB0EAEC8}'] = function (event) {
+    try {
+        let $confirmation, $yes, $no;
+        var $browse     = jQuery(this).closest('.fwbrowse');
+        var quoteId     = $browse.find('.selected [data-browsedatafield="QuoteId"]').attr('data-originalvalue');
+        var quoteStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
+
+        if (quoteId != null) {
+            if (quoteStatus === "CANCELLED") {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to un-cancel this Quote?</div>');
+                $yes          = FwConfirmation.addButton($confirmation, 'Un-Cancel Quote', false);
+                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', function uncancelQuote() {
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Retrieving...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/uncancel/${quoteId}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Quote Successfully Retrieved');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', uncancelQuote);
+                        $yes.text('Cancel');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwBrowse.databind($browse);
+                    }, $browse);
+                });
+            } else {
+                $confirmation = FwConfirmation.renderConfirmation('Cancel', '<div>Would you like to cancel this Quote?</div>');
+                $yes          = FwConfirmation.addButton($confirmation, 'Cancel Quote', false);
+                $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', function cancelQuote() {
+                    FwFormField.disable($confirmation.find('.fwformfield'));
+                    FwFormField.disable($yes);
+                    $yes.text('Canceling...');
+                    $yes.off('click');
+
+                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/cancel/${quoteId}`, {}, FwServices.defaultTimeout, function onSuccess(response) {
+                        FwNotification.renderNotification('SUCCESS', 'Quote Successfully Cancelled');
+                        FwConfirmation.destroyConfirmation($confirmation);
+                        FwBrowse.databind($browse);
+                    }, function onError(response) {
+                        $yes.on('click', cancelQuote);
+                        $yes.text('Cancel');
+                        FwFunc.showError(response);
+                        FwFormField.enable($confirmation.find('.fwformfield'));
+                        FwFormField.enable($yes);
+                        FwBrowse.databind($browse);
+                    }, $browse);
+                });
+            }
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a Quote to perform this action.');
+        }
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
 
 var QuoteController = new Quote();

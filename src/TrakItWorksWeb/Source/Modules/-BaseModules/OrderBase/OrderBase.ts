@@ -1155,7 +1155,7 @@ class OrderBase {
     afterLoad($form) {
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
-            const $tab           = jQuery(e.currentTarget);
+            const $tab      = jQuery(e.currentTarget);
             const tabpageid = jQuery(e.currentTarget).data('tabpageid');
 
             if ($tab.hasClass('audittab') == false) {
