@@ -800,7 +800,7 @@
                         $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                     } if (response.ShowAddCompleteToOrder === true) {
                         this.addItemFieldValues($form, response);
-                        $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                        $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                     } if (response.ShowUnstage === true) {
                         errorSound.play();
                         this.showAddItemToOrder = true;
@@ -857,7 +857,7 @@
                             $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                         } if (response.ShowAddCompleteToOrder === true) {
                             this.addItemFieldValues($form, response);
-                            $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol" onclick="StagingCheckoutController.addCompleteToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                            $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                         } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                             errorSound.play();
                             this.addItemFieldValues($form, response);
@@ -1043,70 +1043,41 @@
     addItemToOrder(element: any): void {
         this.showAddItemToOrder = false;
         const $element = jQuery(element);
-
         const $form = jQuery($element).closest('.fwform');
-        let request: any = {};
-
         const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
         const code = FwFormField.getValueByDataField($form, 'Code');
         const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-        if (quantity != 0) {
-            request = {
-                OrderId: orderId,
-                Code: code,
-                AddItemToOrder: true,
-                Quantity: quantity
-            }
-        } else {
-            request = {
-                OrderId: orderId,
-                Code: code,
-                AddItemToOrder: true
-            }
-        }
+        let request: any = {};
 
-        FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
-            try {
-                if (this.isPendingItemGridView === false) {
-                    const $stagedItemGrid = $form.find('[data-name="StagedItemGrid"]');
-                    FwBrowse.search($stagedItemGrid);
-                } else {
-                    const $checkOutPendingItemGrid = $form.find('[data-name="CheckOutPendingItemGrid"]');
-                    FwBrowse.search($checkOutPendingItemGrid);
+        if ($element.hasClass('add-complete')) { // AddCompleteToOrder button
+            if (quantity != 0) {
+                request = {
+                    OrderId: orderId,
+                    Code: code,
+                    AddCompleteToOrder: true,
+                    Quantity: quantity
                 }
-                $form.find('.error-msg:not(.qty)').html('');
-                $form.find('div.AddItemToOrder').html('');
-                const successSound = new Audio(this.successSoundFileName);
-                successSound.play();
+            } else {
+                request = {
+                    OrderId: orderId,
+                    Code: code,
+                    AddCompleteToOrder: true
+                }
             }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        }, null, $form);
-        $form.find('[data-datafield="Code"] input').select();
-    }
-    //----------------------------------------------------------------------------------------------
-    addCompleteToOrder(element: any): void {
-        this.showAddItemToOrder = false;
-        const $element = jQuery(element);
-        const $form = jQuery($element).closest('.fwform');
-
-        let request: any = {};
-        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
-        const code = FwFormField.getValueByDataField($form, 'Code');
-        const quantity = +FwFormField.getValueByDataField($form, 'Quantity');
-        if (quantity != 0) {
-            request = {
-                OrderId: orderId,
-                Code: code,
-                AddItemToOrder: true,
-                Quantity: quantity
-            }
-        } else {
-            request = {
-                OrderId: orderId,
-                Code: code,
-                AddItemToOrder: true
+        } else { // AddItemToOrder button
+            if (quantity != 0) {
+                request = {
+                    OrderId: orderId,
+                    Code: code,
+                    AddItemToOrder: true,
+                    Quantity: quantity
+                }
+            } else {
+                request = {
+                    OrderId: orderId,
+                    Code: code,
+                    AddItemToOrder: true
+                }
             }
         }
 
