@@ -24,16 +24,16 @@ const retiredRentalInventoryTemplate = `
               <div data-datafield="ShowSellInformation" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Sell Information" style="max-width:200px;"></div>
             </div>
           </div>
-          <div class="flexcolumn" style="max-width:450px; float:left;">
+          <div class="flexcolumn" style="max-width:600px; float:left;">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="max-width:300px;"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="max-width:300px;"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" style="max-width:300px;"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="max-width:300px;"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="RentalCategoryValidation" style="max-width:300px;"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" style="max-width:300px;"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="max-width:300px;"></div>
-              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Retired Reason" data-datafield="RetiredReasonId" data-displayfield="RetiredReason" data-validationname="RetiredReasonValidation" style="max-width:300px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="min-width:400px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="min-width:400px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-formbeforevalidate="beforeValidate" data-validationname="CustomerValidation" style="min-width:400px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" style="min-width:400px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="RentalCategoryValidation" style="min-width:400px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-formbeforevalidate="beforeValidate" data-validationname="SubCategoryValidation" style="min-width:400px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-formbeforevalidate="beforeValidate" data-validationname="RentalInventoryValidation" style="min-width:400px;"></div>
+              <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Retired Reason" data-datafield="RetiredReasonId" data-displayfield="RetiredReason" data-validationname="RetiredReasonValidation" style="min-width:400px;"></div>
             </div>
           </div>
         </div>
@@ -47,6 +47,48 @@ const retiredRentalInventoryTemplate = `
 class RwRetiredRentalInventoryReport extends FwWebApiReport {
     constructor() {
         super('RetiredRentalInventoryReport', 'api/v1/retiredrentalinventoryreport', retiredRentalInventoryTemplate);
+        this.beforeValidate = function ($browse, $form, request) {
+            var validationName = request.module;
+            if (validationName != null) {
+                const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+                const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
+                const subCategoryId = FwFormField.getValueByDataField($form, 'SubCategoryId');
+                request.uniqueids = {};
+                switch (validationName) {
+                    case 'InventoryTypeValidation':
+                        request.uniqueids.Rental = true;
+                        break;
+                    case 'RentalCategoryValidation':
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
+                        }
+                        break;
+                    case 'SubCategoryValidation':
+                        request.uniqueids.Rental = true;
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
+                        }
+                        if (categoryId !== "") {
+                            request.uniqueids.CategoryId = categoryId;
+                        }
+                        break;
+                    case 'RentalInventoryValidation':
+                        if (inventoryTypeId !== "") {
+                            request.uniqueids.InventoryTypeId = inventoryTypeId;
+                        }
+                        ;
+                        if (categoryId !== "") {
+                            request.uniqueids.CategoryId = categoryId;
+                        }
+                        ;
+                        if (subCategoryId !== "") {
+                            request.uniqueids.SubCategoryId = subCategoryId;
+                        }
+                        ;
+                        break;
+                }
+            }
+        };
     }
     getModuleScreen() {
         const screen = {};
@@ -67,6 +109,8 @@ class RwRetiredRentalInventoryReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
         FwFormField.setValueByDataField($form, 'ShowSellInformation', true);
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
     }
     convertParameters(parameters) {
         return parameters;
