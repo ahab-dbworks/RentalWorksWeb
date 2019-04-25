@@ -873,11 +873,6 @@
     <Content Include="Source\Modules\Utilities\DashboardSettings\DashboardSettingsForm.htm" />
     <Content Include="Source\Modules\Utilities\ReceiptProcessBatch\ReceiptProcessBatchForm.htm" />
     <Content Include="Source\Modules\Utilities\VendorInvoiceProcessBatch\VendorInvoiceProcessBatchForm.htm" />
-    <Content Include="Source\Reports\Application\LandscapeFooter.htm" />
-    <Content Include="Source\Reports\Application\LandscapeHeader.htm" />
-    <Content Include="Source\Reports\Application\PortraitFooter.htm" />
-    <Content Include="Source\Reports\Application\PortraitHeader.htm" />
-    <Content Include="Source\Reports\Application\StyleSheet.css" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\PartsInventory\PartsInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketSegment\MarketSegment.ts" />

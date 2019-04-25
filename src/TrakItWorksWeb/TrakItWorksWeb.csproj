@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -330,11 +330,6 @@
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseBrowse.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseForm.htm" />
     <Content Include="Source\Modules\Utilities\DashboardSettings\DashboardSettingsForm.htm" />
-    <Content Include="Source\Reports\Application\LandscapeFooter.htm" />
-    <Content Include="Source\Reports\Application\LandscapeHeader.htm" />
-    <Content Include="Source\Reports\Application\PortraitFooter.htm" />
-    <Content Include="Source\Reports\Application\PortraitHeader.htm" />
-    <Content Include="Source\Reports\Application\StyleSheet.css" />
     <Content Include="Source\Pages\HomePage\Home.htm" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\AttributeValidation\AttributeValidationBrowse.htm" />
