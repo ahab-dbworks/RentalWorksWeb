@@ -1,4 +1,4 @@
-﻿﻿class OrderItemGrid {
+﻿class OrderItemGrid {
     Module: string = 'OrderItemGrid';
     apiurl: string = 'api/v1/orderitem';
 
@@ -836,10 +836,52 @@ FwApplicationTree.clickEvents['{01EB96CB-6C62-4D5C-9224-8B6F45AD9F63}'] = e => {
     request.OrderItemIds = ids;
     FwAppData.apiMethod(true, 'POST', `api/v1/order/copyorderitems`, request, FwServices.defaultTimeout,
         response => {
-        jQuery(document).trigger('click');
-        FwBrowse.search($grid);
+            jQuery(document).trigger('click');
+            FwBrowse.search($grid);
         },
         ex => FwFunc.showError(ex), $grid);
+};
+//----------------------------------------------------------------------------------------------
+// Manual Sorting
+FwApplicationTree.clickEvents['{AD3FB369-5A40-4984-8A65-46E683851E52}'] = e => {
+    const $grid = jQuery(e.currentTarget).closest('.fwbrowse');
+    const $form = jQuery(e.currentTarget).closest('.fwform');
+    const module = $form.attr('data-controller').replace('Controller', '');
+    const orderId = FwFormField.getValueByDataField($form, `${module}Id`);
+
+    //add sortable handle
+    const $tdselectrow = $grid.find('tbody td.tdselectrow');
+    $tdselectrow.find('div.divselectrow').hide();
+    $tdselectrow
+        .append('<i style="vertical-align:-webkit-baseline-middle;" class="material-icons">drag_handle</i>')
+        .css('text-align', 'center');
+
+
+    //TODO - add button to apply changes in sorting
+
+
+    //initialize Sortable
+    Sortable.create($grid.find('tbody').get(0), {
+        onEnd: e => {
+            //get sorted orderitemids for request
+        }
+    });
+
+    //const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
+    //for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+    //    const $this = jQuery($selectedCheckBoxes[i]);
+    //    const id = $this.closest('tr').find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
+    //    ids.push(id);
+    //};
+    //const request: any = {};
+    //request.OrderId = orderId;
+    //request.OrderItemIds = ids;
+    //FwAppData.apiMethod(true, 'POST', `api/v1/order/copyorderitems`, request, FwServices.defaultTimeout,
+    //    response => {
+    //        jQuery(document).trigger('click');
+    //        FwBrowse.search($grid);
+    //    },
+    //    ex => FwFunc.showError(ex), $grid);
 };
 //----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();

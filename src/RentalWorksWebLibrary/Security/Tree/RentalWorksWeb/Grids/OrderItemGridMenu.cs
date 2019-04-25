@@ -14,6 +14,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
             var nodeBrowseOptions = tree.AddSubMenuGroup("Options", "{1A932D18-69F0-44CA-80AE-F1F10D3AAB9F}", nodeGridSubMenu.Id);
             tree.AddDownloadExcelSubMenuItem("{AE2C816F-BF52-4DD5-A579-9A8B91DAC1BA}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Summary View", "{D27AD4E7-E924-47D1-AF6E-992B92F5A647}", nodeBrowseOptions.Id);
+            tree.AddSubMenuItem("Manual Sorting", "{AD3FB369-5A40-4984-8A65-46E683851E52}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Copy Template", "{B6B68464-B95C-4A4C-BAF2-6AA59B871468}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Search", "{77E511EC-5463-43A0-9C5D-B54407C97B15}", nodeBrowseOptions.Id, true);
             tree.AddSubMenuItem("Copy Line-Items", "{01EB96CB-6C62-4D5C-9224-8B6F45AD9F63}", nodeBrowseOptions.Id);
