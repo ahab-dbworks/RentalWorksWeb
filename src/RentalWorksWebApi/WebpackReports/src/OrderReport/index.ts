@@ -36,6 +36,7 @@ export class OrderReport extends WebpackReport {
                         } else {
                             data.Report = 'ORDER';
                         }
+                            console.log('rpt', data)
 
                             this.renderFooterHtml(data);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {

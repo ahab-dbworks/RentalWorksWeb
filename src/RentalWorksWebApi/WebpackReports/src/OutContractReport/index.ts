@@ -98,19 +98,6 @@ class OutContract {
     PrintTime = '';
 }
 
-class OutContractItemRequest {
-    "miscfields" = {};
-    "module" = '';
-    "options" = {};
-    "orderby" = '';
-    "pageno" = 0;
-    "pagesize" = 0;
-    "searchfieldoperators": Array<any> = [];
-    "searchfields": Array<any> = [];
-    "searchfieldvalues": Array<any> = [];
-    "uniqueids" = { "ContractId": '', "RecType": '' };
-}
-
 class OutContractItem {
     "ICode": string;
     "ICodeColor": string;

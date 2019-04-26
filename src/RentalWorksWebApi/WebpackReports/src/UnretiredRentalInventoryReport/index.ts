@@ -24,7 +24,7 @@ export class UnretiredRentalInventoryReport extends WebpackReport {
                     data.Report = 'Unretired Rental Inventory Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
-
+                    console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

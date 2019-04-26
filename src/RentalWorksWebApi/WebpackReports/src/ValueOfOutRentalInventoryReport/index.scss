@@ -1,10 +1,6 @@
 ﻿/*ValueOfOutRentalInventoryReport*/
 tbody {
-    tr[data-rowtype="detail"]:nth-child(odd):not(.detail-view-row) {
-        background-color: #DCDCDC;
-    }
-
-    .detail-view-row[data-rowtype="detail"]:nth-child(even) {
+    tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
 
@@ -25,10 +21,4 @@ thead {
         padding: 5px;
         white-space: nowrap;
     }
-}
-
-.total-row {
-    font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
 }

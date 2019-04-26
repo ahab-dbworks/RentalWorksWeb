@@ -11,31 +11,31 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow items" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead class="mainHeader">
-      <tr class="columnheadings">
-        <th class="ICode">I-Code</th>
-        <th class="Description">Description</th>
-        <th class="Qty">Qty</th>
-        <th class="BarCodeNumber">Bar Code No.</th>
-        <th class="PurchDate">Purch. Date</th>
-        <th class="ReceiveDate">Receive Date</th>
+    <thead>
+      <tr>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th class="number">Qty</th>
+        <th>Bar Code No.</th>
+        <th>Purch. Date</th>
+        <th>Receive Date</th>
         <th class="PONo">PO No.</th>
-        <th class="PurchPrice">Purch. Price</th>
-        <th class="RetireUnRetireDate">
+        <th class="number">Purch. Price</th>
+        <th>
           <div>Retire Date</div>        
           {{#if IncludeUnretired}}
           <div>Un-Retire Date</div>
           {{/if}}
         </th>
-        <th class="By">
+        <th>
           <div>By</div>
           {{#if IncludeUnretired}}
           <div>By</div>
           {{/if}}
         </th>
-        <th class="Reason">
+        <th>
           <div>Reason</div>
           {{#if IncludeUnretired}}
           <div>Reason</div>

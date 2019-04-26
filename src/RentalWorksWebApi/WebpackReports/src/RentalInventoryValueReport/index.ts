@@ -39,7 +39,6 @@ export class RentalInventoryValueReport extends WebpackReport {
                     } else {
                         data.ViewSetting = 'DetailView';
                     }
-
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

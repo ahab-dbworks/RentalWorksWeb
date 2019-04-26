@@ -1,160 +1,24 @@
-﻿$page-width: 768px;
-$line-height: 16px;
-$normal-text: 1em;
+﻿/*Retired Rental Inventory Report*/
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
+    }
 
-@page {
-    /*margin: 130px 32px 96px 32px;*/
-    /*margin: 48px 24px 48px 24px;*/
-    /*size: auto;*/
-    size: portrait;
-}
+    td:after {
+        content: attr(data-value);
+    }
 
-html.preview {
-    #pageno {
-        visibility: hidden;
+    td {
+        padding: 3px;
     }
 }
 
-html.pdf {
-    body {
-        /*margin: 130px 24px 96px 24px;*/
-    }
-}
-
-@media only screen {
-    .parameters {
-        display: block;
-    }
-}
-
-@media only print {
-    .parameters {
-        display: none;
-    }
-}
-
-@mixin flexfield($captionwidth) {
-    display: flex;
-    height: $line-height;
-    line-height: $line-height;
-    @content;
-
-    .caption {
-        flex: 0 0 $captionwidth;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
         font-weight: bold;
+        padding: 5px;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .value {
-        flex: 1 1 0;
-        height: $line-height;
-        line-height: $line-height;
-        font-size: $normal-text;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-
-.label {
-    line-height: $line-height;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: $normal-text;
-}
-.items {
-    border-collapse: collapse;
-    margin: 20px 0 0 0;
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-
-        thead.mainHeader {
-            th {
-                border-top: 2px solid #000000;
-                border-bottom: 2px solid #000000;
-                border-collapse: collapse;
-                font-weight: bold;
-                padding: 5px;
-                white-space: nowrap;
-                text-align: left;
-            }
-
-            th.Qty {
-                width: 20px;
-            }
-
-            th.ICode {
-                width: 50px;
-            }
-        }
-
-        tbody[data-rowtype="detail"]:nth-of-type(even) {
-            background-color: #DCDCDC;
-        }
-
-        tbody tr th.subHeaders {
-            text-align: left;
-            border-bottom: 2px solid black;
-            padding-left: 3px;
-        }
-
-        tbody tr.subValues {
-            text-align: left;
-            padding-bottom: 2px;
-            padding-left: 3px;
-        }
-
-        tbody td.RetireNote {
-            font-weight: bold;
-        }
-
-        tbody tr td.By {
-            padding-left:5px;
-        }
-
-        tbody tr td.Qty,
-        tbody tr td.PurchPrice,
-        tbody tr td.RetireUnRetireDate,
-        tbody tr td.Price {
-            text-align: right;
-        }
-
-        tfoot td {
-            text-align: right;
-            font-weight: bold;
-        }
-
-        thead[data-rowtype="Warehouseheader"] {
-            font-weight: bold;
-            font-size: 1.1em;
-            text-align: left;
-        }
-
-        thead[data-rowtype="InventoryTypeheader"] {
-            font-weight: bold;
-            font-size: 1.1em;
-            text-decoration: underline;
-            text-align: left;
-        }
-    }
-}
-
-#pageContainer {
-    #pageHeader {
-    }
-
-    #contract {
-    }
-
-    #pageFooter {
-        margin: $line-height 0 0 0;
     }
 }
