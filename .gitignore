@@ -76,8 +76,8 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 /src/TrakitWorksWeb/FwApplicationSchema.config
 /src/TrakitWorksWeb/index.htm
 /src/TrakitWorksWeb/scripts/_references.js
-/src/TrakItWorksWeb/Source/**/*.js.map
-/src/TrakItWorksWeb/Source/**/*.js
+/src/TrakitWorksWeb/Source/**/*.js
+/src/TrakitWorksWeb/Source/**/*.js.map
 /src/TrakitWorksWeb/scripts/DefaultApplicationConfig.js
 /src/TrakitWorksWeb/scripts/DefaultApplicationConfig.js.map
 /src/TrakitWorksWeb/scripts/Program.js
