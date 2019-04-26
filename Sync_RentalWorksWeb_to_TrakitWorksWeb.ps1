@@ -1,4 +1,4 @@
-﻿clear
+clear
 try {
     $enableLogging = $true
 
@@ -27,11 +27,10 @@ try {
         'Modules\Administrator\EmailHistory',
         #'Modules\Administrator\Group',
         'Modules\Administrator\Hotfix',
-        'Modules\Administrator\Integration',
         'Modules\Administrator\Reports', 
-        'Modules\Administrator\Settings'
+        'Modules\Administrator\Settings',
         #'Modules\Administrator\User'
-        
+
         # Modules: Settings
         "Modules\Settings\Attribute",
         "Modules\Settings\ContactTitle",
@@ -69,7 +68,7 @@ try {
         'Modules\Reports\RentalInventoryPurchaseHistoryReport',
         'Modules\Reports\RentalInventoryValueReport',
         'Modules\Reports\RetiredRentalInventoryReport',
-        'Modules\Reports\UnretiredRentalInventoryReport'
+        'Modules\Reports\UnretiredRentalInventoryReport',
 
         # Grids
         'Grids\AttributeValueGrid',
