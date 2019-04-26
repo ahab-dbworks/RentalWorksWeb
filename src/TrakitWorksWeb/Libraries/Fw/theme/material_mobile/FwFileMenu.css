@@ -1,0 +1,74 @@
+﻿/*#region fwfilemenu - version 1*/
+html.theme-materialmobile .fwfilemenu[data-version="1"] {font-size:18px;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper {overflow:auto;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu {float:left;cursor:pointer;transition: background-color .3s;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .caption {line-height:40px;padding:0 10px;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu.active .caption {text-decoration:underline;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu {display:none;position:absolute;margin-top:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);white-space:nowrap;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu.active .menu {display:block;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .modulebtn {padding: 3px 10px;transition: background-color .3s;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn {position:relative;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-text {padding: 3px 2px 3px 10px;transition: background-color .3s;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-text i {float:right;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown {display:none;position: absolute;left: 100%;top: 0;margin-left:1px;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);white-space:nowrap;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn:hover .ddmodulebtn-dropdown {display:block;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {padding: 3px 10px;transition: background-color .3s;}
+
+/*#region Material Theme*/
+html.theme-materialmobile .fwfilemenu[data-version="1"] {background-color:#b0bec5;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu:hover {background-color:#90a4ae;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu.active {background-color:#90a4ae;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu {background-color:white;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .modulebtn:hover {background-color:#90a4ae;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn:hover {background-color:#90a4ae;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown {background-color:white;}
+html.theme-materialmobile .fwfilemenu[data-version="1"] .file-menus-wrapper .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn:hover {background-color:#90a4ae;}
+/*#endregion Material Theme*/
+/*#endregion fwfilemenu - version 1*/
+
+/*#region fwfilemenu - version 2*/
+html.theme-materialmobile .fwfilemenu[data-version="2"] {font-size:16px;overflow:auto;display:flex;flex-wrap:wrap;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper {overflow:auto;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .appmenu {cursor:pointer;font-size: 34px;padding: 7px;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown {display:none;position:absolute;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);align-content: flex-start;flex-wrap: wrap;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper.active .file-menu-dropdown {display:flex;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu {padding:6px;flex: 1 0 auto;width: 240px;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .caption {text-transform: uppercase;color: #ffffff;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .modulebtn {padding: 3px 10px;cursor:pointer;transition: background-color .3s;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption {padding: 3px 2px 3px 10px;cursor:pointer;transition: background-color .1s;/*overflow:auto;*/display:flex;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption .ddmodulebtn-text {flex:1 0 166px;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption > i {flex:0 0 auto;transition:all .2s;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn.active .ddmodulebtn-caption > i {transform:rotate(90deg);}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {cursor:pointer;padding:4px 18px;transition: background-color .1s;}
+
+html.theme-materialmobile .fwfilemenu[data-version="2"] .logo {overflow:auto;flex:1 0 auto;font-size: 34px;line-height: 44px;cursor:default;margin-left:5px;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .logo img {display:block;margin:0 auto;height:46px;}
+
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls {white-space:nowrap;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls:after {content:"";display:table;clear:both;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .user {line-height:48px;padding: 0 10px;float:left;cursor:default;}
+@media only screen and (max-device-width: 480px) {
+    html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .user {display:none;}
+}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .usermenu {cursor:pointer;font-size: 34px;padding: 7px;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .user-dropdown {display:none;position:absolute;padding:1px;-moz-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);box-shadow:3px 3px 5px 1px rgba(0,0,0,.3);white-space:nowrap;right:2px;min-width: 170px;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls.active .user-dropdown {display:block;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .user-dropdown .item {padding:6px;cursor:pointer;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .user-dropdown .staticinfo {font-size: 14px;text-align: center;border-top: 1px solid #616161;margin-top: 6px;padding: 6px;color: #BDBDBD;background-color: #424242;cursor: default;}
+
+/*#region Material Theme*/
+html.theme-materialmobile .fwfilemenu[data-version="2"] {background-color:#EEEEEE;color:#37474F;border-bottom:1px solid #9E9E9E;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper > i:hover {background-color:#BDBDBD;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown {background-color:#37474F;color:#E0E0E0;border-top: 1px solid #313131;border-bottom: 1px solid #313131;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .modulebtn:hover {background-color:#546E7A;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-caption:hover {background-color:#546E7A;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn.active .ddmodulebtn-caption {background-color:#607D8B;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn.active .ddmodulebtn-caption:hover {background-color:#546E7A;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown {background-color: #263238;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn:hover {background-color:#546E7A;}
+
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls i:hover {background-color:#BDBDBD;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .user-dropdown {background-color:#37474F;color:#E0E0E0;border-top: 1px solid #313131;border-bottom: 1px solid #313131;}
+html.theme-materialmobile .fwfilemenu[data-version="2"] .user-controls .user-dropdown .item:hover {background-color:#546E7A;}
+/*#endregion Material Theme*/
+/*#endregion fwfilemenu - version 2*/

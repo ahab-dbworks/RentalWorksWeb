@@ -1,0 +1,9 @@
+﻿/***************************
+FwOverlay
+***************************/
+.fwoverlay {text-align:center;position: absolute;top: 0;left: 0;width: 100%;height: 100%;}
+.fwoverlay.clicked {background: rgba(0, 0, 0, 0.25);transition:background .25s 0s ease-in-out;-moz-transition:background .25s 0s ease-in-out;-webkit-transition:background .25s 0s ease-in-out;}
+.fwoverlay:before {content:' ';display:inline-block;vertical-align:middle;height:100%;}
+.fwoverlay-center {display:inline-block;vertical-align:middle;width:100px;height:75px;padding:10px;border: 1px solid #777777;background:rgba(255,255,255,1);}
+.fwoverlay img {height: 50px;width: 50px;margin: 0 auto;display: block;margin-bottom:5px;}
+.fwoverlay .message {color: #000000;}

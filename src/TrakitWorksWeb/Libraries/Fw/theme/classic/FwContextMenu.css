@@ -1,0 +1,30 @@
+/* data-position="center" */
+html.theme-classic .fwcontextmenu[data-position="center"] {position:fixed;top:0;left:0;width:100%;height:100%;}
+html.theme-classic.no-flexbox .fwcontextmenu[data-position="center"] {-webkit-transform-style:flat;-moz-transform-style:flat;transform-style:flat;}
+html.theme-classic.flexbox .fwcontextmenu[data-position="center"] {display:flex;justify-content:center;align-items:center;}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenubox {border-radius:4px;min-width:300px;max-width:600px;-webkit-animation:fwcontextmenu-pop-in 0.1s;-moz-animation:fwcontextmenu-pop-in 0.1s;-ms-animation:fwcontextmenu-pop-in 0.1s;}
+@-webkit-keyframes fwcontextmenu-pop-in { 0% { opacity: 0; -webkit-transform: scale(0.5); } 100% { opacity: 1; -webkit-transform: scale(1); } }
+@-moz-keyframes    fwcontextmenu-pop-in { 0% { opacity: 0; -moz-transform: scale(0.5); }    100% { opacity: 1; -moz-transform: scale(1); } }
+@keyframes         fwcontextmenu-pop-in { 0% { opacity: 0; transform: scale(0.5); }         100% { opacity: 1; transform: scale(1); } }
+
+html.theme-classic.no-flexbox .fwcontextmenu[data-position="center"] .fwcontextmenubox {position:absolute;top:50%;left:50%;-webkit-transform:translate(-50%, -50%);transform:translate(-50%, -50%);}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenuitem {-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-o-user-select: none;user-select: none;cursor:pointer;}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenutitle {background-color:rgb(104,33,122);color:#ffffff;padding:.25em 0;text-align:center;border-radius:.25em .25em 0 0;font-size:.8em;}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenubox {border:1px solid #e0e0e0;background-color:#ffffff;border-radius:.5em;overflow:hidden;}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenuitem {padding:1em 0;text-align:center;color:rgb(48,106,255);font-size:1em;}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenucancel .fwcontextmenuitem {font-weight:bold;border-top:1px solid #e0e0e0;}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenuitem:hover {background-color:rgb(48,106,255);color:#ffffff;}
+html.theme-classic .fwcontextmenu[data-position="center"] .fwcontextmenuitem:not(:first-child) {border-top:1px solid #e0e0e0;}
+
+/* data-position="bottomleft" */
+html.theme-classic .fwcontextmenu[data-position="bottomleft"] {position:relative;}
+html.theme-classic .fwcontextmenu[data-position="bottomleft"] .fwcontextmenubox {position:absolute;top:-6px;right:-10px;min-width:100px;max-width:600px;-webkit-animation:fwcontextmenu-pop-in 0.1s;-moz-animation:fwcontextmenu-pop-in 0.1s;-ms-animation:fwcontextmenu-pop-in 0.1s;border:1px solid #e0e0e0;background-color:#ffffff;/*border-radius:.5em;*/overflow:hidden;box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);margin:5px;}
+@-webkit-keyframes fwcontextmenu-pop-in { 0% { opacity: 0; -webkit-transform: scale(0.5); } 100% { opacity: 1; -webkit-transform: scale(1); } }
+@-moz-keyframes    fwcontextmenu-pop-in { 0% { opacity: 0; -moz-transform: scale(0.5); }    100% { opacity: 1; -moz-transform: scale(1); } }
+@keyframes         fwcontextmenu-pop-in { 0% { opacity: 0; transform: scale(0.5); }         100% { opacity: 1; transform: scale(1); } }
+
+html.theme-classic .fwcontextmenu[data-position="bottomleft"] .fwcontextmenuitem {-webkit-user-select: none;-khtml-user-select: none;-moz-user-select: none;-o-user-select: none;user-select: none;cursor:pointer;padding:1em 0;text-align:center;color:rgb(48,106,255);font-size:1em;}
+html.theme-classic .fwcontextmenu[data-position="bottomleft"] .fwcontextmenutitle {background-color:rgb(104,33,122);color:#ffffff;padding:.25em 0;text-align:center;/*border-radius:.25em .25em 0 0;*/font-size:.8em;}
+html.theme-classic .fwcontextmenu[data-position="bottomleft"] .fwcontextmenucancel .fwcontextmenuitem {font-weight:bold;border-top:1px solid #e0e0e0;}
+html.theme-classic .fwcontextmenu[data-position="bottomleft"] .fwcontextmenuitem:hover {background-color:rgb(48,106,255);color:#ffffff;}
+html.theme-classic .fwcontextmenu[data-position="bottomleft"] .fwcontextmenuitem:not(:first-child) {border-top:1px solid #e0e0e0;}

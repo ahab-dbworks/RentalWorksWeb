@@ -1,0 +1,24 @@
+﻿<div data-name="OrderNoteGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Notes" data-showsearch="false" data-controller="OrderNoteGridController">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-datafield="OrderNoteId" data-datatype="key" data-formreadonly="true" data-sort="off"></div>
+    <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Date" data-datafield="NoteDate" data-datatype="date" data-sort="desc"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="By" data-datafield="UserId" data-browsedisplayfield="UserName" data-datatype="validation" data-validationname="UserValidation" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Description" data-datafield="NotesDescription" data-datatype="text" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Pick List" data-datafield="PickList" data-datatype="checkbox" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Print" data-datafield="PrintOnOrder" data-datatype="checkbox" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Note" data-datafield="Notes" data-datatype="note" data-sort="off"></div>
+  </div>
+</div>

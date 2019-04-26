@@ -1,0 +1,121 @@
+<div id="rentalcategoryform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Category" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalCategoryController">
+  <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="CategoryId"></div>
+  <div id="rentalcategoryform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+    <div class="tabs">
+      <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+      <div data-type="tab" id="subcattab" class="tab" data-tabpageid="subcattabpage" data-caption="Sub-Category"></div>
+      <div data-type="tab" id="barcodetab" class="tab" data-tabpageid="barcodetabpage" data-caption="Bar Code Printing"></div>
+      <div data-type="tab" id="depreciationtab" class="tab" data-tabpageid="depreciationtabpage" data-caption="Depreciation"></div>
+      <div data-type="tab" id="proflosstab" class="tab" data-tabpageid="proflosstabpage" data-caption="Profit/Loss"></div>
+      <div data-type="tab" id="glacctab" class="tab" data-tabpageid="glacctabpage" data-caption="G/L Accounts"></div>
+    </div>
+    <div class="tabpages">
+      <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 570px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Category">
+              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-formbeforevalidate="beforeValidate" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="float:left;width:275px;"></div>
+              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Category" data-enabled="true" data-datafield="Category" style="float:left;width:275px;"></div>
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:150px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="subcattabpage" class="tabpage" data-tabid="subcattab">
+        <div class="flexrow">
+          <div id="subcategorygrid" data-control="FwGrid" data-grid="SubCategoryGrid" data-securitycaption="Sub Category Grid" style="min-width:240px;max-width:400px;"></div>
+        </div>
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 400px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sub-Rentals">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Put Sub Rental items in 'Holding' until manually staged" data-datafield="SubsRequireQc" style="flex: 0 1 400px;"></div>
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Automatically add all Category Items as Substitues" data-datafield="AllCategoryItemsAreSubstitutes" style="flex: 0 1 400px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="barcodetabpage" class="tabpage" data-tabid="barcodetab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 225px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Printing">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use Designer" data-datafield="CatalogCategory" style="flex: 0 1 250px;"></div>
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Inventory Bar Code" data-datafield="InventoryBarCodeDesignerId" data-displayfield="InventoryBarCodeDesigner" data-validationname="ReportDesignerValidation" style="flex: 0 1 300px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield designer" data-caption="Rental Item Bar Code" data-datafield="BarCodeDesignerId" data-displayfield="BarCodeDesigner" data-validationname="ReportDesignerValidation" style="flex: 0 1 300px;"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Bar Code Type">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield barcodetype" data-caption="Bar Code Type" data-datafield="BarCodeType" style="flex: 0 1 250px;">
+                <div data-value="1" data-caption="Small"></div>
+                <div data-value="2" data-caption="Large"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="depreciationtabpage" class="tabpage" data-tabid="depreciationtab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 252px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Depreciation">
+              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Straight Line Depreciation over X months" data-enabled="true" data-datafield="DepreciationMonths" style="flex: 0 1 252px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="proflosstabpage" class="tabpage" data-tabid="proflosstab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 335px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Profit/Loss">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield overridecheck" data-caption="Override Category for Profit and Loss Report" data-datafield="OverrideProfitAndLossCategory" style="flex: 0 1 175px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield catvalidation" data-caption="Category" data-enabled="true" data-datafield="ProfitAndLossCategoryId" data-displayfield="ProfitAndLossCategory" data-validationname="RentalCategoryValidation" style="flex: 0 1 225px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="glacctabpage" class="tabpage" data-tabid="glacctab">
+        <div class="flexrow">
+          <div class="flexcolumn" style="flex:0 1 550px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="G/L Accounts">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Asset G/L Account" data-enabled="true" data-datafield="AssetAccountId" data-displayfield="AssetAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="AssetAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Normal Income G/L Account" data-enabled="true" data-datafield="IncomeAccountId" data-displayfield="IncomeAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="IncomeAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Sub-Rental Income G/L Account" data-enabled="true" data-datafield="SubIncomeAccountId" data-displayfield="SubIncomeAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="SubIncomeAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Equipment Sale Income G/L Account" data-enabled="true" data-datafield="EquipmentSaleIncomeAccountId" data-displayfield="EquipmentSaleIncomeAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="EquipmentSaleIncomeAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Loss &amp; Damage Income G/L Account" data-enabled="true" data-datafield="LdIncomeAccountId" data-displayfield="LdIncomeAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="LdIncomeAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Cost of Goods Sold Expense G/L Account" data-enabled="true" data-datafield="CostOfGoodsSoldExpenseAccountId" data-displayfield="CostOfGoodsSoldExpenseAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="CostOfGoodsSoldExpenseAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Cost of Goods Rented Expense G/L Account" data-enabled="true" data-datafield="CostOfGoodsRentedExpenseAccountId" data-displayfield="CostOfGoodsRentedExpenseAccountNo" data-validationname="GlAccountValidation" style="flex: 0 1 244px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-enabled="false" data-datafield="CostOfGoodsRentedExpenseAccountDescription" style="flex: 0 1 275px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
