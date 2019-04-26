@@ -102,7 +102,7 @@
         <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="5" class="lower header-row">Inventory Type: {{"InventoryType"}}</td>
+        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryheader"}}
         <td colspan="5" class="lower header-row">Category: {{Category}}</td>
@@ -110,8 +110,8 @@
         {{#ifEquals RowType "SubCategoryheader"}}
         <td colspan="5" class="lower header-row">Sub Category: {{SubCategory}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Icodeheader"}}
-        <td colspan="5" class="lower header-row">Sub Category: {{ICode}}</td>
+        {{#ifEquals RowType "ICodeheader"}}
+        <td colspan="5" class="lower header-row">I-Code: {{ICode}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{ICode}}"></td>
