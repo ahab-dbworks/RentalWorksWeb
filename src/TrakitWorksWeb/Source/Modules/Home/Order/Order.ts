@@ -38,8 +38,7 @@ class Order extends OrderBase {
             FwBrowse.screenunload($browse);
         };
         return screen;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
@@ -76,8 +75,7 @@ class Order extends OrderBase {
         }, null, null);
 
         return $browse;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
         const $all       = FwMenu.generateDropDownViewBtn('All', true, "ALL");
@@ -105,8 +103,7 @@ class Order extends OrderBase {
         viewLocation.push($userLocation, $allLocations);
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         var $form = FwModule.loadFormFromTemplate(this.Module);
@@ -117,6 +114,9 @@ class Order extends OrderBase {
 
         const $submoduleContractBrowse = this.openContractBrowse($form);
         $form.find('.contract').append($submoduleContractBrowse);
+
+        let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
+        $form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
 
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
@@ -158,15 +158,15 @@ class Order extends OrderBase {
         $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
         $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
 
-        FwFormField.loadItems($form.find('.outtype'), [
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
-            { value: 'SHIP', text: 'Ship to Customer' },
+            { value: 'SHIP',    text: 'Ship to Customer' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
-        FwFormField.loadItems($form.find('.intype'), [
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
-            { value: 'SHIP', text: 'Customer Ship' },
+            { value: 'SHIP',    text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
         ], true);
 
@@ -186,17 +186,22 @@ class Order extends OrderBase {
         this.getSoundUrls($form);
         this.activityCheckboxEvents($form, mode);
         if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
-            this.renderFrames($form, parentModuleInfo.OrderId);
             this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
         }
 
         return $form;
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids) {
+        const $form = this.openForm('EDIT', uniqueids);
+        $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
+        FwModule.loadForm(this.Module, $form);
 
+        return $form;
+    }
     //----------------------------------------------------------------------------------------------
     openPickListBrowse($form) {
         const $browse = PickListController.openBrowse();
-
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = PickListController.ActiveViewFields;
             request.uniqueids = {
@@ -205,12 +210,10 @@ class Order extends OrderBase {
         });
 
         return $browse;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     openContractBrowse($form) {
         const $browse = ContractController.openBrowse();
-
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = ContractController.ActiveViewFields;
             request.uniqueids = {
@@ -219,37 +222,23 @@ class Order extends OrderBase {
         });
 
         return $browse;
-    };
-
-    //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids) {
-        const $form = this.openForm('EDIT', uniqueids);
-        $form.find('div.fwformfield[data-datafield="OrderId"] input').val(uniqueids.OrderId);
-        FwModule.loadForm(this.Module, $form);
-
-        let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
-        $form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
-        //let $submoduleInvoiceBrowse = this.openInvoiceBrowse($form);
-        //$form.find('.invoiceSubModule').append($submoduleInvoiceBrowse);
-
-        return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openPurchaseOrderBrowse($form) {
         const $browse = PurchaseOrderController.openBrowse();
-        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = PurchaseOrderController.ActiveViewFields;
             request.uniqueids = {
-                OrderId: orderId
+                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
         });
+
         return $browse;
     }
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         const totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
@@ -365,7 +354,7 @@ class Order extends OrderBase {
 
         const itemGrids = [$orderItemGridRental];
         if ($form.attr('data-mode') === 'NEW') {
-            for (let i = 0; i < itemGrids.length; i++) {                
+            for (let i = 0; i < itemGrids.length; i++) {
                 itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
                     .off()
                     .on('click', () => {
@@ -375,13 +364,12 @@ class Order extends OrderBase {
         }
 
         jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     loadAudit($form) {
         const uniqueid = FwFormField.getValueByDataField($form, 'OrderId');
         FwModule.loadAudit($form, uniqueid);
-    };
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         let status = FwFormField.getValueByDataField($form, 'Status');
@@ -425,19 +413,246 @@ class Order extends OrderBase {
         }
         if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss And Damage"]').hide() }
 
-        var rate = FwFormField.getValueByDataField($form, 'RateType');
-        if (rate === '3WEEK') {
-            $orderItemGridRental.find('.3week').parent().show();
-            $orderItemGridRental.find('.weekextended').parent().hide();
-        }
+        //var rate = FwFormField.getValueByDataField($form, 'RateType');
+        //if (rate === '3WEEK') {
+        //    $orderItemGridRental.find('.3week').parent().show();
+        //    $orderItemGridRental.find('.weekextended').parent().hide();
+        //}
 
         // Display D/W field in rental
-        if (rate === 'DAILY') {
-            $orderItemGridRental.find('.dw').parent().show();
-        }
+        //if (rate === 'DAILY') {
+        //    $orderItemGridRental.find('.dw').parent().show();
+        //}
 
         super.afterLoad($form);
-    };
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        $form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
+            let combineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
+            $form.find('[data-datafield="CombineActivity"] input').val(combineActivity);
+
+            let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]'),
+                salesTab  = $form.find('[data-type="tab"][data-caption="Sales"]'),
+                miscTab   = $form.find('[data-type="tab"][data-caption="Misc"]'),
+                laborTab  = $form.find('[data-type="tab"][data-caption="Labor"]');
+            if (combineActivity == "true") {
+                $form.find('.notcombinedtab').hide();
+                $form.find('.combinedtab').show();
+            } else if (combineActivity == "false") {
+                $form.find('.combinedtab').hide();
+                $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
+                $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
+                $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
+                $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
+            }
+        });
+
+        $form.find('div[data-datafield="DepartmentId"]').data('onchange', function ($tr) {
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingRentalRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingRentalRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingSalesRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingSalesRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingLaborRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLaborRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingMiscellaneousRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingMiscellaneousRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
+            FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
+        });
+
+        //Defaults Address information when user selects a deal
+        $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
+            const dealid = FwFormField.getValueByDataField($form, 'DealId');
+            FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));   
+
+            //var type     = $tr.find('.field[data-browsedatafield="DefaultRate"]').attr('data-originalvalue');
+            //FwFormField.setValueByDataField($form, 'RateType', type);
+            //$form.find('div[data-datafield="RateType"] input.fwformfield-text').val(type);
+
+            if ($form.attr('data-mode') === 'NEW') {
+                FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealid}`, null, FwServices.defaultTimeout, response => {
+                        FwFormField.setValueByDataField($form, 'OutDeliveryDeliveryType', response.DefaultOutgoingDeliveryType);
+                        FwFormField.setValueByDataField($form, 'InDeliveryDeliveryType', response.DefaultIncomingDeliveryType);
+                        if (response.DefaultOutgoingDeliveryType === 'DELIVER' || response.DefaultOutgoingDeliveryType === 'SHIP') {
+                            FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL');
+                            this.setDealAddress($form, 'Out', response);
+                        } else if (response.DefaultOutgoingDeliveryType === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE');
+                            this.setWarehouseAddress($form, 'Out');
+                        }
+
+                        if (response.DefaultIncomingDeliveryType === 'DELIVER' || response.DefaultIncomingDeliveryType === 'SHIP') {
+                            FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE');
+                            this.setWarehouseAddress($form, 'In');
+                        } else if (response.DefaultIncomingDeliveryType === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL');
+                            this.setDealAddress($form, 'In', response);
+                        }
+                }, null, null);
+            }
+        });
+
+        $form
+            .on('click', '[data-type="tab"]', e => {
+                if ($form.attr('data-mode') !== 'NEW') {
+                    const $tab      = jQuery(e.currentTarget);
+                    const tabpageid = jQuery(e.currentTarget).data('tabpageid');
+
+                    if ($tab.hasClass('audittab') == false) {
+                        const $gridControls = $form.find(`#${tabpageid} [data-type="Grid"]`);
+                        if (($tab.hasClass('tabGridsLoaded') === false) && $gridControls.length > 0) {
+                            for (let i = 0; i < $gridControls.length; i++) {
+                                try {
+                                    const $gridcontrol = jQuery($gridControls[i]);
+                                    FwBrowse.search($gridcontrol);
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                }
+                            }
+                        }
+
+                        const $browseControls = $form.find(`#${tabpageid} [data-type="Browse"]`);
+                        if (($tab.hasClass('tabGridsLoaded') === false) && $browseControls.length > 0) {
+                            for (let i = 0; i < $browseControls.length; i++) {
+                                const $browseControl = jQuery($browseControls[i]);
+                                FwBrowse.search($browseControl);
+                            }
+                        }
+                    }
+                    $tab.addClass('tabGridsLoaded');
+                }
+            })
+            .on('change', 'div[data-datafield="PickDate"], div[data-datafield="EstimatedStartDate"], div[data-datafield="EstimatedStopDate"]', event => {
+                var $element           = jQuery(event.currentTarget);
+                var PickDate           = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+                var EstimatedStartDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
+                var EstimatedStopDate  = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+
+                if ($element.attr('data-datafield') === 'EstimatedStartDate' && EstimatedStartDate < PickDate) {
+                    $form.find('div[data-datafield="EstimatedStartDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is before 'Pick Date'.");
+                } else if ($element.attr('data-datafield') === 'PickDate' && EstimatedStartDate < PickDate) {
+                    $form.find('div[data-datafield="PickDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'From Date'.");
+                } else if ($element.attr('data-datafield') === 'PickDate' && EstimatedStopDate < PickDate) {
+                    $form.find('div[data-datafield="PickDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'To Date'.");
+                } else if (EstimatedStopDate < EstimatedStartDate) {
+                    $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                } else if (EstimatedStopDate < PickDate) {
+                    $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'Pick Date'.");
+                } else {
+                    $form.find('div[data-datafield="PickDate"]').removeClass('error');
+                    $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
+                    $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
+                }
+            })
+            .on('click', '.addresscopy', e => {
+                var $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', 'Copy Outgoing Address into Incoming Address?');
+                var $yes          = FwConfirmation.addButton($confirmation, 'Copy', true);
+                var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                $yes.on('click', function () {
+                    FwFormField.setValueByDataField($form, 'InDeliveryToLocation', FwFormField.getValueByDataField($form, 'OutDeliveryToLocation'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToAttention', FwFormField.getValueByDataField($form, 'OutDeliveryToAttention'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToAddress1', FwFormField.getValueByDataField($form, 'OutDeliveryToAddress1'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToAddress2', FwFormField.getValueByDataField($form, 'OutDeliveryToAddress2'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToCity', FwFormField.getValueByDataField($form, 'OutDeliveryToCity'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToState', FwFormField.getValueByDataField($form, 'OutDeliveryToState'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToZipCode', FwFormField.getValueByDataField($form, 'OutDeliveryToZipCode'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToCountryId', FwFormField.getValueByDataField($form, 'OutDeliveryToCountryId'), FwFormField.getTextByDataField($form, 'OutDeliveryToCountryId'));
+                    FwFormField.setValueByDataField($form, 'InDeliveryToCrossStreets', FwFormField.getValueByDataField($form, 'OutDeliveryToCrossStreets'), '', true);
+                    FwNotification.renderNotification('SUCCESS', 'Address Successfully Copied.');
+                });
+            })
+            .on('change', 'div[data-datafield="OutDeliveryAddressType"], div[data-datafield="InDeliveryAddressType"]', event => {
+                let $element = jQuery(event.currentTarget);
+                if ($element.attr('data-datafield') === 'OutDeliveryAddressType') {
+                    let value = FwFormField.getValueByDataField($form, 'OutDeliveryAddressType');
+                    if (value === 'WAREHOUSE') {
+                        this.setWarehouseAddress($form, 'Out');
+                    } else if (value === 'DEAL') {
+                        this.setDealAddress($form, 'Out');
+                    }
+                } else if ($element.attr('data-datafield') === 'InDeliveryAddressType') {
+                    let value = FwFormField.getValueByDataField($form, 'InDeliveryAddressType');
+                    if (value === 'WAREHOUSE') {
+                        this.setWarehouseAddress($form, 'In');
+                    } else if (value === 'DEAL') {
+                        this.setDealAddress($form, 'In');
+                    }
+                }
+            })
+            .on('click', 'div[data-datafield="OutDeliveryDeliveryType"], div[data-datafield="InDeliveryDeliveryType"]', event => {
+                let $element = jQuery(event.currentTarget);
+                $element.data('prevValue', FwFormField.getValueByDataField($form, $element.attr('data-datafield')));
+            })
+            .on('change', 'div[data-datafield="OutDeliveryDeliveryType"], div[data-datafield="InDeliveryDeliveryType"]', event => {
+                let $element  = jQuery(event.currentTarget);
+                let newValue  = FwFormField.getValue2($element);
+                let prevValue = $element.data('prevValue');
+
+                switch ($element.attr('data-datafield')) {
+                    case 'OutDeliveryDeliveryType':
+                        if ((newValue === 'DELIVER' || newValue === 'SHIP') && prevValue === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'DEAL', '', true);
+                        } else if (newValue === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'OutDeliveryAddressType', 'WAREHOUSE', '', true);
+                        }
+                        break;
+                    case 'InDeliveryDeliveryType':
+                        if ((newValue === 'DELIVER' || newValue === 'SHIP') && prevValue === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'WAREHOUSE', '', true);
+                        } else if (newValue === 'PICK UP') {
+                            FwFormField.setValueByDataField($form, 'InDeliveryAddressType', 'DEAL', '', true);
+                        }
+                        break;
+                }
+            })
+        ;
+    }
+    //----------------------------------------------------------------------------------------------
+    setWarehouseAddress($form: any, prefix: string): void {
+        if ($form.data('warehousedata')) {
+            let warehousedata: any = $form.data('warehousedata');
+            this.updateDeliveryAddress($form, prefix, warehousedata);
+        } else {
+            const warehouseid = JSON.parse(sessionStorage.getItem('warehouse')).warehouseid;
+            FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${warehouseid}`, null, FwServices.defaultTimeout, response => {
+                this.updateDeliveryAddress($form, prefix, response);
+                $form.data('warehousedata', {
+                    'Attention': response.Attention,
+                    'Address1':  response.Address1,
+                    'Address2':  response.Address2,
+                    'City':      response.City,
+                    'State':     response.State,
+                    'Zip':       response.Zip,
+                    'CountryId': response.CountryId,
+                    'Country':   response.Country
+                });
+            }, null, null);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    setDealAddress($form: any, prefix: string, response?: any): void {
+        if (!response) {
+            const dealid = FwFormField.getValueByDataField($form, 'DealId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealid}`, null, FwServices.defaultTimeout, res => {
+                this.updateDeliveryAddress($form, prefix, res);
+            }, null, null);
+        } else {
+            this.updateDeliveryAddress($form, prefix, response);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    updateDeliveryAddress($form: any, prefix: string, data: any): void {
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, data.Attention);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`,  data.Address1);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`,  data.Address2);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`,      data.City);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`,     data.State);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`,   data.Zip);
+        FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, data.CountryId, data.Country);
+    }
     //----------------------------------------------------------------------------------------------
     getSoundUrls = ($form): void => {
         this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
@@ -792,18 +1007,40 @@ class Order extends OrderBase {
     //}
     //----------------------------------------------------------------------------------------------
     afterSave($form) {
-        if (this.CombineActivity === 'true') {
-            $form.find('.combined').css('display', 'block');
-            $form.find('.combinedtab').css('display', 'flex');
-            $form.find('.generaltab').click();
-        } else {
-            $form.find('.notcombined').css('display', 'block');
-            $form.find('.notcombinedtab').css('display', 'flex');
-            $form.find('.generaltab').click();
-        }
-        this.renderGrids($form);
-        this.renderFrames($form, FwFormField.getValueByDataField($form, 'OrderId'));
+        //if (this.CombineActivity === 'true') {
+        //    $form.find('.combined').css('display', 'block');
+        //    $form.find('.combinedtab').css('display', 'flex');
+        //    $form.find('.generaltab').click();
+        //} else {
+        //    $form.find('.notcombined').css('display', 'block');
+        //    $form.find('.notcombinedtab').css('display', 'flex');
+        //    $form.find('.generaltab').click();
+        //}
         this.dynamicColumns($form, FwFormField.getValueByDataField($form, 'OrderTypeId'));
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateOutShipVia($browse: any, $form: any, request: any) {
+        request.uniqueids = {
+            VendorId: FwFormField.getValue($form, 'div[data-datafield="OutDeliveryCarrierId"]')
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateInShipVia($browse: any, $form: any, request: any) {
+        request.uniqueids = {
+            VendorId: FwFormField.getValue($form, 'div[data-datafield="InDeliveryCarrierId"]')
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateCarrier($browse: any, $form: any, request: any) {
+        request.uniqueids = {
+            Freight: true
+        };
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidateDeal($browse: any, $form: any, request: any) {
+        request.uniqueids = {
+            LocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId')
+        }
     }
     //----------------------------------------------------------------------------------------------
 }

@@ -145,10 +145,10 @@ class Quote extends OrderBase {
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
-        if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
-            this.renderFrames($form, parentModuleInfo.QuoteId);
+        //if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
+            //this.renderFrames($form, parentModuleInfo.QuoteId);
             //this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
-        }
+        //}
 
         return $form;
     }
@@ -283,6 +283,38 @@ class Quote extends OrderBase {
         //if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
         //    FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
         //}
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form: any) {
+        $form
+            .on('changeDate', 'div[data-datafield="PickDate"], div[data-datafield="EstimatedStartDate"], div[data-datafield="EstimatedStopDate"]', event => {
+                var $element           = jQuery(event.currentTarget);
+                var PickDate           = Date.parse(FwFormField.getValueByDataField($form, 'PickDate'));
+                var EstimatedStartDate = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStartDate'));
+                var EstimatedStopDate  = Date.parse(FwFormField.getValueByDataField($form, 'EstimatedStopDate'));
+
+                if ($element.attr('data-datafield') === 'EstimatedStartDate' && EstimatedStartDate < PickDate) {
+                    $form.find('div[data-datafield="EstimatedStartDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is before 'Pick Date'.");
+                } else if ($element.attr('data-datafield') === 'PickDate' && EstimatedStartDate < PickDate) {
+                    $form.find('div[data-datafield="PickDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'From Date'.");
+                } else if ($element.attr('data-datafield') === 'PickDate' && EstimatedStopDate < PickDate) {
+                    $form.find('div[data-datafield="PickDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'Pick Date' is after 'To Date'.");
+                } else if (EstimatedStopDate < EstimatedStartDate) {
+                    $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+                } else if (EstimatedStopDate < PickDate) {
+                    $form.find('div[data-datafield="EstimatedStopDate"]').addClass('error');
+                    FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'Pick Date'.");
+                } else {
+                    $form.find('div[data-datafield="PickDate"]').removeClass('error');
+                    $form.find('div[data-datafield="EstimatedStartDate"]').removeClass('error');
+                    $form.find('div[data-datafield="EstimatedStopDate"]').removeClass('error');
+                }
+            })
+        ;
     }
     //----------------------------------------------------------------------------------------------
 }
