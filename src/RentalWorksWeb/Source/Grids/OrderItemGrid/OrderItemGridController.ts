@@ -857,31 +857,48 @@ FwApplicationTree.clickEvents['{AD3FB369-5A40-4984-8A65-46E683851E52}'] = e => {
         .css('text-align', 'center');
 
 
-    //TODO - add button to apply changes in sorting
+    //adds button to apply changes in sorting
+    const $applyChangesBtn = jQuery('<div data-type="button" class="fwformcontrol apply-changes"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i>Apply Changes</div>');
+    const $gridMenu = $grid.find('[data-control="FwMenu"]');
+    const orderItemIds: any = [];
+    $applyChangesBtn.on('click', e => {
+        try {
+            const $trs = $grid.find('tbody  tr');
+            for (let i = 0; i < $trs.length; i++) {
+                const $tr = jQuery($trs[i]);
+                const id = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
+                orderItemIds.push(id);
+            }
 
-
-    //initialize Sortable
-    Sortable.create($grid.find('tbody').get(0), {
-        onEnd: e => {
-            //get sorted orderitemids for request
+            const request: any = {};
+            request.OrderId = orderId;
+            request.OrderItemIds = orderItemIds;
+            //need to build out endpoint
+            //FwAppData.apiMethod(true, 'POST', `api/v1/`, request, FwServices.defaultTimeout,
+            //    response => {
+            //        FwBrowse.search($grid);
+            //         $gridMenu.find('.apply-changes').hide();
+            // $gridMenu.find('.buttonbar').show();
+            //    },
+            //    ex => FwFunc.showError(ex), $grid);
+        } catch (ex) {
+            FwFunc.showError(ex);
         }
     });
 
-    //const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
-    //for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-    //    const $this = jQuery($selectedCheckBoxes[i]);
-    //    const id = $this.closest('tr').find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
-    //    ids.push(id);
-    //};
-    //const request: any = {};
-    //request.OrderId = orderId;
-    //request.OrderItemIds = ids;
-    //FwAppData.apiMethod(true, 'POST', `api/v1/order/copyorderitems`, request, FwServices.defaultTimeout,
-    //    response => {
-    //        jQuery(document).trigger('click');
-    //        FwBrowse.search($grid);
-    //    },
-    //    ex => FwFunc.showError(ex), $grid);
+    //toggle displayed buttons
+    $gridMenu.find('.buttonbar').hide();
+    if ($gridMenu.find('.apply-changes').length < 1) {
+        $gridMenu.append($applyChangesBtn);
+    } else {
+        $gridMenu.find('.apply-changes').show();
+    }
+
+    //initialize Sortable
+    Sortable.create($grid.find('tbody').get(0), {});
+
+    //closes menu
+    jQuery(document).trigger('click');
 };
 //----------------------------------------------------------------------------------------------
 var OrderItemGridController = new OrderItemGrid();
