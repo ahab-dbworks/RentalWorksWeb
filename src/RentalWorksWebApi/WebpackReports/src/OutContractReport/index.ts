@@ -1,11 +1,11 @@
 import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
 import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
+import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
-const hbHeader = require("./hbHeader.hbs"); 
 const hbReport = require("./hbReport.hbs"); 
 const hbFooter = require("./hbFooter.hbs"); 
 
@@ -15,35 +15,40 @@ export class OutContractReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-
             HandlebarsHelpers.registerHelpers();
 
-            // get the Contract
+            Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+                .then((response: DataTable) => {
+                    const controlObject: any = response;
             Ajax.get<OutContract>(`${apiUrl}/api/v1/outcontractreport/${parameters.ContractId}`, authorizationHeader)
                 .then((response: OutContract) => {
-                    const contract: any = response;
-                    contract.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    console.log('rpt', contract)
-                    this.renderHeaderHtml(contract);
-                    this.renderFooterHtml(contract);
+                    const data: any = response;
+                    data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                    data.System = 'RENTALWORKS';
+                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Report = 'OUT CONTRACT';
+                    if (controlObject.ReportLogoImage != '') {
+                        data.Logosrc = controlObject.ReportLogoImage;
+                    } 
+                    console.log('rpt', data)
+                    this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
-                    document.getElementById('pageBody').innerHTML = hbReport(contract);
+                    document.getElementById('pageBody').innerHTML = hbReport(data);
                     
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
                     this.onRenderReportFailed(ex);
                 });
+                })
+                .catch((ex) => {
+                    console.log('exception: ', ex)
+                });
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }
-    }
-
-    renderHeaderHtml(model: OutContract): string {
-        this.headerHtml = hbHeader(model);
-        return this.headerHtml;
     }
 
     renderFooterHtml(model: OutContract) : string {

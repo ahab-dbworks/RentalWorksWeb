@@ -1,5 +1,4 @@
-﻿/*Order Report*/
-tbody {
+﻿tbody {
     td:after {
         content: attr(data-value);
     }
@@ -9,7 +8,7 @@ tbody {
     }
 }
 
-tbody[data-rowtype="detail"]:nth-child(even) {
+tbody tr.item-row:nth-child(odd) {
     background-color: #DCDCDC;
 }
 
@@ -50,32 +49,22 @@ tbody[data-rowtype="detail"]:nth-child(even) {
     font-size: 15px;
 }
 
-body {
-    font-size: 15px;
-    margin: 0;
-    padding: 0;
+.company-header {
+    align-self: flex-start;
+    font-size: 16px;
+}
+.contract-title {
+    align-self: center;
+    font-family: Arial, sans-serif;
+    font-size: 26px;
+    font-weight: bold;
 }
 
 thead {
     th {
+        border-bottom: 2px solid #000000;
         font-weight: bold;
         padding: 5px;
         white-space: nowrap;
     }
-
-    th:not(.sub) {
-        border-bottom: 2px solid #000000;
-    }
-}
-
-.sub {
-    border-top: 2px solid #027cc5;
-    border-bottom: 2px solid #027cc5;
-    background-color: #DCDCDC;
-}
-
-.total-row {
-    font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
 }
