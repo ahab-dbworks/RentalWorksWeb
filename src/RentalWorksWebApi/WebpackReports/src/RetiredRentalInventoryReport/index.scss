@@ -1,24 +1,47 @@
-﻿/*Retired Rental Inventory Report*/
-tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
+﻿table {
+    thead.mainHeader {
+        th {
+            border-top: 2px solid #000000;
+            border-bottom: 2px solid #000000;
+            border-collapse: collapse;
+            font-weight: bold;
+            padding: 5px;
+            white-space: nowrap;
+            text-align: left;
+        }
+    }
+
+    tbody[data-rowtype="detail"]:nth-of-type(even) {
         background-color: #DCDCDC;
     }
 
-    td:after {
-        content: attr(data-value);
-    }
+    tbody {
+        td:after {
+            content: attr(data-value);
+        }
 
-    td {
-        padding: 3px;
+        tr.subValues {
+            text-align: left;
+            padding-bottom: 2px;
+            padding-left: 3px;
+        }
+
+        th.subHeaders {
+            text-align: left;
+            border-bottom: 2px solid black;
+            padding-left: 3px;
+        }
     }
 }
 
-thead {
-    th {
-        border-top: 2px solid #000000;
-        border-bottom: 2px solid #000000;
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
+.note {
+    font-weight: bold;
+
+    span {
+        font-weight: normal;
     }
+}
+
+.top {
+    vertical-align: top;
 }

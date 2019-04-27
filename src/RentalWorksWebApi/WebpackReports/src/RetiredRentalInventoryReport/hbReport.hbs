@@ -13,32 +13,32 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
-    <thead>
+    <thead class="mainHeader">
       <tr>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th class="number">Qty</th>
-        <th>Bar Code No.</th>
-        <th>Purch. Date</th>
-        <th>Receive Date</th>
-        <th class="PONo">PO No.</th>
-        <th class="number">Purch. Price</th>
+        <th class="top">I-Code</th>
+        <th class="top">Description</th>
+        <th class="top number">Qty</th>
+        <th class="top">Bar Code</th>
+        <th class="top">Purch. Date</th>
+        <th class="top">Receive Date</th>
+        <th class="top">PO No.</th>
+        <th class="top number">Purch. Price</th>
         <th>
-          <div>Retire Date</div>        
+          <div>Retire Date</div>
           {{#if IncludeUnretired}}
           <div>Un-Retire Date</div>
           {{/if}}
         </th>
         <th>
-          <div>By</div>
+          <div>Retire By</div>
           {{#if IncludeUnretired}}
-          <div>By</div>
+          <div>Un-Retire By</div>
           {{/if}}
         </th>
         <th>
-          <div>Reason</div>
+          <div>Retire Reason</div>
           {{#if IncludeUnretired}}
-          <div>Reason</div>
+          <div>Un-Retire Reason</div>
           {{/if}}
         </th>
       </tr>
@@ -47,41 +47,41 @@
     {{#ifEquals RowType "Warehouseheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <th class="WarehouseHeader" colspan="4">Warehouse: {{Warehouse}}</th>
+        <th class="header-row" colspan="4">Warehouse: {{Warehouse}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "InventoryTypeheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <th class="InventoryTypeHeader" colspan="4">Inventory Type: {{InventoryType}}</th>
+        <th class="header-row lower" colspan="4">Inventory Type: {{InventoryType}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr>
-        <td class="ICode">{{ICode}}</td>
-        <td class="Description">{{Description}}</td>
-        <td class="Qty">{{Quantity}}</td>
-        <td class="BarCodeNumber">{{BarCode}}</td>
-        <td class="PurchDate">{{PurchaseDate}}</td>
-        <td class="ReceiveDate">{{ReceiveDate}}</td>
-        <td class="PONo">{{PurchasePurchaseOrderNumber}}</td>
-        <td class="PurchPrice">{{PurchaseAmount}}</td>
-        <td class="RetireUnRetireDate">
+        <td>{{ICode}}</td>
+        <td>{{Description}}</td>
+        <td class="number">{{Quantity}}</td>
+        <td>{{BarCode}}</td>
+        <td>{{PurchaseDate}}</td>
+        <td>{{ReceiveDate}}</td>
+        <td>{{PurchasePurchaseOrderNumber}}</td>
+        <td class="number">{{PurchaseAmount}}</td>
+        <td>
           <div>{{RetireDate}}</div>
           {{#if ../../IncludeUnretired}}
           <div>{{UnretireDate}}</div>
           {{/if}}
         </td>
-        <td class="By">
+        <td>
           <div>{{RetiredBy}}</div>
           {{#if ../../IncludeUnretired}}
           <div>{{UnretiredBy}}</div>
           {{/if}}
         </td>
-        <td class="Reason">
+        <td>
           <div>{{RetiredReason}}</div>
           {{#if ../../IncludeUnretired}}
           <div>{{UnretiredReason}}</div>
@@ -91,7 +91,7 @@
       {{#if RetiredNotes}}
       <tr>
         <td></td>
-        <td class="RetireNote" colspan="7">Retire Note: {{RetiredNotes}}</td>
+        <td class="note" colspan="7">Retire Note: <span>{{RetiredNotes}}</span></td>
         <td colspan="3"></td>
       </tr>
       {{/if}}
@@ -121,33 +121,26 @@
       {{/ifEquals}}
     </tbody>
     {{/ifEquals}}
-    {{#ifEquals RowType "InventoryTypefooter"}}
     <tfoot data-rowtype="{{RowType}}">
+      {{#ifEquals RowType "InventoryTypefooter"}}
       <tr>
-        <td></td>
-        <td>{{InventoryType}} :</td>
-        <td>{{Quantity}}</td>
+        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}">{{Quantity}}</td>
       </tr>
-    </tfoot>
-    {{/ifEquals}}
-    {{#ifEquals RowType "Warehousefooter"}}
-    <tfoot data-rowtype="{{RowType}}">
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
       <tr>
-        <td></td>
-        <td>{{Warehouse}} :</td>
-        <td>{{Quantity}}</td>
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}">{{Quantity}}</td>
       </tr>
-    </tfoot>
-    {{/ifEquals}}
-    {{#ifEquals RowType "grandtotal"}}
-    <tfoot data-rowtype="{{RowType}}">
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
       <tr>
-        <td></td>
-        <td>Grand Total :</td>
-        <td>{{Quantity}}</td>
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}">{{Quantity}}</td>
       </tr>
+      {{/ifEquals}}
     </tfoot>
-    {{/ifEquals}}
     {{/each}}
   </table>
 </div>
