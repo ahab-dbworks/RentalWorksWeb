@@ -122,7 +122,7 @@ class RemoveFromContainer {
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Description" data-datafield="ContainerDescription" style="flex:0 1 400px;" data-enabled="false"></div>
           </div>
         </div>
-        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Item" style="max-width:700px">
+        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Item to Remove" style="max-width:700px">
           <div class="flexrow">
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Bar Code No." data-datafield="ItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield itemid" data-caption="Serial No." data-datafield="ItemId" data-displayfield="SerialNumber" data-formbeforevalidate="beforeValidate" data-validationname="AssetValidation" style="flex:0 1 200px;"></div>
