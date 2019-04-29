@@ -1,11 +1,8 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
+
 namespace WebApi.Modules.Reports.ReturnedToInventoryReport
 {
     [FwSqlTable("returnedtoinventoryrptview")]
@@ -82,11 +79,7 @@ namespace WebApi.Modules.Reports.ReturnedToInventoryReport
                     select.AddWhereIn("masterid", request.InventoryId); 
                     select.AddWhereIn("usersid", request.UserId); 
                     addDateFilterToSelect("indatetime", request.FromDate, select, ">=", "frominreturndatetime"); 
-                    addDateFilterToSelect("indatetime", request.ToDate, select, "<=", "toinreturndatetime"); 
-                    //if (!request.BooleanField.GetValueOrDefault(false)) 
-                    //{ 
-                    //    select.AddWhere("somefield ^<^> 'T'"); 
-                    //} 
+                    addDateFilterToSelect("indatetime", request.ToDate.AddDays(1), select, "<", "toinreturndatetime");
                     select.AddOrderBy("warehouse, inventorydepartment, deal, category, subcategory, masterno, description, username");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
