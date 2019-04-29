@@ -103,7 +103,21 @@ namespace WebApi.Modules.Home.ContainerItem
             }
             try
             {
-                RemoveFromContainerResponse response = await ContainerItemFunc.RemoveFromContainer(AppConfig, UserSession, request);
+                RemoveFromContainerResponse response = new RemoveFromContainerResponse();
+                if ((string.IsNullOrEmpty(request.ItemId)) && (string.IsNullOrEmpty(request.InventoryId)))
+                {
+                    response.success = false;
+                    response.msg = "Bar Code or I-Code must be specified when removing items from a Container.";
+                }
+                else if ((string.IsNullOrEmpty(request.ContainerItemId)) && (string.IsNullOrEmpty(request.ItemId)))
+                {
+                    response.success = false;
+                    response.msg = "Container Item is required when removing items tracked by Quantity.";
+                }
+                else
+                {
+                    response = await ContainerItemFunc.RemoveFromContainer(AppConfig, UserSession, request);
+                }
                 return response;
             }
             catch (Exception ex)
