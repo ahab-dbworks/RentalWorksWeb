@@ -64,9 +64,6 @@ class FwMultiSelectValidationClass {
         }
         $browse.find('.btnViewSelection').css('display', 'inline-block');
 
-        //adds display field select options
-        window['FwFormField_multiselectvalidation'].loadDisplayFields($browse);
-
         $popup = FwPopup.attach($browse);
 
         $searchfield.on('change', function () {
@@ -247,8 +244,7 @@ class FwMultiSelectValidationClass {
                     //removes item from text
                     const itemText = $item.find('span').text();
                     const $textField = $valuefield.siblings('.fwformfield-text');
-                    const fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
-                    const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
+                    const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
                     let text: any = $textField.val();
                     text = text
                         .split(multiSeparator)
@@ -364,13 +360,7 @@ class FwMultiSelectValidationClass {
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
         const multiselectfield = $control.find('.multiselectitems');
-        let fieldToDisplay;
-        if ($control.hasClass('email')) {
-            fieldToDisplay = "Email";
-        } else {
-            fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
-        }
-        const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
+        const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         const $inputField = multiselectfield.find('span.addItem');
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
@@ -395,7 +385,7 @@ class FwMultiSelectValidationClass {
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
             if ((typeof $selectedRows[uniqueIdValue] !== 'undefined') && (selectedRowUniqueIds.indexOf(uniqueIdValue) == -1)) {
                 $tr.addClass('selected');
-                let textValue = $tr.find(`[data-browsedatafield="${fieldToDisplay}"]`).attr('data-originalvalue');
+                let textValue = $tr.find(`[data-validationdisplayfield="true"]`).attr('data-originalvalue');
                 multiselectfield.append(`
                 <div contenteditable="false" class="multiitem" data-multivalue="${uniqueIdValue}">
                     <span>${textValue}</span>
@@ -427,8 +417,7 @@ class FwMultiSelectValidationClass {
     };
     //---------------------------------------------------------------------------------
     selectAll($control, $valuefield: JQuery, $searchfield: JQuery, $popup: JQuery, $browse: JQuery): void {
-        let $selectedRows, $trs, $tr, uniqueIdValue, fieldToDisplay, multiselectfield, selectedRowUniqueIds, $inputField;
-        fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
+        let $selectedRows, $trs, $tr, uniqueIdValue, multiselectfield, selectedRowUniqueIds, $inputField;
         multiselectfield = $control.find('.multiselectitems');
         $inputField = multiselectfield.find('span.addItem');
         if (typeof $browse.data('selectedrows') === 'undefined') {
@@ -445,7 +434,7 @@ class FwMultiSelectValidationClass {
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
             if ((typeof $selectedRows[uniqueIdValue] == 'undefined') && (selectedRowUniqueIds.indexOf(uniqueIdValue) == -1)) {
                 $tr.addClass('selected');
-                let textValue = $tr.find(`[data-browsedatafield="${fieldToDisplay}"]`).attr('data-originalvalue');
+                let textValue = $tr.find(`[data-validationdisplayfield="true"]`).attr('data-originalvalue');
                 multiselectfield.append(`
                 <div contenteditable="false" class="multiitem" data-multivalue="${uniqueIdValue}">
                     <span>${textValue}</span>
