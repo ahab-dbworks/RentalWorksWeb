@@ -401,6 +401,35 @@
         });
     }
     //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $grid, request) {
+        //const validationName = request.module;
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+
+        //switch (validationName) {
+        //    case 'OrderValidation':
+        //        request.miscfields = {
+        //            Staging: true,
+        //            StagingWarehouseId: warehouse.warehouseid
+        //        };
+        //        break;
+        //    case 'TransferOrderValidation':
+        //        request.miscfields = {
+        //            TransferOut: true,
+        //            TransferOutWarehouseId: warehouse.warehouseid
+        //        };
+        //        break;
+        //    case 'ContainerValidation':
+        //        request.uniqueids = {
+        //            WarehouseId: warehouse.warehouseid
+        //        };
+        //        break;
+        //};
+
+        request.uniqueids = {
+            WarehouseId: warehouse.warehouseid
+        };
+    }
+    //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         let typeFieldHtml;
         let caption;
@@ -415,7 +444,7 @@
                 break;
             case 'ContainerItem':
                 caption = 'Container Status';
-                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
                 break;
         }
         return `
