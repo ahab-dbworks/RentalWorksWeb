@@ -2,11 +2,11 @@ using FwStandard.DataLayer;
 using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes;
-using Newtonsoft.Json;
 using WebApi.Data; 
 using System.Collections.Generic;
 using WebLibrary;
 using WebApi.Logic;
+using System.Text;
 
 namespace WebApi.Modules.Home.OrderStatusDetail
 {
@@ -228,28 +228,13 @@ namespace WebApi.Modules.Home.OrderStatusDetail
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-            string orderId = "!none!";
-            string filterStatus = string.Empty;
-            if (request != null) 
-            {
-                if (request.uniqueids != null)
-                {
-                    IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
-                    if (uniqueIds.ContainsKey("OrderId"))
-                    {
-                        orderId = uniqueIds["OrderId"].ToString();
-                    }
-                }
 
-                if (request.filterfields != null)
-                {
-                    IDictionary<string, string> filterfields = ((IDictionary<string, string>)request.filterfields);
-                    if (filterfields.ContainsKey("Status"))
-                    {
-                        filterStatus = filterfields["Status"].ToString();
-                    }
-                }
-            }
+            string orderId = GetUniqueIdAsString("OrderId", request) ?? "!none!";
+            string filterStatus = GetUniqueIdAsString("Status", request) ?? "";
+
+            string orderType = AppFunc.GetStringDataAsync(AppConfig, "dealorder", "orderid", orderId, "ordertype").Result;
+            bool? allHistory = GetUniqueIdAsBoolean("AllHistory", request);
+
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddParameter("@orderid", orderId);
@@ -278,6 +263,21 @@ namespace WebApi.Modules.Home.OrderStatusDetail
                     select.AddWhere("(incontractid > '')");
                     break;
                 default: break;
+            }
+
+            if (orderType.Equals(RwConstants.ORDER_TYPE_CONTAINER))
+            {
+                if (!(allHistory.GetValueOrDefault(false)))
+                {
+                    StringBuilder activeOrderTransWhere = new StringBuilder();
+                    activeOrderTransWhere.Append(" ( ");
+                    activeOrderTransWhere.Append("     (itemstatus = '" + RwConstants.ORDERTRAN_ITEMSTATUS_OUT    + "') or ");
+                    activeOrderTransWhere.Append("     (itemstatus = '" + RwConstants.ORDERTRAN_ITEMSTATUS_STAGED + "') or ");
+                    activeOrderTransWhere.Append("     (issuspendin = 'T')                                              or ");
+                    activeOrderTransWhere.Append("     (itemclass = '" + RwConstants.ITEMCLASS_KIT + "')                   ");
+                    activeOrderTransWhere.Append(" ) ");
+                    select.AddWhere(activeOrderTransWhere.ToString());
+                }
             }
         }
         //------------------------------------------------------------------------------------  
