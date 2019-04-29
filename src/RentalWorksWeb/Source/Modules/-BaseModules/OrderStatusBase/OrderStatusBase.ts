@@ -36,7 +36,9 @@
 
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, `${this.Type}Id`, parentmoduleinfo.OrderId, parentmoduleinfo.OrderNumber);
-            $form.find(`[data-datafield="${this.Type}Id"]`).change();
+            if (parentmoduleinfo.OrderId !== '') {
+                $form.find(`[data-datafield="${this.Type}Id"]`).change();
+            }
         }
 
         $form.find('.rentalview').hide();
