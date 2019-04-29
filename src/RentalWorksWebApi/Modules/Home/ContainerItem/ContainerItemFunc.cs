@@ -8,7 +8,7 @@ namespace WebApi.Modules.Home.ContainerItem
 {
     public class EmptyContainerRequest
     {
-        public string ContainerItemId { get; set; }
+        public string ItemId { get; set; }
         public string DeleteAll { get; set; }
     }
 
@@ -43,7 +43,7 @@ namespace WebApi.Modules.Home.ContainerItem
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "emptycontainer", appConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@containerrentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContainerItemId);
+                qry.AddParameter("@containerrentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemId);
                 qry.AddParameter("@deleteall", SqlDbType.NVarChar, ParameterDirection.Input, request.DeleteAll);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 qry.AddParameter("@incontractid", SqlDbType.NVarChar, ParameterDirection.Output);

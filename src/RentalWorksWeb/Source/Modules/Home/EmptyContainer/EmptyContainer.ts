@@ -36,9 +36,9 @@ class EmptyContainer {
     //----------------------------------------------------------------------------------------------
     events($form) {
         // Populate Description when selecting container
-        $form.find('[data-datafield="ItemId"]').data('onchange', $tr => {
+        $form.find('[data-datafield="ContainerItemId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="ContainerDescription"]').attr('data-originalvalue'));
-            FwFormField.setValueByDataField($form, 'ContainerItemId', $tr.find('.field[data-browsedatafield="ContainerItemId"]').attr('data-originalvalue'));
+            FwFormField.setValueByDataField($form, 'ItemId', $tr.find('.field[data-browsedatafield="ItemId"]').attr('data-originalvalue'));
         });
 
         // Toggle checkbox warning text
@@ -49,11 +49,11 @@ class EmptyContainer {
         });
 
         $form.on('click', '.emptyContainer', e => {
-            const id = FwFormField.getValueByDataField($form, 'ContainerItemId');
+            const id = FwFormField.getValueByDataField($form, 'ItemId');
             const $responseMsg = $form.find('.response-msg');
-            const $containerField = $form.find('[data-datafield="ItemId"]');
+            const $containerField = $form.find('[data-datafield="ContainerItemId"]');
             const request: any = {};
-            request.ContainerItemId = id;
+            request.ItemId = id;
             request.DeleteAll = FwFormField.getValueByDataField($form, 'DeleteContainer');
             FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/emptycontainer`, request, FwServices.defaultTimeout,
                 response => {
@@ -96,13 +96,13 @@ class EmptyContainer {
       <div class="flexpage">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Container">
           <div class="flexrow" style="max-width:50%;">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" data-formbeforevalidate="beforeValidate" style="flex:1 1 175px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" data-formbeforevalidate="beforeValidate" style="flex:1 1 175px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
           </div>
 
           <!--Hidden field for storing ContainerItemId -->
           <div class="flexrow" style="display:none;">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContainerItemId" data-datafield="ContainerItemId" style="flex:1 1 250px;" data-enabled="false"></div>
+            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ItemId" data-datafield="ItemId" style="flex:1 1 250px;" data-enabled="false"></div>
           </div>
 
           <div class="flexrow">
