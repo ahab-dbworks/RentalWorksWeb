@@ -852,18 +852,21 @@ FwApplicationTree.clickEvents['{AD3FB369-5A40-4984-8A65-46E683851E52}'] = e => {
     //add sortable handle
     const $tdselectrow = $grid.find('tbody td.tdselectrow');
     $tdselectrow.find('div.divselectrow').hide();
-    $tdselectrow
-        .append('<i style="vertical-align:-webkit-baseline-middle;" class="material-icons">drag_handle</i>')
-        .css('text-align', 'center');
-
+    if ($tdselectrow.find('.drag-handle').length === 0) {
+        $tdselectrow
+            .append('<i style="vertical-align:-webkit-baseline-middle;" class="material-icons drag-handle">drag_handle</i>')
+            .css('text-align', 'center');
+    } else {
+        $tdselectrow.find('.drag-handle').show();
+    }
 
     //adds button to apply changes in sorting
-    const $applyChangesBtn = jQuery('<div data-type="button" class="fwformcontrol apply-changes"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i>Apply Changes</div>');
+    const $applyChangesBtn = jQuery('<div data-type="button" class="fwformcontrol sorting"><i class="material-icons" style="position:relative; top:5px;">&#xE161;</i>Apply</div>');
     const $gridMenu = $grid.find('[data-control="FwMenu"]');
-    const orderItemIds: any = [];
     $applyChangesBtn.on('click', e => {
         try {
             const $trs = $grid.find('tbody  tr');
+            const orderItemIds: any = [];
             for (let i = 0; i < $trs.length; i++) {
                 const $tr = jQuery($trs[i]);
                 const id = $tr.find('[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
@@ -877,7 +880,9 @@ FwApplicationTree.clickEvents['{AD3FB369-5A40-4984-8A65-46E683851E52}'] = e => {
             //FwAppData.apiMethod(true, 'POST', `api/v1/`, request, FwServices.defaultTimeout,
             //    response => {
             //        FwBrowse.search($grid);
-            //         $gridMenu.find('.apply-changes').hide();
+            //        $gridMenu.find('.sorting').hide();
+            //   $tdselectrow.find('.drag-handle').hide();
+            //$tdselectrow.find('div.divselectrow').show();
             // $gridMenu.find('.buttonbar').show();
             //    },
             //    ex => FwFunc.showError(ex), $grid);
@@ -886,16 +891,28 @@ FwApplicationTree.clickEvents['{AD3FB369-5A40-4984-8A65-46E683851E52}'] = e => {
         }
     });
 
+    //cancel sorting button
+    const $cancelBtn = jQuery('<div data-type="button" class="fwformcontrol sorting" style="margin-left:10px;">Cancel</div>');
+    $cancelBtn.on('click', e => {
+        //refresh grid to reset back to original order?
+        $gridMenu.find('.sorting').hide();
+        $tdselectrow.find('.drag-handle').hide();
+        $tdselectrow.find('div.divselectrow').show();
+        $gridMenu.find('.buttonbar').show();
+    });
+
     //toggle displayed buttons
     $gridMenu.find('.buttonbar').hide();
-    if ($gridMenu.find('.apply-changes').length < 1) {
-        $gridMenu.append($applyChangesBtn);
+    if ($gridMenu.find('.sorting').length < 1) {
+        $gridMenu.append($applyChangesBtn, $cancelBtn);
     } else {
-        $gridMenu.find('.apply-changes').show();
+        $gridMenu.find('.sorting').show();
     }
 
     //initialize Sortable
-    Sortable.create($grid.find('tbody').get(0), {});
+    Sortable.create($grid.find('tbody').get(0), {
+        handle: 'i.drag-handle'
+    });
 
     //closes menu
     jQuery(document).trigger('click');
