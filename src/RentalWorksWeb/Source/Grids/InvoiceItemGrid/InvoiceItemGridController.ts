@@ -6,6 +6,14 @@
         const $form = $control.closest('.fwform');
         const $grid = $tr.parents('[data-grid="InvoiceItemGrid"]');
 
+        if ($grid.hasClass('R')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'R' });
+        } else if ($grid.hasClass('S')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'S' });
+        } else if ($grid.hasClass('P')) {
+            FwBrowse.setFieldValue($grid, $tr, 'RecType', { value: 'P' });
+        }
+
         function beforeValidate($browse, $grid, request, datafield, $tr) {
             const validationName = request.module;
 
@@ -16,7 +24,30 @@
                 }
             }
         }
+
     }
+        beforeValidateItem = function ($browse, $grid, request, datafield, $tr) {
+            const recType = $tr.find('div[data-browsedatafield="RecType"] input.value').val();
+            if (recType !== null) {
+                switch (recType) {
+                    case 'R':
+                        request.uniqueIds = {
+                            AvailFor: 'R'
+                        };
+                        break;
+                    case 'S':
+                        request.uniqueIds = {
+                            AvailFor: 'S'
+                        };
+                        break;
+                    case 'P':
+                        request.uniqueIds = {
+                            AvailFor: 'P'
+                        };
+                        break;
+                }
+            }
+        };
 
     generateRow($control, $generatedtr) {
         const $form = $control.closest('.fwform');

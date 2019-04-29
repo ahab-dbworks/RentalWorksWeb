@@ -367,12 +367,13 @@ class Invoice {
         const $invoiceItemGridAdjustmentRental = $form.find('.rentaladjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridAdjustmentRental.empty().append($invoiceItemGridAdjustmentRentalControl);
+        $invoiceItemGridAdjustmentRental.addClass('R');
 
         $invoiceItemGridAdjustmentRentalControl.data('ondatabind', request => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'A',
-                AvailableFor: 'R',
+                AvailFor: 'R',
                 pagesize: 15
             };
             request.totalfields = itemAdjustmentTotalFields;
@@ -380,7 +381,7 @@ class Invoice {
         $invoiceItemGridAdjustmentRentalControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'A';
-            request.AvailableFor = 'R';
+            request.AvailFor = 'R';
             request.pagesize = 15;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentRentalControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentRentalControl, dt) => {
@@ -393,20 +394,20 @@ class Invoice {
         const $invoiceItemGridAdjustmentSales = $form.find('.salesadjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridAdjustmentSales.empty().append($invoiceItemGridAdjustmentSalesControl);
-
+        $invoiceItemGridAdjustmentSales.addClass('S');
         $invoiceItemGridAdjustmentSalesControl.data('ondatabind', request => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 pagesize: 15,
                 RecType: 'A',
-                AvailableFor: 'S'
+                AvailFor: 'S'
             };
             request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentSalesControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'A';
-            request.AvailableFor = 'S';
+            request.AvailFor = 'S';
             request.pagesize = 15;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentSalesControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentSalesControl, dt) => {
@@ -419,20 +420,20 @@ class Invoice {
         const $invoiceItemGridAdjustmentParts = $form.find('.partsadjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentPartsControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
         $invoiceItemGridAdjustmentParts.empty().append($invoiceItemGridAdjustmentPartsControl);
-
+        $invoiceItemGridAdjustmentParts.addClass('P')
         $invoiceItemGridAdjustmentPartsControl.data('ondatabind', request => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 pagesize: 15,
                 RecType: 'A',
-                AvailableFor: 'P'
+                AvailFor: 'P'
             };
             request.totalfields = itemAdjustmentTotalFields;
         });
         $invoiceItemGridAdjustmentPartsControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'A';
-            request.AvailableFor = 'P';
+            request.AvailFor = 'P';
             request.pagesize = 15;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentPartsControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentPartsControl, dt) => {
