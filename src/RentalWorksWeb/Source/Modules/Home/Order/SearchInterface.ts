@@ -38,8 +38,7 @@ class SearchInterface {
     <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnOrder" style="display:none"></div>
     <div id="inventoryView" style="display:none"></div>
     <div id="type" style="display:none">${type}</div>
-    <div class="fwmenu default">
-    </div>
+    <div class="fwmenu default"></div>
     <div class="flexrow" style="max-width:1650px;">
     <div data-type="button" class="fwformcontrol expandcategorycolumns" style="display:none;">&#8646; Expand</div>
       <div class="flexrow" style="min-width:100%;">
@@ -169,38 +168,38 @@ class SearchInterface {
             { value: 'PARTNO', text: 'Part No.' }], true);
 
         //Build preview tab
-        previewhtml = [];
-        previewhtml.push('<div id="previewHtml" class="fwform fwcontrol">');
-        previewhtml.push('      <div class="fwmenu default" style="width:100%;height:7%; padding-left: 20px;"></div>');
-        previewhtml.push('      <div class="formrow" style="width:100%; position:absolute;">');
-        previewhtml.push('          <div>');
-        previewhtml.push('              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        previewhtml.push('                  <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>');
-        previewhtml.push('              </div>');
         switch (type) {
             case 'Transfer':
-                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:135px; float:right; margin:15px;">Add to Transfer</div>');
+                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:135px;">Add to Transfer</div>`;
                 break;
             case 'Order':
-                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Order</div>');
+                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:120px;">Add to Order</div>`;
                 break;
             case 'Quote':
-                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:120px; float:right; margin:15px;">Add to Quote</div>');
+                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:120px;">Add to Quote</div>`;
                 break;
             case 'PurchaseOrder':
-                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:195px; float:right; margin-right:6px;">Add to Purchase Order</div>');
+                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:195px;">Add to Purchase Order</div>`;
                 break;
             case 'Template':
-                previewhtml.push('      <div data-type="button" class="fwformcontrol addToOrder" style="width:140px; float:right; margin-right:6px;">Add to Template</div>');
+                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:140px;">Add to Template</div>`;
                 break;
         };
-        previewhtml.push('          </div>');
-        previewhtml.push('     </div>');
-        previewhtml.push('</div>');
 
-        $previewform = previewhtml.join('');
+        previewhtml = `<div id="previewHtml" class="fwform fwcontrol" style="overflow: scroll; height:-webkit-fill-available;">
+                            <div class="fwmenu default"></div>
+                            <div class="flexrow" style="max-width:1800px;">
+                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                   <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>
+                                </div>
+                            </div>
+                            <div class="flexrow" style="max-width:1800px; justify-content: flex-end; margin-bottom:55px;">
+                           ${previewhtml}
+                            </div>
+                       </div>`;
+        $previewform = jQuery(previewhtml);
         newtabids2 = FwTabs.addTab($moduleTabControl, 'Preview', false, 'FORM', false);
-        $moduleTabControl.find('#' + newtabids2.tabpageid).append(jQuery($previewform));
+        $moduleTabControl.find('#' + newtabids2.tabpageid).append($previewform);
         FwTabs.init($moduleTabControl);
         $previewTabControl = jQuery('#previewHtml');
         FwConfirmation.addControls($previewTabControl, $previewform);
