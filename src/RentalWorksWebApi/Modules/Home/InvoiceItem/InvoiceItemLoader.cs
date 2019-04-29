@@ -214,7 +214,7 @@ namespace WebApi.Modules.Home.InvoiceItem
             select.AddParameter("@invoiceid", invoiceId);
             select.AddParameter("@rectype", recType);
 
-            addFilterToSelect("AvailableFor", "availfor", select, request);
+            addFilterToSelect("AvailFor", "availfor", select, request);
 
         }
         //------------------------------------------------------------------------------------ 
