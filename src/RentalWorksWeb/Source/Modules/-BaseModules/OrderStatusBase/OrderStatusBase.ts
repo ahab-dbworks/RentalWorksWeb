@@ -402,29 +402,7 @@
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
-        //const validationName = request.module;
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-
-        //switch (validationName) {
-        //    case 'OrderValidation':
-        //        request.miscfields = {
-        //            Staging: true,
-        //            StagingWarehouseId: warehouse.warehouseid
-        //        };
-        //        break;
-        //    case 'TransferOrderValidation':
-        //        request.miscfields = {
-        //            TransferOut: true,
-        //            TransferOutWarehouseId: warehouse.warehouseid
-        //        };
-        //        break;
-        //    case 'ContainerValidation':
-        //        request.uniqueids = {
-        //            WarehouseId: warehouse.warehouseid
-        //        };
-        //        break;
-        //};
-
         request.uniqueids = {
             WarehouseId: warehouse.warehouseid
         };
