@@ -254,6 +254,9 @@
         public const string INVENTORY_RANK_F = "F";
         public const string INVENTORY_RANK_G = "G";
 
+        public const string ORDERTRAN_ITEMSTATUS_STAGED = "S";
+        public const string ORDERTRAN_ITEMSTATUS_OUT = "O";
+        public const string ORDERTRAN_ITEMSTATUS_IN = "I";
 
 
 
