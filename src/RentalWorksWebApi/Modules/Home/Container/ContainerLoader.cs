@@ -20,6 +20,9 @@ namespace WebApi.Modules.Home.Container
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
+        public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "scannablemasterid", modeltype: FwDataTypes.Text)]
         public string ScannableInventoryId { get; set; }

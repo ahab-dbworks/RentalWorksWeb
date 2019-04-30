@@ -61,8 +61,8 @@ namespace WebApi.Modules.Home.ContainerItem
                 //qry.AddParameter("@fromcheckin", SqlDbType.NVarChar, ParameterDirection.Input, "F");
                 qry.AddParameter("@containeritemid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
-                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.ContainerItemId = qry.GetParameter("@containeritemid").ToString();
                 response.success = true;// (qry.GetParameter("@status").ToInt32() == 0);

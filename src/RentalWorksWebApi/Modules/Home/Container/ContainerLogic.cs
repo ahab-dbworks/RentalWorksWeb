@@ -1,13 +1,12 @@
-using WebApi.Logic;
 using FwStandard.AppManager;
-using WebApi.Modules.Home.DealOrder;
-using WebApi.Modules.Home.DealOrderDetail;
-using WebLibrary;
 using Newtonsoft.Json;
+using WebApi.Logic;
+using WebApi.Modules.Home.DealOrder;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Container
 {
-    [FwLogic(Id: "xxxxxxxxxxxx")]
+    [FwLogic(Id: "qAUJdNPdSkY")]
     public class ContainerLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
@@ -23,27 +22,30 @@ namespace WebApi.Modules.Home.Container
             Rental = true;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "xxxxxxxxx", IsPrimaryKey: true)]
+        [FwLogicProperty(Id: "Y2jouyImAxg", IsPrimaryKey: true)]
         public string ContainerId { get { return container.OrderId; } set { container.OrderId = value; } }
 
         [JsonIgnore]
-        [FwLogicProperty(Id: "xxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "8V9JG08Gjem")]
         public string Type { get { return container.Type; } set { container.Type = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxx", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "ffbePi5G9uE", IsRecordTitle: true)]
         public string Description { get { return container.Description; } set { container.Description = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "hCtO56IR4Z8")]
         public bool? Rental { get { return container.Rental; } set { container.Rental = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxxx")]
+        [FwLogicProperty(Id: "Q8hbK6XYiAL")]
+        public string ICode { get; set; }
+
+        [FwLogicProperty(Id: "LfeuHr6vWzY")]
         public string ScannableInventoryId { get { return container.ScannableInventoryId; } set { container.ScannableInventoryId = value; } }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxxxxx", IsReadOnly: true)]
+        [FwLogicProperty(Id: "wjtSnr6y6Ch", IsReadOnly: true)]
         public string ScannableICode { get; set; }
 
-        [FwLogicProperty(Id: "xxxxxxxxxxx")]
-        public string DateStamp { get { return container.DateStamp; } set { container.DateStamp = value; container.DateStamp = value; } }
+        [FwLogicProperty(Id: "IvjngsRpzu8")]
+        public string DateStamp { get { return container.DateStamp; } set { container.DateStamp = value; } }
         //------------------------------------------------------------------------------------
 
 
