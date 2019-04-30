@@ -61,7 +61,7 @@ class OrderBase {
                     hiddenCombined: hiddenCombined
                 }
                 self.columnLogic($form, self.CachedOrderTypes[orderType]);
-                self.afterLoad($form);
+                //self.afterLoad($form);
             }, null, null);
         }
 
@@ -87,15 +87,15 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     columnLogic($form, data) {
         let $rentalGrid     = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-            $salesGrid      = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-            $laborGrid      = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-            $miscGrid       = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
-            $usedSaleGrid   = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'),
-            $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]'),
-            $combinedGrid   = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-            rate            = FwFormField.getValueByDataField($form, 'RateType');
+            //$salesGrid      = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
+            //$laborGrid      = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
+            //$miscGrid       = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
+            //$usedSaleGrid   = $form.find('.usedsalegrid [data-name="OrderItemGrid"]'),
+            $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
+            //$combinedGrid   = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
+            //rate            = FwFormField.getValueByDataField($form, 'RateType');
 
-        $form.find('[data-datafield="CombineActivity"] input').val(data.CombineActivityTabs);
+        //$form.find('[data-datafield="CombineActivity"] input').val(data.CombineActivityTabs);
 
         //if (data.CombineActivityTabs === true) {
         //    $form.find('.notcombined').css('display', 'none');
@@ -112,133 +112,29 @@ class OrderBase {
         for (var i = 0; i < data.hiddenRentals.length; i++) {
             jQuery($rentalGrid.find('[data-mappedfield="' + data.hiddenRentals[i] + '"]')).parent().hide();
         }
-        for (var j = 0; j < data.hiddenSales.length; j++) {
-            jQuery($salesGrid.find('[data-mappedfield="' + data.hiddenSales[j] + '"]')).parent().hide();
-        }
-        for (var k = 0; k < data.hiddenLabor.length; k++) {
-            jQuery($laborGrid.find('[data-mappedfield="' + data.hiddenLabor[k] + '"]')).parent().hide();
-        }
-        for (var l = 0; l < data.hiddenMisc.length; l++) {
-            jQuery($miscGrid.find('[data-mappedfield="' + data.hiddenMisc[l] + '"]')).parent().hide();
-        }
-        for (var l = 0; l < data.hiddenUsedSale.length; l++) {
-            jQuery($usedSaleGrid.find('[data-mappedfield="' + data.hiddenUsedSale[l] + '"]')).parent().hide();
-        }
+        //for (var j = 0; j < data.hiddenSales.length; j++) {
+        //    jQuery($salesGrid.find('[data-mappedfield="' + data.hiddenSales[j] + '"]')).parent().hide();
+        //}
+        //for (var k = 0; k < data.hiddenLabor.length; k++) {
+        //    jQuery($laborGrid.find('[data-mappedfield="' + data.hiddenLabor[k] + '"]')).parent().hide();
+        //}
+        //for (var l = 0; l < data.hiddenMisc.length; l++) {
+        //    jQuery($miscGrid.find('[data-mappedfield="' + data.hiddenMisc[l] + '"]')).parent().hide();
+        //}
+        //for (var l = 0; l < data.hiddenUsedSale.length; l++) {
+        //    jQuery($usedSaleGrid.find('[data-mappedfield="' + data.hiddenUsedSale[l] + '"]')).parent().hide();
+        //}
         for (let i = 0; i < data.hiddenLossDamage.length; i++) {
             jQuery($lossDamageGrid.find(`[data-mappedfield="${data.hiddenLossDamage[i]}"]`)).parent().hide();
         }
-        for (let i = 0; i < data.hiddenCombined.length; i++) {
-            jQuery($combinedGrid.find('[data-mappedfield="' + data.hiddenCombined[i] + '"]')).parent().hide();
-        }
-        if (data.hiddenRentals.indexOf('WeeklyExtended') === -1 && rate === '3WEEK') {
-            $rentalGrid.find('.3weekextended').parent().show();
-        } else if (data.hiddenRentals.indexOf('WeeklyExtended') === -1 && rate !== '3WEEK') {
-            $rentalGrid.find('.weekextended').parent().show();
-        }
-    }
-    //----------------------------------------------------------------------------------------------
-    activityCheckboxEvents($form: any, mode: string) {
-        let rentalTab     = $form.find('.rentaltab'),
-            lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]'),
-            usedSaleTab   = $form.find('[data-type="tab"][data-caption="Used Sale"]');
-
-        $form.find('[data-datafield="Rental"] input').on('change', e => {
-            if (mode == "NEW") {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    rentalTab.show();
-                } else {
-                    rentalTab.hide();
-                }
-            } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
-                    if (jQuery(e.currentTarget).prop('checked')) {
-                        rentalTab.show();
-                    } else {
-                        rentalTab.hide();
-                    }
-                }
-            }
-        });
-
-        $form.find('[data-datafield="LossAndDamage"] input').on('change', e => {
-            if (jQuery(e.currentTarget).prop('checked')) {
-                lossDamageTab.show();
-                FwFormField.disable($form.find('[data-datafield="Rental"]'));
-                FwFormField.disable($form.find('[data-datafield="Sales"]'));
-                FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
-            } else {
-                lossDamageTab.hide();
-                console.log('in change b4: ', $form.data('antiLD'))
-                //if ()
-                FwFormField.enable($form.find('[data-datafield="Rental"]'));
-                FwFormField.enable($form.find('[data-datafield="Sales"]'));
-                FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
-                $form.data('antiLD', null)
-                console.log('inchange after null: ', $form.data('antiLD'))
-            }
-        });
-        // Determine previous values for enabled / disabled checkboxes
-        $form.find('[data-datafield="LossAndDamage"]').click(e => {
-            let LossAndDamageVal = FwFormField.getValueByDataField($form, 'LossAndDamage')
-            console.log('losdamageval', LossAndDamageVal)
-            if (LossAndDamageVal === false) {
-                let salesEnabled = $form.find('[data-datafield="Sales"]').attr('data-enabled');
-                let rentalEnabled = $form.find('[data-datafield="Rental"]').attr('data-enabled');
-                let rentalSalesEnabled = $form.find('[data-datafield="RentalSale"]').attr('data-enabled');
-                $form.data('antiLD', {
-                    "salesEnabled": salesEnabled,
-                    "rentalEnabled": rentalEnabled,
-                    "rentalSalesEnabled": rentalSalesEnabled
-                });
-                console.log('checkbox val in click: ', $form.data('antiLD'))
-            }
-        });
-
-        $form.find('[data-datafield="RentalSale"] input').on('change', e => {
-            if (mode == "NEW") {
-                if (jQuery(e.currentTarget).prop('checked')) {
-                    usedSaleTab.show();
-                    FwFormField.disable($form.find('[data-datafield="Rental"]'));
-                } else {
-                    usedSaleTab.hide();
-                    FwFormField.enable($form.find('[data-datafield="Rental"]'));
-                }
-            } else {
-                let combineActivity = $form.find('[data-datafield="CombineActivity"] input').val();
-                if (combineActivity == 'false') {
-                    if (jQuery(e.currentTarget).prop('checked')) {
-                        usedSaleTab.show();
-                        FwFormField.disable($form.find('[data-datafield="Rental"]'));
-                    } else {
-                        usedSaleTab.hide();
-                        FwFormField.enable($form.find('[data-datafield="Rental"]'));
-                    }
-                }
-            }
-        });
-        // Loss and Damage disable against Rental, Sales, Used Sale
-        // Also in AfterLoad
-        $form.find('.anti-LD').on('change', e => {
-            let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
-            if (rentalVal === true) {
-                FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
-            } else if (rentalVal === false) {
-                FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-            }
-        });
-    }
-    //----------------------------------------------------------------------------------------------
-    afterLoad($form) {
-        // show / hide tabs
-        if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
-        // LD Disable checkbox in Order form
-        let rentalVal = FwFormField.getValueByDataField($form, 'Rental');
-        if (rentalVal === true) {
-            FwFormField.disable($form.find('[data-datafield="LossAndDamage"]'));
-        } else {
-            FwFormField.enable($form.find('[data-datafield="LossAndDamage"]'));
-        }
+        //for (let i = 0; i < data.hiddenCombined.length; i++) {
+        //    jQuery($combinedGrid.find('[data-mappedfield="' + data.hiddenCombined[i] + '"]')).parent().hide();
+        //}
+        //if (data.hiddenRentals.indexOf('WeeklyExtended') === -1 && rate === '3WEEK') {
+        //    $rentalGrid.find('.3weekextended').parent().show();
+        //} else if (data.hiddenRentals.indexOf('WeeklyExtended') === -1 && rate !== '3WEEK') {
+        //    $rentalGrid.find('.weekextended').parent().show();
+        //}
     }
     //----------------------------------------------------------------------------------------------
 }

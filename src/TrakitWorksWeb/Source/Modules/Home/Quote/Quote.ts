@@ -114,9 +114,9 @@ class Quote extends OrderBase {
         $form     = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            var today = FwFunc.getDate();
-            var warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-            var office = JSON.parse(sessionStorage.getItem('location'));
+            var today      = FwFunc.getDate();
+            var warehouse  = JSON.parse(sessionStorage.getItem('warehouse'));
+            var office     = JSON.parse(sessionStorage.getItem('location'));
             var department = JSON.parse(sessionStorage.getItem('department'));
 
             FwFormField.setValueByDataField($form, 'PickDate', today);
@@ -124,27 +124,19 @@ class Quote extends OrderBase {
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             FwFormField.setValueByDataField($form, 'VersionNumber', 1);
 
-            $form.find('div[data-datafield="DealId"]').attr('data-required', 'false');
-            $form.find('div[data-datafield="PickTime"]').attr('data-required', 'false');
-
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-
-            $form.find('div[data-datafield="Rental"] input').prop('checked', true);
-
+            FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
         }
-
-        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
 
         if (typeof parentModuleInfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
         }
 
         this.events($form);
-        this.activityCheckboxEvents($form, mode);
+        //this.activityCheckboxEvents($form, mode);
         //if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
             //this.renderFrames($form, parentModuleInfo.QuoteId);
             //this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
@@ -249,13 +241,9 @@ class Quote extends OrderBase {
                     })
             }
         }
-
-        jQuery($form.find('.rentalgrid .valtype')).attr('data-validationname', 'RentalInventoryValidation');
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        super.afterLoad($form);
-        let pending    = $form.find('div.fwformfield[data-datafield="PendingPo"] input').prop('checked');
         let status      = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes    = FwFormField.getValueByDataField($form, 'HasNotes');
         let rentalTab   = $form.find('[data-type="tab"][data-caption="Rental"]');
@@ -272,17 +260,10 @@ class Quote extends OrderBase {
             FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
         }
 
-        var $orderStatusHistoryGrid = $form.find('[data-name="OrderStatusHistoryGrid"]');
-        var $orderItemGridRental    = $form.find('[data-name="OrderItemGrid"]');
-        var $orderNoteGrid          = $form.find('[data-name="OrderNoteGrid"]');
-
         //hide subworksheet and add LD items
+        var $orderItemGridRental    = $form.find('[data-name="OrderItemGrid"]');
         FwBrowse.search($orderItemGridRental);
         $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-
-        //if (FwFormField.getValueByDataField($form, 'HasRentalItem')) {
-        //    FwFormField.disable(FwFormField.getDataField($form, 'Rental'));
-        //}
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
