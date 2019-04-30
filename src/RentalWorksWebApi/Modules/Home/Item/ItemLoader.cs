@@ -43,7 +43,7 @@ namespace WebApi.Modules.Home.Item
         public string ContainerStatusDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "containeritemid", modeltype: FwDataTypes.Text)]
-        public string ContainerItemId { get; set; }
+        public virtual string ContainerItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? FixedAsset { get; set; }

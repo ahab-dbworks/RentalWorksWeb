@@ -11,7 +11,7 @@ namespace WebApi.Modules.Home.ContainerItem
         public override string ItemId { get; set; } 
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "containeritemid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
-        public string ContainerItemId { get; set; }
+        public override string ContainerItemId { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }
