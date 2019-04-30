@@ -148,5 +148,26 @@ namespace WebApi.Modules.Home.OrderItem
             }
         }
         //------------------------------------------------------------------------------------ 
+
+        // POST api/v1/orderitem/sort
+        [HttpPost("sort")]
+        [FwControllerMethod(Id: "4enRLJuJAEjeO")]
+        public async Task<ActionResult<SortOrderItemsResponse>> SortOrderItemsAsync([FromBody]SortOrderItemsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                return await OrderItemFunc.SortOrderItems(AppConfig, UserSession, request);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+
     }
 }
