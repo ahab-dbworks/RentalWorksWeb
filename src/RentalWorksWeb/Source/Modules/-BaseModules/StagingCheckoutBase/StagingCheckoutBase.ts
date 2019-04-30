@@ -724,7 +724,7 @@
         FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
     };
     //----------------------------------------------------------------------------------------------
-    events = ($form: any) => {
+    events($form: any): void {
         const errorSound = new Audio(this.errorSoundFileName);
         const successSound = new Audio(this.successSoundFileName);
         const errorMsg = $form.find('.error-msg:not(.qty)');
@@ -1032,9 +1032,16 @@
                     TransferOutWarehouseId: warehouse.warehouseid
                 };
                 break;
-            case 'ContainerValidation':
+            case 'ContainerItemValidation':
                 request.uniqueids = {
                     WarehouseId: warehouse.warehouseid
+                };
+                break;
+            case 'ContainerValidation':
+                //from the fill container confirmation
+                const inventoryId = FwFormField.getValueByDataField($grid, 'InventoryId');
+                request.uniqueids = {
+                    ScannableInventoryId: inventoryId
                 };
                 break;
         };
@@ -1171,7 +1178,9 @@
                 break;
             case 'FillContainer':
                 tabCaption = this.caption;
-                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
+                //typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="BarCode" style="flex:0 1 175px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="display:none;"></div>`;
                 statusBtnCaption = 'Container Status';
                 createBtnCaption = 'Fill Container';
                 break;
