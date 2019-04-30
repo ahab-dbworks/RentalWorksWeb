@@ -71,12 +71,6 @@ class POApprover {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="PoApproverId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
         var $limit = $form.find('div.fwformfield[data-datafield="HasLimit"] input').prop('checked');
 

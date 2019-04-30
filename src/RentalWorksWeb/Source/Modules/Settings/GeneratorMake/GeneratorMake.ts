@@ -61,12 +61,6 @@ class GeneratorMake {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="GeneratorMakeId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     renderGrids($form: any) {
         const $generatorMakeModelGrid = $form.find('div[data-grid="GeneratorMakeModelGrid"]');
         const $generatorMakeModelGridControl = FwBrowse.loadGridFromTemplate('GeneratorMakeModelGrid');

@@ -124,12 +124,6 @@ class SalesCategory {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="SalesCategoryId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
         const $subCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($subCategoryGrid);

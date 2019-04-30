@@ -64,12 +64,6 @@ class RwBuilding {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="BuildingId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
         $form.find('[data-name="FloorGrid"]').data('onselectedrowchanged', ($control: JQuery, $tr: JQuery) => {
             try {

@@ -61,12 +61,6 @@ class PresentationLayer {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="PresentationLayerId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     renderGrids($form: any) {
         const $presentationLayerActivityGrid = $form.find('div[data-grid="PresentationLayerActivityGrid"]');
         const $presentationLayerActivityGridControl = FwBrowse.loadGridFromTemplate('PresentationLayerActivityGrid');

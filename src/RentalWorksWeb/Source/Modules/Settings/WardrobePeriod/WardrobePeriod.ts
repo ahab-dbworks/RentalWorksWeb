@@ -61,12 +61,6 @@ class WardrobePeriod {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="WardrobePeriodId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
     }
 }

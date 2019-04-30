@@ -51,10 +51,5 @@ class InventoryType {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        const uniqueid = $form.find('div.fwformfield[data-datafield="InventoryTypeId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
 }
-
 var InventoryTypeController = new InventoryType();

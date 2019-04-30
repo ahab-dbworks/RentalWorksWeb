@@ -94,11 +94,6 @@ class Vendor {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //---------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        const uniqueid = FwFormField.getValueByDataField($form, 'VendorId');
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //---------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $companyTaxOptionGrid = $form.find('[data-name="CompanyTaxOptionGrid"]');
         FwBrowse.search($companyTaxOptionGrid);

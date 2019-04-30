@@ -61,12 +61,6 @@ class VehicleMake {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="VehicleMakeId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     renderGrids($form: any) {
         const $vehicleMakeModelGrid = $form.find('div[data-grid="VehicleMakeModelGrid"]');
         const $vehicleMakeModelGridControl = FwBrowse.loadGridFromTemplate('VehicleMakeModelGrid');

@@ -126,12 +126,6 @@ class Widget {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="WidgetId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //----------------------------------------------------------------------------------------------
     renderGrids($form) {
         const $widgetGroupGrid = $form.find('div[data-grid="WidgetGroupGrid"]');
         const $widgetGroupGridControl = FwBrowse.loadGridFromTemplate('WidgetGroupGrid');

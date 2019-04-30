@@ -74,12 +74,6 @@ class MarketSegment {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="MarketSegmentId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
         const $marketSegmentJobGrid = $form.find('[data-name="MarketSegmentJobGrid"]');
         FwBrowse.search($marketSegmentJobGrid);

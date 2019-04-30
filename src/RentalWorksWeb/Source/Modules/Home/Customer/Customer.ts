@@ -223,11 +223,6 @@ class Customer {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid: string = FwFormField.getValueByDataField($form, 'CustomerId');
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         // ----------
         var nameCustomerResaleGrid: string = 'CompanyResaleGrid';

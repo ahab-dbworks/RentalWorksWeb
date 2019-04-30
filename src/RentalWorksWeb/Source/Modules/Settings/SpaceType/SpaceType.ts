@@ -75,12 +75,6 @@ class SpaceType {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="SpaceTypeId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     renderGrids($form: any) {
         const $spaceWarehouseRateGrid = $form.find('div[data-grid="SpaceWarehouseRateGrid"]');
         const $spaceWarehouseRateGridControl = FwBrowse.loadGridFromTemplate('SpaceWarehouseRateGrid');

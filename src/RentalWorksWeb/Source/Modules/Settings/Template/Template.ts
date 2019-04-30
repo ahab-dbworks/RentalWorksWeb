@@ -171,11 +171,6 @@
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        const uniqueid = $form.find('div.fwformfield[data-datafield="TemplateId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         var $orderItemGridRental;
         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');

@@ -99,12 +99,6 @@ class OrderType {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="OrderTypeId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     renderGrids($form: any) {
         // ----------
         const $orderTypeInvoiceExportGrid = $form.find('div[data-grid="OrderTypeInvoiceExportGrid"]');

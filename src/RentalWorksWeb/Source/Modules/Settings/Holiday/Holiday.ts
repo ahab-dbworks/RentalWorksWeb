@@ -140,12 +140,6 @@
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="HolidayId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
         var type = $form.find('[data-datafield="Type"] .fwformfield-value:checked').val();
         if (type === 'F') {

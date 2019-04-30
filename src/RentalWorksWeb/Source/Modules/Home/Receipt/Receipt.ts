@@ -185,11 +185,6 @@ class Receipt {
         FwFormField.disable($form.find('div[data-datafield="CustomerId"]'));
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any): void {
-        const uniqueid: string = FwFormField.getValueByDataField($form, 'ReceiptId');
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
         const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');

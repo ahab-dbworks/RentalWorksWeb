@@ -99,12 +99,6 @@ class RwMiscRate {
     }
 
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="RateId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const $rateLocationTaxGrid = $form.find('div[data-grid="RateLocationTaxGrid"]');

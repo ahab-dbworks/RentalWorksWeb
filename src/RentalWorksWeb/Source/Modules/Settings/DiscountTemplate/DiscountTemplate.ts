@@ -127,12 +127,6 @@
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="DiscountTemplateId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
         const $discountItemControl = $form.find('[data-name="DiscountItemGrid"]');
         FwBrowse.search($discountItemControl);

@@ -74,12 +74,6 @@ class FiscalYear {
         FwModule.saveForm(this.Module, $form, parameters);
     }
 
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="FiscalYearId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-
     afterLoad($form: any) {
         const $fiscalYearGrid = $form.find('[data-name="FiscalMonthGrid"]');
         FwBrowse.search($fiscalYearGrid);

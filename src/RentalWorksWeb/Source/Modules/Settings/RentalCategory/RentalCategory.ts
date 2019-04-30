@@ -124,11 +124,6 @@ class RentalCategory {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        const uniqueid = $form.find('div.fwformfield[data-datafield="RentalCategoryId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $laborCategoryGrid = $form.find('[data-name="SubCategoryGrid"]');
         FwBrowse.search($laborCategoryGrid);

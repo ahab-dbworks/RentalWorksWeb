@@ -66,12 +66,6 @@
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="CrewId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
         const $crewPositionGrid = $form.find('div[data-grid="CrewPositionGrid"]');
         const $crewPositionGridControl = FwBrowse.loadGridFromTemplate('CrewPositionGrid');
