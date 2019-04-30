@@ -31,6 +31,11 @@ namespace TrakitWorksWeb.Source
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/account/getauthtoken", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) {
                         Service.GetAuthToken(request, response, session); }
+                ),
+                new FwJsonRequestAction(
+                    roles: new string[]{UserRoles.Everyone},
+                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/session/updatelocation", applicationPath)); },
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { Service.UpdateLocation(request, response, session); }
                 )
             };
             return actions;

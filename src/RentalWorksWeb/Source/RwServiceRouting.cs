@@ -30,6 +30,11 @@ namespace Web.Source
                     roles: new string[]{RwUserRoles.Everyone},
                     isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/account/getauthtoken", applicationPath)); },
                     onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.GetAuthToken(request, response, session); }
+                ),
+                new FwJsonRequestAction(
+                    roles: new string[]{RwUserRoles.Everyone},
+                    isMatch: delegate(string requestPath, string applicationPath) { return Regex.IsMatch(requestPath, GetRegexString("/session/updatelocation", applicationPath)); },
+                    onMatch: delegate(dynamic request, dynamic response, dynamic session) { RwService.UpdateLocation(request, response, session); }
                 )
             };
             return actions;

@@ -65,5 +65,23 @@ namespace Web.Source
             response.site.name = site.Name;
         }
         //---------------------------------------------------------------------------------------------
+        public static void UpdateLocation(dynamic request, dynamic response, dynamic session)
+        {
+            FormsAuthenticationTicket token;
+            dynamic authTokenData;
+
+            token = AccountService.Current.GetAuthToken(request.authToken);
+            authTokenData = AccountService.Current.GetAuthTokenData(token.UserData);
+
+            authTokenData.webUser.locationid = FwCryptography.AjaxDecrypt(request.location);
+            authTokenData.webUser.warehouseid = FwCryptography.AjaxDecrypt(request.warehouse);
+
+            response.authToken = AccountService.Current.GetAuthToken(token.Name, authTokenData);
+            response.location = RwAppData.GetLocationInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.location));
+            response.warehouse = RwAppData.GetWarehouseInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.warehouse));
+            response.department = RwAppData.GetDepartmentInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.department));
+            response.webusersid = RwAppData.GetUserInfo(FwSqlConnection.RentalWorks, FwCryptography.AjaxDecrypt(request.userid));
+        }
+        //---------------------------------------------------------------------------------------------
     }
 }
