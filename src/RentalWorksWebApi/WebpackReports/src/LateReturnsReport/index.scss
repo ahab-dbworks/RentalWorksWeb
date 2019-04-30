@@ -3,14 +3,6 @@
         background-color: #DCDCDC;
     }
 
-    td:after {
-        content: attr(data-value);
-    }
-
-    td {
-        padding: 3px;
-    }
-
     .order-header {
         font-weight: bold;
         border-bottom: 1px solid #000000;

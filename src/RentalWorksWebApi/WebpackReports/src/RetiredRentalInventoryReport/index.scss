@@ -1,13 +1,11 @@
 ﻿table {
-    thead.mainHeader {
+    thead.main-header {
         th {
             border-top: 2px solid #000000;
             border-bottom: 2px solid #000000;
-            border-collapse: collapse;
             font-weight: bold;
             padding: 5px;
             white-space: nowrap;
-            text-align: left;
         }
     }
 
@@ -16,10 +14,6 @@
     }
 
     tbody {
-        td:after {
-            content: attr(data-value);
-        }
-
         tr.subValues {
             text-align: left;
             padding-bottom: 2px;
@@ -44,4 +38,9 @@
 
 .top {
     vertical-align: top;
+}
+
+@page {
+    size: landscape;
+    margin: 10px 10px 10px 10px; // Adds margin on the pdf
 }

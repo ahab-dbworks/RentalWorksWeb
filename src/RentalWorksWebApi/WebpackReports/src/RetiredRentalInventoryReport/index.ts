@@ -7,7 +7,7 @@ import './index.scss';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
-// DO NOT USE THIS REPORT AS TEMPLATE
+// DO NOT USE THIS REPORT AS TEMPLATE - could be useful for multi-row shading method
 export class RetiredRentalInventoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
@@ -31,7 +31,6 @@ export class RetiredRentalInventoryReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(data);
-console.log('datsa', data)
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

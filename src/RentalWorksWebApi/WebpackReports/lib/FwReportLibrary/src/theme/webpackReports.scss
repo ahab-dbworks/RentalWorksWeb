@@ -1,7 +1,16 @@
 ﻿table {
     border-collapse: collapse;
+
     th {
         text-align: left;
+    }
+
+    td {
+        padding: 3px;
+    }
+
+    td:after {
+        content: attr(data-value);
     }
 }
 
@@ -161,10 +170,6 @@ body {
 // Type settings can be applied to both th and td on all reports
 .number {
     text-align: right;
-}
-
-.text {
-    text-align: left;
 }
 
 .blue {
