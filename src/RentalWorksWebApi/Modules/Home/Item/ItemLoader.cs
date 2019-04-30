@@ -1,9 +1,5 @@
-using FwStandard.DataLayer; 
-using FwStandard.Models; 
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
-using System.Collections.Generic;
 namespace WebApi.Modules.Home.Item
 {
     [FwSqlTable("rentalitemview")]
@@ -45,6 +41,9 @@ namespace WebApi.Modules.Home.Item
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "containerstatusdate", modeltype: FwDataTypes.Date)]
         public string ContainerStatusDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "containeritemid", modeltype: FwDataTypes.Text)]
+        public string ContainerItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fixedasset", modeltype: FwDataTypes.Boolean)]
         public bool? FixedAsset { get; set; }

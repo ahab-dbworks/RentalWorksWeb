@@ -13,14 +13,14 @@ namespace WebApi.Modules.Home.Container
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
-    [FwController(Id: "xxxxxxxx")]
+    [FwController(Id: "bSQsBVDvo86X1")]
     public class ContainerController : AppDataController
     {
         public ContainerController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(ContainerLogic); }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/container/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "xxxxxxx")]
+        [FwControllerMethod(Id: "56QKEdqPBEc68")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -28,7 +28,7 @@ namespace WebApi.Modules.Home.Container
         //------------------------------------------------------------------------------------ 
         // POST api/v1/container/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "xxxxxx")]
+        [FwControllerMethod(Id: "J4Ikgxw4b5gsl")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
@@ -36,7 +36,7 @@ namespace WebApi.Modules.Home.Container
         //------------------------------------------------------------------------------------     
         // GET api/v1/container 
         [HttpGet]
-        [FwControllerMethod(Id: "xxxxxxxxx")]
+        [FwControllerMethod(Id: "QjmyRCx5ZFM8w")]
         public async Task<ActionResult<IEnumerable<ContainerLogic>>> GetManyAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
         {
             return await DoGetAsync<ContainerLogic>(pageno, pagesize, sort);
@@ -44,27 +44,27 @@ namespace WebApi.Modules.Home.Container
         //------------------------------------------------------------------------------------ 
         // GET api/v1/container/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "xxxxxxxx")]
+        [FwControllerMethod(Id: "eCUUnp7FR3x0c")]
         public async Task<ActionResult<ContainerLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ContainerLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/container 
-        [HttpPost]
-        [FwControllerMethod(Id: "xxxxxxx")]
-        public async Task<ActionResult<ContainerLogic>> PostAsync([FromBody]ContainerLogic l)
-        {
-            return await DoPostAsync<ContainerLogic>(l);
-        }
-        //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/container/A0000001 
-        [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "xxxxxxxxxxx")]
-        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync(id);
-        }
-        //------------------------------------------------------------------------------------ 
+        //// POST api/v1/container 
+        //[HttpPost]
+        //[FwControllerMethod(Id: "xxxxxxx")]
+        //public async Task<ActionResult<ContainerLogic>> PostAsync([FromBody]ContainerLogic l)
+        //{
+        //    return await DoPostAsync<ContainerLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/container/A0000001 
+        //[HttpDelete("{id}")]
+        //[FwControllerMethod(Id: "xxxxxxxxxxx")]
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync(id);
+        //}
+        ////------------------------------------------------------------------------------------ 
     }
 }

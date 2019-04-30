@@ -9,8 +9,8 @@ namespace WebApi.Modules.Home.Container
     public class ContainerLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
-        public string ContainerId { get; set; }
+        [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
+        public string ContainerId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string Type { get; set; }
@@ -29,6 +29,14 @@ namespace WebApi.Modules.Home.Container
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            select.Parse();
+            addFilterToSelect("ScannableInventoryId", "scannablemasterid", select, request);
+            addFilterToSelect("ContainerId", "orderid", select, request);
+        }
         //------------------------------------------------------------------------------------ 
     }
 }

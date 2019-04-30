@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options; 
 using WebApi.Controllers; 
 using System.Threading.Tasks;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Home.Item
 {
     [Route("api/v1/[controller]")]
@@ -45,6 +47,15 @@ namespace WebApi.Modules.Home.Item
         public async Task<ActionResult<ItemLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<ItemLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/item/bybarcode 
+        [HttpGet("bybarcode")]
+        [FwControllerMethod(Id: "HtxHyTMbNpqOM")]
+        public async Task<ActionResult<ItemLogic>> GetOneByBarCodeAsync(string barCode)
+        {
+            string itemId = AppFunc.GetStringDataAsync(AppConfig, "rentalitem", "barcode", barCode, "rentalitemid").Result;
+            return await DoGetAsync<ItemLogic>(itemId);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/item 
