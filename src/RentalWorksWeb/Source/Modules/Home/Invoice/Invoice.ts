@@ -363,9 +363,11 @@ class Invoice {
         FwBrowse.renderRuntimeHtml($invoiceStatusHistoryGridControl);
         // Invoice Item Adjustment Grids
         // ----------
+        const itemPageSize = 3;
         const itemAdjustmentTotalFields = ["LineTotalWithTax", "Tax", "LineTotal"];
         const $invoiceItemGridAdjustmentRental = $form.find('.rentaladjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        $invoiceItemGridAdjustmentRentalControl.attr('data-pagesize', itemPageSize);
         $invoiceItemGridAdjustmentRental.empty().append($invoiceItemGridAdjustmentRentalControl);
         $invoiceItemGridAdjustmentRental.addClass('R');
 
@@ -374,7 +376,7 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'A',
                 AvailFor: 'R',
-                pagesize: 15
+                pagesize: itemPageSize
             };
             request.totalfields = itemAdjustmentTotalFields;
         });
@@ -382,7 +384,7 @@ class Invoice {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'A';
             request.AvailFor = 'R';
-            request.pagesize = 15;
+            request.pagesize = itemPageSize;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentRentalControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentRentalControl, dt) => {
             this.calculateInvoiceItemAdjustmentGridTotals($form, 'rentaladjustment', dt.Totals);
@@ -393,12 +395,14 @@ class Invoice {
         // ----------
         const $invoiceItemGridAdjustmentSales = $form.find('.salesadjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        $invoiceItemGridAdjustmentSalesControl.attr('data-pagesize', itemPageSize);
+
         $invoiceItemGridAdjustmentSales.empty().append($invoiceItemGridAdjustmentSalesControl);
         $invoiceItemGridAdjustmentSales.addClass('S');
         $invoiceItemGridAdjustmentSalesControl.data('ondatabind', request => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
-                pagesize: 15,
+                pagesize: itemPageSize,
                 RecType: 'A',
                 AvailFor: 'S'
             };
@@ -408,7 +412,7 @@ class Invoice {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'A';
             request.AvailFor = 'S';
-            request.pagesize = 15;
+            request.pagesize = itemPageSize;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentSalesControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentSalesControl, dt) => {
             this.calculateInvoiceItemAdjustmentGridTotals($form, 'salesadjustment', dt.Totals);
@@ -419,12 +423,14 @@ class Invoice {
         // ----------
         const $invoiceItemGridAdjustmentParts = $form.find('.partsadjustment div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridAdjustmentPartsControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        $invoiceItemGridAdjustmentPartsControl.attr('data-pagesize', itemPageSize);
+
         $invoiceItemGridAdjustmentParts.empty().append($invoiceItemGridAdjustmentPartsControl);
         $invoiceItemGridAdjustmentParts.addClass('P')
         $invoiceItemGridAdjustmentPartsControl.data('ondatabind', request => {
             request.uniqueids = {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
-                pagesize: 15,
+                pagesize: itemPageSize,
                 RecType: 'A',
                 AvailFor: 'P'
             };
@@ -434,7 +440,7 @@ class Invoice {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'A';
             request.AvailFor = 'P';
-            request.pagesize = 15;
+            request.pagesize = itemPageSize;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentPartsControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentPartsControl, dt) => {
             this.calculateInvoiceItemAdjustmentGridTotals($form, 'partsadjustment', dt.Totals);
