@@ -13,21 +13,21 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "scheduledate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
+        [FwSqlDataField(column: "scheduledate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string ScheduleDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "preinitdate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
         public string PreInitializeDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string Status { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
-        public string Location { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "location", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
+        //public string Location { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -100,7 +100,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "cycled", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? CycleRankD { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cycleaisle", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 4)]
@@ -118,10 +118,10 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "countout", modeltype: FwDataTypes.Boolean, sqltype: "varchar")]
         public bool? CountInventoryThatIsOut { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "counttype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
+        [FwSqlDataField(column: "counttype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8, required: true)]
         public string CountType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 40, required: true)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isspace", modeltype: FwDataTypes.Boolean, sqltype: "varchar")]
@@ -130,7 +130,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "physicalno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)]
         public string PhysicalInventoryNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean, sqltype: "varchar")]
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean, sqltype: "varchar", required: true)]
         public bool? RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "step12", modeltype: FwDataTypes.Integer, sqltype: "numeric")]

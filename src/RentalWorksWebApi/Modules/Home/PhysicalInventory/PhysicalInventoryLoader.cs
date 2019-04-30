@@ -15,12 +15,18 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string OfficeLocation { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loccode", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationCode { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        //public string Location { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "scheduledate", modeltype: FwDataTypes.Date)]
         public string ScheduleDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -38,6 +44,9 @@ namespace WebApi.Modules.Home.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "counttype", modeltype: FwDataTypes.Text)]
         public string CountType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
         public string WarehouseCode { get; set; }
@@ -215,7 +224,6 @@ namespace WebApi.Modules.Home.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approvedby", modeltype: FwDataTypes.Text)]
         public string ApprovedByUser { get; set; }
-        //= approvedate = ApproveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approvedate", modeltype: FwDataTypes.Date)]
         public string ApproveDate { get; set; }

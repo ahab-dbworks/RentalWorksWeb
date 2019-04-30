@@ -359,6 +359,10 @@
         public const string WIDGET_ASSIGN_TO_GROUPS = "GROUPS";
         public const string WIDGET_ASSIGN_TO_USERS = "USERS";
 
+        //PHYSICAL INVENTORY
+        public const string PHYSICAL_INVENTORY_STATUS_NEW = "NEW";
+        public const string PHYSICAL_INVENTORY_STATUS_ACTIVE = "ACTIVE";
+
 
     }
 

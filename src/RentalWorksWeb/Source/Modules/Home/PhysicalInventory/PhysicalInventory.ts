@@ -85,13 +85,13 @@
         });
 
         $form.find('.closeinventorywithadj').on('click', function (e) {
-            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (With Adjustments)`, 'Close Physical Inventory And Adjust Any Inventory?');
+            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory`, 'Close Physical Inventory and apply adjustments to Inventory?');
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
             var $no = FwConfirmation.addButton($confirmation, 'No', true);
         });
 
         $form.find('.closeinventorywithoutadj').on('click', function (e) {
-            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (Without Adjustments)`, 'Close Physical Inventory Without Adjusting Any Inventory?');
+            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (Without Adjustments)`, 'Close Physical Inventory without adjusting any Inventory?');
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
             var $no = FwConfirmation.addButton($confirmation, 'No', true);
         });
