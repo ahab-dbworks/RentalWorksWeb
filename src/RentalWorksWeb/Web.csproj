@@ -890,6 +890,7 @@
     <TypeScriptCompile Include="Source\Pages\HomePage\RwHomeController.ts" />
     <Content Include="Source\Validations\AssetValidation\AssetValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyContactValidation\CompanyContactValidationBrowse.htm" />
+    <Content Include="Source\Validations\ContainerItemValidation\ContainerItemValidationBrowse.htm" />
     <Content Include="Source\Validations\ContainerValidation\ContainerValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceCreationBatchValidation\InvoiceCreationBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceValidation\InvoiceValidationBrowse.htm" />

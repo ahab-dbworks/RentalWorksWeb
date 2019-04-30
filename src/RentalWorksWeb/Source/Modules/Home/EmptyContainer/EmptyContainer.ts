@@ -96,7 +96,7 @@ class EmptyContainer {
       <div class="flexpage">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Container">
           <div class="flexrow" style="max-width:50%;">
-            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerValidation" data-formbeforevalidate="beforeValidate" style="flex:1 1 175px;"></div>
+            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" data-formbeforevalidate="beforeValidate" style="flex:1 1 175px;"></div>
             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
           </div>
 

@@ -424,7 +424,7 @@
                 break;
             case 'ContainerItem':
                 caption = 'Container Status';
-                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 175px;"></div>`;
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
                 break;
         }
         return `
