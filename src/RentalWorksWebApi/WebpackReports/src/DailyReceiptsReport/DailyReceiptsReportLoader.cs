@@ -53,10 +53,12 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
         [FwSqlDataField(column: "ardate", modeltype: FwDataTypes.Date)]
         public string ReceiptDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "amount", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        //[FwSqlDataField(column: "amount", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(calculatedColumnSql: "(case when(invoiceid = '') then amount when(invoiceid = min(invoiceid) over(partition by arid order by invoiceid)) then amount else 0.00 end)", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Amount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "overpayment", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        //[FwSqlDataField(column: "overpayment", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(calculatedColumnSql: "(case when(invoiceid = '') then overpayment when(invoiceid = min(invoiceid) over(partition by arid order by invoiceid)) then overpayment else 0.00 end)", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Overpayment { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "applied", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
@@ -85,7 +87,7 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
                     select.AddWhereIn("paytypeid", request.PaymentTypeId); 
                     addDateFilterToSelect("ardate", request.FromDate, select, ">=", "fromdate"); 
                     addDateFilterToSelect("ardate", request.ToDate, select, "<=", "todate"); 
-                    select.AddOrderBy("location, ardate, name, arid");
+                    select.AddOrderBy("location, ardate, name, arid, invoiceid");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
