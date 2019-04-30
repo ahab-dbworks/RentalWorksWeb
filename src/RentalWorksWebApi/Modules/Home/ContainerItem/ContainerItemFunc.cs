@@ -6,6 +6,17 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.ContainerItem
 {
+
+    public class InstantiateContainerRequest
+    {
+        public string ContainerId { get; set; }
+        public string ItemId { get; set; }
+    }
+
+    public class InstantiateContainerItemResponse : TSpStatusReponse
+    {
+        public string ContainerItemId = "";
+    }
     public class EmptyContainerRequest
     {
         public string ItemId { get; set; }
@@ -36,6 +47,29 @@ namespace WebApi.Modules.Home.ContainerItem
 
     public static class ContainerItemFunc
     {
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<InstantiateContainerItemResponse> InstantiateContainer(FwApplicationConfig appConfig, FwUserSession userSession, InstantiateContainerRequest request)
+        {
+            InstantiateContainerItemResponse response = new InstantiateContainerItemResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "instantiatecontainer", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@containerid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContainerId);
+                qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Input, request.ItemId);
+                //qry.AddParameter("@autostageacc", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                //qry.AddParameter("@fromcheckin", SqlDbType.NVarChar, ParameterDirection.Input, "F");
+                qry.AddParameter("@containeritemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Output);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                await qry.ExecuteNonQueryAsync();
+                response.ContainerItemId = qry.GetParameter("@containeritemid").ToString();
+                response.success = true;// (qry.GetParameter("@status").ToInt32() == 0);
+                response.msg = "";// qry.GetParameter("@msg").ToString();
+            }
+            return response;
+        }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<EmptyContainerItemResponse> EmptyContainer(FwApplicationConfig appConfig, FwUserSession userSession, EmptyContainerRequest request)
         {

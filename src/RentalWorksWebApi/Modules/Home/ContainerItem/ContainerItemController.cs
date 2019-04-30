@@ -72,6 +72,26 @@ namespace WebApi.Modules.Home.ContainerItem
             return await DoPostAsync<ContainerItemLogic>(l);
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/containeritem/instantiatecontainer
+        [HttpPost("instantiatecontainer")]
+        [FwControllerMethod(Id: "lgKt86qdjuNJ5")]
+        public async Task<ActionResult<InstantiateContainerItemResponse>> Instantiate([FromBody]InstantiateContainerRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                InstantiateContainerItemResponse response = await ContainerItemFunc.InstantiateContainer(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/containeritem/emptycontainer
         [HttpPost("emptycontainer")]
         [FwControllerMethod(Id: "bBSKLVtzUKn")]
