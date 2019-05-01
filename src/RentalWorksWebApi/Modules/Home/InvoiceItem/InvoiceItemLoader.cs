@@ -92,6 +92,9 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwSqlDataField(column: "meterin", modeltype: FwDataTypes.Decimal)]
         public decimal? MeterIn { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "linetotalbeforedisc", modeltype: FwDataTypes.Decimal)]
+        public decimal? LineTotalBeforeDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extended", modeltype: FwDataTypes.Decimal)]
         public decimal? Extended { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -164,6 +164,9 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwLogicProperty(Id:"YWkgmTTPwQr9")]
         public decimal? MeterIn { get { return invoiceItem.MeterIn; } set { invoiceItem.MeterIn = value; } }
 
+        [FwLogicProperty(Id: "X8bPXdSBt0amt", IsReadOnly: true)]
+        public decimal? LineTotalBeforeDiscount { get; set; }
+
         [FwLogicProperty(Id:"bh5uBQAZc6Db", IsReadOnly:true)]
         public decimal? Extended { get; set; }
 

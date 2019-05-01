@@ -155,7 +155,8 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        const invoiceItemTotalFields = ["LineTotalWithTax", "Tax", "LineTotal", "Extended", "DiscountAmount"];
+        const invoiceItemTotalFields = ["LineTotalWithTax", "Tax", "LineTotal", "LineTotalBeforeDiscount", "DiscountAmount"];
+        //                               Total               Tax   SubTotal      GrossTotal                 Discount
         // ----------
         const $invoiceItemGridRental = $form.find('.rentalgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
@@ -593,24 +594,24 @@ class Invoice {
     //----------------------------------------------------------------------------------------------
     calculateInvoiceItemGridTotals($form: JQuery, gridType: string, totals?, isAdjustment?: boolean): void {
         if (isAdjustment) {
-            const total = totals.LineTotalWithTax;
-            const salesTax = totals.Tax;
             const subTotal = totals.LineTotal;
+            const salesTax = totals.Tax;
+            const total = totals.LineTotalWithTax;
 
             $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
             $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
             $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
         } else {
-            const total = totals.LineTotalWithTax;
-            const salesTax = totals.Tax;
-            const subTotal = totals.LineTotal;
+            const grossTotal = totals.LineTotalBeforeDiscount;
             const discount = totals.DiscountAmount;
-            const extended = totals.Extended;
+            const subTotal = totals.LineTotal;
+            const salesTax = totals.Tax;
+            const total = totals.LineTotalWithTax;
 
-            $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
+            $form.find(`.${gridType}-totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
             $form.find(`.${gridType}-totals [data-totalfield="Discount"] input`).val(discount);
+            $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
             $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
-            $form.find(`.${gridType}-totals [data-totalfield="GrossTotal"] input`).val(extended);
             $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
         }
     };
