@@ -2037,8 +2037,9 @@ class OrderBase {
             $laborGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
             $miscGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
             $usedSaleGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
-            $lossDamageGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"]').hide();
             $combinedGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+            //Hides non-LD menu items
+            $lossDamageGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]').hide();
         }
 
         // disable the Rate column
