@@ -80,18 +80,25 @@ abstract class FwWebApiReport {
                     const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Html';
                     request.parameters = this.convertParameters(this.getParameters($form));
+                    const reportPageMessage = new ReportPageMessage();
+                    reportPageMessage.action = 'Preview';
+                    reportPageMessage.apiUrl = apiUrl;
+                    reportPageMessage.authorizationHeader = authorizationHeader;
+                    reportPageMessage.request = request;
+
                     const win = window.open(urlHtmlReport);
+
                     if (!win) {
                         throw 'Disable your popup blocker for this site.';
                     } else {
-                        setTimeout(() => {
-                            const message = new ReportPageMessage();
-                            message.action = 'Preview';
-                            message.apiUrl = apiUrl;
-                            message.authorizationHeader = authorizationHeader;
-                            message.request = request;
-                            win.postMessage(message, '*');
-                        }, 50);
+                        window.addEventListener('message', (ev: MessageEvent) => {
+                            const message = ev.data;
+                            if (message === urlHtmlReport) {
+                                console.log('startTabEVENT: ', ev)
+                                win.postMessage(reportPageMessage, urlHtmlReport);
+                                window.removeEventListener('message', () => { })
+                            }
+                        })
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);

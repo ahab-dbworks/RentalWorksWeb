@@ -1005,6 +1005,8 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, response => {
+
+                console.log('res  in deal', response)
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
                 FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);

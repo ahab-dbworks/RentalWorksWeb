@@ -1584,7 +1584,7 @@ class FwBrowseClass {
                                                         break;
                                                     case 'DownloadExcelSubMenuItem':
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $submenuitem.on('click', function (e: JQuery.ClickEvent) {
+                                                        $submenuitem.on('click', function (e: JQuery.Event) {
                                                             try {
                                                                 FwBrowse.downloadExcelWorkbook($browse, controller);
                                                             } catch (ex) {
