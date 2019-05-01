@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>2.1.0</RuntimeFrameworkVersion>
     <IsTransformWebConfigDisabled>true</IsTransformWebConfigDisabled>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <FileVersion>2018.1.2.1</FileVersion>
@@ -11,7 +12,7 @@
     <FwApplicationDirectory>$(AppSolutionDir)\src\RentalWorksWebApi</FwApplicationDirectory>
     <AssemblyName>WebApi</AssemblyName>
     <RootNamespace>WebApi</RootNamespace>
-    <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.3</TypeScriptToolsVersion>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <Company>Database Works, Inc</Company>
     <Product>RentalWorks WebApi</Product>
@@ -49,6 +50,24 @@
 
   <ItemGroup>
     <Content Remove="WebpackReports\tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="version-RentalWorksWeb.txt" />
+    <None Remove="version-TrakitWorksWeb.txt" />
+    <None Remove="version.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="version-RentalWorksWeb.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="version-TrakitWorksWeb.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="version.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -99,5 +118,5 @@
   <Target Name="AfterClean"> 
     <RemoveDir Directories="$(MSBuildProjectDirectory)\bin" /> 
     <RemoveDir Directories="$(MSBuildProjectDirectory)\obj" /> 
-  </Target> 
+  </Target>
 </Project>
