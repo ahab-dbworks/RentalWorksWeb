@@ -332,9 +332,9 @@ namespace WebLibrary.Security
             AddModule("Group",               "{9BE101B6-B406-4253-B2C6-D0571C7E5916}", lv1menuAdministrator.Id, "GroupController",          "module/group",          administratoriconbaseurl + "group.png", "USER");
             AddModule("Hotfix",              "{9D29A5D9-744F-40CE-AE3B-09219611A680}", lv1menuAdministrator.Id, "HotfixController",         "module/hotfix",         administratoriconbaseurl + "placeholder.png");
             //AddModule("Integration",         "{518B038E-F22A-4B23-AA47-F4F56709ADC3}", lv1menuAdministrator.Id, "IntegrationController",  "module/integration",    administratoriconbaseurl + "placeholder.png", "Integration", "quickbooks", "USER");
-            AddModule("User",                "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",           "module/user",           administratoriconbaseurl + "user.png", "USER");
             AddModule("Settings",            "{57150967-486A-42DE-978D-A2B0F843341A}", lv1menuAdministrator.Id, "SettingsController",       "module/settings",       administratoriconbaseurl + "placeholder.png");
             AddModule("Reports",             "{3C5C7603-9E7B-47AB-A722-B29CA09B3B8C}", lv1menuAdministrator.Id, "ReportsController",        "module/reports",        administratoriconbaseurl + "placeholder.png");
+            AddModule("User",                "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController",           "module/user",           administratoriconbaseurl + "user.png", "USER");
             // Add Submodules
             AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
             AddSubModule("SubWorksheet", "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
@@ -408,7 +408,7 @@ namespace WebLibrary.Security
             AddGrid("Item Attribute Value",                   "{22D75843-E915-4956-9B25-C52E815F3C5E}", lv1menuGrids.Id, "ItemAttributeValueGridController");
             AddGrid("Inventory Location Tax",                 "{7DDD2E10-5A1E-4FE9-BBA5-FDBE99DF04F6}", lv1menuGrids.Id, "InventoryLocationTaxGridController");
             AddGrid("Item Qc",                                "{496FEE6D-FC41-47D7-8576-7EF95CAE1B18}", lv1menuGrids.Id, "ItemQcGridController");
-            AddGrid("Loss and Damage Items",                  "{D9D02203-025E-47BD-ADF4-0436DC5593BB}", lv1menuGrids.Id, "LossAndDamageItemGridController");
+            AddGrid("Lost and Damage Items",                  "{D9D02203-025E-47BD-ADF4-0436DC5593BB}", lv1menuGrids.Id, "LostAndDamageItemGridController");
             AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Market Segment Job",                     "{6CB1FD8E-5E6E-45BC-B0E6-AC8E06A38990}", lv1menuGrids.Id, "MarketSegmentJobGridController");
             AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
@@ -678,9 +678,9 @@ namespace WebLibrary.Security
             AddModule("Email History",   "{34092164-500A-46BB-8F09-86BBE0FEA082}", lv1menuAdministrator.Id, "EmailHistoryController",  "module/emailhistory",  administratoriconbaseurl + "placeholder.png");
             AddModule("Group",           "{849D2706-72EC-48C0-B41C-0890297BF24B}", lv1menuAdministrator.Id, "GroupController",         "module/group",         administratoriconbaseurl + "group.png", "USER");
             AddModule("Hotfix",          "{B7336B5E-4BA4-4A99-97D6-60385045238B}", lv1menuAdministrator.Id, "HotfixController",        "module/hotfix",        administratoriconbaseurl + "placeholder.png");
+            AddModule("Reports",         "{CEAFF154-60DF-4491-96D4-4D4685665E60}", lv1menuAdministrator.Id, "ReportsController",       "module/reports",       administratoriconbaseurl + "placeholder.png");
             AddModule("Settings",        "{AD8656B4-F161-4568-9AFF-64C81A3680E6}", lv1menuAdministrator.Id, "SettingsController",      "module/settings",      administratoriconbaseurl + "placeholder.png");
             AddModule("User",            "{CE9E187C-288F-44AB-A54A-27A8CFF6FF53}", lv1menuAdministrator.Id, "UserController",          "module/user",          administratoriconbaseurl + "user.png", "USER");
-            AddModule("Reports",         "{CEAFF154-60DF-4491-96D4-4D4685665E60}", lv1menuAdministrator.Id, "ReportsController",       "module/reports",       administratoriconbaseurl + "placeholder.png");
 
             //// Add Submodules
             AddSubModule("User Settings",   "{2563927C-8D51-43C4-9243-6F69A52E2657}", lv1menuSubModules.Id, "UserSettingsController");
