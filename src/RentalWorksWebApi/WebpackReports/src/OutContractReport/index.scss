@@ -1,15 +1,5 @@
 ﻿$line-height: 16px;
 
-tbody {
-    td:after {
-        content: attr(data-value);
-    }
-
-    td {
-        padding: 3px;
-    }
-}
-
 tbody tr.item-row:nth-child(odd) {
     background-color: #DCDCDC;
 }
