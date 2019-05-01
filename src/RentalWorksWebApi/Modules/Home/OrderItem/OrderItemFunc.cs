@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.OrderItem
             {
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "sortorderitems", appConfig.DatabaseSettings.QueryTimeout);
+                    FwSqlCommand qry = new FwSqlCommand(conn, "sortmasteritems", appConfig.DatabaseSettings.QueryTimeout);
                     qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@startatindex", SqlDbType.Int, ParameterDirection.Input, request.StartAtIndex.GetValueOrDefault(1));
                     qry.AddParameter("@masteritemids", SqlDbType.NVarChar, ParameterDirection.Input, string.Join(",", request.OrderItemIds));
