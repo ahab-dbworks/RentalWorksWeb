@@ -651,10 +651,11 @@
     };
     //----------------------------------------------------------------------------------------------
     createContract($form: JQuery, event): void {
+        const type = this.Type;
         const errorMsg = $form.find('.error-msg:not(.qty)');
         errorMsg.html('');
         const errorSound = new Audio(this.errorSoundFileName);
-        const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+        const orderId = FwFormField.getValueByDataField($form, `${type}Id`);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         const request: any = {};
         if (this.Module === 'StagingCheckout' && warehouse.promptforcheckoutexceptions == true) {
@@ -693,7 +694,7 @@
                         FwModule.openSubModuleTab($form, $contractForm);
                         $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
                         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                        FwFormField.enable($form.find(`div[data-datafield="${this.Type}Id"]`));
+                        type === 'ContainerItem' ? FwFormField.enable($form.find(`div[data-datafield="BarCode"]`)) :FwFormField.enable($form.find(`div[data-datafield="${type}Id"]`));
                         $form.find('[data-datafield="Code"] input').select();
                         // Clear out all grids
                         $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
