@@ -3,9 +3,9 @@
 class Hotfix {
     Module: string = 'Hotfix';
     apiurl: string = 'api/v1/hotfix';
-    caption: string = 'Hotfix';
-    nav: string = 'module/hotfix';
-    id: string = '9D29A5D9-744F-40CE-AE3B-09219611A680';
+    caption: string = Constants.Modules.Administrator.Hotfix.caption;
+    nav: string = Constants.Modules.Administrator.Hotfix.nav;
+    id: string = Constants.Modules.Administrator.Hotfix.id;
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -72,12 +72,6 @@ class Hotfix {
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
-    };
-    //---------------------------------------------------------------------------------------------
-    loadAudit($form: any): void {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="HotfixId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: any): void {

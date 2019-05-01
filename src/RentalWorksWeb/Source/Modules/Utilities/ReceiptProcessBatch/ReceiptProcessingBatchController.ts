@@ -153,7 +153,7 @@
     //----------------------------------------------------------------------------------------------
 }
 //Export Settings
-FwApplicationTree.clickEvents['{0D951DA8-1843-4080-AD73-B0DF7F27189B}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Utilities.ReceiptProcessBatch.form.menuItems.ExportSettings.id] = function (event) {
     try {
         let $exportSettingsBrowse = ExportSettingsController.openBrowse();
         $exportSettingsBrowse.data('ondatabind', function (request) {

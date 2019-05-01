@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/dealcredit$/, action: function (match: RegExpEx
 class DealCredit {
     Module: string = 'DealCredit';
     apiurl: string = 'api/v1/dealcredit';
-    caption: string = 'Deal Credit';
-    nav: string = 'module/dealcredit';
-    id: string = '3DD1BA32-0213-472E-ADA8-E54D531464CC';
+    caption: string = Constants.Modules.Home.DealCredit.caption;
+	nav: string = Constants.Modules.Home.DealCredit.nav;
+	id: string = Constants.Modules.Home.DealCredit.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------

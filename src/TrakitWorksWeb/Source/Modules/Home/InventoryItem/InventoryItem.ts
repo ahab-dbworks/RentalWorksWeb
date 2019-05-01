@@ -3,9 +3,9 @@
 class InventoryItem {
     Module:             string = 'InventoryItem';
     apiurl:             string = 'api/v1/rentalinventory';
-    caption:            string = 'Inventory Item';
-    nav:                string = 'module/inventoryitem';
-    id:                 string = '803A2616-4DB6-4BAC-8845-ECAD34C369A8';
+    caption: string = Constants.Modules.Home.InventoryItem.caption;
+	nav: string = Constants.Modules.Home.InventoryItem.nav;
+	id: string = Constants.Modules.Home.InventoryItem.id;
     ActiveView:         string = 'ALL';
     AvailableFor:       string = 'X';
     yearData:           any    = [];

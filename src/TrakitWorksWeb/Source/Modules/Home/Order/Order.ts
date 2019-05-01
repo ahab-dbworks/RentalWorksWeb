@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: 
 class Order extends OrderBase {
     Module:               string = 'Order';
     apiurl:               string = 'api/v1/order';
-    caption:              string = 'Order';
-    nav:                  string = 'module/order';
-    id:                   string = '68B3710E-FE07-4461-9EFD-04E0DBDAF5EA';
+    caption: string = Constants.Modules.Home.Order.caption;
+	nav: string = Constants.Modules.Home.Order.nav;
+	id: string = Constants.Modules.Home.Order.id;
     lossDamageSessionId:  string = '';
     successSoundFileName: string;
     errorSoundFileName:   string;
@@ -909,34 +909,34 @@ class Order extends OrderBase {
 }
 
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{427FCDFE-7E42-4081-A388-150D3D7FAE36}'] = function (event) {
-    let $form = jQuery(this).closest('.fwform');
-    if ($form.attr('data-mode') !== 'NEW') {
-        try {
-            OrderController.addLossDamage($form, event);
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    } else {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    }
-};
-//---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}'] = function (event) {
-    let $form = jQuery(this).closest('.fwform');
-    if ($form.attr('data-mode') !== 'NEW') {
-        try {
-            OrderController.retireLossDamage($form);
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-    } else {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.AddLossDamage.id] = function (event) {
+//    let $form = jQuery(this).closest('.fwform');
+//    if ($form.attr('data-mode') !== 'NEW') {
+//        try {
+//            OrderController.addLossDamage($form, event);
+//        } catch (ex) {
+//            FwFunc.showError(ex);
+//        }
+//    } else {
+//        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//    }
+//};
+////---------------------------------------------------------------------------------
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.RetireLossDamage.id] = function (event) {
+//    let $form = jQuery(this).closest('.fwform');
+//    if ($form.attr('data-mode') !== 'NEW') {
+//        try {
+//            OrderController.retireLossDamage($form);
+//        } catch (ex) {
+//            FwFunc.showError(ex);
+//        }
+//    } else {
+//        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//    }
+//};
 //---------------------------------------------------------------------------------
 //Create Pick List
-FwApplicationTree.clickEvents['{223FC05F-ABE5-4427-A459-CC66336400EC}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreatePickList.id] = function (event) {
     try {
         var $form = jQuery(this).closest('.fwform');
         var orderInfo: any = {
@@ -953,7 +953,7 @@ FwApplicationTree.clickEvents['{223FC05F-ABE5-4427-A459-CC66336400EC}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Confirmation for cancelling Pick List
-//FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelPickList.id] = function (event) {
 //    var $form = jQuery(this).closest('.fwform');
 //    var pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
 //    var pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
@@ -965,7 +965,7 @@ FwApplicationTree.clickEvents['{223FC05F-ABE5-4427-A459-CC66336400EC}'] = functi
 //};
 //----------------------------------------------------------------------------------------------
 //Copy Order
-FwApplicationTree.clickEvents['{FFD9C063-FCF6-4A14-846D-4BD2887CF523}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CopyOrder.id] = function (event) {
     try {
         var $form           = jQuery(this).closest('.fwform');
         const $confirmation = FwConfirmation.renderConfirmation('Copy Order', '');
@@ -1041,7 +1041,7 @@ FwApplicationTree.clickEvents['{FFD9C063-FCF6-4A14-846D-4BD2887CF523}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Cancel / Uncancel
-FwApplicationTree.clickEvents['{127B392C-EF2C-4684-AE59-5A8B0ED6B518}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelUncancel.id] = function (event) {
     try {
         let $confirmation, $yes, $no;
         let $form       = jQuery(this).closest('.fwform');
@@ -1108,7 +1108,7 @@ FwApplicationTree.clickEvents['{127B392C-EF2C-4684-AE59-5A8B0ED6B518}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Order Status
-FwApplicationTree.clickEvents['{ECFE0CE4-3424-44EB-B213-29409CE3D595}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.OrderStatus.id] = function (e) {
     try {
         var $form = jQuery(this).closest('.fwform');
         var orderInfo: any = {
@@ -1124,7 +1124,7 @@ FwApplicationTree.clickEvents['{ECFE0CE4-3424-44EB-B213-29409CE3D595}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Check In
-FwApplicationTree.clickEvents['{790B9193-AAFC-4EEE-9D5E-34D1F8DDD603}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckIn.id] = function (e) {
     try {
         var $form = jQuery(this).closest('.fwform');
         var orderInfo: any = {
@@ -1140,7 +1140,7 @@ FwApplicationTree.clickEvents['{790B9193-AAFC-4EEE-9D5E-34D1F8DDD603}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Check Out
-FwApplicationTree.clickEvents['{3C9AF5C2-F7FB-44C8-B3B9-FF09F40CC58F}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckOut.id] = function (event) {
     try {
         var $form = jQuery(this).closest('.fwform');
         var orderInfo: any = {
@@ -1160,7 +1160,7 @@ FwApplicationTree.clickEvents['{3C9AF5C2-F7FB-44C8-B3B9-FF09F40CC58F}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Open Search Interface
-FwApplicationTree.clickEvents['{0C8F88D0-F945-4B95-9E91-8704B2D04C30}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Search.id] = function (e) {
     var $form = jQuery(this).closest('.fwform');
     var orderId = FwFormField.getValueByDataField($form, 'OrderId');
     if ($form.attr('data-mode') === 'NEW') {
@@ -1176,7 +1176,7 @@ FwApplicationTree.clickEvents['{0C8F88D0-F945-4B95-9E91-8704B2D04C30}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Print Order
-FwApplicationTree.clickEvents['{B2A04C34-45BF-440E-B588-DD070CD65E59}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.PrintOrder.id] = function (e) {
     try {
         var $form       = jQuery(this).closest('.fwform');
         var orderNumber = FwFormField.getValue($form, 'div[data-datafield="OrderNumber"]');
@@ -1192,7 +1192,7 @@ FwApplicationTree.clickEvents['{B2A04C34-45BF-440E-B588-DD070CD65E59}'] = functi
 };
 //---------------------------------------------------------------------------------
 //Browse Cancel Option
-FwApplicationTree.clickEvents['{CCD05127-481F-4352-A706-FEC6575DBEAF}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.browse.menuItems.CancelUncancel.id] = function (event) {
     try {
         let $confirmation, $yes, $no;
         var $browse     = jQuery(this).closest('.fwbrowse');

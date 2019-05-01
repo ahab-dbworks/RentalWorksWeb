@@ -597,7 +597,7 @@ namespace WebLibrary.Security
             AddModule("Contact",                "{9DC167B7-3313-4783-8A97-03C55B6AD5F2}", lv1menuModules.Id, "ContactController",           "module/contact",           homeiconbaseurl + "placeholder.png");
             AddModule("Create Pick List",       "{1407A536-B5C9-4363-8B54-A56DB8CE902D}", null,              "CreatePickListController",    "module/createpicklist",    homeiconbaseurl + "placeholder.png");
             AddModule("Contract",               "{F6D42CC1-FAC6-49A9-9BF2-F370FE408F7B}", lv1menuModules.Id, "ContractController",          "module/contract",          homeiconbaseurl + "placeholder.png");
-            //AddModule("Customer",               "{8237418B-923D-4044-951F-98938C1EC3DE}", lv1menuModules.Id, "CustomerController",          "module/customer",          homeiconbaseurl + "placeholder.png");
+            AddModule("Customer",               "{8237418B-923D-4044-951F-98938C1EC3DE}", lv1menuModules.Id, "CustomerController",          "module/customer",          homeiconbaseurl + "placeholder.png");
             AddModule("Job",                    "{393DE600-2911-4753-85FD-ABBC4F0B1407}", lv1menuModules.Id, "DealController",              "module/deal",              homeiconbaseurl + "placeholder.png");
             AddModule("Exchange",               "{F9012ABC-B97E-433B-A604-F1DADFD6D7B7}", lv1menuModules.Id, "ExchangeController",          "module/exchange",          homeiconbaseurl + "placeholder.png");
             AddModule("Expendable Item",        "{4115FFCE-69BB-4D2F-BCDC-3924AE045AA8}", lv1menuModules.Id, "ExpendableItemController",    "module/expendableitem",    homeiconbaseurl + "placeholder.png");

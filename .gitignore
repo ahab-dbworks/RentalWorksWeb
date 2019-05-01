@@ -6,7 +6,7 @@
 /src/*/Properties/PublishProfiles/
 
 /TestResult.xml
-sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
+/Sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 
 /lib/Fw/packages/
 /lib/Fw/.vs/
@@ -35,6 +35,8 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 /src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwReport.js.map
 /src/RentalWorksWeb/Libraries/Fw/scripts/FwControls/FwFormField.js.map
 /src/RentalWorksWeb/scripts/_references.js
+/src/RentalWorksWeb/scripts/Constants.js.map
+/src/RentalWorksWeb/scripts/Constants.js
 /src/RentalWorksWeb/scripts/Program.js
 /src/RentalWorksWeb/scripts/Program.js.map
 /src/RentalWorksWeb/scripts/RwMaster.js
@@ -78,6 +80,8 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 /src/TrakitWorksWeb/scripts/_references.js
 /src/TrakitWorksWeb/Source/**/*.js
 /src/TrakitWorksWeb/Source/**/*.js.map
+/src/TrakitWorksWeb/scripts/Constants.js.map
+/src/TrakitWorksWeb/scripts/Constants\.js
 /src/TrakitWorksWeb/scripts/DefaultApplicationConfig.js
 /src/TrakitWorksWeb/scripts/DefaultApplicationConfig.js.map
 /src/TrakitWorksWeb/scripts/Program.js

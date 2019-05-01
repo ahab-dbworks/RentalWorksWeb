@@ -5,9 +5,9 @@
 class Repair {
     Module: string = 'Repair';
     apiurl: string = 'api/v1/repair';
-    caption: string = 'Repair Order';
-    nav: string = 'module/repair';
-    id: string = '2BD0DC82-270E-4B86-A9AA-DD0461A0186A';
+    caption: string = Constants.Modules.Home.Repair.caption;
+	nav: string = Constants.Modules.Home.Repair.nav;
+	id: string = Constants.Modules.Home.Repair.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
@@ -1042,9 +1042,9 @@ class Repair {
     }
 };
 // using COMPLETE security guid
-FwApplicationTree.clickEvents['{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}'] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Complete.id] = function (event: JQuery.ClickEvent) {
     try {
+        const $form = jQuery(this).closest('.fwform');
         RepairController.completeOrder($form);
     }
     catch (ex) {
@@ -1052,9 +1052,9 @@ FwApplicationTree.clickEvents['{6EE5D9E2-8075-43A6-8E81-E2BCA99B4308}'] = functi
     }
 };
 // using ESTIMATE security guid
-FwApplicationTree.clickEvents['{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}'] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Estimate.id] = function (event: JQuery.ClickEvent) {
     try {
+        const $form = jQuery(this).closest('.fwform');
         RepairController.estimateOrder($form);
     }
     catch (ex) {
@@ -1062,9 +1062,9 @@ FwApplicationTree.clickEvents['{AEDCEB81-2A5A-4779-8A88-25FD48E88E6A}'] = functi
     }
 };
 // using VOID security guid
-FwApplicationTree.clickEvents['{9F58C03B-89CD-484A-8332-CDBF9961A258}'] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Void.id] = function (event: JQuery.ClickEvent) {
     try {
+        const $form = jQuery(this).closest('.fwform');
         RepairController.voidOrder($form);
     }
     catch (ex) {
@@ -1072,9 +1072,9 @@ FwApplicationTree.clickEvents['{9F58C03B-89CD-484A-8332-CDBF9961A258}'] = functi
     }
 };
 // using RELEASE security guid
-FwApplicationTree.clickEvents['{EE709549-C91C-473E-96CC-2DB121082FB5}'] = function (event) {
-    const $form = jQuery(this).closest('.fwform');
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.ReleaseItems.id] = function (event: JQuery.ClickEvent) {
     try {
+        const $form = jQuery(this).closest('.fwform');
         RepairController.releaseItems($form);
     }
     catch (ex) {
@@ -1083,7 +1083,7 @@ FwApplicationTree.clickEvents['{EE709549-C91C-473E-96CC-2DB121082FB5}'] = functi
 };
 //---------------------------------------------------------------------------------
 //Browse Void Option
-FwApplicationTree.clickEvents['{AFA36551-F49E-4FB9-84DD-A54A423CCFF3}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.browse.menuItems.Void.id] = function (event: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
         const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');

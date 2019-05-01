@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/receipt\/(\S+)\/(\S+)/, action: function (match
 class Receipt {
     Module: string = 'Receipt';
     apiurl: string = 'api/v1/receipt';
-    caption: string = 'Receipts';
-    nav: string = 'module/receipt';
-    id: string = '57E34535-1B9F-4223-AD82-981CA34A6DEC';
+    caption: string = Constants.Modules.Home.Receipt.caption;
+	nav: string = Constants.Modules.Home.Receipt.nav;
+	id: string = Constants.Modules.Home.Receipt.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     thisModule: Receipt;

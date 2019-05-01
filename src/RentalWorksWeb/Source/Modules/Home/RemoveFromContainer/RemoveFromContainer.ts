@@ -2,9 +2,9 @@
 
 class RemoveFromContainer {
     Module: string = 'RemoveFromContainer';
-    caption: string = 'Remove From Container';
-    nav: string = 'module/removefromcontainer';
-    id: string = 'FB9876B5-165E-486C-9E06-DFB3ACB3CBF0';
+    caption: string = Constants.Modules.Home.RemoveFromContainer.caption;
+	nav: string = Constants.Modules.Home.RemoveFromContainer.nav;
+	id: string = Constants.Modules.Home.RemoveFromContainer.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         var screen: any = {};

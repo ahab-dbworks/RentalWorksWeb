@@ -2,8 +2,11 @@
 
 class CreatePickList {
     Module: string = 'CreatePickList';
-    //id: string = '153FC1F2-01B7-4CEC-B426-82146BB48F79';
+    caption: string = Constants.Modules.Home.CreatePickList.caption;
+    nav: string = Constants.Modules.Home.CreatePickList.nav;
+    id: string = Constants.Modules.Home.CreatePickList.id;
     Type: string = 'Order';
+
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

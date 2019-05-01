@@ -1,9 +1,9 @@
 class RentalInventory extends InventoryBase {
     Module: string = 'RentalInventory';
     apiurl: string = 'api/v1/rentalinventory';
-    caption: string = 'Rental Inventory';
-    nav: string = 'module/rentalinventory';
-    id: string = 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06';
+    caption: string = Constants.Modules.Home.RentalInventory.caption;
+	nav: string = Constants.Modules.Home.RentalInventory.nav;
+	id: string = Constants.Modules.Home.RentalInventory.id;
     AvailableFor: string = "R";
     //----------------------------------------------------------------------------------------------
     openFormInventory($form: any) {
@@ -529,7 +529,7 @@ class RentalInventory extends InventoryBase {
     }
 };
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{B3371C86-740C-44C4-A8FA-E8DE750800F3}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.RentalInventory.form.menuItems.CreateComplete.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');

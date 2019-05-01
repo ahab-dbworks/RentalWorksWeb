@@ -5,7 +5,9 @@ class SubWorksheet {
     OrderId: string;
     SessionId: string;
     RecType: string;
-    caption: string = 'Sub Worksheet';
+    caption: string = Constants.Modules.Home.SubWorksheet.caption;
+	nav: string = Constants.Modules.Home.SubWorksheet.nav;
+	id: string = Constants.Modules.Home.SubWorksheet.id;
     gridTotalFields: Array<string> = ["VendorWeeklyTotal", "VendorWeeklyDiscount", "VendorWeeklySubTotal", "VendorWeeklyTax", "VendorWeeklyExtended", "VendorMonthlyTotal", "VendorMonthlyDiscount", "VendorMonthlySubTotal", "VendorMonthlyTax", "VendorMonthlyExtended", "VendorPeriodTotal", "VendorPeriodDiscount", "VendorPeriodSubTotal", "VendorPeriodTax", "VendorPeriodExtended"];
 
 

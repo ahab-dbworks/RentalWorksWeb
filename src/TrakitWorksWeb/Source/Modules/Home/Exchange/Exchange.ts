@@ -3,9 +3,9 @@
 class Exchange {
     Module: string = 'Exchange';
     apiurl: string = 'api/v1/exchange';
-    caption: string = 'Exchange';
-    nav: string = 'module/exchange';
-    id: string = 'F9012ABC-B97E-433B-A604-F1DADFD6D7B7';
+    caption: string = Constants.Modules.Home.Exchange.caption;
+	nav: string = Constants.Modules.Home.Exchange.nav;
+	id: string = Constants.Modules.Home.Exchange.id;
     ContractId: string = '';
     ExchangeResponse: any = {};
     successSoundFileName: string;

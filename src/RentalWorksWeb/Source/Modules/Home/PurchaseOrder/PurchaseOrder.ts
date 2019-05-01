@@ -5,9 +5,9 @@
 class PurchaseOrder {
     Module:                   string = 'PurchaseOrder';
     apiurl:                   string = 'api/v1/purchaseorder';
-    caption:                  string = 'Purchase Order';
-    nav:                      string = 'module/purchaseorder';
-    id:                       string = '67D8C8BB-CF55-4231-B4A2-BB308ADF18F0';
+    caption: string = Constants.Modules.Home.PurchaseOrder.caption;
+	nav: string = Constants.Modules.Home.PurchaseOrder.nav;
+	id: string = Constants.Modules.Home.PurchaseOrder.id;
     DefaultPurchasePoType:    string;
     DefaultPurchasePoTypeId:  string;
     ActiveViewFields:         any    = {};
@@ -1318,15 +1318,14 @@ class PurchaseOrder {
 
 };
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = function (e) {
-    var $form, $receiveFromVendorForm;
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReceiveFromVendor.id] = function (e: JQuery.ClickEvent) {
     try {
-        $form = jQuery(this).closest('.fwform');
-        var mode = 'EDIT';
-        var purchaseOrderInfo: any = {};
+        let $form = jQuery(this).closest('.fwform');
+        let mode = 'EDIT';
+        let purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
+        let $receiveFromVendorForm = ReceiveFromVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $receiveFromVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Receive From Vendor');
     }
@@ -1335,15 +1334,14 @@ FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{B287428E-FF45-469A-8203-3BFF18E90810}'] = function (e) {
-    let $form, $returnToVendorForm;
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReturnToVendor.id] = function (e: JQuery.ClickEvent) {
     try {
-        $form = jQuery(this).closest('.fwform');
+        let $form = jQuery(this).closest('.fwform');
         let mode = 'EDIT';
         let purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
+        let $returnToVendorForm = ReturnToVendorController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $returnToVendorForm);
         jQuery('.tab.submodule.active').find('.caption').html('Return To Vendor');
     }
@@ -1352,24 +1350,27 @@ FwApplicationTree.clickEvents['{B287428E-FF45-469A-8203-3BFF18E90810}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.Search.id] = function (e: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(this).closest('.fwform');
+        let orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
-FwApplicationTree.clickEvents['{D512214F-F6BD-4098-8473-0AC7F675893D}'] = function (e) {
-    let search, $form, orderId, $popup;
-    $form = jQuery(this).closest('.fwform');
-    orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
-
-    if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    } else {
-        search = new SearchInterface();
-        $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
+        if (orderId == "") {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        } else {
+            let search = new SearchInterface();
+            let $popup = search.renderSearchPopup($form, orderId, 'PurchaseOrder');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
     }
 };
 //----------------------------------------------------------------------------------------------
 //Assign Bar Codes
-FwApplicationTree.clickEvents['{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}'] = function (e) {
-    const $form = jQuery(this).closest('.fwform');
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.AssignBarCodes.id] = function (e: JQuery.ClickEvent) {
     try {
+        const $form = jQuery(this).closest('.fwform');
         const mode = 'EDIT';
         let purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');

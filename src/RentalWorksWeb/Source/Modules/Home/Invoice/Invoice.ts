@@ -5,9 +5,9 @@ routes.push({ pattern: /^module\/invoice\/(\w+)\/(\S+)/, action: function (match
 class Invoice {
     Module: string = 'Invoice';
     apiurl: string = 'api/v1/invoice';
-    caption: string = 'Invoice';
-    nav: string = 'module/invoice';
-    id: string = '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F';
+    caption: string = Constants.Modules.Home.Invoice.caption;
+	nav: string = Constants.Modules.Home.Invoice.nav;
+	id: string = Constants.Modules.Home.Invoice.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -732,7 +732,7 @@ class Invoice {
 
 //----------------------------------------------------------------------------------------------
 // Void Invoice - Form
-FwApplicationTree.clickEvents['{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Void.id] = function (e: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');
     try {
         InvoiceController.voidInvoice($form);
@@ -743,7 +743,7 @@ FwApplicationTree.clickEvents['{DF6B0708-EC5A-475F-8EFB-B52E30BACAA3}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 // Void Invoice - Browse
-FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.browse.menuItems.Void.id] = function (e: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
         const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
@@ -792,7 +792,7 @@ FwApplicationTree.clickEvents['{DACF4B06-DE63-4867-A684-4C77199D6961}'] = functi
 };
 //-----------------------------------------------------------------------------------------------------
 //Print Invoice menu item
-FwApplicationTree.clickEvents['{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.PrintInvoice.id] = function (e: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
         $form.find('.print-invoice').trigger('click');
@@ -803,7 +803,7 @@ FwApplicationTree.clickEvents['{3A693D4E-3B9B-4749-A9B6-C8302F1EDE6A}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //form approve
-FwApplicationTree.clickEvents['{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
         const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -820,7 +820,7 @@ FwApplicationTree.clickEvents['{117CCDFA-FFC3-49CE-B41B-0F6CE9A69518}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //form unapprove
-FwApplicationTree.clickEvents['{F8C5F06C-4B9D-4495-B589-B44B02AE7915}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.form.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
     try {
         const $form = jQuery(this).closest('.fwform');
         const invoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
@@ -837,7 +837,7 @@ FwApplicationTree.clickEvents['{F8C5F06C-4B9D-4495-B589-B44B02AE7915}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //browse approve
-FwApplicationTree.clickEvents['{9D1A3607-EE4A-49E6-8EAE-DB3E0FF06EAE}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.browse.menuItems.Approve.id] = function (event: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
         const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');
@@ -858,7 +858,7 @@ FwApplicationTree.clickEvents['{9D1A3607-EE4A-49E6-8EAE-DB3E0FF06EAE}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //browse unapprove
-FwApplicationTree.clickEvents['{F9D43CB6-2666-4AE0-B35C-77735561B9B9}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Invoice.browse.menuItems.Unapprove.id] = function (event: JQuery.ClickEvent) {
     try {
         const $browse = jQuery(this).closest('.fwbrowse');
         const invoiceId = $browse.find('.selected [data-browsedatafield="InvoiceId"]').attr('data-originalvalue');

@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: 
 class Quote extends OrderBase {
     Module:             string = 'Quote';
     apiurl:             string = 'api/v1/quote';
-    caption:            string = 'Request';
-    nav:                string = 'module/quote';
-    id:                 string = '9213AF53-6829-4276-9DF9-9DAA704C2CCF';
+    caption: string = Constants.Modules.Home.Quote.caption;
+	nav: string = Constants.Modules.Home.Quote.nav;
+	id: string = Constants.Modules.Home.Quote.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -302,7 +302,7 @@ class Quote extends OrderBase {
 
 //----------------------------------------------------------------------------------------------
 //Copy Quote
-FwApplicationTree.clickEvents['{85B7FD07-74CD-4320-AFB0-9718EE5C8CDD}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CopyQuote.id] = function (event) {
     try {
         var $form           = jQuery(this).closest('.fwform');
         const $confirmation = FwConfirmation.renderConfirmation('Copy Request', '');
@@ -365,7 +365,7 @@ FwApplicationTree.clickEvents['{85B7FD07-74CD-4320-AFB0-9718EE5C8CDD}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Search
-FwApplicationTree.clickEvents['{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Search.id] = function (event) {
     let search, $form, quoteId;
     $form = jQuery(this).closest('.fwform');
     quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
@@ -384,7 +384,7 @@ FwApplicationTree.clickEvents['{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Print Quote
-FwApplicationTree.clickEvents['{CC3F3DB4-21A4-4E70-8992-30886B2D1515}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.PrintQuote.id] = function (e) {
     try {
         var $form       = jQuery(this).closest('.fwform');
         var quoteNumber = FwFormField.getValue($form, 'div[data-datafield="QuoteNumber"]');
@@ -400,7 +400,7 @@ FwApplicationTree.clickEvents['{CC3F3DB4-21A4-4E70-8992-30886B2D1515}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //New Version
-//FwApplicationTree.clickEvents['{18ECF5BB-18E0-45F5-AB9A-98A377E38D1F}'] = function (event) {
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.NewVersion.id] = function (event) {
 //    let $form         = jQuery(this).closest('.fwform');
 //    let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
 //    let quoteId       = FwFormField.getValueByDataField($form, 'QuoteId');
@@ -424,7 +424,7 @@ FwApplicationTree.clickEvents['{CC3F3DB4-21A4-4E70-8992-30886B2D1515}'] = functi
 //};
 //----------------------------------------------------------------------------------------------
 //Cancel / Uncancel - Form
-FwApplicationTree.clickEvents['{8F3E3263-B5AE-4CB4-8CBB-E9F680AA8C11}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CancelUncancel.id] = function (event) {
     try {
         let $confirmation, $yes, $no;
         let $form       = jQuery(this).closest('.fwform');
@@ -491,7 +491,7 @@ FwApplicationTree.clickEvents['{8F3E3263-B5AE-4CB4-8CBB-E9F680AA8C11}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Create Order
-FwApplicationTree.clickEvents['{F9B8EAC3-07BD-4286-B4F8-CCBE53710B1F}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CreateOrder.id] = function (event) {
     let $form         = jQuery(this).closest('.fwform');
     let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
     var $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Request ${quoteNumber}?</div>`);
@@ -515,7 +515,7 @@ FwApplicationTree.clickEvents['{F9B8EAC3-07BD-4286-B4F8-CCBE53710B1F}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Cancel / Uncancel - Browse
-FwApplicationTree.clickEvents['{86412C14-9351-4C03-8D13-5338AB0EAEC8}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.browse.menuItems.CancelUncancel.id] = function (event) {
     try {
         let $confirmation, $yes, $no;
         var $browse     = jQuery(this).closest('.fwbrowse');

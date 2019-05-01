@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/customercredit$/, action: function (match: RegE
 class CustomerCredit {
     Module: string = 'CustomerCredit';
     apiurl: string = 'api/v1/customercredit';
-    caption: string = 'Customer Credit';
-    nav: string = 'module/customercredit';
-    id: string = 'CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66';
+    caption: string = Constants.Modules.Home.CustomerCredit.caption;
+	nav: string = Constants.Modules.Home.CustomerCredit.nav;
+	id: string = Constants.Modules.Home.CustomerCredit.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------

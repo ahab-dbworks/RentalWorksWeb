@@ -527,7 +527,7 @@
 }
 //----------------------------------------------------------------------------------------------
 //Search Interface
-FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.Search.id] = function (e) {
     let grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
     let search, $form, orderId, quoteId, purchaseOrderId, templateId;
 
@@ -605,7 +605,7 @@ FwApplicationTree.clickEvents['{77E511EC-5463-43A0-9C5D-B54407C97B15}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Sub worksheet
-FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.SubWorksheet.id] = function (e) {
     var $form, $subWorksheetForm, subWorksheetData: any = {};
     let $grid = jQuery(e.currentTarget).parents('[data-control="FwGrid"]');
 
@@ -639,7 +639,7 @@ FwApplicationTree.clickEvents['{007C4F21-7526-437C-AD1C-4BBB1030AABA}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 // Toggle between Detail and Summary view
-FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.SummaryView.id] = function (event) {
     let $form;
     $form = jQuery(this).closest('.fwform');
 
@@ -654,7 +654,7 @@ FwApplicationTree.clickEvents['{D27AD4E7-E924-47D1-AF6E-992B92F5A647}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Copy Template
-FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.CopyTemplate.id] = function (e) {
     const $form = jQuery(this).closest('.fwform');
     const $grid = jQuery(this).closest('[data-name="OrderItemGrid"]');
     let recType;
@@ -754,7 +754,7 @@ FwApplicationTree.clickEvents['{B6B68464-B95C-4A4C-BAF2-6AA59B871468}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Refresh Availability
-FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.RefreshAvailability.id] = function (e) {
     const $orderItemGrid = jQuery(this).closest('[data-name="OrderItemGrid"]');
     let recType;
     recType = jQuery(this).closest('[data-grid="OrderItemGrid"]');
@@ -793,7 +793,7 @@ FwApplicationTree.clickEvents['{9476D532-5274-429C-A563-FE89F5B89B01}'] = functi
 }
 //---------------------------------------------------------------------------------
 // Bold Selected
-FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.BoldUnBoldSelected.id] = function (event) {
     const $browse = jQuery(this).closest('.fwbrowse');
 
     try {
@@ -806,7 +806,7 @@ FwApplicationTree.clickEvents['{E2DF5CB4-CD18-42A0-AE7C-18C18E6C4646}'] = functi
 };
 //---------------------------------------------------------------------------------
 // Lock Selected
-FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.LockUnlockSelected.id] = function (event) {
     const $browse = jQuery(this).closest('.fwbrowse');
 
     try {
@@ -819,7 +819,7 @@ FwApplicationTree.clickEvents['{BC467EF9-F255-4F51-A6F2-57276D8824A3}'] = functi
 };
 //---------------------------------------------------------------------------------
 // Copy Line Items
-FwApplicationTree.clickEvents['{01EB96CB-6C62-4D5C-9224-8B6F45AD9F63}'] = e => {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.CopyLineItems.id] = e => {
     const $grid = jQuery(e.currentTarget).closest('.fwbrowse');
     const $form = jQuery(e.currentTarget).closest('.fwform');
     const module = $form.attr('data-controller').replace('Controller', '');
@@ -843,7 +843,7 @@ FwApplicationTree.clickEvents['{01EB96CB-6C62-4D5C-9224-8B6F45AD9F63}'] = e => {
 };
 //----------------------------------------------------------------------------------------------
 // Manual Sorting
-FwApplicationTree.clickEvents['{AD3FB369-5A40-4984-8A65-46E683851E52}'] = e => {
+FwApplicationTree.clickEvents[Constants.Grids.OrderItemGrid.menuItems.ManualSorting.id] = e => {
     const $grid = jQuery(e.currentTarget).closest('.fwbrowse');
     const $form = jQuery(e.currentTarget).closest('.fwform');
     const module = $form.attr('data-controller').replace('Controller', '');

@@ -1,9 +1,9 @@
 ﻿class PickList {
     Module: string = 'PickList';
     apiurl: string = 'api/v1/picklist';
-    caption: string = 'Pick List';
-    nav: string = 'module/picklist';
-    id: string = '7B04E5D4-D079-4F3A-9CB0-844F293569ED';
+    caption: string = Constants.Modules.Home.PickList.caption;
+	nav: string = Constants.Modules.Home.PickList.nav;
+	id: string = Constants.Modules.Home.PickList.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -255,7 +255,7 @@
 //---------------------------------------------------------------------------------
 var PickListController = new PickList();
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.CancelPickList.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
@@ -268,7 +268,7 @@ FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = e => {
 };
 //---------------------------------------------------------------------------------
 //Print Pick List
-FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.PrintPickList.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
@@ -286,12 +286,11 @@ FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = e => {
 };
 //---------------------------------------------------------------------------------
 //Browse Print Pick List
-FwApplicationTree.clickEvents['{51C78FB1-CD66-431F-A7BA-FFFB3BFDFD6C}'] = function (event) {
-    var $browse, pickListId, pickListNumber;
+FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.browse.menuItems.PrintPickList.id] = function (event: JQuery.ClickEvent) {
     try {
-        $browse = jQuery(this).closest('.fwbrowse');
-        pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
-        pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+        let $browse = jQuery(this).closest('.fwbrowse');
+        let pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
+        let pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
         if (pickListId != null) {
             $browse = RwPickListReportController.openForm();
             FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);

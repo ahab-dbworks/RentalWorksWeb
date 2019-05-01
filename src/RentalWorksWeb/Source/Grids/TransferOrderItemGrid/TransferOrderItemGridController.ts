@@ -4,7 +4,7 @@
 }
 //----------------------------------------------------------------------------------------------
 //Refresh Availability
-FwApplicationTree.clickEvents['{1065995B-3EF3-4B50-B513-F966F88570F1}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.RefreshAvailability.id] = function (e: JQuery.ClickEvent) {
     const $transferOrderItemGrid = jQuery(this).closest('[data-name="TransferOrderItemGrid"]');
     let recType;
     recType = jQuery(this).closest('[data-grid="TransferOrderItemGrid"]');
@@ -43,7 +43,7 @@ FwApplicationTree.clickEvents['{1065995B-3EF3-4B50-B513-F966F88570F1}'] = functi
     jQuery(document).trigger('click');
 }
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{5E73772F-F5E2-4382-9F50-3272F4E79A25}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Grids.TransferOrderItemGrid.menuItems.CopyTemplate.id] = function (e: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');
     const $grid = jQuery(this).closest('[data-name="TransferOrderItemGrid"]');
     let recType;

@@ -2,9 +2,9 @@
 
 class CheckIn {
     Module: string = 'CheckIn';
-    caption: string = 'Check-In';
-    nav: string = 'module/checkin';
-    id: string = '3D1EB9C4-95E2-440C-A3EF-10927C4BDC65';
+    caption: string = Constants.Modules.Home.CheckIn.caption;
+	nav: string = Constants.Modules.Home.CheckIn.nav;
+	id: string = Constants.Modules.Home.CheckIn.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

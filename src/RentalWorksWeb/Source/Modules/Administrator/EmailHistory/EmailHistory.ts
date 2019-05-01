@@ -1,9 +1,9 @@
 class EmailHistory {
     Module: string = 'EmailHistory';
     apiurl: string = 'api/v1/emailhistory';
-    caption: string = 'Email History';
-    nav: string = 'module/emailhistory';
-    id: string = '3F44AC27-CE34-46BA-B4FB-A8AEBB214167';
+    caption: string = Constants.Modules.Administrator.EmailHistory.caption;
+    nav: string = Constants.Modules.Administrator.EmailHistory.nav;
+    id: string = Constants.Modules.Administrator.EmailHistory.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------

@@ -2,9 +2,9 @@
 
 class TransferIn extends CheckIn{
     Module: string = 'TransferIn';
-    caption: string = 'Transfer In';
-    nav: string = 'module/transferin';
-    id: string = 'D9F487C2-5DC1-45DF-88A2-42A05679376C';
+    caption: string = Constants.Modules.Home.TransferIn.caption;
+	nav: string = Constants.Modules.Home.TransferIn.nav;
+	id: string = Constants.Modules.Home.TransferIn.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

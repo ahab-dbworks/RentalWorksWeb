@@ -4,7 +4,7 @@
 }
 //---------------------------------------------------------------------------------
 // "View Snapshot" grid hamburger menu item
-FwApplicationTree.clickEvents['{C6633D9A-3800-41F2-8747-BC780663E22F}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Grids.OrderSnapshotGrid.menuItems.ViewSnapshot.id] = function (event: JQuery.ClickEvent) {
     let $form, $orderForm, $selectedCheckBoxes, $orderSnapshotGrid, snapshotId, orderNumber;
 
     $form = jQuery(this).closest('.fwform');

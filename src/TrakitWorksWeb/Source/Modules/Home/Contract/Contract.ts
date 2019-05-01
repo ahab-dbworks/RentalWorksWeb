@@ -3,9 +3,9 @@
 class Contract {
     Module: string = 'Contract';
     apiurl: string = 'api/v1/contract';
-    caption: string = 'Contract';
-    nav: string = 'module/contract';
-    id: string = 'F6D42CC1-FAC6-49A9-9BF2-F370FE408F7B';
+    caption: string = Constants.Modules.Home.Contract.caption;
+	nav: string = Constants.Modules.Home.Contract.nav;
+	id: string = Constants.Modules.Home.Contract.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -207,7 +207,7 @@ class Contract {
     //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{8E3727B5-8E75-4648-AE52-FB3BD7729F02}'] = function (e: JQuery.ClickEvent) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Contract.form.menuItems.PrintOrder.id] = function (e: JQuery.ClickEvent) {
     try {
         let $form = jQuery(e.currentTarget).closest('.fwform');
         let controller = window[$form.attr('data-controller')];

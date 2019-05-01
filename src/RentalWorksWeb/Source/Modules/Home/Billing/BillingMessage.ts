@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/billingmessage$/, action: function (match: RegE
 class BillingMessage {
     Module: string = 'BillingMessage';
     apiurl: string = 'api/v1/billingmessage';
-    caption: string = 'Billing Message';
-    nav: string = 'module/billingmessage';
-    id: string = 'B232DF4D-462A-4810-952D-73F8DE66800C';
+    caption: string = Constants.Modules.Home.BillingMessage.caption;
+    nav: string = Constants.Modules.Home.BillingMessage.nav;
+    id: string = Constants.Modules.Home.BillingMessage.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};

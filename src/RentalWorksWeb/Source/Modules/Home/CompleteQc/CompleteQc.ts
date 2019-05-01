@@ -2,9 +2,9 @@
 
 class CompleteQc {
     Module: string = 'CompleteQc';
-    caption: string = 'Complete QC';
-    nav: string = 'module/completeqc';
-    id: string = '3F20813A-CC21-49D8-A5F8-9930B7F05404';
+    caption: string = Constants.Modules.Home.CompleteQc.caption;
+    nav: string = Constants.Modules.Home.CompleteQc.nav;
+    id: string = Constants.Modules.Home.CompleteQc.id;
     itemId: string = '';
     itemQcId: string = '';
 

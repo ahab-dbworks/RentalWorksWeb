@@ -3,9 +3,9 @@
 
 class StagingCheckout {
     Module: string = 'StagingCheckout';
-    caption: string = 'Staging / Check-Out';
-    nav: string = 'module/checkout';
-    id: string = 'AD92E203-C893-4EB9-8CA7-F240DA855827';
+    caption: string = Constants.Modules.Home.StagingCheckout.caption;
+	nav: string = Constants.Modules.Home.StagingCheckout.nav;
+	id: string = Constants.Modules.Home.StagingCheckout.id;
     showAddItemToOrder: boolean = false;
     successSoundFileName: string;
     errorSoundFileName: string;

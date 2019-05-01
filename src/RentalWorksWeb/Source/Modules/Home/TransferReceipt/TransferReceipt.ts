@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/transferreceipt$/, action: function (match: Reg
 class TransferReceipt extends Contract {
     Module: string = 'TransferReceipt';
     apiurl: string = 'api/v1/manifest';
-    caption: string = 'Transfer Receipt';
-    nav: string = 'module/transferreceipt';
-    id: string = '2B60012B-ED6A-430B-B2CB-C1287FD4CE8B';
+    caption: string = Constants.Modules.Home.TransferReceipt.caption;
+	nav: string = Constants.Modules.Home.TransferReceipt.nav;
+	id: string = Constants.Modules.Home.TransferReceipt.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ class TransferReceipt extends Contract {
     //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{5C35E285-F8DA-4D27-AA64-379156213B7F}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.TransferReceipt.form.menuItems.Print.id] = function (e) {
     var $form;
     try {
         $form = jQuery(this).closest('.fwform');

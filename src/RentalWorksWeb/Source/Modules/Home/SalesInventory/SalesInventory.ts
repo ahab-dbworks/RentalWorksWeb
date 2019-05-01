@@ -1,9 +1,9 @@
 class SalesInventory extends InventoryBase {
     Module: string = 'SalesInventory';
     apiurl: string = 'api/v1/salesinventory';
-    caption: string = 'Sales Inventory';
-    nav: string = 'module/salesinventory';
-    id: string = 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2';
+    caption: string = Constants.Modules.Home.SalesInventory.caption;
+	nav: string = Constants.Modules.Home.SalesInventory.nav;
+	id: string = Constants.Modules.Home.SalesInventory.id;
     AvailableFor: string = "S";
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -329,7 +329,7 @@ class SalesInventory extends InventoryBase {
 };
 
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{B13C0180-D25C-4AFC-9B2C-556C7B0FA53F}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.SalesInventory.form.menuItems.CreateComplete.id] = (e:JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');

@@ -1,10 +1,10 @@
 ﻿
 class SuspendedSession {
     Module: string = 'SuspendedSession';
-    caption: string = 'Suspended Session';
     apiurl: string = 'api/v1/suspendedsession';
-    nav: string = 'module/suspendedsession';
-    id: string = '5FBE7FF8-3770-48C5-855C-4320C961D95A';
+    caption: string = Constants.Modules.Home.SuspendedSession.caption;
+	nav: string = Constants.Modules.Home.SuspendedSession.nav;
+	id: string = Constants.Modules.Home.SuspendedSession.id;
    
     //----------------------------------------------------------------------------------------------
     openBrowse() {

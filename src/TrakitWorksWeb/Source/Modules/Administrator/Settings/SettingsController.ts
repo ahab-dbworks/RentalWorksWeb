@@ -1,9 +1,9 @@
 ﻿class Settings {
     Module: string = 'Settings';
-    caption: string = 'Settings';
-    nav: string = 'module/settings';
-    id: string = '57150967-486A-42DE-978D-A2B0F843341A';
-    settingsMenuId: string = '730C9659-B33B-493E-8280-76A060A07DCE';
+    caption: string = Constants.Modules.Administrator.Settings.caption;
+    nav: string = Constants.Modules.Administrator.Settings.nav;
+    id: string = Constants.Modules.Administrator.Settings.id;
+    settingsMenuId: string = Constants.MainMenu.Settings.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var combinedViewModel: any;

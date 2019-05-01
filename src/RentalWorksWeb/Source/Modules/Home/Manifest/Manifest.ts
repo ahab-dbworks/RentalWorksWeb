@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/manifest$/, action: function (match: RegExpExec
 class Manifest extends Contract {
     Module: string = 'Manifest';
     apiurl: string = 'api/v1/manifest';
-    caption: string = 'Manifest';
-    nav: string = 'module/manifest';
-    id: string = '1643B4CE-D368-4D64-8C05-6EF7C7D80336';
+    caption: string = Constants.Modules.Home.Contract.caption;
+	nav: string = Constants.Modules.Home.Contract.nav;
+	id: string = Constants.Modules.Home.Contract.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ class Manifest extends Contract {
     //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{8FC8A0F2-C016-476F-971B-64CF2ED95E41}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Manifest.form.menuItems.Print.id] = function (e: JQuery.ClickEvent) {
     var $form;
     try {
         $form = jQuery(this).closest('.fwform');

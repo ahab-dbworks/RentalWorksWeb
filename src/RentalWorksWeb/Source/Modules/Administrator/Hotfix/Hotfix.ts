@@ -3,9 +3,9 @@
 class Hotfix {
     Module: string = 'Hotfix';
     apiurl: string = 'api/v1/hotfix';
-    caption: string = 'Hotfix';
-    nav: string = 'module/hotfix';
-    id: string = '9D29A5D9-744F-40CE-AE3B-09219611A680';
+    caption: string = Constants.Modules.Administrator.Hotfix.caption;
+    nav: string = Constants.Modules.Administrator.Hotfix.nav;
+    id: string = Constants.Modules.Administrator.Hotfix.id;
     //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;

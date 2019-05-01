@@ -2,9 +2,9 @@
 
 class ReturnToVendor {
     Module: string = 'ReturnToVendor';
-    caption: string = 'Return To Vendor';
-    nav: string = 'module/returntovendor';
-    id: string = '79EAD1AF-3206-42F2-A62B-DA1C44092A7F';
+    caption: string = Constants.Modules.Home.ReturnToVendor.caption;
+	nav: string = Constants.Modules.Home.ReturnToVendor.nav;
+	id: string = Constants.Modules.Home.ReturnToVendor.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

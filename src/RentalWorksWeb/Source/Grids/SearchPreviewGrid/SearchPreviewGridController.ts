@@ -4,7 +4,7 @@
 }
 //----------------------------------------------------------------------------------------------
 //Refresh Availability
-FwApplicationTree.clickEvents['{3756AF3A-1611-4BCD-BBD9-E3233F5A772E}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Grids.SearchPreviewGrid.menuItems.RefreshAvailability.id] = function (e: JQuery.ClickEvent) {
     const $grid = jQuery(this).closest('[data-type="Grid"]');
     const onDataBind = $grid.data('ondatabind');
     if (typeof onDataBind == 'function') {

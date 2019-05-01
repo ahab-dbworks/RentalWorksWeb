@@ -2,9 +2,9 @@
 
 class ReceiveFromVendor {
     Module: string = 'ReceiveFromVendor';
-    caption: string = 'Receive From Vendor';
-    nav: string = 'module/receivefromvendor';
-    id: string = '00539824-6489-4377-A291-EBFE26325FAD';
+    caption: string = Constants.Modules.Home.ReceiveFromVendor.caption;
+	nav: string = Constants.Modules.Home.ReceiveFromVendor.nav;
+	id: string = Constants.Modules.Home.ReceiveFromVendor.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

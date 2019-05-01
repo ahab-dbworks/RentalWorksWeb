@@ -1,10 +1,10 @@
-﻿namespace TrakitWorks.Modules.Administrator {
-    export class Group extends Fw.Modules.FwGroup {
-        constructor() {                             
-            super();
-            this.id = '849D2706-72EC-48C0-B41C-0890297BF24B';
-        }
+﻿class Group extends Fw.Modules.FwGroup {
+    constructor() {
+        super();
+        this.id = Constants.Modules.Administrator.Group.id;
+        this.caption = Constants.Modules.Administrator.Group.caption;
+        this.nav = Constants.Modules.Administrator.Group.nav;
     }
 }
 
-var GroupController = new TrakitWorks.Modules.Administrator.Group();
+var GroupController = new Group();

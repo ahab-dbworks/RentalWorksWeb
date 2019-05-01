@@ -341,7 +341,7 @@ class Contract {
     //----------------------------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{8C34754E-B27F-4FE1-93F3-8D6D84339322}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Contract.form.menuItems.PrintOrder.id] = function (e: JQuery.ClickEvent) {
     var $form;
     try {
         $form = jQuery(this).closest('.fwform');

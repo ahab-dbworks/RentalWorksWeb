@@ -5,9 +5,9 @@ routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match:
 class Repair {
     Module:             string = 'Repair';
     apiurl:             string = 'api/v1/repair';
-    caption:            string = 'Repair Order';
-    nav:                string = 'module/repair';
-    id:                 string = 'D567EC42-E74C-47AB-9CA8-764DC0F02D3B';
+    caption: string = Constants.Modules.Home.Repair.caption;
+	nav: string = Constants.Modules.Home.Repair.nav;
+	id: string = Constants.Modules.Home.Repair.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -457,7 +457,7 @@ class Repair {
 
 //------------------------------------------------------------------------------------------------
 // Complete
-FwApplicationTree.clickEvents['{136159CD-A50A-4BCA-AA28-4AB3A1BDC1CB}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Complete.id] = function (event) {
     const $form = jQuery(this).closest('.fwform');
     try {
         RepairController.completeOrder($form);
@@ -466,7 +466,7 @@ FwApplicationTree.clickEvents['{136159CD-A50A-4BCA-AA28-4AB3A1BDC1CB}'] = functi
     }
 };
 // Estimate
-FwApplicationTree.clickEvents['{8733EA9A-790E-4DF1-BFF2-13302A7DCD26}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Estimate.id] = function (event) {
     const $form = jQuery(this).closest('.fwform');
     try {
         RepairController.estimateOrder($form);
@@ -475,7 +475,7 @@ FwApplicationTree.clickEvents['{8733EA9A-790E-4DF1-BFF2-13302A7DCD26}'] = functi
     }
 };
 // Void
-FwApplicationTree.clickEvents['{B048566D-9A69-488E-B7AA-BF243821E4B0}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.Void.id] = function (event) {
     const $form = jQuery(this).closest('.fwform');
     try {
         RepairController.voidOrder($form);
@@ -484,7 +484,7 @@ FwApplicationTree.clickEvents['{B048566D-9A69-488E-B7AA-BF243821E4B0}'] = functi
     }
 };
 // Release
-FwApplicationTree.clickEvents['{7A6B5CFD-1DFA-44BB-8B60-3FEE1E347654}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.form.menuItems.ReleaseItems.id] = function (event) {
     const $form = jQuery(this).closest('.fwform');
     try {
         RepairController.releaseItems($form);
@@ -494,7 +494,7 @@ FwApplicationTree.clickEvents['{7A6B5CFD-1DFA-44BB-8B60-3FEE1E347654}'] = functi
 };
 //---------------------------------------------------------------------------------
 // Void - Browse
-FwApplicationTree.clickEvents['{4F0A3AF7-5CDF-4CCB-B7DF-8DFAF14AA516}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.Repair.browse.menuItems.Void.id] = function (event) {
     try {
         const $browse  = jQuery(this).closest('.fwbrowse');
         const RepairId = $browse.find('.selected [data-browsedatafield="RepairId"]').attr('data-originalvalue');

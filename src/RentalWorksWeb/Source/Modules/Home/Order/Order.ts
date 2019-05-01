@@ -5,9 +5,9 @@
 class Order extends OrderBase {
     Module = 'Order';
     apiurl: string = 'api/v1/order';
-    caption: string = 'Order';
-    nav: string = 'module/order';
-    id: string = '64C46F51-5E00-48FA-94B6-FC4EF53FEA20';
+    caption: string = Constants.Modules.Home.Order.caption;
+	nav: string = Constants.Modules.Home.Order.nav;
+	id: string = Constants.Modules.Home.Order.id;
     lossDamageSessionId: string = '';
     successSoundFileName: string;
     errorSoundFileName: string;
@@ -1815,41 +1815,39 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
 };
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{427FCDFE-7E42-4081-A388-150D3D7FAE36}'] = function (event) {
-    let $form;
-    $form = jQuery(this).closest('.fwform');
-    if ($form.attr('data-mode') !== 'NEW') {
-        try {
-            OrderController.addLossDamage($form, event);
-        }
-        catch (ex) {
-            FwFunc.showError(ex);
-        }
-    } else {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    }
-};
+// mv 4-29-19 commented out this method, because it's not registered in the security tree
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.AddLossAndDamage.id] = function (event: JQuery.ClickEvent) {
+//    try {    
+//        let $form = jQuery(this).closest('.fwform');
+//        if ($form.attr('data-mode') !== 'NEW') {
+//            OrderController.addLossDamage($form, event);
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//        }
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
+////---------------------------------------------------------------------------------
+// mv 4-29-19 commented out this method, because it's not registered in the security tree
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.RetireLossAndDamage.id] = function (event: JQuery.ClickEvent) {
+//    try {
+//        if ($form.attr('data-mode') !== 'NEW') {
+//            let $form = jQuery(this).closest('.fwform');
+//            OrderController.retireLossDamage($form);
+//        } else {
+//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+//        }
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}'] = function (event) {
-    let $form;
-    $form = jQuery(this).closest('.fwform');
-    if ($form.attr('data-mode') !== 'NEW') {
-        try {
-            OrderController.retireLossDamage($form);
-        }
-        catch (ex) {
-            FwFunc.showError(ex);
-        }
-    } else {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    }
-};
-//---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}'] = function (event) {
-    let $form;
-    $form = jQuery(this).closest('.fwform');
-
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreateSnapshot.id] = function (event: JQuery.ClickEvent) {
     try {
+        let $form = jQuery(this).closest('.fwform');
         OrderController.createSnapshotOrder($form, event);
     }
     catch (ex) {
@@ -1857,12 +1855,9 @@ FwApplicationTree.clickEvents['{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}'] = functi
     }
 };
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{03000DCC-3D58-48EA-8BDF-A6D6B30668F5}'] = function (event) {
-    //View Snapshot
-    let $form;
-    $form = jQuery(this).closest('.fwform');
-
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.ViewSnapshot.id] = function (event: JQuery.ClickEvent) {
     try {
+        let $form = jQuery(this).closest('.fwform');
         OrderController.viewSnapshotOrder($form, event);
     }
     catch (ex) {
@@ -1871,14 +1866,13 @@ FwApplicationTree.clickEvents['{03000DCC-3D58-48EA-8BDF-A6D6B30668F5}'] = functi
 };
 
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = function (event) {
-    var $form, $pickListForm;
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreatePickList.id] = function (event: JQuery.ClickEvent) {
     try {
-        $form = jQuery(this).closest('.fwform');
-        var mode = 'EDIT';
-        var orderInfo: any = {};
+        let $form = jQuery(this).closest('.fwform');
+        let mode = 'EDIT';
+        let orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
-        $pickListForm = CreatePickListController.openForm(mode, orderInfo);
+        let $pickListForm = CreatePickListController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $pickListForm);
         jQuery('.tab.submodule.active').find('.caption').html('New Pick List');
         var $pickListUtilityGrid;
@@ -1891,40 +1885,36 @@ FwApplicationTree.clickEvents['{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}'] = functi
 };
 
 //----------------------------------------------------------------------------------------------
+// mv 4-29-19 commented out this method, because it's not registered in the security tree
 //Confirmation for cancelling Pick List
-FwApplicationTree.clickEvents['{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}'] = function (event) {
-    var $form, pickListId, pickListNumber;
-    $form = jQuery(this).closest('.fwform');
-    pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
-    pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
-    try {
-        OrderController.cancelPickList(pickListId, pickListNumber, $form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
-};
+//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelPicklist.id] = function (event: JQuery.ClickEvent) {
+//    var $form, pickListId, pickListNumber;
+//    $form = jQuery(this).closest('.fwform');
+//    pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
+//    pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
+//    try {
+//        OrderController.cancelPickList(pickListId, pickListNumber, $form);
+//    }
+//    catch (ex) {
+//        FwFunc.showError(ex);
+//    }
+//};
 
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{E25CB084-7E7F-4336-9512-36B7271AC151}'] = function (event) {
-    var $form;
-    $form = jQuery(this).closest('.fwform');
-
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CopyOrder.id] = function (event: JQuery.ClickEvent) {
     try {
+        let $form = jQuery(this).closest('.fwform');
         OrderController.copyOrderOrQuote($form);
     }
     catch (ex) {
         FwFunc.showError(ex);
     }
 };
-
 //----------------------------------------------------------------------------------------------
 //Form Cancel Option
-FwApplicationTree.clickEvents['{6B644862-9030-4D42-A29B-30C8DAC29D3E}'] = function (event) {
-    let $form
-    $form = jQuery(this).closest('.fwform');
-
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelUncancel.id] = function (event: JQuery.ClickEvent) {
     try {
+        let $form = jQuery(this).closest('.fwform');
         OrderController.cancelUncancelOrder($form);
     }
     catch (ex) {
@@ -1933,15 +1923,14 @@ FwApplicationTree.clickEvents['{6B644862-9030-4D42-A29B-30C8DAC29D3E}'] = functi
 };
 
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = function (e) {
-    var $form, $orderStatusForm;
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.OrderStatus.id] = function (e: JQuery.ClickEvent) {
     try {
-        $form = jQuery(this).closest('.fwform');
-        var mode = 'EDIT';
-        var orderInfo: any = {};
+        let $form = jQuery(this).closest('.fwform');
+        let mode = 'EDIT';
+        let orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
-        $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
+        let $orderStatusForm = OrderStatusController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $orderStatusForm);
         jQuery('.tab.submodule.active').find('.caption').html('Order Status');
     }
@@ -1950,16 +1939,15 @@ FwApplicationTree.clickEvents['{CF245A59-3336-42BC-8CCB-B88807A9D4EA}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
-//Check In Option
-FwApplicationTree.clickEvents['{380318B6-7E4D-446D-A018-1EB7720F4338}'] = function (e) {
-    var $form, $checkinForm;
+//Check-In
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckIn.id] = function (e: JQuery.ClickEvent) {
     try {
-        $form = jQuery(this).closest('.fwform');
-        var mode = 'EDIT';
-        var orderInfo: any = {};
+        let $form = jQuery(this).closest('.fwform');
+        let mode = 'EDIT';
+        let orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
-        $checkinForm = CheckInController.openForm(mode, orderInfo);
+        let $checkinForm = CheckInController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $checkinForm);
         jQuery('.tab.submodule.active').find('.caption').html('Check-In');
     }
@@ -1968,20 +1956,19 @@ FwApplicationTree.clickEvents['{380318B6-7E4D-446D-A018-1EB7720F4338}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = function (event) {
-    // Stage Item/ Check Out
-    let $form, $stagingCheckoutForm;
+// Stage Item/ Check Out
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CheckOut.id] = function (event: JQuery.ClickEvent) {
     try {
-        $form = jQuery(this).closest('.fwform');
-        var mode = 'EDIT';
-        var orderInfo: any = {};
+        let $form = jQuery(this).closest('.fwform');
+        let mode = 'EDIT';
+        let orderInfo: any = {};
         orderInfo.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
         orderInfo.OrderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
         orderInfo.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
         orderInfo.Warehouse = $form.find('div[data-datafield="WarehouseId"] input.fwformfield-text').val();
         orderInfo.DealId = FwFormField.getValueByDataField($form, 'DealId');
         orderInfo.Deal = $form.find('div[data-datafield="DealId"] input.fwformfield-text').val();
-        $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
+        let $stagingCheckoutForm = StagingCheckoutController.openForm(mode, orderInfo);
         FwModule.openSubModuleTab($form, $stagingCheckoutForm);
         jQuery('.tab.submodule.active').find('.caption').html('Staging / Check-Out');
     }
@@ -1992,27 +1979,30 @@ FwApplicationTree.clickEvents['{771DCE59-EB57-48B2-B189-177B414A4ED3}'] = functi
 
 //----------------------------------------------------------------------------------------------
 //Open Search Interface
-FwApplicationTree.clickEvents['{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}'] = function (e) {
-    let search, $form, orderId;
-    $form = jQuery(this).closest('.fwform');
-    orderId = FwFormField.getValueByDataField($form, 'OrderId');
-    if ($form.attr('data-mode') === 'NEW') {
-        OrderController.saveForm($form, { closetab: false });
-        return;
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Search.id] = function (e: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(this).closest('.fwform');
+        let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        if ($form.attr('data-mode') === 'NEW') {
+            OrderController.saveForm($form, { closetab: false });
+            return;
+        }
+        if (orderId == "") {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        } else {
+            let search = new SearchInterface();
+            search.renderSearchPopup($form, orderId, 'Order');
+        }
     }
-    if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    } else {
-        search = new SearchInterface();
-        search.renderSearchPopup($form, orderId, 'Order');
+    catch (ex) {
+        FwFunc.showError(ex);
     }
 };
 
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = function (e) {
-    var $form;
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.PrintOrder.id] = function (e) {
     try {
-        $form = jQuery(this).closest('.fwform');
+        let $form = jQuery(this).closest('.fwform');
         $form.find('.print').trigger('click');
     }
     catch (ex) {
@@ -2021,14 +2011,12 @@ FwApplicationTree.clickEvents['{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}'] = functi
 };
 //---------------------------------------------------------------------------------
 //Browse Cancel Option
-FwApplicationTree.clickEvents['{DAE6DC23-A2CA-4E36-8214-72351C4E1449}'] = function (event) {
-    let $confirmation, $yes, $no, $browse, orderId, orderStatus;
-
-    $browse = jQuery(this).closest('.fwbrowse');
-    orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
-    orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
-
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.browse.menuItems.CancelUncancel.id] = function (event: JQuery.ClickEvent) {
     try {
+        let $confirmation, $yes, $no;
+        let $browse = jQuery(this).closest('.fwbrowse');
+        let orderId = $browse.find('.selected [data-browsedatafield="OrderId"]').attr('data-originalvalue');
+        let orderStatus = $browse.find('.selected [data-formdatafield="Status"]').attr('data-originalvalue');
         if (orderId != null) {
             if (orderStatus === "CANCELLED") {
                 $confirmation = FwConfirmation.renderConfirmation('Cancel', '');

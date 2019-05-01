@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/transferorder$/, action: function (match: RegEx
 class TransferOrder {
     Module: string = 'TransferOrder';
     apiurl: string = 'api/v1/transferorder';
-    caption: string = 'Transfer Order';
-    nav: string = 'module/transferorder';
-    id: string = 'F089C9A9-554D-40BF-B1FA-015FEDE43591';
+    caption: string = Constants.Modules.Home.TransferOrder.caption;
+	nav: string = Constants.Modules.Home.TransferOrder.nav;
+	id: string = Constants.Modules.Home.TransferOrder.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -259,26 +259,28 @@ class TransferOrder {
 
 //-----------------------------------------------------------------------------------------------------
 //Open Search Interface
-FwApplicationTree.clickEvents['{16CD0101-28D7-49E2-A3ED-43C03152FEE6}'] = function (event) {
-    let search, $form, transferId;
-    $form = jQuery(this).closest('.fwform');
-    transferId = FwFormField.getValueByDataField($form, 'TransferId');
-
-    if ($form.attr('data-mode') === 'NEW') {
-        TransferOrderController.saveForm($form, { closetab: false });
-        return;
+FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.Search.id] = function (event: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(event.currentTarget).closest('.fwform');
+        let transferId = FwFormField.getValueByDataField($form, 'TransferId');
+        if ($form.attr('data-mode') === 'NEW') {
+            TransferOrderController.saveForm($form, { closetab: false });
+            return;
+        }
+        if (transferId == "") {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        } else {
+            let search = new SearchInterface();
+            search.renderSearchPopup($form, transferId, 'Transfer');
+        }
     }
-
-    if (transferId == "") {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-    } else {
-        search = new SearchInterface();
-        search.renderSearchPopup($form, transferId, 'Transfer');
+    catch (ex) {
+        FwFunc.showError(ex);
     }
 };
 //----------------------------------------------------------------------------------------------
 //Transfer Status
-FwApplicationTree.clickEvents['{A256288F-238F-4594-8A6A-3B70613925DA}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.TransferStatus.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const mode = 'EDIT';
@@ -298,7 +300,7 @@ FwApplicationTree.clickEvents['{A256288F-238F-4594-8A6A-3B70613925DA}'] = e => {
 };
 //----------------------------------------------------------------------------------------------
 //Transfer Out
-FwApplicationTree.clickEvents['{D0AB3734-7F96-46A6-8297-331110A4854F}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.TransferOut.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const mode = 'EDIT';
@@ -318,7 +320,7 @@ FwApplicationTree.clickEvents['{D0AB3734-7F96-46A6-8297-331110A4854F}'] = e => {
 
 //----------------------------------------------------------------------------------------------
 //Transfer In
-FwApplicationTree.clickEvents['{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.TransferIn.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const mode = 'EDIT';
@@ -338,33 +340,38 @@ FwApplicationTree.clickEvents['{E362D71D-7597-4752-8BDD-72EE0CB7B2C4}'] = e => {
 //----------------------------------------------------------------------------------------------
 //Confirm Transfer
 //-----------------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{A35F0AAD-81B5-4A0C-8970-D448A67D5A82}'] = e => {
-    const $form = jQuery(e.currentTarget).closest('.fwform');
-    const transferNumber = FwFormField.getValueByDataField($form, `TransferNumber`);
-    const $confirmation = FwConfirmation.renderConfirmation('Confirm Transfer', '');
-    $confirmation.find('.fwconfirmationbox').css('width', '450px');
-    const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
-                    <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                        <div>Confirm Transfer Number ${transferNumber}?</div>
-                    </div>
-                  </div>`;
-    FwConfirmation.addControls($confirmation, html);
-    const $yes = FwConfirmation.addButton($confirmation, 'Confirm Transfer', false);
-    FwConfirmation.addButton($confirmation, 'Cancel');
+FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.Confirm.id] = (e: JQuery.ClickEvent) => {
+    try {
+        const $form = jQuery(e.currentTarget).closest('.fwform');
+        const transferNumber = FwFormField.getValueByDataField($form, `TransferNumber`);
+        const $confirmation = FwConfirmation.renderConfirmation('Confirm Transfer', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        const html = `<div class="fwform" data-controller="none" style="background-color: transparent;">
+                        <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                            <div>Confirm Transfer Number ${transferNumber}?</div>
+                        </div>
+                      </div>`;
+        FwConfirmation.addControls($confirmation, html);
+        const $yes = FwConfirmation.addButton($confirmation, 'Confirm Transfer', false);
+        FwConfirmation.addButton($confirmation, 'Cancel');
 
-    $yes.on('click', e => {
-        const transferId = FwFormField.getValueByDataField($form, 'TransferId');
-        FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
-            FwNotification.renderNotification('SUCCESS', 'Transfer Order Successfully Confirmed.');
-            FwConfirmation.destroyConfirmation($confirmation);
-            FwModule.refreshForm($form, TransferOrderController);
-        }, null, $confirmation);
-    });
+        $yes.on('click', e => {
+            const transferId = FwFormField.getValueByDataField($form, 'TransferId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/transferorder/confirm/${transferId}`, null, FwServices.defaultTimeout, response => {
+                FwNotification.renderNotification('SUCCESS', 'Transfer Order Successfully Confirmed.');
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwModule.refreshForm($form, TransferOrderController);
+            }, null, $confirmation);
+        });
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //-----------------------------------------------------------------------------------------------------
 //Create Pick List
 //-----------------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{5CA07E25-A93E-4FA0-9206-B3F556684B0C}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.TransferOrder.form.menuItems.CreatePickList.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const mode = 'EDIT';

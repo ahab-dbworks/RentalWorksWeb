@@ -2,9 +2,9 @@
 
 class TransferOut extends StagingCheckoutBase{
     Module: string = 'TransferOut';
-    caption: string = 'Transfer Out';
-    nav: string = 'module/transferout';
-    id: string = '91E79272-C1CF-4678-A28F-B716907D060C';
+    caption: string = Constants.Modules.Home.TransferOut.caption;
+	nav: string = Constants.Modules.Home.TransferOut.nav;
+	id: string = Constants.Modules.Home.TransferOut.id;
     showAddItemToOrder: boolean = false;
     successSoundFileName: string;
     errorSoundFileName: string;

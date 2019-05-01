@@ -1,10 +1,10 @@
 ﻿class Control {
     Module: string = 'Control';
     apiurl: string = 'api/v1/control';
-    caption: string = 'Control';
-    nav: string = 'module/control';
-    id: string = 'B3ADDF49-64EB-4740-AB41-4327E6E56242';
-    reportImageId: string = '';
+    caption: string = Constants.Modules.Administrator.Control.caption;
+    nav: string = Constants.Modules.Administrator.Control.nav;
+    id: string = Constants.Modules.Administrator.Control.id;
+    reportImageId: string = Constants.MainMenu.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
@@ -64,12 +64,6 @@
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-    }
-    //----------------------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="ControlId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {

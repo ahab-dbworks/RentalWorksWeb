@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build;FwDebugTarget;FwPublishTarget" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -166,6 +166,7 @@
     <TypeScriptCompile Include="%40types\Fw\index.d.ts" />
     <TypeScriptCompile Include="%40types\JQuery\index.d.ts" />
     <TypeScriptCompile Include="%40types\Web\index.d.ts" />
+    <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="scripts\RwLanguages.js" />
@@ -236,8 +237,6 @@
     <Content Include="Source\Modules\Administrator\DuplicateRule\DuplicateRuleForm.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixForm.htm" />
-    <Content Include="Source\Modules\Administrator\Integration\Integration.css" />
-    <Content Include="Source\Modules\Administrator\Integration\IntegrationForm.htm" />
     <Content Include="Source\Modules\Administrator\Reports\Reports.css" />
     <Content Include="Source\Modules\Administrator\Reports\Reports.htm" />
     <Content Include="Source\Modules\Administrator\Settings\Settings.css" />
@@ -249,6 +248,8 @@
     <Content Include="Source\Modules\Home\AssignBarcodes\AssignBarcodesForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
+    <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
+    <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Home\Deal\DealBrowse.htm" />
     <Content Include="Source\Modules\Home\Deal\DealForm.htm" />
     <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
@@ -270,8 +271,6 @@
     <Content Include="Source\Modules\Home\Contact\Contact.css" />
     <Content Include="Source\Modules\Home\Contact\ContactBrowse.htm" />
     <Content Include="Source\Modules\Home\Contact\ContactForm.htm" />
-    <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
-    <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryForm.htm" />
     <Content Include="Source\Modules\Home\ReturnToVendor\ReturnToVendorForm.htm" />
@@ -551,7 +550,6 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Group\Group.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
-    <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Settings\SettingsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\AssignBarcodes\AssignBarcodes.ts" />
@@ -559,7 +557,6 @@
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CreatePickList\CreatePickList.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\Customer\Customer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Deal\Deal.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Exchange\Exchange.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ExpendableItem\ExpendableItem.ts" />
@@ -644,6 +641,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="tsconfig.json" />
+    <Content Include="Source\Modules\Home\Customer\Customer.ts" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

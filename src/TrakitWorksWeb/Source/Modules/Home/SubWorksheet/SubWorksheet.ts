@@ -2,6 +2,9 @@
 
 class SubWorksheet {
     Module: string = 'SubWorksheet';
+    caption: string = Constants.Modules.Home.SubWorksheet.caption;
+	nav: string = Constants.Modules.Home.SubWorksheet.nav;
+	id: string = Constants.Modules.Home.SubWorksheet.id;
     OrderId: string;
     SessionId: string;
     RecType: string;

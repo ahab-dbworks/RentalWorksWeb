@@ -2,9 +2,9 @@ routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: R
 
 class ReceiveFromVendor {
     Module: string = 'ReceiveFromVendor';
-    caption: string = 'Receive From Vendor';
-    nav: string = 'module/receivefromvendor';
-    id: string = 'EC4052D5-664E-4C34-8802-78E086920628';
+    caption: string = Constants.Modules.Home.ReceiveFromVendor.caption;
+	nav: string = Constants.Modules.Home.ReceiveFromVendor.nav;
+	id: string = Constants.Modules.Home.ReceiveFromVendor.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

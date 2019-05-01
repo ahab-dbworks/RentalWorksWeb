@@ -1,7 +1,5 @@
 ﻿class Program extends FwApplication {
-    RENTALWORKS = 'RentalWorks';
-    TRAKITWORKS = 'TrakitWorks';
-    name = this.RENTALWORKS;
+    name = Constants.appCaption;
     //---------------------------------------------------------------------------------
     constructor() {
         super();

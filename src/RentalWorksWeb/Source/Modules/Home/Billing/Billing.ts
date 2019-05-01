@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/billing$/, action: function (match: RegExpExecA
 class Billing {
     Module: string = 'Billing';
     apiurl: string = 'api/v1/billing';
-    caption: string = 'Billing';
-    nav: string = 'module/billing';
-    id: string = '34E0472E-9057-4C66-8CC2-1938B3222569';
+    caption: string = Constants.Modules.Home.Billing.caption;
+    nav: string = Constants.Modules.Home.Billing.nav;
+    id: string = Constants.Modules.Home.Billing.id;
     ActiveView: string = 'ALL';
     SessionId: string;
     //----------------------------------------------------------------------------------------------

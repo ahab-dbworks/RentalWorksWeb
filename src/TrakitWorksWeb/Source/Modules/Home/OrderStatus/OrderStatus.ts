@@ -2,9 +2,9 @@
 
 class OrderStatus {
     Module: string = 'OrderStatus';
-    caption: string = 'Order Status';
-    nav: string = 'module/orderstatus';
-    id: string = '7BB8BB8C-8041-41F6-A2FA-E9FA107FF5ED';
+    caption: string = Constants.Modules.Home.OrderStatus.caption;
+	nav: string = Constants.Modules.Home.OrderStatus.nav;
+	id: string = Constants.Modules.Home.OrderStatus.id;
     Type: string = 'Order';
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

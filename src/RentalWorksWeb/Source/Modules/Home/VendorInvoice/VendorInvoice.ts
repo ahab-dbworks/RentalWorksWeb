@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/vendorinvoice$/, action: function (match: RegEx
 class VendorInvoice {
     Module: string = 'VendorInvoice';
     apiurl: string = 'api/v1/vendorinvoice';
-    caption: string = 'Vendor Invoice';
-    nav: string = 'module/vendorinvoice';
-    id: string = '854B3C59-7040-47C4-A8A3-8A336FC970FE';
+    caption: string = Constants.Modules.Home.VendorInvoice.caption;
+	nav: string = Constants.Modules.Home.VendorInvoice.nav;
+	id: string = Constants.Modules.Home.VendorInvoice.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -280,7 +280,7 @@ class VendorInvoice {
 };
 //----------------------------------------------------------------------------------------------
 //form approve
-FwApplicationTree.clickEvents['{79ABAD41-19F1-42C1-A88B-41479DE13B3B}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItems.Approve.id] = function (event) {
     var $form, vendorInvoiceId;
     $form = jQuery(this).closest('.fwform');
     vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
@@ -294,7 +294,7 @@ FwApplicationTree.clickEvents['{79ABAD41-19F1-42C1-A88B-41479DE13B3B}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //form unapprove
-FwApplicationTree.clickEvents['{FB248072-C14C-4EEC-8B99-5ED8E950CE8A}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItems.Unapprove.id] = function (event) {
     var $form, vendorInvoiceId;
     $form = jQuery(this).closest('.fwform');
     vendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
@@ -308,12 +308,10 @@ FwApplicationTree.clickEvents['{FB248072-C14C-4EEC-8B99-5ED8E950CE8A}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //browse approve
-FwApplicationTree.clickEvents['{4A8CEF38-F59F-4306-8A9B-9B43FF6D127D}'] = function (event) {
-    let $browse;
-    let vendorInvoiceId;
-    $browse = jQuery(this).closest('.fwbrowse');
+FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.browse.menuItems.Approve.id] = function (event) {
     try {
-        vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+        let $browse = jQuery(this).closest('.fwbrowse');
+        let vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
         if (typeof vendorInvoiceId !== 'undefined') {
             FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
@@ -331,12 +329,10 @@ FwApplicationTree.clickEvents['{4A8CEF38-F59F-4306-8A9B-9B43FF6D127D}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //browse unapprove
-FwApplicationTree.clickEvents['{9378DA62-F7FD-4FD2-8310-3277BBD155BF}'] = function (event) {
-    let $browse;
-    let vendorInvoiceId;
-    $browse = jQuery(this).closest('.fwbrowse');
+FwApplicationTree.clickEvents[Constants.Modules.Home.VendorInvoice.form.menuItems.Unapprove.id] = function (event) {
     try {
-        vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
+        let $browse = jQuery(this).closest('.fwbrowse');
+        let vendorInvoiceId = $browse.find('.selected [data-browsedatafield="VendorInvoiceId"]').attr('data-originalvalue');
         if (typeof vendorInvoiceId !== 'undefined') {
             FwAppData.apiMethod(true, 'POST', `api/v1/vendorinvoice/toggleapproved/${vendorInvoiceId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {

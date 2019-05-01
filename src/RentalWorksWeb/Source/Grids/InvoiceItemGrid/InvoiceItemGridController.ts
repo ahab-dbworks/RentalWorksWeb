@@ -274,18 +274,15 @@
     };
 }
 //----------------------------------------------------------------------------------------------
-//FwApplicationTree.clickEvents['{46D27E42-9C66-42F5-922C-CAE617856F63}'] = function (event) {
-//    let $form;
-//    $form = jQuery(this).closest('.fwform');
-
-//    let module = $form.attr('data-controller').replace('Controller', '');
+//FwApplicationTree.clickEvents[Constants.Grids.InvoiceItemGrid.menuItems.ToggleOrderItemView.id] = function (event: JQuery.ClickEvent) {
 //    try {
+//        let $form = jQuery(this).closest('.fwform');
+//        let module = $form.attr('data-controller').replace('Controller', '');
 //        InvoiceItemGridController.toggleOrderItemView($form, event, module);
 //    }
 //    catch (ex) {
 //        FwFunc.showError(ex);
 //    }
 //};
-
 //----------------------------------------------------------------------------------------------
 var InvoiceItemGridController = new InvoiceItemGrid();

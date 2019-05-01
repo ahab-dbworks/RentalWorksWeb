@@ -2,9 +2,9 @@
 
 class TransferStatus extends OrderStatusBase {
     Module: string = 'TransferStatus';
-    caption: string = 'Transfer Status';
-    nav: string = 'module/transferstatus';
-    id: string = '58D5D354-136E-40D5-9675-B74FD7807D6F';
+    caption: string = Constants.Modules.Home.TransferStatus.caption;
+	nav: string = Constants.Modules.Home.TransferStatus.nav;
+	id: string = Constants.Modules.Home.TransferStatus.id;
     Type: string = 'Transfer';
 }
 var TransferStatusController = new TransferStatus();

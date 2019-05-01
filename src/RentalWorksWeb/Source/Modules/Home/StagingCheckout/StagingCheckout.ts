@@ -1,8 +1,8 @@
 ﻿class StagingCheckout extends StagingCheckoutBase{
     Module: string = 'StagingCheckout';
-    caption: string = 'Staging / Check-Out';
-    nav: string = 'module/checkout';
-    id: string = 'C3B5EEC9-3654-4660-AD28-20DE8FF9044D';
+    caption: string = Constants.Modules.Home.StagingCheckout.caption;
+	nav: string = Constants.Modules.Home.StagingCheckout.nav;
+	id: string = Constants.Modules.Home.StagingCheckout.id;
     showAddItemToOrder: boolean = false;
     successSoundFileName: string;
     errorSoundFileName: string;

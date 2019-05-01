@@ -1,9 +1,9 @@
 ﻿class Reports {
     Module: string = 'Reports';
-    caption: string = 'Reports';
-    nav: string = 'module/reports';
-    id: string = '3C5C7603-9E7B-47AB-A722-B29CA09B3B8C';
-    reportsMenuId = '7FEC9D55-336E-44FE-AE01-96BF7B74074C';
+    caption: string = Constants.Modules.Administrator.Reports.caption;
+    nav: string = Constants.Modules.Administrator.Reports.nav
+    id: string = Constants.Modules.Administrator.Reports.id;
+    reportsMenuId = Constants.MainMenu.Reports.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

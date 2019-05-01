@@ -3,9 +3,9 @@
 class ExpendableItem {
     Module: string = 'ExpendableItem';
     apiurl: string = 'api/v1/salesinventory';
-    caption: string = 'Expendable Item';
-    nav: string = 'module/expendableitem';
-    id: string = '4115FFCE-69BB-4D2F-BCDC-3924AE045AA8';
+    caption: string = Constants.Modules.Home.ExpendableItem.caption;
+	nav: string = Constants.Modules.Home.ExpendableItem.nav;
+	id: string = Constants.Modules.Home.ExpendableItem.id;
     ActiveView: string = 'ALL';
     AvailableFor: string = 'X';
     yearData: any = [];

@@ -1,9 +1,10 @@
 ﻿routes.push({ pattern: /^module\/fillcontainer$/, action: function (match: RegExpExecArray) { return FillContainerController.getModuleScreen(); } });
+
 class FillContainer extends StagingCheckoutBase {
     Module: string = 'FillContainer';
-    caption: string = 'Fill Container';
-    nav: string = 'module/fillcontainer';
-    id: string = '0F1050FB-48DF-41D7-A969-37300B81B7B5';
+    caption: string = Constants.Modules.Home.FillContainer.caption;
+	nav: string = Constants.Modules.Home.FillContainer.nav;
+	id: string = Constants.Modules.Home.FillContainer.id;
     showAddItemToOrder: boolean = false;
     successSoundFileName: string;
     errorSoundFileName: string;

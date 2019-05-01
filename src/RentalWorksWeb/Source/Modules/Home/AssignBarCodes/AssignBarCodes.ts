@@ -2,9 +2,9 @@
 
 class AssignBarCodes {
     Module: string = 'AssignBarCodes';
-    caption: string = 'Assign Barcodes';
-    nav: string = 'module/assignbarcodes';
-    id: string = '4B9C17DE-7FC0-4C33-B953-26FC90F32EA0';
+    caption: string = Constants.Modules.Home.AssignBarCodes.caption;
+    nav: string = Constants.Modules.Home.AssignBarCodes.nav;
+    id: string = Constants.Modules.Home.AssignBarCodes.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;

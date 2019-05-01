@@ -1,9 +1,9 @@
 ﻿class PhysicalInventory {
     Module: string = 'PhysicalInventory';
     apiurl: string = 'api/v1/physicalinventory';
-    caption: string = 'Physical Inventory';
-    nav: string = 'module/physicalinventory';
-    id: string = 'BABFE80E-8A52-49D4-81D9-6B6EBB518E89';
+    caption: string = Constants.Modules.Home.PhysicalInventory.caption;
+	nav: string = Constants.Modules.Home.PhysicalInventory.nav;
+	id: string = Constants.Modules.Home.PhysicalInventory.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
 

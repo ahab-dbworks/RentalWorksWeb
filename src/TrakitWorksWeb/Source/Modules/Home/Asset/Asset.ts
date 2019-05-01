@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/asset$/, action: function (match: RegExpExecArr
 class Asset {
     Module:             string = 'Asset';
     apiurl:             string = 'api/v1/item';
-    caption:            string = 'Asset';
-    nav:                string = 'module/asset';
-    id:                 string = 'E1366299-0008-429C-93CC-B8ED8969B180';
+    caption: string = Constants.Modules.Home.Asset.caption;
+	nav: string = Constants.Modules.Home.Asset.nav;
+	id: string = Constants.Modules.Home.Asset.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //---------------------------------------------------------------------------------------------

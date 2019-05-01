@@ -3,9 +3,9 @@ routes.push({ pattern: /^module\/partsinventory$/, action: function (match: RegE
 class PartsInventory extends InventoryBase {
     Module: string = 'PartsInventory';
     apiurl: string = 'api/v1/partsinventory';
-    caption: string = 'Parts Inventory';
-    nav: string = 'module/partsinventory';
-    id: string = '351B8A09-7778-4F06-A6A2-ED0920A5C360';
+    caption: string = Constants.Modules.Home.PartsInventory.caption;
+	nav: string = Constants.Modules.Home.PartsInventory.nav;
+	id: string = Constants.Modules.Home.PartsInventory.id;
     AvailableFor: string = "P";
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
@@ -277,17 +277,25 @@ class PartsInventory extends InventoryBase {
     };
 };
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{1881D7B6-E17A-4D20-A2E5-71F383FBD8CB}'] = e => {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PartsInventory.form.menuItems.CreateComplete.id] = (e: JQuery.ClickEvent) => {
     try {
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
         FwAppData.apiMethod(true, 'POST', `api/v1/inventorycompletekit/createcomplete/${inventoryId}`, null, FwServices.defaultTimeout,
-            response => {
-                const uniqueIds: any = {};
-                uniqueIds.InventoryId = response.PackageId;
-                const $completeForm = PartsInventoryController.loadForm(uniqueIds);
-                FwModule.openSubModuleTab($form, $completeForm);
-            }, ex => {
+            // onsuccess
+            (response: any) => {
+                try {
+                    const uniqueIds: any = {};
+                    uniqueIds.InventoryId = response.PackageId;
+                    const $completeForm = PartsInventoryController.loadForm(uniqueIds);
+                    FwModule.openSubModuleTab($form, $completeForm);
+                }
+                catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }, 
+            // onfailure
+            (ex: any) => {
                 FwFunc.showError(ex);
             }, $form);
     }

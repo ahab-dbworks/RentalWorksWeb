@@ -292,14 +292,18 @@
 
 var TemplateController = new Template();
 
-FwApplicationTree.clickEvents['{6386E100-98B2-42F3-BF71-5BB432070D10}'] = function (e) {
-    const $form = jQuery(this).closest('.fwform');
-    const orderId = FwFormField.getValueByDataField($form, 'TemplateId');
-
-    if (orderId == "") {
-        FwNotification.renderNotification('WARNING', 'Save the record before performing this function.');
-    } else {
-        const search = new SearchInterface();
-        search.renderSearchPopup($form, orderId, 'Template');
+FwApplicationTree.clickEvents[Constants.Modules.Settings.Template.form.menuItems.Search.id] = function (e: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        const orderId = FwFormField.getValueByDataField($form, 'TemplateId');
+        if (orderId == "") {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function.');
+        } else {
+            const search = new SearchInterface();
+            search.renderSearchPopup($form, orderId, 'Template');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
     }
 };

@@ -171,6 +171,7 @@
     <TypeScriptCompile Include="%40types\Fw\index.d.ts" />
     <TypeScriptCompile Include="%40types\JQuery\index.d.ts" />
     <TypeScriptCompile Include="%40types\Web\index.d.ts" />
+    <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
     <Content Include="scripts\RwLanguages.js" />
@@ -482,6 +483,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\CustomerCredit\CustomerCredit.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\ContainerStatus\ContainerStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\FillContainer\FillContainer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\SuspendedSession\SuspendedSession.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\TransferStatus\TransferStatus.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\TransferIn\TransferIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Container\Container.ts" />
@@ -567,6 +569,7 @@
     <Content Include="Source\Modules\Home\Receipt\ReceiptForm.htm" />
     <Content Include="Source\Modules\Home\Billing\BillingBrowse.htm" />
     <Content Include="Source\Modules\Home\Billing\BillingForm.htm" />
+    <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
     <Content Include="Source\Modules\Home\TransferOrder\TransferOrderBrowse.htm" />
     <Content Include="Source\Modules\Home\TransferOrder\TransferOrderForm.htm" />
     <Content Include="Source\Modules\Home\VendorInvoice\VendorInvoiceBrowse.htm" />

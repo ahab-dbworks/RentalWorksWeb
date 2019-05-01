@@ -2,9 +2,9 @@
 
 class EmptyContainer {
     Module: string = 'EmptyContainer';
-    caption: string = 'Empty Container';
-    nav: string = 'module/emptycontainer';
-    id: string = '60CAE944-DE89-459E-86AC-2F1B68211E07';
+    caption: string = Constants.Modules.Home.EmptyContainer.caption;
+	nav: string = Constants.Modules.Home.EmptyContainer.nav;
+	id: string = Constants.Modules.Home.EmptyContainer.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         var screen: any = {};

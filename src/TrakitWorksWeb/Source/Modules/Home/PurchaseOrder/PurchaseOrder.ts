@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/purchaseorder\/(\w+)\/(\S+)/, action: function 
 class PurchaseOrder {
     Module:                  string = 'PurchaseOrder';
     apiurl:                  string = 'api/v1/purchaseorder';
-    caption:                 string = 'Purchase Order';
-    nav:                     string = 'module/purchaseorder';
-    id:                      string = 'DA900327-CEAC-4CB0-9911-CAA2C67059C2';
+    caption: string = Constants.Modules.Home.PurchaseOrder.caption;
+	nav: string = Constants.Modules.Home.PurchaseOrder.nav;
+	id: string = Constants.Modules.Home.PurchaseOrder.id;
     DefaultPurchasePoType:   string;
     DefaultPurchasePoTypeId: string;
     ActiveViewFields:        any    = {};
@@ -410,7 +410,7 @@ class PurchaseOrder {
 }
 
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReceiveFromVendor.id] = function (e) {
     var $form, $receiveFromVendorForm;
     try {
         $form = jQuery(this).closest('.fwform');
@@ -427,7 +427,7 @@ FwApplicationTree.clickEvents['{4BB0AB54-641E-4638-89B4-0F9BFE88DF82}'] = functi
     }
 };
 //----------------------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{B287428E-FF45-469A-8203-3BFF18E90810}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.ReturnToVendor.id] = function (e) {
     let $form, $returnToVendorForm;
     try {
         $form = jQuery(this).closest('.fwform');
@@ -445,7 +445,7 @@ FwApplicationTree.clickEvents['{B287428E-FF45-469A-8203-3BFF18E90810}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 
-FwApplicationTree.clickEvents['{D512214F-F6BD-4098-8473-0AC7F675893D}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.Search.id] = function (e) {
     let search, $form, orderId, $popup;
     $form = jQuery(this).closest('.fwform');
     orderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
@@ -459,7 +459,7 @@ FwApplicationTree.clickEvents['{D512214F-F6BD-4098-8473-0AC7F675893D}'] = functi
 };
 //----------------------------------------------------------------------------------------------
 //Assign Bar Codes
-FwApplicationTree.clickEvents['{649E744B-0BDD-43ED-BB6E-5945CBB0BFA5}'] = function (e) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItems.AssignBarCodes.id] = function (e) {
     const $form = jQuery(this).closest('.fwform'); 
     try {
         const mode = 'EDIT';

@@ -3,9 +3,9 @@
 class PickList {
     Module: string = 'PickList';
     apiurl: string = 'api/v1/picklist';
-    caption: string = 'Pick List';
-    nav: string = 'module/picklist';
-    id: string = '744B371E-5478-42F9-9852-E143A1EC5DDA';
+    caption: string = Constants.Modules.Home.PickList.caption;
+	nav: string = Constants.Modules.Home.PickList.nav;
+	id: string = Constants.Modules.Home.PickList.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
@@ -145,7 +145,7 @@ class PickList {
 }
 
 //---------------------------------------------------------------------------------
-FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = function (event) {
+FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.CancelPickList.id] = function (event) {
     var $form, pickListId, pickListNumber;
     try {
         $form = jQuery(this).closest('.fwform');
@@ -159,42 +159,42 @@ FwApplicationTree.clickEvents['{3BF7AEF3-BF52-4B8B-8324-910A92005B2B}'] = functi
 };
 //---------------------------------------------------------------------------------
 //Print Pick List
-FwApplicationTree.clickEvents['{069BBE73-5B14-4F3E-A594-8699676D9B8E}'] = function (event) {
-    //var $form, $report, pickListNumber, pickListId;
-    //try {
-    //    $form = jQuery(this).closest('.fwform');
-    //    pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
-    //    pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-    //    $report = RwPickListReportController.openForm();
-    //    FwModule.openSubModuleTab($form, $report);
-    //    $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-    //    $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-    //    jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
-    //}
-    //catch (ex) {
-    //    FwFunc.showError(ex);
-    //}
+FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.PrintPickList.id] = function (event) {
+    var $form, $report, pickListNumber, pickListId;
+    try {
+        $form = jQuery(this).closest('.fwform');
+        pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
+        pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
+        $report = RwPickListReportController.openForm();
+        FwModule.openSubModuleTab($form, $report);
+        $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+        $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+        jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //---------------------------------------------------------------------------------
 //Browse Print Pick List
-FwApplicationTree.clickEvents['{51C78FB1-CD66-431F-A7BA-FFFB3BFDFD6C}'] = function (event) {
-    //var $browse, pickListId, pickListNumber;
-    //try {
-    //    $browse = jQuery(this).closest('.fwbrowse');
-    //    pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
-    //    pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
-    //    if (pickListId != null) {
-    //        $browse = RwPickListReportController.openForm();
-    //        FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
-    //        $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
-    //        $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
-    //    } else {
-    //        FwNotification.renderNotification('WARNING', 'Select a Picklist to print.');
-    //    }
-    //}
-    //catch (ex) {
-    //    FwFunc.showError(ex);
-    //}
+FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.browse.menuItems.PrintPickList.id] = function (event) {
+    var $browse, pickListId, pickListNumber;
+    try {
+        $browse = jQuery(this).closest('.fwbrowse');
+        pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
+        pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
+        if (pickListId != null) {
+            $browse = RwPickListReportController.openForm();
+            FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
+            $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
+            $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select a Picklist to print.');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
 };
 //---------------------------------------------------------------------------------
 
