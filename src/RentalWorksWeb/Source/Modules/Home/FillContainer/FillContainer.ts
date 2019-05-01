@@ -29,7 +29,7 @@ class FillContainer extends StagingCheckoutBase {
                             const html = `<div class="flexrow fwform" style="overflow:hidden;" data-controller="FillContainerController">
                                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container I-Code" data-datafield="ContainerId" data-displayfield="ICode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerValidation" style="flex:0 1 200px;"></div>
                                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:0 1 400px;"></div>
-                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="InventoryId" data-datafield="InventoryId" style="display:none;"></div>;
+                                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="InventoryId" data-datafield="InventoryId" style="display:none;"></div>
                                           </div>`;
                             FwConfirmation.addControls($confirmation, html);
                             FwFormField.setValueByDataField($confirmation, 'InventoryId', inventoryId);
