@@ -17,7 +17,7 @@ html.theme-material .fwconfirmationbox {-webkit-animation:fwconfirmation-pop-in 
 html.theme-material .fwconfirmation .fwconfirmationbox .title {font-size:1.1em;padding:.8em;}
 html.theme-material .fwconfirmation .fwconfirmationbox .body {padding:10px;min-height:80px;position:relative;overflow:auto;-webkit-overflow-scrolling:touch;max-height:80vh;}
 html.theme-material .fwconfirmation[data-nopadding="true"] .fwconfirmationbox .body {padding:0;}
-html.theme-material .fwconfirmation .fwconfirmationbox .body .message {cursor: default;-webkit-touch-callout: none;-webkit-user-select: none;-moz-user-select: none;-ms-user-select: none;user-select: none;}
+html.theme-material .fwconfirmation .fwconfirmationbox .body .message {cursor: default;-webkit-touch-callout: none;-webkit-user-select: text;-moz-user-select: text;-ms-user-select: text;user-select: text;}
 html.theme-material .fwconfirmation .fwconfirmationbox .body .controls:after {content:"";display:table;clear:both;}
 html.theme-material.no-touch .fwconfirmation .fwconfirmationbox .more {display:none !important;}
 html.theme-material .fwconfirmation .fwconfirmationbox .fwconfirmation-buttonbar {padding:10px 0;text-align:center;}

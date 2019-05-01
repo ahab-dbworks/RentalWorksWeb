@@ -1576,6 +1576,9 @@ class FwBrowseClass {
                                                                 e.stopPropagation();
                                                                 const securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
                                                                 const func = FwApplicationTree.clickEvents[`{${securityid}}`];
+                                                                if (typeof func !== 'function') {
+                                                                    throw `No click event is registered for browse control ${$control.attr('data-name')} with securityid: {${securityid}}`;
+                                                                }
                                                                 func.apply(this, [e]);
                                                             } catch (ex) {
                                                                 FwFunc.showError(ex);
@@ -1584,7 +1587,7 @@ class FwBrowseClass {
                                                         break;
                                                     case 'DownloadExcelSubMenuItem':
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                        $submenuitem.on('click', function (e: JQuery.ClickEvent) {
                                                             try {
                                                                 FwBrowse.downloadExcelWorkbook($browse, controller);
                                                             } catch (ex) {

@@ -42,22 +42,6 @@
 
     }
     //---------------------------------------------------------------------------------
-    loadDisplayFields($control: JQuery<HTMLElement>) {
-        const $multiSelectDisplay = $control.find('.multiSelectDisplay');
-        const $displayFields = $control.find('.fieldnames td[data-visible="true"]');
-        let html = [];
-        if ($displayFields.length !== 0) {
-            for (let i = 0; i < $displayFields.length; i++) {
-                let $field = $displayFields[i];
-                let caption = jQuery($field).find('div.field').attr('data-caption');
-                let datafield = jQuery($field).find('div.field').attr('data-browsedatafield');
-                html.push(`<option data-datafield="${datafield}" value="${caption}">${caption}</option>`);
-            }
-        }
-        $multiSelectDisplay.find('select').append(html.join(''));
-        $multiSelectDisplay.css('display', 'inline-block');
-    }
-    //---------------------------------------------------------------------------------
     loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void {
         $fwformfield
             .attr('data-originalvalue', value)
@@ -107,8 +91,7 @@
             let valueArr;
             $fwformfield.hasClass('email') ? valueArr = value.split(';') : valueArr = value.split(',');
             let textArr;
-            const fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
-            const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
+            const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
             if (typeof text !== 'undefined') {
                 textArr = text.split(multiSeparator);
             }

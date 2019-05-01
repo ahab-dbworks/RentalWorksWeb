@@ -1,4 +1,4 @@
-class FwMultiSelectValidationClass {
+﻿class FwMultiSelectValidationClass {
     //---------------------------------------------------------------------------------
     init($control: JQuery, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery): void {
         var $browse, $popup, $form, controller, formbeforevalidate, control_boundfields, boundfields, hasselectall;
@@ -63,9 +63,6 @@ class FwMultiSelectValidationClass {
             $browse.find('.btnSelectAll').css('display', 'inline-block');
         }
         $browse.find('.btnViewSelection').css('display', 'inline-block');
-
-        //adds display field select options
-        window['FwFormField_multiselectvalidation'].loadDisplayFields($browse);
 
         $popup = FwPopup.attach($browse);
 
@@ -150,6 +147,14 @@ class FwMultiSelectValidationClass {
             .on('click', '.validationbuttons .btnViewSelection', function () {
                 try {
                     FwMultiSelectValidation.viewSelection(validationName, $valuefield, $searchfield, $btnvalidate, $popup, $browse, controller);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            })
+            .on('click', '.validationbuttons .btnNew', function () {
+                var $this = jQuery(this);
+                try {
+                    FwMultiSelectValidation.newValidation($control, validationName.slice(0, -10), $this, $valuefield, $btnvalidate, $popup, $browse.attr('data-caption'));
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -247,8 +252,7 @@ class FwMultiSelectValidationClass {
                     //removes item from text
                     const itemText = $item.find('span').text();
                     const $textField = $valuefield.siblings('.fwformfield-text');
-                    const fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
-                    const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
+                    const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
                     let text: any = $textField.val();
                     text = text
                         .split(multiSeparator)
@@ -364,13 +368,7 @@ class FwMultiSelectValidationClass {
     select($control, $selectedRows: Array<JQuery>, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup: JQuery, $browse: JQuery, controller: string): void {
         var uniqueid, $trs;
         const multiselectfield = $control.find('.multiselectitems');
-        let fieldToDisplay;
-        if ($control.hasClass('email')) {
-            fieldToDisplay = "Email";
-        } else {
-            fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
-        }
-        const multiSeparator = jQuery($browse.find(`thead [data-browsedatafield="${fieldToDisplay}"]`).get(0)).attr('data-multiwordseparator') || ',';
+        const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
         const $inputField = multiselectfield.find('span.addItem');
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
@@ -395,7 +393,7 @@ class FwMultiSelectValidationClass {
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
             if ((typeof $selectedRows[uniqueIdValue] !== 'undefined') && (selectedRowUniqueIds.indexOf(uniqueIdValue) == -1)) {
                 $tr.addClass('selected');
-                let textValue = $tr.find(`[data-browsedatafield="${fieldToDisplay}"]`).attr('data-originalvalue');
+                let textValue = $tr.find(`[data-validationdisplayfield="true"]`).attr('data-originalvalue');
                 multiselectfield.append(`
                 <div contenteditable="false" class="multiitem" data-multivalue="${uniqueIdValue}">
                     <span>${textValue}</span>
@@ -427,8 +425,7 @@ class FwMultiSelectValidationClass {
     };
     //---------------------------------------------------------------------------------
     selectAll($control, $valuefield: JQuery, $searchfield: JQuery, $popup: JQuery, $browse: JQuery): void {
-        let $selectedRows, $trs, $tr, uniqueIdValue, fieldToDisplay, multiselectfield, selectedRowUniqueIds, $inputField;
-        fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
+        let $selectedRows, $trs, $tr, uniqueIdValue, multiselectfield, selectedRowUniqueIds, $inputField;
         multiselectfield = $control.find('.multiselectitems');
         $inputField = multiselectfield.find('span.addItem');
         if (typeof $browse.data('selectedrows') === 'undefined') {
@@ -445,7 +442,7 @@ class FwMultiSelectValidationClass {
             uniqueIdValue = FwMultiSelectValidation.getUniqueIds($tr);
             if ((typeof $selectedRows[uniqueIdValue] == 'undefined') && (selectedRowUniqueIds.indexOf(uniqueIdValue) == -1)) {
                 $tr.addClass('selected');
-                let textValue = $tr.find(`[data-browsedatafield="${fieldToDisplay}"]`).attr('data-originalvalue');
+                let textValue = $tr.find(`[data-validationdisplayfield="true"]`).attr('data-originalvalue');
                 multiselectfield.append(`
                 <div contenteditable="false" class="multiitem" data-multivalue="${uniqueIdValue}">
                     <span>${textValue}</span>
@@ -515,6 +512,64 @@ class FwMultiSelectValidationClass {
                     FwFunc.showError(ex);
                 }
             });
+    };
+    //---------------------------------------------------------------------------------
+    newValidation($control, validationName, $this, $valuefield, $btnvalidate, $popup, title) {
+        var $popupForm;
+        var $validationbrowse = $this.closest('div[data-control="FwBrowse"][data-type="Validation"]');
+
+        try {
+            if (jQuery('#tmpl-modules-' + validationName + 'Form').html() === undefined) {
+                $popupForm = jQuery(window[validationName + 'Controller'].getFormTemplate());
+            } else {
+                $popupForm = jQuery(jQuery('#tmpl-modules-' + validationName + 'Form').html());
+            }
+            $popupForm = window[validationName + 'Controller'].openForm('NEW');
+            $popupForm.find('.btnpeek').remove();
+            $popupForm.css({ 'background-color': 'white', 'box-shadow': '0 25px 44px rgba(0, 0, 0, 0.30), 0 20px 15px rgba(0, 0, 0, 0.22)', 'width': '60vw', 'height': '60vh', 'overflow': 'scroll', 'position': 'relative' });
+
+            $popupForm.data('afterSaveNewValidation', function () {
+                FwMultiSelectValidation.validate(validationName, $valuefield, null, $btnvalidate, $popup, $validationbrowse, false);
+            })
+
+            FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
+
+            jQuery('.fwpopup.new-validation').on('click', function (e: JQuery.ClickEvent) {
+                if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
+
+                } else {
+                    FwPopup.destroyPopup(this);
+                    jQuery(document).off('keydown');
+                    jQuery(document).find('.fwpopup').off('click');
+                    FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);
+                }
+            });
+
+            jQuery(document).on('keydown', function (e) {
+                var code = e.keyCode || e.which;
+                if (code === 27) { //ESC Key  
+                    try {
+                        FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
+                        jQuery(document).find('.fwpopup').off('click');
+                        jQuery(document).off('keydown');
+                        FwValidation.validate($control, validationName, $valuefield, null, $btnvalidate, $validationbrowse, false);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                }
+            });
+
+            jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
+                if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
+
+                } else {
+                    e.stopImmediatePropagation();
+                }
+            });
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
     };
     //---------------------------------------------------------------------------------
     setCaret($control) {

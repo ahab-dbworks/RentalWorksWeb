@@ -1576,6 +1576,9 @@ class FwBrowseClass {
                                                                 e.stopPropagation();
                                                                 const securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
                                                                 const func = FwApplicationTree.clickEvents[`{${securityid}}`];
+                                                                if (typeof func !== 'function') {
+                                                                    throw `No click event is registered for browse control ${$control.attr('data-name')} with securityid: {${securityid}}`;
+                                                                }
                                                                 func.apply(this, [e]);
                                                             } catch (ex) {
                                                                 FwFunc.showError(ex);
