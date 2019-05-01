@@ -8,6 +8,7 @@
     errorMsg: any;
     errorSound: any;
     successSound: any;
+    $trForAddItem: any;
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
         this.$form = $control.closest('.fwform');
@@ -82,12 +83,6 @@
                     if (quantity != 0) {
                         FwAppData.apiMethod(true, 'POST', "api/v1/checkout/stageitem", request, FwServices.defaultTimeout, response => {
                             this.errorMsg.html('');
-                            this.addItemRequest = {
-                                OrderId: orderId,
-                                Code: code,
-                                Quantity: quantity,
-                                AddItemToOrder: true
-                            }
                             if (response.success) {
                                 $tr.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue', Number(newValue));
                                 FwBrowse.setFieldValue($grid, $tr, 'QuantityRemaining', { value: response.InventoryStatus.QuantityRemaining });
@@ -95,11 +90,18 @@
                             if (response.ShowAddItemToOrder === true) {
                                 this.errorSound.play();
                                 StagingCheckoutController.showAddItemToOrder = true;
+                                this.addItemRequest = {
+                                    OrderId: orderId,
+                                    Code: code,
+                                    Quantity: quantity,
+                                    AddItemToOrder: true
+                                }
+                                this.$trForAddItem = $tr;
                                 this.errorMsg.html(`<div><span>${response.msg}</span></div>`);
                                 this.$form.find('div.add-item-qty').html(`<div class="formrow fwformcontrol" onclick="StageQuantityItemGridController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`);
                             }
                             if (response.ShowAddCompleteToOrder === true) {
-                                this.$form.find('div.add-item-qty').html(`<div class="formrow"><div class="fwformcontrol" onclick="StageQuantityItemGridController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol" onclick="StageQuantityItemGridController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                                this.$form.find('div.add-item-qty').html(`<div class="formrow"><div class="fwformcontrol" onclick="StageQuantityItemGridController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="StageQuantityItemGridController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                             }
                             if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                                 this.errorSound.play();
@@ -124,13 +126,13 @@
         FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, this.addItemRequest, FwServices.defaultTimeout, response => {
             try {
                 if (response.success === true) {
-
+                    this.$trForAddItem.find('div[data-browsedatafield="QuantityOrdered"] .fieldvalue').val(response.InventoryStatus.QuantityOrdered);
+                    this.successSound.play();
                 } else {
 
                 }
                 this.errorMsg.html('');
                 this.$form.find('div.add-item-qty').html('');
-                this.successSound.play();
             }
             catch (ex) {
                 FwFunc.showError(ex);

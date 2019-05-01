@@ -56,12 +56,6 @@ class Attribute {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //---------------------------------------------------------------------------------
-    loadAudit($form: any) {
-        var uniqueid;
-        uniqueid = $form.find('div.fwformfield[data-datafield="AttributeId"] input').val();
-        FwModule.loadAudit($form, uniqueid);
-    }
-    //---------------------------------------------------------------------------------
     renderGrids($form: any) {
         const $attributeValueGrid = $form.find('div[data-grid="AttributeValueGrid"]');
         const $attributeValueGridControl = FwBrowse.loadGridFromTemplate('AttributeValueGrid');
