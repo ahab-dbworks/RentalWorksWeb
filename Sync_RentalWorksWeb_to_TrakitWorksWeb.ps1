@@ -1,4 +1,4 @@
-clear
+﻿clear
 try {
     $enableLogging = $true
 
@@ -25,12 +25,15 @@ try {
         'Modules\Administrator\CustomField',
         'Modules\Administrator\DuplicateRule',
         'Modules\Administrator\EmailHistory',
-        #'Modules\Administrator\Group',
+        'Modules\Administrator\Group',
         'Modules\Administrator\Hotfix',
         'Modules\Administrator\Reports', 
         'Modules\Administrator\Settings',
-        #'Modules\Administrator\User'
+        #'Modules\Administrator\User',
 
+        # Modules: Home
+        #'Modules\Home\PurchaseOrder',
+        
         # Modules: Settings
         "Modules\Settings\Attribute",
         "Modules\Settings\ContactTitle",
