@@ -155,6 +155,7 @@ class Invoice {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
+        const invoiceItemTotalFields = ["LineTotalWithTax", "Tax", "LineTotal", "Extended", "DiscountAmount"];
         // ----------
         const $invoiceItemGridRental = $form.find('.rentalgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
@@ -169,33 +170,18 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'R'
             };
+            request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridRentalControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'R';
         });
 
-        FwBrowse.addEventHandler($invoiceItemGridRentalControl, 'afterdatabindcallback', () => {
-            this.calculateInvoiceItemGridTotals($form, 'rental');
-            //let rentalItems = $form.find('.rentalgrid tbody').children();
-            //rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
+        FwBrowse.addEventHandler($invoiceItemGridRentalControl, 'afterdatabindcallback', ($invoiceItemGridRentalControl, dt) => {
+            this.calculateInvoiceItemGridTotals($form, 'rental', dt.Totals);
         });
         FwBrowse.init($invoiceItemGridRentalControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridRentalControl);
-        // ----------
-        const $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
-        const $invoiceNoteGridControl = FwBrowse.loadGridFromTemplate('InvoiceNoteGrid');
-        $invoiceNoteGrid.empty().append($invoiceNoteGridControl);
-        $invoiceNoteGridControl.data('ondatabind', function (request) {
-            request.uniqueids = {
-                InvoiceId: $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val()
-            }
-        });
-        $invoiceNoteGridControl.data('beforesave', function (request) {
-            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
-        })
-        FwBrowse.init($invoiceNoteGridControl);
-        FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
         // ----------
         const $invoiceItemGridSales = $form.find('.salesgrid div[data-grid="InvoiceItemGrid"]');
         const $invoiceItemGridSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
@@ -210,15 +196,14 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'S'
             };
+            request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridSalesControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'S';
         });
-        FwBrowse.addEventHandler($invoiceItemGridSalesControl, 'afterdatabindcallback', () => {
-            this.calculateInvoiceItemGridTotals($form, 'sales');
-            //let salesItems = $form.find('.salesgrid tbody').children();
-            //salesItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Sales"]')) : FwFormField.enable($form.find('[data-datafield="Sales"]'));
+        FwBrowse.addEventHandler($invoiceItemGridSalesControl, 'afterdatabindcallback', ($invoiceItemGridSalesControl, dt) => {
+            this.calculateInvoiceItemGridTotals($form, 'sales', dt.Totals);
         });
         FwBrowse.init($invoiceItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridSalesControl);
@@ -241,15 +226,14 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'L'
             };
+            request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridLaborControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'L';
         });
-        FwBrowse.addEventHandler($invoiceItemGridLaborControl, 'afterdatabindcallback', () => {
-            this.calculateInvoiceItemGridTotals($form, 'labor');
-            //let laborItems = $form.find('.laborgrid tbody').children();
-            //laborItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Labor"]')) : FwFormField.enable($form.find('[data-datafield="Labor"]'));
+        FwBrowse.addEventHandler($invoiceItemGridLaborControl, 'afterdatabindcallback', ($invoiceItemGridLaborControl, dt) => {
+            this.calculateInvoiceItemGridTotals($form, 'labor', dt.Totals);
         });
         FwBrowse.init($invoiceItemGridLaborControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridLaborControl);
@@ -268,15 +252,14 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'M'
             };
+            request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridMiscControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'M';
         });
-        FwBrowse.addEventHandler($invoiceItemGridMiscControl, 'afterdatabindcallback', () => {
-            this.calculateInvoiceItemGridTotals($form, 'misc');
-            //let miscItems = $form.find('.miscgrid tbody').children();
-            //miscItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Miscellaneous"]')) : FwFormField.enable($form.find('[data-datafield="Miscellaneous"]'));
+        FwBrowse.addEventHandler($invoiceItemGridMiscControl, 'afterdatabindcallback', ($invoiceItemGridMiscControl, dt) => {
+            this.calculateInvoiceItemGridTotals($form, 'misc', dt.Totals);
         });
         FwBrowse.init($invoiceItemGridMiscControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridMiscControl);
@@ -294,18 +277,31 @@ class Invoice {
                 InvoiceId: FwFormField.getValueByDataField($form, 'InvoiceId'),
                 RecType: 'RS'
             };
+            request.totalfields = invoiceItemTotalFields;
         });
         $invoiceItemGridRentalSaleControl.data('beforesave', request => {
             request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
             request.RecType = 'RS';
         });
-        FwBrowse.addEventHandler($invoiceItemGridMiscControl, 'afterdatabindcallback', () => {
-            this.calculateInvoiceItemGridTotals($form, 'rentalsale');
-            //let rentalSaleItems = $form.find('.rentalsale tbody').children();
-            //rentalSaleItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="RentalSale"]')) : FwFormField.enable($form.find('[data-datafield="RentalSale"]'));
+        FwBrowse.addEventHandler($invoiceItemGridRentalSaleControl, 'afterdatabindcallback', ($invoiceItemGridRentalSaleControl, dt) => {
+            this.calculateInvoiceItemGridTotals($form, 'rentalsale', dt.Totals);
         });
         FwBrowse.init($invoiceItemGridRentalSaleControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridRentalSaleControl);
+        // ----------
+        const $invoiceNoteGrid = $form.find('div[data-grid="InvoiceNoteGrid"]');
+        const $invoiceNoteGridControl = FwBrowse.loadGridFromTemplate('InvoiceNoteGrid');
+        $invoiceNoteGrid.empty().append($invoiceNoteGridControl);
+        $invoiceNoteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                InvoiceId: $form.find('div.fwformfield[data-datafield="InvoiceId"] input').val()
+            }
+        });
+        $invoiceNoteGridControl.data('beforesave', function (request) {
+            request.InvoiceId = FwFormField.getValueByDataField($form, 'InvoiceId');
+        })
+        FwBrowse.init($invoiceNoteGridControl);
+        FwBrowse.renderRuntimeHtml($invoiceNoteGridControl);
         // ----------
         const $glDistributionGrid = $form.find('div[data-grid="GlDistributionGrid"]');
         const $glDistributionGridControl = FwBrowse.loadGridFromTemplate('GlDistributionGrid');
@@ -387,7 +383,7 @@ class Invoice {
             request.pagesize = itemPageSize;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentRentalControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentRentalControl, dt) => {
-            this.calculateInvoiceItemAdjustmentGridTotals($form, 'rentaladjustment', dt.Totals);
+            this.calculateInvoiceItemGridTotals($form, 'rentaladjustment', dt.Totals, true);
         });
 
         FwBrowse.init($invoiceItemGridAdjustmentRentalControl);
@@ -415,7 +411,7 @@ class Invoice {
             request.pagesize = itemPageSize;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentSalesControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentSalesControl, dt) => {
-            this.calculateInvoiceItemAdjustmentGridTotals($form, 'salesadjustment', dt.Totals);
+            this.calculateInvoiceItemGridTotals($form, 'salesadjustment', dt.Totals, true);
         });
 
         FwBrowse.init($invoiceItemGridAdjustmentSalesControl);
@@ -443,7 +439,7 @@ class Invoice {
             request.pagesize = itemPageSize;
         });
         FwBrowse.addEventHandler($invoiceItemGridAdjustmentPartsControl, 'afterdatabindcallback', ($invoiceItemGridAdjustmentPartsControl, dt) => {
-            this.calculateInvoiceItemAdjustmentGridTotals($form, 'partsadjustment', dt.Totals);
+            this.calculateInvoiceItemGridTotals($form, 'partsadjustment', dt.Totals, true);
         });
         FwBrowse.init($invoiceItemGridAdjustmentPartsControl);
         FwBrowse.renderRuntimeHtml($invoiceItemGridAdjustmentPartsControl);
@@ -595,49 +591,28 @@ class Invoice {
         }
     };
     //----------------------------------------------------------------------------------------------
-    calculateInvoiceItemGridTotals($form: JQuery, gridType: string,  totals?): void {
-        let subTotal, discount, salesTax, grossTotal, total, rateType;
-        let extendedTotal = new Decimal(0);
-        let discountTotal = new Decimal(0);
-        let taxTotal = new Decimal(0);
+    calculateInvoiceItemGridTotals($form: JQuery, gridType: string, totals?, isAdjustment?: boolean): void {
+        if (isAdjustment) {
+            const total = totals.LineTotalWithTax;
+            const salesTax = totals.Tax;
+            const subTotal = totals.LineTotal;
 
-        const extendedColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="Extended"]`);
-        const discountColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="DiscountAmount"]`);
-        const taxColumn: any = $form.find(`.${gridType}grid [data-browsedatafield="Tax"]`);
+            $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
+            $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
+            $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
+        } else {
+            const total = totals.LineTotalWithTax;
+            const salesTax = totals.Tax;
+            const subTotal = totals.LineTotal;
+            const discount = totals.DiscountAmount;
+            const extended = totals.Extended;
 
-        for (let i = 1; i < extendedColumn.length; i++) {
-            // Extended Column
-            let inputValueFromExtended: any = +extendedColumn.eq(i).attr('data-originalvalue');
-            extendedTotal = extendedTotal.plus(inputValueFromExtended);
-            // DiscountAmount Column
-            let inputValueFromDiscount: any = +discountColumn.eq(i).attr('data-originalvalue');
-            discountTotal = discountTotal.plus(inputValueFromDiscount);
-            // Tax Column
-            let inputValueFromTax: any = +taxColumn.eq(i).attr('data-originalvalue');
-            taxTotal = taxTotal.plus(inputValueFromTax);
-        };
-
-        subTotal = extendedTotal.toFixed(2);
-        discount = discountTotal.toFixed(2);
-        salesTax = taxTotal.toFixed(2);
-        grossTotal = extendedTotal.plus(discountTotal).toFixed(2);
-        total = taxTotal.plus(extendedTotal).toFixed(2);
-
-        $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
-        $form.find(`.${gridType}-totals [data-totalfield="Discount"] input`).val(discount);
-        $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
-        $form.find(`.${gridType}-totals [data-totalfield="GrossTotal"] input`).val(grossTotal);
-        $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
-    };
-    //----------------------------------------------------------------------------------------------
-    calculateInvoiceItemAdjustmentGridTotals($form: JQuery, gridType: string, totals?): void {
-        const total = totals.LineTotalWithTax;
-        const salesTax = totals.Tax;
-        const subTotal = totals.LineTotal;
-
-        $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
-        $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
-        $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
+            $form.find(`.${gridType}-totals [data-totalfield="SubTotal"] input`).val(subTotal);
+            $form.find(`.${gridType}-totals [data-totalfield="Discount"] input`).val(discount);
+            $form.find(`.${gridType}-totals [data-totalfield="Tax"] input`).val(salesTax);
+            $form.find(`.${gridType}-totals [data-totalfield="GrossTotal"] input`).val(extended);
+            $form.find(`.${gridType}-totals [data-totalfield="Total"] input`).val(total);
+        }
     };
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
