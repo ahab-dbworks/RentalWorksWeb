@@ -99,6 +99,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constants.cs" />
+    <Compile Include="Jobs\SalesItemTransactionSyncIntegrationcs.cs" />
+    <Compile Include="Jobs\SalesItemSyncIntegrationcs.cs" />
     <Compile Include="Jobs\InvoiceSyncIntegration.cs" />
     <Compile Include="Jobs\CustomerSyncIntegration.cs" />
     <Compile Include="Server\Configuration.cs" />

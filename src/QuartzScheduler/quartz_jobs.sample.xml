@@ -36,12 +36,71 @@
         <job-name>CustomerSyncIntegrationJob</job-name>
         <job-group>mainGroup</job-group>
         <misfire-instruction>SmartPolicy</misfire-instruction>
-        --><!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
-          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). --><!--
-        <cron-expression>0 * * * * ?</cron-expression>
+        <cron-expression>0 0/5 * * * ?</cron-expression>
       </cron>
     </trigger>-->
 
+    <!-- 
+    *************************************************************************************************************
+    SalesItemSync Integration Job - Uploads new Sales Items from external applicaiton to RentalWorks
+    ************************************************************************************************************* 
+    -->
+    <!--<job>
+      <name>SalesItemSyncIntegrationJob</name>
+      <group>mainGroup</group>
+      <description>Sync Sales Items from external application to RentalWorks</description>
+      <job-type>QuartzScheduler.Jobs.SalesItemSyncIntegration, QuartzScheduler</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+      <job-data-map>
+        <entry>
+          <key>verboseLogging</key>
+          <value>false</value>
+        </entry>
+      </job-data-map>
+    </job>
+    <trigger>
+      <cron>
+        <name>SalesItemSyncIntegrationJobTrigger</name>
+        <group>mainGroup</group>
+        <description>Trigger to fire SalesItemSyncIntegrationJob</description>
+        <job-name>SalesItemSyncIntegrationJob</job-name>
+        <job-group>mainGroup</job-group>
+        <misfire-instruction>SmartPolicy</misfire-instruction>
+        <cron-expression>0 0/5 * * * ?</cron-expression>
+      </cron>
+    </trigger>-->
+
+    <!-- 
+    *************************************************************************************************************
+    SalesItemTransSync Integration Job - Uploads new Sales Items from external applicaiton to RentalWorks
+    ************************************************************************************************************* 
+    -->
+    <!--<job>
+      <name>SalesItemTransactionSyncIntegrationJob</name>
+      <group>mainGroup</group>
+      <description>Sync Sales Items Transactions from external application to RentalWorks</description>
+      <job-type>QuartzScheduler.Jobs.SalesItemTransactionSyncIntegration, QuartzScheduler</job-type>
+      <durable>true</durable>
+      <recover>false</recover>
+      <job-data-map>
+        <entry>
+          <key>verboseLogging</key>
+          <value>false</value>
+        </entry>
+      </job-data-map>
+    </job>
+    <trigger>
+      <cron>
+        <name>SalesItemTrnasactionSyncIntegrationJobTrigger</name>
+        <group>mainGroup</group>
+        <description>Trigger to fire SalesItemTransactionSyncIntegrationJob</description>
+        <job-name>SalesItemTransactionSyncIntegrationJob</job-name>
+        <job-group>mainGroup</job-group>
+        <misfire-instruction>SmartPolicy</misfire-instruction>
+        <cron-expression>0 0/5 * * * ?</cron-expression>
+      </cron>
+    </trigger>-->
     <!-- 
     *************************************************************************************************************
     InvoiceSync Integration Job -
@@ -69,8 +128,10 @@
         <job-name>InvoiceSyncIntegrationJob</job-name>
         <job-group>mainGroup</job-group>
         <misfire-instruction>SmartPolicy</misfire-instruction>
-        --><!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
-          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). --><!--
+        -->
+    <!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
+          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). -->
+    <!--
         <cron-expression>0 * * * * ?</cron-expression>
       </cron>
     </trigger>-->
