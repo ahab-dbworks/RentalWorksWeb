@@ -12,21 +12,19 @@ export abstract class WebpackReport {
     renderProgress: number = 0;
 
     constructor() {
-        //window.addEventListener('load', (ev: Event) => {
-        //    console.log('EVENT: ', ev)
-        
-        //    if (sessionStorage.getItem('rptMsg') !== null) {
-        //        let message = <ReportPageMessage>JSON.parse(sessionStorage.getItem('rptMsg')); //
-        //    console.log('messageIN: ', message)
-        //        this.processMessage(message);
-        //    }
-        //}); 
-        window.addEventListener('message', (ev: MessageEvent) => {
-            console.log('EV in processMessage', ev);
+        window.addEventListener('load', (ev: Event) => {
+            console.log('loadListen: ', ev)
+            const reportURL: any = ev.srcElement.baseURI;
+            window.opener.postMessage(reportURL, '*');
+            window.removeEventListener('load', () => { });
+        }); 
 
+        window.addEventListener('message', (ev: MessageEvent) => {
+                console.log('messageListen: ', ev)
             if (typeof ev.data.action !== 'undefined') {
                 let message = <ReportPageMessage>ev.data;
                 this.processMessage(message);
+                window.removeEventListener('message', () => { })
                 //if (message.action === 'Preview') {
                 //    sessionStorage.setItem('message', JSON.stringify(message));
                 //}
@@ -36,7 +34,7 @@ export abstract class WebpackReport {
 
     processMessage(message: ReportPageMessage) {
         this.action = message.action;
-        console.log('message in processMessage', message);
+        console.log('processMessage: ', message);
         switch (message.action) {
             case 'Preview':
                 (<WebpackReport>(<any>window).report).renderReport(message.apiUrl, message.authorizationHeader, message.request.parameters);
