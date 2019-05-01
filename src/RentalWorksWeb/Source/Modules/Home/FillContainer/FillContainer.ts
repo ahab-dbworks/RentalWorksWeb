@@ -47,11 +47,18 @@ class FillContainer extends StagingCheckoutBase {
                                 request.ItemId = itemId;
                                 FwAppData.apiMethod(true, 'POST', `api/v1/containeritem/instantiatecontainer`, request, FwServices.defaultTimeout,
                                     response => {
-                                        FwFormField.setValueByDataField($form, 'ContainerItemId', response.ContainerItemId, '', true);
+                                        FwFormField.disable($form.find('[data-datafield="BarCode"]'));
+                                        FwFormField.setValueByDataField($form, 'ContainerItemId', response.ContainerItemId, barcode, true);
+                                        FwNotification.renderNotification('SUCCESS', 'Successfully Instantiated New Container.');
+                                        FwConfirmation.destroyConfirmation($confirmation);
+                                        $form.find('[data-datafield="Code"] input').focus();
                                     }, ex => {
                                         FwFunc.showError(ex);
                                     }, $form);
                             });
+                        } else {
+                            FwFormField.disable($form.find('[data-datafield="BarCode"]'));
+                            FwFormField.setValueByDataField($form, 'ContainerItemId', response.ContainerItemId, barcode, true);
                         }
                 }, ex => {
                     FwFunc.showError(ex);
