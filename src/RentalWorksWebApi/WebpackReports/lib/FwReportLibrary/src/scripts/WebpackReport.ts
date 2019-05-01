@@ -13,18 +13,18 @@ export abstract class WebpackReport {
 
     constructor() {
         window.addEventListener('load', (ev: Event) => {
-            console.log('loadListen: ', ev)
+            console.log('loadEventWebPackReport.ts: ', ev)
             const reportURL: any = ev.srcElement.baseURI;
-            window.opener.postMessage(reportURL, '*');
-            window.removeEventListener('load', () => { });
+            if (window.opener != null) {
+                window.opener.postMessage(reportURL, '*');
+            }
         }); 
 
         window.addEventListener('message', (ev: MessageEvent) => {
-                console.log('messageListen: ', ev)
+            console.log('messageEventWebPackReport.ts: ', ev)
             if (typeof ev.data.action !== 'undefined') {
                 let message = <ReportPageMessage>ev.data;
                 this.processMessage(message);
-                window.removeEventListener('message', () => { })
                 //if (message.action === 'Preview') {
                 //    sessionStorage.setItem('message', JSON.stringify(message));
                 //}
@@ -34,7 +34,6 @@ export abstract class WebpackReport {
 
     processMessage(message: ReportPageMessage) {
         this.action = message.action;
-        console.log('processMessage: ', message);
         switch (message.action) {
             case 'Preview':
                 (<WebpackReport>(<any>window).report).renderReport(message.apiUrl, message.authorizationHeader, message.request.parameters);
