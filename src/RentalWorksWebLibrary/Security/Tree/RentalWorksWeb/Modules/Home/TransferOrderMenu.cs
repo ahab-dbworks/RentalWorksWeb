@@ -30,6 +30,7 @@ namespace Web.Source.Modules
             var nodeFormSubMenu = tree.AddSubMenu("{C35FFD5A-E220-4ED2-A339-B316B1D43AF2}", nodeFormMenuBar.Id);
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{3CCEAD12-3C4D-450E-893C-E8F67CF8683A}", nodeFormSubMenu.Id);
             tree.AddSaveMenuBarButton("{16B13392-2610-4BDF-8D19-62F1A425DCA3}", nodeFormMenuBar.Id);
+            tree.AddSubMenuItem("Search", "{EE207266-01FC-4D0E-8469-48F5B099ED71}", nodeFormOptions.Id); // mv 5/1/19 - added this because it was implemented on the front-end, not sure if this works
             tree.AddSubMenuItem("Confirm", "{A35F0AAD-81B5-4A0C-8970-D448A67D5A82}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Create Pick List", "{5CA07E25-A93E-4FA0-9206-B3F556684B0C}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Transfer Status", "{A256288F-238F-4594-8A6A-3B70613925DA}", nodeFormOptions.Id);

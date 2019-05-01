@@ -29,6 +29,7 @@ namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Settings
             tree.AddSubMenuItem("Search", "{932A7318-3B62-4AA5-A0C5-904BB4BB9F17}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Receive From Vendor", "{B719A865-4B0A-4C60-A1D9-3614EC6D0515}", nodeFormOptions.Id);
             tree.AddSubMenuItem("Return To Vendor", "{6D3E64B9-6B08-47B0-8F51-CFAE12651630}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Assign Bar Codes", "{D7722622-BBAE-4FE7-9DAD-1E2A4419CC3D}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }
