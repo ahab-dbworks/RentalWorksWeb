@@ -1591,22 +1591,22 @@ class OrderBase {
         if (!response) {
             const DEALID = FwFormField.getValueByDataField($form, 'DealId');
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${DEALID}`, null, FwServices.defaultTimeout, res => {
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, res.BillToAttention1);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, res.BillToAddress1);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, res.BillToAddress2);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, res.BillToCity);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, res.BillToState);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, res.BillToZipCode);
-                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, res.BillToCountryId, res.BillToCountry);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, res.ShipAttention);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, res.ShipAddress1);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, res.ShipAddress2);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, res.ShipCity);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, res.ShipState);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, res.ShipZipCode);
+                FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, res.ShipCountryId, res.ShipCountry);
             }, null, null);
         } else {
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.BillToAttention1);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.BillToAddress1);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.BillToAddress2);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.BillToCity);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.BillToState);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.BillToZipCode);
-            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.BillToCountryId, response.BillToCountry);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAttention`, response.ShipAttention);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress1`, response.ShipAddress1);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToAddress2`, response.ShipAddress2);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCity`, response.ShipCity);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToState`, response.ShipState);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToZipCode`, response.ShipZipCode);
+            FwFormField.setValueByDataField($form, `${prefix}DeliveryToCountryId`, response.ShipCountryId, response.ShipCountry);
         }
     }
 
