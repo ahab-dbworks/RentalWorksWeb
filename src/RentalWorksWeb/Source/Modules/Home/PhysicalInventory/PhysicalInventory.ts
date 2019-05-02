@@ -35,6 +35,10 @@
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
+        });
+
         return $browse;
     }
 
@@ -44,13 +48,13 @@
         const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
         const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
+        if (typeof this.ActiveViewFields["OfficeLocationId"] == 'undefined') {
+            this.ActiveViewFields.OfficeLocationId = [location.locationid];
         }
 
         let viewLocation: Array<JQuery> = [];
         viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "OfficeLocationId");
         return $menuObject;
     };
 

@@ -253,7 +253,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
 
-            AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+            AddActiveViewFieldToSelect("OfficeLocationId", "locationid", select, request);
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
 
         }
