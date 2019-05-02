@@ -56,9 +56,9 @@ namespace WebApi.Modules.Home.Inventory
 
 
         [FwLogicProperty(Id: "rUjj9v4DlIo1x")]
-        public string ManufacturerUrl { get; set; }
+        public string ManufacturerUrl { get { return master.ManufacturerUrl; } set { master.ManufacturerUrl = value; } }
         [FwLogicProperty(Id: "uIvXyX1UGsruy")]
-        public bool? ExcludeImageFromQuoteOrderPrint { get; set; }
+        public bool? ExcludeImageFromQuoteOrderPrint { get { return master.ExcludeImageFromQuoteOrderPrint; } set { master.ExcludeImageFromQuoteOrderPrint = value; } }
 
 
         [FwLogicProperty(Id: "TIH65zNLyOKl")]
