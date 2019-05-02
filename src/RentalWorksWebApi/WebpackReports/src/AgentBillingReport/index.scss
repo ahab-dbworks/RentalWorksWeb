@@ -8,14 +8,6 @@
             content: "";
         }
     }
-
-    td:after {
-        content: attr(data-value);
-    }
-
-    td {
-        padding: 3px;
-    }
 }
 
 thead {

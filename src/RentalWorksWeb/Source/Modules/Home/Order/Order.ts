@@ -1207,7 +1207,7 @@ class Order extends OrderBase {
               <!-- Issue To / Bill To Address -->
               <div class="flexrow">
                 <div class="flexcolumn" style="flex:1 1 15%;">
-                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Address">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Address">
                     <div class="flexrow">
                       <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="PrintIssuedToAddressFrom" style="flex:1 1 150px;">
                         <div data-value="DEAL" data-caption="Deal" style="flex:1 1 100px;"></div>
