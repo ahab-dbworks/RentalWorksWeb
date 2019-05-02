@@ -97,9 +97,9 @@
                     }
                 }    
             },
-            ReceiveFromVendor: { id: '{EC4052D5-664E-4C34-8802-78E086920628}', caption: 'Receive From Vendor', nav: 'module/receivefromvendor' },
-            InventoryItem: { id: '{803A2616-4DB6-4BAC-8845-ECAD34C369A8}', caption: 'Inventory Item', nav: 'module/rentalinventory' },
-            Repair: { id: '{D567EC42-E74C-47AB-9CA8-764DC0F02D3B}', caption: 'Repair Order', nav: 'module/repair',
+            ReceiveFromVendor: { id: 'EC4052D5-664E-4C34-8802-78E086920628', caption: 'Receive From Vendor', nav: 'module/receivefromvendor' },
+            InventoryItem: { id: '803A2616-4DB6-4BAC-8845-ECAD34C369A8', caption: 'Inventory Item', nav: 'module/rentalinventory' },
+            Repair: { id: 'D567EC42-E74C-47AB-9CA8-764DC0F02D3B', caption: 'Repair Order', nav: 'module/repair',
                 browse: {
                     menuItems: {
                         Void: { id: '{4F0A3AF7-5CDF-4CCB-B7DF-8DFAF14AA516}' }
@@ -114,11 +114,11 @@
                     }
                 }
             },
-            ReturnToVendor: { id: '{79EAD1AF-3206-42F2-A62B-DA1C44092A7F}', caption: 'Return To Vendor', nav: 'module/returntovendor' },
-            StagingCheckout: { id: '', caption: 'Staging / Check-Out', nav: 'module/checkout' },
-            SubWorksheet: { id: '', caption: 'Sub Worksheet', nav: '' },
+            ReturnToVendor: { id: '79EAD1AF-3206-42F2-A62B-DA1C44092A7F', caption: 'Return To Vendor', nav: 'module/returntovendor' },
+            StagingCheckout: { id: 'AD92E203-C893-4EB9-8CA7-F240DA855827', caption: 'Staging / Check-Out', nav: 'module/checkout' },
+            SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: '' },
             SuspendedSession: { id: '', caption: 'Suspended Session', nav: 'module/suspendedsession' },
-            Vendor: { id: '', caption: 'Vendor', nav: 'module/vendor' }
+            Vendor: { id: '92E6B1BE-C9E1-46BD-91A0-DF257A5F909A', caption: 'Vendor', nav: 'module/vendor' }
         }
     },
     Grids: {
