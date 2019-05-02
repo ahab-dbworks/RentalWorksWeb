@@ -466,7 +466,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PurchaseOrder.form.menuItem
         let purchaseOrderInfo: any = {};
         purchaseOrderInfo.PurchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
         purchaseOrderInfo.PurchaseOrderNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
-        const $assignBarCodesForm = AssignBarcodesController.openForm(mode, purchaseOrderInfo);
+        const $assignBarCodesForm = AssignBarCodesController.openForm(mode, purchaseOrderInfo);
         FwModule.openSubModuleTab($form, $assignBarCodesForm);
         jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
     }

@@ -245,7 +245,7 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetForm.htm" />
-    <Content Include="Source\Modules\Home\AssignBarcodes\AssignBarcodesForm.htm" />
+    <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarcodesForm.htm" />
     <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
@@ -552,7 +552,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Reports\ReportsController.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Settings\SettingsController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Home\AssignBarcodes\AssignBarcodes.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\AssignBarCodes\AssignBarcodes.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CheckIn\CheckIn.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contact\Contact.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Contract\Contract.ts" />
