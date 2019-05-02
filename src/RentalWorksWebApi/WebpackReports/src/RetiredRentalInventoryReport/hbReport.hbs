@@ -71,19 +71,19 @@
         <td class="number">{{PurchaseAmount}}</td>
         <td>
           <div>{{RetireDate}}</div>
-          {{#if ../../IncludeUnretired}}
+          {{#if ../IncludeUnretired}}
           <div>{{UnretireDate}}</div>
           {{/if}}
         </td>
         <td>
           <div>{{RetiredBy}}</div>
-          {{#if ../../IncludeUnretired}}
+          {{#if ../IncludeUnretired}}
           <div>{{UnretiredBy}}</div>
           {{/if}}
         </td>
         <td>
           <div>{{RetiredReason}}</div>
-          {{#if ../../IncludeUnretired}}
+          {{#if ../IncludeUnretired}}
           <div>{{UnretiredReason}}</div>
           {{/if}}
         </td>
@@ -95,7 +95,7 @@
         <td colspan="3"></td>
       </tr>
       {{/if}}
-      {{#ifEquals ../../ShowSellInformation true}}
+      {{#ifEquals ../ShowSellInformation true}}
       {{#checkLength SoldToCustomer 0}}
       <tr>
         <th></th>
@@ -104,7 +104,7 @@
         <th class="subHeaders">Order No.</th>
         <th class="subHeaders">L&D Order No.</th>
         <th class="subHeaders">Invoice No.</th>
-        <th class="subHeaders">Price</th>
+        <th class="subHeaders number">Price</th>
         <th colspan="3"></th>
       </tr>
       <tr class="subValues">
@@ -112,9 +112,9 @@
         <td>{{SoldToCustomer}}</td>
         <td colspan="2">{{SoldToDeal}}</td>
         <td>{{SoldToOrderNumber}}</td>
-        <td></td>
+        <td>{{BilledToOrderNumber}}</td>
         <td>{{BilledToInvoiceNumber}}</td>
-        <td class="Price">{{BilledAmount}}</td>
+        <td class="number">{{BilledAmount}}</td>
         <th colspan="3"></th>
       </tr>
       {{/checkLength}}

@@ -26,7 +26,6 @@ export class RetiredRentalInventoryReport extends WebpackReport {
                     data.ShowSellInformation = parameters.ShowSellInformation;
                     data.IncludeUnretired = parameters.IncludeUnretired;
                     this.renderFooterHtml(data);
-
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
