@@ -527,6 +527,19 @@ class RentalInventory extends InventoryBase {
         let wildcardMask = '[' + inputmasksplit.join('') + ']';  //justin 04/16/2019 optional digits are converted to blanks instead of '_' on blur
         $form.find('[data-datafield="ICode"] input').inputmask({ mask: wildcardMask });
     }
+        //----------------------------------------------------------------------------------------------
+    events($form) {
+        super.events($form);
+
+        $form.find('[data-datafield="TrackSoftware"]').on('change', e => {
+            if (FwFormField.getValue2(jQuery(e.currentTarget))) {
+                FwFormField.enable($form.find('.track-software'));
+            } else {
+                FwFormField.disable($form.find('.track-software'));
+            }
+        });
+    }
+        //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.RentalInventory.form.menuItems.CreateComplete.id] = (e: JQuery.ClickEvent) => {
