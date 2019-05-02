@@ -427,6 +427,8 @@ class RentalInventory extends InventoryBase {
             FwFormField.disable($form.find('.subcategory'));
         }
 
+        //enable version and effective date fields upon loading if "Enable Software Tracking" is checked
+        if (FwFormField.getValueByDataField($form, 'TrackSoftware')) FwFormField.enable($form.find('.track-software'));
     };
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
