@@ -179,6 +179,12 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "secondarydimensionlengthcm", modeltype: FwDataTypes.Integer)]
         public int? SecondaryDimensionLengthCm { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryoforiginid", modeltype: FwDataTypes.Text)]
+        public string CountryOfOriginId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryoforigin", modeltype: FwDataTypes.Text)]
+        public string CountryOfOrigin { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "displaywhenrateiszero", modeltype: FwDataTypes.Boolean)]
         public bool? DisplayInSummaryModeWhenRateIsZero { get; set; }
         //------------------------------------------------------------------------------------ 

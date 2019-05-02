@@ -195,6 +195,14 @@ namespace WebApi.Modules.Home.Inventory
         [FwLogicProperty(Id: "W04Q46o9zVu1")]
         public int? SecondaryDimensionLengthCm { get { return secondaryDimension.LengthCm; } set { secondaryDimension.LengthCm = value; } }
 
+
+        [FwLogicProperty(Id: "y0jNMsZbwVTq7")]
+        public string CountryOfOriginId { get { return master.CountryOfOriginId; } set { master.CountryOfOriginId = value; } }
+
+        [FwLogicProperty(Id: "FJH6W3qGF4Tk0", IsReadOnly: true)]
+        public string CountryOfOrigin { get; set; }
+
+
         [FwLogicProperty(Id: "v7dGxdNTY9RY")]
         public bool? DisplayInSummaryModeWhenRateIsZero { get { return master.DisplayInSummaryModeWhenRateIsZero; } set { master.DisplayInSummaryModeWhenRateIsZero = value; } }
 
