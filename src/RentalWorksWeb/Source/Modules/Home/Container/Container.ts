@@ -78,7 +78,7 @@ class Container {
     //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         const $form = this.openForm('EDIT');
-        FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ItemId);
+        FwFormField.setValueByDataField($form, 'ItemId', uniqueids.ContainerItemId);
         FwModule.loadForm(this.Module, $form);
 
         return $form;
@@ -97,10 +97,10 @@ class Container {
         return `
            <div data-name="Container" data-control="FwBrowse" data-type="Browse" id="ContainerBrowse" class="fwcontrol fwbrowse" data-orderby="" data-controller="ContainerController" data-hasinactive="true">
              <div class="column flexcolumn" data-width="0" data-visible="false">
-               <div class="field" data-isuniqueid="true" data-datafield="ItemId" data-browsedatatype="key"></div>
+               <div class="field" data-isuniqueid="false" data-datafield="ItemId" data-browsedatatype="text"></div>
              </div>
              <div class="column flexcolumn" data-width="0" data-visible="false">
-               <div class="field" data-isuniqueid="false" data-datafield="ContainerItemId" data-browsedatatype="key"></div>
+               <div class="field" data-isuniqueid="true" data-datafield="ContainerItemId" data-browsedatatype="key"></div>
              </div>
              <div class="column flexcolumn" max-width="250px" data-visible="true">
                <div class="field" data-caption="Barcode No." data-datafield="BarCode" data-browsedatatype="text" data-sort="asc"></div>
