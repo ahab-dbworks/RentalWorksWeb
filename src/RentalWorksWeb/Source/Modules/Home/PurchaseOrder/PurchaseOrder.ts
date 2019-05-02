@@ -216,7 +216,7 @@ class PurchaseOrder {
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
         // ----------
         const $orderItemGridRental = $form.find('.rentalgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        const $orderItemGridRentalControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridRentalControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridRentalControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
@@ -247,7 +247,7 @@ class PurchaseOrder {
         FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
         // ----------
         const $orderItemGridSales = $form.find('.salesgrid div[data-grid="OrderItemGrid"]');
-        const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('InvoiceItemGrid');
+        const $orderItemGridSalesControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridSalesControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
         $orderItemGridSalesControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
         $orderItemGridSalesControl.find('div[data-datafield="PeriodExtended"]').attr('data-caption', 'Extended');
@@ -274,7 +274,7 @@ class PurchaseOrder {
         FwBrowse.init($orderItemGridSalesControl);
         FwBrowse.renderRuntimeHtml($orderItemGridSalesControl);
         // ----------
-        const $orderItemGridPart = $form.find('.partgrid div[data-grid="OrderItemGrid"]');
+        const $orderItemGridPart = $form.find('.partsgrid div[data-grid="OrderItemGrid"]');
         const $orderItemGridPartControl = FwBrowse.loadGridFromTemplate('OrderItemGrid');
         $orderItemGridPartControl.find('div[data-datafield="Price"]').attr('data-caption', 'Unit Price');
         $orderItemGridPartControl.find('div[data-datafield="PeriodDiscountAmount"]').attr('data-caption', 'Discount Amount');
@@ -295,7 +295,7 @@ class PurchaseOrder {
         });
         FwBrowse.addEventHandler($orderItemGridPartControl, 'afterdatabindcallback', () => {
             this.calculateOrderItemGridTotals($form, 'part');
-            const partItems = $form.find('.partgrid tbody').children();
+            const partItems = $form.find('.partsgrid tbody').children();
             partItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Parts"]')) : FwFormField.enable($form.find('[data-datafield="Parts"]'));
         });
 
@@ -526,6 +526,9 @@ class PurchaseOrder {
         let $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
 
         // find all the grids on the form
+        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        let $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+        let $partsGrid = $form.find('.partsgrid [data-name="OrderItemGrid"]');
         let $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
         let $subSalesGrid = $form.find('.subsalesgrid [data-name="OrderItemGrid"]');
         let $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
@@ -620,14 +623,16 @@ class PurchaseOrder {
             for (var l = 0; l < purchaseOrderTypeData.hiddenMisc.length; l++) {
                 jQuery($miscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenMisc[l] + '"]')).parent().hide();
             }
-            for (var l = 0; l < purchaseOrderTypeData.hiddenPurchase.length; l++) {
-                jQuery($usedSaleGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[l] + '"]')).parent().hide();
+            for (var m = 0; m < purchaseOrderTypeData.hiddenPurchase.length; m++) {
+                jQuery($rentalGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[m] + '"]')).parent().hide();
+                jQuery($salesGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[m] + '"]')).parent().hide();
+                jQuery($partsGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenPurchase[m] + '"]')).parent().hide();
             }
-            for (let i = 0; i < purchaseOrderTypeData.hiddenSubLabor.length; i++) {
-                jQuery($subLaborGrid.find(`[data-mappedfield="${purchaseOrderTypeData.hiddenSubLabor[i]}"]`)).parent().hide();
+            for (let o = 0; o < purchaseOrderTypeData.hiddenSubLabor.length; o++) {
+                jQuery($subLaborGrid.find(`[data-mappedfield="${purchaseOrderTypeData.hiddenSubLabor[o]}"]`)).parent().hide();
             }
-            for (let i = 0; i < purchaseOrderTypeData.hiddenSubMisc.length; i++) {
-                jQuery($subMiscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubMisc[i] + '"]')).parent().hide();
+            for (let p = 0; p < purchaseOrderTypeData.hiddenSubMisc.length; p++) {
+                jQuery($subMiscGrid.find('[data-mappedfield="' + purchaseOrderTypeData.hiddenSubMisc[p] + '"]')).parent().hide();
             }
             if (purchaseOrderTypeData.hiddenSubRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
                 $subRentalGrid.find('.3weekextended').parent().show();
@@ -748,7 +753,7 @@ class PurchaseOrder {
 
         const $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
         const $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        const $orderItemGridPart = $form.find('.partgrid [data-name="OrderItemGrid"]');
+        const $orderItemGridPart = $form.find('.partsgrid [data-name="OrderItemGrid"]');
         const $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]');
         const $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
         const $orderItemGridSubRent = $form.find('.subrentalgrid [data-name="OrderItemGrid"]');
@@ -903,7 +908,7 @@ class PurchaseOrder {
             }
         }
         if (recType === 'P') {
-            $orderItemGrid = $form.find('.partgrid [data-name="OrderItemGrid"]');
+            $orderItemGrid = $form.find('.partsgrid [data-name="OrderItemGrid"]');
             total = FwFormField.getValueByDataField($form, 'PartsTotal');
             includeTaxInTotal = FwFormField.getValueByDataField($form, 'PartsTotalIncludesTax');
 
@@ -988,7 +993,7 @@ class PurchaseOrder {
             }
         }
         if (recType === 'P') {
-            $orderItemGrid = $form.find('.partgrid [data-name="OrderItemGrid"]');
+            $orderItemGrid = $form.find('.partsgrid [data-name="OrderItemGrid"]');
             FwFormField.setValueByDataField($form, 'PartsTotal', '');
             FwFormField.disable($form.find('div[data-datafield="PartsTotalIncludesTax"]'));
         }
@@ -1092,7 +1097,7 @@ class PurchaseOrder {
     //    const POTYPE = FwFormField.getValueByDataField($form, "PoTypeId"),
     //        $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
     //        $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-    //        $partGrid = $form.find('.partgrid [data-name="OrderItemGrid"]'),
+    //        $partsgrid = $form.find('.partsgrid [data-name="OrderItemGrid"]'),
     //        $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
     //        $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]'),
     //        $subRentalGrid = $form.find('.subrentalgrid [data-name="OrderItemGrid"]'),
@@ -1121,7 +1126,7 @@ class PurchaseOrder {
     //        for (let i = 0; i < hiddenPurchase.length; i++) {
     //            jQuery($rentalGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
     //            jQuery($salesGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
-    //            jQuery($partGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+    //            jQuery($partsgrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
     //        }
     //        // Specific showfields
     //        for (let i = 0; i < hiddenMisc.length; i++) { jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide(); }
