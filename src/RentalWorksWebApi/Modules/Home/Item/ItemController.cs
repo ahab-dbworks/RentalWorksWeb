@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
-using WebApi.Logic;
-using System;
 
 namespace WebApi.Modules.Home.Item
 {
@@ -53,18 +51,9 @@ namespace WebApi.Modules.Home.Item
         // GET api/v1/item/bybarcode 
         [HttpGet("bybarcode")]
         [FwControllerMethod(Id: "HtxHyTMbNpqOM")]
-        public async Task<ActionResult<ItemLogic>> GetOneByBarCodeAsync(string barCode)
+        public async Task<ActionResult<ItemByBarCodeResponse>> GetOneByBarCodeAsync(string barCode)
         {
-            string itemId = AppFunc.GetStringDataAsync(AppConfig, "rentalitem", "barcode", barCode, "rentalitemid").Result;
-            if (string.IsNullOrEmpty(itemId))
-            {
-                SystemException ex = new SystemException($"Invalid Bar Code {barCode}");
-                return GetApiExceptionResult(ex);
-            }
-            else
-            {
-                return await DoGetAsync<ItemLogic>(itemId);
-            }
+            return await ItemFunc.GetByBarCode(AppConfig, UserSession, barCode);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/item 
