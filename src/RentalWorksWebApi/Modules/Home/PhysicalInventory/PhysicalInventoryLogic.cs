@@ -71,7 +71,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string InventoryType { get; set; }
 
         [FwLogicProperty(Id: "6wZiXgLxSvdt")]
-        public bool? RecType { get { return physicalInventory.RecType; } set { physicalInventory.RecType = value; } }
+        public string RecType { get { return physicalInventory.RecType; } set { physicalInventory.RecType = value; } }
 
         [FwLogicProperty(Id: "rOG27fDtylG1s", IsReadOnly: true)]
         public string RecTypeDisplay { get; set; }
@@ -234,7 +234,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
 
         [FwLogicProperty(Id: "GcgW7k8Rd6qLF", IsReadOnly: true)]
         public string ApprovedByUser { get; set; }
-        
+
         [FwLogicProperty(Id: "fmDW2iNJGcsDj")]
         public string Approvedate { get { return physicalInventory.Approvedate; } set { physicalInventory.Approvedate = value; } }
 
@@ -263,6 +263,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.PHYSICAL_INVENTORY_STATUS_NEW;
+                PhysicalInventoryNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_PHYSICAL_INVENTORY, conn: e.SqlConnection).Result;
             }
         }
         //------------------------------------------------------------------------------------ 

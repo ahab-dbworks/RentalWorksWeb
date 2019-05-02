@@ -36,6 +36,7 @@
         public const string MODULE_PURCHASE_ORDER = "PO";
         public const string MODULE_TRANSFER = "TRANSFER";
         public const string MODULE_INVOICE = "INVOICE";
+        public const string MODULE_PHYSICAL_INVENTORY = "PHYSICAL INVENTORY";
 
         //QUOTE/ORDER
         public const string ORDER_TYPE_QUOTE = "Q";

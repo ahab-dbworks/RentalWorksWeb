@@ -130,8 +130,8 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "physicalno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)]
         public string PhysicalInventoryNumber { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean, sqltype: "varchar", required: true)]
-        public bool? RecType { get; set; }
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 1, required: true)]
+        public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "step12", modeltype: FwDataTypes.Integer, sqltype: "numeric")]
         public int? StepPrintResults { get; set; }
