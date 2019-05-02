@@ -1044,6 +1044,11 @@ class OrderBase {
         $form.find('.delivery-type-radio').on('change', event => {
             this.deliveryTypeAddresses($form, event);
         });
+        // Quote Address - Issue To radio -  Billing
+        $form.find('[data-datafield="PrintIssuedToAddressFrom"]').on('change', event => {
+            this.issueToAddresses($form, event);
+        });
+        
         // Stores previous value for Out / InDeliveryDeliveryType
         $form.find('.delivery-delivery').on('click', event => {
             let $element, newValue, prevValue;
@@ -1544,6 +1549,38 @@ class OrderBase {
             } else if (value === 'DEAL') {
                 this.fillDeliveryAddressFieldsforDeal($form, 'In');
             }
+        }
+    }
+    issueToAddresses($form: JQuery, event: any): void {
+        const $element = jQuery(event.currentTarget);
+        const value = FwFormField.getValueByDataField($form, 'PrintIssuedToAddressFrom');
+
+        if (value === 'DEAL') {
+            const dealId = FwFormField.getValueByDataField($form, 'DealId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
+                FwFormField.setValueByDataField($form, `IssuedToName`, res.Deal);
+                FwFormField.setValueByDataField($form, `IssuedToAttention`, res.BillToAttention1);
+                FwFormField.setValueByDataField($form, `IssuedToAttention2`, res.BillToAttention2);
+                FwFormField.setValueByDataField($form, `IssuedToAddress1`, res.BillToAddress1);
+                FwFormField.setValueByDataField($form, `IssuedToAddress2`, res.BillToAddress2);
+                FwFormField.setValueByDataField($form, `IssuedToCity`, res.BillToCity);
+                FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToState);
+                FwFormField.setValueByDataField($form, `IssuedToZipCode`, res.BillToZipCode);
+                FwFormField.setValueByDataField($form, `IssuedToCountryId`, res.BillToCountryId, res.BillToCountry);
+            }, null, null);
+        } else if (value === 'CUSTOMER') {
+            const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+            FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, res => {
+                FwFormField.setValueByDataField($form, `IssuedToName`, res.Customer);
+                FwFormField.setValueByDataField($form, `IssuedToAttention`, res.BillToAttention1);
+                FwFormField.setValueByDataField($form, `IssuedToAttention2`, res.BillToAttention2);
+                FwFormField.setValueByDataField($form, `IssuedToAddress1`, res.BillToAddress1);
+                FwFormField.setValueByDataField($form, `IssuedToAddress2`, res.BillToAddress2);
+                FwFormField.setValueByDataField($form, `IssuedToCity`, res.BillToCity);
+                FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToState);
+                FwFormField.setValueByDataField($form, `IssuedToZipCode`, res.BillToZipCode);
+                FwFormField.setValueByDataField($form, `IssuedToCountryId`, res.BillToCountryId, res.BillToCountry);
+            }, null, null);
         }
     }
     //----------------------------------------------------------------------------------------------
