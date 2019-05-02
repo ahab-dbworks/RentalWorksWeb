@@ -215,6 +215,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             addFilterToSelect("VendorInvoiceId", "vendorinvoiceid", select, request);
+            addFilterToSelect("PurchaseOrderId", "orderid", select, request);
         }
         //------------------------------------------------------------------------------------ 
     }
