@@ -291,6 +291,17 @@ namespace FwStandard.BusinessLogic
             {
                 if (request != null)
                 {
+                    if (request.forexcel)
+                    {
+                        useBrowseLoader = false;
+                    }
+                }
+            }
+
+            if (useBrowseLoader)
+            {
+                if (request != null)
+                {
                     if (request.searchfields.Count > 0)
                     {
                         // if searching for specific fields and one or more of the searched fields is not in the browseLoader, then use the regular dataLoader instead
