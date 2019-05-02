@@ -75,8 +75,11 @@ class FillContainer extends StagingCheckoutBase {
                             FwAppData.apiMethod(true, 'POST', `api/v1/container/browse`, request, FwServices.defaultTimeout,
                                 response => {
                                     if (response.TotalRows === 1) {
-                                        FwFormField.setValueByDataField($confirmation, 'ContainerId', response.ContainerId, response.ICode);
-                                        FwFormField.setValueByDataField($confirmation, 'Description', response.Description);
+                                        const containerIdIndex = response.ColumnIndex.ContainerId;
+                                        const iCodeIndex = response.ColumnIndex.ICode;
+                                        const descriptionIndex = response.ColumnIndex.Description;
+                                        FwFormField.setValueByDataField($confirmation, 'ContainerId', response.Rows[0][containerIdIndex], response.Rows[0][iCodeIndex]);
+                                        FwFormField.setValueByDataField($confirmation, 'ContainerDescription', response.Rows[0][descriptionIndex]);
                                     }
                                 }, ex => {
                                     FwFunc.showError(ex);
