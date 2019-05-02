@@ -1042,6 +1042,46 @@
 			]
 		},
 		{
+			"name": "Rental Lost and Damaged Billing History Report",
+			"item": [
+				{
+					"name": "Rental Lost and Damaged Billing History Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"08/01/2018\",\n    \t\t\"WarehouseId\": \"B0029AY5\",\n    \t\t\"xInventoryTypeId\": \"B003KSM1\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/rentallostanddamagedbillinghistoryreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"rentallostanddamagedbillinghistoryreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Retired Rental Inventory Report",
 			"item": [
 				{
