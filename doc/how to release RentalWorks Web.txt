@@ -5,6 +5,8 @@ Navigate to the "build" directory: <repo root>\build
 Confirm that you are on local\develop branch
 Stash any unstaged changes
 Modify version.txt file in the root of the Web project (save and close)
+Modify version.txt file in the root of the WebApi project (save and close)
+Modify version-RentalWorksWeb.txt file in the root of the WebApi project (save and close)
 Change build mode to Release - Any CPU
 Rebuild Solution
 Publish WebAPI:
@@ -13,7 +15,7 @@ Publish WebAPI:
 	npm run publish
 Stage, Commit, and Push assembly/version files, provide Description similar to "web: v2019.1.1.X"
 Navigate to the "build" directory: <repo root>\build
-Use 7Zip to compress the RentalWorksWeb and RentalWorksWebApi directories together "RentalWorksWeb_2018_001_XX.zip"
+Use 7Zip to compress the RentalWorksWeb and RentalWorksWebApi directories together "RentalWorksWeb_2019_001_XX.zip"
 Upload zip file to ftp or web server.
 
 
