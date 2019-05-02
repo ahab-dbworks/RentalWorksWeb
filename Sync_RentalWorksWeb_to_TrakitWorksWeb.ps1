@@ -17,7 +17,10 @@ try {
     # If (-not(Test-Path "$Env:DwFwPath" -PathType Container))           { throw "The System Environment Variable 'DwFwPath' is set to a directory that does not exist: $Env:DwFwPath" }
 
     # sync Source files from RentalWorksWeb
-    $modules = @( 
+    $modules = @(
+    
+        # Modules: Base
+        'Modules\-BaseModules\StagingCheckoutBase' 
         
         # Modules: Administator
         'Modules\Administrator\Control',
@@ -32,7 +35,14 @@ try {
         #'Modules\Administrator\User',
 
         # Modules: Home
+        'Modules\Home\AssignBarCodes',
+        'Modules\Home\CheckIn',
+        'Modules\Home\Exchange',
         #'Modules\Home\PurchaseOrder',
+        'Modules\Home\ReceiveFromVendor',
+        'Modules\Home\ReturnToVendor',
+        'Modules\Home\StagingCheckout',
+        'Modules\Home\SuspendedSession',
         
         # Modules: Settings
         "Modules\Settings\Attribute",
@@ -51,8 +61,8 @@ try {
         "Modules\Settings\OrganizationType",
         "Modules\Settings\POClassification",
         "Modules\Settings\POType",
-        "Modules\Settings\RepairItemStatus",
         "Modules\Settings\RentalCategory",
+        "Modules\Settings\RepairItemStatus",        
         "Modules\Settings\ShipVia",
         "Modules\Settings\State",
         "Modules\Settings\Unit",
@@ -60,11 +70,11 @@ try {
 
         # Reports
         'Modules\Reports\DealOutstandingItemsReport',
-        'Modules\Reports\LateReturnDueBackReport',
-        'Modules\Reports\QuoteReport',
+        'Modules\Reports\LateReturnDueBackReport',,
         'Modules\Reports\OrderReport',
         'Modules\Reports\OutContract',
         'Modules\Reports\PickListReport',
+        'Modules\Reports\QuoteReport'
         'Modules\Reports\RentalInventoryAttributesReport',
         'Modules\Reports\RentalInventoryCatalogReport',
         'Modules\Reports\RentalInventoryChangeReport',
@@ -84,7 +94,6 @@ try {
         'Grids\CheckInSwapGrid',
         'Grids\CheckOutPendingItemGrid',
         #'Grids\CompanyContactGrid',
-        'Grids\VendorTaxOptionGrid',
         #'Grids\ContactCompanyGrid',
         'Grids\ContactNoteGrid',
         'Grids\ContactPersonalEventGrid',
@@ -127,10 +136,27 @@ try {
         'Grids\VendorNoteGrid'
     )
     foreach ($module in $modules) {
-        $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\" + $module
-        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\" + $module
-        robocopy "$source" "$destination" /mir /xf *.js *.js.map
+        $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\$module"
+        $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\$module"
+        robocopy "$source" "$destination" /mir /xf *.js *.js.map _SyncLog.txt | Out-Null
+        if (($LastExitCode -eq 1) -or ($LastExitCode -eq 3) -or ($LastExitCode -eq 5) -or ($LastExitCode -eq 7) -or ($LastExitCode -eq 9) -or ($LastExitCode -eq 11) -or ($LastExitCode -eq 13) -or ($LastExitCode -eq 15))
+        {
+            $date = Get-Date
+            Set-Content -Path "$destination\_SyncLog.txt" -Value "Last Synced on: $date`r`nSource Path: RentalWorksWeb\src\RentalWorksWeb\Source\$module"
+            Write-Host "Updated: $module"
+        }
+        elseif ($LASTEXITCODE -eq 16)
+        {
+            Write-Host "Failed to sync: $module"
+        }
     }
+    echo ''
+    echo ''
+    echo ''
+    echo 'Make sure you manually update the security tree and Constants to include any new menu items that have been added.'
+    echo ''
+    echo ''
+    echo ''
 }
 catch {
     # log the error that got thrown

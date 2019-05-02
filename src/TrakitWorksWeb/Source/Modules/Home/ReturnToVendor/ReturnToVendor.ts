@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/returntovendor$/, action: function (match: RegExpExecArray) { return ReturnToVendorController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/returntovendor$/, action: function (match: RegExpExecArray) { return ReturnToVendorController.getModuleScreen(); } });
 
 class ReturnToVendor {
     Module: string = 'ReturnToVendor';
@@ -12,7 +12,7 @@ class ReturnToVendor {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -28,9 +28,10 @@ class ReturnToVendor {
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        let $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
         //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-text input').focus();
         //$form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
@@ -56,42 +57,25 @@ class ReturnToVendor {
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
-        let showSuspendedSessions = $form.attr('data-showsuspendedsessions');
-
+        const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/returnsuspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
-                $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
-            }, null, $form);
+            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/returnsuspendedsessionsexist', null, FwServices.defaultTimeout,
+                response => {
+                    $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+                }, ex => FwFunc.showError(ex), $form);
 
             $form.on('click', '.suspendedsession', e => {
-                let html = 
-                  `<div>
-                     <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-                     <div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
-                   </div>`;
-
-                let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
-
-                let $browse = SuspendedSessionController.openBrowse();
-                let officeLocationId = JSON.parse(sessionStorage.getItem('location'));
-                officeLocationId = officeLocationId.locationid;
-                $browse.data('ondatabind', function (request) {
+                const $browse = SuspendedSessionController.openBrowse();
+                const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Suspended Sessions');
+                FwPopup.showPopup($popup);
+                $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: officeLocationId
+                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
                         , SessionType: 'RETURN'
                         , OrderType: 'C'
                     }
                 });
-
-                FwPopup.showPopup($popup);
-                jQuery('#suspendedSessions').append($browse);
                 FwBrowse.search($browse);
-
-                $popup.find('.close-modal > i').one('click', function (e) {
-                    FwPopup.destroyPopup($popup);
-                    jQuery(document).find('.fwpopup').off('click');
-                    jQuery(document).off('keydown');
-                });
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
                     let $this = jQuery(e.currentTarget);
@@ -151,24 +135,18 @@ class ReturnToVendor {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $pOReturnItemGrid: any,
-            $pOReturnItemGridControl: any;
-
-        $pOReturnItemGrid = $form.find('div[data-grid="POReturnItemGrid"]');
-        $pOReturnItemGridControl = jQuery(jQuery('#tmpl-grids-POReturnItemGridBrowse').html());
+        const $pOReturnItemGrid = $form.find('div[data-grid="POReturnItemGrid"]');
+        const $pOReturnItemGridControl = FwBrowse.loadGridFromTemplate('POReturnItemGrid');
         $pOReturnItemGrid.empty().append($pOReturnItemGridControl);
-        $pOReturnItemGridControl.data('ondatabind', function (request) {
+        $pOReturnItemGridControl.data('ondatabind', request => {
         })
         FwBrowse.init($pOReturnItemGridControl);
         FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
 
-        let $poReturnBarCodeGrid: any,
-            $poReturnBarCodeGridControl: any;
-
-        $poReturnBarCodeGrid = $form.find('div[data-grid="POReturnBarCodeGrid"]');
-        $poReturnBarCodeGridControl = jQuery(jQuery('#tmpl-grids-POReturnBarCodeGridBrowse').html());
+        const $poReturnBarCodeGrid = $form.find('div[data-grid="POReturnBarCodeGrid"]');
+        const $poReturnBarCodeGridControl = FwBrowse.loadGridFromTemplate('POReturnBarCodeGrid');
         $poReturnBarCodeGrid.empty().append($poReturnBarCodeGridControl);
-        $poReturnBarCodeGridControl.data('ondatabind', function (request) {
+        $poReturnBarCodeGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId'),
                 ReturnContractId: FwFormField.getValueByDataField($form, 'ContractId')
@@ -280,5 +258,52 @@ class ReturnToVendor {
         };
     };
     //----------------------------------------------------------------------------------------------
-}
+    getFormTemplate(): string {
+        return `
+        <div id="returntovendorform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Return To Vendor" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="ReturnToVendorController">
+          <div id="returntovendorform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+            <div class="tabpages">
+              <div class="flexpage">
+                <div class="flexrow">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Return To Vendor">
+                    <div class="flexrow">
+                      <div class="flexcolumn" style="flex:0 1 735px;">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:0 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displyfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="Date" style="flex:0 1 125px;" data-enabled="false"></div>
+                        </div>
+                        <div class="flexrow" style="margin-left:174px;">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 100px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Time" data-datafield="Time" style="flex:0 1 125px;" data-enabled="false"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flexrow" style="max-width:1800px;">
+                  <div class="flexcolumn" style="max-width:1225px;">
+                    <div class="POReturnItemGrid">
+                      <div data-control="FwGrid" data-grid="POReturnItemGrid" data-securitycaption="Return Items"></div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="max-width: 575px;">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code / Serial Number" data-datafield="BarCode" style="width:200px;"></div>
+                    <div class="error-msg"></div>
+                    <div class="POReturnBarCodeGrid" data-control="FwGrid" data-grid="POReturnBarCodeGrid" data-securitycaption="Bar Code Items"></div>
+                  </div>
+                </div>
+                <div class="formrow" style="max-width:1200px;">
+                  <div class="selectall fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select All</div>
+                  <div class="selectnone fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+                  <div class="createcontract fwformcontrol" data-type="button" style="float:right;">Create Contract</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        `;
+    }
+};
 var ReturnToVendorController = new ReturnToVendor();

@@ -5,11 +5,9 @@ class SuspendedSession {
     caption: string = Constants.Modules.Home.SuspendedSession.caption;
 	nav: string = Constants.Modules.Home.SuspendedSession.nav;
 	id: string = Constants.Modules.Home.SuspendedSession.id;
-   
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        var self = this;
-        var $browse;
+        let $browse;
 
         $browse = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);

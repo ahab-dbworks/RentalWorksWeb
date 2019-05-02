@@ -1,6 +1,4 @@
-﻿routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
-
-class Exchange {
+﻿class Exchange {
     Module: string = 'Exchange';
     apiurl: string = 'api/v1/exchange';
     caption: string = Constants.Modules.Home.Exchange.caption;
@@ -11,18 +9,19 @@ class Exchange {
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
+    Type: string = 'Order';
 
     //----------------------------------------------------------------------------------------------
-    getModuleScreen() {
+    getModuleScreen = () => {
         let screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
         let $form = this.openForm('EDIT');
 
         screen.load = () => {
-            FwModule.openModuleTab($form, 'Exchange', false, 'FORM', true);
+            FwModule.openModuleTab($form, `${this.caption}`, false, 'FORM', true);
             this.ContractId = '';
         };
         screen.unload = function () {
@@ -32,13 +31,11 @@ class Exchange {
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        let department;
-
-        let $form = FwModule.loadFormFromTemplate(this.Module);
-        //let $form = jQuery(this.getFormTemplate());
+        let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
-        department = JSON.parse(sessionStorage.getItem('department'));
+        const department = JSON.parse(sessionStorage.getItem('department'));
 
+        //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         FwFormField.setValueByDataField($form, 'DepartmentId', department.departmentid, department.department);
@@ -56,41 +53,25 @@ class Exchange {
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
-        let showSuspendedSessions = $form.attr('data-showsuspendedsessions');
-
+        const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/exchange/suspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
-                $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
-            }, null, $form);
+            FwAppData.apiMethod(true, 'GET', 'api/v1/exchange/suspendedsessionsexist', null, FwServices.defaultTimeout,
+                response => {
+                    $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+                }, ex => FwFunc.showError(ex), $form);
 
             $form.on('click', '.suspendedsession', e => {
-                let html = `<div>
-                             <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-                             <div id="suspendedSessions" style="max-width:90vw;max-height:90vh;overflow:auto;"></div>
-                            </div>`;
-
-                let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
-
-                let $browse = SuspendedSessionController.openBrowse();
-                let officeLocationId = JSON.parse(sessionStorage.getItem('location'));
-                officeLocationId = officeLocationId.locationid;
-                $browse.data('ondatabind', function (request) {
+                const $browse = SuspendedSessionController.openBrowse();
+                const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Suspended Sessions');
+                FwPopup.showPopup($popup);
+                $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: officeLocationId
+                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
                         , SessionType: 'EXCHANGE'
                         , OrderType: 'O'
                     }
                 });
-
-                FwPopup.showPopup($popup);
-                jQuery('#suspendedSessions').append($browse);
                 FwBrowse.search($browse);
-
-                $popup.find('.close-modal > i').one('click', function (e) {
-                    FwPopup.destroyPopup($popup);
-                    jQuery(document).find('.fwpopup').off('click');
-                    jQuery(document).off('keydown');
-                });
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
                     let $this = jQuery(e.currentTarget);
@@ -232,7 +213,7 @@ class Exchange {
                         ContractId: this.ContractId,
                         InCode: jQuery(this).find('input').val()
                     }
-                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout,  response => {
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, response => {
                         if (response.success) {
                             if (this.ContractId === '') {
                                 this.ContractId = response.ContractId
@@ -298,11 +279,8 @@ class Exchange {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        let $exchangeItemGrid: any;
-        let $exchangeItemGridControl: any;
-
-        $exchangeItemGrid = $form.find('div[data-grid="ExchangeItemGrid"]');
-        $exchangeItemGridControl = jQuery(jQuery('#tmpl-grids-ExchangeItemGridBrowse').html());
+        const $exchangeItemGrid = $form.find('div[data-grid="ExchangeItemGrid"]');
+        const $exchangeItemGridControl = FwBrowse.loadGridFromTemplate('ExchangeItemGrid');
         $exchangeItemGrid.empty().append($exchangeItemGridControl);
         $exchangeItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -321,5 +299,75 @@ class Exchange {
         }
     };
     //----------------------------------------------------------------------------------------------
-}
+    getFormTemplate(): string {
+        let typeHTML;
+        switch (this.Module) {
+            case 'Exchange':
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 125px;" data-formbeforevalidate="beforeValidateOrder"></div>`;
+                break;
+            case 'ExchangeContainerItem':
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container Item" data-datafield="ItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="flex:1 1 125px;"></div>`;
+                break;
+        }
+        return `
+        <div id="exchangeform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
+          <div id="exchangeform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+            <div class="tabs">
+            </div>
+            <div class="tabpages">
+              <div class="flexpage">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Exchange">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 175px;"></div>
+                    ${typeHTML}
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield forTypeOrder" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 200px;" data-enabled="false"></div>
+                  </div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check-In">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield in" data-caption="Bar Code / Serial No. / I-Code" data-datafield="BarCodeIn" style="flex:0 1 200px;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICodeIn" style="flex:1 1 125px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DescriptionIn" style="flex:1 1 250px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseIdIn" data-displayfield="WarehouseIn" data-validationname="WarehouseValidation" style="flex:1 1 125px;" data-enabled="false"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="flex:0 1 200px;display:none;"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorIdIn" data-displayfield="VendorIn" data-validationname="VendorValidation" style="flex:1 1 150px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderIdIn" data-displayfield="PoNumberIn" data-validationname="PurchaseOrderValidation" style="flex:1 1 50px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Consignor" data-datafield="ConsignorIdIn" data-displayfield="ConsignorIn" data-validationname="ConsignorValidation" style="flex:1 1 150px;" data-enabled="false"></div>
+                  </div>
+                  <div class="flexrow error-msg check-in" style="margin-top:8px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Check-Out">
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield out" data-caption="Bar Code / Serial No. / I-Code" data-datafield="BarCodeOut" style="flex:0 1 200px;"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICodeOut" style="flex:1 1 125px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="DescriptionOut" style="flex:1 1 250px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseIdOut" data-displayfield="WarehouseOut" data-validationname="WarehouseValidation" style="flex:1 1 125px;" data-enabled="false"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="flex:0 1 200px;display:none;"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorIdOut" data-displayfield="VendorOut" data-validationname="VendorValidation" style="flex:1 1 150px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderIdOut" data-displayfield="PoNumberOut" data-validationname="PurchaseOrderValidation" style="flex:1 1 50px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Consignor" data-datafield="ConsignorIdOut" data-displayfield="ConsignorOut" data-validationname="ConsignorValidation" style="flex:1 1 150px;" data-enabled="false"></div>
+                  </div>
+                  <div class="flexrow error-msg check-out" style="margin-top:8px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Exchange">
+                  <div class="flexcolumn" style="max-width:1600px">
+                    <div class="flexrow" style="max-width:1600px">
+                      <div data-control="FwGrid" data-grid="ExchangeItemGrid" data-securitycaption="Exchange Item"></div>
+                    </div>
+                    <div class="formrow" style="max-width:1600px;margin-left:auto;">
+                      <div class="createcontract fwformcontrol" data-type="button" style="flex: 0 1 140px;">Create Contract</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    }
+};
 var ExchangeController = new Exchange();

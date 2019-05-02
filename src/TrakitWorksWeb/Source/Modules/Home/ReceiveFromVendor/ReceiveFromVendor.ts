@@ -1,4 +1,4 @@
-routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
+﻿//routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
 
 class ReceiveFromVendor {
     Module: string = 'ReceiveFromVendor';
@@ -12,7 +12,7 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
-        screen.$view = FwModule.getModuleControl(this.Module + 'Controller');
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -28,9 +28,10 @@ class ReceiveFromVendor {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
-        let $form = FwModule.loadFormFromTemplate(this.Module);
+        let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
 
+        //disables asterisk and save prompt
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
         let date = new Date(),
@@ -55,41 +56,25 @@ class ReceiveFromVendor {
     };
     //----------------------------------------------------------------------------------------------
     getSuspendedSessions($form) {
-        let showSuspendedSessions = $form.attr('data-showsuspendedsessions');
-
+        const showSuspendedSessions = $form.attr('data-showsuspendedsessions');
         if (showSuspendedSessions != "false") {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/receivesuspendedsessionsexist', null, FwServices.defaultTimeout, function onSuccess(response) {
-                $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
-            }, null, $form);
+            FwAppData.apiMethod(true, 'GET', 'api/v1/purchaseorder/receivesuspendedsessionsexist', null, FwServices.defaultTimeout,
+                response => {
+                    $form.find('.buttonbar').append(`<div class="fwformcontrol suspendedsession" data-type="button" style="float:left;">Suspended Sessions</div>`);
+                }, ex => FwFunc.showError(ex), $form);
 
             $form.on('click', '.suspendedsession', e => {
-                let html = `<div>
-                 <div style="background-color:white; padding-right:10px; text-align:right;" class="close-modal"><i style="cursor:pointer;" class="material-icons">clear</i></div>
-<div id="suspendedSessions" style="max-width:90vw; max-height:90vh; overflow:auto;"></div>
-            </div>`;
-
-                let $popup = FwPopup.renderPopup(jQuery(html), { ismodal: true });
-
-                let $browse = SuspendedSessionController.openBrowse();
-                let officeLocationId = JSON.parse(sessionStorage.getItem('location'));
-                officeLocationId = officeLocationId.locationid;
-                $browse.data('ondatabind', function (request) {
+                const $browse = SuspendedSessionController.openBrowse();
+                const $popup = FwPopup.renderPopup($browse, { ismodal: true }, 'Suspended Sessions');
+                FwPopup.showPopup($popup);
+                $browse.data('ondatabind', request => {
                     request.uniqueids = {
-                        OfficeLocationId: officeLocationId
+                        OfficeLocationId: JSON.parse(sessionStorage.getItem('location')).locationid
                         , SessionType: 'RECEIVE'
                         , OrderType: 'C'
                     }
                 });
-
-                FwPopup.showPopup($popup);
-                jQuery('#suspendedSessions').append($browse);
                 FwBrowse.search($browse);
-
-                $popup.find('.close-modal > i').one('click', function (e) {
-                    FwPopup.destroyPopup($popup);
-                    jQuery(document).find('.fwpopup').off('click');
-                    jQuery(document).off('keydown');
-                });
 
                 $browse.on('dblclick', 'tr.viewmode', e => {
                     let $this = jQuery(e.currentTarget);
@@ -155,21 +140,16 @@ class ReceiveFromVendor {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
-        let $receiveItemsGrid: any,
-            $receiveItemsGridControl: any;
-
-        $receiveItemsGrid = $form.find('div[data-grid="POReceiveItemGrid"]');
-        $receiveItemsGridControl = jQuery(jQuery('#tmpl-grids-POReceiveItemGridBrowse').html());
+        const $receiveItemsGrid = $form.find('div[data-grid="POReceiveItemGrid"]');
+        const $receiveItemsGridControl = FwBrowse.loadGridFromTemplate('POReceiveItemGrid');
         $receiveItemsGrid.empty().append($receiveItemsGridControl);
-        $receiveItemsGridControl.data('ondatabind', function (request) {
+        $receiveItemsGridControl.data('ondatabind', request => {
         })
         FwBrowse.init($receiveItemsGridControl);
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);
     }
     //----------------------------------------------------------------------------------------------
     events($form: any): void {
-        let self = this;
-
         // Create Contract
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -185,7 +165,7 @@ class ReceiveFromVendor {
                 }
             }
             if (contractId) {
-                FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', "api/v1/purchaseorder/completereceivecontract/" + contractId, requestBody, FwServices.defaultTimeout, response => {
                     try {
                         for (let i = 0; i < response.length; i++) {
                             let contractInfo: any = {}, $contractForm;
@@ -195,7 +175,7 @@ class ReceiveFromVendor {
                         }
                         $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
                         let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                        $receiveItemsGridControl.data('ondatabind', function (request) {
+                        $receiveItemsGridControl.data('ondatabind', request => {
                             request.uniqueids = {
                                 ContractId: contractId
                                 , PurchaseOrderId: ''
@@ -218,17 +198,17 @@ class ReceiveFromVendor {
         });
         // Select None
         $form.find('.selectnone').on('click', e => {
-            let request: any = {}, quantity;
+            let request: any = {};
             const $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             const purchaseOrderId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectnone`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectnone`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
-            }, function onError(response) {
-                FwFunc.showError(response);
+            }, ex => {
+                FwFunc.showError(ex);
             }, $form, contractId);
 
             $form.find('.createcontract[data-type="button"]').show();
@@ -243,10 +223,10 @@ class ReceiveFromVendor {
 
             request.ContractId = contractId;
             request.PurchaseOrderId = purchaseOrderId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectall`, request, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorderreceiveitem/selectall`, request, FwServices.defaultTimeout, response => {
                 FwBrowse.search($receiveItemsGridControl);
-            }, function onError(response) {
-                FwFunc.showError(response);
+            }, ex => {
+                FwFunc.showError(ex);
             }, $form, contractId);
 
             let $itemsTrackedByBarcode = $receiveItemsGridControl.find('[data-browsedatafield="TrackedBy"][data-originalvalue="BARCODE"]');
@@ -256,9 +236,9 @@ class ReceiveFromVendor {
             }
         });
         //Hide/Show Options
-        var $optionToggle = $form.find('.optiontoggle');
+        const $optionToggle = $form.find('.optiontoggle');
         $form.find('.options').toggle();
-        $optionToggle.on('click', function () {
+        $optionToggle.on('click', () => {
             $form.find('.options').toggle();
         });
     };
@@ -279,15 +259,15 @@ class ReceiveFromVendor {
     //----------------------------------------------------------------------------------------------
     addButtonMenu($form) {
         let $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
-        let $createContract = FwMenu.generateButtonMenuOption('Create Contract');
-        let $createContractAndAssignBarcodes = FwMenu.generateButtonMenuOption('Create Contract and Assign Barcodes');
+        let $createContract = FwMenu.generateButtonMenuOption('Create Contract')
+            , $createContractAndAssignBarCodes = FwMenu.generateButtonMenuOption('Create Contract and Assign Bar Codes');
 
         $createContract.on('click', e => {
             e.stopPropagation();
             $form.find('.createcontract').click();
         });
 
-        $createContractAndAssignBarcodes.on('click', e => {
+        $createContractAndAssignBarCodes.on('click', e => {
             e.stopPropagation();
             let request: any = {};
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
@@ -297,7 +277,7 @@ class ReceiveFromVendor {
                 contractInfo.ContractNumber = response[0].ContractNumber;
                 contractInfo.PurchaseOrderNumber = response[0].PurchaseOrderNumber;
                 contractInfo.PurchaseOrderId = response[0].PurchaseOrderId;
-                $assignBarCodesForm = AssignBarcodesController.openForm('EDIT', contractInfo);
+                $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', contractInfo);
                 FwModule.openSubModuleTab($form, $assignBarCodesForm);
                 jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
 
@@ -327,10 +307,67 @@ class ReceiveFromVendor {
         });
 
         let menuOptions = [];
-        menuOptions.push($createContract, $createContractAndAssignBarcodes);
+        menuOptions.push($createContract, $createContractAndAssignBarCodes);
 
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     }
     //----------------------------------------------------------------------------------------------
+    getFormTemplate(): string {
+        return `
+        <div id="receivefromvendorform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Receive From Vendor" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="ReceiveFromVendorController">
+          <div id="receivefromvendorform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+            <div class="tabpages">
+              <div class="flexpage">
+                <div class="flexrow">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Receive From Vendor">
+                    <div class="flexrow">
+                      <div class="flexcolumn" style="flex:1 1 450px;">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidate" style="flex:0 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:0 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displyfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="Date" style="flex:0 1 175px;" data-enabled="false"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flexrow">
+                      <div class="flexcolumn" style="flex:1 1 450px;">
+                        <div class="flexrow">
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Packing Slip" data-datafield="PackingSlip" style="flex:0 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 350px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Reference No." data-datafield="ReferenceNumber" style="flex:1 1 100px;" data-enabled="false"></div>
+                          <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="Time" data-datafield="Time" style="flex:0 1 175px;" data-enabled="false"></div>
+                        </div>
+                        <div class="error-msg"></div>
+                      </div>
+                    </div>
+                    <div class="flexrow POReceiveItemGrid">
+                      <div data-control="FwGrid" data-grid="POReceiveItemGrid" data-securitycaption="Receive Items"></div>
+                    </div>
+                    <div class="formrow">
+                      <div class="optiontoggle fwformcontrol" data-type="button" style="float:left">Options &#8675;</div>
+                      <div class="selectall fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select All</div>
+                      <div class="selectnone fwformcontrol" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+                      <div class="createcontract fwformcontrol" data-type="button" style="float:right;">Create Contract</div>
+                      <div class="createcontract fwformcontrol" data-type="btnmenu" style="display:none; float:right;" data-caption="Create Contract"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="flexrow">
+                  <div class="flexcolumn" style="flex:1 1 450px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="checkbox" class="options fwcontrol fwformfield" data-caption="Automatically Create CHECK-OUT Contract for Sub Rental and Sub Sale items received" data-datafield="AutomaticallyCreateCheckOut" style="flex:1 1 150px;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        `;
+    }
+    //----------------------------------------------------------------------------------------------
+
 }
+
 var ReceiveFromVendorController = new ReceiveFromVendor();
