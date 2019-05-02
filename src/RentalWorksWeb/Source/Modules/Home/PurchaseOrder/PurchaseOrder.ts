@@ -570,7 +570,7 @@ class PurchaseOrder {
                 }, new Set(response.MiscShowFields))
                 hiddenPurchase = fieldNames.filter(function (field) {
                     return !this.has(field)
-                }, new Set(response.PuchaseShowFields))
+                }, new Set(response.PurchaseShowFields))
                 hiddenSubLabor = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.SubLaborShowFields))
