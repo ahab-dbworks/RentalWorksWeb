@@ -246,13 +246,11 @@
     <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetForm.htm" />
     <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarcodesForm.htm" />
-    <Content Include="Source\Modules\Home\CheckIn\CheckInForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
     <Content Include="Source\Modules\Home\Deal\DealBrowse.htm" />
     <Content Include="Source\Modules\Home\Deal\DealForm.htm" />
-    <Content Include="Source\Modules\Home\Exchange\ExchangeForm.htm" />
     <Content Include="Source\Modules\Home\ExpendableItem\ExpendableItemBrowse.htm" />
     <Content Include="Source\Modules\Home\ExpendableItem\ExpendableItemForm.htm" />
     <Content Include="Source\Modules\Home\InventoryItem\InventoryItemBrowse.htm" />
@@ -277,7 +275,6 @@
     <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
-    <Content Include="Source\Modules\Home\StagingCheckout\StagingCheckoutForm.htm" />
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\SuspendedSession\SuspendedSessionBrowse.htm" />
     <Content Include="Source\Modules\Home\Vendor\VendorBrowse.htm" />
