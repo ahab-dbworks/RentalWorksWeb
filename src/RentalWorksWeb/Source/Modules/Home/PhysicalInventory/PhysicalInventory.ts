@@ -61,6 +61,17 @@
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
+            let today = FwFunc.getDate();
+            FwFormField.setValueByDataField($form, 'ScheduleDate', today);
+
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+
+            const location = JSON.parse(sessionStorage.getItem('location'));
+            FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+        }
+
+        if (mode === 'NEW') {
             const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));    
             FwFormField.setValue($form.find('.warehouse'), warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValueByDataField($form, 'CycleIncludeOwned', true);
