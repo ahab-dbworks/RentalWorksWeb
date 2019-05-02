@@ -249,6 +249,9 @@ namespace WebApi.Modules.Home.Master
         [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "countryoforiginid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string CountryOfOriginId { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
@@ -256,9 +259,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "restockpercent", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 5, scale: 2)]
                 public decimal? Restockpercent { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "countryoforiginid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-                public string CountryoforiginId { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Manifestvalue { get; set; }
