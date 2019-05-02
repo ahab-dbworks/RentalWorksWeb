@@ -54,6 +54,13 @@ namespace WebApi.Modules.Home.Inventory
         [FwLogicProperty(Id: "DZne9En4ddJTE", IsReadOnly: true)]
         public string Manufacturer { get; set; }
 
+
+        [FwLogicProperty(Id: "rUjj9v4DlIo1x")]
+        public string ManufacturerUrl { get; set; }
+        [FwLogicProperty(Id: "uIvXyX1UGsruy")]
+        public bool? ExcludeImageFromQuoteOrderPrint { get; set; }
+
+
         [FwLogicProperty(Id: "TIH65zNLyOKl")]
         public bool? NoAvailabilityCheck { get { return master.NoAvailabilityCheck; } set { master.NoAvailabilityCheck = value; } }
 
@@ -341,6 +348,9 @@ namespace WebApi.Modules.Home.Inventory
         [FwLogicProperty(Id: "kxITozZHTyV5", IsReadOnly: true)]
         public string WardrobeDetailedDescription { get; set; }
 
+        [FwLogicProperty(Id: "Ww8li3RGVPFwg", IsReadOnly: true)]
+        public string WebDetailedDescription { get; set; }
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
@@ -398,18 +408,29 @@ namespace WebApi.Modules.Home.Inventory
             base.OnAfterSave(sender, e);
 
             bool doSaveWardrobeDescription = false;
+            bool doSaveWebDescription = false;
             if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 doSaveWardrobeDescription = true;
+                doSaveWebDescription = true;
             }
             else if (e.Original != null)
             {
                 InventoryLogic orig = (InventoryLogic)e.Original;
                 doSaveWardrobeDescription = (!orig.WardrobeDetailedDescription.Equals(WardrobeDetailedDescription));
+                doSaveWebDescription = (!orig.WebDetailedDescription.Equals(WebDetailedDescription));
             }
             if (doSaveWardrobeDescription)
             {
-                bool saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription).Result;
+                bool saved = master.SaveWardrobeDetailedDescription(WardrobeDetailedDescription, e.SqlConnection).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
+            if (doSaveWebDescription)
+            {
+                bool saved = master.SaveWebDetailedDescription(WebDetailedDescription, e.SqlConnection).Result;
                 if (saved)
                 {
                     e.RecordsAffected++;

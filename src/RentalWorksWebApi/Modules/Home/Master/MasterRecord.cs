@@ -5,6 +5,7 @@ using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.Master
 {
@@ -246,6 +247,17 @@ namespace WebApi.Modules.Home.Master
         public string ManufacturerId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+        [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string ManufacturerUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ExcludeFromReturnOnAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "donotprintimage", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ExcludeImageFromQuoteOrderPrint { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwSqlDataField(column: "containerid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string ContainerId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -274,9 +286,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "hazardousmaterial", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string Hazardousmaterial { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
-                public string Mfgurl { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "mfgpdf", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
                 public string Mfgpdf { get; set; }
@@ -378,9 +387,6 @@ namespace WebApi.Modules.Home.Master
                 [FwSqlDataField(column: "overridepackagerevenuedefault", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Overridepackagerevenuedefault { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Excludefromroa { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "nestpackages", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Nestpackages { get; set; }
                 //------------------------------------------------------------------------------------ 
@@ -389,9 +395,6 @@ namespace WebApi.Modules.Home.Master
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "orderbypicklist", modeltype: FwDataTypes.Integer, sqltype: "int")]
                 public int? Orderbypicklist { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "donotprintimage", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Donotprintimage { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "defaultprorateweeks", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Defaultprorateweeks { get; set; }
@@ -451,21 +454,42 @@ namespace WebApi.Modules.Home.Master
             return await AppFunc.SaveNoteASync(AppConfig, UserSession, MasterId, "", "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<bool> SaveWardrobeDetailedDescription(string WardrobeDetailedDescription)
+        public async Task<bool> SaveWardrobeDetailedDescription(string description, FwSqlConnection conn)
         {
             bool saved = false;
-            if (WardrobeDetailedDescription != null)
+            if (description != null)
             {
-                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                if (conn == null)
                 {
-                    FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
-                    qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, MasterId);
-                    qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, "WARDDESC");
-                    qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
-                    qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, WardrobeDetailedDescription);
-                    await qry.ExecuteNonQueryAsync();
-                    saved = true;
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
                 }
+                FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, MasterId);
+                qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, RwConstants.INVENTORY_WARDROBE_DESCRIPTION);
+                qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, description);
+                await qry.ExecuteNonQueryAsync();
+                saved = true;
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------   
+        public async Task<bool> SaveWebDetailedDescription(string description, FwSqlConnection conn)
+        {
+            bool saved = false;
+            if (description != null)
+            {
+                if (conn == null)
+                {
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+                }
+                FwSqlCommand qry = new FwSqlCommand(conn, "updateappnote", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@uniqueid1", SqlDbType.NVarChar, ParameterDirection.Input, MasterId);
+                qry.AddParameter("@uniqueid2", SqlDbType.NVarChar, ParameterDirection.Input, RwConstants.INVENTORY_WEB_DESCRIPTION);
+                qry.AddParameter("@uniqueid3", SqlDbType.NVarChar, ParameterDirection.Input, "");
+                qry.AddParameter("@note", SqlDbType.NVarChar, ParameterDirection.Input, description);
+                await qry.ExecuteNonQueryAsync();
+                saved = true;
             }
             return saved;
         }

@@ -38,6 +38,19 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "manufacturer", modeltype: FwDataTypes.Text)]
         public string Manufacturer { get; set; }
         //------------------------------------------------------------------------------------ 
+
+
+        [FwSqlDataField(column: "mfgurl", modeltype: FwDataTypes.Text)]
+        public string ManufacturerUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "excludefromroa", modeltype: FwDataTypes.Boolean)]
+        public bool? ExcludeFromReturnOnAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "donotprintimage", modeltype: FwDataTypes.Boolean)]
+        public bool? ExcludeImageFromQuoteOrderPrint { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         [FwSqlDataField(column: "noavail", modeltype: FwDataTypes.Boolean)]
         public bool? NoAvailabilityCheck { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -322,6 +335,9 @@ namespace WebApi.Modules.Home.Inventory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invdeptiswardrobe", modeltype: FwDataTypes.Boolean)]
         public bool? InventoryTypeIsWardrobe { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webdetaileddescription", modeltype: FwDataTypes.Text)]
+        public string WebDetailedDescription { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

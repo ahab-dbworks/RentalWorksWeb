@@ -21,6 +21,9 @@ namespace WebApi.Modules.Home.RentalInventory
             ((InventoryBrowseLoader)browseLoader).AvailFor = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
         }
         //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "EMtstFgQO6Apj")]
+        public bool? ExcludeFromReturnOnAsset { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
             bool isValid = base.Validate(saveMode, original, ref validateMsg);
