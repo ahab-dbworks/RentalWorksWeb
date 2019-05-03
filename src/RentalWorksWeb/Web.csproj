@@ -559,7 +559,6 @@
     <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
-    <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarCodesForm.htm" />
     <Content Include="Source\Modules\Home\CompleteQc\CompleteQcForm.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryForm.htm" />

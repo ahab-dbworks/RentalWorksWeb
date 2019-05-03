@@ -1,2 +1,2 @@
-Last Synced on: 05/02/2019 16:44:07
+Last Synced on: 05/02/2019 22:41:16
 Source Path: RentalWorksWeb\src\RentalWorksWeb\Source\Modules\Home\AssignBarCodes

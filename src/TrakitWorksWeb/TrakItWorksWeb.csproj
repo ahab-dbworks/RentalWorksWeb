@@ -245,7 +245,6 @@
     <Content Include="Source\Modules\Administrator\User\UserForm.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetBrowse.htm" />
     <Content Include="Source\Modules\Home\Asset\AssetForm.htm" />
-    <Content Include="Source\Modules\Home\AssignBarCodes\AssignBarcodesForm.htm" />
     <Content Include="Source\Modules\Home\CreatePickList\CreatePickListForm.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerBrowse.htm" />
     <Content Include="Source\Modules\Home\Customer\CustomerForm.htm" />
