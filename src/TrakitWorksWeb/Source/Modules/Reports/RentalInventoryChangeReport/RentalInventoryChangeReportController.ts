@@ -1,5 +1,5 @@
 ﻿routes.push({
-    pattern: /^reports\/RentalInventoryChangeReport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/rentalinventorychangereport/, action: function (match: RegExpExecArray) {
         return RwRentalInventoryChangeReportController.getModuleScreen();
     }
 });

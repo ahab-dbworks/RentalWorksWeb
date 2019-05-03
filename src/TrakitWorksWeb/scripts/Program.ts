@@ -54,6 +54,7 @@ routes.push({ pattern: /^module\/checkin$/, action: function (match: RegExpExecA
 routes.push({ pattern: /^module\/checkout$/, action: function (match: RegExpExecArray) { return StagingCheckoutController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/exchange$/, action: function (match: RegExpExecArray) { return ExchangeController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/receivefromvendor$/, action: function (match: RegExpExecArray) { return ReceiveFromVendorController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/rentalinventory$/, action: function(match: RegExpExecArray) { return InventoryItemController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/returntovendor$/, action: function (match: RegExpExecArray) { return ReturnToVendorController.getModuleScreen(); } });
 //---------------------------------------------------------------------------------
 // Settings Modules
