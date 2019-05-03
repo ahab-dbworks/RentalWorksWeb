@@ -1533,7 +1533,7 @@ class Customer {
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Photo">
                       <div class="flexrow">
-                        <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage contactphoto" data-caption="" data-uniqueid1field="CustomerId" data-description="" data-rectype="F"></div>
+                        <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage" data-caption="" data-uniqueid1field="CustomerId" data-description="" data-rectype=""></div>
                       </div>
                     </div>
                   </div>

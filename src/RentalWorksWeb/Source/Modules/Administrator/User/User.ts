@@ -664,7 +664,7 @@ class User {
                 <div class="flexrow">
                   <div class="flexcolumn" style="flex: 0 1 800px;">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="User Photo">
-                      <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="UserId" data-description="" data-rectype="F"></div>
+                      <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="UserId" data-description="" data-rectype=""></div>
                     </div>
                   </div>
                 </div>

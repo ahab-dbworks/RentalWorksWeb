@@ -263,17 +263,6 @@ class RwAsset {
                       </div>
                     </div>
                   </div>
-                  <!--<div class="formrow">
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Image" style="width:875px;">
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="" style="float:left;width:700px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Number" data-datafield="" style="float:left;width:125px;"></div>
-                          </div>
-                          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                              <div class="fwcontrol fwappimage" data-control="FwAppImage" data-type="" data-uniqueid1field="inventory.itemid" data-description="" data-rectype="F" style="min-height:450px;"></div>
-                          </div>
-                      </div>
-                  </div>-->
                 </div>
               </div>
               <!-- Container tab -->
@@ -467,7 +456,7 @@ class RwAsset {
                     <div class="flexcolumn">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Photo">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                          <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage contactphoto" data-caption="Photo" data-uniqueid1field="ItemId" data-description="" data-rectype="F"></div>
+                          <div data-control="FwAppImage" data-type="" class="fwcontrol fwappimage" data-caption="Photo" data-uniqueid1field="ItemId" data-description="" data-rectype=""></div>
                         </div>
                       </div>
                     </div>
