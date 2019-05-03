@@ -163,12 +163,14 @@
                     var chart = new Chart(widgetcanvas, response);
                     jQuery(widgetcanvas).on('click', function (evt) {
                         var activePoint = chart.getElementAtEvent(evt)[0];
-                        var data = activePoint._chart.data;
-                        var datasetIndex = activePoint._datasetIndex;
-                        var label = data.labels[activePoint._index];
-                        var value = data.datasets[datasetIndex].data[activePoint._index];
+                        if (typeof activePoint !== 'undefined') {
+                            var data = activePoint._chart.data;
+                            var datasetIndex = activePoint._datasetIndex;
+                            var label = data.labels[activePoint._index];
+                            var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                        program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                            program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        }
                     });
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -237,12 +239,14 @@
                             var chart = new Chart(widgetfullscreen, response);
                             jQuery(widgetfullscreen).on('click', function (evt) {
                                 var activePoint = chart.getElementAtEvent(evt)[0];
-                                var data = activePoint._chart.data;
-                                var datasetIndex = activePoint._datasetIndex;
-                                var label = data.labels[activePoint._index];
-                                var value = data.datasets[datasetIndex].data[activePoint._index];
-                                FwConfirmation.destroyConfirmation($confirmation);
-                                program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                                if (typeof activePoint !== 'undefined') {
+                                    var data = activePoint._chart.data;
+                                    var datasetIndex = activePoint._datasetIndex;
+                                    var label = data.labels[activePoint._index];
+                                    var value = data.datasets[datasetIndex].data[activePoint._index];
+                                    FwConfirmation.destroyConfirmation($confirmation);
+                                    program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                                }
                             });
                         } catch (ex) {
                             FwFunc.showError(ex);
@@ -284,12 +288,14 @@
                         var chart = new Chart(widgetfullscreen, response);
                         jQuery(widgetfullscreen).on('click', function (evt) {
                             var activePoint = chart.getElementAtEvent(evt)[0];
-                            var data = activePoint._chart.data;
-                            var datasetIndex = activePoint._datasetIndex;
-                            var label = data.labels[activePoint._index];
-                            var value = data.datasets[datasetIndex].data[activePoint._index];
-                            FwConfirmation.destroyConfirmation($confirmation);
-                            program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                            if (typeof activePoint !== 'undefined') {
+                                var data = activePoint._chart.data;
+                                var datasetIndex = activePoint._datasetIndex;
+                                var label = data.labels[activePoint._index];
+                                var value = data.datasets[datasetIndex].data[activePoint._index];
+                                FwConfirmation.destroyConfirmation($confirmation);
+                                program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                            }
                         });
                     } catch (ex) {
                         FwFunc.showError(ex);
@@ -339,12 +345,14 @@
                 var chart = new Chart(widgetcanvas, response);
                 jQuery(widgetcanvas).on('click', function (evt) {
                     var activePoint = chart.getElementAtEvent(evt)[0];
-                    var data = activePoint._chart.data;
-                    var datasetIndex = activePoint._datasetIndex;
-                    var label = data.labels[activePoint._index];
-                    var value = data.datasets[datasetIndex].data[activePoint._index];
+                    if (typeof activePoint !== 'undefined') {
+                        var data = activePoint._chart.data;
+                        var datasetIndex = activePoint._datasetIndex;
+                        var label = data.labels[activePoint._index];
+                        var value = data.datasets[datasetIndex].data[activePoint._index];
 
-                    program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                        program.getModule(widgetData.clickpath + label.replace(/ /g, '%20').replace(/\//g, '%2F'));
+                    }
                 });
             } catch (ex) {
                 FwFunc.showError(ex);
