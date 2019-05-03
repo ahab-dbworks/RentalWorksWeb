@@ -38,28 +38,30 @@ var FwFormField_multiselectvalidationClass = (function () {
     };
     FwFormField_multiselectvalidationClass.prototype.loadItems = function ($control, items, hideEmptyItem) {
     };
-    FwFormField_multiselectvalidationClass.prototype.loadDisplayFields = function ($control) {
-        var $multiSelectDisplay = $control.find('.multiSelectDisplay');
-        var $displayFields = $control.find('.fieldnames td[data-visible="true"]');
-        var html = [];
-        if ($displayFields.length !== 0) {
-            for (var i = 0; i < $displayFields.length; i++) {
-                var $field = $displayFields[i];
-                var caption = jQuery($field).find('div.field').attr('data-caption');
-                var datafield = jQuery($field).find('div.field').attr('data-browsedatafield');
-                html.push("<option data-datafield=\"" + datafield + "\" value=\"" + caption + "\">" + caption + "</option>");
-            }
-        }
-        $multiSelectDisplay.find('select').append(html.join(''));
-        $multiSelectDisplay.css('display', 'inline-block');
-    };
     FwFormField_multiselectvalidationClass.prototype.loadForm = function ($fwformfield, table, field, value, text) {
         $fwformfield
             .attr('data-originalvalue', value)
             .find('input.fwformfield-value')
             .val(value);
-        $fwformfield.find('.fwformfield-text')
-            .val(text);
+        var $browse = $fwformfield.data('browse');
+        if (typeof $browse.data('selectedrows') === 'undefined') {
+            $browse.data('selectedrows', {});
+        }
+        else {
+            $browse.removeData('selectedrows');
+        }
+        if (value !== '') {
+            var multiselectfield = $fwformfield.find('.multiselectitems');
+            var valueArr = value.split(',');
+            var textArr = void 0;
+            var multiSeparator = jQuery($browse.find("thead [data-validationdisplayfield=\"true\"]").get(0)).attr('data-multiwordseparator') || ',';
+            if (typeof text !== 'undefined') {
+                textArr = text.split(multiSeparator);
+            }
+            for (var i = 0; i < valueArr.length; i++) {
+                multiselectfield.prepend("\n                    <div contenteditable=\"false\" class=\"multiitem\" data-multivalue=\"" + valueArr[i] + "\">\n                        <span>" + textArr[i] + "</span>\n                        <i class=\"material-icons\">clear</i>\n                    </div>");
+            }
+        }
     };
     FwFormField_multiselectvalidationClass.prototype.disable = function ($control) {
         $control.find('.btnvalidate').attr('data-enabled', 'false');
@@ -95,8 +97,7 @@ var FwFormField_multiselectvalidationClass = (function () {
             var valueArr = void 0;
             $fwformfield.hasClass('email') ? valueArr = value.split(';') : valueArr = value.split(',');
             var textArr = void 0;
-            var fieldToDisplay = $browse.find('.multiSelectDisplay select option:selected').attr('data-datafield');
-            var multiSeparator = jQuery($browse.find("thead [data-browsedatafield=\"" + fieldToDisplay + "\"]").get(0)).attr('data-multiwordseparator') || ',';
+            var multiSeparator = jQuery($browse.find("thead [data-validationdisplayfield=\"true\"]").get(0)).attr('data-multiwordseparator') || ',';
             if (typeof text !== 'undefined') {
                 textArr = text.split(multiSeparator);
             }

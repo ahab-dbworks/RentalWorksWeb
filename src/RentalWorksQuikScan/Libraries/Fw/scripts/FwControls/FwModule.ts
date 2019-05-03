@@ -1324,7 +1324,7 @@
             }
         }
 
-        FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
+        FwControl.renderRuntimeControls($menu);
     }
     //----------------------------------------------------------------------------------------------
     static beforeCloseForm($form: JQuery) {
