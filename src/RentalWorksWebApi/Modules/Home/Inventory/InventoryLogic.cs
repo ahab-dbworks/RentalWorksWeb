@@ -351,6 +351,15 @@ namespace WebApi.Modules.Home.Inventory
         [FwLogicProperty(Id: "Ww8li3RGVPFwg", IsReadOnly: true)]
         public string WebDetailedDescription { get; set; }
 
+
+        [FwLogicProperty(Id: "hRwL5g8NMuvBz")]
+        public bool? OverrideSystemDefaultRevenueAllocationBehavior { get { return master.OverrideSystemDefaultRevenueAllocationBehavior; } set { master.OverrideSystemDefaultRevenueAllocationBehavior = value; } }
+        [FwLogicProperty(Id: "U4dFHJLmmq6VR")]
+        public bool? AllocateRevenueForAccessories { get { return master.AllocateRevenueForAccessories; } set { master.AllocateRevenueForAccessories = value; } }
+        [FwLogicProperty(Id: "fkS1wHPFYZBpc")]
+        public string PackageRevenueCalculationFormula { get { return master.PackageRevenueCalculationFormula; } set { master.PackageRevenueCalculationFormula = value; } }
+
+
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
@@ -388,6 +397,13 @@ namespace WebApi.Modules.Home.Inventory
                     string[] acceptableValues = { RwConstants.INVENTORY_RANK_A, RwConstants.INVENTORY_RANK_B, RwConstants.INVENTORY_RANK_C, RwConstants.INVENTORY_RANK_D, RwConstants.INVENTORY_RANK_E, RwConstants.INVENTORY_RANK_F, RwConstants.INVENTORY_RANK_G };
                     isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
                 }
+            }
+
+            if (isValid)
+            {
+                PropertyInfo property = typeof(InventoryLogic).GetProperty(nameof(InventoryLogic.PackageRevenueCalculationFormula));
+                string[] acceptableValues = { RwConstants.INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_REPLACEMENT_COST, RwConstants.INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_UNIT_VALUE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
             }
 
             return isValid;

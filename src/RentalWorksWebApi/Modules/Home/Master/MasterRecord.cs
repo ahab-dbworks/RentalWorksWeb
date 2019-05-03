@@ -1,6 +1,6 @@
-using FwStandard.BusinessLogic; 
-using FwStandard.SqlServer; 
-using FwStandard.SqlServer.Attributes; 
+using FwStandard.BusinessLogic;
+using FwStandard.SqlServer;
+using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Data;
 using System.Threading.Tasks;
@@ -265,6 +265,18 @@ namespace WebApi.Modules.Home.Master
         public string CountryOfOriginId { get; set; }
         //------------------------------------------------------------------------------------ 
 
+
+        [FwSqlDataField(column: "overridepackagerevenuedefault", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? OverrideSystemDefaultRevenueAllocationBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "splitpackagerevenue", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? AllocateRevenueForAccessories { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "packagerevenuebasedon", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string PackageRevenueCalculationFormula { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
         /*
                 [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 12, scale: 3)]
                 public decimal? Replacementcost { get; set; }
@@ -375,17 +387,8 @@ namespace WebApi.Modules.Home.Master
                 [FwSqlDataField(column: "rentalmasterid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
                 public string RentalmasterId { get; set; }
                 //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "splitpackagerevenue", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Splitpackagerevenue { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "packagerevenuebasedon", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
-                public string Packagerevenuebasedon { get; set; }
-                //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "treatconsignedqtyasowned", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Treatconsignedqtyasowned { get; set; }
-                //------------------------------------------------------------------------------------ 
-                [FwSqlDataField(column: "overridepackagerevenuedefault", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                public bool? Overridepackagerevenuedefault { get; set; }
                 //------------------------------------------------------------------------------------ 
                 [FwSqlDataField(column: "nestpackages", modeltype: FwDataTypes.Boolean, sqltype: "char")]
                 public bool? Nestpackages { get; set; }

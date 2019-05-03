@@ -258,7 +258,11 @@
         public const string INVENTORY_WARDROBE_DESCRIPTION = "WARDDESC";
         public const string INVENTORY_WEB_DESCRIPTION = "WEB_DESC";
 
+        public const string INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_REPLACEMENT_COST = "REPLACEMENT";
+        public const string INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_UNIT_VALUE = "COST";
 
+
+        // ORDERTRAN
         public const string ORDERTRAN_ITEMSTATUS_STAGED = "S";
         public const string ORDERTRAN_ITEMSTATUS_OUT = "O";
         public const string ORDERTRAN_ITEMSTATUS_IN = "I";
