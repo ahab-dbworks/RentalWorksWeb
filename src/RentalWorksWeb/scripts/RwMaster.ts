@@ -7,7 +7,7 @@
             {
                 caption: 'Agent',
                 id: '91D2F0CF-2063-4EC8-B38D-454297E136A8',
-                children: [QuoteController, OrderController, /*CustomerController,*/ DealController, VendorController, ContactController, PurchaseOrderController, ProjectController]
+                children: [QuoteController, OrderController, CustomerController, DealController, VendorController, ContactController, PurchaseOrderController, ProjectController]
             },
             {
                 caption: 'Inventory',
