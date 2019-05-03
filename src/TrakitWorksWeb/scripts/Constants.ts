@@ -22,7 +22,7 @@
         },
         Home: {
             Asset: { id: 'E1366299-0008-429C-93CC-B8ED8969B180', caption: 'Asset', nav: 'module/asset' },
-            AssignBarCodes: { id: '81B0D93C-9765-4340-8B40-63040E0343B8', caption: 'Assign Barcodes', nav: 'module/assignbarcodes' },
+            AssignBarCodes: { id: '81B0D93C-9765-4340-8B40-63040E0343B8', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
             CheckIn: { id: '3D1EB9C4-95E2-440C-A3EF-10927C4BDC65', caption: 'Check-In', nav: 'module/checkin' },
             Contact: { id: '9DC167B7-3313-4783-8A97-03C55B6AD5F2', caption: 'Contact', nav: 'module/contact' },
             Contract: { id: 'F6D42CC1-FAC6-49A9-9BF2-F370FE408F7B', caption: 'Contract', nav: 'module/contract', 
@@ -36,7 +36,7 @@
             Customer: { id: '8237418B-923D-4044-951F-98938C1EC3DE', caption: 'Customer', nav: 'module/customer' },
             Deal: { id: '393DE600-2911-4753-85FD-ABBC4F0B1407', caption: 'Job', nav: 'module/deal' },
             Exchange: { id: 'F9012ABC-B97E-433B-A604-F1DADFD6D7B7', caption: 'Exchange', nav: 'module/exchange' },
-            ExpendableItem: { id: '4115FFCE-69BB-4D2F-BCDC-3924AE045AA8', caption: 'ExpendableItem', nav: 'module/expendableitem' },
+            ExpendableItem: { id: '4115FFCE-69BB-4D2F-BCDC-3924AE045AA8', caption: 'Expendable Item', nav: 'module/expendableitem' },
             Order: { id: '68B3710E-FE07-4461-9EFD-04E0DBDAF5EA', caption: 'Order', nav: 'module/order',
                 browse: {
                     menuItems: {
