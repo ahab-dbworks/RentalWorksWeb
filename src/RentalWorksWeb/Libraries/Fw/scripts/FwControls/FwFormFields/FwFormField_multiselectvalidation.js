@@ -41,8 +41,29 @@ class FwFormField_multiselectvalidationClass {
             .attr('data-originalvalue', value)
             .find('input.fwformfield-value')
             .val(value);
-        $fwformfield.find('.fwformfield-text')
-            .val(text);
+        const $browse = $fwformfield.data('browse');
+        if (typeof $browse.data('selectedrows') === 'undefined') {
+            $browse.data('selectedrows', {});
+        }
+        else {
+            $browse.removeData('selectedrows');
+        }
+        if (value !== '') {
+            const multiselectfield = $fwformfield.find('.multiselectitems');
+            const valueArr = value.split(',');
+            let textArr;
+            const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
+            if (typeof text !== 'undefined') {
+                textArr = text.split(multiSeparator);
+            }
+            for (let i = 0; i < valueArr.length; i++) {
+                multiselectfield.prepend(`
+                    <div contenteditable="false" class="multiitem" data-multivalue="${valueArr[i]}">
+                        <span>${textArr[i]}</span>
+                        <i class="material-icons">clear</i>
+                    </div>`);
+            }
+        }
     }
     disable($control) {
         $control.find('.btnvalidate').attr('data-enabled', 'false');
