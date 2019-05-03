@@ -1,5 +1,7 @@
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Data;
+using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Home.PhysicalInventory
 {
@@ -169,5 +171,25 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        public async Task<bool> SaveInventoryType(string inventoryTypeId, FwSqlConnection conn)
+        {
+            bool saved = false;
+            if (inventoryTypeId != null)
+            {
+                if (conn == null)
+                {
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+                }
+                FwSqlCommand qry = new FwSqlCommand(conn, "savephysicalinventorydepartment", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, PhysicalInventoryId);
+                qry.AddParameter("@inventorydepartmentid", SqlDbType.NVarChar, ParameterDirection.Input, inventoryTypeId);
+                await qry.ExecuteNonQueryAsync();
+                saved = true;
+            }
+            return saved;
+        }
+        //-------------------------------------------------------------------------------------------------------   
+
+
     }
 }

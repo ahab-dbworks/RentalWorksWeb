@@ -133,13 +133,13 @@
 
     beforeValidateInventoryType($browse, $grid, request) {
         let validationName = request.module,
-            recType = FwFormField.getValueByDataField($grid, 'RecTypeDisplay');
+            recType = FwFormField.getValueByDataField($grid, 'RecType');
         switch (validationName) {
             case 'InventoryTypeValidation':
                 request.uniqueids = {};
-                if (recType === 'RENTAL') { request.uniqueids.Rental = true };
-                if (recType === 'SALES') { request.uniqueids.Sales = true };
-                if (recType === 'PARTS') { request.uniqueids.Parts = true };
+                if (recType === 'R') { request.uniqueids.Rental = true };
+                if (recType === 'S') { request.uniqueids.Sales = true };
+                if (recType === 'P') { request.uniqueids.Parts = true };
                 break;
         }
 

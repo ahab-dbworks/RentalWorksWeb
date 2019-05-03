@@ -17,6 +17,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
             dataLoader = physicalInventoryLoader;
 
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "juEFWkWknNTw", IsPrimaryKey: true)]
@@ -264,6 +265,28 @@ namespace WebApi.Modules.Home.PhysicalInventory
             {
                 Status = RwConstants.PHYSICAL_INVENTORY_STATUS_NEW;
                 PhysicalInventoryNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_PHYSICAL_INVENTORY, conn: e.SqlConnection).Result;
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            bool doSaveInventoryType = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveInventoryType = true;
+            }
+            else if (e.Original != null)
+            {
+                PhysicalInventoryLogic orig = (PhysicalInventoryLogic)e.Original;
+                doSaveInventoryType = (!orig.InventoryTypeId.Equals(InventoryTypeId));
+            }
+            if (doSaveInventoryType)
+            {
+                bool saved = physicalInventory.SaveInventoryType(InventoryTypeId, e.SqlConnection).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
             }
         }
         //------------------------------------------------------------------------------------ 
