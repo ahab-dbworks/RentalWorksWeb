@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/jquery": "^3.3.6",
+    "@types/jquery": "3.3.29",
     "@types/mustache": "^0.8.30"
   }
 }

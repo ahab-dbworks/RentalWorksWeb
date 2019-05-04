@@ -8,3 +8,5 @@ declare var FwMobileMasterController: any;
 declare var FwSecurity: any;
 declare var DayPilot: any;
 declare var moment: any;
+declare var Sortable: any;
+declare var CKEDITOR: any;
