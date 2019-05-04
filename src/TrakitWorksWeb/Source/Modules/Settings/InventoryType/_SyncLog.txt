@@ -1,0 +1,2 @@
+Last Synced on: 05/03/2019 18:31:50
+Source Path: RentalWorksWeb\src\RentalWorksWeb\Source\Modules\Settings\InventoryType
