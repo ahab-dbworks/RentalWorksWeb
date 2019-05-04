@@ -20,7 +20,8 @@ try {
     $modules = @(
     
         # Modules: Base
-        'Modules\-BaseModules\StagingCheckoutBase' 
+        'Modules\-BaseModules\OrderStatusBase',
+        'Modules\-BaseModules\StagingCheckoutBase', 
         
         # Modules: Administator
         'Modules\Administrator\Control',
@@ -39,6 +40,7 @@ try {
         'Modules\Home\CheckIn',
         'Modules\Home\Exchange',
         #'Modules\Home\PurchaseOrder',
+        'Modules\Home\OrderStatus',
         'Modules\Home\ReceiveFromVendor',
         'Modules\Home\ReturnToVendor',
         'Modules\Home\StagingCheckout',
@@ -134,7 +136,9 @@ try {
         'Grids\StageHoldingItemGrid',
         'Grids\StageQuantityItemGrid',
         'Grids\VendorNoteGrid'
+        #'Grids\VendorTaxOption' -> this is new in TrakitWorksWeb and seems to replace CompanyTaxOptionGrid used by Vendor in RentalWorksWeb
     )
+    echo 'Syncing RentalWorksWeb to TrakitWorksWeb...'
     foreach ($module in $modules) {
         $source = "$Env:DwRentalWorksWebPath\src\RentalWorksWeb\Source\$module"
         $destination = "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb\Source\$module"
@@ -150,11 +154,16 @@ try {
             Write-Host "Failed to sync: $module"
         }
     }
+
+    echo 'Compiling TypeScript...'
+    cd "$Env:DwRentalWorksWebPath\src\TrakitWorksWeb"
+    tsc
+
     echo ''
     echo ''
     echo ''
     echo 'Make sure you manually update the security tree and Constants to include any new menu items that have been added.'
-    echo ''
+    echo 'Also rebuild TrakitWorksWeb'
     echo ''
     echo ''
 }

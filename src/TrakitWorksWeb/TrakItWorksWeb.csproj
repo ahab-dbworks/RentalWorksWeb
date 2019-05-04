@@ -271,7 +271,6 @@
     <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PartsInventory\PartsInventoryForm.htm" />
     <Content Include="Source\Modules\Home\ReturnToVendor\ReturnToVendorForm.htm" />
-    <Content Include="Source\Modules\Home\OrderStatus\OrderStatusForm.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractBrowse.htm" />
     <Content Include="Source\Modules\Home\Contract\ContractForm.htm" />
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
@@ -539,6 +538,8 @@
     <TypeScriptCompile Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorNoteGrid\VendorNoteGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Control\Control.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomField\CustomField.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomForm\CustomForm.ts" />
