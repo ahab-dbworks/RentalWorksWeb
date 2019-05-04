@@ -1137,14 +1137,6 @@
     <TypeScriptCompile Include="Source\Validations\SalesInventoryValidation\SalesInventoryValidationController.ts" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="excluded\Modules\Home\AppDocument\AppDocumentController.cs" />
-    <Compile Include="excluded\Modules\Home\AppDocument\AppDocumentLoader.cs" />
-    <Compile Include="excluded\Modules\Home\AppDocument\AppDocumentLogic.cs" />
-    <Compile Include="excluded\Modules\Home\AppDocument\AppDocumentRecord.cs" />
-    <Compile Include="excluded\Modules\Home\ContactNote\ContactNoteController.cs" />
-    <Compile Include="excluded\Modules\Home\ContactNote\ContactNoteLoader.cs" />
-    <Compile Include="excluded\Modules\Home\ContactNote\ContactNoteLogic.cs" />
-    <Compile Include="excluded\Modules\Home\ContactNote\ContactNoteRecord.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1214,7 +1206,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Temp\Downloads\" />
-    <Folder Include="excluded\Modules\Home\Contact\" />
     <Folder Include="Libraries\" />
     <Folder Include="Source\Controls\" />
     <Folder Include="theme\fwaudio\" />
