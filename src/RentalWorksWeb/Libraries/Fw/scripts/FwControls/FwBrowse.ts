@@ -1521,42 +1521,49 @@ class FwBrowseClass {
                             $submenubtn = FwGridMenu.addSubMenu($menu);
                         }
                         if ($submenubtn !== null) {
-                            const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
-                            const $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
-                            if (nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T') {
-                                const $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
-                                $submenuitem.on('click', function (e: JQuery.Event) {
-                                    try {
-                                        if ($browse.attr('data-enabled') !== 'false') {
-                                            try {
-                                                e.stopPropagation();
-                                                var $selectedCheckBoxes = $control.find('tbody .cbselectrow:checked');
-                                                if ($selectedCheckBoxes.length === 0) {
-                                                    FwFunc.showMessage('Select one or more rows to delete!');
-                                                } else {
-                                                    var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?', function onyes() {
-                                                        try {
-                                                            let lastCheckBoxIndex = $selectedCheckBoxes.length - 1;
-                                                            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                                                                let $tr = $selectedCheckBoxes.eq(i).closest('tr');
-                                                                me.deleteRecord($control, $tr, i === lastCheckBoxIndex);
+                            const hasDeleteAction = nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T';
+                            
+                            // if there are any actions
+                            if (hasDeleteAction) {
+                                const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
+                                const $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
+                                
+                                // Delete Action 
+                                if (hasDeleteAction) {
+                                    const $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
+                                    $submenuitem.on('click', function (e: JQuery.Event) {
+                                        try {
+                                            if ($browse.attr('data-enabled') !== 'false') {
+                                                try {
+                                                    e.stopPropagation();
+                                                    var $selectedCheckBoxes = $control.find('tbody .cbselectrow:checked');
+                                                    if ($selectedCheckBoxes.length === 0) {
+                                                        FwFunc.showMessage('Select one or more rows to delete!');
+                                                    } else {
+                                                        var $confirmation = FwConfirmation.yesNo('Delete Record' + ($selectedCheckBoxes.length > 1 ? 's' : ''), 'Delete ' + $selectedCheckBoxes.length + ' record' + ($selectedCheckBoxes.length > 1 ? 's' : '') + '?', function onyes() {
+                                                            try {
+                                                                let lastCheckBoxIndex = $selectedCheckBoxes.length - 1;
+                                                                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                                                                    let $tr = $selectedCheckBoxes.eq(i).closest('tr');
+                                                                    me.deleteRecord($control, $tr, i === lastCheckBoxIndex);
+                                                                }
+                                                            } catch (ex) {
+                                                                FwFunc.showError(ex);
                                                             }
-                                                        } catch (ex) {
-                                                            FwFunc.showError(ex);
-                                                        }
-                                                    }, function onno() { });
+                                                        }, function onno() { });
 
+                                                    }
+                                                } catch (ex) {
+                                                    FwFunc.showError(ex);
                                                 }
-                                            } catch (ex) {
-                                                FwFunc.showError(ex);
+                                            } else {
+                                                FwFunc.showMessage('This grid is disabled.');
                                             }
-                                        } else {
-                                            FwFunc.showMessage('This grid is disabled.');
+                                        } catch (ex) {
+                                            FwFunc.showError(ex);
                                         }
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
-                                    }
-                                });
+                                    });
+                                }
                             }
                             if (gridSubMenu !== null) {
                                 for (let gridSubMenuGroupIndex = 0; gridSubMenuGroupIndex < gridSubMenu.children.length; gridSubMenuGroupIndex++) {
