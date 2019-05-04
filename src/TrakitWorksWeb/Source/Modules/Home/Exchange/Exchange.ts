@@ -108,8 +108,8 @@
 
         // Deal Id
         $form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
-            contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue')
-            contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue')
+            contractRequest['OrderId'] = FwFormField.getValueByDataField($form, "OrderId");
+            contractRequest['DealId'] = FwFormField.getValueByDataField($form, "DealId");
 
             try {
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
@@ -135,8 +135,8 @@
         // Order Id
         $form.find('div[data-datafield="OrderId"]').data('onchange', $tr => {
             FwFormField.setValueByDataField($form, 'DealId', $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue'), $tr.find('.field[data-browsedatafield="Deal"]').attr('data-originalvalue'));
-            contractRequest['OrderId'] = $tr.find('.field[data-browsedatafield="OrderId"]').attr('data-originalvalue');
-            contractRequest['DealId'] = $tr.find('.field[data-browsedatafield="DealId"]').attr('data-originalvalue');
+            contractRequest['OrderId'] = FwFormField.getValueByDataField($form, "OrderId");
+            contractRequest['DealId'] = FwFormField.getValueByDataField($form, "DealId");
             FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
             try {
@@ -292,10 +292,13 @@
     };
     //----------------------------------------------------------------------------------------------
     beforeValidateOrder($browse, $grid, request) {
-        var DealId = jQuery($grid.find('[data-validationname="DealValidation"] input')).val();
-
-        request.uniqueids = {
-            'DealId': DealId
+        //var DealId = jQuery($grid.find('[data-validationname="DealValidation"] input')).val();
+        var $form = $grid.closest('.fwform');
+        const DealId: string = FwFormField.getValueByDataField($form, 'DealId');
+        if (DealId.length > 0) {
+            request.uniqueids = {
+                'DealId': DealId
+            }
         }
     };
     //----------------------------------------------------------------------------------------------
