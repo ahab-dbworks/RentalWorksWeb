@@ -145,7 +145,7 @@ class AssignBarCodes {
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
-        <div id="assignbarcodesform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Assign Barcodes" data-hasaudit="false" data-controller="AssignBarcodesController">
+        <div id="assignbarcodesform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Assign Bar Codes" data-hasaudit="false" data-controller="AssignBarCodesController">
           <div class="flexpage">
             <div class="flexrow">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Barcodes / Serial Numbers" style="flex:1 1 750px;">

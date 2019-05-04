@@ -576,8 +576,6 @@
     <Content Include="Source\Modules\Home\Invoice\InvoiceBrowse.htm" />
     <Content Include="Source\Modules\Home\Invoice\InvoiceForm.htm" />
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
-    <Content Include="Source\Modules\Home\ReturnToVendor\ReturnToVendorForm.htm" />
-    <Content Include="Source\Modules\Home\ReceiveFromVendor\ReceiveFromVendorForm.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
     <Content Include="Source\Modules\Reports\CrewSignInReport\RwCrewSignInReportController.js" />
