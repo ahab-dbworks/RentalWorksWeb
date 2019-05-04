@@ -141,7 +141,7 @@
         const $view = jQuery(`<div class="fwcontrol fwfilemenu" data-control="FwFileMenu" data-version="2" data-rendermode="template"></div>`);
 
         FwControl.renderRuntimeControls($view);
-        $view.find('.logo').append(`<div class="bgothm">${program.name}</div>`);
+        $view.find('.logo').append(`<span class="bgothm">${program.name}</span>`);
 
         this.buildMainMenu($view);
         this.getUserControl($view);

@@ -385,6 +385,26 @@
                                         $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
                                         $browse = $menubarbutton.closest('.fwbrowse');
 
+                                        $menubarbutton.append(`
+                                        <div class="findbutton-dropdown">
+                                            <div class="query">
+                                                <div class="flexrow queryrow" style="align-items:center;min-width:800px;">
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
+                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
+                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
+                                                    <i class="material-icons delete-query">delete_outline</i>
+                                                    <i class="material-icons add-query">add_circle_outline</i>
+                                                </div>
+                                            </div>
+                                            <div class="flexrow queryrow">
+                                                <div class="find fwformcontrol querysearch" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
+                                            </div>
+                                        </div>`);
+                                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
+
                                         $menubarbutton.attr('data-type', 'FindMenuBarButton');
                                         let findFields = [];
                                         let textComparisonFields = [
@@ -628,25 +648,7 @@
                                             e.stopPropagation();
                                         })
 
-                                        $menubarbutton.append(`
-                                        <div class="findbutton-dropdown">
-                                            <div class="query">
-                                                <div class="flexrow queryrow" style="align-items:center;min-width:800px;">
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield andor" data-caption="" data-datafield="AndOr" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldselect" data-caption="Data Field" data-datafield="Datafield" style="flex:1 1 auto;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datafieldcomparison" data-caption="" data-datafield="DatafieldComparison" style="flex:1 1 150px;"></div>
-                                                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textquery" data-caption="" data-datafield="DatafieldQuery" style="flex:1 1 200px;"></div>
-                                                    <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield datequery" data-caption="" data-datafield="DateFieldQuery" style="flex:1 1 200px;display:none;"></div>
-                                                    <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield booleanquery" data-caption="" data-datafield="BooleanFieldQuery" style="flex:1 1 200px;display:none;"></div>
-                                                    <i class="material-icons delete-query">delete_outline</i>
-                                                    <i class="material-icons add-query">add_circle_outline</i>
-                                                </div>
-                                            </div>
-                                            <div class="flexrow queryrow">
-                                                <div class="find fwformcontrol querysearch" data-type="button" style="flex:0 1 50px;margin:15px 15px 10px 10px;margin-left:auto;">Apply</div>
-                                            </div>
-                                        </div>`);
-                                        FwControl.renderRuntimeHtml($menubarbutton.find('.fwcontrol'));
+
                                         break;
                                 }
                             }
@@ -1322,7 +1324,7 @@
             }
         }
 
-        FwControl.renderRuntimeControls($menu.find('.fwcontrol').addBack());
+        FwControl.renderRuntimeControls($menu);
     }
     //----------------------------------------------------------------------------------------------
     static beforeCloseForm($form: JQuery) {
@@ -1827,4 +1829,17 @@
         return browseMenuBar;
     }
     //----------------------------------------------------------------------------------------------
+}
+
+interface IFwFormField {
+    initControl?($control: JQuery<HTMLElement>): void;
+    disable($control: JQuery<HTMLElement>): void;
+    enable($control: JQuery<HTMLElement>): void;
+    getText2?($fwformfield: JQuery<HTMLElement>): string;
+    getValue2($fwformfield: JQuery<HTMLElement>): any;
+    loadForm($fwformfield: JQuery<HTMLElement>, table: string, field: string, value: any, text: string): void;
+    loadItems($control: JQuery<HTMLElement>, items: any, hideEmptyItem: boolean): void;
+    renderDesignerHtml($control: JQuery<HTMLElement>, html: string[]): void;
+    renderRuntimeHtml($control: JQuery<HTMLElement>, html: string[]): void;
+    setValue($fwformfield: JQuery<HTMLElement>, value: any, text: string, firechangeevent: boolean): void;
 }

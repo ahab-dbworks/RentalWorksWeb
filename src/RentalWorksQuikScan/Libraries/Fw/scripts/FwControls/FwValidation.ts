@@ -206,7 +206,7 @@
                 $tr = jQuery(this);
                 FwValidation.selectRow($control, $tr, $valuefield, $searchfield, $btnvalidate, $validationbrowse);
                 originalcolor = $searchfield.css('background-color');
-                $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('style', '') });
+                $searchfield.css('background-color', '#abcdef').animate({ backgroundColor: originalcolor }, 1500, function () { $searchfield.attr('background-color', '') });
                 jQuery(document).off('keydown');
 
                 $rows = $validationbrowse.find('table > tbody > tr');
@@ -301,6 +301,9 @@
     }
     //---------------------------------------------------------------------------------
     validate($control: JQuery, validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $validationbrowse: JQuery, useSearchFieldValue: boolean) {
+        if ($validationbrowse.length === 0) {
+            throw `Missing validation template for: ${validationName}`;
+        }
         if (typeof $control.data('getapiurl') === 'function') {
             $validationbrowse.data('validationmode', 2);
             $validationbrowse.attr('data-apiurl', $control.data('getapiurl')());
@@ -462,8 +465,7 @@
                     }
                 });
 
-                jQuery(document).find('.fwpopupbox').on('click', function (e: Event) {
-                    e = e || window.event;
+                jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
                     if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                     } else {
@@ -498,8 +500,7 @@
 
             FwPopup.showPopup(FwPopup.renderPopup($popupForm, undefined, 'New ' + title));
 
-            jQuery(document).find('.fwpopup.new-validation').on('click', function (e: Event) {
-                e = e || window.event;
+            jQuery('.fwpopup.new-validation').on('click', function (e: JQuery.ClickEvent) {
                 if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                 } else {
@@ -524,8 +525,7 @@
                 }
             });
 
-            jQuery(document).find('.fwpopupbox').on('click', function (e: Event) {
-                e = e || window.event;
+            jQuery('.fwpopupbox').on('click', function (e: JQuery.ClickEvent) {
                 if ((<HTMLElement>e.target).outerHTML === '<i class="material-icons"></i>' || (<HTMLElement>e.target).outerHTML === '<div class="btn-text">Save</div>') {
 
                 } else {

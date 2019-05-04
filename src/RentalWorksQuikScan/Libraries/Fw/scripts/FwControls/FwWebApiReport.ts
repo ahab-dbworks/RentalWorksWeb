@@ -80,18 +80,25 @@ abstract class FwWebApiReport {
                     const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Html';
                     request.parameters = this.convertParameters(this.getParameters($form));
+                    const reportPageMessage = new ReportPageMessage();
+                    reportPageMessage.action = 'Preview';
+                    reportPageMessage.apiUrl = apiUrl;
+                    reportPageMessage.authorizationHeader = authorizationHeader;
+                    reportPageMessage.request = request;
+
                     const win = window.open(urlHtmlReport);
+
                     if (!win) {
                         throw 'Disable your popup blocker for this site.';
                     } else {
-                        setTimeout(() => {
-                            const message = new ReportPageMessage();
-                            message.action = 'Preview';
-                            message.apiUrl = apiUrl;
-                            message.authorizationHeader = authorizationHeader;
-                            message.request = request;
-                            win.postMessage(message, '*');
-                        }, 50);
+                        window.addEventListener('message', (ev: MessageEvent) => {
+                            const message = ev.data;
+                            if (message === urlHtmlReport) {
+                                console.log('startTabEVENT: ', ev)
+                                win.postMessage(reportPageMessage, urlHtmlReport);
+                                window.removeEventListener('message', () => { })
+                            }
+                        })
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -196,7 +203,9 @@ abstract class FwWebApiReport {
                     request.downloadPdfAsAttachment = false;
                     request.parameters = this.convertParameters(this.getParameters($form));
                     const win = window.open('about:blank', 'newtab');
-                    const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+                    // const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+                    const newTabotification = jQuery(win.document.body.innerHTML = '<div class="fwnotification info advisory" style="position:fixed;bottom:2.5vw;right:2.5vw;color:white;border-radius:4px;max-width:700px;-webkit-box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.5);-moz-box-shadow: 2px 2px 10px 1px rgba(0, 0, 0, 0.5);box-shadow:2px 2px 10px 1px rgba(0, 0, 0, 0.5); display:flex;background-color:#53c2f0;border:1px solid #3c8dae;"><div class="message" style="padding:10px;line-height:24px;font-family: -apple-system,Segoe UI,Roboto,Arial,sans-serif;}">Preparing Report...</div></div>');
+                    // This is WIP notification for new tab. Tab mustbe closed prior to rendering another report or you get CORS error
                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
@@ -217,11 +226,11 @@ abstract class FwWebApiReport {
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             } finally {
-                                FwNotification.closeNotification($notification);
+                                // FwNotification.closeNotification($notification);
                             }
                         },
                         (errorResponse) => {
-                            FwNotification.closeNotification($notification);
+                            // FwNotification.closeNotification($notification);
                             if (errorResponse !== 'abort') {
                                 FwFunc.showError(errorResponse);
                             }

@@ -81,6 +81,7 @@ namespace FwCore.Controllers
                 }
 
                 FwBusinessLogic l = CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                browseRequest.forexcel = true;
                 FwJsonDataTable dt = await l.BrowseAsync(browseRequest);
                 string strippedWorksheetName = new string(worksheetName.Where(c => char.IsLetterOrDigit(c)).ToArray());
                 string filename = $"{this.UserSession.WebUsersId}_{strippedWorksheetName}_{Guid.NewGuid().ToString().Replace("-", string.Empty)}_xlsx";

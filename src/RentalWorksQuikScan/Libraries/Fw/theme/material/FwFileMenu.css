@@ -40,7 +40,8 @@ html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn.active .ddmodulebtn-caption > i {transform:rotate(90deg);}
 html.theme-material .fwfilemenu[data-version="2"] .file-menus-wrapper .file-menu-dropdown .file-menu .menu .ddmodulebtn .ddmodulebtn-dropdown .ddmodulebtn-dropdown-btn {cursor:pointer;padding:4px 18px;transition: background-color .1s;}
 
-html.theme-material .fwfilemenu[data-version="2"] .logo {flex:1 0 auto;font-size: 2em;cursor:default;margin-left:.1em;line-height:40px;}
+html.theme-material .fwfilemenu[data-version="2"] .logo {flex:1 0 auto;font-size: 2em;cursor:default;margin-left:.1em;display:flex;align-items:center;}
+html.theme-material .fwfilemenu[data-version="2"] .logo .bgothm:hover {cursor:pointer;}
 html.theme-material .fwfilemenu[data-version="2"] .logo img {display:block;margin:0 auto;height:46px;}
 
 html.theme-material .fwfilemenu[data-version="2"] .usercontrol {position:relative;white-space:nowrap;display:flex;align-items: center;flex-wrap:nowrap;}

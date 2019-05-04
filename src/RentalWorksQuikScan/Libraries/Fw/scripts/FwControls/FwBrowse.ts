@@ -1094,7 +1094,6 @@ class FwBrowseClass {
                     let cbuniqueId = FwApplication.prototype.uniqueId(10);
                     if ($control.attr('data-hasmultirowselect') !== 'false') {
                         html.push(`<td class="column tdselectrow" style="width:20px;"><div class="divselectrow"><input id="${cbuniqueId}" type="checkbox" class="cbselectrow"/><label for="${cbuniqueId}" class="lblselectrow"></label></div></td>`);
-                        html.push('<td class="column gridspacer" style="display:none;"></td>');
                     }
                 }
                 for (let colno = 0; colno < $columns.length; colno++) {
@@ -1306,6 +1305,7 @@ class FwBrowseClass {
                                 htmlPager.push('    <option value="active">Show Active</option>');
                                 htmlPager.push('    <option value="inactive">Show Inactive</option>');
                                 htmlPager.push('    <option value="all">Show All</option>');
+                                htmlPager.push('  </select>')
                                 htmlPager.push('</div>');
                             }
                             break;
@@ -1329,6 +1329,7 @@ class FwBrowseClass {
                             htmlPager.push('    <option value="active">Show Active</option>');
                             htmlPager.push('    <option value="inactive">Show Inactive</option>');
                             htmlPager.push('    <option value="all">Show All</option>');
+                            htmlPager.push('  </select>')
                             htmlPager.push('</div>');
                         }
                         break;
@@ -1570,11 +1571,14 @@ class FwBrowseClass {
                                                 switch (FwApplicationTree.getNodeType(gridSubMenuItem)) {
                                                     case 'SubMenuItem':
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                        $submenuitem.on('click', function (e: JQuery.ClickEvent) {
                                                             try {
                                                                 e.stopPropagation();
                                                                 const securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
                                                                 const func = FwApplicationTree.clickEvents[`{${securityid}}`];
+                                                                if (typeof func !== 'function') {
+                                                                    throw `No click event is registered for browse control ${$control.attr('data-name')} with securityid: {${securityid}}`;
+                                                                }
                                                                 func.apply(this, [e]);
                                                             } catch (ex) {
                                                                 FwFunc.showError(ex);
@@ -1583,7 +1587,7 @@ class FwBrowseClass {
                                                         break;
                                                     case 'DownloadExcelSubMenuItem':
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
-                                                        $submenuitem.on('click', function (e: JQuery.Event) {
+                                                        $submenuitem.on('click', function (e: JQuery.ClickEvent) {
                                                             try {
                                                                 FwBrowse.downloadExcelWorkbook($browse, controller);
                                                             } catch (ex) {
@@ -2541,7 +2545,7 @@ class FwBrowseClass {
             }
 
             if (typeof onrowdblclick !== 'undefined') {
-                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.Event) => {
+                $control.find('.runtime tbody').on('dblclick', '> tr', (event: JQuery.DoubleClickEvent) => {
                     let $tr = jQuery(event.target);
                     $tr.addClass('selected');
                     onrowdblclick.apply(event.currentTarget, [event]);
@@ -2804,7 +2808,7 @@ class FwBrowseClass {
                         $control.find('thead .tdselectrow .divselectrow').hide();
                         jQuery(window)
                             .off('click.FwBrowse')
-                            .on('click.FwBrowse', function (e: JQuery.Event) {
+                            .on('click.FwBrowse', function (e: JQuery.ClickEvent) {
                                 try {
                                     let triggerAutoSave = true;
                                     let clockPicker = jQuery(document.body).find('.clockpicker-popover');
@@ -3839,7 +3843,7 @@ class FwBrowseClass {
 var FwBrowse = new FwBrowseClass();
 
 interface IFwBrowseColumn {
-    databindfield($browse, $field, dt, dtRow, $tr): void;
+    databindfield($browse: JQuery, $field: JQuery, dt: DataTable, dtRow: any, $tr: JQuery): void;
     getFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, field: any, originalvalue: string): void;
     setFieldValue($browse: JQuery, $tr: JQuery, $field: JQuery, data: FwBrowse_SetFieldValueData): void;
     isModified($browse: JQuery, $tr: JQuery, $field: JQuery): boolean;
