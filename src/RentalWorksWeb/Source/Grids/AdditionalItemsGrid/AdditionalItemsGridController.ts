@@ -10,8 +10,8 @@
     }
 
     beforeValidate($browse, $grid, request, datafield, $tr) {
-        request.uniqueIds = {
-            GlAccountType: 'ASSET'
+        request.uniqueids = {
+            GlAccountType: ["ASSET", "EXPENSE"]
         };
     }
 }
