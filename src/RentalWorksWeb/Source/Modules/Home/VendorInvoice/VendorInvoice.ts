@@ -181,6 +181,9 @@ class VendorInvoice {
                 , PurchaseOrderId: ""
             };
         });
+        $additionalItemsGridControl.data('beforesave', request => {
+            request.VendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
+        });
         FwBrowse.init($additionalItemsGridControl);
         FwBrowse.renderRuntimeHtml($additionalItemsGridControl);
         // ----------
