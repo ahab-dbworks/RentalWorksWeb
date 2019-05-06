@@ -50,7 +50,9 @@ class FwFormField_multiselectvalidationClass {
         }
         if (value !== '') {
             const multiselectfield = $fwformfield.find('.multiselectitems');
-            const valueArr = value.split(',');
+            multiselectfield.find('.multiitem').remove();
+            let valueArr = value.split(',');
+            valueArr = valueArr.map(s => s.trim());
             let textArr;
             const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
             if (typeof text !== 'undefined') {

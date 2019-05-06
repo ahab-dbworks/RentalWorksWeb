@@ -244,6 +244,7 @@
                     let value: any = $valuefield.val();
                     value = value
                         .split(',')
+                        .map(s => s.trim())
                         .filter((value) => {
                             return value !== itemValue;
                         })
