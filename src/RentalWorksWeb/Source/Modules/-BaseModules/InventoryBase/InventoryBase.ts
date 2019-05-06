@@ -275,6 +275,26 @@
                 $form.find('.asset-submodule').hide();
             }
         });
+
+        //Accessory Revenue Allocation checkboxes and radio events
+        $form.find(`[data-datafield="OverrideSystemDefaultRevenueAllocationBehavior"] .fwformfield-value`).on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="AllocateRevenueForAccessories"]'));
+            } else {
+                FwFormField.disable($form.find('[data-datafield="AllocateRevenueForAccessories"]'));
+                FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
+            }
+        });
+        $form.find(`[data-datafield="AllocateRevenueForAccessories"] .fwformfield-value`).on('change', e => {
+            const $this = jQuery(e.currentTarget);
+            if ($this.prop('checked') === true) {
+                FwFormField.enable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
+            } else {
+                FwFormField.disable($form.find('[data-datafield="PackageRevenueCalculationFormula"]'));
+            }
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     loadScheduler($form, events, resources) {
@@ -608,6 +628,20 @@
         const classification = FwFormField.getValueByDataField($form, 'Classification');
         if (classification !== 'A' && classification !== 'I') {
             $form.find('.fwform-menu .submenu-btn').css({ 'pointer-events': 'none', 'color': 'lightgray' });
+        }
+
+        const overrideDefaultAllocation = FwFormField.getValueByDataField($form, 'OverrideSystemDefaultRevenueAllocationBehavior');
+        const allocateRevChecked = FwFormField.getValueByDataField($form, 'AllocateRevenueForAccessories');
+        const $allocateRevenueForAcc = $form.find('[data-datafield="AllocateRevenueForAccessories"]');
+        const $calculationFormulaRadio = $form.find('[data-datafield="PackageRevenueCalculationFormula"]');
+        if (overrideDefaultAllocation) {
+            FwFormField.enable($allocateRevenueForAcc);
+            if (allocateRevChecked) {
+                FwFormField.enable($calculationFormulaRadio);
+            }
+        } else {
+            FwFormField.disable($allocateRevenueForAcc);
+            FwFormField.disable($calculationFormulaRadio);
         }
 
         //Click Event on tabs to load grids/browses

@@ -1269,26 +1269,66 @@
       </div>
       <!-- COMPLETES TAB -->
       <div data-type="tabpage" id="completetabpage" class="tabpage" data-tabid="completetab">
-        <div class="formpage">
-          <div class="formrow">
+        <div class="flexpage">
+          <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Complete">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwGrid" data-grid="InventoryCompleteGrid" data-securitycaption="Inventory Complete"></div>
               </div>
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Add as separate Completes to Quote and Orders (will increment if unchecked)" data-datafield="SeparatePackageOnQuoteOrder" style="flex:1 1 350px;"></div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Add as separate Completes to Quote and Orders (will increment if unchecked)" data-datafield="SeparatePackageOnQuoteOrder" style="flex:1 1 350px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flexrow" style="max-width:500px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Accessory Revenue Allocation">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override system default revenue allocation behavior" data-datafield="OverrideSystemDefaultRevenueAllocationBehavior" style="flex:1 1 350px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allocate Revenue for Accessories" data-datafield="AllocateRevenueForAccessories" data-enabled="false" style="flex:1 1 350px;"></div>
+              </div>
+              <div class="flexrow">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Calculation Formula">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="PackageRevenueCalculationFormula" data-enabled="false" style="flex:1 1 280px;">
+                    <div data-value="REPLACEMENT" data-caption="Use Replacement Cost"></div>
+                    <div data-value="COST" data-caption="Use Unit Value"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <!-- KITS TAB -->
       <div data-type="tabpage" id="kittabpage" class="tabpage" data-tabid="kittab">
-        <div class="formpage">
-          <div class="formrow">
+        <div class="flexpage">
+          <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Kit">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                 <div data-control="FwGrid" data-grid="InventoryKitGrid" data-securitycaption="Inventory Kit"></div>
               </div>
-              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Add as separate Kits to Quote and Orders (will increment if unchecked)" data-datafield="SeparatePackageOnQuoteOrder" style="flex:1 1 350px;"></div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Add as separate Kits to Quote and Orders (will increment if unchecked)" data-datafield="SeparatePackageOnQuoteOrder" style="flex:1 1 350px;"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flexrow" style="max-width:500px;">
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Accessory Revenue Allocation">
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Override system default revenue allocation behavior" data-datafield="OverrideSystemDefaultRevenueAllocationBehavior" style="flex:1 1 350px;"></div>
+              </div>
+              <div class="flexrow">
+                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Allocate Revenue for Accessories" data-datafield="AllocateRevenueForAccessories" data-enabled="false" style="flex:1 1 350px;"></div>
+              </div>
+              <div class="flexrow">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Calculation Formula">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="PackageRevenueCalculationFormula" data-enabled="false" style="flex:1 1 280px;">
+                    <div data-value="REPLACEMENT" data-caption="Use Replacement Cost"></div>
+                    <div data-value="COST" data-caption="Use Unit Value"></div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
