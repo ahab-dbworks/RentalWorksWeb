@@ -206,20 +206,20 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             return html;
         },
         afterLoad: function (plugin, response) {
-            let searchOption = plugin.getSearchOption();
-            let isOrderNoSearch = searchOption === 'ORDERNO';
+            var searchOption = plugin.getSearchOption();
+            var isOrderNoSearch = searchOption === 'ORDERNO';
             if (isOrderNoSearch) {
-                let searchText = plugin.getSearchText();
+                var searchText = plugin.getSearchText();
                 if (searchText.length > 0) {
                     if (response.searchresults.TotalRows === 0) {
                         program.playStatus(false);
                     } else if (response.searchresults.TotalRows === 1) {
-                        let colOrderNo = response.searchresults.ColumnIndex['orderno'];
+                        var colOrderNo = response.searchresults.ColumnIndex['orderno'];
                         if (response.searchresults.Rows[0][colOrderNo].toUpperCase() === searchText.toUpperCase()) {
                             program.playStatus(true);
-                            let $items = plugin.$element.find('.searchresults .item');
+                            var $items = plugin.$element.find('.searchresults .item');
                             if ($items.length === 1) {
-                                let $item = $items.eq(0);
+                                var $item = $items.eq(0);
                                 $item.click();
                             }
                         }
@@ -454,20 +454,20 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             return html;
         },
         afterLoad: function (plugin, response) {
-            let searchOption = plugin.getSearchOption();
-            let isSessionNoSearch = searchOption === 'sessionno';
+            var searchOption = plugin.getSearchOption();
+            var isSessionNoSearch = searchOption === 'sessionno';
             if (isSessionNoSearch) {
-                let searchText = plugin.getSearchText();
+                var searchText = plugin.getSearchText();
                 if (searchText.length > 0) {
                     if (response.searchresults.TotalRows === 0) {
                         program.playStatus(false);
                     } else if (response.searchresults.TotalRows === 1) {
-                        let colSessionNo = response.searchresults.ColumnIndex['sessionno'];
+                        var colSessionNo = response.searchresults.ColumnIndex['sessionno'];
                         if (response.searchresults.Rows[0][colSessionNo].toUpperCase() === searchText.toUpperCase()) {
                             program.playStatus(true);
-                            let $items = plugin.$element.find('.searchresults .item');
+                            var $items = plugin.$element.find('.searchresults .item');
                             if ($items.length === 1) {
-                                let $item = $items.eq(0);
+                                var $item = $items.eq(0);
                                 $item.click();
                             }
                         }
@@ -576,20 +576,20 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
             return html;
         },
         afterLoad: function (plugin, response) {
-            let searchOption = plugin.getSearchOption();
-            let isDealNoSearch = searchOption === 'DEALNO';
+            var searchOption = plugin.getSearchOption();
+            var isDealNoSearch = searchOption === 'DEALNO';
             if (isDealNoSearch) {
-                let searchText = plugin.getSearchText();
+                var searchText = plugin.getSearchText();
                 if (searchText.length > 0) {
                     if (response.searchresults.TotalRows === 0) {
                         program.playStatus(false);
                     } else if (response.searchresults.TotalRows === 1) {
-                        let colDealNo = response.searchresults.ColumnIndex['dealno'];
+                        var colDealNo = response.searchresults.ColumnIndex['dealno'];
                         if (response.searchresults.Rows[0][colDealNo].toUpperCase() === searchText.toUpperCase()) {
                             program.playStatus(true);
-                            let $items = plugin.$element.find('.searchresults .record');
+                            var $items = plugin.$element.find('.searchresults .record');
                             if ($items.length === 1) {
-                                let $item = $items.eq(0);
+                                var $item = $items.eq(0);
                                 $item.click();
                             }
                         }
