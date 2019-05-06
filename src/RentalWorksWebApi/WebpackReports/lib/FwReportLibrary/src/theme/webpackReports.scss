@@ -112,19 +112,19 @@ body {
     padding-top: 5px;
     color: #027cc5;
 }
-
+// Special shading for Order, Invoice report footers
 .display-footer {
-    width: 150px;
+    width: 172px;
     background-color: #DCDCDC;
     font-weight: bold;
     text-align: right;
     padding-top: 11px;
     border-top: 1.5px solid black;
 }
-
+// Special shading for Order, Invoice report footers
 .display-footer-total {
     background-color: #F4FFCC;
-    width: 150px;
+    width: 110px;
     text-align: right;
     font-weight: bold;
     border-top: 1.5px solid black;
