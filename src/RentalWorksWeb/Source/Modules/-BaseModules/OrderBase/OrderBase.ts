@@ -1009,8 +1009,8 @@ class OrderBase {
                 FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress2', response.BillToAddress2);
-                FwFormField.setValueByDataField($form, 'BillToCity', response.BillToCity);
-                FwFormField.setValueByDataField($form, 'IssuedToState', response.BillToState);
+                FwFormField.setValueByDataField($form, 'IssuedToCity', response.BillToCity);
+                FwFormField.setValueByDataField($form, 'IssuedToState', response.BillToStateId, response.BillToState);
                 FwFormField.setValueByDataField($form, 'IssuedToZipCode', response.BillToZipCode);
                 FwFormField.setValueByDataField($form, 'IssuedToCountryId', response.BillToCountryId, response.BillToCountry);
                 FwFormField.setValueByDataField($form, 'PrintIssuedToAddressFrom', response.BillToAddressType);
@@ -1562,7 +1562,7 @@ class OrderBase {
                     FwFormField.setValueByDataField($form, `IssuedToAddress1`, res.BillToAddress1);
                     FwFormField.setValueByDataField($form, `IssuedToAddress2`, res.BillToAddress2);
                     FwFormField.setValueByDataField($form, `IssuedToCity`, res.BillToCity);
-                    FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToState);
+                    FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToStateId, res.BillToState);
                     FwFormField.setValueByDataField($form, `IssuedToZipCode`, res.BillToZipCode);
                     FwFormField.setValueByDataField($form, `IssuedToCountryId`, res.BillToCountryId, res.BillToCountry);
                 }, null, null);
@@ -1577,7 +1577,7 @@ class OrderBase {
                     FwFormField.setValueByDataField($form, `IssuedToAddress1`, res.BillToAddress1);
                     FwFormField.setValueByDataField($form, `IssuedToAddress2`, res.BillToAddress2);
                     FwFormField.setValueByDataField($form, `IssuedToCity`, res.BillToCity);
-                    FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToState);
+                    FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToStateId, res.BillToState);
                     FwFormField.setValueByDataField($form, `IssuedToZipCode`, res.BillToZipCode);
                     FwFormField.setValueByDataField($form, `IssuedToCountryId`, res.BillToCountryId, res.BillToCountry);
                 }, null, null);
