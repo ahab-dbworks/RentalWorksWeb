@@ -282,11 +282,11 @@
             plugin.$element.find('.searchbox').val('');
         },
         getSearchText: function () {
-            let searchText = this.$element.find('.searchbox').val();
+            var searchText = this.$element.find('.searchbox').val();
             return searchText;
         },
         getSearchOption: function () {
-            let searchOption = this.$element.find('.option.active').attr('data-value');
+            var searchOption = this.$element.find('.option.active').attr('data-value');
             return searchOption;
         }
     };
