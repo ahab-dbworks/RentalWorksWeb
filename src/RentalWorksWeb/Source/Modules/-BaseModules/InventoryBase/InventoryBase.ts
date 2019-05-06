@@ -100,6 +100,9 @@
             inventoryId = uniqueids.InventoryId;
         }
 
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, '.warehousefilter', warehouse.warehouseid, warehouse.warehouse);
+
         self.calculateYearly();
         $calendar = $form.find('.calendar');
         $calendar
