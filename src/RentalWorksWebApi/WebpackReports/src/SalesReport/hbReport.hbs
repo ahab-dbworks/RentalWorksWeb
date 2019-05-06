@@ -13,16 +13,23 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
   <!--SUMMARY VIEW TABLE-->
-  {{#ifEquals ViewSetting "SummaryView"}}
+  {{#ifEquals ViewSetting "DetailView"}}
   <table>
     <thead>
       <tr>
+        <th>Order No.</th>
         <th>I-Code</th>
         <th>Description</th>
-        <th>Date</th>
-        <th class="number">Quantity</th>
-        <th class="number">Avg. Unit Value</th>
+        <th class="number">Qty</th>
+        <th class="number">Unit Price</th>
         <th class="number">Extended</th>
+        <th class="number">Tax</th>
+        <th class="number">Total</th>
+        <th>Invoice No.</th>
+        <th>Status</th>
+        <th>Vendor</th>
+        <th>PO No.</th>
+        <th class="number">Unit Cost</th>
       </tr>
     </thead>
     <tbody>
@@ -32,7 +39,7 @@
         <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="lower header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{"Department"}}</td>
@@ -44,13 +51,19 @@
         <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
+        <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
-        <td data-value="{{ChangeDate}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
+        <td class="number" data-value="{{UnitPrice}}"></td>
         <td class="number" data-value="{{Extended}}"></td>
         <td class="number" data-value="{{Tax}}"></td>
         <td class="number" data-value="{{Total}}"></td>
+        <td data-value="{{InvoiceNumber}}"></td>
+        <td data-value="{{OrderStatus}}"></td>
+        <td data-value="{{Vendor}}"></td>
+        <td data-value="{{PurchaseOrderNumber}}"></td>
+        <td class="number" data-value="{{UnitCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
         <td colspan="3" class="total-name">{{Warehouse}}&nbsp;</td>
@@ -101,18 +114,20 @@
   {{/ifEquals}}
 
   <!--DETAIL VIEW TABLE-->
-  {{#ifEquals ViewSetting "DetailView"}}
+  {{#ifEquals ViewSetting "SummaryView"}}
   <table>
     <thead>
       <tr>
-        <th>I-Code</th>
+        <th>Order No.</th>
         <th>Description</th>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Change Description</th>
-        <th class="number">Quantity</th>
-        <th class="number">Unit Value</th>
-        <th class="number">Extended</th>
+        <th class="number">Sub-Total</th>
+        <th class="number">Tax</th>
+        <th class="number">Total</th>
+        <th>Invoice No.</th>
+        <th>Status</th>
+        <th>Vendor</th>
+        <th>PO No.</th>
+        <th class="number">Unit Cost</th>
       </tr>
     </thead>
     <tbody>
@@ -122,7 +137,7 @@
         <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="lower header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{"Department"}}</td>
@@ -134,54 +149,50 @@
         <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td data-value="{{ICode}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{Description}}"></td>
-        <td data-value="{{ChangeDate}}"></td>
-        <td data-value="{{ChangeType}}"></td>
-        <td data-value="{{ChangeDescription}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td class="number" data-value="{{UnitValue}}"></td>
-        <td class="number" data-value="{{ExtendedValue}}"></td>
+        <td class="number" data-value="{{Extended}}"></td>
+        <td class="number" data-value="{{Tax}}"></td>
+        <td class="number" data-value="{{Total}}"></td>
+        <td data-value="{{InvoiceNumber}}"></td>
+        <td data-value="{{OrderStatus}}"></td>
+        <td data-value="{{Vendor}}"></td>
+        <td data-value="{{PurchaseOrderNumber}}"></td>
+        <td class="number" data-value="{{UnitCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="3" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{Extended}}"></td>
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="3" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{Extended}}"></td>
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="3" class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val" data-value="{{Extended}}"></td>
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="3" class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-value="{{Extended}}"></td>
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="3" class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{Extended}}"></td>
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="2" class="total-val" data-value="{{Extended}}"></td>
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Extended}}"></td>
         <td class="total-val" data-value="{{Tax}}"></td>
         <td class="total-val" data-value="{{Total}}"></td>
         {{/ifEquals}}

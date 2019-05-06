@@ -30,6 +30,7 @@ export class SalesReport extends WebpackReport {
                     } else {
                         data.ViewSetting = 'DetailView';
                     }
+                    console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
