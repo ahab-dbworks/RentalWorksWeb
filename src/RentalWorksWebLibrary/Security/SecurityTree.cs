@@ -334,6 +334,7 @@ namespace WebLibrary.Security
             AddSubModule("SubWorksheet", "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
 
             // Add Grids
+            AddGrid("Additional Items",                       "{C9AAA0E7-466E-47F1-973D-61555FFCA6B8}", lv1menuGrids.Id, "AdditionalItemsGridController");
             AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
             AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "AuditHistoryGridController");
             AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");

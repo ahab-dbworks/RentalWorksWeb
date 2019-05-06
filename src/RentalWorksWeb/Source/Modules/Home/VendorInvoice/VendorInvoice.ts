@@ -172,6 +172,18 @@ class VendorInvoice {
         FwBrowse.init($exportBatchGridControl);
         FwBrowse.renderRuntimeHtml($exportBatchGridControl);
         // ----------
+        const $additionalItemsGrid = $form.find('div[data-grid="AdditionalItemsGrid"]');
+        const $additionalItemsGridControl = FwBrowse.loadGridFromTemplate('AdditionalItemsGrid');
+        $additionalItemsGrid.empty().append($additionalItemsGridControl);
+        $additionalItemsGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                , PurchaseOrderId: ""
+            };
+        });
+        FwBrowse.init($additionalItemsGridControl);
+        FwBrowse.renderRuntimeHtml($additionalItemsGridControl);
+        // ----------
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -200,7 +212,8 @@ class VendorInvoice {
         const $exportBatchGridControl = $form.find('[data-name="VendorInvoiceExportBatchGrid"]');
         FwBrowse.search($exportBatchGridControl);
 
-
+        const $additionalItemsGridControl = $form.find('[data-name="AdditionalItemsGrid"]');
+        FwBrowse.search($additionalItemsGridControl);
     };
     //----------------------------------------------------------------------------------------------
     afterSave($form: JQuery) {

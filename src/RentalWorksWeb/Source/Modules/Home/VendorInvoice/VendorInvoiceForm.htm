@@ -3,6 +3,7 @@
   <div id="vendorinvoiceform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="generaltab tab" data-tabpageid="generaltabpage" data-caption="Vendor Invoice"></div>
+      <div data-type="tab" id="additionalitemstab" class="tab" data-tabpageid="additionalitemstabpage" data-caption="Additional Items"></div>
       <div data-type="tab" id="chargestab" class="tab" data-tabpageid="chargestabpage" data-caption="Charges"></div>
       <div data-type="tab" id="gldistributiontab" class="tab" data-tabpageid="gldistributiontabpage" data-caption="G/L Distribution"></div>
       <div data-type="tab" id="paymentstab" class="tab" data-tabpageid="paymentstabpage" data-caption="Payments"></div>
@@ -93,6 +94,16 @@
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Sub-Total" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemGrossTotal" style="flex:1 1 100px;"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Tax" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemTax" style="flex:1 1 100px;"></div>
               <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Total" data-datafield="" data-enabled="false" data-totalfield="InvoiceItemTotal" style="flex:1 1 100px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- ADDITIONAL ITEMS TAB -->
+      <div data-type="tabpage" id="additionalitemstabpage" class="tabpage" data-tabid="additionalitemstab">
+        <div class="wideflexrow">
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Additional Items">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwGrid" data-grid="AdditionalItemsGrid" data-securitycaption="Additonal Items"></div>
             </div>
           </div>
         </div>

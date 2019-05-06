@@ -182,6 +182,7 @@
     <Content Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridBrowse.htm" />
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\AdditionalItemsGrid\AdditionalItemsGridBrowse.htm" />
     <Content Include="Source\Grids\WidgetGroupGrid\WidgetGroupGridBrowse.htm" />
     <Content Include="Source\Grids\WidgetUserGrid\WidgetUserGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridBrowse.htm" />
@@ -322,6 +323,7 @@
     <TypeScriptCompile Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\AdditionalItemsGrid\AdditionalItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WidgetGroupGrid\WidgetGroupGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WidgetUserGrid\WidgetUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridController.ts" />
