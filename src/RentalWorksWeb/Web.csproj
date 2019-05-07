@@ -470,7 +470,6 @@
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldForm.htm" />
     <Content Include="Source\Modules\Administrator\Reports\Reports.htm" />
-    <Content Include="Source\Modules\Administrator\Reports\Reports.css" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\InventoryBase\InventoryBase.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\CustomForm\CustomForm.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Hotfix\Hotfix.ts" />
