@@ -371,7 +371,9 @@
         const $textField = $valuefield.siblings('.fwformfield-text');
         if (typeof $browse.data('selectedrowsuniqueids') === 'undefined' && $valuefield.val() !== '') {
             let values: any = $valuefield.val();
-            $browse.data('selectedrowsuniqueids', values.split(','));
+            values = values.split(',');
+            values = values.map(s => s.trim());
+            $browse.data('selectedrowsuniqueids', values);
         } else if (typeof $browse.data('selectedrowsuniqueids') === 'undefined') {
             $browse.data('selectedrowsuniqueids', []);
         }
