@@ -8,7 +8,6 @@ declare var FwSecurity: any;
 declare var FwLanguages: any;
 declare var FwReports: any;
 declare var RwLanguages: any;
-declare var FwContextMenu: any;
 declare var Sortable: any;
 declare var DayPilot: any;
 declare var moment: any;

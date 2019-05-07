@@ -44,10 +44,7 @@
 
         const $applicationtheme = $form.find('.applicationtheme');
         FwFormField.loadItems($applicationtheme, [
-            { value: 'theme-default', text: 'Default' },
-            { value: 'theme-material', text: 'Material' },
-            { value: 'theme-materialmobile', text: 'Material Mobile' },
-            { value: 'theme-classic', text: 'Classic' }
+            { value: 'theme-material', text: 'Material' }
         ], true);
 
         //load App Modules for Home Page
