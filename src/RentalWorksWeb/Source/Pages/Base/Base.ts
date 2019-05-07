@@ -243,6 +243,26 @@ class Base {
         return screen;
     }
     //----------------------------------------------------------------------------------------------
+    loadControlDefaults() {
+        const hasDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
+        if (!hasDefaults) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/control/1`, null, FwServices.defaultTimeout, response => {
+                let ControlDefaults = {
+                    defaultdealstatusid: response.DefaultDealStatusId
+                    , defaultdealstatus: response.DefaultDealStatus
+                    , defaultcustomerstatusid: response.DefaultCustomerStatusId
+                    , defaultcustomerstatus: response.DefaultCustomerStatus
+                    , defaultdealbillingcycleid: response.DefaultDealBillingCycleId
+                    , defaultdealbillingcycle: response.DefaultDealBillingCycle
+                    , defaultunitid: response.DefaultUnitId
+                    , defaultunit: response.DefaultUnit
+                    , defaulticodemask: response.ICodeMask
+                }
+                sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
+            }, null, null);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     getAboutScreen() {
         let viewModel = {};
         let properties = {};

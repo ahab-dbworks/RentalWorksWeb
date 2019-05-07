@@ -43,22 +43,8 @@ class Customer {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        let hasDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
-        if (!hasDefaults) {
-            FwAppData.apiMethod(true, 'GET', `api/v1/control/1`, null, FwServices.defaultTimeout, function onSuccess(res) {
-                let ControlDefaults = {
-                    defaultdealstatusid: res.DefaultDealStatusId
-                    , defaultdealstatus: res.DefaultDealStatus
-                    , defaultcustomerstatusid: res.DefaultCustomerStatusId
-                    , defaultcustomerstatus: res.DefaultCustomerStatus
-                    , defaultdealbillingcycleid: res.DefaultDealBillingCycleId
-                    , defaultdealbillingcycle: res.DefaultDealBillingCycle
-                    , defaultunitid: res.DefaultUnitId
-                    , defaultunit: res.DefaultUnit
-                }
-                sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
-            }, null, null);
-        }
+        //load control defaults into session storage
+        RwBaseController.loadControlDefaults();
 
         return $browse;
     }
