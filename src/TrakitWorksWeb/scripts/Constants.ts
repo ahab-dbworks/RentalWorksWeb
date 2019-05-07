@@ -98,7 +98,7 @@
                 }    
             },
             ReceiveFromVendor: { id: 'EC4052D5-664E-4C34-8802-78E086920628', caption: 'Receive From Vendor', nav: 'module/receivefromvendor' },
-            InventoryItem: { id: '803A2616-4DB6-4BAC-8845-ECAD34C369A8', caption: 'Inventory Item', nav: 'module/rentalinventory' },
+            InventoryItem: { id: '803A2616-4DB6-4BAC-8845-ECAD34C369A8', caption: 'Inventory Item', nav: 'module/inventoryitem' },
             Repair: { id: 'D567EC42-E74C-47AB-9CA8-764DC0F02D3B', caption: 'Repair Order', nav: 'module/repair',
                 browse: {
                     menuItems: {

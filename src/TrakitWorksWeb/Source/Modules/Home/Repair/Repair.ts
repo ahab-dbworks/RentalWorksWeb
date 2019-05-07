@@ -5,17 +5,15 @@ routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match:
 class Repair {
     Module:             string = 'Repair';
     apiurl:             string = 'api/v1/repair';
-    caption: string = Constants.Modules.Home.Repair.caption;
-	nav: string = Constants.Modules.Home.Repair.nav;
-	id: string = Constants.Modules.Home.Repair.id;
+    caption:            string = Constants.Modules.Home.Repair.caption;
+    nav:                string = Constants.Modules.Home.Repair.nav;
+    id:                 string = Constants.Modules.Home.Repair.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
         const screen: any = {};
         screen.$view      = FwModule.getModuleControl(`${this.Module}Controller`);
-        screen.viewModel  = {};
-        screen.properties = {};
 
         const $browse: JQuery = this.openBrowse();
 
@@ -44,9 +42,9 @@ class Repair {
     };
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        const self = this;
+        const self          = this;
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
-        $browse = FwModule.openBrowse($browse);
+        $browse             = FwModule.openBrowse($browse);
 
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = self.ActiveViewFields;
@@ -78,7 +76,7 @@ class Repair {
         FwMenu.addViewBtn($menuObject, 'Warehouse', viewSubItems, true, "WarehouseId");
 
         return $menuObject;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     openForm = (mode: string) => {
         let $form = FwModule.loadFormFromTemplate(this.Module);
@@ -136,7 +134,7 @@ class Repair {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
-        const $repairReleaseGrid = $form.find('div[data-grid="RepairReleaseGrid"]');
+        const $repairReleaseGrid        = $form.find('div[data-grid="RepairReleaseGrid"]');
         const $repairReleaseGridControl = FwBrowse.loadGridFromTemplate('RepairReleaseGrid');
         $repairReleaseGrid.empty().append($repairReleaseGridControl);
         $repairReleaseGridControl.data('ondatabind', request => {

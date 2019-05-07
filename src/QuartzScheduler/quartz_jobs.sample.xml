@@ -9,10 +9,11 @@
   </processing-directives>
 
   <schedule>
-    <!-- 
+
+    <!--
     *************************************************************************************************************
     CustomerSync Integration Job - Uploads new Customers from external applicaiton to RentalWorks
-    ************************************************************************************************************* 
+    *************************************************************************************************************
     -->
     <!--<job>
       <name>CustomerSyncIntegrationJob</name>
@@ -40,10 +41,10 @@
       </cron>
     </trigger>-->
 
-    <!-- 
+    <!--
     *************************************************************************************************************
     SalesItemSync Integration Job - Uploads new Sales Items from external applicaiton to RentalWorks
-    ************************************************************************************************************* 
+    *************************************************************************************************************
     -->
     <!--<job>
       <name>SalesItemSyncIntegrationJob</name>
@@ -71,10 +72,10 @@
       </cron>
     </trigger>-->
 
-    <!-- 
+    <!--
     *************************************************************************************************************
     SalesItemTransSync Integration Job - Uploads new Sales Items from external applicaiton to RentalWorks
-    ************************************************************************************************************* 
+    *************************************************************************************************************
     -->
     <!--<job>
       <name>SalesItemTransactionSyncIntegrationJob</name>
@@ -101,10 +102,11 @@
         <cron-expression>0 0/5 * * * ?</cron-expression>
       </cron>
     </trigger>-->
-    <!-- 
+
+    <!--
     *************************************************************************************************************
     InvoiceSync Integration Job -
-    ************************************************************************************************************* 
+    *************************************************************************************************************
     -->
     <!--<job>
       <name>InvoiceSyncIntegrationJob</name>
@@ -128,14 +130,9 @@
         <job-name>InvoiceSyncIntegrationJob</job-name>
         <job-group>mainGroup</job-group>
         <misfire-instruction>SmartPolicy</misfire-instruction>
-        -->
-    <!-- CronTrigger Tutorial: https://www.quartz-scheduler.net/documentation/quartz-3.x/tutorial/crontriggers.html 
-          Job will be triggered every minute (cron expression below says: fire when seconds of current time equals 0). -->
-    <!--
         <cron-expression>0 * * * * ?</cron-expression>
       </cron>
     </trigger>-->
-
 
   </schedule>
 </job-scheduling-data>

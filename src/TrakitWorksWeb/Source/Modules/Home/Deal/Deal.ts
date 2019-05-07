@@ -5,8 +5,8 @@ class Deal {
     Module:  string = 'Deal';
     apiurl:  string = 'api/v1/deal';
     caption: string = Constants.Modules.Home.Deal.caption;
-	nav: string = Constants.Modules.Home.Deal.nav;
-	id: string = Constants.Modules.Home.Deal.id;
+    nav:     string = Constants.Modules.Home.Deal.nav;
+    id:      string = Constants.Modules.Home.Deal.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var self          = this;
@@ -100,11 +100,7 @@ class Deal {
             var controller         = $browse.attr('data-controller');
             var orderFormData: any = {
                 DealId:          FwFormField.getValueByDataField($form, 'DealId'),
-                Deal:            FwFormField.getValueByDataField($form, 'Deal'),
-                RateTypeId:      FwFormField.getValueByDataField($form, 'DefaultRate'),
-                RateType:        FwFormField.getTextByDataField($form, 'DefaultRate'),
-                BillingCycleId:  FwFormField.getValueByDataField($form, 'BillingCycleId'),
-                BillingCycle:    FwFormField.getTextByDataField($form, 'BillingCycleId')
+                Deal:            FwFormField.getValueByDataField($form, 'Deal')
             }
             if (typeof window[controller] !== 'object') throw 'Missing javascript module: ' + controller;
             if (typeof window[controller]['openForm'] !== 'function') throw 'Missing javascript function: ' + controller + '.openForm';

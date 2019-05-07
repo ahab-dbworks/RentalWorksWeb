@@ -4,9 +4,9 @@ routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: 
 class Order extends OrderBase {
     Module:               string = 'Order';
     apiurl:               string = 'api/v1/order';
-    caption: string = Constants.Modules.Home.Order.caption;
-	nav: string = Constants.Modules.Home.Order.nav;
-	id: string = Constants.Modules.Home.Order.id;
+    caption:              string = Constants.Modules.Home.Order.caption;
+    nav:                  string = Constants.Modules.Home.Order.nav;
+    id:                   string = Constants.Modules.Home.Order.id;
     lossDamageSessionId:  string = '';
     successSoundFileName: string;
     errorSoundFileName:   string;
@@ -132,7 +132,7 @@ class Order extends OrderBase {
 
         if (typeof parentModuleInfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
-            FwFormField.setValue($form, 'div[data-datafield="RateType"]', parentModuleInfo.RateTypeId, parentModuleInfo.RateType);
+            //FwFormField.setValue($form, 'div[data-datafield="RateType"]', parentModuleInfo.RateTypeId, parentModuleInfo.RateType);
         }
 
         const $orderItemGridLossDamage = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
