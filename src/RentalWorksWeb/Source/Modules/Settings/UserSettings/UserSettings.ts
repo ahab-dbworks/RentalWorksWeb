@@ -54,14 +54,17 @@
         const modules = mainModules.concat(settingsModules);
         const allModules = [];
         for (let i = 0; i < modules.length; i++) {
-            const moduleNav = modules[i].properties.modulenav;
             const moduleGUID = modules[i].id;
             const moduleCaption = modules[i].properties.caption;
             const moduleController = modules[i].properties.controller;
             if (typeof window[moduleController] !== 'undefined') {
-                allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+                if (window[moduleController].hasOwnProperty('apiurl')) {
+                    const moduleNav = window[moduleController].nav;
+                    allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+                }
             }
         };
+        allModules.push({value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', apiurl: 'module/dashboard' });
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)

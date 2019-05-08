@@ -145,7 +145,7 @@ class Base {
                                                         //sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
                                                         let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
 
-                                                        if (homePagePath !== null && homePagePath !== '') {
+                                                        if (homePagePath !== null && homePagePath !== '' && homePagePath !== 'undefined') {
                                                             program.navigate(`${homePagePath}`);
                                                         } else {
                                                             program.navigate('home');
