@@ -339,5 +339,17 @@ namespace WebApi.Modules.Home.Inventory
         [FwSqlDataField(column: "webdetaileddescription", modeltype: FwDataTypes.Text)]
         public string WebDetailedDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "overridepackagerevenuedefault", modeltype: FwDataTypes.Boolean)]
+        public bool? OverrideSystemDefaultRevenueAllocationBehavior { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "splitpackagerevenue", modeltype: FwDataTypes.Boolean)]
+        public bool? AllocateRevenueForAccessories { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "packagerevenuebasedon", modeltype: FwDataTypes.Text)]
+        public string PackageRevenueCalculationFormula { get; set; }
+        //------------------------------------------------------------------------------------ 
+
+
+
     }
 }
