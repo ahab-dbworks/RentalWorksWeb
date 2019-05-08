@@ -12,7 +12,7 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-  <!--SUMMARY VIEW TABLE-->
+  <!--DETAIL VIEW TABLE-->
   {{#ifEquals ViewSetting "DetailView"}}
   <table>
     <thead>
@@ -113,7 +113,7 @@
   </table>
   {{/ifEquals}}
 
-  <!--DETAIL VIEW TABLE-->
+  <!--SUMMARY VIEW TABLE-->
   {{#ifEquals ViewSetting "SummaryView"}}
   <table>
     <thead>
@@ -150,7 +150,7 @@
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{Description}}"></td>
+        <td data-value="{{OrderDescription}}"></td>
         <td class="number" data-value="{{Extended}}"></td>
         <td class="number" data-value="{{Tax}}"></td>
         <td class="number" data-value="{{Total}}"></td>

@@ -48,7 +48,7 @@ namespace WebApi.Modules.Reports.SalesReport
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderDescription { get; set; }
+        public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderstatus", modeltype: FwDataTypes.Text)]
         public string OrderStatus { get; set; }
