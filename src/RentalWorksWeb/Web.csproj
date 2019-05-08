@@ -510,6 +510,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesReport\RwSalesReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalLostAndDamagedBillingHistoryReport\RwRentalLostAndDamagedBillingHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ValueOfOutRentalInventoryReport\RwValueOfOutRentalInventoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\DailyReceiptsReport\RwDailyReceiptsReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnedToInventoryReport\RwReturnedToInventoryReportController.ts" />
