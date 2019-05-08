@@ -1005,6 +1005,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DealNumber"]', $tr.find('.field[data-browsedatafield="DealNumber"]').attr('data-originalvalue'));
 
             FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, response => {
+                FwFormField.setValueByDataField($form, 'CustomerId', response.CustomerId, response.Customer); // hidden field needed for other operations
                 FwFormField.setValueByDataField($form, 'IssuedToAttention', response.BillToAttention1);
                 FwFormField.setValueByDataField($form, 'IssuedToAttention2', response.BillToAttention2);
                 FwFormField.setValueByDataField($form, 'IssuedToAddress1', response.BillToAddress1);
@@ -1557,14 +1558,7 @@ class OrderBase {
             if (dealId !== '') {
                 FwAppData.apiMethod(true, 'GET', `api/v1/deal/${dealId}`, null, FwServices.defaultTimeout, res => {
                     FwFormField.setValueByDataField($form, `IssuedToName`, res.Deal);
-                    FwFormField.setValueByDataField($form, `IssuedToAttention`, res.BillToAttention1);
-                    FwFormField.setValueByDataField($form, `IssuedToAttention2`, res.BillToAttention2);
-                    FwFormField.setValueByDataField($form, `IssuedToAddress1`, res.BillToAddress1);
-                    FwFormField.setValueByDataField($form, `IssuedToAddress2`, res.BillToAddress2);
-                    FwFormField.setValueByDataField($form, `IssuedToCity`, res.BillToCity);
-                    FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToStateId, res.BillToState);
-                    FwFormField.setValueByDataField($form, `IssuedToZipCode`, res.BillToZipCode);
-                    FwFormField.setValueByDataField($form, `IssuedToCountryId`, res.BillToCountryId, res.BillToCountry);
+                    setValues(res);
                 }, null, null);
             }
         } else if (value === 'CUSTOMER') {
@@ -1572,16 +1566,19 @@ class OrderBase {
             if (customerId !== '') {
                 FwAppData.apiMethod(true, 'GET', `api/v1/customer/${customerId}`, null, FwServices.defaultTimeout, res => {
                     FwFormField.setValueByDataField($form, `IssuedToName`, res.Customer);
-                    FwFormField.setValueByDataField($form, `IssuedToAttention`, res.BillToAttention1);
-                    FwFormField.setValueByDataField($form, `IssuedToAttention2`, res.BillToAttention2);
-                    FwFormField.setValueByDataField($form, `IssuedToAddress1`, res.BillToAddress1);
-                    FwFormField.setValueByDataField($form, `IssuedToAddress2`, res.BillToAddress2);
-                    FwFormField.setValueByDataField($form, `IssuedToCity`, res.BillToCity);
-                    FwFormField.setValueByDataField($form, `IssuedToState`, res.BillToStateId, res.BillToState);
-                    FwFormField.setValueByDataField($form, `IssuedToZipCode`, res.BillToZipCode);
-                    FwFormField.setValueByDataField($form, `IssuedToCountryId`, res.BillToCountryId, res.BillToCountry);
+                    setValues(res);
                 }, null, null);
             }
+        }
+        const setValues = (response: any): void => {
+            FwFormField.setValueByDataField($form, `IssuedToAttention`, response.BillToAttention1);
+            FwFormField.setValueByDataField($form, `IssuedToAttention2`, response.BillToAttention2);
+            FwFormField.setValueByDataField($form, `IssuedToAddress1`, response.BillToAddress1);
+            FwFormField.setValueByDataField($form, `IssuedToAddress2`, response.BillToAddress2);
+            FwFormField.setValueByDataField($form, `IssuedToCity`, response.BillToCity);
+            FwFormField.setValueByDataField($form, `IssuedToState`, response.BillToStateId, response.BillToState);
+            FwFormField.setValueByDataField($form, `IssuedToZipCode`, response.BillToZipCode);
+            FwFormField.setValueByDataField($form, `IssuedToCountryId`, response.BillToCountryId, response.BillToCountry);
         }
     }
     //----------------------------------------------------------------------------------------------
