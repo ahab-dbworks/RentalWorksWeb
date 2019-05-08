@@ -180,7 +180,13 @@ class VendorInvoice {
                 VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
                 , PurchaseOrderId: ""
             };
+            request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"];
         });
+        FwBrowse.addEventHandler($additionalItemsGridControl, 'afterdatabindcallback', ($additionalItemsGridControl, response) => {
+            FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemGrossTotal"]', response.Totals.LineTotal);
+            FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTax"]', response.Totals.Tax);
+            FwFormField.setValue($form, 'div[data-totalfield="AdditionalItemTotal"]', response.Totals.LineTotalWithTax);
+        })
         $additionalItemsGridControl.data('beforesave', request => {
             request.VendorInvoiceId = FwFormField.getValueByDataField($form, 'VendorInvoiceId');
         });
