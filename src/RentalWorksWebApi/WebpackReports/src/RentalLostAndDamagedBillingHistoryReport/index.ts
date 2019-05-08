@@ -12,7 +12,6 @@ export class RentalLostAndDamagedBillingHistoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            console.log(parameters)
             HandlebarsHelpers.registerHelpers();
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentallostanddamagedbillinghistoryreport/runreport`, authorizationHeader, parameters)
@@ -24,7 +23,6 @@ export class RentalLostAndDamagedBillingHistoryReport extends WebpackReport {
                     data.Report = 'Rental Lost and Damaged Billing History Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
-                    console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
