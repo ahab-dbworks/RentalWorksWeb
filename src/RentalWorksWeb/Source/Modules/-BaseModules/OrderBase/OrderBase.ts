@@ -242,41 +242,37 @@ class OrderBase {
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
-            $form.find('.ifnew').attr('data-enabled', 'true');
             $form.find('.combinedtab').hide();
 
-            const usersid = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-            const name = sessionStorage.getItem('name');
+            const usersid    = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const name       = sessionStorage.getItem('name');
+            const today      = FwFunc.getDate();
+            const department = JSON.parse(sessionStorage.getItem('department'));
+            const office     = JSON.parse(sessionStorage.getItem('location'));
+            const warehouse  = JSON.parse(sessionStorage.getItem('warehouse'));
+
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
-
-            const today = FwFunc.getDate();
             FwFormField.setValueByDataField($form, 'PickDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStartDate', today);
             FwFormField.setValueByDataField($form, 'EstimatedStopDate', today);
             FwFormField.setValueByDataField($form, 'BillingWeeks', '0');
             FwFormField.setValueByDataField($form, 'BillingMonths', '0');
-
-
-            const department = JSON.parse(sessionStorage.getItem('department'));
             FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
-            const office = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
-            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+            FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
 
-            $form.find('div[data-datafield="PendingPo"] input').prop('checked', true);
-            $form.find('div[data-datafield="Rental"] input').prop('checked', true);
-            $form.find('div[data-datafield="Sales"] input').prop('checked', true);
-            $form.find('div[data-datafield="Miscellaneous"] input').prop('checked', true);
-            $form.find('div[data-datafield="Labor"] input').prop('checked', true);
+            FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
+            FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
+            FwFormField.setValue($form, 'div[data-datafield="Sales"]', true);
+            FwFormField.setValue($form, 'div[data-datafield="Miscellaneous"]', true);
+            FwFormField.setValue($form, 'div[data-datafield="Labor"]', true);
 
             FwFormField.disable($form.find('[data-datafield="RentalSale"]'));
             $form.find('[data-type="tab"][data-caption="Used Sale"]').hide();
             FwFormField.disable($form.find('[data-datafield="PoNumber"]'));
             FwFormField.disable($form.find('[data-datafield="PoAmount"]'));
-
-            FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
 
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
@@ -285,28 +281,20 @@ class OrderBase {
         let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
         $form.find('.emailhistory-page').append($emailHistorySubModuleBrowse);
 
-        FwFormField.disable($form.find('[data-datafield="RentalTaxRate1"]'));
-        FwFormField.disable($form.find('[data-datafield="SalesTaxRate1"]'));
-        FwFormField.disable($form.find('[data-datafield="LaborTaxRate1"]'));
-
-        $form.find('div[data-datafield="PickTime"]').attr('data-required', 'false');
-        $form.find('div[data-datafield="EstimatedStartTime"]').attr('data-required', 'false');
-        $form.find('div[data-datafield="EstimatedStopTime"]').attr('data-required', 'false');
-
         FwFormField.loadItems($form.find('.outtype'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
-            { value: 'SHIP', text: 'Ship to Customer' },
+            { value: 'SHIP',    text: 'Ship to Customer' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
         FwFormField.loadItems($form.find('.intype'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
-            { value: 'SHIP', text: 'Customer Ship' },
+            { value: 'SHIP',    text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
         ], true);
 
         FwFormField.loadItems($form.find('.online'), [
-            { value: 'PARTIAL', text: 'Partial' },
+            { value: 'PARTIAL',  text: 'Partial' },
             { value: 'COMPLETE', text: 'Complete' }
         ], true);
 
@@ -318,10 +306,10 @@ class OrderBase {
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
+        this.renderPrintButton($form);
 
         return $form;
-    };
-
+    }
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
         const $browse = EmailHistoryController.openBrowse();
@@ -331,6 +319,15 @@ class OrderBase {
             }
         });
         return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var self   = this;
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', function () {
+            self.printQuoteOrder($form);
+        });
     }
     //----------------------------------------------------------------------------------------------
     renderFrames($form: any, cachedId?, period?) {
@@ -918,34 +915,6 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
         });
-        //Open Print Order Report
-        $form.find('.print').on('click', e => {
-            let $report, orderNumber, orderId, recordTitle, printTab, module, hideModule;
-            module = this.Module;
-            try {
-                orderNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
-                orderId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
-                recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-
-                if (module === 'Order') {
-                    $report = RwOrderReportController.openForm();
-                } else {
-                    $report = RwQuoteReportController.openForm();
-                };
-                FwModule.openSubModuleTab($form, $report);
-
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] input`).val(orderId);
-                $report.find(`div.fwformfield[data-datafield="${module}Id"] .fwformfield-text`).val(orderNumber);
-                jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
-
-                printTab = jQuery('.tab.submodule.active');
-                printTab.find('.caption').html(`Print ${module}`);
-                printTab.attr('data-caption', `${module} ${recordTitle}`);
-            }
-            catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
 
         $form.find('.copy').on('click', e => {
             var $confirmation, $yes, $no;
@@ -1300,6 +1269,27 @@ class OrderBase {
             FwFunc.showError(response);
         }, $form);
     };
+    //----------------------------------------------------------------------------------------------
+    printQuoteOrder($form: any) {
+        try {
+            var module      = this.Module;
+            var orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
+            var orderId     = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
+            var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+
+            var $report = (module === 'Order') ? RwOrderReportController.openForm() : RwQuoteReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print ${module}`);
+
+            var printTab = jQuery('.tab.submodule.active');
+            printTab.find('.caption').html(`Print ${module}`);
+            printTab.attr('data-caption', `${module} ${recordTitle}`);
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+    }
     //----------------------------------------------------------------------------------------------
     calculateOrderItemGridTotals($form: any, gridType: string, totals?): void {
         let subTotal, discount, salesTax, grossTotal, total;
