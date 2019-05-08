@@ -392,17 +392,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+        //DEPARTMENT
+        public const string DEPARTMENT_SALES_BILLING_RULE_BILL_WHEN_STAGED = "STAGED";
+        public const string DEPARTMENT_SALES_BILLING_RULE_BILL_WHEN_CHECKED_OUT = "OUT";
+        public const string DEPARTMENT_SALES_BILLING_RULE_BILL_ON_CONTRACT_BILLING_START_DATE = "BILLINGDATE";
 
     }
 

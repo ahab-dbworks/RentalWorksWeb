@@ -38,6 +38,12 @@ namespace WebApi.Modules.Settings.Department
         [FwSqlDataField(column: "disableeditrateld", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? DisableEditingLossAndDamageRate { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "salesbillingmode", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 20)]
+        public string SalesBillingMode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "lockwhencustomdiscount", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
+        public bool? LockWhenCustomDiscount { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "exportcode", modeltype: FwDataTypes.Text)]
         public string ExportCode { get; set; }
         //------------------------------------------------------------------------------------ 
