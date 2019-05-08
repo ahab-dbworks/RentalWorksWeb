@@ -297,14 +297,15 @@ html.theme-material .fwformfield[data-type="time"][data-enabled="true"] .btndate
 html.theme-material .fwformfield[data-type="time"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 /*#endregion*/
 
-/*#region data-type="timepicker" */ 
-html.theme-material .fwformfield[data-type="timepicker"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;} 
-html.theme-material .fwformfield[data-type="timepicker"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;} 
-html.theme-material .fwformfield[data-type="timepicker"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;} 
+/*#region data-type="timepicker" */
+html.theme-material .fwformfield[data-type="timepicker"] .fwformfield-control {border:1px solid #E0E0E0;background-color: #ffffff;}
+html.theme-material .fwformfield[data-type="timepicker"].error .fwformfield-control {border: 1px solid #f44336;background-color: #FFEBEE;}
 html.theme-material .fwformfield[data-type="timepicker"] .fwformfield-value {border:0 !important;width:100%;}
-html.theme-material .fwformfield[data-type="timepicker"] .btntime { color: #616161; padding: 0; font-size: 24px; margin: auto 5px; box-sizing: border-box; }  
-html.theme-material .fwformfield[data-type="timepicker"][data-enabled="true"] .btntime { cursor: pointer; } 
-html.theme-material .fwformfield[data-type="timepicker"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;} 
+html.theme-material .fwformfield[data-type="timepicker"] .btntime { color: #616161; padding: 0; font-size: 24px; margin: auto 5px; box-sizing: border-box; }
+html.theme-material .fwformfield[data-type="timepicker"][data-enabled="true"] .btntime { cursor: pointer; }
+html.theme-material .fwformfield[data-type="timepicker"][data-enabled="false"] .fwformfield-control {background-color: #F5F5F5;}
+html.theme-material .fwformfield[data-type="timepicker"][data-enabled="false"] .btntime {color: #eeeeee;}
+html.theme-material .fwformfield[data-type="timepicker"].focused .fwformfield-control {border: 1px solid #2196f3 !important;transition:all linear .5s;}
 /*#endregion*/ 
 
 /*#region data-type="percent" */
