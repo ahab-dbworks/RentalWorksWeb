@@ -13,15 +13,13 @@ export abstract class WebpackReport {
 
     constructor() {
         window.addEventListener('load', (ev: Event) => {
-            console.log('loadEventWebPackReport.ts: ', ev)
             const reportURL: any = ev.srcElement.baseURI;
             if (window.opener != null) {
-                window.opener.postMessage(reportURL, '*');
+                window.opener.postMessage(reportURL, '*'); //sending message back to requesting page to notify new window is loaded
             }
         }); 
 
         window.addEventListener('message', (ev: MessageEvent) => {
-            console.log('messageEventWebPackReport.ts: ', ev)
             if (typeof ev.data.action !== 'undefined') {
                 let message = <ReportPageMessage>ev.data;
                 this.processMessage(message);
