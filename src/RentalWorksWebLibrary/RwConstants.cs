@@ -373,6 +373,37 @@
         public const string PHYSICAL_INVENTORY_STATUS_ACTIVE = "ACTIVE";
 
 
+        //BILLING CYCLE
+        public const string BILLING_CYCLE_TYPE_WEEKLY = "WEEKLY";
+        public const string BILLING_CYCLE_TYPE_BIWEEKLY = "BIWEEKLY";
+        public const string BILLING_CYCLE_TYPE_4WEEKLY = "4WEEKLY";
+        public const string BILLING_CYCLE_TYPE_MONTHLY = "MONTHLY";
+        public const string BILLING_CYCLE_TYPE_CALENDARMONTH = "CALMONTH";
+        public const string BILLING_CYCLE_TYPE_EPISODIC = "EPISODIC";
+        public const string BILLING_CYCLE_TYPE_IMMEDIATE = "IMMEDIATE";
+        public const string BILLING_CYCLE_TYPE_RATECHANGE = "RATECHANGE";
+        public const string BILLING_CYCLE_TYPE_EVENTS = "EVENTS";
+        public const string BILLING_CYCLE_TYPE_ONDEMAND = "ONDEMAND";
+        public const string BILLING_CYCLE_TYPE_ATCLOSE = "ATCLOSE";
+        public const string BILLING_CYCLE_TYPE_DECREASING = "DECREASING";
+
+        public const string BILLING_CYCLE_BILL_ON_PERIOD_START = "START";
+        public const string BILLING_CYCLE_BILL_ON_PERIOD_END = "END";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public class QuoteOrderCopyRequest
