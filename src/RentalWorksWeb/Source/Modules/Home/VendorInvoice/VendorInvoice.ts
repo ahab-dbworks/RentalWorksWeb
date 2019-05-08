@@ -103,6 +103,7 @@ class VendorInvoice {
         $vendorInvoiceItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 VendorInvoiceId: FwFormField.getValueByDataField($form, 'VendorInvoiceId')
+                , PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
             }
             request.totalfields = ["LineTotal", "Tax", "LineTotalWithTax"]
 
