@@ -171,8 +171,8 @@ class OrderType {
         FwBrowse.init($orderTypeTermsAndConditionsGridControl);
         FwBrowse.renderRuntimeHtml($orderTypeTermsAndConditionsGridControl);
         //----------
-        const $resaleGrid = $form.find('div[data-grid="ContactTitleGrid"]');
-        const $resaleControl = FwBrowse.loadGridFromTemplate('ContactTitleGrid');
+        const $resaleGrid = $form.find('div[data-grid="OrderTypeContactTitleGrid"]');
+        const $resaleControl = FwBrowse.loadGridFromTemplate('OrderTypeContactTitleGrid');
         $resaleGrid.empty().append($resaleControl);
         $resaleControl.data('ondatabind', request => {
             request.uniqueids = {
