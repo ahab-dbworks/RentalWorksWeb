@@ -1352,6 +1352,46 @@
 			]
 		},
 		{
+			"name": "Sales Inventory Master Report",
+			"item": [
+				{
+					"name": "Sales Inventory Master Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"RevenueFromDate\": \"01/01/2018\",\n    \t\t\"RevenueToDate\": \"01/01/2018\",\n            \"Ranks\": [\n            \t{\"value\": \"A\"},\n            \t{\"value\": \"B\"},\n            \t{\"value\": \"C\"},\n            \t{\"value\": \"D\"},\n            \t{\"value\": \"E\"}\n            \t],\n    \t\t\"xOfficeLocationId\": \"B001WH00\",\n    \t\t\"xDepartmentId\": \"B003KSM1\",\n    \t\t\"CustomerId\": \"\",\n    \t\t\"DealId\": \"\",\n    \t\t\"AgentId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/salesinventorymasterreport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"salesinventorymasterreport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Sales Inventory Purchase History Report",
 			"item": [
 				{
