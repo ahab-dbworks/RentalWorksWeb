@@ -44,7 +44,11 @@
 
             if ($this.prop('checked') === true && $this.val() === "EVENTS") {
                 $form.find(".eventstab").show();
+                FwFormField.disable($form.find('[data-datafield="ProrateMonthly"]'));
+            } else if ($this.prop('checked') === true && ($this.val() === "MONTHLY" || $this.val() === "CALMONTH")) {
+                FwFormField.enable($form.find('[data-datafield="ProrateMonthly"]'));
             } else {
+                FwFormField.disable($form.find('[data-datafield="ProrateMonthly"]'));
                 $form.find(".eventstab").hide();
             }
         });
@@ -86,7 +90,9 @@
         const radioType = FwFormField.getValueByDataField($form, 'BillingCycleType');
         if (radioType === "EVENTS") {
             $form.find(".eventstab").show();
-        } else {
+        } else if (radioType === "MONTHLY" || radioType === "CALMONTH") {
+            FwFormField.enable($form.find('[data-datafield="ProrateMonthly"]'));
+        }else {
             $form.find(".eventstab").hide();
         }
     }

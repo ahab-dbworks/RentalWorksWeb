@@ -13,21 +13,33 @@
               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Billing Cycle" data-datafield="BillingCycle" style="float:left;width:300px;"></div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield typeRadio" data-caption="Type" data-datafield="BillingCycleType" style="float:left;width:300px;">
-                <div data-caption="WEEKLY" data-value="WEEKLY"></div>
-                <div data-caption="BI-WEEKLY" data-value="BIWEEKLY"></div>
-                <div data-caption="EPISODIC" data-value="EPISODIC"></div>
-                <div data-caption="MONTHLY" data-value="MONTHLY"></div>
-                <div data-caption="CALENDAR MONTHLY" data-value="CALMONTH"></div>
-                <div data-caption="EVENTS" data-value="EVENTS"></div>
-                <div data-caption="IMMEDIATE" data-value="IMMEDIATE"></div>
-                <div data-caption="ON DEMAND" data-value="ONDEMAND"></div>
-                <div data-caption="RATE CHANGE" data-value="RATECHANGE"></div>
-                <div data-caption="AT CLOSE" data-value="ATCLOSE"></div>
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield typeRadio" data-caption="Type" data-datafield="BillingCycleType" style="float:left;width:500px;">
+                <div data-caption="Weekly: once every 7 calendar days" data-value="WEEKLY"></div>
+                <div data-caption="Bi-Weekly: once every 14 calendar days" data-value="BIWEEKLY"></div>
+                <div data-caption="4-Weekly: once every 28 calendar days" data-value="4WEEKLY"></div>
+                <div data-caption="Monthly: once every month" data-value="MONTHLY"></div>
+                <div data-caption="Calendar Months: monthly, based on calendar months" data-value="CALMONTH"></div>
+                <div data-caption="Episodic: bill using the Deal's Episode schedule" data-value="EPISODIC"></div>
+                <div data-caption="Immediate: for one-time charges (ie. Sales, Misc., Labor)" data-value="IMMEDIATE"></div>
+                <div data-caption="Automatic Rate Change: bill at Order completion, reduce line-item rates to Week or Month according to Department rule" data-value="RATECHANGE"></div>
+                <div data-caption="Order Events: bill percentage of overall Order based on Events" data-value="EVENTS"></div>
+                <div data-caption="On Demand: use Billing Worksheets to schedule billing amounts" data-value="ONDEMAND"></div>
+                <div data-caption="At Close: bill once when Order is completed" data-value="ATCLOSE"></div>
               </div>
             </div>
             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Inactive" data-datafield="Inactive" style="float:left;width:100px;"></div>
+            </div>
+          </div>
+          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Create Invoices On" data-datafield="BillOnPeriodStartOrEnd" style="float:left;width:300px;">
+                <div data-caption="the Last Day of the Billing Cycle" data-value="END"></div>
+                <div data-caption="the First Day of the Billing Cycle" data-value="START"></div>
+              </div>
+            </div>
+            <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Prorate Partial Months" data-datafield="ProrateMonthly" data-enabled="false" style="float:left;width:100px;"></div>
             </div>
           </div>
         </div>
