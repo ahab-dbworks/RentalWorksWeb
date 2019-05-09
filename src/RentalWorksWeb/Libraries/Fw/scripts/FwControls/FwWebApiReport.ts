@@ -201,7 +201,7 @@ abstract class FwWebApiReport {
                     request.renderMode = 'Pdf';
                     request.downloadPdfAsAttachment = false;
                     request.parameters = this.convertParameters(this.getParameters($form));
-                    const win = window.open('about:blank', 'newtab');
+                    const win = window.open('', '_blank');
                     const head = win.document.head || win.document.getElementsByTagName('head')[0];
                     const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
                     const loaderStyle = win.document.createElement('style');
