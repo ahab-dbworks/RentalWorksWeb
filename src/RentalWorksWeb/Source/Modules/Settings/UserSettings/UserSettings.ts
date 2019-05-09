@@ -60,7 +60,9 @@
             if (typeof window[moduleController] !== 'undefined') {
                 if (window[moduleController].hasOwnProperty('apiurl')) {
                     const moduleNav = window[moduleController].nav;
-                    allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+                    if (moduleNav) {
+                        allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+                    }
                 }
             }
         };
@@ -73,7 +75,6 @@
                 return 1;
             return 0;
         }
-
         allModules.sort(compare);
         const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
