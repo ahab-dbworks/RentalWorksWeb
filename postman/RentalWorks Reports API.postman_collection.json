@@ -1002,6 +1002,46 @@
 			]
 		},
 		{
+			"name": "Rental Inventory Usage Report",
+			"item": [
+				{
+					"name": "Rental Inventory Usage Report: Run Report",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \t\t\"FromDate\": \"01/01/2018\",\n    \t\t\"ToDate\": \"01/31/2018\",\n            \"Ranks\": [\n            \t{\"value\": \"A\"},\n            \t{\"value\": \"B\"},\n            \t{\"value\": \"C\"},\n            \t{\"value\": \"D\"},\n            \t{\"value\": \"E\"}\n            \t],\n            \"TrackedBys\": [\n            \t{\"value\": \"BARCODE\"},\n            \t{\"value\": \"QUANTITY\"},\n            \t{\"value\": \"SERIALNO\"}\n            \t],\n    \t\t\"WarehouseId\": \"B0029AY5\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/rentalinventoryusagereport/runreport",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"rentalinventoryusagereport",
+								"runreport"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Rental Inventory Value Report",
 			"item": [
 				{
