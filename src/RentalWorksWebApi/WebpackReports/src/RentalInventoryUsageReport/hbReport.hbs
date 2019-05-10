@@ -1,4 +1,4 @@
-﻿<!--Invoice Discount Report-->
+﻿<!--RentalInventoryUsageReport-->
 <div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
@@ -13,6 +13,14 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
+    <thead class="section-header">
+      <tr style="background-color:lightgrey;">
+        <th colspan="7">Owned</th>
+        <th colspan="3">SUBRENTAL</th>
+        <th>CONSIGNMENT</th>
+        <th>TOTAL</th>
+      </tr>
+    </thead>
     <thead>
       <tr>
         <th class="row1">Invoice Date</th>
@@ -46,11 +54,14 @@
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="3" class="lower header-row">Department: {{Department}}</td>
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="3" class="lower header-row">Warehouse Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+                {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{InvoiceDate}}"></td>

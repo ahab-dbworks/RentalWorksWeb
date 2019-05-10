@@ -38,16 +38,16 @@ const rentalInventoryUsageTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:365px;">
+            <div class="flexcolumn" style="max-width:380px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ExcludeZeroOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Zero Quantity Owned" style="float:left;max-width:420px;"></div>
                   <div data-datafield="OnlyIncludeItemsThatAreTheMainItemOfAComplete" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include Items That Are The Main Item Of A Complete" style="float:left;max-width:420px;"></div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDates" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter By Utilization %" style="flex:1 1 100px;"></div>
-                  <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield " data-caption="" data-datafield="UtilizationFilterMode" style="flex:1 1 100px;"></div>
-                  <div data-datafield="UtilizationFilterAmount" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="" style="flex:1 1 100px;"></div>
+                <div class="fwcontrol fwcontainer flexrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="FilterDates" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter By Utilization Percent" style="flex:0 1 180px;"></div>
+                  <div data-datafield="UtilizationFilterMode" data-control="FwFormField" data-type="select" class="fwcontrol fwformfield " data-caption="" style="flex:0 1 65px;"></div>
+                  <div data-datafield="UtilizationFilterAmount" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="" style="flex:0 1 53px;"></div>
                 </div>
               </div>
             </div>
@@ -111,16 +111,17 @@ class RentalInventoryUsageReportClass extends FwWebApiReport {
 
         const $filterOperators = $form.find('div[data-datafield="UtilizationFilterMode"]');
         FwFormField.loadItems($filterOperators, [
+            { value: 'ALL', text: 'ALL' },
             { value: 'GT', text: '>' },
             { value: 'LT', text: '<' },
             { value: 'EQ', text: '=' },
-            { value: 'ALL', text: 'ALL' },
             { value: 'GTE', text: '>=' },
             { value: 'LTE', text: '<=' }
         ], true);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
+        console.log('params', parameters)
         return parameters;
     }
     //----------------------------------------------------------------------------------------------

@@ -159,7 +159,7 @@ namespace WebApi.Modules.Reports.RentalInventoryUsageReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "AvailableDays", "CurrentOwnedQuantity", "DaysOut", "DaysOutOfService", "DaysBilled", "DaysSubRented", "AverageOwnedQuantity", "Revenue", "SubRentalCost", "SubRentalRevenue", "ConsignmentFees", "AdjustedRevenue", };
+                string[] totalFields = new string[] { "AvailableDays", "CurrentOwnedQuantity", "DaysOut", "DaysOutOfService", "DaysBilled", "DaysSubRented", "AverageOwnedQuantity", "Revenue", "SubRentalCost", "SubRentalRevenue", "ConsignmentFees", "AdjustedRevenue"};
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
