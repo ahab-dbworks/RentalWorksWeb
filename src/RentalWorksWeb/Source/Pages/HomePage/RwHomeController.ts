@@ -16,7 +16,27 @@
 
         jQuery('title').html('RentalWorks');
 
-        screen.load = function () {
+        screen.load = async () => {
+            // Get ActiveViewFields
+            const responseGetActiveViewFields = await FwAjax.callWebApi<any>({
+                httpMethod: 'POST',
+                url: `${applicationConfig.apiurl}api/v1/browseactiveviewfields/browse`,
+                $elementToBlock: jQuery('body'),
+                data: {
+                    uniqueids: {
+                        WebUserId: sessionStorage.getItem('webusersid')
+                    }
+                }
+            });
+            const moduleNameIndex = responseGetActiveViewFields.ColumnIndex.ModuleName;
+            const activeViewFieldsIndex = responseGetActiveViewFields.ColumnIndex.ActiveViewFields;
+            const idIndex = responseGetActiveViewFields.ColumnIndex.Id;
+            for (let i = 0; i < responseGetActiveViewFields.Rows.length; i++) {
+                let controller = `${responseGetActiveViewFields.Rows[i][moduleNameIndex]}Controller`;
+                window[controller].ActiveViewFields = JSON.parse(responseGetActiveViewFields.Rows[i][activeViewFieldsIndex]);
+                window[controller].ActiveViewFieldsId = responseGetActiveViewFields.Rows[i][idIndex];
+            }
+            
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
                 setTimeout(() => {
@@ -88,9 +108,9 @@
     loadSettings($control) {
         var self = this;
         var $dashboard = $control.find('.programlogo');
-        var userId = JSON.parse(sessionStorage.getItem('userid')).webusersid;
+        var webusersid = sessionStorage.getItem('webusersid');
 
-        FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + userId, null, FwServices.defaultTimeout, function onSuccess(response) {
+        FwAppData.apiMethod(true, 'GET', 'api/v1/userdashboardsettings/' + webusersid, null, FwServices.defaultTimeout, function onSuccess(response) {
             let hiddenCounter = 0;
             let dashboardButton = '<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol dashboardsettings" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">You have no widgets yet - Add some now!</div></div>';
             if (hiddenCounter === response.UserWidgets.length) {

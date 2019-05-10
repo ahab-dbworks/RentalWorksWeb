@@ -16,7 +16,27 @@
 
         jQuery('title').html('TrakitWorks');
 
-        screen.load = function () {
+        screen.load = async () => {
+            // Get ActiveViewFields
+            const responseGetActiveViewFields = await FwAjax.callWebApi<any>({
+                httpMethod: 'POST',
+                url: `${applicationConfig.apiurl}api/v1/browseactiveviewfields/browse`,
+                $elementToBlock: jQuery('body'),
+                data: {
+                    uniqueids: {
+                        WebUserId: sessionStorage.getItem('webusersid')
+                    }
+                }
+            });
+            const moduleNameIndex = responseGetActiveViewFields.ColumnIndex.ModuleName;
+            const activeViewFieldsIndex = responseGetActiveViewFields.ColumnIndex.ActiveViewFields;
+            const idIndex = responseGetActiveViewFields.ColumnIndex.Id;
+            for (let i = 0; i < responseGetActiveViewFields.Rows.length; i++) {
+                let controller = `${responseGetActiveViewFields.Rows[i][moduleNameIndex]}Controller`;
+                window[controller].ActiveViewFields = JSON.parse(responseGetActiveViewFields.Rows[i][activeViewFieldsIndex]);
+                window[controller].ActiveViewFieldsId = responseGetActiveViewFields.Rows[i][idIndex];
+            }
+            
             var redirectPath = sessionStorage.getItem('redirectPath');
             if (typeof redirectPath === 'string' && redirectPath.length > 0) {
                 setTimeout(() => {

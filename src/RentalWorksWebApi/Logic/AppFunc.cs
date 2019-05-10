@@ -409,5 +409,132 @@ namespace WebApi.Logic
             return recTypeColor;
         }
         //-------------------------------------------------------------------------------------------------------
+        public class SessionLocation
+        {
+            public string locationid { get; set; } = string.Empty;
+            public string location { get; set; } = string.Empty;
+            public string locationcolor { get; set; } = string.Empty;
+        }
+        public static async Task<SessionLocation> GetSessionLocation(FwApplicationConfig appConfig, string locationid)
+        {
+            var response = new SessionLocation();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select locationid, location, locationcolor");
+                    qry.Add("from location with (nolock)");
+                    qry.Add("where locationid = @locationid");
+                    qry.AddParameter("@locationid", locationid);
+                    await qry.ExecuteAsync();
+                    response.locationid = qry.GetField("locationid").ToString().TrimEnd();
+                    response.location = qry.GetField("location").ToString().TrimEnd();
+                    response.locationcolor = qry.GetField("locationcolor").ToString().TrimEnd();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public class SessionWarehouse
+        {
+            public string warehouseid { get; set; } = string.Empty;
+            public string warehouse { get; set; } = string.Empty;
+            public bool promptforcheckoutexceptions { get; set; } = true;
+            public bool promptforcheckinexceptions { get; set; } = true;
+        }
+        public static async Task<SessionWarehouse> GetSessionWarehouse(FwApplicationConfig appConfig, string warehouseid)
+        {
+            var response = new SessionWarehouse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select warehouseid, warehouse, promptforcheckoutexceptions, promptforcheckinexceptions");
+                    qry.Add("from warehouse with (nolock)");
+                    qry.Add("where warehouseid = @warehouseid");
+                    qry.AddParameter("@warehouseid", warehouseid);
+                    await qry.ExecuteAsync();
+                    response.warehouseid = qry.GetField("warehouseid").ToString().TrimEnd();
+                    response.warehouse = qry.GetField("warehouse").ToString().TrimEnd();
+                    response.promptforcheckoutexceptions = qry.GetField("promptforcheckoutexceptions").ToBoolean();
+                    response.promptforcheckinexceptions = qry.GetField("promptforcheckinexceptions").ToBoolean();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public class SessionDepartment
+        {
+            public string departmentid { get; set; } = string.Empty;
+            public string department { get; set; } = string.Empty;
+        }
+        public static async Task<SessionDepartment> GetSessionDepartment(FwApplicationConfig appConfig, string departmentid)
+        {
+            var response = new SessionDepartment();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select departmentid, department");
+                    qry.Add("from department with (nolock)");
+                    qry.Add("where departmentid = @departmentid");
+                    qry.AddParameter("@departmentid", departmentid);
+                    await qry.ExecuteAsync();
+                    response.departmentid = qry.GetField("departmentid").ToString().TrimEnd();
+                    response.department = qry.GetField("department").ToString().TrimEnd();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public class SessionUser
+        {
+            public string webusersid { get; set; } = string.Empty;
+            public string usersid { get; set; } = string.Empty;
+            public string usertype { get; set; } = string.Empty;
+            public string email { get; set; } = string.Empty;
+            public string fullname { get; set; } = string.Empty;
+            public string name { get; set; } = string.Empty;
+            public string browsedefaultrows { get; set; } = string.Empty;
+            public string applicationtheme { get; set; } = string.Empty;
+            public string locationid { get; set; } = string.Empty;
+            public string location { get; set; } = string.Empty;
+            public string warehouseid { get; set; } = string.Empty;
+            public string warehouse { get; set; } = string.Empty;
+            public string departmentid { get; set; } = string.Empty;
+            public string department { get; set; } = string.Empty;
+
+        }
+        public static async Task<SessionUser> GetSessionUser(FwApplicationConfig appConfig, FwUserSession userSession)
+        {
+            var response = new SessionUser();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select webusersid, usersid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department");
+                    qry.Add("from webusersview with (nolock)");
+                    qry.Add("where webusersid = @webusersid");
+                    qry.AddParameter("@webusersid", userSession.WebUsersId);
+                    await qry.ExecuteAsync();
+                    response.webusersid = qry.GetField("webusersid").ToString().TrimEnd();
+                    response.usersid = qry.GetField("usersid").ToString().TrimEnd();
+                    response.usertype = qry.GetField("usertype").ToString().TrimEnd();
+                    response.email = qry.GetField("email").ToString().TrimEnd();
+                    response.fullname = qry.GetField("fullname").ToString().TrimEnd();
+                    response.name = qry.GetField("name").ToString().TrimEnd();
+                    response.browsedefaultrows = qry.GetField("browsedefaultrows").ToString().TrimEnd();
+                    response.applicationtheme = qry.GetField("applicationtheme").ToString().TrimEnd();
+                    response.locationid = qry.GetField("locationid").ToString().TrimEnd();
+                    response.location = qry.GetField("location").ToString().TrimEnd();
+                    response.warehouseid = qry.GetField("warehouseid").ToString().TrimEnd();
+                    response.warehouse = qry.GetField("warehouse").ToString().TrimEnd();
+                    response.departmentid = qry.GetField("departmentid").ToString().TrimEnd();
+                    response.department = qry.GetField("department").ToString().TrimEnd();
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

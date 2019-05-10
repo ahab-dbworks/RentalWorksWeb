@@ -45,7 +45,7 @@ class Base {
         }
 
         screen.$view
-            .on('click', '.btnLogin', function(e) {
+            .on('click', '.btnLogin', async (e: JQuery.ClickEvent) => {
                 try {
                     var $loginWindow = screen.$view.find('.login-container');
                     var $email       = screen.$view.find('#email');
@@ -58,164 +58,128 @@ class Base {
                         $password.parent().addClass('error');
                     } else {
                         sessionStorage.clear();
-                        // get a token to connect to RentalWorksWebApi
-                        var apiRequest = {
-                            UserName: $email.val(),
-                            Password: $password.val()
-                        };
-                        FwAppData.apiMethod(false, "POST", "api/v1/jwt", apiRequest, null, function onSuccess(responseRestApi) {
-                            if ((responseRestApi.statuscode == 0) && (typeof responseRestApi.access_token !== 'undefined')) {
-                                sessionStorage.setItem('apiToken', responseRestApi.access_token);
-                                // get a token to connect to RentalWorksWeb
-                                var request = {
-                                    email:    $email.val(),
-                                    password: $password.val()
-                                };
-                                FwServices.account.getAuthToken(request, $loginWindow, function (responseOriginalApi) {
-                                    try {
-                                        if (typeof responseOriginalApi.exception !== 'undefined') {
-                                            if (applicationConfig.debugMode) {
-                                                $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception + responseOriginalApi.stacktrace).show();
-                                            } else {
-                                                $loginWindow.find('.errormessage').html('').html(responseOriginalApi.exception).show();
-                                            }
-                                        } else {
-                                            if ((responseOriginalApi.errNo === 0) && (typeof responseOriginalApi.authToken !== 'undefined')) {
-                                                localStorage.setItem('email', request.email); // mv 2018-08-19 I suspect that this is really not the email, it's the email OR the regular user login the user entered.
-                                                sessionStorage.setItem('email',              responseOriginalApi.webUser.email);
-                                                sessionStorage.setItem('authToken',          responseOriginalApi.authToken);
-                                                sessionStorage.setItem('fullname',           responseOriginalApi.webUser.fullname);
-                                                sessionStorage.setItem('name',               responseOriginalApi.webUser.name);  //justin 05/06/2018
-                                                sessionStorage.setItem('usersid',            responseOriginalApi.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-                                                sessionStorage.setItem('browsedefaultrows',  responseOriginalApi.webUser.browsedefaultrows);
-                                                sessionStorage.setItem('applicationtheme',   responseOriginalApi.webUser.applicationtheme);
-                                                sessionStorage.setItem('lastLoggedIn',       new Date().toLocaleTimeString());
-                                                sessionStorage.setItem('serverVersion',      responseOriginalApi.serverVersion);
-                                                sessionStorage.setItem('applicationOptions', JSON.stringify(responseOriginalApi.applicationOptions));
-                                                sessionStorage.setItem('userType',           responseOriginalApi.webUser.usertype);
-                                                sessionStorage.setItem('applicationtree',    JSON.stringify(responseOriginalApi.applicationtree.Result));
-                                                sessionStorage.setItem('siteName',           responseOriginalApi.site.name);
-                                                sessionStorage.setItem('clientCode',         responseOriginalApi.clientcode);
-                                                sessionStorage.setItem('location',           JSON.stringify(responseOriginalApi.webUser.location));
-                                                sessionStorage.setItem('defaultlocation',    JSON.stringify(responseOriginalApi.webUser.location));
-                                                sessionStorage.setItem('warehouse',          JSON.stringify(responseOriginalApi.webUser.warehouse));
-                                                sessionStorage.setItem('department',         JSON.stringify(responseOriginalApi.webUser.department));
-                                                sessionStorage.setItem('userid',             JSON.stringify(responseOriginalApi.webUser.webusersid));
-                                                jQuery('html').removeClass('theme-material');
+                        
+                        // Ajax for a jwt token
+                        const responseJwt = await FwAjax.callWebApi<any>({
+                            httpMethod: 'POST',
+                            url: `${applicationConfig.apiurl}api/v1/jwt`,
+                            $elementToBlock: $loginWindow,
+                            data: {
+                                UserName: $email.val(),
+                                Password: $password.val()
+                            }
+                        });
 
-                                                FwAppData.apiMethod(true, 'GET', `api/v1/warehouse/${responseOriginalApi.webUser.warehouse.warehouseid}`, null, FwServices.defaultTimeout, response => {
-                                                    const warehouseObj = responseOriginalApi.webUser.warehouse;
-                                                    warehouseObj.promptforcheckoutexceptions = response.PromptForCheckOutExceptions;
-                                                    sessionStorage.setItem('warehouse', JSON.stringify(warehouseObj));
-                                                }, ex => {
-                                                    FwFunc.showError(ex);
-                                                }, null);
+                        if ((responseJwt.statuscode == 0) && (typeof responseJwt.access_token !== 'undefined')) {
+                            sessionStorage.setItem('apiToken', responseJwt.access_token);
+                            localStorage.setItem('email', $email.val()); // mv 5/10/19 - this is the email or login and cannot be used to display the email address
+                            if (typeof responseJwt.exception !== 'undefined') {
+                                if (applicationConfig.debugMode) {
+                                    $loginWindow.find('.errormessage').html('').html(responseJwt.exception + responseJwt.stacktrace).show();
+                                } else {
+                                    $loginWindow.find('.errormessage').html('').html(responseJwt.exception).show();
+                                }
+                            } else {
+                                 // get session info
+                                const responseSessionInfo = await FwAjax.callWebApi<any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/account/session?applicationid=${FwApplicationTree.currentApplicationId}`,
+                                    $elementToBlock: $loginWindow
+                                });
+                                sessionStorage.setItem('email',              responseSessionInfo.webUser.email);
+                                sessionStorage.setItem('fullname',           responseSessionInfo.webUser.fullname);
+                                sessionStorage.setItem('name',               responseSessionInfo.webUser.name);  //justin 05/06/2018
+                                sessionStorage.setItem('usersid',            responseSessionInfo.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+                                sessionStorage.setItem('browsedefaultrows',  responseSessionInfo.webUser.browsedefaultrows);
+                                sessionStorage.setItem('applicationtheme',   responseSessionInfo.webUser.applicationtheme);
+                                sessionStorage.setItem('lastLoggedIn',       new Date().toLocaleTimeString());
+                                sessionStorage.setItem('serverVersion',      responseSessionInfo.serverVersion);
+                                sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
+                                sessionStorage.setItem('userType',           responseSessionInfo.webUser.usertype);
+                                sessionStorage.setItem('applicationtree',    JSON.stringify(responseSessionInfo.applicationtree));
+                                sessionStorage.setItem('clientCode',         responseSessionInfo.clientcode);
+                                sessionStorage.setItem('location',           JSON.stringify(responseSessionInfo.location));
+                                sessionStorage.setItem('defaultlocation',    JSON.stringify(responseSessionInfo.location));
+                                sessionStorage.setItem('warehouse',          JSON.stringify(responseSessionInfo.warehouse));
+                                sessionStorage.setItem('department',         JSON.stringify(responseSessionInfo.department));
+                                sessionStorage.setItem('webusersid',         responseSessionInfo.webUser.webusersid);
+                                sessionStorage.setItem('userid',             JSON.stringify(responseSessionInfo.webUser));
+                                jQuery('html').removeClass('theme-material');
+                                
+                                // run several AJAX calls in parallel
 
-                                                //J.Pace 08/14/2018 user's sound settings
-                                                FwAppData.apiMethod(true, 'GET', `api/v1/usersettings/${responseOriginalApi.webUser.webusersid.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                    let sounds: any = {}, homePage: any = {};
-                                                    sounds.successSoundFileName      = response.SuccessSoundFileName;
-                                                    sounds.errorSoundFileName        = response.ErrorSoundFileName;
-                                                    sounds.notificationSoundFileName = response.NotificationSoundFileName;
-                                                    homePage.guid = response.HomeMenuGuid;
-                                                    homePage.path = response.HomeMenuPath;
-                                                    sessionStorage.setItem('sounds', JSON.stringify(sounds));
-                                                    sessionStorage.setItem('homePage', JSON.stringify(homePage));
+                                const promiseGetUserSettings = FwAjax.callWebApi<any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/usersettings/${responseSessionInfo.webUser.webusersid}`,
+                                    $elementToBlock: $loginWindow
+                                });
 
-                                                    // Get custom fields and assign to session storage
-                                                    FwAppData.apiMethod(true, 'GET', 'api/v1/customfield/', null, FwServices.defaultTimeout, function onSuccess(response) {
-                                                        var customFields = [];
-                                                        //var customFieldsBrowse = [];
-                                                        for (let i = 0; i < response.length; i++) {
-                                                            if (customFields.indexOf(response[i].ModuleName) === -1) {
-                                                                customFields.push(response[i].ModuleName);
-                                                            }
-                                                            //if (response[i].ShowInBrowse && customFieldsBrowse.indexOf(response[i].ModuleName) === -1) {
-                                                            //    var customFieldObject = {
-                                                            //        'moduleName':  response[i].ModuleName,
-                                                            //        'fieldName':   response[i].FieldName,
-                                                            //        'browsewidth': response[i].BrowseSizeInPixels,
-                                                            //        'digits':      response[i].FloatDecimalDigits,
-                                                            //        'datatype':    response[i].ControlType
-                                                            //    };
-                                                            //    customFieldsBrowse.push(customFieldObject);
-                                                            //}
-                                                        }
-                                                        sessionStorage.setItem('customFields', JSON.stringify(customFields));
-                                                        //sessionStorage.setItem('customFieldsBrowse', JSON.stringify(customFieldsBrowse));
-                                                        let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+                                const promiseGetCustomFields = FwAjax.callWebApi<any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/customfield`,
+                                    $elementToBlock: $loginWindow
+                                });
 
-                                                        if (homePagePath !== null && homePagePath !== '' && homePagePath !== 'undefined' && homePagePath !== 'module/home') {
-                                                            program.navigate(`${homePagePath}`);
-                                                        } else {
-                                                            program.navigate('home');
-                                                        }
-                                                    }, function onError(response) {
-                                                        FwFunc.showError(response);
-                                                        program.navigate('home');
-                                                    }, null);
-
-                                                }, function onError(response) {
-                                                    FwFunc.showError(response);
-                                                }, null);
-
-                                                //Load custom forms
-                                                let customformrequest: any = {};
-                                                customformrequest.uniqueids = {
-                                                    WebUserId: responseOriginalApi.webUser.webusersid.webusersid
-                                                };
-                                                FwAppData.apiMethod(true, 'POST', `api/v1/assignedcustomform/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
-                                                    const baseFormIndex = response.ColumnIndex.BaseForm;
-                                                    const customFormIdIndex = response.ColumnIndex.CustomFormId;
-                                                    const htmlIndex = response.ColumnIndex.Html;
-                                                    let activeCustomForms: any = [];
-                                                    for (let i = 0; i < response.Rows.length; i++) {
-                                                        const customForm = response.Rows[i];
-                                                            let baseform = customForm[baseFormIndex];
-                                                            activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex] });
-                                                            jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
-                                                    }
-                                                    if (activeCustomForms.length > 0) {
-                                                        sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
-                                                    }
-                                                }, function onError(response) {
-                                                    FwFunc.showError(response);
-                                                    }, null);
-
-                                                //Load browse active views
-                                                customformrequest.uniqueids.OfficeLocationId = responseOriginalApi.webUser.location.locationid;
-                                                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, customformrequest, FwServices.defaultTimeout, function onSuccess(response) {
-                                                    const moduleNameIndex = response.ColumnIndex.ModuleName;
-                                                    const activeViewFieldsIndex = response.ColumnIndex.ActiveViewFields;
-                                                    const idIndex = response.ColumnIndex.Id;
-                                                    for (let i = 0; i < response.Rows.length; i++) {
-                                                        let controller = `${response.Rows[i][moduleNameIndex]}Controller`;
-                                                        window[controller].ActiveViewFields = JSON.parse(response.Rows[i][activeViewFieldsIndex]);
-                                                        window[controller].ActiveViewFieldsId = response.Rows[i][idIndex];
-                                                    }
-                                                },
-                                                    function onError(response) {
-                                                    FwFunc.showError(response);
-                                                }, null);
-
-                                            } else if (responseOriginalApi.errNo !== 0) {
-                                                $loginWindow.find('.errormessage').html('').html(responseOriginalApi.errMsg).show();
-                                            } else if (typeof responseOriginalApi.authToken === 'undefined') {
-                                                if (applicationConfig.debugMode) {
-                                                    $loginWindow.find('.errormessage').html('').html('FwServices.account.getAuthToken: responseOriginalApi.authToken is undefined.').show();
-                                                } else {
-                                                    $loginWindow.find('.errormessage').html('').html('There is an issue with the authorization token.').show();
-                                                }
-                                            }
+                                const promiseGetCustomForms = FwAjax.callWebApi<any>({
+                                    httpMethod: 'POST',
+                                    url: `${applicationConfig.apiurl}api/v1/assignedcustomform/browse`,
+                                    $elementToBlock: $loginWindow,
+                                    data: {
+                                        uniqueids: {
+                                            WebUserId: responseSessionInfo.webUser.webusersid
                                         }
-                                    } catch (ex) {
-                                        FwFunc.showError(ex);
                                     }
                                 });
-                            } else if (responseRestApi.statuscode !== 0) {
-                                $loginWindow.find('.errormessage').html('').html(responseRestApi.statusmessage).show();
+
+                                // wait for all the queries to finish
+                                await Promise.all([promiseGetUserSettings, promiseGetCustomFields, promiseGetCustomForms])
+                                    .then((values: any) => {
+                                        const responseGetUserSettings = values[0];
+                                        let sounds: any = {}, homePage: any = {};
+                                        sounds.successSoundFileName      = responseGetUserSettings.SuccessSoundFileName;
+                                        sounds.errorSoundFileName        = responseGetUserSettings.ErrorSoundFileName;
+                                        sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
+                                        homePage.guid = responseGetUserSettings.HomeMenuGuid;
+                                        homePage.path = responseGetUserSettings.HomeMenuPath;
+                                        sessionStorage.setItem('sounds', JSON.stringify(sounds));
+                                        sessionStorage.setItem('homePage', JSON.stringify(homePage));
+
+                                        const responseGetCustomFields = values[1];
+                                        var customFields = [];
+                                        for (let i = 0; i < responseGetCustomFields.length; i++) {
+                                            if (customFields.indexOf(responseGetCustomFields[i].ModuleName) === -1) {
+                                                customFields.push(responseGetCustomFields[i].ModuleName);
+                                            }
+                                        }
+                                        sessionStorage.setItem('customFields', JSON.stringify(customFields));
+
+                                        const responseGetCustomForms = values[2];
+                                        let baseFormIndex = responseGetCustomForms.ColumnIndex.BaseForm;
+                                        let customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
+                                        let htmlIndex = responseGetCustomForms.ColumnIndex.Html;
+                                        let activeCustomForms: any = [];
+                                        for (let i = 0; i < responseGetCustomForms.Rows.length; i++) {
+                                            let customForm = responseGetCustomForms.Rows[i];
+                                            let baseform = customForm[baseFormIndex];
+                                            activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex] });
+                                            jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
+                                        }
+                                        if (activeCustomForms.length > 0) {
+                                            sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
+                                        }
+
+                                        // set redirectPath to navigate user to default home page, still need to go to the home page to run startup code if the user refreshes the browser
+                                        let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
+                                        if (homePagePath !== null && homePagePath !== '') {
+                                            sessionStorage.setItem('redirectPath', homePagePath);
+                                        }
+                                        program.navigate('home');
+                                    });
                             }
-                        }, null, $loginWindow);
+                            
+                        } else if (responseJwt.statuscode !== 0) {
+                            $loginWindow.find('.errormessage').html('').html(responseJwt.statusmessage).show();
+                        }
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
