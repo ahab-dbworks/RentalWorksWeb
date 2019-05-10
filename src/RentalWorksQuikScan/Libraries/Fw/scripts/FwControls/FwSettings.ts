@@ -1315,7 +1315,7 @@ class FwSettingsClass {
                 FwFunc.showError(ex);
             }
         } else {
-            throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
+            throw 'FwSettings.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
         $modulebtn
             .on('click', function () {
@@ -1372,7 +1372,7 @@ class FwSettingsClass {
                 FwFunc.showError(ex);
             }
         } else {
-            throw 'FwRibbon.generateStandardModuleBtn: ' + caption + ' caption is not defined in translation';
+            throw 'FwSettings.generateStandardModuleBtn: ' + caption + ' caption is not defined in translation';
         }
 
         $modulebtn
@@ -1399,10 +1399,11 @@ class FwSettingsClass {
                     FwFunc.showError(ex);
                 }
             })
-            ;
+        ;
 
         $menu.find('.menu').append($modulebtn);
     };
+    //----------------------------------------------------------------------------------------------
 }
 
 var FwSettings = new FwSettingsClass();

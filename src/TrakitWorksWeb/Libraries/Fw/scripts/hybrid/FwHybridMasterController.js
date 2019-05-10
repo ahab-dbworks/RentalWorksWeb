@@ -195,7 +195,7 @@ FwHybridMasterController.generateMenuLinks = function($menu) {
     }
 
     $link      = FwHybridMasterController.generateLink($menu, 'Settings',    'theme/images/icons/128/preferences.png', 'account/preferences'); $menu.find('.menu-body-links').append($link);
-    $link      = FwHybridMasterController.generateLink($menu, 'Logoff',      'theme/images/icons/128/logoff.png',      'account/logoff');      $menu.find('.menu-body-links').append($link);
+    $link      = FwHybridMasterController.generateLink($menu, 'Logoff',      'theme/images/icons/128/logoff.png',      'logoff');      $menu.find('.menu-body-links').append($link);
 };
 //----------------------------------------------------------------------------------------------
 FwHybridMasterController.generateLink = function($menu, caption, imagesrc, nav) {

@@ -37,7 +37,7 @@ class FwAppData {
         clearTimeout(FwAppData.autoLogoutWarningTimeout);
         if (requiresAuthToken) {
             if (!FwAppData.verifyHasAuthToken()) {
-                program.navigate('account/login');
+                program.navigate('login');
                 return;
             }
             if (!useWebApi) {

@@ -27,7 +27,7 @@
     }
     //----------------------------------------------------------------------------------------------
     static showProgressBarOverlay($appendToElement, progressBarSessionId) {
-        let currentStep: number = 100;
+        let currentStep: number = 0;
         let totalSteps: number = 100;
         let caption: string;
         let percentage: any;
@@ -60,7 +60,7 @@
             jQuery.ajax(ajaxOptions)
                 .done(response => {
                     try {
-                        if (isNaN(response.CurrentStep) || undefined) {
+                        if ((isNaN(response.CurrentStep)) || (response.CurrentStep === 'undefined') || (response.CurrentStep === undefined)) {
                             caption = 'Processing...';
                             currentStep += 2.5;
                             $moduleoverlay.find('progress').val(100);
@@ -84,7 +84,7 @@
                         FwFunc.showError(ex);
                     }
 
-                    if (currentStep === totalSteps) {
+                    if (currentStep >= totalSteps) {
                         progressCompleted = true;
                         if (progressCompleted) {
                             clearInterval(handle);

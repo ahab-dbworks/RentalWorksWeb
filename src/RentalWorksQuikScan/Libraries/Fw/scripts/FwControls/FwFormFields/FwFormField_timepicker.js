@@ -17,7 +17,7 @@ var FwFormField_timepickerClass = (function () {
         var timepickerTimeFormat, inputmaskTimeFormat;
         html.push('<div class="fwformfield-caption">' + $control.attr('data-caption') + '</div>');
         html.push('<div class="fwformfield-control">');
-        html.push('<input class="fwformfield-value" id="timepicker" type="text" autocapitalize="none"');
+        html.push('<input class="fwformfield-value" type="text" autocapitalize="none"');
         if ($control.attr('data-enabled') === 'false') {
             html.push(' disabled="disabled"');
         }
@@ -25,24 +25,19 @@ var FwFormField_timepickerClass = (function () {
         html.push('<i class="material-icons btntime">schedule</i>');
         html.push('</div>');
         $control.html(html.join(''));
-        if ($control.attr('data-timeformat') === '24') {
-            $control.find('#timepicker').clockpicker({
-                autoclose: true, donetext: 'Done', afterDone: function () {
-                    $control.find('input').focus();
-                }
-            });
-        }
-        else {
-            $control.find('#timepicker').clockpicker({
-                autoclose: true, twelvehour: true, donetext: 'Done', afterDone: function () {
-                    $control.find('input').focus();
-                }
-            });
-        }
-        $control.find('input').off();
-        $control.find('.btntime').click(function (e) {
-            e.stopPropagation();
-            $control.find('#timepicker').clockpicker('show').clockpicker('toggleView', 'hours');
+        $control.find('.fwformfield-value').clockpicker({
+            autoclose: true,
+            twelvehour: ($control.attr('data-timeformat') !== '24') ? true : false,
+            donetext: 'Done',
+            afterDone: function () {
+                $control.find('input').focus();
+            }
+        }).off();
+        $control.on('click', '.btntime', function (e) {
+            if ($control.attr('data-enabled') === 'true') {
+                e.stopPropagation();
+                $control.find('.fwformfield-value').clockpicker('show').clockpicker('toggleView', 'hours');
+            }
         });
     };
     FwFormField_timepickerClass.prototype.loadItems = function ($control, items, hideEmptyItem) {
@@ -59,8 +54,6 @@ var FwFormField_timepickerClass = (function () {
     };
     FwFormField_timepickerClass.prototype.getValue2 = function ($fwformfield) {
         var value = $fwformfield.find('.fwformfield-value').val();
-        $fwformfield.closest('.fwform').find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
-        $fwformfield.closest('.fwform').attr('data-modified', 'true');
         return value;
     };
     FwFormField_timepickerClass.prototype.setValue = function ($fwformfield, value, text, firechangeevent) {

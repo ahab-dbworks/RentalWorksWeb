@@ -394,7 +394,7 @@ class FwApplication {
             this.screens[0] = screen;
 
             var $applicationContainer = jQuery('#application');
-            if ((jQuery('#master').length == 0) && (sessionStorage.getItem('authToken') != null)) {
+            if ((jQuery('#master').length == 0) && FwAppData.verifyHasAuthToken()) {
                 $applicationContainer.empty().append(masterController.getMasterView()).removeClass('hidden');
             }
 
@@ -427,7 +427,7 @@ class FwApplication {
     };
     //---------------------------------------------------------------------------------
     loadDefaultPage() {
-        if (sessionStorage.getItem('authToken')) {
+        if (FwAppData.verifyHasAuthToken()) {
             if (window.location.hash.replace('#/', '') !== '' && window.location.hash.replace('#/', '') !== 'home') {
                 sessionStorage.setItem('redirectPath', window.location.hash.replace('#/', ''));
             }

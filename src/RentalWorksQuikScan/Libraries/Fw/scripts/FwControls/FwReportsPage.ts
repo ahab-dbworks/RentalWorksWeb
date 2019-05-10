@@ -377,7 +377,7 @@
                 FwFunc.showError(ex);
             }
         } else {
-            throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
+            throw 'FwReportsPage.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
 
         $modulebtn
@@ -435,7 +435,7 @@
                 FwFunc.showError(ex);
             }
         } else {
-            throw 'FwRibbon.generateStandardModuleBtn: ' + caption + ' caption is not defined in translation';
+            throw 'FwReportsPage.generateStandardModuleBtn: ' + caption + ' caption is not defined in translation';
         }
 
         $modulebtn
