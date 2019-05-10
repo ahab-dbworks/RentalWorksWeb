@@ -16,8 +16,8 @@ namespace WebApi.Modules.Reports.SalesInventoryMasterReport
     public class SalesInventoryMasterReportRequest : AppReportRequest
     {
         public bool? IncludePeriodRevenue { get; set; }
-        public DateTime RevenueFromDate { get; set; }
-        public DateTime RevenueToDate { get; set; }
+        public DateTime? RevenueFromDate { get; set; }
+        public DateTime? RevenueToDate { get; set; }
         public string RevenueFilterMode { get; set; } = "ALL";  // ALL/LT/GT
         public decimal? RevenueFilterAmount { get; set; }
         public string WarehouseId { get; set; }
