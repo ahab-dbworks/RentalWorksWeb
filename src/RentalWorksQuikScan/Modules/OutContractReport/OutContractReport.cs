@@ -34,7 +34,10 @@ namespace RentalWorksQuikScan.Modules
                 throw new ArgumentException("From email address is required.");
             }
             string webApiBaseUrl = Fw.Json.ValueTypes.FwApplicationConfig.CurrentSite.WebApi.Url.TrimEnd(new char[] { '/' }) + "/"; // mv 2018-06-26 
-
+            if (string.IsNullOrEmpty(webApiBaseUrl))
+            {
+                throw new Exception("Unable to send email. WebApi url has not been configured.");
+            }
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(webApiBaseUrl);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
