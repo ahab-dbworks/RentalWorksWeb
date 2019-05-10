@@ -16,12 +16,12 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Invoice No.</th>
-        <th class="text">Order No.</th>
-        <th class="text">Order Description</th>
-        <th class="text">Bill Start</th>
-        <th class="text">Bill End</th>
-        <th class="text">Billing Cycle</th>
+        <th>Invoice No.</th>
+        <th>Order No.</th>
+        <th>Order Description</th>
+        <th>Bill Start</th>
+        <th>Bill End</th>
+        <th>Billing Cycle</th>
         <th class="number">Total</th>
         <th class="number">Prior Invoice</th>
       </tr>
@@ -30,27 +30,27 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="name-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
          {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="dep-row">Department: {{Department}}</td>
+        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="5" class="deal-row">Deal: {{Deal}}</td>
+        <td colspan="5" class=" lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
           {{#if IsException}}
-          <td class="text" data-value="{{InvoiceNumber}}"></td>
-          <td class="text" data-value="{{OrderNumber}}"></td>
-          <td class="text" data-value="{{OrderDescription}}"></td>
-          <td colspan="5" class="text" data-value="{{ExceptionMessage}}"></td>
+          <td data-value="{{InvoiceNumber}}"></td>
+          <td data-value="{{OrderNumber}}"></td>
+          <td data-value="{{OrderDescription}}"></td>
+          <td colspan="5" data-value="{{ExceptionMessage}}"></td>
           {{else}}
-          <td class="text" data-value="{{InvoiceNumber}}"></td>
-          <td class="text" data-value="{{OrderNumber}}"></td>
-          <td class="text" data-value="{{OrderDescription}}"></td>
-          <td class="text" data-value="{{BillingStart}}"></td>
-          <td class="text" data-value="{{BillingEnd}}"></td>
-          <td class="text" data-value="{{BillingCycle}}"></td>
+          <td data-value="{{InvoiceNumber}}"></td>
+          <td data-value="{{OrderNumber}}"></td>
+          <td data-value="{{OrderDescription}}"></td>
+          <td data-value="{{BillingStart}}"></td>
+          <td data-value="{{BillingEnd}}"></td>
+          <td data-value="{{BillingCycle}}"></td>
           <td class="number" data-value="{{InvoiceTotal}}"></td>
           <td class="number" data-value="{{PriorInvoiceTotal}}"></td>
           {{/if}}
@@ -61,7 +61,7 @@
         <th class="empty"></th>
         <th class="empty"></th>
         <th class="empty"></th>
-        <th class="office-footer text">Department</th>
+        <th class="office-footer">Department</th>
         <th class="office-footer number">Amount</th>
         <th class="office-footer number">Created</th>
         <th class="office-footer number">Exceptions</th>
@@ -72,7 +72,7 @@
         <td class="empty"></td>
         <td class="empty"></td>
         <td class="empty"></td>
-        <td class="text" data-value="{{Department}}"></td>
+        <td data-value="{{Department}}"></td>
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         <td class="number" data-value="{{InvoiceCount}}"></td>
         <td class="number" data-value="{{ExceptionCount}}"></td>
