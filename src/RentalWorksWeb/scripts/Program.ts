@@ -39,6 +39,42 @@ jQuery(function () {
     }
 });
 //---------------------------------------------------------------------------------
+routes.push({
+    pattern: /^home$/,
+    action: function (match: RegExpExecArray) {
+        program.screens = [];
+        if (FwAppData.verifyHasAuthToken()) {
+            return RwHomeController.getHomeScreen();
+        } else {
+            program.navigate('default');
+        }
+    }
+});
+routes.push({
+    pattern: /^default/,
+    action: function (match: RegExpExecArray) {
+        return RwBaseController.getDefaultScreen();
+    }
+});
+routes.push({
+    pattern: /^login$/,
+    action: function (match: RegExpExecArray) {
+        if (!FwAppData.verifyHasAuthToken()) {
+            return RwBaseController.getLoginScreen();
+        } else {
+            program.navigate('home');
+            return null;
+        }
+    }
+});
+routes.push({
+    pattern: /^logoff$/,
+    action: function (match: RegExpExecArray) {
+        sessionStorage.clear();
+        location.reload(false);
+        return null;
+    }
+});
 //---------------------------------------------------------------------------------
 //Home Modules
 routes.push({ pattern: /^module\/assignbarcodes$/, action: function (match: RegExpExecArray) { return AssignBarCodesController.getModuleScreen(); } });
@@ -238,34 +274,6 @@ routes.push({ pattern: /^module\/reports$/, action: function (match: RegExpExecA
 //routes.push({ pattern: /^module\/example$/, action: function (match: RegExpExecArray) { return RwExampleController.getModuleScreen(); } });
 //---------------------------------------------------------------------------------
 routes.push({
-    pattern: /^home$/,
-    action: function (match: RegExpExecArray) {
-        program.screens = [];
-        if (FwAppData.verifyHasAuthToken()) {
-            return RwHomeController.getHomeScreen();
-        } else {
-            program.navigate('default');
-        }
-    }
-});
-routes.push({
-    pattern: /^default/,
-    action: function (match: RegExpExecArray) {
-        return RwBaseController.getDefaultScreen();
-    }
-});
-routes.push({
-    pattern: /^login$/,
-    action: function (match: RegExpExecArray) {
-        if (!sessionStorage.getItem('authToken')) {
-            return RwBaseController.getLoginScreen();
-        } else {
-            program.navigate('home');
-            return null;
-        }
-    }
-});
-routes.push({
     pattern: /^about/,
     action: function (match: RegExpExecArray) {
         return RwBaseController.getAboutScreen();
@@ -283,11 +291,4 @@ routes.push({
         return RwBaseController.getPasswordRecoveryScreen();
     }
 });
-routes.push({
-    pattern: /^logoff$/,
-    action: function (match: RegExpExecArray) {
-        sessionStorage.clear();
-        location.reload(false);
-        return null;
-    }
-});
+
