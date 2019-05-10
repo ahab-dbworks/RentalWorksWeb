@@ -1150,26 +1150,6 @@
     </Compile>
     <Compile Include="Integration\QBOIntegration\QBOIntegrationData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\AccountService.cs" />
-    <Compile Include="Source\Grids\AuditHistory.cs" />
-    <Compile Include="Source\RwAppData.cs" />
-    <Compile Include="Source\RwService.cs" />
-    <Compile Include="Source\RwServiceRouting.cs" />
-    <Compile Include="Source\RwUserRoles.cs" />
-    <Compile Include="Source\Validations\BatchARValidation\BatchARValidation.cs" />
-    <Compile Include="Source\Validations\BatchInvoicesValidation\BatchInvoicesValidation.cs" />
-    <Compile Include="Source\Validations\BatchVendorInvoiceValidation\BatchVendorInvoiceValidation.cs" />
-    <Compile Include="Source\Validations\CompanyDepartmentValidation\CompanyDepartmentValidation.cs" />
-    <Compile Include="Source\Validations\ICodeValidation\ICodeValidation.cs" />
-    <Compile Include="Source\Validations\PersonnelTypeValidation\PersonnelTypeValidation.cs" />
-    <Compile Include="Source\Validations\OrderUnitValidation\OrderUnitValidation.cs" />
-    <Compile Include="Source\Validations\EventValidation\EventValidation.cs" />
-    <Compile Include="Source\Validations\LanguageValidation\LanguageValidation.cs" />
-    <Compile Include="Source\Validations\OrderTypeValidation\OrderTypeValidation.cs" />
-    <Compile Include="Source\Validations\PayTypeValidation\PayTypeValidation.cs" />
-    <Compile Include="Source\Validations\UserOfficeLocationValidation\UserOfficeLocationValidation.cs" />
-    <Compile Include="Source\Validations\UserWarehouseValidation\UserWarehouseValidation.cs" />
-    <Compile Include="Source\Validations\WebUsersEmailValidation\WebUsersEmailValidation.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Application.sample.config" />

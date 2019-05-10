@@ -623,11 +623,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Source\AccountService.cs" />
-    <Compile Include="Source\AppData.cs" />
-    <Compile Include="Source\Service.cs" />
-    <Compile Include="Source\ServiceRouting.cs" />
-    <Compile Include="Source\UserRoles.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Application.sample.config" />

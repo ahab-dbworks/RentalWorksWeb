@@ -15,16 +15,7 @@ namespace Web
 
         protected void Application_Start(object sender, EventArgs e)
         {
-            FwFunc.WriteLog("Begin Application Start");
-            AccountService.Current = new AccountService();
-            //string pathFwApplicationSchema = this.Server.MapPath("FwApplicationSchema.config");
-            //FwApplicationSchema.Load(pathFwApplicationSchema);
-            FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
-            FwReport.AddLicense();
-            SqlServerConfig sqlServerConfig = new SqlServerConfig();
-            sqlServerConfig.ConnectionString = FwSqlConnection.RentalWorks.ConnectionString;
-            FwSecurityTree.Tree = new SecurityTree(sqlServerConfig, "{0A5F2584-D239-480F-8312-7C2B552A30BA}");
-            FwFunc.WriteLog("End Application Start");
+
         }
 
         protected void Session_Start(object sender, EventArgs e)
