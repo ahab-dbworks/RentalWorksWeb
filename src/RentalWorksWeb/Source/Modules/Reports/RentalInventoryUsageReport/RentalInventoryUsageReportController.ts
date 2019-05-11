@@ -122,6 +122,7 @@ class RentalInventoryUsageReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         console.log('params', parameters)
+
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
