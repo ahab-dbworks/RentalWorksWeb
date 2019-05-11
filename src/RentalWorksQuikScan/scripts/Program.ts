@@ -278,7 +278,7 @@ class Program extends FwApplication {
             }
             if (!foundroute) {
                 switch (path.toLowerCase()) {
-                    case 'account/login':
+                    case 'login':
                         if (!sessionStorage.getItem('authToken')) {
                             screen = RwAccountController.getLoginScreen({}, {});
                         } else {
@@ -396,7 +396,7 @@ class Program extends FwApplication {
                         FwApplicationTree.tree = null;
                         sessionStorage.clear();
                         me.screens = [];
-                        me.navigate('account/login');
+                        me.navigate('login');
                         return;
                     case 'quote/quotemenu':
                         screen = RwQuoteMenu.getQuoteMenuScreen({}, {});
@@ -483,7 +483,7 @@ class Program extends FwApplication {
             } else if (sessionStorage.getItem('authToken')) {
                 me.navigate('home/home');
             } else {
-                me.navigate('account/login');
+                me.navigate('login');
             }
             jQuery('html').on('focus', '#scanBarcodeView-txtBarcodeData', function (e) {
                 jQuery('#scanBarcodeView .clearbarcode').hide();
