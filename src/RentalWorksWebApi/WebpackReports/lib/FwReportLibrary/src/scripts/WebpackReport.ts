@@ -12,6 +12,12 @@ export abstract class WebpackReport {
     renderProgress: number = 0;
 
     constructor() {
+        window.addEventListener('unload', (ev: Event) => {
+            ev.stopImmediatePropagation();
+            if (window.opener != null) {
+                window.opener.postMessage('ReportUnload', '*'); //sending message back to requesting page to notify new window is closed
+            }
+        });
         window.addEventListener('load', (ev: Event) => {
             const reportURL: any = ev.srcElement.baseURI;
             if (window.opener != null) {
