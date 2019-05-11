@@ -132,14 +132,32 @@ namespace WebApi.Modules.Reports.RentalInventoryUsageReport
                     select.AddWhereIn("masterid", request.InventoryId);
                     select.AddWhereIn("rank", request.Ranks.ToString(), false);
                     select.AddWhereIn("trackedby", request.TrackedBys.ToString());
-
-                    if (request.UtilizationFilterMode.Equals("LT"))
+                    if (request.FilterDatesByUtilizationPercent.GetValueOrDefault(true))
                     {
-                        select.AddWhere("usagepercent < " + request.UtilizationFilterAmount.ToString());
-                    }
-                    else if (request.UtilizationFilterMode.Equals("GT"))
-                    {
-                        select.AddWhere("usagepercent > " + request.UtilizationFilterAmount.ToString());
+                        if (request.UtilizationFilterMode.Equals("LT"))
+                        {
+                            select.AddWhere("usagepercent < " + request.UtilizationFilterAmount.ToString());
+                        }
+                        else if (request.UtilizationFilterMode.Equals("LTE"))
+                        {
+                            select.AddWhere("usagepercent <= " + request.UtilizationFilterAmount.ToString());
+                        }
+                        else if (request.UtilizationFilterMode.Equals("GT"))
+                        {
+                            select.AddWhere("usagepercent > " + request.UtilizationFilterAmount.ToString());
+                        }
+                        else if (request.UtilizationFilterMode.Equals("GTE"))
+                        {
+                            select.AddWhere("usagepercent >= " + request.UtilizationFilterAmount.ToString());
+                        }
+                        else if (request.UtilizationFilterMode.Equals("EQ"))
+                        {
+                            select.AddWhere("usagepercent = " + request.UtilizationFilterAmount.ToString());
+                        }
+                        else if (request.UtilizationFilterMode.Equals("ALL"))
+                        {
+                            select.AddWhere("usagepercent = " + request.UtilizationFilterAmount.ToString()); // unsure of filter here
+                        }
                     }
 
                     if (request.ExcludeZeroOwned.GetValueOrDefault(false))

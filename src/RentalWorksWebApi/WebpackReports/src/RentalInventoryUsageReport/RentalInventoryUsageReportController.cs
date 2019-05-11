@@ -26,6 +26,7 @@ namespace WebApi.Modules.Reports.RentalInventoryUsageReport
         public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
         public bool? ExcludeZeroOwned { get; set; }
+        public bool? FilterDatesByUtilizationPercent { get; set; }
         public bool? OnlyIncludeItemsThatAreTheMainItemOfAComplete { get; set; }
     }
     [Route("api/v1/[controller]")]

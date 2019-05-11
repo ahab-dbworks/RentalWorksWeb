@@ -45,9 +45,9 @@ const rentalInventoryUsageTemplate = `
                   <div data-datafield="OnlyIncludeItemsThatAreTheMainItemOfAComplete" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include Items That Are The Main Item Of A Complete" style="float:left;max-width:420px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer flexrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDates" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter By Utilization Percent" style="flex:0 1 180px;"></div>
-                  <div data-datafield="UtilizationFilterMode" data-control="FwFormField" data-type="select" class="fwcontrol fwformfield " data-caption="" style="flex:0 1 65px;"></div>
-                  <div data-datafield="UtilizationFilterAmount" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption="" style="flex:0 1 53px;"></div>
+                  <div data-datafield="FilterDatesByUtilizationPercent" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter By Utilization Percent" style="flex:0 1 180px;"></div>
+                  <div data-datafield="UtilizationFilterMode" data-control="FwFormField" data-type="select" class="fwcontrol fwformfield " data-caption="" data-enabled="false" style="flex:0 1 65px;"></div>
+                  <div data-datafield="UtilizationFilterAmount" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-caption=""  data-enabled="false" style="flex:0 1 53px;"></div>
                 </div>
               </div>
             </div>
@@ -118,6 +118,17 @@ class RentalInventoryUsageReportClass extends FwWebApiReport {
             { value: 'GTE', text: '>=' },
             { value: 'LTE', text: '<=' }
         ], true);
+
+        const filterDates = $form.find('div[data-datafield="FilterDatesByUtilizationPercent"] input');
+        filterDates.on('change', e => {
+            if (jQuery(e.currentTarget).prop('checked')) {
+                FwFormField.enable($form.find('div[data-datafield="UtilizationFilterMode"]'));
+                FwFormField.enable($form.find('div[data-datafield="UtilizationFilterAmount"]'));
+            } else {
+                FwFormField.disable($form.find('div[data-datafield="UtilizationFilterMode"]'));
+                FwFormField.disable($form.find('div[data-datafield="UtilizationFilterAmount"]'));
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
