@@ -171,6 +171,7 @@
     <TypeScriptCompile Include="%40types\Fw\index.d.ts" />
     <TypeScriptCompile Include="%40types\JQuery\index.d.ts" />
     <TypeScriptCompile Include="%40types\Web\index.d.ts" />
+    <TypeScriptCompile Include="%40types\Window\index.d.ts" />
     <TypeScriptCompile Include="scripts\Constants.ts" />
     <TypeScriptCompile Include="scripts\DefaultApplicationConfig.ts" />
     <TypeScriptCompile Include="scripts\Program.ts" />
