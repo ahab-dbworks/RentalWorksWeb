@@ -105,70 +105,53 @@
 
         $officelocation.on('click', function () {
             try {
-                var userlocation   = JSON.parse(sessionStorage.getItem('location'));
-                var userwarehouse  = JSON.parse(sessionStorage.getItem('warehouse'));
+                var userlocation = JSON.parse(sessionStorage.getItem('location'));
+                var userwarehouse = JSON.parse(sessionStorage.getItem('warehouse'));
                 var userdepartment = JSON.parse(sessionStorage.getItem('department'));
-                var $confirmation  = FwConfirmation.renderConfirmation('Select an Office Location', '');
-                var $select        = FwConfirmation.addButton($confirmation, 'Select', false);
-                var $cancel        = FwConfirmation.addButton($confirmation, 'Cancel', true);
+                var $confirmation = FwConfirmation.renderConfirmation('Select an Office Location', '');
+                const $select = FwConfirmation.addButton($confirmation, 'Select', false);
+                var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
 
                 FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation"></div>
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation" data-required="true"></div>
                                                              </div>
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId"></div>
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId" data-required="true"></div>
                                                              </div>
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-boundfields="WarehouseId"></div>
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-validationname="DepartmentValidation" data-boundfields="WarehouseId" data-required="true"></div>
                                                              </div>
                                                            </div>`);
 
-                FwFormField.setValue($confirmation, 'div[data-datafield="OfficeLocationId"]', userlocation.locationid, userlocation.location);
-                FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', userwarehouse.warehouseid, userwarehouse.warehouse);
-                FwFormField.setValue($confirmation, 'div[data-datafield="Department"]', userdepartment.departmentid, userdepartment.department);
+                FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', userlocation.locationid, userlocation.location);
+                FwFormField.setValueByDataField($confirmation, 'WarehouseId', userwarehouse.warehouseid, userwarehouse.warehouse);
+                FwFormField.setValueByDataField($confirmation, 'DepartmentId', userdepartment.departmentid, userdepartment.department);
 
                 $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
                     FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', '', '');
                 });
 
-                $select.on('click', function () {
+                $select.on('click', async () => {
                     try {
-                        var valid      = true;
-                        var location   = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
-                        var warehouse  = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
-                        var department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
-                        if (location === '') {
-                            $confirmation.find('div[data-datafield="OfficeLocationId"]').addClass('error');
-                            valid = false;
-                        }
-                        if (warehouse === '') {
-                            $confirmation.find('div[data-datafield="WarehouseId"]').addClass('error');
-                            valid = false;
-                        }
-                        if (department === '') {
-                            $confirmation.find('div[data-datafield="Department"]').addClass('error');
-                            valid = false;
-                        }
+                        let valid = FwModule.validateForm($confirmation);
                         if (valid) {
-                            var request = {
-                                location:   location,
-                                warehouse:  warehouse,
-                                department: department,
-                                userid:     userid.webusersid
-                            };
-                            RwServices.session.updatelocation(request, function (response) {
-                                sessionStorage.setItem('authToken', response.authToken);
-                                sessionStorage.setItem('location', JSON.stringify(response.location));
-                                sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
-                                sessionStorage.setItem('department', JSON.stringify(response.department));
-                                sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
-                                FwConfirmation.destroyConfirmation($confirmation);
-
-                                program.navigate('home');
-                                $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
-                                $usercontrol.find('.officelocation .value').text(response.location.location);
+                            const locationid = FwFormField.getValueByDataField($confirmation, 'OfficeLocationId');
+                            const warehouseid = FwFormField.getValueByDataField($confirmation, 'WarehouseId');
+                            const departmentid = FwFormField.getValueByDataField($confirmation, 'DepartmentId');
+                            
+                            // Ajax: Get Office Location Info
+                            const responseGetOfficeLocationInfo = await FwAjax.callWebApi<any>({
+                                httpMethod: 'GET',
+                                url: `${applicationConfig.apiurl}api/v1/account/officelocation?locationid=${locationid}&warehouseid=${warehouseid}&departmentid=${departmentid}`,
+                                $elementToBlock: $confirmation
                             });
+                            
+                            sessionStorage.setItem('location', JSON.stringify(responseGetOfficeLocationInfo.location));
+                            sessionStorage.setItem('warehouse', JSON.stringify(responseGetOfficeLocationInfo.warehouse));
+                            sessionStorage.setItem('department', JSON.stringify(responseGetOfficeLocationInfo.department));
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            window.location.reload(false);
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);

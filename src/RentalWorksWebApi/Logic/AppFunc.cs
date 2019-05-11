@@ -429,7 +429,7 @@ namespace WebApi.Logic
                     await qry.ExecuteAsync();
                     response.locationid = qry.GetField("locationid").ToString().TrimEnd();
                     response.location = qry.GetField("location").ToString().TrimEnd();
-                    response.locationcolor = qry.GetField("locationcolor").ToString().TrimEnd();
+                    response.locationcolor = qry.GetField("locationcolor").ToHtmlColor();
                 }
             }
             return response;

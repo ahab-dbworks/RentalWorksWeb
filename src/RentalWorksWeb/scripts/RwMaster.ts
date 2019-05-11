@@ -126,100 +126,44 @@
 
                 FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation"></div>
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-validationname="OfficeLocationValidation" data-required="true"></div>
                                                              </div>
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId"></div>
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-formbeforevalidate="beforeValidateWarehouse" data-datafield="WarehouseId" data-validationname="WarehouseValidation" data-boundfields="OfficeLocationId" data-required="true"></div>
                                                              </div>
                                                              <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="Department" data-validationname="DepartmentValidation" data-boundfields="WarehouseId"></div>
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-validationname="DepartmentValidation" data-boundfields="WarehouseId" data-required="true"></div>
                                                              </div>
                                                            </div>`);
 
-                FwFormField.setValue($confirmation, 'div[data-datafield="OfficeLocationId"]', userlocation.locationid, userlocation.location);
-                FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', userwarehouse.warehouseid, userwarehouse.warehouse);
-                FwFormField.setValue($confirmation, 'div[data-datafield="Department"]', userdepartment.departmentid, userdepartment.department);
+                FwFormField.setValueByDataField($confirmation, 'OfficeLocationId', userlocation.locationid, userlocation.location);
+                FwFormField.setValueByDataField($confirmation, 'WarehouseId', userwarehouse.warehouseid, userwarehouse.warehouse);
+                FwFormField.setValueByDataField($confirmation, 'DepartmentId', userdepartment.departmentid, userdepartment.department);
 
                 $confirmation.find('[data-datafield="OfficeLocationId"]').data('onchange', e => {
                     FwFormField.setValue($confirmation, 'div[data-datafield="WarehouseId"]', '', '');
                 });
                 // select button within location confirmation prompt
-                $select.on('click', function () {
+                $select.on('click', async () => {
                     try {
-                        let valid = true;
-                        const location = FwFormField.getValue($confirmation, 'div[data-datafield="OfficeLocationId"]');
-                        const warehouse = FwFormField.getValue($confirmation, 'div[data-datafield="WarehouseId"]');
-                        const department = FwFormField.getValue($confirmation, 'div[data-datafield="Department"]');
-                        if (location === '') {
-                            $confirmation.find('div[data-datafield="OfficeLocationId"]').addClass('error');
-                            valid = false;
-                        }
-                        if (warehouse === '') {
-                            $confirmation.find('div[data-datafield="WarehouseId"]').addClass('error');
-                            valid = false;
-                        }
-                        if (department === '') {
-                            $confirmation.find('div[data-datafield="Department"]').addClass('error');
-                            valid = false;
-                        }
+                        let valid = FwModule.validateForm($confirmation);
                         if (valid) {
-                            const request = {
-                                location: location,
-                                warehouse: warehouse,
-                                department: department,
-                                userid: userid.webusersid
-                            };
-                            FwAppData.jsonPost(true, 'services.ashx?path=/session/updatelocation', request, FwServices.defaultTimeout, function (response: any) {
-                                sessionStorage.setItem('authToken', response.authToken);
-                                sessionStorage.setItem('location', JSON.stringify(response.location));
-                                sessionStorage.setItem('warehouse', JSON.stringify(response.warehouse));
-                                sessionStorage.setItem('department', JSON.stringify(response.department));
-                                sessionStorage.setItem('userid', JSON.stringify(response.webusersid));
-                                FwConfirmation.destroyConfirmation($confirmation);
-
-                                const activeViewRequest: any = {};
-                                activeViewRequest.uniqueids = {
-                                    WebUserId: userid.webusersid
-                                }
-                                FwAppData.apiMethod(true, 'POST', `api/v1/browseactiveviewfields/browse`, activeViewRequest, FwServices.defaultTimeout, function onSuccess(r) {
-                                    //clear out browseactivefields for old location
-                                    const moduleNameIndex = r.ColumnIndex.ModuleName;
-                                    const officeLocationIdIndex = r.ColumnIndex.OfficeLocationId;
-                                    const activeViewsToReset = r.Rows
-                                        .filter(x => x[officeLocationIdIndex] === userlocation.locationid)
-                                        .map(x => x[moduleNameIndex]);
-                                    for (let i = 0; i < activeViewsToReset.length; i++) {
-                                        const controller = `${activeViewsToReset[i]}Controller`;
-                                        window[controller].ActiveViewFields = {};
-                                        window[controller].ActiveViewFieldsId = undefined;
-                                    }
-
-                                    //apply browseactivefields to new location
-                                    const activeViewFieldsIndex = r.ColumnIndex.ActiveViewFields;
-                                    const idIndex = r.ColumnIndex.Id;
-                                    const activeViewsToApply = r.Rows.filter(x => x[officeLocationIdIndex] === response.location.locationid)
-                                    for (let i = 0; i < activeViewsToApply.length; i++) {
-                                        const item = activeViewsToApply[i];
-                                        const controller = `${item[moduleNameIndex]}Controller`;
-                                        window[controller].ActiveViewFields = JSON.parse(item[activeViewFieldsIndex]);
-                                        window[controller].ActiveViewFieldsId = item[idIndex];
-                                    }
-
-                                    program.getModule('home');
-                                    $usercontrol.find('.officelocation .locationcolor').css('background-color', response.location.locationcolor);
-                                    $usercontrol.find('.officelocation .value').text(response.location.location);
-                                    // colors navigation header for a non-default user location. Corresponding code in WebMaster.getMasterView() for app refresh
-                                    if (response.location.location !== defaultLocation.location) {
-                                        const nonDefaultStyles = { borderTop: `.3em solid ${response.location.locationcolor}`, borderBottom: `.3em solid ${response.location.locationcolor}` };
-                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(nonDefaultStyles);
-                                    } else {
-                                        const defaultStyles = { borderTop: `transparent`, borderBottom: `1px solid #9E9E9E` };
-                                        jQuery('#master-header').find('div[data-control="FwFileMenu"]').css(defaultStyles);
-                                    }
-                                }, function onError(r) {
-                                    FwFunc.showError(r);
-                                }, null);
-                            }, null, jQuery('body'));
+                            const locationid = FwFormField.getValueByDataField($confirmation, 'OfficeLocationId');
+                            const warehouseid = FwFormField.getValueByDataField($confirmation, 'WarehouseId');
+                            const departmentid = FwFormField.getValueByDataField($confirmation, 'DepartmentId');
+                            
+                            // Ajax: Get Office Location Info
+                            const responseGetOfficeLocationInfo = await FwAjax.callWebApi<any>({
+                                httpMethod: 'GET',
+                                url: `${applicationConfig.apiurl}api/v1/account/officelocation?locationid=${locationid}&warehouseid=${warehouseid}&departmentid=${departmentid}`,
+                                $elementToBlock: $confirmation
+                            });
+                            
+                            sessionStorage.setItem('location', JSON.stringify(responseGetOfficeLocationInfo.location));
+                            sessionStorage.setItem('warehouse', JSON.stringify(responseGetOfficeLocationInfo.warehouse));
+                            sessionStorage.setItem('department', JSON.stringify(responseGetOfficeLocationInfo.department));
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            window.location.reload(false);
                         }
                     } catch (ex) {
                         FwFunc.showError(ex);
