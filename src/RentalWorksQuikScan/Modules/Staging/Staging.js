@@ -239,6 +239,13 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
                 orientation: 'right',
                 icon:        '&#xE5CC;', //chevron_right
                 state:       'staging',
+                isVisible: function () {
+                    var isVisible = false;
+                    if (sessionStorage.getItem('users_enablecreatecontract') !== null) {
+                        isVisible = (sessionStorage.getItem('users_enablecreatecontract') === 'T');
+                    }
+                    return isVisible;
+                },
                 buttonclick: function () {
                     try {
                         var request = {
