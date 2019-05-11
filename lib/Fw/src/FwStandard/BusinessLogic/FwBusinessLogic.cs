@@ -731,21 +731,27 @@ namespace FwStandard.BusinessLogic
                                     if (property.Name.Equals(fieldName))
                                     {
                                         propertyFound = true;
-                                        var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
+                                        //var value = this.GetType().GetProperty(property.Name).GetValue(this, null);
+                                        object value = this.GetType().GetProperty(property.Name).GetValue(this);
+                                        object valueToCompare = null;
 
-                                        if (considerBlanks == false)
-                                        {
-                                            if (string.IsNullOrWhiteSpace(value.ToString()))
-                                            {
-                                                updatedFieldList.Remove(fieldName);
-                                                break;
-                                            }
-                                        }
+                                        //if (value != null)
+                                        //{
+                                        //    if (!considerBlanks)
+                                        //    {
+                                        //        if (string.IsNullOrWhiteSpace(value.ToString()))
+                                        //        {
+                                        //            updatedFieldList.Remove(fieldName);
+                                        //            break;
+                                        //        }
+                                        //    }
+                                        //}
 
                                         if (value != null)
                                         {
-                                            searchFieldVals.Add(value.ToString());
-                                            searchOperators.Add("=");
+                                            valueToCompare = value;
+                                            //searchFieldVals.Add(value.ToString());
+                                            //searchOperators.Add("=");
                                             int datatypeIndex = Array.IndexOf(fields, fieldName);
                                             searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
                                         }
@@ -754,20 +760,30 @@ namespace FwStandard.BusinessLogic
                                             if (saveMode == TDataRecordSaveMode.smUpdate)
                                             {
                                                 bool b = l2.LoadAsync<Type>(ids).Result;
-                                                var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
-                                                searchFieldVals.Add(databaseValue.ToString());
+                                                //var databaseValue = l2.GetType().GetProperty(property.Name).GetValue(l2, null);
+                                                //searchFieldVals.Add(databaseValue.ToString());
+                                                valueToCompare = l2.GetType().GetProperty(property.Name).GetValue(l2);
                                             }
                                             else
                                             {
                                                 searchFieldVals.Add("");
                                                 searchOperators.Add("=");
+                                                valueToCompare = "";
                                             }
                                         }
 
-                                        if (searchOperators.Count == searchFieldVals.Count)
+
+                                        if ((!string.IsNullOrWhiteSpace(valueToCompare.ToString())) || (considerBlanks))
                                         {
-                                            break;
+                                            searchFieldVals.Add(valueToCompare.ToString());
+                                            searchOperators.Add("=");
                                         }
+
+
+                                        //if (searchOperators.Count == searchFieldVals.Count)
+                                        //{
+                                        //    break;
+                                        //}
                                     }
                                 }
                             }

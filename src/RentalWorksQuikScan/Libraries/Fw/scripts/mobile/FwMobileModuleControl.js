@@ -95,7 +95,18 @@
         },
         _stateChange: function() {
             this._buttons.css('display', 'none');
-            this.$element.find('.btn[data-state="' + this._state + '"]').removeAttr('style');
+            for (var buttonno = 0; buttonno < this._options.buttons.length; buttonno++) {
+                var button = this._options.buttons[buttonno];
+                if (button.state === this._state) {
+                    var isVisible = true;
+                    if (typeof button.isVisible === 'function') {
+                        isVisible = button.isVisible();   
+                    }
+                    if (isVisible) {
+                        this.$element.find(`#${button.id}`).removeAttr('style');
+                    }
+                }
+            }
         },
         _toggleItemlistMenu: function (id) {
             var plugin = this;
@@ -103,6 +114,7 @@
             if ($menu.length) {
                 $menu.hide();
                 $menu.find('.menu-dropdown-btn').each(function(index, element) {
+                     // mv 5/6/19 needed to track the visible state this way for iPod 5 devices, since they were treating css 'display' as 'none' when the menu was 'display:none'
                     if (jQuery(this).data('visible') === true) {
                         $menu.show();
                     }
@@ -123,12 +135,12 @@
             this._stateChange();
         },
         hideButton: function(id) {
-            this.$element.find(id).data('visible', false); // mv 5/6/19 needed to track the visible state this way for iPod 5 devices, since they were treating css 'display' as 'none' when the menu was 'display:none'
+            this.$element.find(id).data('visible', false); // don't remove
             this.$element.find(id).hide();
             this._toggleItemlistMenu(id);
         },
         showButton: function(id) {
-            this.$element.find(id).data('visible', true);
+            this.$element.find(id).data('visible', true);  // don't remove
             this.$element.find(id).show();
             this._toggleItemlistMenu(id);
         }

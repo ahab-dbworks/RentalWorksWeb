@@ -47,6 +47,13 @@ namespace FwStandard.SqlServer
                 return result;
             }
         }
+        static public async Task<String> GetClientCodeAsync(SqlServerConfig dbConfig)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                return await GetClientCodeAsync(conn, dbConfig);
+            }
+        }
         //-----------------------------------------------------------------------------
         static public async Task<String> GetClientCodeAsync(FwSqlConnection conn, SqlServerConfig dbConfig) 
         {
@@ -371,6 +378,14 @@ namespace FwStandard.SqlServer
                 sp.AddParameter("uniqueid3", uniqueid3);
                 sp.AddParameter("note",      note);
                 await sp.ExecuteAsync();
+            }
+        }
+        //-----------------------------------------------------------------------------
+        public static async Task<dynamic> GetApplicationOptionsAsync(SqlServerConfig dbConfig)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(dbConfig.ConnectionString))
+            {
+                return await GetApplicationOptionsAsync(conn, dbConfig);
             }
         }
         //-----------------------------------------------------------------------------

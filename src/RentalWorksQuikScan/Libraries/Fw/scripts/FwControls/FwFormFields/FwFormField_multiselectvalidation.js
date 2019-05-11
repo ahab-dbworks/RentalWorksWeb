@@ -52,7 +52,9 @@ var FwFormField_multiselectvalidationClass = (function () {
         }
         if (value !== '') {
             var multiselectfield = $fwformfield.find('.multiselectitems');
+            multiselectfield.find('.multiitem').remove();
             var valueArr = value.split(',');
+            valueArr = valueArr.map(function (s) { return s.trim(); });
             var textArr = void 0;
             var multiSeparator = jQuery($browse.find("thead [data-validationdisplayfield=\"true\"]").get(0)).attr('data-multiwordseparator') || ',';
             if (typeof text !== 'undefined') {

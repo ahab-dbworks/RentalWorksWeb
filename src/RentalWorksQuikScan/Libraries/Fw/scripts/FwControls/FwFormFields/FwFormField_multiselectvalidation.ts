@@ -47,8 +47,6 @@
             .attr('data-originalvalue', value)
             .find('input.fwformfield-value')
             .val(value);
-        //$fwformfield.find('.fwformfield-text')
-        //    .val(text);
 
         const $browse = $fwformfield.data('browse');
         if (typeof $browse.data('selectedrows') === 'undefined') {
@@ -59,13 +57,16 @@
 
         if (value !== '') {
             const multiselectfield = $fwformfield.find('.multiselectitems');
-            const valueArr = value.split(',');
+            //clear values
+            multiselectfield.find('.multiitem').remove();
+
+            let valueArr = value.split(',');
+            valueArr = valueArr.map(s => s.trim());
             let textArr;
             const multiSeparator = jQuery($browse.find(`thead [data-validationdisplayfield="true"]`).get(0)).attr('data-multiwordseparator') || ',';
             if (typeof text !== 'undefined') {
                 textArr = text.split(multiSeparator);
             }
-
             for (let i = 0; i < valueArr.length; i++) {
                 multiselectfield.prepend(`
                     <div contenteditable="false" class="multiitem" data-multivalue="${valueArr[i]}">

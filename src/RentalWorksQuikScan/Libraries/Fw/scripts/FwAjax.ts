@@ -8,14 +8,14 @@ class GetManyModel<T> {
 class FwAjaxRequest {
     httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET';
     url: string = '';
-    timeout: number = 15000;
-    $elementToBlock: JQuery = null;
-    addAuthorizationHeader: boolean = true;
-    requestHeaders: any = {};
-    data: any = null;
-    requestId: string = FwAjax.generateUID();
-    request: XMLHttpRequest = new XMLHttpRequest();
-    cancelable: boolean = false;
+    timeout?: number = 15000;
+    $elementToBlock?: JQuery = null;
+    addAuthorizationHeader?: boolean = true;
+    requestHeaders?: any = {};
+    data?: any = null;
+    requestId?: string = FwAjax.generateUID();
+    xmlHttpRequest?: XMLHttpRequest = new XMLHttpRequest();
+    cancelable?: boolean = false;
 }
 
 interface IRequest {
@@ -37,70 +37,91 @@ class FwAjaxClass {
     async callWebApi<T>(options: FwAjaxRequest): Promise<T> {
         return new Promise<T>((resolve, reject) => {
             try {
+                if (typeof options.timeout === 'undefined') {
+                    options.timeout = 15000;
+                }
+                if (typeof options.$elementToBlock === 'undefined') {
+                    options.$elementToBlock = null;
+                }
+                if (typeof options.addAuthorizationHeader === 'undefined') {
+                    options.addAuthorizationHeader = true;
+                }
+                if (typeof options.requestHeaders === 'undefined') {
+                    options.requestHeaders = {};
+                }
+                if (typeof options.requestId === 'undefined') {
+                    options.requestId = FwAjax.generateUID();
+                }
+                if (typeof options.xmlHttpRequest === 'undefined') {
+                    options.xmlHttpRequest = new XMLHttpRequest();
+                }
+                if (typeof options.cancelable === 'undefined') {
+                    options.cancelable = false;
+                }
                 this.showLoader(options);
                 if (options.timeout === null) {
                     options.timeout = 15000;
                 }
-                options.request.timeout = options.timeout;
-                options.request.open(options.httpMethod, options.url);
+                options.xmlHttpRequest.timeout = options.timeout;
+                options.xmlHttpRequest.open(options.httpMethod, options.url);
                 if (options.httpMethod === 'POST' || options.httpMethod === 'PUT') {
-                    options.request.setRequestHeader('Content-Type', 'application/json');
+                    options.xmlHttpRequest.setRequestHeader('Content-Type', 'application/json');
                 }
-                if (options.addAuthorizationHeader) {
-                    options.request.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('apiToken'));
+                if (typeof options.addAuthorizationHeader === 'undefined' || options.addAuthorizationHeader === true) {
+                    options.xmlHttpRequest.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('apiToken'));
                 }
                 for (let key in options.requestHeaders) {
-                    options.request.setRequestHeader(key, options.requestHeaders[key]);
+                    options.xmlHttpRequest.setRequestHeader(key, options.requestHeaders[key]);
                 }
-                options.request.onload = () => {
+                options.xmlHttpRequest.onload = () => {
                     if (typeof FwAjax.requests[options.requestId] !== 'undefined') {
-                        if (options.request.status == 200) {
+                        if (options.xmlHttpRequest.status == 200) {
                             this.hideLoader(options);
-                            resolve(JSON.parse(options.request.response));
+                            resolve(JSON.parse(options.xmlHttpRequest.response));
                         }
                         else {
                             this.hideLoader(options);
                             let rejectReason = new FwAjaxRejectReason();
                             rejectReason.reason = 'HttpStatusCode';
-                            rejectReason.statusCode = options.request.status;
-                            rejectReason.statusText = options.request.statusText;
-                            rejectReason.message = `${options.request.status} ${options.request.statusText}\nGET: ${options.url}\n\n${options.request.responseText}`;
+                            rejectReason.statusCode = options.xmlHttpRequest.status;
+                            rejectReason.statusText = options.xmlHttpRequest.statusText;
+                            rejectReason.message = `${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
                             reject(rejectReason);
                         }
                     }
                 };
-                options.request.ontimeout = () => {
+                options.xmlHttpRequest.ontimeout = () => {
                     if (options.$elementToBlock !== null) {
                         this.hideLoader(options);
                     }
-                    reject(`Request timeout expired\nGET: ${options.url}\n\n${options.request.responseText}`);
+                    reject(`Request timeout expired\nGET: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Timeout';
-                    rejectReason.message = `Request timeout expired\n${options.httpMethod}: ${options.url}\n\n${options.request.responseText}`;
+                    rejectReason.message = `Request timeout expired\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
                     reject(rejectReason);
                 };
-                options.request.onabort = () => {
+                options.xmlHttpRequest.onabort = () => {
                     this.hideLoader(options);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Abort';
                     rejectReason.message = `Request was aborted\nGET: ${options.url}`;
                     reject(rejectReason);
                 }
-                options.request.onerror = () => {
+                options.xmlHttpRequest.onerror = () => {
                     this.hideLoader(options);
-                    reject(`${options.request.status} ${options.request.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.request.responseText}`);
+                    reject(`${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`);
                     let rejectReason = new FwAjaxRejectReason();
                     rejectReason.reason = 'Exception';
-                    rejectReason.message = `${options.request.status} ${options.request.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.request.responseText}`;
+                    rejectReason.message = `${options.xmlHttpRequest.status} ${options.xmlHttpRequest.statusText}\n${options.httpMethod}: ${options.url}\n\n${options.xmlHttpRequest.responseText}`;
                     reject(rejectReason);
                 };
                 if (options.httpMethod === 'GET') {
-                    options.request.send();
+                    options.xmlHttpRequest.send();
                 } else if (options.httpMethod === 'POST') {
                     if (options.data != null) {
-                        options.request.send(JSON.stringify(options.data));
+                        options.xmlHttpRequest.send(JSON.stringify(options.data));
                     } else {
-                        options.request.send();
+                        options.xmlHttpRequest.send();
                     }
                 }
             } catch (ex) {
@@ -114,14 +135,14 @@ class FwAjaxClass {
     //----------------------------------------------------------------------------------------------
     abortRequest(requestid) {
         if (typeof FwAjax.requests[requestid] !== 'undefined') {
-            FwAjax.requests[requestid].request.abort();
+            FwAjax.requests[requestid].xmlHttpRequest.abort();
             delete FwAjax.requests[requestid];
         }
     }
     //----------------------------------------------------------------------------------------------
     abortAllRequests() {
         for (var requestid in FwAjax.requests) {
-            FwAjax.requests[requestid].request.abort();
+            FwAjax.requests[requestid].xmlHttpRequest.abort();
             delete FwAjax.requests[requestid];
         }
     }
@@ -218,7 +239,9 @@ class FwAjaxClass {
     //----------------------------------------------------------------------------------------------
     hideOverlay(options: FwAjaxRequest) {
         let $overlay = options.$elementToBlock.data('ajaxoverlay');
-        $overlay.remove();
+        if (typeof $overlay !== 'undefined') {
+            $overlay.remove();
+        }
     }
     //----------------------------------------------------------------------------------------------
 //    showLoader() {

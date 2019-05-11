@@ -265,7 +265,7 @@
                 FwFunc.showError(ex);
             }
         } else {
-            throw 'FwRibbon.generateStandardModuleBtn: ' + caption + ' caption is not defined in translation';
+            throw 'FwFileMenu.generateStandardModuleBtn: ' + caption + ' caption is not defined in translation';
         }
 
         $modulebtn
@@ -334,7 +334,7 @@
                 FwFunc.showError(ex);
             }
         } else {
-            throw 'FwRibbon.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
+            throw 'FwFileMenu.generateDropDownModuleBtn: ' + securityid + ' caption is not defined in translation';
         }
 
         $menu.find('.menu').append($modulebtn);
