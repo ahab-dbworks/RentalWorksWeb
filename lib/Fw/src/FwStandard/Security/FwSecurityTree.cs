@@ -758,6 +758,15 @@ namespace FwStandard.Security
         //--------------------------------------------------------------------------------------------- 
         public async Task<FwSecurityTreeNode> GetGroupsTreeAsync(string groupsid, bool removeHiddenNodes)
         {
+            if (FwSecurityTree.CurrentApplicationId == null)
+            {
+                throw new Exception("Need to set FwSecurityTree.CurrentApplicationId in Global.");
+            }
+            return await GetGroupsTreeAsync(FwSecurityTree.CurrentApplicationId, groupsid, removeHiddenNodes);
+        }
+        //--------------------------------------------------------------------------------------------- 
+        public async Task<FwSecurityTreeNode> GetGroupsTreeAsync(string applicationId, string groupsid, bool removeHiddenNodes)
+        {
             bool hidenewmenuoptionsbydefault;
             string jsonApplicationTree, jsonSecurity;
             FwSecurityTreeNode groupTree, groupTreeNode;
@@ -773,13 +782,9 @@ namespace FwStandard.Security
                 groupTree = Newtonsoft.Json.JsonConvert.DeserializeObject<FwSecurityTreeNode>(jsonApplicationTree);
                 if (removeHiddenNodes)
                 {
-                    if (FwSecurityTree.CurrentApplicationId == null)
-                    {
-                        throw new Exception("Need to set FwSecurityTree.CurrentApplicationId in Global.");
-                    }
                     for (int appno = groupTree.Children.Count - 1; appno >= 0; appno--)
                     {
-                        if (groupTree.Children[appno].Id != StripId(FwSecurityTree.CurrentApplicationId))
+                        if (groupTree.Children[appno].Id != StripId(applicationId))
                         {
                             groupTree.Children.RemoveAt(appno);
                         }

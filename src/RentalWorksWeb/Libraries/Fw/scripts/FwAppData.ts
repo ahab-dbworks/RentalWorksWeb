@@ -160,7 +160,7 @@ class FwAppData {
         return request.requestid;
     };
     //----------------------------------------------------------------------------------------------
-    static apiMethod(requiresAuthToken: boolean, method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, request: any, timeoutSeconds: number, onSuccess: (response: any) => void, onError: (response: any) => void, $elementToBlock: JQuery<HTMLElement>, progressBarSessionId?: any) {
+    static apiMethod(requiresApiToken: boolean, method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, request: any, timeoutSeconds: number, onSuccess: (response: any) => void, onError: (response: any) => void, $elementToBlock: JQuery<HTMLElement>, progressBarSessionId?: any) {
         let $overlay: JQuery<HTMLElement>;
         var isdesktop = jQuery('html').hasClass('desktop');
         var ismobile = jQuery('html').hasClass('mobile');
@@ -169,9 +169,9 @@ class FwAppData {
         var me = this;
         clearTimeout(FwAppData.autoLogoutTimeout);
         clearTimeout(FwAppData.autoLogoutWarningTimeout);
-        if (requiresAuthToken) {
+        if (requiresApiToken) {
             if (!FwAppData.verifyHasAuthToken()) {
-                program.navigate('account/login');
+                program.navigate('login');
                 return;
             }
         }
@@ -215,7 +215,7 @@ class FwAppData {
         if (method !== 'GET') {
             ajaxOptions.data = JSON.stringify(request);
         }
-        if (requiresAuthToken) {
+        if (requiresApiToken) {
             ajaxOptions.headers = {
                 Authorization: 'Bearer ' + sessionStorage.getItem('apiToken')
             };
@@ -288,7 +288,7 @@ class FwAppData {
     static verifyHasAuthToken() {
         var hasAuthToken;
         hasAuthToken = false;
-        if (sessionStorage.getItem('authToken')) {
+        if (sessionStorage.getItem('apiToken') || sessionStorage.getItem('authToken')) {
             hasAuthToken = true;
         }
         return hasAuthToken;

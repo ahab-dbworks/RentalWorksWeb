@@ -91,20 +91,24 @@ abstract class FwWebApiReport {
                     if (!win) {
                         throw 'Disable your popup blocker for this site.';
                     } else {
-                        window.addEventListener('message', (ev: MessageEvent) => { //this messsage is sent from new tab opened to view report to indicate page fully loaded. -webpackreport.ts
-                            const message = ev.data;
+                        const sendMessage = (event) => {
+                            console.log('event', event)
+                            const message = event.data;
                             if (message === urlHtmlReport) {
                                 win.postMessage(reportPageMessage, urlHtmlReport);
-                                window.removeEventListener('message', () => { })
                             }
-                        })
+                            if (message === 'ReportUnload') { //wip to remove window event listeners once report has been closed
+                                console.log('ReportUnload')
+                                window.removeEventListener('message', sendMessage)
+                            }
+                        }
+                        window.addEventListener('message', sendMessage)//this messsage is sent from new tab opened to view report to indicate page fully loaded. -webpackreport.ts
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
             });
         }
-
         // Print HTML button
         if ((typeof reportOptions.HasExportPdf === 'undefined') || (reportOptions.HasExportPdf === true)) {
             const $btnPrintPdf = FwMenu.addStandardBtn($menuObject, 'Print HTML');
