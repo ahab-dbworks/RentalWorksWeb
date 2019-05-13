@@ -154,10 +154,6 @@ namespace WebApi.Modules.Reports.RentalInventoryUsageReport
                         {
                             select.AddWhere("usagepercent = " + request.UtilizationFilterAmount.ToString());
                         }
-                        else if (request.UtilizationFilterMode.Equals("ALL"))
-                        {
-                            select.AddWhere("usagepercent = " + request.UtilizationFilterAmount.ToString()); // unsure of filter here
-                        }
                     }
 
                     if (request.ExcludeZeroOwned.GetValueOrDefault(false))

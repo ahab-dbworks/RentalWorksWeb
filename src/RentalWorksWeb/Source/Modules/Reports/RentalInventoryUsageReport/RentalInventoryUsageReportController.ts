@@ -1,5 +1,5 @@
 ﻿routes.push({
-    pattern: /^reports\/partsinventorypurchasehistoryreport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/rentalinventoryusagereport/, action: function (match: RegExpExecArray) {
         return RentalInventoryUsageReportController.getModuleScreen();
     }
 });
@@ -146,7 +146,7 @@ class RentalInventoryUsageReportClass extends FwWebApiReport {
 
             switch (validationName) {
                 case 'InventoryTypeValidation':
-                    request.uniqueids.Parts = true;
+                    request.uniqueids.Rental = true;
                     break;
                 case 'RentalCategoryValidation':
                     if (inventoryTypeId !== "") {
