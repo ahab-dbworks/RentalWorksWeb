@@ -62,7 +62,7 @@
       {{#ifEquals RowType "detail"}}
       <tbody data-rowtype="{{RowType}}">
         <tr>
-          <td>{{ICode}}</td>
+          <td><nobr>{{ICode}}</nobr></td>
           <td>{{Description}}</td>
           <td class="number">{{Quantity}}</td>
           <td>{{BarCode}}</td>
@@ -77,9 +77,9 @@
             {{/if}}
           </td>
           <td>
-            <div>{{RetiredBy}}</div>
+            <div><nobr>{{RetiredBy}}</nobr></div>
             {{#if ../IncludeUnretired}}
-            <div>{{UnretiredBy}}</div>
+            <div><nobr>{{UnretiredBy}}</nobr></div>
             {{/if}}
           </td>
           <td>
