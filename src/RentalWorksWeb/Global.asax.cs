@@ -15,7 +15,9 @@ namespace Web
 
         protected void Application_Start(object sender, EventArgs e)
         {
-
+            FwFunc.WriteLog("Begin Application Start");
+            FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
+            FwFunc.WriteLog("End Application Start");
         }
 
         protected void Session_Start(object sender, EventArgs e)
