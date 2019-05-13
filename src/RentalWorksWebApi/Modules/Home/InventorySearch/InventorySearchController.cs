@@ -39,7 +39,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public DateTime FromDate;
         public DateTime ToDate;
         public bool? ShowImages;
-        public bool? ShowInventoryWithZeroQuantity;
+        public bool? HideInventoryWithZeroQuantity;
         public string SortBy;
     }
     //------------------------------------------------------------------------------------ 

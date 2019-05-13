@@ -218,7 +218,7 @@ namespace WebApi.Modules.Home.InventorySearch
                         qry.AddParameter("@todate", SqlDbType.DateTime, ParameterDirection.Input, request.ToDate);
                     }
                     qry.AddParameter("@showimages", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowImages.GetValueOrDefault(false) ? "T" : "F"));
-                    qry.AddParameter("@showzeroqty", SqlDbType.NVarChar, ParameterDirection.Input, (request.ShowInventoryWithZeroQuantity.GetValueOrDefault(true) ? "T" : "F"));
+                    qry.AddParameter("@hidezeroqty", SqlDbType.NVarChar, ParameterDirection.Input, (request.HideInventoryWithZeroQuantity.GetValueOrDefault(true) ? "T" : "F"));
                     qry.AddParameter("@sortby", SqlDbType.NVarChar, ParameterDirection.Input, request.SortBy);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
