@@ -33,6 +33,9 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwLogicProperty(Id: "g16kb6OfLBMxB")]
         public bool? ShowZeroQuantity { get { return userSearchSettings.ShowZeroQuantity; } set { userSearchSettings.ShowZeroQuantity = value; } }
 
+        [FwLogicProperty(Id: "aK8led2lcYrKC")]
+        public bool? HideZeroQuantity { get { return userSearchSettings.HideZeroQuantity; } set { userSearchSettings.HideZeroQuantity = value; } }
+
 
         //------------------------------------------------------------------------------------
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
