@@ -48,7 +48,7 @@ namespace WebApi.Modules.Reports.SalesInventoryMasterReport
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public bool? Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
@@ -64,7 +64,7 @@ namespace WebApi.Modules.Reports.SalesInventoryMasterReport
         public decimal? UnitAverageCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
-        public decimal? UnitDefaultDost { get; set; }
+        public decimal? UnitDefaultCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitPrice { get; set; }
