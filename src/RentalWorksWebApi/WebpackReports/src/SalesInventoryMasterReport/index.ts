@@ -13,20 +13,20 @@ export class SalesReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-
+            console.log(parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorymasterreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    data.FromDate = parameters.FromDate;
-                    data.ToDate = parameters.ToDate;
+                    data.FromDate = parameters.RevenueFromDate;
+                    data.ToDate = parameters.RevenueToDate;
                     data.Report = 'Sales Inventory Master Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
                     data.Today = moment().format('LL');
         
                     // Determine view
-                    if (parameters.Summary === 'true') {
+                    if (parameters.CostType === 'AVERAGE') {
                         data.ViewSetting = 'AverageCostView';
                     } else {
                         data.ViewSetting = 'DefaultCostView';

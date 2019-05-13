@@ -511,6 +511,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryUsageReport\RentalInventoryUsageReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryMasterReport\RwSalesInventoryMasterReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesReport\RwSalesReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalLostAndDamagedBillingHistoryReport\RwRentalLostAndDamagedBillingHistoryReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ValueOfOutRentalInventoryReport\RwValueOfOutRentalInventoryReportController.ts" />
@@ -584,6 +585,7 @@
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
     <Content Include="Source\Modules\Reports\CrewSignInReport\RwCrewSignInReportController.js" />
+    <Content Include="Source\Modules\Reports\SalesInventoryMasterReport\RwSalesInventoryMasterReportController.js" />
     <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundForm.htm" />
     <Content Include="Source\Modules\Settings\EmailSettings\EmailSettingsBrowse.htm" />
@@ -1165,6 +1167,7 @@
     <Content Include="Source\Modules\Home\Quote\Quote.js.map" />
     <Content Include="Source\Modules\Reports\CrewSignInReport\RwCrewSignInReportController.js.map" />
     <Content Include="Source\Grids\GlDistributionGrid\GlDistributionGridController.js.map" />
+    <Content Include="Source\Modules\Reports\SalesInventoryMasterReport\RwSalesInventoryMasterReportController.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
