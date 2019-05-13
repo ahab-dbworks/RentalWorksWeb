@@ -8,28 +8,24 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class SalesInventoryMasterReport extends WebpackReport {
+export class RentalEquipmentRepairHistoryReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/salesinventorymasterreport/runreport`, authorizationHeader, parameters)
+            console.log(parameters);
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalequipmentrepairhistoryreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    data.FromDate = parameters.RevenueFromDate;
-                    data.ToDate = parameters.RevenueToDate;
-                    data.Report = 'Sales Inventory Master Report';
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+                    data.Report = 'Rental Equipment Repair History Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
                     data.Today = moment().format('LL');
         
-                    // Determine view
-                    if (parameters.CostType === 'AVERAGE') {
-                        data.ViewSetting = 'AverageCostView';
-                    } else {
-                        data.ViewSetting = 'DefaultCostView';
-                    }
+                    console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -51,4 +47,4 @@ export class SalesInventoryMasterReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new SalesInventoryMasterReport();
+(<any>window).report = new RentalEquipmentRepairHistoryReport();
