@@ -175,6 +175,9 @@ body {
 .blue {
     color: #027cc5;
 }
+.nowrap {
+    white-space: nowrap;
+}
 
 // Settings for print or pdf
 @media print {
