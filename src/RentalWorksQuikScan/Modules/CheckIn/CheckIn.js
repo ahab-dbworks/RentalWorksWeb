@@ -245,6 +245,13 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 orientation: 'right',
                 icon:        '&#xE5CC;', //chevron_right
                 state:       0,
+                isVisible: function () {
+                    var isVisible = false;
+                    if (sessionStorage.getItem('users_enablecreatecontract') !== null) {
+                        isVisible = (sessionStorage.getItem('users_enablecreatecontract') === 'T');
+                    }
+                    return isVisible;
+                },
                 buttonclick: function () {
                     if (screen.getContractId() !== '') {
                         var request = {
