@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Modules.Reports.ProfitLossReport
 {
-    [FwSqlTable("dbo.funcprofitandlossrpt('@fromdate','@todate')")]
+    [FwSqlTable("dbo.funcprofitandlossrpt(@fromdate,@todate)")]
     public class ProfitLossReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -107,13 +107,8 @@ namespace WebApi.Modules.Reports.ProfitLossReport
                     select.AddWhereIn("customerid", request.CustomerId);
                     select.AddWhereIn("dealid", request.DealId);
                     select.AddWhereIn("orderid", request.OrderId);
-                    if ((string.IsNullOrEmpty(request.DateField)) || (!request.DateField.Equals("profitlossdate")))
-                    {
-                        request.DateField = "profitlossdate";
-                    }
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
-                    select.AddParameter("@datefield", request.DateField);
                     select.AddWhereIn("and", "orderstatus", request.Statuses.ToString(), false);
                     select.AddOrderBy("location, department, customer, deal, agent");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

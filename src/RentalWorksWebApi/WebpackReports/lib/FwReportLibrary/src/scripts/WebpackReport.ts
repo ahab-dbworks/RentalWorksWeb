@@ -3,6 +3,7 @@
 export abstract class WebpackReport {
     renderReportCompleted: boolean = false;
     renderReportFailed: boolean = false;
+    footerHtml: string = '';
     action: ActionType; 
 
     constructor() {
