@@ -87,13 +87,13 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
         [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
         public string OrderType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "sales", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? SalesTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "profit", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "profit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Profit { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "profitpct", modeltype: FwDataTypes.Decimal)]
@@ -134,7 +134,7 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "SalesTotal", "Cost", "Profit", "ProfitPercentage" };
+                string[] totalFields = new string[] { "SalesTotal", "Cost", "Profit" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Agent", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);

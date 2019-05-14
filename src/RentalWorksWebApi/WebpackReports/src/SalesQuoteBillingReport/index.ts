@@ -21,7 +21,7 @@ export class SalesQuoteBillingReport extends WebpackReport {
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Report = 'Sales Quote Billing Report';
+                    data.Report = 'Sales Quote Billing Analysis Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
                     this.renderFooterHtml(data);

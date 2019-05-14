@@ -35,7 +35,7 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "SalesRepresentativeheader"}}
-        <td colspan="5" class="name-row">Sales Representative: {{SalesRepresentative}}</td>
+        <td colspan="5" class="header-row">Sales Representative: {{SalesRepresentative}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{InvoiceNumber}}"></td>
@@ -55,7 +55,7 @@
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "SalesRepresentativefooter"}}
-        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{SalesRepresentative}}&nbsp;</td>
+        <td class="total-name">{{SalesRepresentative}}&nbsp;</td>
         <td class="total-val" data-value="{{RentalTotal}}"></td>
         <td class="total-val" data-value="{{SalesTotal}}"></td>
         <td class="total-val" data-value="{{FacilitiesTotal}}"></td>
@@ -67,7 +67,7 @@
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{RentalTotal}}"></td>
         <td class="total-val" data-value="{{SalesTotal}}"></td>
         <td class="total-val" data-value="{{FacilitiesTotal}}"></td>

@@ -36,7 +36,7 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "Agentheader"}}
-        <td colspan="3" class="name-row">Agent: {{Agent}}</td>
+        <td colspan="3" class="header-row">Agent: {{Agent}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{InvoiceNumber}}"></td>
