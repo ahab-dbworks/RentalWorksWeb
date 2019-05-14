@@ -16,8 +16,8 @@
     <thead>
       <tr>
         <th>I-Code</th>
-        <th>Bar Code No.</th>
         <th>Description</th>
+        <th>Bar Code No.</th>
         <th>Purchase Date</th>
         <th class="number">Unit Cost</th>
         <th class="number">Qty Owned</th>
@@ -40,8 +40,8 @@
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{ICode}}"></td>
-        <td data-value="{{BarCode}}"></td>
         <td data-value="{{Description}}"></td>
+        <td data-value="{{BarCode}}"></td>
         <td data-value="{{PurchaseDate}}"></td>
         <td class="number" data-value="{{PurchaseAmount}}"></td>
         <td class="number" data-value="{{CurrentQuantity}}"></td>

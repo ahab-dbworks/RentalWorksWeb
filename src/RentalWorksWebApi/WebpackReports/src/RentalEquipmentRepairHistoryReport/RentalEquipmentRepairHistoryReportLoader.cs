@@ -65,7 +65,7 @@ namespace WebApi.Modules.Reports.RentalEquipmentRepairHistoryReport
         [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
         public string PurchaseDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "purchaseamt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "purchaseamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "repairdate", modeltype: FwDataTypes.Date)]
@@ -74,13 +74,13 @@ namespace WebApi.Modules.Reports.RentalEquipmentRepairHistoryReport
         [FwSqlDataField(column: "repairqty", modeltype: FwDataTypes.Integer)]
         public int? RepairQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "billable", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "billable", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Billable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? NonBillable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "total", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "total", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalEquipmentRepairHistoryReportRequest request)
@@ -101,8 +101,11 @@ namespace WebApi.Modules.Reports.RentalEquipmentRepairHistoryReport
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
-                    addDateFilterToSelect("repairdate", request.FromDate, select, ">=", "fromdate");
-                    addDateFilterToSelect("repairdate", request.ToDate, select, "<=", "todate");
+                    //addDateFilterToSelect("repairdate", request.FromDate, select, ">=", "fromdate");
+                    //addDateFilterToSelect("repairdate", request.ToDate, select, "<=", "todate");
+                    select.AddParameter("@fromdate", request.FromDate);
+                    select.AddParameter("@todate", request.ToDate);
+
 
                     //if (request.TimesInRepairFilterMode.Equals("LT"))
                     //{
