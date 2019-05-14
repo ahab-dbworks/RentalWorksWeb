@@ -14,7 +14,7 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Deal</th>
+        <th>Deal</th>
         <th class="number">Depleting Deposits</th>
         <th class="number">Credit Memos</th>
         <th class="number">Overpayments</th>
@@ -34,7 +34,7 @@
         <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{Deal}}"></td>
+        <td data-value="{{Deal}}"></td>
         <td class="number" data-value="{{TotalDepletingDeposit}}"></td>
         <td class="number" data-value="{{TotalCredit}}"></td>
         <td class="number" data-value="{{TotalOverpayment}}"></td>

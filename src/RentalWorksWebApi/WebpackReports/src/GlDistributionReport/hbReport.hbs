@@ -15,8 +15,8 @@
   <table>
     <thead>
       <tr>
-        <th class="text">G/L Account</th>
-        <th class="text">Description</th>
+        <th>G/L Account</th>
+        <th>Description</th>
         <th class="number">Debit</th>
         <th class="number">Credit</th>
       </tr>
@@ -31,8 +31,8 @@
         <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{AccountNumber}}"></td>
-        <td class="text" data-value="{{AccountDescription}}"></td>
+        <td data-value="{{AccountNumber}}"></td>
+        <td data-value="{{AccountDescription}}"></td>
         <td class="number" data-value="{{Debit}}"></td>
         <td class="number" data-value="{{Credit}}"></td>
         {{/ifEquals}}

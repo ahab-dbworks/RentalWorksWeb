@@ -15,13 +15,13 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Invoice No.</th>
-        <th class="text">Invoice Date</th>
-        <th class="text">Order No.</th>
-        <th class="text">PO No.</th>
-        <th class="text">Invoice Description</th>
-        <th class="text">Billing Start</th>
-        <th class="text">Billing End</th>
+        <th>Invoice No.</th>
+        <th>Invoice Date</th>
+        <th>Order No.</th>
+        <th>PO No.</th>
+        <th>Invoice Description</th>
+        <th>Billing Start</th>
+        <th>Billing End</th>
         <th class="number">Total</th>
       </tr>
     </thead>
@@ -38,13 +38,13 @@
         <td colspan="8" class="lower header-row">Vendor: {{Vendor}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text">{{InvoiceNumber}}</td>
-        <td class="text">{{InvoiceDate}}</td>
-        <td class="text">{{OrderNumber}}</td>
-        <td class="text">{{PurchaseOrderNumber}}</td>
-        <td class="text">{{InvoiceDescription}}</td>
-        <td class="text">{{BillingStartDate}}</td>
-        <td class="text">{{BillingEndDate}}</td>
+        <td>{{InvoiceNumber}}</td>
+        <td>{{InvoiceDate}}</td>
+        <td>{{OrderNumber}}</td>
+        <td>{{PurchaseOrderNumber}}</td>
+        <td>{{InvoiceDescription}}</td>
+        <td>{{BillingStartDate}}</td>
+        <td>{{BillingEndDate}}</td>
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Vendorfooter"}}

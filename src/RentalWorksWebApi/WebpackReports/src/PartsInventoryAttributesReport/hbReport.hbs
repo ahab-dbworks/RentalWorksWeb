@@ -15,24 +15,24 @@
   <table>
     <thead>
       <tr>
-        <th class="text">I-Code</th>
-        <th class="text">Description</th>
-        <th class="text">Inventory Type</th>
-        <th class="text">Category</th>
-        <th class="text">Sub-Category</th>
-        <th class="text">Attribute</th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Inventory Type</th>
+        <th>Category</th>
+        <th>Sub-Category</th>
+        <th>Attribute</th>
         <th class="number">Value</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       <tr>
-        <td class="text" data-value="{{ICode}}"></td>
-        <td class="text" data-value="{{Description}}"></td>
-        <td class="text" data-value="{{InventoryType}}"></td>
-        <td class="text" data-value="{{Category}}"></td>
-        <td class="text" data-value="{{SubCategory}}"></td>
-        <td class="text" data-value="{{Attribute}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{InventoryType}}"></td>
+        <td data-value="{{Category}}"></td>
+        <td data-value="{{SubCategory}}"></td>
+        <td data-value="{{Attribute}}"></td>
         <td class="number" data-value="{{AttributeValue}}"></td>
       </tr>
       {{/each}}

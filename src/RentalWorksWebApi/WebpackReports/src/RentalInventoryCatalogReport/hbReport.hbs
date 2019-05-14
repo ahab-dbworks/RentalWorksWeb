@@ -15,10 +15,10 @@
   <table>
     <thead>
       <tr>
-        <th class="text">I-Code</th>
-        <th class="text">Description</th>
-        <th class="text">Type</th>
-        <th class="text">Tracked By</th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Tracked By</th>
         <th class="number">Quantity Owned</th>
         <th class="number">Daily Rate</th>
         <th class="number">Weekly Rate</th>
@@ -39,10 +39,10 @@
         <td colspan="5" class="lower header-row">Category: {{Category}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{ICode}}"></td>
-        <td class="text" data-value="{{Description}}"></td>
-        <td class="text" data-value="{{ClassificationDescription}}"></td>
-        <td class="text" data-value="{{TrackedBy}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{ClassificationDescription}}"></td>
+        <td data-value="{{TrackedBy}}"></td>
         <td class="number" data-value="{{QuantityOwned}}"></td>
         <td class="number" data-value="{{DailyRate}}"></td>
         <td class="number" data-value="{{WeeklyRate}}"></td>

@@ -48,10 +48,10 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Order No.</th>
-        <th class="text">I-Code</th>
-        <th class="text">Description</th>
-        <th class="text">Aisle/Shelf</th>
+        <th>Order No.</th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Aisle/Shelf</th>
         <th class="number">Ordered</th>
         <th class="number">Out</th>
         <th class="number">Pick</th>
@@ -78,11 +78,11 @@
         {{/ifEquals}}
         {{#ifEquals RowType "RecTypeDisplayfooter"}}
         <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{RecTypeDisplay}}&nbsp;</td>
-        <td class="total-row number" data-value="{{PickQuantity}}"></td>
+        <td class="total-val" data-value="{{PickQuantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
-        <td class="total-row number" data-value="{{PickQuantity}}"></td>
+        <td class="total-val" data-value="{{PickQuantity}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

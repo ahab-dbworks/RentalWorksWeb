@@ -15,9 +15,9 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Date</th>
-        <th class="text">Ref/Check No.</th>
-        <th class="text">Payment Type</th>
+        <th>Date</th>
+        <th>Ref/Check No.</th>
+        <th>Payment Type</th>
         <th class="number">Amount</th>
       </tr>
     </thead>
@@ -34,9 +34,9 @@
         <td colspan="8" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text">{{ReceiptDate}}</td>
-        <td class="text">{{CheckNumber}}</td>
-        <td class="text">{{PaymentType}}</td>
+        <td>{{ReceiptDate}}</td>
+        <td>{{CheckNumber}}</td>
+        <td>{{PaymentType}}</td>
         <td class="number" data-value="{{Amount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}

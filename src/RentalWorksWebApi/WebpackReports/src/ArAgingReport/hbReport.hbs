@@ -15,10 +15,10 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Invoice No.</th>
-        <th class="text">Invoice Date</th>
-        <th class="text">Order No.</th>
-        <th class="text">Invoice Description</th>
+        <th>Invoice No.</th>
+        <th>Invoice Date</th>
+        <th>Order No.</th>
+        <th>Invoice Description</th>
         <th class="number">Total</th>
         <th class="number">Current</th>
         <th class="number">31-60</th>
@@ -39,10 +39,10 @@
         <td colspan="12" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{InvoiceNumber}}"></td>
-        <td class="text" data-value="{{InvoiceDate}}"></td>
-        <td class="text" data-value="{{OrderNumber}}"></td>
-        <td class="text" data-value="{{InvoiceDescription}}"></td>
+        <td data-value="{{InvoiceNumber}}"></td>
+        <td data-value="{{InvoiceDate}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
+        <td data-value="{{InvoiceDescription}}"></td>
         <td class="number" data-value="{{Total}}"></td>
         <td class="number" data-value="{{Total0030}}"></td>
         <td class="number" data-value="{{Total3160}}"></td>

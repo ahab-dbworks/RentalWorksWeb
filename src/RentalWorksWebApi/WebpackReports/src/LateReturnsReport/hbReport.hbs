@@ -15,14 +15,14 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Order No.</th>
-        <th class="text">Description</th>
-        <th class="text">Date</th>
-        <th class="text">Agent</th>
-        <th class="text" colspan="4">Ordered By</th>
-        <th class="text" colspan="2" style="width:98px;">Billing Dates</th>
-        <th class="text">Rent From</th>
-        <th class="text">Rent To</th>
+        <th>Order No.</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>Agent</th>
+        <th colspan="4">Ordered By</th>
+        <th colspan="2" style="width:98px;">Billing Dates</th>
+        <th>Rent From</th>
+        <th>Rent To</th>
         {{#ifEquals Type "PASTDUE"}}
         <th class="number">Days Past</th>
         {{else}}
@@ -88,15 +88,15 @@
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="" style="width:64px;background-color:white;"></td>
-        <td class="text">{{ICode}}</td>
-        <td class="text">{{Description}}</td>
+        <td>{{ICode}}</td>
+        <td>{{Description}}</td>
         {{#ifEquals ../ShowBarCode true}}
-        <td class="text">{{BarCode}}</td>
+        <td>{{BarCode}}</td>
         {{else}}
         <td></td>
         {{/ifEquals}}
         {{#ifEquals ../ShowSerial true}}
-        <td class="text">{{SerialNumber}}</td>
+        <td>{{SerialNumber}}</td>
         {{else}}
         <td></td>
         {{/ifEquals}}
@@ -121,8 +121,8 @@
         {{else}}
         <td></td>
         {{/ifEquals}}
-        <td class="text">{{ItemFromDate}}</td>
-        <td class="text">{{ItemToDate}}</td>
+        <td>{{ItemFromDate}}</td>
+        <td>{{ItemToDate}}</td>
         <td class="number">{{ItemPastDue}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberfooter"}}

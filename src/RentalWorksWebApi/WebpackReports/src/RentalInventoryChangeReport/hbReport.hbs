@@ -6,16 +6,16 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Warehouse</th>
-        <th class="text">Inventory Type</th>
-        <th class="text">Category</th>
-        <th class="text">Sub Category</th>
-        <th class="text">ICode Rank</th>
-        <th class="text">ICode</th>
-        <th class="text">Description</th>
-        <th class="text">Trans Date</th>
-        <th class="text">Trans Type</th>
-        <th class="text">Change Description</th>
+        <th>Warehouse</th>
+        <th>Inventory Type</th>
+        <th>Category</th>
+        <th>Sub Category</th>
+        <th>ICode Rank</th>
+        <th>ICode</th>
+        <th>Description</th>
+        <th>Trans Date</th>
+        <th>Trans Type</th>
+        <th>Change Description</th>
         <th class="number">Addition Qty</th>
         <th class="number">Unit Price Addition</th>
         <th class="number">Ext Addition Price</th>
@@ -36,16 +36,16 @@
         <td colspan="5" class="header-row lower">Description: {{Description}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{Warehouse}}"></td>
-        <td class="text" data-value="{{InventoryType}}"></td>
-        <td class="text" data-value="{{Category}}"></td>
-        <td class="text" data-value="{{SubCategory}}"></td>
-        <td class="text" data-value="{{ICodeRank}}"></td>
-        <td class="text" data-value="{{ICode}}"></td>
-        <td class="text" data-value="{{Description}}"></td>
-        <td class="text" data-value="{{TransactionDate}}"></td>
-        <td class="text" data-value="{{TransactionType}}"></td>
-        <td class="text" data-value="{{ChangeDescription}}"></td>
+        <td data-value="{{Warehouse}}"></td>
+        <td data-value="{{InventoryType}}"></td>
+        <td data-value="{{Category}}"></td>
+        <td data-value="{{SubCategory}}"></td>
+        <td data-value="{{ICodeRank}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{TransactionDate}}"></td>
+        <td data-value="{{TransactionType}}"></td>
+        <td data-value="{{ChangeDescription}}"></td>
         <td class="number" data-value="{{AdditionQuantity}}"></td>
         <td class="number" data-value="{{UnitPriceAddition}}"></td>
         <td class="number" data-value="{{ExtendedAdditionPrice}}"></td>
@@ -57,24 +57,24 @@
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
         <td colspan="10" style="font-weight:bold;text-align:right;padding-top:11px">{{Warehouse}}&nbsp;</td>
-        <td class="total-row number" data-value="{{AdditionQuantity}}"></td>
-        <td colspan="2" class="total-row number" data-value="{{ExtendedAdditionPrice}}"></td>
-        <td class="total-row number" data-value="{{SubtractionQuantity}}"></td>
-        <td colspan="2" class="total-row number" data-value="{{ExtendedSubtractionPrice}}"></td>
+        <td class="total-val" data-value="{{AdditionQuantity}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedAdditionPrice}}"></td>
+        <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionPrice}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Descriptionfooter"}}
         <td colspan="10" style="font-weight:bold;text-align:right;padding-top:11px">{{Description}}&nbsp;</td>
-        <td class="total-row number" data-value="{{AdditionQuantity}}"></td>
-        <td colspan="2" class="total-row number" data-value="{{ExtendedAdditionPrice}}"></td>
-        <td class="total-row number" data-value="{{SubtractionQuantity}}"></td>
-        <td colspan="2" class="total-row number" data-value="{{ExtendedSubtractionPrice}}"></td>
+        <td class="total-val" data-value="{{AdditionQuantity}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedAdditionPrice}}"></td>
+        <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionPrice}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="10" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
-        <td class="total-row number" data-value="{{AdditionQuantity}}"></td>
-        <td colspan="2" class="total-row number" data-value="{{ExtendedAdditionPrice}}"></td>
-        <td class="total-row number" data-value="{{SubtractionQuantity}}"></td>
-        <td colspan="2" class="total-row number" data-value="{{ExtendedSubtractionPrice}}"></td>
+        <td class="total-val" data-value="{{AdditionQuantity}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedAdditionPrice}}"></td>
+        <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
+        <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionPrice}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

@@ -15,8 +15,8 @@
   <table>
     <thead>
       <tr>
-        <th class="text">I-Code</th>
-        <th class="text">Description</th>
+        <th>I-Code</th>
+        <th>Description</th>
         <th class="number">Unit</th>
         <th class="number">Unit Cost</th>
         <th class="number">On Hand</th>
@@ -41,8 +41,8 @@
         <td class="category-header" colspan="4">{{Category}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{ICode}}"></td>
-        <td class="text" data-value="{{Description}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
         <td class="number" data-value="{{Unit}}"></td>
         <td class="number" data-value="{{UnitCost}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
@@ -57,7 +57,7 @@
         <td class="number" data-value="{{LastSaleDate}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryfooter"}}
-        <td class="text"></td>
+        <td></td>
         <td class="text footer" colspan="3" data-value="{{Category}}"></td>
         <td class="number subtotal" data-value="{{Quantity}}"></td>
         <td class="number subtotal" data-value="{{QuantityAllocated}}"></td>
@@ -69,7 +69,7 @@
         <td class="number subtotal" data-value="{{LastPurchaseQuantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td class="text"></td>
+        <td></td>
         <td class="text footer" colspan="3" data-value="{{Warehouse}}"></td>
         <td class="number subtotal" data-value="{{Quantity}}"></td>
         <td class="number subtotal" data-value="{{QuantityAllocated}}"></td>

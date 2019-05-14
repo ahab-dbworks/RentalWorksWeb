@@ -15,13 +15,13 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Warehouse</th>
-        <th class="text">I-Code</th>
-        <th class="text">Description</th>
-        <th class="text">Date</th>
-        <th class="text">User</th>
-        <th class="text">Type</th>
-        <th class="text">Transaction No.</th>
+        <th>Warehouse</th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Date</th>
+        <th>User</th>
+        <th>Type</th>
+        <th>Transaction No.</th>
         <th class="number">Quantity</th>
         <th class="number">Cost</th>
         <th class="number">Cost Extended</th>
@@ -36,13 +36,13 @@
         <td colspan="5" class="header-row">I-Code: {{ICode}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{WarehouseCode}}"></td>
-        <td class="text" data-value="{{ICode}}"></td>
-        <td class="text" data-value="{{Description}}"></td>
-        <td class="text" data-value="{{TransactionDate}}"></td>
-        <td class="text" data-value="{{UsersName}}"></td>
-        <td class="text" data-value="{{TransactionType}}"></td>
-        <td class="text" data-value="{{TransactionNumber}}"></td>
+        <td data-value="{{WarehouseCode}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{TransactionDate}}"></td>
+        <td data-value="{{UsersName}}"></td>
+        <td data-value="{{TransactionType}}"></td>
+        <td data-value="{{TransactionNumber}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
         <td class="number" data-value="{{UnitCost}}"></td>
         <td class="number" data-value="{{CostExtended}}"></td>
@@ -51,11 +51,11 @@
         {{/ifEquals}}
         {{#ifEquals RowType "ICodefooter"}}
         <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{ICode}}&nbsp;</td>
-        <td class="total-row number" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
-        <td class="total-row number" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

@@ -15,12 +15,12 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Invoice No.</th>
-        <th class="text">Invoice Date</th>
-        <th class="text">Billing Start</th>
-        <th class="text">Description</th>
-        <th class="text">Order No.</th>
-        <th class="text">Deal</th>
+        <th>Invoice No.</th>
+        <th>Invoice Date</th>
+        <th>Billing Start</th>
+        <th>Description</th>
+        <th>Order No.</th>
+        <th>Deal</th>
         <th class="number">Rental</th>
         <th class="number">Sales</th>
         <th class="number">Facilities</th>
@@ -39,12 +39,12 @@
         <td colspan="5" class="name-row">Project Manager: {{ProjectManager}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text" data-value="{{InvoiceNumber}}"></td>
-        <td class="text" data-value="{{InvoiceDate}}"></td>
-        <td class="text" data-value="{{BillingStartDate}}"></td>
-        <td class="text" data-value="{{InvoiceDescription}}"></td>
-        <td class="text" data-value="{{OrderNumber}}"></td>
-        <td class="text" data-value="{{Deal}}"></td>
+        <td data-value="{{InvoiceNumber}}"></td>
+        <td data-value="{{InvoiceDate}}"></td>
+        <td data-value="{{BillingStartDate}}"></td>
+        <td data-value="{{InvoiceDescription}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
+        <td data-value="{{Deal}}"></td>
         <td class="number" data-value="{{RentalTotal}}"></td>
         <td class="number" data-value="{{SalesTotal}}"></td>
         <td class="number" data-value="{{FacilitiesTotal}}"></td>
@@ -57,27 +57,27 @@
         {{/ifEquals}}
         {{#ifEquals RowType "ProjectManagerfooter"}}
         <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{ProjectManager}}&nbsp;</td>
-        <td class="total-row number" data-value="{{RentalTotal}}"></td>
-        <td class="total-row number" data-value="{{SalesTotal}}"></td>
-        <td class="total-row number" data-value="{{FacilitiesTotal}}"></td>
-        <td class="total-row number" data-value="{{LaborTotal}}"></td>
-        <td class="total-row number" data-value="{{MiscellaneousTotal}}"></td>
-        <td class="total-row number" data-value="{{AssetTotal}}"></td>
-        <td class="total-row number" data-value="{{PartsTotal}}"></td>
-        <td class="total-row number" data-value="{{InvoiceTax}}"></td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td class="total-val" data-value="{{RentalTotal}}"></td>
+        <td class="total-val" data-value="{{SalesTotal}}"></td>
+        <td class="total-val" data-value="{{FacilitiesTotal}}"></td>
+        <td class="total-val" data-value="{{LaborTotal}}"></td>
+        <td class="total-val" data-value="{{MiscellaneousTotal}}"></td>
+        <td class="total-val" data-value="{{AssetTotal}}"></td>
+        <td class="total-val" data-value="{{PartsTotal}}"></td>
+        <td class="total-val" data-value="{{InvoiceTax}}"></td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
-        <td class="total-row number" data-value="{{RentalTotal}}"></td>
-        <td class="total-row number" data-value="{{SalesTotal}}"></td>
-        <td class="total-row number" data-value="{{FacilitiesTotal}}"></td>
-        <td class="total-row number" data-value="{{LaborTotal}}"></td>
-        <td class="total-row number" data-value="{{MiscellaneousTotal}}"></td>
-        <td class="total-row number" data-value="{{AssetTotal}}"></td>
-        <td class="total-row number" data-value="{{PartsTotal}}"></td>
-        <td class="total-row number" data-value="{{InvoiceTax}}"></td>
-        <td class="total-row number" data-value="{{InvoiceTotal}}"></td>
+        <td class="total-val" data-value="{{RentalTotal}}"></td>
+        <td class="total-val" data-value="{{SalesTotal}}"></td>
+        <td class="total-val" data-value="{{FacilitiesTotal}}"></td>
+        <td class="total-val" data-value="{{LaborTotal}}"></td>
+        <td class="total-val" data-value="{{MiscellaneousTotal}}"></td>
+        <td class="total-val" data-value="{{AssetTotal}}"></td>
+        <td class="total-val" data-value="{{PartsTotal}}"></td>
+        <td class="total-val" data-value="{{InvoiceTax}}"></td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

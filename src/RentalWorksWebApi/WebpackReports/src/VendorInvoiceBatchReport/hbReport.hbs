@@ -15,9 +15,9 @@
   <table>
     <thead>
       <tr>
-        <th class="text">Invoice No.</th>
-        <th class="text">Invoice Date</th>
-        <th class="text">PO No.</th>
+        <th>Invoice No.</th>
+        <th>Invoice Date</th>
+        <th>PO No.</th>
         <th class="number">Total</th>
       </tr>
     </thead>
@@ -31,9 +31,9 @@
         <td colspan="4" class="lower header-row">Vendor: {{Vendor}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="text">{{InvoiceNumber}}</td>
-        <td class="text">{{InvoiceDate}}</td>
-        <td class="text">{{PurchaseOrderNumber}}</td>
+        <td>{{InvoiceNumber}}</td>
+        <td>{{InvoiceDate}}</td>
+        <td>{{PurchaseOrderNumber}}</td>
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Vendorfooter"}}
