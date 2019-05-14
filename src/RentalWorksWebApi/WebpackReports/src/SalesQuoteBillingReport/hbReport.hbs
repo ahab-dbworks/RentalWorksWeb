@@ -1,0 +1,84 @@
+﻿<!--SalesQuoteBillingReport-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th>Quote No.</th>
+        <th>Version</th>
+        <th>Deal</th>
+        <th>Contact</th>
+        <th>Description</th>
+        <th>Location</th>
+        <th>PO No.</th>
+        <th>Status</th>
+        <th>Created Date</th>
+        <th>Ship Date</th>
+        <th class="number">Sale</th>
+        <th class="number">Cost</th>
+        <th class="number">Profit</th>
+        <th class="number">Profit %</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="3" class="name-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Agentheader"}}
+        <td colspan="3" class="name-row">Agent: {{Agent}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td data-value="{{OrderNumber}}"></td>
+        <td data-value="{{VersionNumber}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td data-value="{{Contact}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{Location}}"></td>
+        <td data-value="{{PONumber}}"></td>
+        <td data-value="{{Status}}"></td>
+        <td data-value="{{StatusDate}}"></td>
+        <td data-value="{{OrderDate}}"></td>
+        <td class="number" data-value="{{SalesTotal}}"></td>
+        <td class="number" data-value="{{Cost}}"></td>
+        <td class="number" data-value="{{Profit}}"></td>
+        <td class="number" data-value="{{ProfitPercentage}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Agentfooter"}}
+        <td class="total-name">{{Agent}}&nbsp;</td>
+        <td class="total-val" data-value="{{SalesTotal}}"></td>
+        <td class="total-val" data-value="{{Cost}}"></td>
+        <td class="total-val" data-value="{{Profit}}"></td>
+        <td class="total-val" data-value="{{ProfitPercentage}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{SalesTotal}}"></td>
+        <td class="total-val" data-value="{{Cost}}"></td>
+        <td class="total-val" data-value="{{Profit}}"></td>
+        <td class="total-val" data-value="{{ProfitPercentage}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{SalesTotal}}"></td>
+        <td class="total-val" data-value="{{Cost}}"></td>
+        <td class="total-val" data-value="{{Profit}}"></td>
+        <td class="total-val" data-value="{{ProfitPercentage}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
