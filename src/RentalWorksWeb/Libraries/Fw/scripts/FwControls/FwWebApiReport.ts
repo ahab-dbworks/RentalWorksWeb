@@ -538,6 +538,12 @@ abstract class FwWebApiReport {
                         }
                     }
                 }
+                if (typeof window[$form.attr('data-controller')] !== 'undefined') {
+                    const controller = window[$form.attr('data-controller')];
+                    if (typeof controller.afterLoad === 'function') {
+                        controller.afterLoad($form);
+                    }
+                }
             });
 
         //save to "default" when opening a report
