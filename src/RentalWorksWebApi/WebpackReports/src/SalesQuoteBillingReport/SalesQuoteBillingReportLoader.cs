@@ -96,7 +96,7 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
         [FwSqlDataField(column: "profit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Profit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "profitpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "profitpct", modeltype: FwDataTypes.Percentage)]
         public decimal? ProfitPercentage { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(SalesQuoteBillingReportRequest request)
