@@ -58,7 +58,7 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderlocation", modeltype: FwDataTypes.Text)]
         public string OrderLocation { get; set; }
