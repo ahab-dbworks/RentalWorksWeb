@@ -42,9 +42,6 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
         [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
         public string Customer { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text)]
-        public string UserId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "agentid", modeltype: FwDataTypes.Text)]
         public string AgentId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -73,10 +70,10 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
         public string Contact { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
-        public string PONumber { get; set; }
+        public string PurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
-        public string EstrentFrom { get; set; }
+        public string EstimatedStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
         public string Status { get; set; }
@@ -107,7 +104,7 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);

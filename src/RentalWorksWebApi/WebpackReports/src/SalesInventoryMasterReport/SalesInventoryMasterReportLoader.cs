@@ -119,7 +119,7 @@ namespace WebApi.Modules.Reports.SalesInventoryMasterReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
@@ -155,7 +155,7 @@ namespace WebApi.Modules.Reports.SalesInventoryMasterReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "QuantityIn", "QuantityAllocated" , "QuantityInTransit", "QuantityOnPO", "QuantityInAverageCost", "QuantityInDefaultCost", "QuantityInPrice", "Revenue" };
+                string[] totalFields = new string[] { "QuantityIn", "QuantityAllocated", "QuantityInTransit", "QuantityOnPO", "QuantityInAverageCost", "QuantityInDefaultCost", "QuantityInPrice", "Revenue" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
