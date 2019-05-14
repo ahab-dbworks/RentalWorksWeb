@@ -95,7 +95,18 @@
         },
         _stateChange: function() {
             this._buttons.css('display', 'none');
-            this.$element.find('.btn[data-state="' + this._state + '"]').removeAttr('style');
+            for (var buttonno = 0; buttonno < this._options.buttons.length; buttonno++) {
+                var button = this._options.buttons[buttonno];
+                if (button.state === this._state) {
+                    var isVisible = true;
+                    if (typeof button.isVisible === 'function') {
+                        isVisible = button.isVisible();   
+                    }
+                    if (isVisible) {
+                        this.$element.find(`#${button.id}`).removeAttr('style');
+                    }
+                }
+            }
         },
         _toggleItemlistMenu: function (id) {
             var plugin = this;

@@ -92,17 +92,15 @@ abstract class FwWebApiReport {
                         throw 'Disable your popup blocker for this site.';
                     } else {
                         const sendMessage = (event) => {
-                            console.log('event', event)
                             const message = event.data;
                             if (message === urlHtmlReport) {
                                 win.postMessage(reportPageMessage, urlHtmlReport);
                             }
-                            if (message === 'ReportUnload') { //wip to remove window event listeners once report has been closed
-                                console.log('ReportUnload')
+                            if (message === 'ReportUnload') { // removing listener clears window but removes ability to refresh reports
                                 window.removeEventListener('message', sendMessage)
                             }
                         }
-                        window.addEventListener('message', sendMessage)//this messsage is sent from new tab opened to view report to indicate page fully loaded. -webpackreport.ts
+                        window.addEventListener('message', sendMessage) // messsage is from new tab (rendered report) indicating page fully loaded. -webpackreport.ts
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
