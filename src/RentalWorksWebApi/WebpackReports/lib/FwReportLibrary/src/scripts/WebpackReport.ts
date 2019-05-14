@@ -3,35 +3,25 @@
 export abstract class WebpackReport {
     renderReportCompleted: boolean = false;
     renderReportFailed: boolean = false;
-    headerHtml: string = '';
-    footerHtml: string = '';
     action: ActionType; 
-
-    // experimental
-    renderStatus: string = 'Stopped';
-    renderProgress: number = 0;
 
     constructor() {
         window.addEventListener('unload', (ev: Event) => {
             ev.stopImmediatePropagation();
             if (window.opener != null) {
-                window.opener.postMessage('ReportUnload', '*'); //sending message back to requesting page to notify new window is closed
+                window.opener.postMessage('ReportUnload', '*'); // postMessage to report page to notify new window (rendered report) is closed
             }
         });
         window.addEventListener('load', (ev: Event) => {
             const reportURL: any = ev.srcElement.baseURI;
             if (window.opener != null) {
-                window.opener.postMessage(reportURL, '*'); //sending message back to requesting page to notify new window is loaded
+                window.opener.postMessage(reportURL, '*'); // postMessage to report page to notify new window (rendered report) is loaded
             }
         }); 
-
         window.addEventListener('message', (ev: MessageEvent) => {
             if (typeof ev.data.action !== 'undefined') {
-                let message = <ReportPageMessage>ev.data;
+                const message = <ReportPageMessage>ev.data;
                 this.processMessage(message);
-                //if (message.action === 'Preview') {
-                //    sessionStorage.setItem('message', JSON.stringify(message));
-                //}
             }
         });
     }
@@ -63,10 +53,6 @@ export abstract class WebpackReport {
             if (this.action === 'PrintHtml') {
                 window.print();
             }
-
-            // experimental
-            this.renderStatus = 'Completed';
-            this.renderProgress = 100;
         }
     }
 
@@ -74,10 +60,6 @@ export abstract class WebpackReport {
         if (!this.renderReportCompleted) {
             this.renderReportCompleted = true;
             this.renderReportFailed = true;
-
-            // experimental
-            this.renderStatus = 'Failed';
-            this.renderProgress = 100;
 
             Ajax.logError('An error occured while rendering the report.', err);
         }
