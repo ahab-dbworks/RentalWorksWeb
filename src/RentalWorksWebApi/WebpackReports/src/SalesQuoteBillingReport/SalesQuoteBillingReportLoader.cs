@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.SalesQuoteBillingReport
 {
-    [FwSqlTable("dbo.funcsalesbillingquoterpt(@orderdate, @estrentfrom)")]
+    [FwSqlTable("dbo.funcsalesbillingquoterpt(@fromdate, @todate, @datefield)")]
     public class SalesQuoteBillingReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -105,7 +105,6 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                //--------------------------------------------------------------------------------- 
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
@@ -116,19 +115,28 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
                     select.AddWhereIn("locationid", request.OfficeLocationId);
                     select.AddWhereIn("dealid", request.DealId);
                     select.AddWhereIn("agentid", request.AgentId);
-                    addDateFilterToSelect("orderdate", request.FromDate, select, ">=", "estrentfrom");
-                    addDateFilterToSelect("orderdate", request.ToDate, select, "<=", "estrentfrom");
+                    //addDateFilterToSelect("estrentfrom", request.FromDate, select, ">=", "estrentfrom");
+                    //addDateFilterToSelect("estrentfrom", request.ToDate, select, "<=", "estrentfrom");
+
+
+                    if ((string.IsNullOrEmpty(request.DateField)) || (!request.DateField.Equals("estrentfrom")))
+                    {
+                        request.DateField = "orderdate";
+                    }
+                    select.AddParameter("@fromdate", request.FromDate);
+                    select.AddParameter("@todate", request.ToDate);
+                    select.AddParameter("@datefield", request.DateField);
+
 
                     select.AddOrderBy("location, agent, orderno, versionno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
-                //--------------------------------------------------------------------------------- 
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "SalesTotal", "Cost", "Profit", "ProfitPercentage" };
-                dt.InsertSubTotalRows("Agent", "RowType", totalFields);
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Agent", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

@@ -17,6 +17,7 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public string DateField { get; set; }  // estrentfrom / orderdate
         public string OfficeLocationId { get; set; }
         public string AgentId { get; set; }
         public string DealId { get; set; }
