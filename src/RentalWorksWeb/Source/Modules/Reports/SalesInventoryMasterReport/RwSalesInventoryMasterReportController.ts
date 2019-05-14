@@ -15,27 +15,29 @@ const salesInventoryMasterReportTemplate = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:350px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sales Date">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Revenue Date">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Period Sales" data-datafield="IncludePeriodRevenue"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Period Revenue" data-datafield="IncludePeriodRevenue"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From:" data-datafield="FromDate" data-required="true" style="width:125px; float:left;"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="ToDate" data-required="true" style="width:125px; float:left;"></div>                
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield toggle-enable" data-caption="From:" data-datafield="RevenueFromDate" data-required="true" style="width:125px; float:left;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield toggle-enable" data-caption="To:" data-datafield="RevenueToDate" data-required="true" style="width:125px; float:left;"></div>                
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="RevenueFilterMode" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" style="float:left;">
+                  <div data-datafield="RevenueFilterMode" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield toggle-enable" data-caption="" style="float:left;">
                     <div data-value="ALL" data-caption="All"></div>
                     <div data-value="GT" data-caption="Greater Than"></div>
                     <div data-value="LT" data-caption="Less Than"></div>
                   </div>
-                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="" data-datafield="RevenueFilterAmount" data-required="true" style="float:left; margin-left:20px; width:100px"></div>
+                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield toggle-enable filter-amount" data-caption="" data-datafield="RevenueFilterAmount" data-required="true" style="float:left; margin-left:20px; width:100px"></div>
                 </div>
               </div>
+            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude I-Codes with Zero quantity owned" data-datafield="ExcludeZeroOwned"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude I-Codes with Zero quantity owned" data-datafield="ExcludeZeroOwned"></div>
               </div>
             </div>
+        </div>
             <div class="flexcolumn" style="max-width:150px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rank">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -98,6 +100,32 @@ class RwSalesInventoryMasterReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+
+        $form.find('[data-datafield="IncludePeriodRevenue"]').on('change', e => {
+            const isChecked = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
+            const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
+            if (isChecked) {
+                FwFormField.enable($form.find('.toggle-enable'));
+                $dateRangeFields.attr('data-required', "true");
+            } else {
+                FwFormField.disable($form.find('.toggle-enable'));
+                $dateRangeFields.attr('data-required', "false");
+            }
+        });
+
+        $form.find('[data-datafield="RevenueFilterMode"]').on('change', e => {
+            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
+            const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+            if (filterMode === "ALL") {
+                FwFormField.disable($filterAmountField);
+                $filterAmountField.attr('data-required', "false");
+            } else {
+                FwFormField.enable($filterAmountField);
+                $filterAmountField.attr('data-required', "true");
+
+            }
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -105,8 +133,28 @@ class RwSalesInventoryMasterReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-
         this.loadLists($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
+        const includeRevenue = FwFormField.getValueByDataField($form, 'IncludePeriodRevenue');
+        const $dateRangeFields = $form.find('.toggle-enable[data-type="date"]');
+        if (includeRevenue) {
+            FwFormField.enable($form.find('.toggle-enable:not(.filter-amount)'));
+            $dateRangeFields.attr('data-required', "true");
+            const filterMode = FwFormField.getValueByDataField($form, 'RevenueFilterMode');
+            const $filterAmountField = $form.find('[data-datafield="RevenueFilterAmount"]');
+            if (filterMode === "ALL") {
+                FwFormField.disable($filterAmountField);
+                $filterAmountField.attr('data-required', "false");
+            } else {
+                FwFormField.enable($filterAmountField);
+                $filterAmountField.attr('data-required', "true");
+            }
+        } else {
+            FwFormField.disable($form.find('.toggle-enable'));
+            $dateRangeFields.attr('data-required', "false");
+        }
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {

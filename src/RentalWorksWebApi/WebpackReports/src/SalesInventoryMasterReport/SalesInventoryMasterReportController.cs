@@ -1,15 +1,13 @@
+using FwStandard.AppManager;
 using FwStandard.Models;
+using FwStandard.Reporting;
+using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using WebApi.Controllers;
-using System.Threading.Tasks;
-using System;
-using FwStandard.Reporting;
 using PuppeteerSharp;
-using PuppeteerSharp.Media;
-using FwStandard.SqlServer;
-using Microsoft.AspNetCore.Http;
-using FwStandard.AppManager;
+using System;
+using System.Threading.Tasks;
+using WebApi.Controllers;
 using static FwCore.Controllers.FwDataController;
 namespace WebApi.Modules.Reports.SalesInventoryMasterReport
 {
