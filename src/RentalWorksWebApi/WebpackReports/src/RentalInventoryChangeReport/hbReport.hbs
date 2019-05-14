@@ -56,21 +56,21 @@
         <td class="number" data-value="{{RunningTotalValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="10" style="font-weight:bold;text-align:right;padding-top:11px">{{Warehouse}}&nbsp;</td>
+        <td colspan="10" class="total-name">{{Warehouse}}&nbsp;</td>
         <td class="total-val" data-value="{{AdditionQuantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedAdditionPrice}}"></td>
         <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionPrice}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Descriptionfooter"}}
-        <td colspan="10" style="font-weight:bold;text-align:right;padding-top:11px">{{Description}}&nbsp;</td>
+        <td colspan="10" class="total-name">{{Description}}&nbsp;</td>
         <td class="total-val" data-value="{{AdditionQuantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedAdditionPrice}}"></td>
         <td class="total-val" data-value="{{SubtractionQuantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedSubtractionPrice}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="10" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td colspan="10" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{AdditionQuantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedAdditionPrice}}"></td>
         <td class="total-val" data-value="{{SubtractionQuantity}}"></td>

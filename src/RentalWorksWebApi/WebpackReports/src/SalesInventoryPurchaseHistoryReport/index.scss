@@ -7,14 +7,6 @@ tbody {
     .detail-view-row[data-rowtype="detail"]:nth-child(even) {
         background-color: #DCDCDC;
     }
-
-    td:after {
-        content: attr(data-value);
-    }
-
-    td {
-        padding: 3px;
-    }
 }
 
 thead {
@@ -25,10 +17,4 @@ thead {
         padding: 5px;
         white-space: nowrap;
     }
-}
-
-.total-row {
-    font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
 }

@@ -88,7 +88,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-          <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{Deal}}&nbsp;</td>
+          <td colspan="6" class="total-name">{{Deal}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -101,7 +101,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-          <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{Customer}}&nbsp;</td>
+          <td colspan="6" class="total-name">{{Customer}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -114,7 +114,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberfooter"}}
-          <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{OrderNumber}}&nbsp;</td>
+          <td colspan="6" class="total-name">{{OrderNumber}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -127,7 +127,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-          <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
+          <td colspan="6" class="total-name">{{OfficeLocation}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -140,7 +140,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-          <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+          <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -246,7 +246,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-          <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{Deal}}&nbsp;</td>
+          <td colspan="7" class="total-name">{{Deal}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -259,7 +259,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-          <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{Customer}}&nbsp;</td>
+          <td colspan="7" class="total-name">{{Customer}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -272,7 +272,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberfooter"}}
-          <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{OrderNumber}}&nbsp;</td>
+          <td colspan="7" class="total-name">{{OrderNumber}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -285,7 +285,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-          <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{OfficeLocation}}&nbsp;</td>
+          <td colspan="7" class="total-name">{{OfficeLocation}}&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
@@ -298,7 +298,7 @@
           {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-          <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+          <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
           <td class="total-val" data-value="{{Quantity}}"></td>
           {{#ifEquals ../IncludeValueCost "R"}}
             <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>

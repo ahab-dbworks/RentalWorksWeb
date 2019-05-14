@@ -50,11 +50,11 @@
         <td class="number" data-value="{{PriceExtended}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "ICodefooter"}}
-        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{ICode}}&nbsp;</td>
+        <td colspan="7" class="total-name">{{ICode}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
       </tr>

@@ -36,7 +36,7 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "ProjectManagerheader"}}
-        <td colspan="5" class="name-row">Project Manager: {{ProjectManager}}</td>
+        <td colspan="5" class="header-row">Project Manager: {{ProjectManager}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{InvoiceNumber}}"></td>
@@ -56,7 +56,7 @@
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "ProjectManagerfooter"}}
-        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{ProjectManager}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{ProjectManager}}&nbsp;</td>
         <td class="total-val" data-value="{{RentalTotal}}"></td>
         <td class="total-val" data-value="{{SalesTotal}}"></td>
         <td class="total-val" data-value="{{FacilitiesTotal}}"></td>
@@ -68,7 +68,7 @@
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{RentalTotal}}"></td>
         <td class="total-val" data-value="{{SalesTotal}}"></td>
         <td class="total-val" data-value="{{FacilitiesTotal}}"></td>

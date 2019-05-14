@@ -77,11 +77,11 @@
         <td class="number boxcol"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "RecTypeDisplayfooter"}}
-        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">{{RecTypeDisplay}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{RecTypeDisplay}}&nbsp;</td>
         <td class="total-val" data-value="{{PickQuantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{PickQuantity}}"></td>
         {{/ifEquals}}
       </tr>

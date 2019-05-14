@@ -3,13 +3,6 @@ tbody {
     tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
-    td:after {
-        content: attr(data-value);
-    }
-
-    td {
-        padding: 3px;
-    }
 }
 
 thead {
@@ -26,11 +19,6 @@ thead {
     vertical-align: top;
 }
 
-.total-row {
-    font-weight: bold;
-    border-top: 1.5px solid black;
-    padding-top: 10px;
-}
 
 @page {
     size: landscape;

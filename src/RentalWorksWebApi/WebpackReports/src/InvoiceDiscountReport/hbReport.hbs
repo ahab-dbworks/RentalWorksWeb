@@ -70,28 +70,19 @@
         <td colspan="6" class="total-name">{{Department}}&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceGrossTotal}}"></td>
         <td class="total-val" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
-        <td class="total-val" data-value="{{DiscountPercent}}"></td>
-        <td class="total-val" data-value="{{TotalActual}}"></td>
-        <td class="total-val" data-value="{{DiscountLinesOfTotal}}"></td>
-        <td class="total-val" data-value="{{DiscountReason}}"></td>
+        <td colspan="2" class="total-val" data-value="{{TotalActual}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
         <td colspan="6" class="total-name">{{OfficeLocation}}&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceGrossTotal}}"></td>
         <td class="total-val" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
-        <td class="total-val" data-value="{{DiscountPercent}}"></td>
-        <td class="total-val" data-value="{{TotalActual}}"></td>
-        <td class="total-val" data-value="{{DiscountLinesOfTotal}}"></td>
-        <td class="total-val" data-value="{{DiscountReason}}"></td>
+        <td colspan="2" class="total-val" data-value="{{TotalActual}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{InvoiceGrossTotal}}"></td>
         <td class="total-val" data-value="{{DiscountAmountWithDaysPerWeek}}"></td>
-        <td class="total-val" data-value="{{DiscountPercent}}"></td>
-        <td class="total-val" data-value="{{TotalActual}}"></td>
-        <td class="total-val" data-value="{{DiscountLinesOfTotal}}"></td>
-        <td class="total-val" data-value="{{DiscountReason}}"></td>
+        <td colspan="2" class="total-val" data-value="{{TotalActual}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

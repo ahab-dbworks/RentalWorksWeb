@@ -35,10 +35,10 @@
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
         {{#ifEquals RowType "Warehouseheader"}}
-        <td class="warehouse-header" colspan="4">{{Warehouse}}</td>
+        <td class="header-row" colspan="4">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryheader"}}
-        <td class="category-header" colspan="4">{{Category}}</td>
+        <td class=" lower header-row" colspan="4">Category: {{Category}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{ICode}}"></td>
@@ -54,31 +54,27 @@
         <td class="number" data-value="{{ReorderQuantity}}"></td>
         <td class="number" data-value="{{LastPurchaseQuantity}}"></td>
         <td class="number" data-value="{{LastPurchaseDate}}"></td>
-        <td class="number" data-value="{{LastSaleDate}}"></td>
+        <td class="number" data-value="{{LastSaleDate}}"></td>s
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryfooter"}}
         <td></td>
-        <td class="text footer" colspan="3" data-value="{{Category}}"></td>
-        <td class="number subtotal" data-value="{{Quantity}}"></td>
-        <td class="number subtotal" data-value="{{QuantityAllocated}}"></td>
-        <td class="number subtotal" data-value="{{QuantityStaged}}"></td>
-        <td class="number subtotal" data-value="{{QuantityInTransit}}"></td>
-        <td class="number subtotal" data-value="{{QuantityOnPo}}"></td>
-        <td class="number subtotal"></td>
-        <td class="number subtotal"></td>
-        <td class="number subtotal" data-value="{{LastPurchaseQuantity}}"></td>
+        <td class="total-name"  colspan="3" data-value="{{Category}}"></td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{QuantityAllocated}}"></td>
+        <td class="total-val" data-value="{{QuantityStaged}}"></td>
+        <td class="total-val" data-value="{{QuantityInTransit}}"></td>
+        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
+        <td colspan="3" class="total-val" data-value="{{LastPurchaseQuantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
         <td></td>
-        <td class="text footer" colspan="3" data-value="{{Warehouse}}"></td>
-        <td class="number subtotal" data-value="{{Quantity}}"></td>
-        <td class="number subtotal" data-value="{{QuantityAllocated}}"></td>
-        <td class="number subtotal" data-value="{{QuantityStaged}}"></td>
-        <td class="number subtotal" data-value="{{QuantityInTransit}}"></td>
-        <td class="number subtotal" data-value="{{QuantityOnPo}}"></td>
-        <td class="number subtotal"></td>
-        <td class="number subtotal"></td>
-        <td class="number subtotal" data-value="{{LastPurchaseQuantity}}"></td>
+        <td class="total-name" colspan="3" data-value="{{Warehouse}}"></td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{QuantityAllocated}}"></td>
+        <td class="total-val" data-value="{{QuantityStaged}}"></td>
+        <td class="total-val" data-value="{{QuantityInTransit}}"></td>
+        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
+        <td colspan="3" class="total-val" data-value="{{LastPurchaseQuantity}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

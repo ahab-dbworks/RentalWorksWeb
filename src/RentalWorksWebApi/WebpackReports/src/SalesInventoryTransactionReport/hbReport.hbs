@@ -16,7 +16,6 @@
     <thead>
       <tr>
         <th>Warehouse</th>
-        <th>I-Code</th>
         <th>Description</th>
         <th>Date</th>
         <th>User</th>
@@ -37,7 +36,6 @@
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{WarehouseCode}}"></td>
-        <td data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
         <td data-value="{{TransactionDate}}"></td>
         <td data-value="{{UsersName}}"></td>
@@ -50,11 +48,11 @@
         <td class="number" data-value="{{PriceExtended}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "ICodefooter"}}
-        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">{{ICode}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{ICode}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="7" style="font-weight:bold;text-align:right;padding-top:11px">Grand Total:&nbsp;</td>
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
       </tr>
