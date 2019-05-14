@@ -73,6 +73,7 @@ namespace WebApi.Modules.Reports.ReceiptBatchReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
+				select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry);

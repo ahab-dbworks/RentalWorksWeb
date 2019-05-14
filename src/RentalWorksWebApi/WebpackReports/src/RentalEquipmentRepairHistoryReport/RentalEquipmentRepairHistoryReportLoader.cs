@@ -91,6 +91,8 @@ namespace WebApi.Modules.Reports.RentalEquipmentRepairHistoryReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
+				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);

@@ -137,6 +137,7 @@ namespace WebApi.Modules.Reports.SalesRepresentativeBillingReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
+				select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);

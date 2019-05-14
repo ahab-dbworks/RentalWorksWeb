@@ -94,6 +94,7 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
+				select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DataWarehouseDatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);

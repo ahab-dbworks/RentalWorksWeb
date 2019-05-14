@@ -96,6 +96,7 @@ namespace WebApi.Modules.Reports.DealInvoiceBatchReport
                 // below uses a "select" query to populate the FwJsonDataTable 
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
+				select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     SetBaseSelectQuery(select, qry);

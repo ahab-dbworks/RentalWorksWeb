@@ -47,6 +47,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
+				select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     useWithNoLock = false;
