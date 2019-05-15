@@ -25,6 +25,7 @@ namespace WebApi.Modules.Reports.BillingAnalysisReport
         public SelectedCheckBoxListItems IncludeTaxFilter { get; set; } = new SelectedCheckBoxListItems();
         public bool? ExcludeOrdersBilledInTotal { get; set; }
         public bool? IncludeProjectStatus { get; set; }
+        public bool? IncludeCreditsInvoiced { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

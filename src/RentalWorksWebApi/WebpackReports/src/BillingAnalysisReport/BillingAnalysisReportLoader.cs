@@ -253,8 +253,6 @@ namespace WebApi.Modules.Reports.BillingAnalysisReport
             bool includeTaxOrderCost = false;
             bool includeTaxInvoiced = false;
             bool includeTaxVendorInvoice = false;
-            bool includeCreditsInvoiced = false;
-            bool includeBilledInTotal = false;
 
             foreach (SelectedCheckBoxListItem item in request.IncludeFilter)
             {
@@ -300,7 +298,6 @@ namespace WebApi.Modules.Reports.BillingAnalysisReport
                 }
             }
 
-
             useWithNoLock = false;
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
@@ -317,32 +314,32 @@ namespace WebApi.Modules.Reports.BillingAnalysisReport
                     addDateFilterToSelect("orderdate", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("orderdate", request.ToDate, select, "<=", "todate");
 
-                    if (!request.ExcludeOrdersBilledInTotal.GetValueOrDefault(false))
+                    if (request.ExcludeOrdersBilledInTotal.GetValueOrDefault(false))
                     {
-                        select.AddWhere("and notyetinvoiced <> 0");
+                        select.AddWhere("notyetinvoiced <> 0");
                     }
 
-                    select.AddParameter("@includerental", includeRental);
-                    select.AddParameter("@includesales", includeSales);
-                    select.AddParameter("@includemisc", includeMisc);
-                    select.AddParameter("@includelabor", includeLabor);
-                    select.AddParameter("@includeld", includeLd);
-                    select.AddParameter("@includers", includeRentalSale);
-                    select.AddParameter("@includetaxordertotal", includeTaxOrderTotal);
-                    select.AddParameter("@includetaxordercost", includeTaxOrderCost);
-                    select.AddParameter("@includetaxinvoiced", includeTaxInvoiced);
-                    select.AddParameter("@includetaxvendorinvoice", includeTaxVendorInvoice);
-                    select.AddParameter("@includecreditsinvoiced", includeCreditsInvoiced);
-                    select.AddParameter("@includebilledintotal", includeBilledInTotal);
+                    select.AddParameter("@includerental", includeRental ? "T" : "F");
+                    select.AddParameter("@includesales", includeSales ? "T" : "F");
+                    select.AddParameter("@includemisc", includeMisc ? "T" : "F");
+                    select.AddParameter("@includelabor", includeLabor ? "T" : "F");
+                    select.AddParameter("@includeld", includeLd ? "T" : "F");
+                    select.AddParameter("@includers", includeRentalSale ? "T" : "F");
+                    select.AddParameter("@includetaxordertotal", includeTaxOrderTotal ? "T" : "F");
+                    select.AddParameter("@includetaxordercost", includeTaxOrderCost ? "T" : "F");
+                    select.AddParameter("@includetaxinvoiced", includeTaxInvoiced ? "T" : "F");
+                    select.AddParameter("@includetaxvendorinvoice", includeTaxVendorInvoice ? "T" : "F");
+                    select.AddParameter("@includecreditsinvoiced", request.IncludeCreditsInvoiced.GetValueOrDefault(false) ? "T" : "F");
+                    select.AddParameter("@includebilledintotal", request.ExcludeOrdersBilledInTotal.GetValueOrDefault(false) ? "F" : "T");
                     select.AddOrderBy("location,agent,orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-                dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                string[] totalFields = new string[] { "OrderTotal", "OrderCost", "InvoicedTotal", "VendorInvoiceTotal"};
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Agent", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
