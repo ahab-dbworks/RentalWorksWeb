@@ -29,7 +29,6 @@ export class ProfitLossReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(data);
-
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {

@@ -31,10 +31,10 @@
         {{#ifEquals RowType "OfficeLocationheader"}}
         <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Agentheader"}}
-        <td colspan="3" class="lower header-row">Agent: {{Agent}}</td>
+        {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="3" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
-                {{#ifEquals RowType "Customerheader"}}
+        {{#ifEquals RowType "Customerheader"}}
         <td colspan="3" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
@@ -47,8 +47,8 @@
         <td class="number" data-value="{{Profit}}"></td>
         <td class="number" data-value="{{ProfitPercentage}}"></td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Agentfooter"}}
-        <td colspan="4" class="total-name">{{Agent}}&nbsp;</td>
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="4" class="total-name">{{Department}}&nbsp;</td>
         <td class="total-val" data-value="{{Revenue}}"></td>
         <td class="total-val" data-value="{{Expenses}}"></td>
         <td class="total-val" data-value="{{Profit}}"></td>
@@ -59,7 +59,7 @@
         <td class="total-val" data-value="{{Expenses}}"></td>
         <td class="total-val" data-value="{{Profit}}"></td>
         {{/ifEquals}}
-              {{#ifEquals RowType "Customerfooter"}}
+        {{#ifEquals RowType "Customerfooter"}}
         <td colspan="4" class="total-name">{{Customer}}&nbsp;</td>
         <td class="total-val" data-value="{{Revenue}}"></td>
         <td class="total-val" data-value="{{Expenses}}"></td>
