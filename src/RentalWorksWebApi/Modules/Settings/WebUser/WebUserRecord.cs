@@ -92,5 +92,8 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "notificationsoundid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string NotificationSoundId { get; set; }
         //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "toolbarjson", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        public string ToolBarJson { get; set; }
+        //------------------------------------------------------------------------------------
     }
 }

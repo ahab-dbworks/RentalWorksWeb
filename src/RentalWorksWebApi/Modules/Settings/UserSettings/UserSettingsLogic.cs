@@ -62,6 +62,9 @@ namespace WebApi.Modules.Settings.UserSettings
         [FwLogicProperty(Id:"RiJwTjmPSP4u")]
         public string NotificationSoundFileName { get; set; }
 
+        [FwLogicProperty(Id: "ypkfs1JBnySIQ")]
+        public string ToolBarJson { get { return webUser.ToolBarJson; } set { webUser.ToolBarJson = value; } }
+
         [FwLogicProperty(Id:"JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 

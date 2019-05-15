@@ -55,6 +55,9 @@ namespace WebApi.Modules.Settings.UserSettings
         [FwSqlDataField(column: "notificationsoundfilename", modeltype: FwDataTypes.Text)]
         public string NotificationSoundFileName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "toolbarjson", modeltype: FwDataTypes.Text)]
+        public string ToolBarJson { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
