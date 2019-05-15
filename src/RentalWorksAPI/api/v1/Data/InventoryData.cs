@@ -95,6 +95,7 @@ namespace RentalWorksAPI.api.v1.Data
                 newItem.inventorydepartmentorderby = dt.Rows[i]["inventorydepartmentorderby"].ToString().TrimEnd();
                 newItem.categoryorderby            = dt.Rows[i]["categoryorderby"].ToString().TrimEnd();
                 newItem.subcategoryorderby         = dt.Rows[i]["subcategoryorderby"].ToString().TrimEnd();
+                newItem.orderby                    = dt.Rows[i]["orderby"].ToString().TrimEnd();
 
                 newItem.itemaka                    = InventoryData.GetItemAkas(newItem.masterid);
 
@@ -170,6 +171,7 @@ namespace RentalWorksAPI.api.v1.Data
                 newItem.inventorydepartmentorderby = dt.Rows[i]["inventorydepartmentorderby"].ToString().TrimEnd();
                 newItem.categoryorderby            = dt.Rows[i]["categoryorderby"].ToString().TrimEnd();
                 newItem.subcategoryorderby         = dt.Rows[i]["subcategoryorderby"].ToString().TrimEnd();
+                newItem.orderby                    = dt.Rows[i]["orderby"].ToString().TrimEnd();
 
                 newItem.itemaka                    = InventoryData.GetItemAkas(newItem.masterid);
 

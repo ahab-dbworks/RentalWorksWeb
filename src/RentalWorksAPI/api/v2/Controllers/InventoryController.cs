@@ -2,6 +2,7 @@
 using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.api.v2.Models.InventoryModels.ICodeStatus;
 using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatus;
+using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatusByICode;
 using RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder;
 using RentalWorksAPI.Filters;
 using System.Collections.Generic;
@@ -70,6 +71,20 @@ namespace RentalWorksAPI.api.v2
             response = InventoryData.GetWarehousesAddToOrder(request.warehouseids);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { items = response } );
+        }
+        //----------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("itemstatusbyicode")]
+        public HttpResponseMessage GetStatusByICode([FromBody]ItemStatusByICode request)
+        {
+            ItemStatusByICodeResponse result = new ItemStatusByICodeResponse();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            result = InventoryData.GetItemStatusByICode(request.masterid, request.warehouseid);
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { icodes = result });
         }
         //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)

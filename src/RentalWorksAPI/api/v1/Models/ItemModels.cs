@@ -77,6 +77,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string inventorydepartmentorderby { get; set; }
         public string categoryorderby            { get; set; }
         public string subcategoryorderby         { get; set; }
+        public string orderby                    { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
     public class SaleItem : Item
@@ -84,6 +85,7 @@ namespace RentalWorksAPI.api.v1.Models
         public string inventorydepartmentorderby { get; set; }
         public string categoryorderby            { get; set; }
         public string subcategoryorderby         { get; set; }
+        public string orderby                    { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
     public class OrderItem

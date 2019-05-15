@@ -1,6 +1,7 @@
 ﻿using Fw.Json.SqlServer;
 using RentalWorksAPI.api.v2.Models;
 using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatus;
+using RentalWorksAPI.api.v2.Models.InventoryModels.ItemStatusByICode;
 using RentalWorksAPI.api.v2.Models.InventoryModels.WarehouseAddToOrder;
 using System;
 using System.Collections.Generic;
@@ -110,7 +111,7 @@ namespace RentalWorksAPI.api.v2.Data
                 result.master       = qryresult.master;
                 result.mfgserial    = qryresult.mfgserial;
                 result.rfid         = qryresult.rfid;
-                result.barcode      = qryresult.rentalitemid;
+                result.barcode      = qryresult.barcode;
                 result.status       = qryresult.status;
 
                 if (days.GetValueOrDefault() != 0)
@@ -209,6 +210,72 @@ namespace RentalWorksAPI.api.v2.Data
                 item.departmentid = qryresult[i].inventorytypeid;
                 item.department   = qryresult[i].inventorytype;
                 item.warehouseid  = qryresult[i].warehouseid;
+
+                result.Add(item);
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static ItemStatusByICodeResponse GetItemStatusByICode(string masterid, string warehouseid)
+        {
+            ItemStatusByICodeResponse result = new ItemStatusByICodeResponse();
+            dynamic qryresult                = new ExpandoObject();
+
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.Add("select top 1 *");
+                qry.Add("from apirest_rentalinventoryview");
+                qry.Add("where masterid    = @masterid");
+                qry.Add("  and warehouseid = @warehouseid");
+                qry.AddParameter("@masterid",    masterid);
+                qry.AddParameter("@warehouseid", warehouseid);
+                qryresult = qry.QueryToDynamicObject2();
+            }
+
+            if (Object.ReferenceEquals(null, qryresult))
+            {
+                
+            }
+            else if (qryresult.masterid != "")
+            {
+                WarehouseAddToOrderItem item = new WarehouseAddToOrderItem();
+
+                result.masterid     = qryresult.masterid;
+                result.masterno     = qryresult.masterno;
+                result.master       = qryresult.master;
+                result.warehouseid  = qryresult.warehouseid;
+
+                result.barcodes = GetItemStatusByICodeBarcodes(masterid, warehouseid);
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static List<Barcode> GetItemStatusByICodeBarcodes(string masterid, string warehouseid)
+        {
+            List<Barcode> result = new List<Barcode>();
+            dynamic qryresult    = new ExpandoObject();
+
+            using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+            {
+                qry.Add("select *");
+                qry.Add("from apirest_rentalitemview");
+                qry.Add("where masterid    = @masterid");
+                qry.Add("  and warehouseid = @warehouseid");
+                qry.AddParameter("@masterid",    masterid);
+                qry.AddParameter("@warehouseid", warehouseid);
+                qryresult = qry.QueryToDynamicList2();
+            }
+
+            for (int i = 0; i < qryresult.Count; i++)
+            {
+                Barcode item = new Barcode();
+
+                item.barcode = qryresult[i].barcode;
+                item.status  = qryresult[i].rentalstatus;
+                item.orderid = qryresult[i].orderid;
+                item.orderno = qryresult[i].orderno;
 
                 result.Add(item);
             }
