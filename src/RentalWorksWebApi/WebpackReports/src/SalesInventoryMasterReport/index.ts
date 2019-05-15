@@ -27,8 +27,10 @@ export class SalesInventoryMasterReport extends WebpackReport {
                     // Determine view
                     if (parameters.CostType === 'AVERAGE') {
                         data.ViewSetting = 'AverageCostView';
+                        data.CostTypeText = 'Cost is based on Inventory Average Cost';
                     } else {
                         data.ViewSetting = 'DefaultCostView';
+                        data.CostTypeText = 'Cost is based on Inventory Default Cost';
                     }
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
