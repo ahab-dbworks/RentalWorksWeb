@@ -1759,67 +1759,49 @@ class OrderBase {
     };
     //----------------------------------------------------------------------------------------------
     applyOrderTypeAndRateTypeToForm($form) {
-        let self = this;
-
-        // find all the tabs on the form
-        let $rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]');
-        let $salesTab = $form.find('[data-type="tab"][data-caption="Sales"]');
-        let $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
-        let $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-        let $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
-        let $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
-
-        // find all the grids on the form
-        let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
-        let $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
-        let $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
-        let $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
-        let $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
-        let $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
-        let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
-        let rateType = FwFormField.getValueByDataField($form, 'RateType');
+        const $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
+        const rateType = FwFormField.getValueByDataField($form, 'RateType');
 
         // get the OrderTypeId from the form
-        let orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+        const orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
 
-        if (self.CachedOrderTypes[orderTypeId] !== undefined) {
-            applyOrderTypeToColumns($form, self.CachedOrderTypes[orderTypeId]);
+        if (this.CachedOrderTypes[orderTypeId] !== undefined) {
+            applyOrderTypeToColumns($form, this.CachedOrderTypes[orderTypeId]);
         } else {
-            let fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
-            let fieldNames = [];
+            const fields = jQuery($rentalGrid).find('thead tr.fieldnames > td.column > div.field');
+            const fieldNames = [];
 
-            for (var i = 3; i < fields.length; i++) {
-                var name = jQuery(fields[i]).attr('data-mappedfield');
+            for (let i = 3; i < fields.length; i++) {
+                const name = jQuery(fields[i]).attr('data-mappedfield');
                 if (name != "QuantityOrdered") {
                     fieldNames.push(name);
                 }
             }
-            let hiddenRentals, hiddenSales, hiddenLabor, hiddenMisc, hiddenUsedSale, hiddenLossDamage, hiddenCombined;
 
-            FwAppData.apiMethod(true, 'GET', "api/v1/ordertype/" + orderTypeId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                hiddenRentals = fieldNames.filter(function (field) {
+            FwAppData.apiMethod(true, 'GET', `api/v1/ordertype/${orderTypeId}`, null, FwServices.defaultTimeout, response => {
+                const hiddenRentals = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.RentalShowFields))
-                hiddenSales = fieldNames.filter(function (field) {
+                const hiddenSales = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.SalesShowFields))
-                hiddenLabor = fieldNames.filter(function (field) {
+                const hiddenLabor = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.LaborShowFields))
-                hiddenMisc = fieldNames.filter(function (field) {
+                const hiddenMisc = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.MiscShowFields))
-                hiddenUsedSale = fieldNames.filter(function (field) {
+                const hiddenUsedSale = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.RentalSaleShowFields))
-                hiddenLossDamage = fieldNames.filter(function (field) {
+                const hiddenLossDamage = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.LossAndDamageShowFields))
-                hiddenCombined = fieldNames.filter(function (field) {
+                const hiddenCombined = fieldNames.filter(function (field) {
                     return !this.has(field)
                 }, new Set(response.CombinedShowFields))
 
-                self.CachedOrderTypes[orderTypeId] = {
+                this.CachedOrderTypes[orderTypeId] = {
                     CombineActivityTabs: response.CombineActivityTabs,
                     hiddenRentals: hiddenRentals,
                     hiddenSales: hiddenSales,
@@ -1829,20 +1811,19 @@ class OrderBase {
                     hiddenLossDamage: hiddenLossDamage,
                     hiddenCombined: hiddenCombined
                 }
-                applyOrderTypeToColumns($form, self.CachedOrderTypes[orderTypeId]);
+                applyOrderTypeToColumns($form, this.CachedOrderTypes[orderTypeId]);
             }, null, null);
         }
 
         //sets active tab and opens search interface from a newly saved record 
         //12-12-18 moved here from afterSave Jason H 
-        let openSearch = $form.attr('data-opensearch');
-        let searchType = $form.attr('data-searchtype');
-        let activeTabId = $form.attr('data-activetabid');
-        let search = new SearchInterface();
-        if (openSearch === "true") {
+        if ($form.attr('data-opensearch') === "true") {
             //FwTabs.setActiveTab($form, $tab); //this method doesn't seem to be working correctly
-            let $newTab = $form.find(`#${activeTabId}`);
+            const activeTabId = $form.attr('data-activetabid');
+            const $newTab = $form.find(`#${activeTabId}`);
             $newTab.click();
+            const search = new SearchInterface();
+            const searchType = $form.attr('data-searchtype');
             if ($form.attr('data-controller') === "OrderController") {
                 search.renderSearchPopup($form, FwFormField.getValueByDataField($form, 'OrderId'), 'Order', searchType);
             } else if ($form.attr('data-controller') === "QuoteController") {
@@ -1851,8 +1832,8 @@ class OrderBase {
             $form.removeAttr('data-opensearch data-searchtype data-activetabid');
         }
 
-
         function applyOrderTypeToColumns($form, orderTypeData) {
+            const $lossDamageTab = $form.find('[data-type="tab"][data-caption="Loss and Damage"]');
             $form.find('[data-datafield="CombineActivity"] input').val(orderTypeData.CombineActivityTabs);
 
             if (orderTypeData.CombineActivityTabs === true) {
@@ -1865,38 +1846,49 @@ class OrderBase {
                 $form.find('.notcombinedtab').show();
 
                 // show/hide tabs based on Activity boxes checked
+                const $rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]');
                 $form.find('[data-datafield="Rental"] input').prop('checked') ? $rentalTab.show() : $rentalTab.hide();
+                const $salesTab = $form.find('[data-type="tab"][data-caption="Sales"]');
                 $form.find('[data-datafield="Sales"] input').prop('checked') ? $salesTab.show() : $salesTab.hide();
+                const $miscTab = $form.find('[data-type="tab"][data-caption="Miscellaneous"]');
                 $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? $miscTab.show() : $miscTab.hide();
+                const $laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
                 $form.find('[data-datafield="Labor"] input').prop('checked') ? $laborTab.show() : $laborTab.hide();
+                const $usedSaleTab = $form.find('[data-type="tab"][data-caption="Used Sale"]');
                 $form.find('[data-datafield="RentalSale"] input').prop('checked') ? $usedSaleTab.show() : $usedSaleTab.hide();
                 if ($lossDamageTab !== undefined) {
                     $form.find('[data-datafield="LossAndDamage"] input').prop('checked') ? $lossDamageTab.show() : $lossDamageTab.hide();
                 }
             }
 
-            for (var i = 0; i < orderTypeData.hiddenRentals.length; i++) {
-                jQuery($rentalGrid.find('[data-mappedfield="' + orderTypeData.hiddenRentals[i] + '"]')).parent().hide();
+            for (let i = 0; i < orderTypeData.hiddenRentals.length; i++) {
+                jQuery($rentalGrid.find(`[data-mappedfield="${orderTypeData.hiddenRentals[i]}"]`)).parent().hide();
             }
-            for (var j = 0; j < orderTypeData.hiddenSales.length; j++) {
-                jQuery($salesGrid.find('[data-mappedfield="' + orderTypeData.hiddenSales[j] + '"]')).parent().hide();
+            const $salesGrid = $form.find('.salesgrid [data-name="OrderItemGrid"]');
+            for (let i = 0; i < orderTypeData.hiddenSales.length; i++) {
+                jQuery($salesGrid.find(`[data-mappedfield="${orderTypeData.hiddenSales[i]}"]`)).parent().hide();
             }
-            for (var k = 0; k < orderTypeData.hiddenLabor.length; k++) {
-                jQuery($laborGrid.find('[data-mappedfield="' + orderTypeData.hiddenLabor[k] + '"]')).parent().hide();
+            const $laborGrid = $form.find('.laborgrid [data-name="OrderItemGrid"]');
+            for (let i = 0; i < orderTypeData.hiddenLabor.length; i++) {
+                jQuery($laborGrid.find(`[data-mappedfield="${orderTypeData.hiddenLabor[i]}"]`)).parent().hide();
             }
-            for (var l = 0; l < orderTypeData.hiddenMisc.length; l++) {
-                jQuery($miscGrid.find('[data-mappedfield="' + orderTypeData.hiddenMisc[l] + '"]')).parent().hide();
+            const $miscGrid = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+            for (let i = 0; i < orderTypeData.hiddenMisc.length; i++) {
+                jQuery($miscGrid.find(`[data-mappedfield="${orderTypeData.hiddenMisc[i]}"]`)).parent().hide();
             }
-            for (var l = 0; l < orderTypeData.hiddenUsedSale.length; l++) {
-                jQuery($usedSaleGrid.find('[data-mappedfield="' + orderTypeData.hiddenUsedSale[l] + '"]')).parent().hide();
+            const $usedSaleGrid = $form.find('.usedsalegrid [data-name="OrderItemGrid"]');
+            for (let i = 0; i < orderTypeData.hiddenUsedSale.length; i++) {
+                jQuery($usedSaleGrid.find(`[data-mappedfield="${orderTypeData.hiddenUsedSale[i]}"]`)).parent().hide();
             }
+            const $lossDamageGrid = $form.find('.lossdamagegrid [data-name="OrderItemGrid"]');
             if ($lossDamageTab !== undefined) {
                 for (let i = 0; i < orderTypeData.hiddenLossDamage.length; i++) {
                     jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
                 }
             } 
+            const $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
             for (let i = 0; i < orderTypeData.hiddenCombined.length; i++) {
-                jQuery($combinedGrid.find('[data-mappedfield="' + orderTypeData.hiddenCombined[i] + '"]')).parent().hide();
+                jQuery($combinedGrid.find(`[data-mappedfield="${orderTypeData.hiddenCombined[i]}"]`)).parent().hide();
             }
             if (orderTypeData.hiddenRentals.indexOf('WeeklyExtended') === -1 && rateType === '3WEEK') {
                 $rentalGrid.find('.3weekextended').parent().show();
@@ -1904,11 +1896,11 @@ class OrderBase {
                 $rentalGrid.find('.weekextended').parent().show();
             }
 
-            let weeklyType = $form.find(".weeklyType");
-            let monthlyType = $form.find(".monthlyType");
-            let rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
-            let billingMonths = $form.find(".BillingMonths");
-            let billingWeeks = $form.find(".BillingWeeks");
+            const weeklyType = $form.find(".weeklyType");
+            const monthlyType = $form.find(".monthlyType");
+            const rentalDaysPerWeek = $form.find(".RentalDaysPerWeek");
+            const billingMonths = $form.find(".BillingMonths");
+            const billingWeeks = $form.find(".BillingWeeks");
 
 
             switch (rateType) {
@@ -1918,6 +1910,7 @@ class OrderBase {
                     rentalDaysPerWeek.show();
                     billingMonths.hide();
                     billingWeeks.show();
+                    $rentalGrid.find('.dw').parent().show();
                     //$form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
                     //$form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
                     //$form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
@@ -1928,6 +1921,7 @@ class OrderBase {
                     weeklyType.show();
                     monthlyType.hide();
                     rentalDaysPerWeek.hide();
+                    $rentalGrid.find('.dw').parent().hide();
                     billingMonths.hide();
                     billingWeeks.show();
                     break;
@@ -1935,6 +1929,7 @@ class OrderBase {
                     weeklyType.show();
                     monthlyType.hide();
                     rentalDaysPerWeek.hide();
+                    $rentalGrid.find('.dw').parent().hide();
                     billingMonths.hide();
                     billingWeeks.show();
                     break;
@@ -1942,6 +1937,7 @@ class OrderBase {
                     weeklyType.hide();
                     monthlyType.show();
                     rentalDaysPerWeek.hide();
+                    $rentalGrid.find('.dw').parent().hide();
                     billingWeeks.hide();
                     billingMonths.show();
                     break;
@@ -1949,6 +1945,7 @@ class OrderBase {
                     weeklyType.show();
                     monthlyType.hide();
                     rentalDaysPerWeek.show();
+                    $rentalGrid.find('.dw').parent().show();
                     billingMonths.hide();
                     billingWeeks.show();
                     break;
@@ -1963,27 +1960,8 @@ class OrderBase {
             //    $orderItemGridRental.find('.weekextended').parent().hide();
             //    $orderItemGridRental.find('.price').find('.caption').text('Week 1 Rate');
             //}
-
-
-
-            //// Display D/W field in rental
-            //if (rateType === 'DAILY') {
-            //    $allOrderItemGrid.find('.dw').parent().show();
-            //    $orderItemGridRental.find('.dw').parent().show();
-            //    $orderItemGridLabor.find('.dw').parent().show();
-            //    $orderItemGridMisc.find('.dw').parent().show();
-            //} else {
-            //    $allOrderItemGrid.find('.dw').parent().hide();
-            //    $orderItemGridRental.find('.dw').parent().hide();
-            //    $orderItemGridLabor.find('.dw').parent().hide();
-            //    $orderItemGridMisc.find('.dw').parent().hide();
-            //}
-
-
-
         }
     };
-    //----------------------------------------------------------------------------------------------
     //----------------------------------------------------------------------------------------------
 
     afterLoad($form) {
