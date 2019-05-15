@@ -21,7 +21,7 @@ namespace WebApi.Modules.Reports.ProfitLossReport
         public string OrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
+        public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
@@ -83,7 +83,7 @@ namespace WebApi.Modules.Reports.ProfitLossReport
         [FwSqlDataField(column: "profit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Profit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Percentage)]
         public decimal? MarginPercentage { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(ProfitLossReportRequest request)
