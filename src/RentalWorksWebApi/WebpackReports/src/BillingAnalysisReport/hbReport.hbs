@@ -17,18 +17,20 @@
       <tr>
         <th>Order No.</th>
         <th>Deal</th>
-        <th rowspan="2">Order Description</th>
-        <th rowspan="2">Status</th>
+        <th>Order Description</th>
+        <th>Status</th>
         <th>PO No.</th>
-        <th rowspan="2" class="number">Order Total</th>
-        <th rowspan="2" class="number">Cost</th>
-        <th rowspan="2" class="number">To Bill</th>
-        <th rowspan="2" class="number">Vendor Invoice</th>
+        <th class="number">Order Total</th>
+        <th class="number">Cost</th>
+        <th class="number">To Bill</th>
+        <th class="number">Vendor Invoice</th>
       </tr>
       <tr>
         <th>Project No.</th>
         <th>Primary Contact</th>
+        <th colspan="2"></th>
         <th>Ship Date</th>
+        <th colspan="4"></th>
       </tr>
     </thead>
     {{#each this}}
@@ -51,18 +53,20 @@
       <tr>
         <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{Deal}}"></td>
-        <td rowspan="2" data-value="{{OrderDescription}}"></td>
-        <td rowspan="2" data-value="{{Status}}"></td>
+        <td data-value="{{OrderDescription}}"></td>
+        <td data-value="{{Status}}"></td>
         <td data-value="{{PurchaseOrderNumber}}"></td>
-        <td rowspan="2" class="number" data-value="{{OrderTotal}}"></td>
-        <td rowspan="2" class="number" data-value="{{OrderCost}}"></td>
-        <td rowspan="2" class="number" data-value="{{InvoicedTotal}}"></td>
-        <td rowspan="2" class="number" data-value="{{VendorInvoiceTotal}}"></td>
+        <td class="number" data-value="{{OrderTotal}}"></td>
+        <td class="number" data-value="{{OrderCost}}"></td>
+        <td class="number" data-value="{{InvoicedTotal}}"></td>
+        <td class="number" data-value="{{VendorInvoiceTotal}}"></td>
       </tr>
       <tr data-rowtype="{{RowType}}">
         <td data-value="{{ProjectNumber}}"></td>
         <td data-value="{{PrimaryContact}}"></td>
+        <td colspan="2"></td>
         <td data-value="{{OrderDate}}"></td>
+        <td colspan="4"></td>
       </tr>
       {{#if ../IncludeProjectStatus}}
       {{#checkLength ProjectId 0 }}

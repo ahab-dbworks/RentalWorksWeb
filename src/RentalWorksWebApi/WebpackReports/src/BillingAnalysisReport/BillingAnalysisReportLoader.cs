@@ -309,6 +309,9 @@ namespace WebApi.Modules.Reports.BillingAnalysisReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
+                    select.AddWhereIn("projectid", request.ProjectId);
                     select.AddWhereIn("agentid", request.AgentId);
                     select.AddWhereIn("status", request.Status.ToString());
                     addDateFilterToSelect("orderdate", request.FromDate, select, ">=", "fromdate");
