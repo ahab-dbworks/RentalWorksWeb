@@ -250,6 +250,7 @@
     <Compile Include="api\v2\Models\AccountModels\User\User.cs" />
     <Compile Include="api\v2\Models\InventoryModels.cs" />
     <Compile Include="api\v2\Models\InventoryModels\ICodeStatus\ICodeStatus.cs" />
+    <Compile Include="api\v2\Models\InventoryModels\ItemStatusByICode\ICodeStatus.cs" />
     <Compile Include="api\v2\Models\InventoryModels\ItemStatus\ItemStatus.cs" />
     <Compile Include="api\v2\Models\InventoryModels\WarehouseAddToOrder\WarehouseAddToOrderItem.cs" />
     <Compile Include="api\v2\Models\ItemModels.cs" />
