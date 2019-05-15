@@ -100,7 +100,7 @@ class RwValueOfOutRentalInventoryReport extends FwWebApiReport {
         return parameters;
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidateDeal($browse: any, $form: any, request: any) {
+    beforeValidate($browse: any, $form: any, request: any) {
         const validationName = request.module;
         if (validationName != null) {
             request.uniqueids = {};
