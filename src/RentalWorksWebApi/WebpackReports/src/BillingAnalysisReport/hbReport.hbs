@@ -65,57 +65,59 @@
         <td data-value="{{OrderDate}}"></td>
       </tr>
       {{#if ../IncludeProjectStatus}}
-    <tr>
-      <th></th>
-      <th class="subHeaders">Project</th>
-      <th class="subHeaders">Drawings</th>
-      <th class="subHeaders">Drop Ship</th>
-      <th class="subHeaders">As-Build</th>
-      <th class="subHeaders" colspan="2">Commissioning</th>
-      <th class="subHeaders">Deposit</th>
-      <th class="subHeaders">Items Ordered</th>
-    </tr>
-    <tr class="subValues">
-      <td colspan="2">{{ProjectDescription}}</td>
-      <td>{{Drawing}}</td>
-      <td>{{ProjectDropShipItems}}</td>
-      <td>{{AsBuild}}</td>
-      <td colspan="2">{{Commissioning}}</td>
-      <td>{{Deposit}}</td>
-      <td>{{ProjectItemsOrdered}}</td>
-    </tr>
+      {{#checkLength ProjectId 0 }}
+      <tr>
+        <th></th>
+        <th class="subHeaders">Project</th>
+        <th class="subHeaders">Drawings</th>
+        <th class="subHeaders">Drop Ship</th>
+        <th class="subHeaders">As-Build</th>
+        <th class="subHeaders" colspan="2">Commissioning</th>
+        <th class="subHeaders">Deposit</th>
+        <th class="subHeaders">Items Ordered</th>
+      </tr>
+      <tr class="subValues">
+        <td colspan="2">{{ProjectDescription}}</td>
+        <td>{{Drawing}}</td>
+        <td>{{ProjectDropShipItems}}</td>
+        <td>{{AsBuild}}</td>
+        <td colspan="2">{{Commissioning}}</td>
+        <td>{{Deposit}}</td>
+        <td>{{ProjectItemsOrdered}}</td>
+      </tr>
     </tbody>
+    {{/checkLength}}
     {{/if}}
     {{/ifEquals}}
-  <tfoot>
-    {{#ifEquals RowType "Agentfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="5" class="total-name">{{Agent}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OrderTotal}}"></td>
-      <td class="total-val" data-value="{{OrderCost}}"></td>
-      <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-      <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "OfficeLocationfooter"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="5" class="total-name">{{OfficeLocation}}:&nbsp;</td>
-      <td class="total-val" data-value="{{OrderTotal}}"></td>
-      <td class="total-val" data-value="{{OrderCost}}"></td>
-      <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-      <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
-    </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "grandtotal"}}
-    <tr data-rowtype="{{RowType}}">
-      <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-      <td class="total-val" data-value="{{OrderTotal}}"></td>
-      <td class="total-val" data-value="{{OrderCost}}"></td>
-      <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-      <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
-    </tr>
-    {{/ifEquals}}
-  </tfoot>
+    <tfoot>
+      {{#ifEquals RowType "Agentfooter"}}
+      <tr data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{Agent}}:&nbsp;</td>
+        <td class="total-val" data-value="{{OrderTotal}}"></td>
+        <td class="total-val" data-value="{{OrderCost}}"></td>
+        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
+        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">{{OfficeLocation}}:&nbsp;</td>
+        <td class="total-val" data-value="{{OrderTotal}}"></td>
+        <td class="total-val" data-value="{{OrderCost}}"></td>
+        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
+        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr data-rowtype="{{RowType}}">
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{OrderTotal}}"></td>
+        <td class="total-val" data-value="{{OrderCost}}"></td>
+        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
+        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
+      </tr>
+      {{/ifEquals}}
+    </tfoot>
     {{/each}}
   </table>
 </div>
