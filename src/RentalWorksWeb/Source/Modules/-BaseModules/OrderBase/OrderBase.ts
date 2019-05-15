@@ -342,8 +342,7 @@ class OrderBase {
                 id = `${id}~${period}`
             }
             FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                var key;
-                for (key in response) {
+                for (let key in response) {
                     if (response.hasOwnProperty(key)) {
                         $form.find(`[data-framedatafield="${key}"] input`).val(response[key]);
                         $form.find(`[data-framedatafield="${key}"]`).attr('data-originalvalue', response[key]);

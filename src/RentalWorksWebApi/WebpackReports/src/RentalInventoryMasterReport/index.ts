@@ -21,7 +21,7 @@ export class RentalInventoryMasterReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
                     data.Today = moment().format('LL');
-
+console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
