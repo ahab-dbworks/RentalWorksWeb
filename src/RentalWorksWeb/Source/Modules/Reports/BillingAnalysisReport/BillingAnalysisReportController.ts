@@ -126,7 +126,7 @@ class BillingAnalysisReport extends FwWebApiReport {
             { value: "Misc", text: "Misc", selected: "T" },
             { value: "Labor", text: "Labor", selected: "T" },
             { value: "Ld", text: "L&D", selected: "T" },
-            { value: "RentalSale", text: "Rental Sale", selected: "T" }
+            { value: "RentalSale", text: "Used Sale", selected: "T" }
         ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="IncludeTaxFilter"]'), [
