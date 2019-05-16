@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
 {
-    [FwSqlTable("tmpreporttable")]
+    [FwSqlTable("dbo.funcqcrequired('')")]
     public class RentalInventoryQCRequiredReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -16,10 +16,10 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalitemid", modeltype: FwDataTypes.Text)]
-        public string RentalitemId { get; set; }
+        public string RentalItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterid", modeltype: FwDataTypes.Text)]
-        public string MasterId { get; set; }
+        public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
@@ -46,7 +46,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
-        public string Mfgserial { get; set; }
+        public string MfgSerial { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
         public string RfId { get; set; }
@@ -64,7 +64,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentorderby", modeltype: FwDataTypes.Integer)]
-        public int? Inventorydepartmentorderby { get; set; }
+        public int? InventoryTypeOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text)]
         public string CategoryId { get; set; }
@@ -73,7 +73,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string Category { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryorderby", modeltype: FwDataTypes.Integer)]
-        public int? CategoryOrderby { get; set; }
+        public int? CategoryOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subcategoryid", modeltype: FwDataTypes.Text)]
         public string SubCategoryId { get; set; }
@@ -94,10 +94,10 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string InContractDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastdealid", modeltype: FwDataTypes.Text)]
-        public string LastdealId { get; set; }
+        public string LastDealId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lastdeal", modeltype: FwDataTypes.Text)]
-        public string Lastdeal { get; set; }
+        public string LastDeal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conditionid", modeltype: FwDataTypes.Text)]
         public string ConditionId { get; set; }
@@ -106,7 +106,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string Condition { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalstatusid", modeltype: FwDataTypes.Text)]
-        public string RentalstatusId { get; set; }
+        public string RentalStatusId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalstatus", modeltype: FwDataTypes.Text)]
         public string RentalStatus { get; set; }
@@ -115,7 +115,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string StatusType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qcrequiredasof", modeltype: FwDataTypes.Date)]
-        public string Qcrequiredasof { get; set; }
+        public string QCRequiredAsOf { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchaseid", modeltype: FwDataTypes.Text)]
         public string PurchaseId { get; set; }
@@ -124,22 +124,22 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string Ownership { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "noavail", modeltype: FwDataTypes.Boolean)]
-        public bool? Noavail { get; set; }
+        public bool? NoAvail { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availenableqcdelay", modeltype: FwDataTypes.Boolean)]
-        public bool? Availenableqcdelay { get; set; }
+        public bool? AvailEnableQCDelay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqcdelayexcludeweekend", modeltype: FwDataTypes.Boolean)]
-        public bool? Availqcdelayexcludeweekend { get; set; }
+        public bool? AvailQCDelayExcludeWeekend { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqcdelayexcludeholiday", modeltype: FwDataTypes.Boolean)]
-        public bool? Availqcdelayexcludeholiday { get; set; }
+        public bool? AvailQCDelayExcludeHoliday { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqcdelayindefinite", modeltype: FwDataTypes.Boolean)]
-        public bool? Availqcdelayindefinite { get; set; }
+        public bool? AvailQCDelayIndefinite { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availqcdelay", modeltype: FwDataTypes.Integer)]
-        public int? Availqcdelay { get; set; }
+        public int? AvailQCDelay { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availbyhour", modeltype: FwDataTypes.Boolean)]
         public bool? AvailByHour { get; set; }
@@ -160,7 +160,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string PurchasePODescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchasedate", modeltype: FwDataTypes.Date)]
-        public string Purchasedate { get; set; }
+        public string PurchaseDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "receivdate", modeltype: FwDataTypes.Date)]
         public string Receivdate { get; set; }
@@ -199,6 +199,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 dt.InsertSubTotalRows("InventoryType", "RowType", null);
+                dt.InsertSubTotalRows("Category", "RowType", null);
                 dt.InsertTotalRow("RowType", "detail", null, null);
             }
             return dt;
