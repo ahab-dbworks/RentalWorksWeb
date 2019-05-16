@@ -1,0 +1,80 @@
+﻿<!--RentalInventoryQCRequiredReport-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">As Of: {{Today}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th>I-Code</th>
+        <th>Bar Code</th>
+        <th>Description</th>
+        <th class="number">Qty</th>
+        <th>Tracked By</th>
+        <th>Status</th>
+        <th>Rank</th>
+        <th class="number">Unit Value</th>
+        <th class="number">Cost</th>
+        <th class="number">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="nowrap" data-value="{{ICode}}"></td>
+        <td data-value="{{BarCode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td class="number" data-value="{{Quantity}}"></td>
+        <td data-value="{{TrackedBy}}"></td>
+        <td data-value="{{Status}}"></td>
+        <td data-value="{{Rank}}"></td>
+        <td class="number" data-value="{{UnitValue}}"></td>
+        <td class="number" data-value="{{Cost}}"></td>
+        <td class="number" data-value="{{Price}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryfooter"}}
+        <td colspan="6" class="total-name">{{Category}}:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{Cost}}"></td>
+        <td class="total-val" data-value="{{Price}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypefooter"}}
+        <td colspan="6" class="total-name">{{InventoryType}}:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{Cost}}"></td>
+        <td class="total-val" data-value="{{Price}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehousefooter"}}
+        <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{Cost}}"></td>
+        <td class="total-val" data-value="{{Price}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        <td class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{Cost}}"></td>
+        <td class="total-val" data-value="{{Price}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

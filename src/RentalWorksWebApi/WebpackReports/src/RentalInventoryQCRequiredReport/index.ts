@@ -8,19 +8,20 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class RentalInventoryMasterReport extends WebpackReport {
+export class RentalInventoryQCRequiredReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventorymasterreport/runreport`, authorizationHeader, parameters)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryqcrequiredreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                    data.Report = 'Rental Inventory Master Report';
+                    data.Report = 'Rental Inventory QC Required Report';
                     data.System = 'RENTALWORKS';
                     data.Company = '4WALL ENTERTAINMENT';
                     data.Today = moment().format('LL');
+console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -42,4 +43,4 @@ export class RentalInventoryMasterReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new RentalInventoryMasterReport();
+(<any>window).report = new RentalInventoryQCRequiredReport();
