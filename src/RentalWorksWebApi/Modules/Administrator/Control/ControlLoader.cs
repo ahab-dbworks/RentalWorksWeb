@@ -102,9 +102,9 @@ namespace WebApi.Modules.Administrator.Control
         //[FwSqlDataField(column: "allowdecreaseorderwhenstaged", modeltype: FwDataTypes.Boolean)]
         //public bool? Allowdecreaseorderwhenstaged { get; set; }
         ////------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availprogressmeter", modeltype: FwDataTypes.Boolean)]
-        public bool? Availprogressmeter { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "availprogressmeter", modeltype: FwDataTypes.Boolean)]
+        //public bool? Availprogressmeter { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "phyinvcost", modeltype: FwDataTypes.Text)]
         public string Phyinvcost { get; set; }
         //------------------------------------------------------------------------------------ 
