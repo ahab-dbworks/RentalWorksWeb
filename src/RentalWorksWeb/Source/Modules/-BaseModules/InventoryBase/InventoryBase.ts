@@ -9,17 +9,16 @@
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var screen, $browse, self = this;
+        const screen: any = {};
 
-        screen = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };
@@ -31,24 +30,23 @@
     };
     //----------------------------------------------------------------------------------------------
     openBrowse() {
-        let self = this;
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        if (this.Module === 'RentalInventory') {
-            FwAppData.apiMethod(true, 'GET', 'api/v1/control/', null, FwServices.defaultTimeout, function onSuccess(response) {
-                console.log(response);
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, null);
-        }
+        //if (this.Module === 'RentalInventory') {
+        //    FwAppData.apiMethod(true, 'GET', 'api/v1/control/', null, FwServices.defaultTimeout, function onSuccess(response) {
+        //        console.log(response);
+        //    }, function onError(response) {
+        //        FwFunc.showError(response);
+        //    }, null);
+        //}
 
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (var key in response) {
+                for (let key in response) {
                     FwBrowse.addLegend($browse, key, response[key]);
                 }
             }, function onError(response) {
@@ -65,8 +63,8 @@
     };
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, uniqueids?) {
-        var $form, controller, $calendar, inventoryId, $realScheduler;
-        $form = FwModule.loadFormFromTemplate(this.Module);
+        let inventoryId;
+        let $form = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
 
         if (mode === 'NEW') {
@@ -77,7 +75,6 @@
             }
         }
 
-        let self = this;
         let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
         let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
 
@@ -88,19 +85,19 @@
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, '.warehousefilter', warehouse.warehouseid, warehouse.warehouse);
 
-        self.calculateYearly();
-        $calendar = $form.find('.calendar');
+        this.calculateYearly();
+        const $calendar = $form.find('.calendar');
         $calendar
-            .data('ongetevents', function (calendarRequest) {
+            .data('ongetevents', calendarRequest => {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
                 let warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
+                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
+                    FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], this.yearlyEvents);
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
-                    for (var i = 0; i < calendarevents.length; i++) {
+                    for (let i = 0; i < calendarevents.length; i++) {
                         if (calendarevents[i].textColor !== 'rgb(0,0,0') {
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor}">${calendarevents[i].text}</div>`
                         }
@@ -124,8 +121,7 @@
             })
             .data('ontimerangedoubleclicked', function (event) {
                 try {
-                    var date;
-                    date = event.start.toString('MM/dd/yyyy');
+                    const date = event.start.toString('MM/dd/yyyy');
                     FwScheduler.setSelectedDay($calendar, date);
                     //DriverController.openTicket($form);
                     $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
@@ -134,7 +130,7 @@
                     FwFunc.showError(ex);
                 }
             });
-        $realScheduler = $form.find('.realscheduler');
+        const $realScheduler = $form.find('.realscheduler');
         $realScheduler
             .data('ongetevents', function (request) {
                 var start = moment(request.start.value).format('MM/DD/YYYY');
@@ -143,7 +139,7 @@
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
-                    for (var i = 0; i < schedulerEvents.length; i++) {
+                    for (let i = 0; i < schedulerEvents.length; i++) {
                         if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
                             schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
                         }
@@ -157,7 +153,7 @@
             this.setupNewMode($form);
         }
 
-        controller = $form.attr('data-controller');
+        const controller = $form.attr('data-controller');
         if (typeof window[controller]['openFormInventory'] === 'function') {
             window[controller]['openFormInventory']($form);
         }
@@ -200,9 +196,8 @@
     };
     //----------------------------------------------------------------------------------------------
     openRepairOrderBrowse($form) {
-        let inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
-        let $browse;
-        $browse = RepairController.openBrowse();
+        const inventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
+        const $browse = RepairController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = RepairController.ActiveViewFields;
             request.uniqueids = {

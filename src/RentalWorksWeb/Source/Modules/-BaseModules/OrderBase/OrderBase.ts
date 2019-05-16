@@ -763,76 +763,9 @@ class OrderBase {
                 FwFunc.showError(response);
             }, $form);
         });
-        ////RateType change affecting billing tab weeks or months
-        //$form.find('.RateType').on('change', $tr => {
-        //    if (FwFormField.getValueByDataField($form, 'RateType') === 'MONTHLY') {
-        //        $form.find(".BillingWeeks").hide();
-        //        $form.find(".BillingMonths").show();
-        //    } else {
-        //        $form.find(".BillingMonths").hide();
-        //        $form.find(".BillingWeeks").show();
-        //    }
-        //});
-        ////RateType change affecting DaysPerWeek field in rental tab
-        //$form.find('.RateType').on('change', $tr => {
-        //    if (FwFormField.getValueByDataField($form, 'RateType') === 'DAILY') {
-        //        $form.find(".RentalDaysPerWeek").show();
-        //    } else {
-        //        $form.find(".RentalDaysPerWeek").hide();
-        //    }
-        //});
-
-        //$form.find('.RateType').on('change', $tr => {
-        //    let rateType = FwFormField.getValueByDataField($form, 'RateType');
-        //    switch (rateType) {
-        //        case 'DAILY':
-        //            weeklyType.show();
-        //            monthlyType.hide();
-        //            rentalDaysPerWeek.show();
-        //            billingMonths.hide();
-        //            billingWeeks.show();
-        //            $form.find('.combinedgrid [data-name="OrderItemGrid"]').parent().show();
-        //            $form.find('.rentalgrid [data-name="OrderItemGrid"]').parent().show();
-        //            $form.find('.salesgrid [data-name="OrderItemGrid"]').parent().show();
-        //            $form.find('.laborgrid [data-name="OrderItemGrid"]').parent().show();
-        //            $form.find('.miscgrid [data-name="OrderItemGrid"]').parent().show();
-        //            break;
-        //        case 'WEEKLY':
-        //            weeklyType.show();
-        //            monthlyType.hide();
-        //            rentalDaysPerWeek.hide();
-        //            billingMonths.hide();
-        //            billingWeeks.show();
-        //            break;
-        //        case '3WEEK':
-        //            weeklyType.show();
-        //            monthlyType.hide();
-        //            rentalDaysPerWeek.hide();
-        //            billingMonths.hide();
-        //            billingWeeks.show();
-        //            break;
-        //        case 'MONTHLY':
-        //            weeklyType.hide();
-        //            monthlyType.show();
-        //            rentalDaysPerWeek.hide();
-        //            billingWeeks.hide();
-        //            billingMonths.show();
-        //            break;
-        //        default:
-        //            weeklyType.show();
-        //            monthlyType.hide();
-        //            rentalDaysPerWeek.show();
-        //            billingMonths.hide();
-        //            billingWeeks.show();
-        //            break;
-        //    }
-        //});
         $form.find('div[data-datafield="RateType"]').on('change', event => {
             this.applyOrderTypeAndRateTypeToForm($form);
         });
-
-
-
         // Pending PO
         $form.find('[data-datafield="PendingPo"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
@@ -871,31 +804,10 @@ class OrderBase {
             }
         });
 
-        //$form.find('div[data-datafield="OrderTypeId"]').data('onchange', function ($tr) {
-        //    let combineActivity = $tr.find('.field[data-browsedatafield="CombineActivityTabs"]').attr('data-originalvalue');
-        //    $form.find('[data-datafield="CombineActivity"] input').val(combineActivity);
-
-        //    let rentalTab = $form.find('[data-type="tab"][data-caption="Rental"]')
-        //        , salesTab = $form.find('[data-type="tab"][data-caption="Sales"]')
-        //        , miscTab = $form.find('[data-type="tab"][data-caption="Misc"]')
-        //        , laborTab = $form.find('[data-type="tab"][data-caption="Labor"]');
-        //    if (combineActivity == "true") {
-        //        $form.find('.notcombinedtab').hide();
-        //        $form.find('.combinedtab').show();
-        //    } else if (combineActivity == "false") {
-        //        $form.find('.combinedtab').hide();
-        //        $form.find('[data-datafield="Rental"] input').prop('checked') ? rentalTab.show() : rentalTab.hide();
-        //        $form.find('[data-datafield="Sales"] input').prop('checked') ? salesTab.show() : salesTab.hide();
-        //        $form.find('[data-datafield="Miscellaneous"] input').prop('checked') ? miscTab.show() : miscTab.hide();
-        //        $form.find('[data-datafield="Labor"] input').prop('checked') ? laborTab.show() : laborTab.hide();
-        //    }
-        //});
-
         $form.find('div[data-datafield="OrderTypeId"]').on('change', event => {
             this.renderGrids($form);
             this.applyOrderTypeAndRateTypeToForm($form);
         });
-
 
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
             let $this = jQuery(this);
@@ -1059,7 +971,7 @@ class OrderBase {
             }
         });
         //Hide/Show summary buttons based on rate type
-        $form.find('[data-datafield="RateType"]').data('onchange', e => {
+        $form.find('[data-datafield="RateType"] input').change( e => {
             let rateType = FwFormField.getValueByDataField($form, 'RateType');
             if (rateType === 'MONTHLY') {
                 $form.find('.summaryweekly').hide();
