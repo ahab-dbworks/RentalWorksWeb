@@ -72,8 +72,8 @@ abstract class FwWebApiReport {
         const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
         let companyName;
         if (this.reportName === 'OrderReport' || this.reportName === 'OutContractReport' || this.reportName === 'PickListReport' || this.reportName === 'InvoiceReport') {
-            if (JSON.parse(sessionStorage.getItem('location')).companyname != null) {
-                companyName = JSON.parse(sessionStorage.getItem('location')).companyname;
+            if (JSON.parse(sessionStorage.getItem('location')).companyname != null) { 
+                companyName = JSON.parse(sessionStorage.getItem('location')).companyname; // temporary solution until Justin can add the company name to these report responses
             }
         } else {
             if (JSON.parse(sessionStorage.getItem('controldefaults')).companyname != null) {
