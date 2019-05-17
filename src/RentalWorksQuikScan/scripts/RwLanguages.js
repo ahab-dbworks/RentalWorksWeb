@@ -230,6 +230,7 @@ RwLanguages.captions = [
   , 'Qty'
   , 'Qty Ordered'
   , 'Quantity'
+  , 'QuikIn'
   , 'QuikPick'
   , 'Quote'
   , 'Quote No'

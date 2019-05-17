@@ -22,6 +22,7 @@ namespace RentalWorksQuikScan.Source
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "container"))     response.applicationOptions.container     = session.applicationOptions.container;
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "crew"))          response.applicationOptions.crew          = session.applicationOptions.crew;
             if (FwValidate.IsPropertyDefined(session.applicationOptions, "production"))    response.applicationOptions.production    = session.applicationOptions.production;
+            if (FwValidate.IsPropertyDefined(session.applicationOptions, "quikin"))        response.applicationOptions.quikin        = session.applicationOptions.quikin;
 
             response.stagingSuspendedSessionsEnabled = Staging.IsSuspendedSessionsEnabled();
 

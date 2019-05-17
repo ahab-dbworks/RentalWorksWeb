@@ -401,6 +401,7 @@ namespace RentalWorksQuikScan.Source
             result.rfid         = sp.GetParameter("@rfid").ToString().TrimEnd();
             result.itemclass    = sp.GetParameter("@itemclass").ToString().TrimEnd();
             result.conditionid  = sp.GetParameter("@conditionid").ToString().TrimEnd();
+            result.vendorid     = sp.GetParameter("@vendorid").ToString().TrimEnd();
             result.vendor       = sp.GetParameter("@vendor").ToString().TrimEnd();
             result.status       = sp.GetParameter("@status").ToInt32();
             result.msg          = sp.GetParameter("@msg").ToString().TrimEnd();
