@@ -3575,6 +3575,41 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Container Item: Get One",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/containeritem/F00XTMBX",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"containeritem",
+								"F00XTMBX"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -8418,7 +8453,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/customertype/0000014M",
+							"raw": "http://localhost:57949/api/v1/customertype/I0014572",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8428,7 +8463,7 @@
 								"api",
 								"v1",
 								"customertype",
-								"0000014M"
+								"I0014572"
 							]
 						}
 					},
@@ -8450,7 +8485,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"CustomerType\": \"CUSTOMER TYPE ABC\",\n    \"DefaultRentalDiscountPercent\": 1,\n    \"DefaultSalesDiscountPercent\": 2.5,\n    \"DefaultFacilitiesDiscountPercent\": 3.75\n}"
+							"raw": "{\n    \"CustomerType\": \"CUSTOMER TYPE XYZ\",\n    \"DefaultRentalDiscountPercent\": 1,\n    \"DefaultSalesDiscountPercent\": 2.5,\n    \"DefaultFacilitiesDiscountPercent\": 3.75\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/customertype",
@@ -8484,7 +8519,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"CustomerTypeId\": \"00003A6F\",\n    \"CustomerType\": \"CUSTOMER TYPE XYZ\",\n    \"DefaultRentalDiscountPercent\": 1.9\n}"
+							"raw": "{\n    \"CustomerTypeId\": \"I0014572\",\n    \"CustomerType\": \"CUSTOMER TYPE 11111\",\n    \"DefaultRentalDiscountPercent\": 1,\n    \"DefaultSalesDiscountPercent\": 2.5,\n    \"DefaultFacilitiesDiscountPercent\": 3.75\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/customertype",
@@ -8521,7 +8556,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/customertype/00003A6F",
+							"raw": "http://localhost:57949/api/v1/customertype/I0014572",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -8531,7 +8566,7 @@
 								"api",
 								"v1",
 								"customertype",
-								"00003A6F"
+								"I0014572"
 							]
 						}
 					},
@@ -23288,6 +23323,47 @@
 					"response": []
 				},
 				{
+					"name": "Item: Get One By Bar Code",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/item/bybarcode?barcode=210001469",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"item",
+								"bybarcode"
+							],
+							"query": [
+								{
+									"key": "barcode",
+									"value": "210001469"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Item: Insert",
 					"request": {
 						"method": "POST",
@@ -26761,7 +26837,7 @@
 							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"Description\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"IdField\": \"value\"}\n\t\n}"
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/orderactivity/calendardata?WarehouseId=B0029AY5&FromDate=01/01/2019&ToDate=01/31/2019",
+							"raw": "http://localhost:57949/api/v1/orderactivity/calendardata?WarehouseId=B0029AY5&FromDate=01/01/2018&ToDate=01/31/2018",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -26780,11 +26856,11 @@
 								},
 								{
 									"key": "FromDate",
-									"value": "01/01/2019"
+									"value": "01/01/2018"
 								},
 								{
 									"key": "ToDate",
-									"value": "01/31/2019"
+									"value": "01/31/2018"
 								}
 							]
 						}
@@ -26998,6 +27074,46 @@
 								"v1",
 								"ordercontact",
 								"00003EOV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Dates",
+			"item": [
+				{
+					"name": "Order Dates: Browse",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n\t\t\"miscfields\": {},\n    \t\"module\": \"\",\n    \t\"options\": {},\n    \t\"orderby\": \"OrderBy\",\n    \t\"pageno\": 1,\n    \t\"pagesize\": 10,\n    \t\"searchfieldoperators\": [],\n    \t\"searchfields\": [],\n    \t\"searchfieldvalues\": [],\n    \t\"uniqueids\": {\"OrderId\": \"C000000K\"}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/orderdates/browse",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"orderdates",
+								"browse"
 							]
 						}
 					},
@@ -38057,7 +38173,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t \"QuoteId\":\"00002WPC\",\n\t \"Field1\":\"1\"\n}"
+							"raw": "{\n    \"QuoteId\": \"I00002O7\",\n    \"WarehouseId\": \"xxxx\"\n\n}"
 						},
 						"url": {
 							"raw": "http://localhost:57949/api/v1/quote",
@@ -46410,7 +46526,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:57949/api/v1/user/A0000NB0",
+							"raw": "http://localhost:57949/api/v1/user/B00294F6",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -46420,7 +46536,7 @@
 								"api",
 								"v1",
 								"user",
-								"A0000NB0"
+								"B00294F6"
 							]
 						}
 					},
@@ -55584,6 +55700,61 @@
 								"v1",
 								"utilityfunctions",
 								"newsessionid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Email",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{jwttoken}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:57949/api/v1/utilityfunctions/sendmail?from=justin@dbworks.com&to=justin@dbworks.com&subject=test2&body=here is a test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "57949",
+							"path": [
+								"api",
+								"v1",
+								"utilityfunctions",
+								"sendmail"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "justin@dbworks.com"
+								},
+								{
+									"key": "to",
+									"value": "justin@dbworks.com"
+								},
+								{
+									"key": "subject",
+									"value": "test2"
+								},
+								{
+									"key": "body",
+									"value": "here is a test"
+								}
 							]
 						}
 					},
