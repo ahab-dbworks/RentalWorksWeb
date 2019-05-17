@@ -23,7 +23,7 @@
         <th>Status</th>
         <th>Rank</th>
         <th class="number">Unit Value</th>
-        <th class="number">Cost</th>
+        <th class="number">Replacement Cost</th>
         <th class="number">Price</th>
       </tr>
     </thead>
@@ -45,39 +45,39 @@
         <td data-value="{{Description}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
         <td data-value="{{TrackedBy}}"></td>
-        <td data-value="{{Status}}"></td>
+        <td data-value="{{RentalStatus}}"></td>
         <td data-value="{{Rank}}"></td>
         <td class="number" data-value="{{UnitValue}}"></td>
-        <td class="number" data-value="{{Cost}}"></td>
-        <td class="number" data-value="{{Price}}"></td>
+        <td class="number" data-value="{{ReplacementCost}}"></td>
+        <td class="number" data-value="{{UnitCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="6" class="total-name">{{Category}}:&nbsp;</td>
+        <td colspan="3" class="total-name">{{Category}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{UnitValue}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Price}}"></td>
+        <td colspan="4" class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td class="total-val" data-value="{{UnitCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="6" class="total-name">{{InventoryType}}:&nbsp;</td>
+        <td colspan="3" class="total-name">{{InventoryType}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{UnitValue}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Price}}"></td>
+        <td colspan="4" class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td class="total-val" data-value="{{UnitCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td colspan="3" class="total-name">{{Warehouse}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{UnitValue}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Price}}"></td>
+        <td colspan="4" class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td class="total-val" data-value="{{UnitCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{UnitValue}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Price}}"></td>
+        <td colspan="4" class="total-val" data-value="{{UnitValue}}"></td>
+        <td class="total-val" data-value="{{ReplacementCost}}"></td>
+        <td class="total-val" data-value="{{UnitCost}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}

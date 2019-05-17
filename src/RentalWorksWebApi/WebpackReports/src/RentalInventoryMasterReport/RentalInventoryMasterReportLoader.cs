@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.RentalInventoryMasterReport
         public bool? Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
-        public string Trackedby { get; set; }
+        public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
@@ -37,10 +37,10 @@ namespace WebApi.Modules.Reports.RentalInventoryMasterReport
         public string Category { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subcategory", modeltype: FwDataTypes.Text)]
-        public string Subcategory { get; set; }
+        public string SubCategory { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "barcode", modeltype: FwDataTypes.Text)]
-        public string Barcode { get; set; }
+        public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
         public string MfgSerial { get; set; }
@@ -64,7 +64,7 @@ namespace WebApi.Modules.Reports.RentalInventoryMasterReport
         public string PurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "podate", modeltype: FwDataTypes.Date)]
-        public string Podate { get; set; }
+        public string PurchaseOrderdate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "unitcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitCost { get; set; }
@@ -100,7 +100,7 @@ namespace WebApi.Modules.Reports.RentalInventoryMasterReport
         public string RetiredReason { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retirednotes", modeltype: FwDataTypes.Text)]
-        public string RetiredMotes { get; set; }
+        public string RetiredNotes { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "originalshowid", modeltype: FwDataTypes.Text)]
         public string OriginalShowId { get; set; }
