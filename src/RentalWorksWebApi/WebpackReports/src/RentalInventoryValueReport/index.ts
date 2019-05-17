@@ -22,7 +22,7 @@ export class RentalInventoryValueReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rental Inventory Value Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     // Consigned or Owned Items header text
                     if (parameters.IncludeConsigned === true && parameters.IncludeOwned === false) {
                         data.ConsignedOwnedHeader = 'Includes Consigned Items Only';

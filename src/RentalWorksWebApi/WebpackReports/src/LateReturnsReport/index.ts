@@ -33,7 +33,7 @@ export class LateReturnDueBackReport extends WebpackReport {
                         }
                     }
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.Report = 'Late Return / Due Back Report';
                     data.Type = parameters.Type;
                     data.subtitle = parameters.headerText;

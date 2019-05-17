@@ -24,8 +24,7 @@ export class DailyReceiptsReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Daily Receipts Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
-                    console.log('rpt', data)
+                    data.Company = parameters.companyName;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

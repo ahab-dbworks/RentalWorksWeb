@@ -21,7 +21,7 @@ export class VendorInvoiceBatchReport extends WebpackReport {
                     data.Date = parameters.BatchDate;
                     data.Report = 'Vendor Invoice Batch Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.BatchNumber = parameters.BatchNumber;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

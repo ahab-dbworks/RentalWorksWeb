@@ -21,7 +21,7 @@ export class DealInvoiceBatchReport extends WebpackReport {
                     data.Date = parameters.BatchDate;
                     data.Report = 'Deal Invoice Batch Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.BatchNumber = parameters.BatchNumber;
                     this.renderFooterHtml(data);
 

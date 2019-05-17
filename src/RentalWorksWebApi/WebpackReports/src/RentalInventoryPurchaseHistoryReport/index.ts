@@ -24,7 +24,7 @@ export class RentalInventoryPurchaseHistoryReport extends WebpackReport {
                     data.ReceivedToDate = parameters.ReceivedToDate;
                     data.Report = 'Rental Inventory Purchase History Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
 
                     if (parameters.PurchasedFromDate !== '' || parameters.PurchasedToDate !== '') {
                         data.showPurchaseDates = true;

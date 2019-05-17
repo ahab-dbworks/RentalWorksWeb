@@ -22,7 +22,7 @@ export class RentalEquipmentRepairHistoryReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rental Equipment Repair History Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
         
                     console.log('rpt: ', data)

@@ -22,7 +22,7 @@ export class ReturnOnAssetReport extends WebpackReport {
                     data.Report = 'Return On Asset Report';
                     data.System = 'RENTALWORKS';
                     data.ReportYear = parameters.ReportYear;
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     
                     if (parameters.ReportPeriod === "FY") {
                         data.ReportPeriod = "Full Year";

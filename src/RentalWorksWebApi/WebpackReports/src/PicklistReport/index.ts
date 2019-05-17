@@ -23,7 +23,7 @@ export class PickListReport extends WebpackReport {
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.Report = 'PICK LIST';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = JSON.parse(sessionStorage.getItem('location')).companyname;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

@@ -25,12 +25,11 @@ export class OutContractReport extends WebpackReport {
                     const data: any = response;
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = JSON.parse(sessionStorage.getItem('location')).companyname;
                     data.Report = 'OUT CONTRACT';
                     if (controlObject.ReportLogoImage != '') {
                         data.Logosrc = controlObject.ReportLogoImage;
                     } 
-                    console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

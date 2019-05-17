@@ -22,7 +22,7 @@ export class RetiredRentalInventoryReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Retired Rental Inventory Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.ShowSellInformation = parameters.ShowSellInformation;
                     data.IncludeUnretired = parameters.IncludeUnretired;
                     this.renderFooterHtml(data);

@@ -15,13 +15,29 @@ export class RentalInventoryQCRequiredReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
             Ajax.post<DataTable>(`${apiUrl}/api/v1/rentalinventoryqcrequiredreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
+                    const data: any = {};
+                    data.rows = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.Report = 'Rental Inventory QC Required Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
-console.log('rpt', data)
+                                       console.log('compan', parameters)
+
+                    let detailRowCount = 0;
+                    const rows = data.rows;
+                    //for (let i = 0; i < rows.length; i++) {
+                    //    console.log('index', rows[i].RowType)
+          
+                    //    if (rows[i].RowType === 'detail') {
+                    //        detailRowCount++
+                    //        if (rows[i + 1].RowType !== 'detail') {
+                    //            rows.splice(rows[i + 1], 0, detailRowCount);
+                    //            detailRowCount = 0;
+                    //        }
+                    //    }
+                    //}
+                    console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

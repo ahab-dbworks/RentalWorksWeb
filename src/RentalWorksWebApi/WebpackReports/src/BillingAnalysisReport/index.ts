@@ -22,7 +22,7 @@ export class BillingAnalysisReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Billing Analysis Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.IncludeProjectStatus = parameters.IncludeProjectStatus;
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);

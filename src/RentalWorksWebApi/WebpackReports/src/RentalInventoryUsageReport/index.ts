@@ -23,7 +23,7 @@ export class RentalInventoryUsageReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Rental Inventory Usage & Revenue Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

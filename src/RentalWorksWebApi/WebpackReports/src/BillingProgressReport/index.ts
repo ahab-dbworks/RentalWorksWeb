@@ -21,7 +21,7 @@ export class BillingProgressReport extends WebpackReport {
                     data.AsOfDate = parameters.AsOfDate;
                     data.Report = 'Billing Progress Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

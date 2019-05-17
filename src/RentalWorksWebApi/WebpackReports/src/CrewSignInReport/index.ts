@@ -25,7 +25,7 @@ export class CrewSignInReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Crew Sign-In Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
 
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

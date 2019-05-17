@@ -22,7 +22,7 @@ export class SalesReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Sales Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
         
                     // Determine Summary or Detail View
                     if (parameters.Summary === 'true') {

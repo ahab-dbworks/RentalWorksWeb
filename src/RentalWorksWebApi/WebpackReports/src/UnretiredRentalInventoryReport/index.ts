@@ -23,7 +23,7 @@ export class UnretiredRentalInventoryReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Unretired Rental Inventory Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

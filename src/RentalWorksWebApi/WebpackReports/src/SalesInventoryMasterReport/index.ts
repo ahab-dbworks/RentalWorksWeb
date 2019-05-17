@@ -21,7 +21,7 @@ export class SalesInventoryMasterReport extends WebpackReport {
                     data.ToDate = parameters.RevenueToDate;
                     data.Report = 'Sales Inventory Master Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
         
                     // Determine view

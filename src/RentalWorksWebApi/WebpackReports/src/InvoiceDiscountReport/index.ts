@@ -24,7 +24,7 @@ export class InvoiceDiscountReport extends WebpackReport {
                     data.DiscountPercent = parameters.DiscountPercent;
                     data.Report = 'Invoice Discount Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

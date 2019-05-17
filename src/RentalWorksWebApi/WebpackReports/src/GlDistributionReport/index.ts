@@ -23,7 +23,7 @@ export class GLDistributionReport extends WebpackReport {
                     data.Location = parameters.Location;
                     data.Report = 'G/L Distribution Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

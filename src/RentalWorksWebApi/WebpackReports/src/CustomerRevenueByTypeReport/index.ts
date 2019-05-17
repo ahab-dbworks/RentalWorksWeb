@@ -23,7 +23,7 @@ export class CustomerRevenueByTypeReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Customer Revenue By Type Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.ContractTime = moment(data.ContractTime, 'h:mm a').format('h:mm a');
                     this.renderFooterHtml(data);

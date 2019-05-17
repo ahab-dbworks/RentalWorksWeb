@@ -19,7 +19,7 @@ export class RentalInventoryCatalogReport extends WebpackReport {
                     const data: any = DataTable.toObjectList(response);
                     data.Report = 'Rental Inventory Catalog Report';
                     data.System = 'RENTALWORKS';
-                    data.Company = '4WALL ENTERTAINMENT';
+                    data.Company = parameters.companyName;
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

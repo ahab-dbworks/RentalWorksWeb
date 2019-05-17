@@ -6,6 +6,7 @@ import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/Handleb
 import * as moment from 'moment';
 import '../../lib/FwReportLibrary/src/theme/webpackReports.scss';
 import './index.scss';
+import { Session } from 'inspector';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
@@ -25,7 +26,7 @@ export class InvoiceReport extends WebpackReport {
                         data.Items = DataTable.toObjectList(response.Items);
                         data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                         data.System = 'RENTALWORKS';
-                        data.Company = '4WALL ENTERTAINMENT';
+                        data.Company = JSON.parse(sessionStorage.getItem('location')).companyname;
                         data.Report = 'INVOICE';
                         if (controlObject.ReportLogoImage != '') {
                             data.Logosrc = controlObject.ReportLogoImage;
