@@ -1,0 +1,88 @@
+﻿<!--Sub-Rental Billing Analysis Report-->
+<div class="rpt-flexrow" style="width:1525px;">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+       <span class="rpt-header-center">Retired From: {{FromDate}} To: {{ToDate}}</span>
+    </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;width:1525px;">
+  <table>
+    <thead>
+      <tr>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Retired Date</th>
+        <th>Invoice Date</th>
+        <th>Invoice No.</th>
+        <th>Deal</th>
+        <th>Quantity/Bar Code</th>
+        <th>Unit Value</th>
+        <th>Replacement Cost</th>
+        <th>Billed Amount</th>
+        <th>Credit Amount</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="5" class="lower header-row">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "ICodeheader"}}
+        <td colspan="5" class="lower header-row">I-Code: {{ICode}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{RetiredDate}}"></td>
+        <td data-value="{{BilledToInvoiceDate}}"></td>
+        <td data-value="{{BilledToInvoiceNumber}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td class="number" data-value="{{QuantityOrBarCode}}"></td>
+        <td class="number" data-value="{{UnitValue}}"></td>
+        <td class="number" data-value="{{ReplacementCost}}"></td>
+        <td class="number" data-value="{{BilledAmount}}"></td>
+        <td class="number" data-value="{{CreditAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "ICodefooter"}}
+        <td colspan="9" class="total-name">{{ICode}}&nbsp;</td>
+        <td class="total-val" data-value="{{BilledAmount}}"></td>
+        <td class="total-val" data-value="{{CreditAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryfooter"}}
+        <td colspan="9" class="total-name">{{Category}}&nbsp;</td>
+        <td class="total-val" data-value="{{BilledAmount}}"></td>
+        <td class="total-val" data-value="{{CreditAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypefooter"}}
+        <td colspan="9" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td class="total-val" data-value="{{BilledAmount}}"></td>
+        <td class="total-val" data-value="{{CreditAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehousefooter"}}
+        <td colspan="9" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{BilledAmount}}"></td>
+        <td class="total-val" data-value="{{CreditAmount}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="9" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{BilledAmount}}"></td>
+        <td class="total-val" data-value="{{CreditAmount}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
