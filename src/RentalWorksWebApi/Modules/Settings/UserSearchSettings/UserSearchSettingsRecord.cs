@@ -23,9 +23,6 @@ namespace WebApi.Modules.Settings.UserSearchSettings
         [FwSqlDataField(column: "disableaccessoryautoexpand", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? DisableAccessoryAutoExpand { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "showzeroqty", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
-        public bool? ShowZeroQuantity { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hidezeroqty", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 1)]
         public bool? HideZeroQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
