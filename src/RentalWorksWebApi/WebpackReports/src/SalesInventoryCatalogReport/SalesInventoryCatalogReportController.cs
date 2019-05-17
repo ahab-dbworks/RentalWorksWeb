@@ -13,18 +13,18 @@ using Microsoft.AspNetCore.Http;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Modules.Reports.InventoryCatalogReport;
 
-namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
+namespace WebApi.Modules.Reports.SalesInventoryCatalogReport
 {
 
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id:"5KHdCAEfEbEVo")]
-    public class RentalInventoryCatalogReportController : AppReportController
+    public class SalesInventoryCatalogReportController : AppReportController
     {
-        public RentalInventoryCatalogReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "RentalInventoryCatalogReport"; }
+        public SalesInventoryCatalogReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "SalesInventoryCatalogReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Rental Inventory Catalog Report"; }
+        protected override string GetReportFriendlyName() { return "Sales Inventory Catalog Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -37,10 +37,10 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "RentalInventoryCatalogReport";
+            return "SalesInventoryCatalogReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/rentalinventorycatalogreport/render 
+        // POST api/v1/salesinventorycatalogreport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id:"Nz5KeUrcs6csJ")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -50,7 +50,7 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        // POST api/v1/salesinventorycatalogreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "fdos87pyamXB")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]InventoryCatalogReportRequest request)
@@ -60,7 +60,7 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/rentalinventorycatalogreport/runreport 
+        // POST api/v1/salesinventorycatalogreport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id:"wUwSPtxGXHYvX")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]InventoryCatalogReportRequest request)
@@ -71,7 +71,7 @@ namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
             }
             try
             {
-                RentalInventoryCatalogReportLoader l = new RentalInventoryCatalogReportLoader();
+                SalesInventoryCatalogReportLoader l = new SalesInventoryCatalogReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);

@@ -1,14 +1,14 @@
 using WebApi.Modules.Reports.InventoryCatalogReport;
 using WebLibrary;
 
-namespace WebApi.Modules.Reports.RentalInventoryCatalogReport
+namespace WebApi.Modules.Reports.SalesInventoryCatalogReport
 {
-    public class RentalInventoryCatalogReportLoader : InventoryCatalogReportLoader
+    public class SalesInventoryCatalogReportLoader : InventoryCatalogReportLoader
     {
         //------------------------------------------------------------------------------------ 
-        public RentalInventoryCatalogReportLoader()
+        public SalesInventoryCatalogReportLoader()
         {
-            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_RENT;
+            AvailableForFilter = RwConstants.INVENTORY_AVAILABLE_FOR_SALE;
         }
         //------------------------------------------------------------------------------------ 
     }
