@@ -1,6 +1,6 @@
-﻿class FwContextMenuClass {
+class FwContextMenuClass {
     //----------------------------------------------------------------------------------------------
-    render(title, position, $appendto, event) {
+    render(title, position, $appendto?, event?) {
         let html = [], $control, viewPort, scrollTop, scrollLeft, topValue, leftValue, maxZIndex;
         if (typeof position !== 'string') {
             position = 'center';
@@ -20,9 +20,9 @@
             html.push(`<div class="fwcontextmenu" data-position="${position}">`);
         }
         html.push(`  <div class="fwcontextmenubox">`);
-        //if ((typeof title === 'string') && (title.length > 0)) {
-        //    html.push('    <div class="fwcontextmenutitle">' + title + '</div>');
-        //}
+        if ((typeof title === 'string') && (title.length > 0)) {
+            html.push('    <div class="fwcontextmenutitle">' + title + '</div>');
+        }
         html.push('    <div class="fwcontextmenuitems">');
         html.push('    </div>');
         //html.push('    <div class="fwcontextmenucancel">');
