@@ -102,7 +102,7 @@ class SearchInterface {
                 <div class="flexcolumn">
                     <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:400px; margin-top: 10px;"></div>
                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol show-zero-quantity" data-caption="Show Inventory with Zero Quantity" data-datafield="ShowZeroQuantity"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol" data-caption="Hide Inventory with Zero Quantity" data-datafield="HideZeroQuantity"></div>
                     <div>
                        <div data-type="button" class="fwformcontrol restoreDefaults" style="width:45px; float:left; margin:10px;">Reset</div>
                        <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
@@ -283,8 +283,8 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', true);
             }
 
-            if (response.ShowZeroQuantity) {
-                FwFormField.setValueByDataField($popup, 'ShowZeroQuantity', true);
+            if (response.HideZeroQuantity) {
+                FwFormField.setValueByDataField($popup, 'HideZeroQuantity', true);
             }
 
             if (response.Mode != null) {
@@ -606,8 +606,8 @@ class SearchInterface {
                 }
                 //Load the Inventory items if selected category doesn't have any sub-categories
                 if (hasSubCategories == false) {
-                    let showZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="ShowZeroQuantity"]'));
-                    showZeroQuantity == "T" ? showZeroQuantity = true : showZeroQuantity = false;
+                    let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
+                    hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
                     request = {
                         OrderId: parentFormId,
                         SessionId: parentFormId,
@@ -618,7 +618,7 @@ class SearchInterface {
                         ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
                         SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
                         Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                        ShowInventoryWithZeroQuantity: showZeroQuantity,
+                        HideInventoryWithZeroQuantity: hideZeroQuantity,
                         ShowImages: true
                     }
                     if (fromDate != "") {
@@ -682,8 +682,8 @@ class SearchInterface {
             categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
             inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
 
-            let showZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="ShowZeroQuantity"]'));
-            showZeroQuantity == "T" ? showZeroQuantity = true : showZeroQuantity = false;
+            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
+            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
             request = {
                 OrderId: parentFormId,
                 SessionId: parentFormId,
@@ -695,7 +695,7 @@ class SearchInterface {
                 ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
                 SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
                 Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                ShowInventoryWithZeroQuantity: showZeroQuantity,
+                HideInventoryWithZeroQuantity: hideZeroQuantity,
                 ShowImages: true
             }
             if (fromDate != "") {
@@ -924,8 +924,8 @@ class SearchInterface {
             let request: any = {};
             let expandAccessories = FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]'));
             expandAccessories == "T" ? expandAccessories = true : expandAccessories = false;
-            let showZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="ShowZeroQuantity"]'));
-            showZeroQuantity == "T" ? showZeroQuantity = true : showZeroQuantity = false;
+            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
+            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
             let $columns = $popup.find('[data-datafield="Columns"] li');
             let selectedColumns = [];
             let notSelectedColumns = [];
@@ -954,7 +954,7 @@ class SearchInterface {
             request.ResultFields = JSON.stringify(selectedColumns);
             request.WebUserId = userId.webusersid;
             request.DisableAccessoryAutoExpand = expandAccessories;
-            request.ShowZeroQuantity = showZeroQuantity;
+            request.HideZeroQuantity = hideZeroQuantity;
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 let columnsToHide = notSelectedColumns.map(a => a.value);
                 FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
@@ -969,7 +969,7 @@ class SearchInterface {
                     ShowImages: true,
                     SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
                     Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                    ShowInventoryWithZeroQuantity: showZeroQuantity,
+                    HideInventoryWithZeroQuantity: hideZeroQuantity,
                     SearchText: FwFormField.getValueByDataField($popup, 'SearchBox'),
                 }
 
@@ -1017,7 +1017,7 @@ class SearchInterface {
                 { value: 'Rate', text: 'Rate', selected: 'T' }]);
 
             FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
-            FwFormField.setValueByDataField($popup, 'ShowZeroQuantity', false);
+            FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
             let gridView = $popup.find('#itemlist').attr('data-view');
             let $inventory = $popup.find('div.item-info');
             self.listGridView($inventory, gridView);
@@ -1083,8 +1083,8 @@ class SearchInterface {
             try {
                 if (code === 13) { //Enter Key
                     e.preventDefault();
-                    let showZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="ShowZeroQuantity"]'));
-                    showZeroQuantity == "T" ? showZeroQuantity = true : showZeroQuantity = false;
+                    let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
+                    hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
                     let request: any = {
                         OrderId: id,
                         SessionId: id,
@@ -1094,7 +1094,7 @@ class SearchInterface {
                         ShowImages: true,
                         SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
                         Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                        ShowInventoryWithZeroQuantity: showZeroQuantity,
+                        HideInventoryWithZeroQuantity: hideZeroQuantity,
                         SearchText: FwFormField.getValueByDataField($popup, 'SearchBox')
                     }
 
@@ -1303,8 +1303,8 @@ class SearchInterface {
 
         //Sorting option events
         $popup.on('change', '.select, .sortby', e => {
-            let showZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="ShowZeroQuantity"]'));
-            showZeroQuantity == "T" ? showZeroQuantity = true : showZeroQuantity = false;
+            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
+            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
             let request: any = {
                 OrderId: id,
                 SessionId: id,
@@ -1313,7 +1313,7 @@ class SearchInterface {
                 ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
                 SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
                 Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                ShowInventoryWithZeroQuantity: showZeroQuantity,
+                HideInventoryWithZeroQuantity: hideZeroQuantity,
                 ShowImages: true
             }
                 , fromDate = FwFormField.getValueByDataField($popup, 'FromDate')
@@ -1357,8 +1357,8 @@ class SearchInterface {
 
         //Refresh Availability button
         $popup.on('click', '.refresh-availability', e => {
-            let showZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="ShowZeroQuantity"]'));
-            showZeroQuantity == "T" ? showZeroQuantity = true : showZeroQuantity = false;
+            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
+            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
             let request: any = {
                 OrderId: id,
                 SessionId: id,
@@ -1368,7 +1368,7 @@ class SearchInterface {
                 ShowImages: true,
                 SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
                 Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                ShowInventoryWithZeroQuantity: showZeroQuantity,
+                HideInventoryWithZeroQuantity: hideZeroQuantity,
                 SearchText: FwFormField.getValueByDataField($popup, 'SearchBox'),
                 RefreshAvailability: true
             }
