@@ -27,6 +27,7 @@ namespace FwStandard.SqlServer
         public static string ROW_NUMBER_FIELD = "Row__Number";
         public static string TOTAL_ROWS_FIELD = "Total__Query__Rows";
         public static string TOTAL_FIELD_PREFIX = "Total__";
+        public bool UseOptionRecompile = false;
 
 
         public bool Parsed { get; private set; } = false;
@@ -353,6 +354,14 @@ namespace FwStandard.SqlServer
                 sb.AppendLine("offset (@fwpageno - 1) * @fwpagesize rows");
                 sb.AppendLine("fetch next @fwpagesize rows only");
             }
+
+            if (UseOptionRecompile)
+            {
+                sb.AppendLine();
+                sb.AppendLine("option (recompile)"); // to achieve constant folding and eliminate parameter sniffing.  "on" by default on reports
+            }
+
+
             query = sb.ToString();
             //cmd.Clear();
             //cmd.Parameters.Clear();

@@ -71,7 +71,7 @@
                             caption = response.Caption;
                             currentStep = parseInt(response.CurrentStep);
                             totalSteps = parseInt(response.TotalSteps);
-                            percentage = Math.floor((currentStep / totalSteps) * 100);
+                            percentage = parseInt(response.PercentComplete)
 
                             $moduleoverlay.find('progress').val(currentStep);
                             $moduleoverlay.find('progress').attr('max', totalSteps);

@@ -170,8 +170,16 @@ namespace FwStandard.SqlServer
                         }
                         else
                         {
-                            FwDataTypes[] numericTypes = { FwDataTypes.Decimal, FwDataTypes.Percentage, FwDataTypes.Integer, FwDataTypes.CurrencyStringNoDollarSign, FwDataTypes.CurrencyString, FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces };
-                            if (Array.Exists(numericTypes, element => element == col.DataType))
+                            //FwDataTypes[] numericTypes = { FwDataTypes.Decimal, FwDataTypes.Percentage, FwDataTypes.Integer, FwDataTypes.CurrencyStringNoDollarSign, FwDataTypes.CurrencyString, FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces };
+                            FwDataTypes[] numericTypes = { FwDataTypes.Decimal, FwDataTypes.Integer, FwDataTypes.CurrencyStringNoDollarSign, FwDataTypes.CurrencyString, FwDataTypes.CurrencyStringNoDollarSignNoDecimalPlaces };
+                            if (col.DataType == FwDataTypes.Percentage)   //jh 05/13/2019 #525 - need special case handling of percentage values
+                            {
+                                const decimal V = 100;
+                                decimal value = FwConvert.ToDecimal(this.GetValue(rowno, colno).ToString().Replace('%', ' ')) / V;
+                                worksheet.Cells[rowno + 2, worksheetcol].Value = value;
+                                worksheetcol++;
+                            }
+                            else if (Array.Exists(numericTypes, element => element == col.DataType))
                             {
                                 worksheet.Cells[rowno + 2, worksheetcol].Value = this.GetValue(rowno, colno).ToDecimal();
                                 worksheetcol++;
