@@ -18,49 +18,29 @@
         <th>I-Code</th>
         <th>Description</th>
         <th>Bar Code</th>
-        <th class="number">Qty</th>
-        <th>Tracked By</th>
-        <th>Status</th>
-        <th>Rank</th>
-        <th class="number">Unit Value</th>
-        <th class="number">Cost</th>
-        <th class="number">Price</th>
+        <th>In Contract No.</th>
+        <th>In Date</th>
+        <th>Deal</th>
+        <th>Condition</th>
       </tr>
     </thead>
     <tbody>
-      {{#each this}}
+      {{#each rows}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="5" class="header-row">Inventory Type: {{InventoryType}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
+        <td colspan="5" class="header-row">Category: {{"Category"}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="nowrap" data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
         <td data-value="{{BarCode}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td data-value="{{TrackedBy}}"></td>
-        <td data-value="{{Status}}"></td>
-        <td data-value="{{Rank}}"></td>
-        <td class="number" data-value="{{UnitValue}}"></td>
-        <td class="number" data-value="{{Cost}}"></td>
-        <td class="number" data-value="{{Price}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="6" class="total-name">{{Category}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{UnitValue}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Price}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="6" class="total-name">{{InventoryType}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{UnitValue}}"></td>
-        <td class="total-val" data-value="{{Cost}}"></td>
-        <td class="total-val" data-value="{{Price}}"></td>
+        <td data-value="{{InContractNumber}}"></td>
+        <td data-value="{{InContractDate}}"></td>
+        <td data-value="{{LastDeal}}"></td>
+        <td data-value="{{Condition}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
