@@ -307,6 +307,7 @@ class OrderBase {
         this.events($form);
         this.activityCheckboxEvents($form, mode);
         this.renderPrintButton($form);
+        this.renderSearchButton($form);
 
         return $form;
     }
@@ -327,6 +328,28 @@ class OrderBase {
         $print.prepend('<i class="material-icons">print</i>');
         $print.on('click', function () {
             self.printQuoteOrder($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderSearchButton($form: any) {
+        var self    = this;
+        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search');
+        $search.prepend('<i class="material-icons">search</i>');
+        $search.on('click', function () {
+            try {
+                let $form   = jQuery(this).closest('.fwform');
+                let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                
+                if (orderId == "") {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else {
+                    let search = new SearchInterface();
+                    search.renderSearchPopup($form, orderId, self.Module);
+                }
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
         });
     }
     //----------------------------------------------------------------------------------------------

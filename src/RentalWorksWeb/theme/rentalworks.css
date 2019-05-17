@@ -363,69 +363,47 @@ Form tables
     cursor: pointer;
 }
 
-#breadcrumbs {
-    width: 100%;
-    height: 2em;
-    padding-left: 20px;
-}
+#searchpopup #searchTabs {position:absolute;left:0;right:0;top:0;bottom:0;display: flex;flex-direction: column;}
+#searchpopup #searchTabs .tabs {flex: 0 0 auto;}
+#searchpopup #searchTabs .tabpages {flex: 1 1 0;position:relative;}
+#searchpopup #searchTabs .tabpages .tabpage {position:absolute;left:0;right:0;top:0;bottom:0;}
+#itemsearch {height:100%;}
+#itemsearch .flexpage {height:100%;position:relative;display:flex;flex-direction:column;}
 
-#breadcrumbs > div {
-    float: left;
-    cursor: pointer;
-    font-weight: bold;
-}
 
-#breadcrumbs > div:hover {
-    color: #4c4cff;
-}
 
-#breadcrumbs > div > div {
-    color: black;
-}
+#itemsearch div[data-datafield="InventoryType"] {margin: 5px 0px 0px 10px;display:flex;flex: 0 0 430px;}
+#itemsearch div[data-datafield="InventoryType"] > .fwformfield-control {display:flex;}
+#itemsearch div[data-datafield="InventoryType"] .fwformfield-control > div {padding-top: 5px;flex: 0 0 85px;}
+#itemsearch:not([data-moduletype="PurchaseOrder"]) div[data-datafield="InventoryType"] div[data-value="P"] {display:none;}
 
-#searchFormHtml div[data-datafield="InventoryType"] {
-    margin: 5px 0px 0px 10px;
-    display:flex;
-    max-width:500px;
-}
+#itemsearch .addToOrder[data-type="button"] {margin: 16px 7px 0px 7px;}
+#itemsearch .refresh-availability[data-type="button"] {margin: 16px 7px 0px 7px;}
 
-    #searchFormHtml div[data-datafield="InventoryType"] > .fwformfield-control {
-        height: auto !important;
-        line-height:2em;
-    }
+#itemsearch div[data-datafield="SearchBox"] .fwformfield-caption {font-weight:bold;font-size:1em;}
 
-    #searchFormHtml div[data-datafield="InventoryType"] .fwformfield-control > div {
-        min-width: 85px;
-        float: left;
-        padding-top: 5px;
-    }
+#itemsearch .breadcrumbrow {display: flex;flex:0 0 auto;align-items: center;background-color: #fafafa;border-top: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;}
+#itemsearch #breadcrumbs {padding-left: 20px;display:flex;flex: 1 0 auto;}
+#itemsearch #breadcrumbs .breadcrumb {display: flex;cursor: pointer;font-weight: bold;padding: 6px 0;}
+#itemsearch #breadcrumbs .breadcrumb+.breadcrumb:before {content: "\002F";padding: 0 10px;}
+#itemsearch #breadcrumbs .breadcrumb .value:hover {color: #1565c0;}
+#itemsearch .breadcrumbrow .material-icons {padding: 4.5px;cursor:pointer;}
+#itemsearch .breadcrumbrow .material-icons:hover {background-color:#BDBDBD}
 
-.fwformcontrol.addToOrder {
-    margin: 12px 6px 12px 0px;
-}
+#itemsearch .options {position:relative;}
+#itemsearch .options .optionsmenu {display: none;position: absolute;top: 100%;right: 2px;padding: 0.0625em;-moz-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);-webkit-box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);box-shadow: 3px 3px 5px 1px rgba(0,0,0,.3);white-space: nowrap;min-width: 170px;background-color: white;}
+#itemsearch .options.active .optionsmenu {display:block;}
 
-#searchFormHtml .expandcategorycolumns {
-    display: none;
-    max-width: 80px;
-    margin: 0.5em .5em 0 .5em;
-    line-height: 1.5em;
-    max-height: 1.5em;
-}
+#itemsearch #categorycolumns {border-top: 1px solid #BDBDBD;border-right: 1px solid #BDBDBD;overflow-y: auto;position: absolute;top: 0;left: 0;right: 0;bottom: 0;}
 
 #typeName, #inventoryType, #category, #subCategory {
     width: 200px;
     margin: 5px 0px 0px 5px;
     float: left;
 }
-#searchFormHtml .downArrowNav {
+#itemsearch .downArrowNav {
     position: absolute;
     left: 10px;
-}
-
-#searchFormHtml .invviewbtn {
-    margin: 12px 6px 12px 5px;
-    padding: 0px 7px 0px 7px;
-    max-width:20px;
 }
 
 ul.fitText {
@@ -445,15 +423,15 @@ ul.fitText span:not(.downArrowNav){
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
 }
 
-#searchFormHtml .inventoryTypeNav {
-    background-color: #01579b;
-    color: white;
+#itemsearch .inventoryTypeNav {
+    background-color: #4CAF50;
+    color: black;
     /*box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);*/
 }
 
     #inventoryType ul.selected, #category ul.selected, #subCategory ul.selected {
-        background-color: #01579b;
-        color: white;
+        background-color: #4CAF50;
+        color: black;
         /*box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);*/
     }
 
@@ -462,62 +440,75 @@ ul.fitText span:not(.downArrowNav){
     background-color: #E0E0E0;
 }
 
-#searchFormHtml #itemlist[data-view="GRID"] .columnDescriptions {display:none;}
-#searchFormHtml #itemlist[data-view="GRID"] #inventory {max-width:100%;max-height:49vh;overflow-y:scroll;display:flex;flex-wrap:wrap;}
-#searchFormHtml #itemlist[data-view="GRID"] #inventory .item-container {flex:0 0 280px;}
-#searchFormHtml #itemlist[data-view="GRID"] .item-info {padding:20px;position:relative;border: 1px solid #E0E0E0;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="ItemImage"] {width:8em;height:8em;position:relative;margin:0 auto;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="Description"] {height:4em;font-weight:bold;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="Description"] .toggleaccessories {display:none;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="Quantity"] {display:flex;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="Available"] {display: flex;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="ConflictDate"] {display: flex;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="In"] {display: flex;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="QC"] {display: flex;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="Rate"] {display: flex;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="Type"] {display:none;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="Category"] {display:none;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="SubCategory"] {display:none;}
-#searchFormHtml #itemlist[data-view="GRID"] div[data-column="AllWh"] {display:none;}
-#searchFormHtml #itemlist[data-view="GRID"] .gridcaption {text-decoration: underline;flex: 1 0 100px;}
-#searchFormHtml #itemlist[data-view="GRID"] .item-accessories {display:none;}
+#itemsearch #itemlist {flex: 1 1 0;position:relative;}
+#itemsearch #itemlist #inventory {overflow-y: auto;position: absolute;top: 33px;left: 0;right: 0;bottom: 0;}
 
-#searchFormHtml #itemlist[data-view="LIST"] .columnDescriptions {display:flex;align-items:center;padding:5px;background-color:#e0e0e0;color:#464646;border:1px solid #BDBDBD;max-width:98%;font-weight:bold;}
-#searchFormHtml #itemlist[data-view="LIST"] #inventory {max-width:100%;max-height:49vh;overflow-y:scroll;}
-#searchFormHtml #itemlist[data-view="LIST"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="ItemImage"] {display:none;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="Description"] {flex:1 0 250px;margin:0 10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="Quantity"] {flex:0 0 90px;margin-right:10px;position:relative;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="Type"] {flex:1 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="SubCategory"] {flex:1 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="AllWh"] {flex:0 0 80px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="In"] {flex:0 0 60px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="QC"] {flex:0 0 60px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] div[data-column="Rate"] {flex:0 0 80px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="LIST"] .gridcaption {display:none;}
+#itemsearch #itemlist[data-view="GRID"] .columnDescriptions {display:none;}
+#itemsearch #itemlist[data-view="GRID"] {max-width:1950px;}
+#itemsearch #itemlist[data-view="GRID"] #inventory {display:flex;flex-wrap:wrap;}
+#itemsearch #itemlist[data-view="GRID"] #inventory .item-container {flex:0 0 280px;}
+#itemsearch #itemlist[data-view="GRID"] .item-info {padding:20px;position:relative;border: 1px solid #E0E0E0;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] {width:8em;height:8em;position:relative;margin:0 auto;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] {height:6em;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .description {font-weight:bold;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .classdescription {border-radius: 4px;padding: 2px 4px;color: white;text-transform: lowercase;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Description"] .toggleaccessories {display:none;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Quantity"] {display:flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Available"] {display: flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Available"] .available-color {text-align:right;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="ConflictDate"] {display: flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="In"] {display: flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="QC"] {display: flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Rate"] {display: flex;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Type"] {display:none;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="Category"] {display:none;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="SubCategory"] {display:none;}
+#itemsearch #itemlist[data-view="GRID"] div[data-column="AllWh"] {display:none;}
+#itemsearch #itemlist[data-view="GRID"] .gridcaption {text-decoration: underline;flex: 1 0 100px;}
+#itemsearch #itemlist[data-view="GRID"] .item-accessories {display:none;}
 
-#searchFormHtml #itemlist[data-view="HYBRID"] .columnDescriptions {display:flex;align-items:center;padding:5px;background-color:#e0e0e0;color:#464646;border:1px solid #BDBDBD;max-width:98%;font-weight:bold;}
-#searchFormHtml #itemlist[data-view="HYBRID"] #inventory {max-width:100%;max-height:49vh;overflow-y:scroll;}
-#searchFormHtml #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] {width:4em;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] .item-info div[data-column="ItemImage"] {height:4em;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="Description"] {flex:1 0 250px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="Quantity"] {flex:0 0 90px;margin-right:10px;position:relative;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="Type"] {flex:1 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="SubCategory"] {flex:1 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="AllWh"] {flex:0 0 80px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="In"] {flex:0 0 60px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="QC"] {flex:0 0 60px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] div[data-column="Rate"] {flex:0 0 80px;margin-right:10px;}
-#searchFormHtml #itemlist[data-view="HYBRID"] .gridcaption {display:none;}
+#itemsearch #itemlist[data-view="LIST"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
+#itemsearch #itemlist[data-view="LIST"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="ItemImage"] {display:none;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] {flex:1 0 250px;margin:0 10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] .descriptionrow {display:flex;align-items:center;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] .classdescription {border-radius: 4px;padding: 2px 4px;color: white;text-transform: lowercase;margin: 0 10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Quantity"] {flex:0 0 90px;margin-right:10px;position:relative;text-align:center;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Type"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="SubCategory"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="AllWh"] {flex:0 0 120px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="In"] {flex:0 0 60px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="QC"] {flex:0 0 60px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="Rate"] {flex:0 0 80px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="LIST"] .gridcaption {display:none;}
+#itemsearch #itemlist[data-view="LIST"] .item-accessories .accColumns {display:none;}
+#itemsearch #itemlist[data-view="LIST"] .item-accessories div[data-column="Description"] {margin-left: 26px;}
+
+#itemsearch #itemlist[data-view="HYBRID"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
+#itemsearch #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] {width:4em;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] .item-info div[data-column="ItemImage"] {height:4em;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] {flex:1 0 250px;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] .descriptionrow {display:flex;align-items:center;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Description"] .classdescription {border-radius: 4px;padding: 2px 4px;color: white;text-transform: lowercase;margin: 0 10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Quantity"] {flex:0 0 90px;margin-right:10px;position:relative;text-align:center;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Type"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="SubCategory"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="AllWh"] {flex:0 0 120px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="In"] {flex:0 0 60px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="QC"] {flex:0 0 60px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="Rate"] {flex:0 0 80px;margin-right:10px;text-align:right;}
+#itemsearch #itemlist[data-view="HYBRID"] .gridcaption {display:none;}
+#itemsearch #itemlist[data-view="HYBRID"] .item-accessories .accColumns {display:none;}
+#itemsearch #itemlist[data-view="HYBRID"] .item-accessories div[data-column="Description"] {margin-left: 26px;}
 
 #inventory .item-container .item-info .toggleaccessories {font-weight: bold;color: #1E88E5;display:inline-block;cursor:pointer;}
 #inventory .item-container .item-info .toggleaccessories:hover {text-decoration:underline;}
@@ -533,38 +524,13 @@ ul.fitText span:not(.downArrowNav){
     background-color: #c5eefb;
 }
 
-.item-info .cornerTriangle {
-    border-left: 20px solid;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    left: 0;
-    top: 0;
-    height: 0;
-    width: 0;
-    position: absolute;
-    right: 0px;
-    z-index: 2;
-}
-
-.item-container .available-color {padding:4px 8px;border-radius:4px;display:inline-block;color:#ffffff;}
-.item-container div[data-datafield="QuantityAvailable"][data-state="AVAILABLE"] .available-color {background-color:#7CB342;}
-.item-container div[data-datafield="QuantityAvailable"][data-state="NOTAVAILABLE"] .available-color {background-color:#f44336;}
-.item-container div[data-datafield="QuantityAvailable"][data-state="STALE"] .available-color {background-color:#1565C0;}
+.item-container .available-color {padding:4px 8px;border-radius:4px;display:inline-block;color:#ffffff;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
+.item-container div[data-column="Available"][data-state="AVAILABLE"] .available-color {background-color:#7CB342;}
+.item-container div[data-column="Available"][data-state="NOTAVAILABLE"] .available-color {background-color:#f44336;}
+.item-container div[data-column="Available"][data-state="STALE"] .available-color {background-color:#1565C0;}
 
 .item-container .item-accessories {}
 .item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;background-color:#EEEEEE;}
-
-.item-container .accColumns {
-    float: left;
-    text-align: center;
-    font-weight: bold;
-}
-
-.item-accessory-info .descriptionColor {
-    border-left: 20px solid;
-    border-right: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-}
 
 .item-accessory-info .quantityColor {
     border-left: 20px solid;
@@ -581,22 +547,18 @@ ul.fitText span:not(.downArrowNav){
     margin-left: 3px;
 }
 
-#searchpopup .optiontoggle[data-type="button"]{
-    margin: 12px 7px 0px 7px;
-    max-width:80px;
-}
 
-#searchpopup .options {
+
+/*#searchpopup .options {
+    position:absolute;
     left:0px;
     box-shadow:0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
     color:black;
     text-transform:none;
     line-height:1em;
-    position:absolute;
     background-color:white;
-    padding-left:5px;
-    padding-right:5px;
-}
+    padding:5px;
+}*/
 /*#endregion*/
 
 html.theme-material .fwformcontrol[data-type="button"].pressed {

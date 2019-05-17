@@ -1,208 +1,132 @@
 class SearchInterface {
+    //----------------------------------------------------------------------------------------------
     renderSearchPopup($form, id, type, gridInventoryType?) {
-        let html = []
-            , $popupHtml
-            , $popup
-            , searchhtml
-            , $searchform
-            , $moduleTabControl
-            , newtabids
-            , $searchTabControl
-            , $select
-            , $sortby
-            , previewhtml
-            , $previewform
-            , newtabids2
-            , $previewTabControl;
-
-        //Build and invoke popup
-        html.push('<div id="searchpopup">');
-        html.push('     <div id="searchTabs" class="fwcontrol fwtabs" data-rendermode="runtime" data-version="1" data-control="FwTabs">');
-        html.push('         <div class="tabs"><div class="tabcontainer"></div></div>');
-        html.push('         <div class="tabpages"></div>');
-        html.push('     </div>');
-        html.push('     <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
+        let html: any = [];
+        html.push('<div id="searchpopup" class="fwform fwcontrol">');
+        html.push('  <div id="searchTabs" class="fwcontrol fwtabs" data-control="FwTabs" data-version="1">');
+        html.push('    <div class="tabs">');
+        html.push('      <div data-type="tab" id="itemsearchtab" class="tab" data-tabpageid="itemsearchtabpage" data-caption="Search"></div>');
+        html.push('      <div data-type="tab" id="previewtab"    class="tab" data-tabpageid="previewtabpage"    data-caption="Preview"></div>');
+        html.push('    </div>');
+        html.push('    <div class="tabpages">');
+        html.push('      <div data-type="tabpage" id="itemsearchtabpage" class="tabpage" data-tabid="itemsearchtab"></div>');
+        html.push('      <div data-type="tabpage" id="previewtabpage"    class="tabpage" data-tabid="previewtab"></div>');
+        html.push('    </div>');
+        html.push('  </div>');
+        html.push('  <div class="close-modal"><i class="material-icons">clear</i><div class="btn-text">Close</div></div>');
         html.push('</div>');
+        let $popupHtml = jQuery(html.join(''));
 
-        $popupHtml = html.join('');
-        $popup = FwPopup.renderPopup(jQuery($popupHtml), { ismodal: true });
+        let $popup     = FwPopup.renderPopup($popupHtml, { ismodal: true });
         FwPopup.showPopup($popup);
 
-        searchhtml = [];
-        searchhtml.push(`
-<div id="searchFormHtml" class="fwform fwcontrol">
-  <div class="flexpage">
-    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ParentFormId" style="display:none"></div>
-    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="WarehouseId" style="display:none"></div>
-    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnsToHide" style="display:none"></div>
-    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnOrder" style="display:none"></div>
-    <div id="type" style="display:none">${type}</div>
-    <div class="fwmenu default"></div>
-    <div class="flexrow" style="max-width:1650px;">
-    <div data-type="button" class="fwformcontrol expandcategorycolumns" style="display:none;">&#8646; Expand</div>
-      <div class="flexrow" style="min-width:100%;">
-        <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="InventoryType" data-type="radio">
-          <div data-value="R" data-caption="Rental"></div>
-          <div data-value="S" data-caption="Sales"></div>
-          <div data-value="L" data-caption="Labor"></div>
-          <div data-value="M" data-caption="Misc"></div>`);
-
-        if (type === 'PurchaseOrder') {
-            searchhtml.push(`<div data-value="P" data-caption="Parts"></div>`);
-        }
-        searchhtml.push(`</div>`);
-
-        let addToButton;
-        switch (type) {
-            case 'Transfer':
-                addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 135px;">Add to Transfer</div>`;
-                break;
-            case 'Order':
-                addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 120px;">Add to Order</div>`;
-                break;
-            case 'Quote':
-                addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 120px;">Add to Quote</div>`;
-                break;
-            case 'PurchaseOrder':
-                addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 195px;">Add to Purchase Order</div>`;
-                break;
-            case 'Template':
-                addToButton = `<div data-type="button" class="fwformcontrol addToOrder" style="flex:0 0 140px;">Add to Template</div>`;
-                break;
-        }
-        searchhtml.push(addToButton);
-        searchhtml.push(`
-     </div>
-      <div class="flexrow" style="min-width:100%;">
-        <div class="flexcolumn" style="max-width:220px; overflow-x:hidden; max-height:73vh;">
-          <div class="flexrow">
-            <div id="categorycolumns">
-              <div id="typeName"></div>
-              <div id="inventoryType"></div>
-              <div id="category"></div>
-              <div id="subCategory"></div>
-            </div>
-          </div>
-        </div>
-        <div class="flexcolumn formoptions" style="max-width:1450px; overflow:hidden; min-height:800px;">
-          <div class="flexrow" style="max-width:100%;">
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
-            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
-            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol select" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
-            <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol sortby" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
-          </div>
-          <div class="flexrow" style="max-width:100%; z-index:2;">
-            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Search" data-datafield="SearchBox" style="flex: 0 1 400px;"></div>
-            <div data-type="button" class="invviewbtn fwformcontrol" data-buttonview="LIST"><i class="material-icons" style="margin-top: 5px;">&#xE8EE;</i></div>
-            <div data-type="button" class="invviewbtn fwformcontrol" data-buttonview="HYBRID"><i class="material-icons" style="margin-top: 5px;">&#xE8EF;</i></div>
-            <div data-type="button" class="invviewbtn fwformcontrol" data-buttonview="GRID"><i class="material-icons" style="margin-top: 5px;">&#xE8F0;</i></div>
-            <div class="optiontoggle fwformcontrol" data-type="button">
-              Options &#8675;
-              <div class="options" style="display:none;">
-                <div class="flexcolumn">
-                    <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:400px; margin-top: 10px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol" data-caption="Hide Inventory with Zero Quantity" data-datafield="HideZeroQuantity"></div>
-                    <div>
-                       <div data-type="button" class="fwformcontrol restoreDefaults" style="width:45px; float:left; margin:10px;">Reset</div>
-                       <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
-                    </div>
-                </div>
-              </div>
-            </div>
-            <div data-type="button" class="fwformcontrol refresh-availability" style="max-width:165px;margin:12px 0px 0px 10px;display:none;">Refresh Availability</div>
-          </div>
-          <div class="flexrow" style="max-width:100%;">
-            <div class="flexcolumn">
-              <div id="breadcrumbs" class="fwmenu default">
-                <div class="basetype"></div>
-                <div class="type"></div>
-                <div class="category"></div>
-                <div class="subcategory"></div>
-              </div>
-            </div>
-          </div>
-          <div id="itemlist" data-view="GRID">
-            <div class="columnDescriptions">
-              <div data-column="ItemImage"></div>
-              <div class="columnorder" data-column="Description">Description</div>
-              <div class="columnorder" data-column="Quantity">Qty</div>
-              <div class="columnorder showOnSearch" data-column="Type">Type</div> 
-              <div class="columnorder showOnSearch" data-column="Category">Category</div>
-              <div class="columnorder showOnSearch" data-column="SubCategory">Sub Category</div>
-              <div class="columnorder hideColumns" data-column="Available">Available</div>
-              <div class="columnorder hideColumns" data-column="ConflictDate">Conflict Date</div>
-              <div class="columnorder hideColumns" data-column="AllWh">All Wh</div>
-              <div class="columnorder hideColumns" data-column="In">In</div>
-              <div class="columnorder hideColumns" data-column="QC">QC</div>
-              <div class="columnorder" data-column="Rate">Rate</div>
-            </div>
-            <div id="inventory"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>`);
-        $searchform = searchhtml.join('');
-        $moduleTabControl = jQuery('#searchTabs');
-        newtabids = FwTabs.addTab($moduleTabControl, 'Search', false, 'FORM', true);
-        $moduleTabControl.find(`#${newtabids.tabpageid}`).append(jQuery($searchform));
-        $searchTabControl = jQuery('#searchFormHtml');
-        FwConfirmation.addControls($searchTabControl, $searchform);
-
-        //Populate the select and sort by fields
-        $select = $popup.find('.select');
-        $sortby = $popup.find('.sortby');
-        FwFormField.loadItems($select, [
-            { value: '', text: 'All' },
-            { value: 'CK', text: 'Complete/Kit' },
-            { value: 'N', text: 'Container' },
-            { value: 'I', text: 'Item' },
-            { value: 'A', text: 'Accessory' }], true);
-
-        FwFormField.loadItems($sortby, [
-            { value: 'INVENTORY', text: 'Type / Category / Sub-Category' },
-            { value: 'ICODE', text: 'I-Code' },
-            { value: 'DESCRIPTION', text: 'Description' },
-            { value: 'PARTNO', text: 'Part No.' }], true);
-
-        //Build preview tab
-        switch (type) {
-            case 'Transfer':
-                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:135px;">Add to Transfer</div>`;
-                break;
-            case 'Order':
-                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:120px;">Add to Order</div>`;
-                break;
-            case 'Quote':
-                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:120px;">Add to Quote</div>`;
-                break;
-            case 'PurchaseOrder':
-                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:195px;">Add to Purchase Order</div>`;
-                break;
-            case 'Template':
-                previewhtml = `<div data-type="button" class="fwformcontrol addToOrder" style="max-width:140px;">Add to Template</div>`;
-                break;
-        };
-
-        previewhtml = `<div id="previewHtml" class="fwform fwcontrol" style="overflow: scroll; height:-webkit-fill-available;">
-                            <div class="fwmenu default"></div>
-                            <div class="flexrow" style="max-width:1800px;">
-                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                   <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>
+        let searchhtml = `<div id="itemsearch" data-moduletype="${type}">
+                            <div class="flexpage">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ParentFormId" style="display:none"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="WarehouseId" style="display:none"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnsToHide" style="display:none"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnOrder" style="display:none"></div>
+                              <div class="fwmenu default"></div>
+                              <div style="display:flex;flex:0 0 auto;align-items:center;">
+                                <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="InventoryType" data-type="radio">
+                                  <div data-value="R" data-caption="Rental"></div>
+                                  <div data-value="S" data-caption="Sales"></div>
+                                  <div data-value="L" data-caption="Labor"></div>
+                                  <div data-value="M" data-caption="Misc"></div>
+                                  <div data-value="P" data-caption="Parts"></div>
                                 </div>
+                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
+                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
+                                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
+                                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Sort By" data-datafield="SortBy" style="flex: 0 1 255px;"></div>
+                                <div data-type="button" class="fwformcontrol addToOrder" style="max-width:140px;">Add to ${type}</div>
+                                <div data-type="button" class="fwformcontrol refresh-availability" style="display:none;">Refresh Availability</div>
+                              </div>
+                              <div style="display:flex;flex: 0 0 auto;padding: .4em 0;">
+                                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-caption="Search by Description" data-datafield="SearchBox" style="flex: 1 1 400px;"></div>
+                              </div>
+                              <div style="display:flex;flex:1 1 0;">
+                                <div class="flexcolumn" style="flex:0 0 230px;display:flex;flex-direction:column;position:relative;">
+                                  <div id="categorycolumns">
+                                    <div id="typeName"></div>
+                                    <div id="inventoryType"></div>
+                                    <div id="category"></div>
+                                    <div id="subCategory"></div>
+                                  </div>
+                                </div>
+                                <div class="formoptions" style="flex:1 0 auto;display:flex;flex-direction:column;">
+                                  <div class="breadcrumbrow">
+                                    <div id="breadcrumbs"></div>
+                                    <i class="material-icons invviewbtn" data-buttonview="LIST">&#xE8EE;</i>
+                                    <i class="material-icons invviewbtn" data-buttonview="HYBRID">&#xE8EF;</i>
+                                    <i class="material-icons invviewbtn" data-buttonview="GRID">&#xE8F0;</i>
+                                    <div class="options">
+                                      <i class="material-icons optionsbutton">settings</i>
+                                      <div class="optionsmenu">
+                                        <div class="flexcolumn">
+                                          <div data-datafield="Columns" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield columnOrder" data-caption="Select columns to display in Results" data-sortable="true" data-orderby="true" style="max-height:400px; margin-top: 10px;"></div>
+                                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol toggleAccessories" data-caption="Disable Auto-Expansion of Complete/Kit Accessories" data-datafield="DisableAccessoryAutoExpand"></div>
+                                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield fwformcontrol" data-caption="Hide Inventory with Zero Quantity" data-datafield="HideZeroQuantity"></div>
+                                          <div>
+                                            <div data-type="button" class="fwformcontrol restoreDefaults" style="width:45px; float:left; margin:10px;">Reset</div>
+                                            <div data-type="button" class="fwformcontrol applyOptions" style="width:45px; float:right; margin:10px;">Apply</div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div id="itemlist" data-view="GRID">
+                                    <div class="columnDescriptions">
+                                      <div data-column="ItemImage"></div>
+                                      <div class="columnorder" data-column="Description">Description</div>
+                                      <div class="columnorder" data-column="Quantity">Qty</div>
+                                      <div class="columnorder showOnSearch" data-column="Type">Type</div> 
+                                      <div class="columnorder showOnSearch" data-column="Category">Category</div>
+                                      <div class="columnorder showOnSearch" data-column="SubCategory">Sub Category</div>
+                                      <div class="columnorder hideColumns" data-column="Available">Available</div>
+                                      <div class="columnorder hideColumns" data-column="ConflictDate">Conflict Date</div>
+                                      <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
+                                      <div class="columnorder hideColumns" data-column="In">In</div>
+                                      <div class="columnorder hideColumns" data-column="QC">QC</div>
+                                      <div class="columnorder" data-column="Rate">Rate</div>
+                                    </div>
+                                    <div id="inventory"></div>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
-                            <div class="flexrow" style="max-width:1800px; justify-content: flex-end; margin-bottom:55px;">
-                           ${previewhtml}
-                            </div>
-                       </div>`;
-        $previewform = jQuery(previewhtml);
-        newtabids2 = FwTabs.addTab($moduleTabControl, 'Preview', false, 'FORM', false);
-        $moduleTabControl.find('#' + newtabids2.tabpageid).append($previewform);
-        FwTabs.init($moduleTabControl);
-        $previewTabControl = jQuery('#previewHtml');
-        FwConfirmation.addControls($previewTabControl, $previewform);
+                          </div>`;
+        $popup.find('#itemsearchtabpage').append(jQuery(searchhtml));
+
+        let previewhtml = `<div id="previewHtml" style="overflow: scroll; height:-webkit-fill-available;">
+                             <div class="fwmenu default"></div>
+                             <div class="flexrow" style="max-width:1800px;">
+                               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                 <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>
+                               </div>
+                             </div>
+                             <div class="flexrow" style="max-width:1800px; justify-content: flex-end; margin-bottom:55px;">
+                               <div data-type="button" class="fwformcontrol addToOrder" style="max-width:140px;">Add to ${type}</div>
+                             </div>
+                           </div>`;
+        $popup.find('#previewtabpage').append(jQuery(previewhtml));
+        
+        FwControl.renderRuntimeControls($popup.find('#searchpopup .fwcontrol'));
+
+        FwFormField.loadItems($popup.find('div[data-datafield="Select"]'), [
+            { value: '',   text: 'All' },
+            { value: 'CK', text: 'Complete/Kit' },
+            { value: 'N',  text: 'Container' },
+            { value: 'I',  text: 'Item' },
+            { value: 'A',  text: 'Accessory' }
+        ], true);
+
+        FwFormField.loadItems($popup.find('div[data-datafield="SortBy"]'), [
+            { value: 'INVENTORY',   text: 'Type / Category / Sub-Category' },
+            { value: 'ICODE',       text: 'I-Code' },
+            { value: 'DESCRIPTION', text: 'Description' },
+            { value: 'PARTNO',      text: 'Part No.' }
+        ], true);
 
         let startDate;
         let stopDate;
@@ -233,23 +157,14 @@ class SearchInterface {
         }
 
         FwFormField.setValueByDataField($popup, 'ParentFormId', id);
-        let warehouseId;
-        if (type == 'Transfer') {
-            let warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-            warehouseId = warehouse.warehouseid;
-        } else {
-            warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-        }
+        let warehouseId = (type === 'Transfer') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
         FwFormField.setValueByDataField($popup, 'WarehouseId', warehouseId);
 
         let userId = JSON.parse(sessionStorage.getItem('userid'));
-        let $itemlist = $popup.find('#itemlist');
         FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            let columns;
-
             //Render options sortable column list
             if (response.ResultFields) {
-                columns = JSON.parse(response.ResultFields);
+                let columns = JSON.parse(response.ResultFields);
                 FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), columns);
 
                 let columnsToHide = [];
@@ -266,17 +181,17 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
             } else {
                 FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
-                    [{ value: 'Description', text: 'Description', selected: 'T' },
-                    { value: 'Type', text: 'Type', selected: 'T' },
-                    { value: 'Category', text: 'Category', selected: 'T' },
-                    { value: 'SubCategory', text: 'Sub Category', selected: 'T' },
-                    { value: 'Quantity', text: 'Quantity', selected: 'T' },
-                    { value: 'Available', text: 'Available Quantity', selected: 'T' },
-                    { value: 'ConflictDate', text: 'Conflict Date', selected: 'T' },
-                    { value: 'AllWh', text: 'Available Quantity (All Warehouses)', selected: 'T' },
-                    { value: 'In', text: 'In Quantity', selected: 'T' },
-                    { value: 'QC', text: 'QC Required Quantity', selected: 'T' },
-                    { value: 'Rate', text: 'Rate', selected: 'T' }]);
+                    [{ value: 'Description', text: 'Description',                         selected: 'T' },
+                    { value: 'Type',         text: 'Type',                                selected: 'T' },
+                    { value: 'Category',     text: 'Category',                            selected: 'T' },
+                    { value: 'SubCategory',  text: 'Sub Category',                        selected: 'T' },
+                    { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
+                    { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
+                    { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
+                    { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
+                    { value: 'In',           text: 'In Quantity',                         selected: 'T' },
+                    { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
+                    { value: 'Rate',         text: 'Rate',                                selected: 'T' }]);
             }
 
             if (response.DisableAccessoryAutoExpand) {
@@ -287,41 +202,25 @@ class SearchInterface {
                 FwFormField.setValueByDataField($popup, 'HideZeroQuantity', true);
             }
 
-            if (response.Mode != null) {
-                $itemlist.attr('data-view', response.Mode)
-            } else {
-                $itemlist.attr('data-view', 'GRID');
-            }
+            $popup.find('#itemlist').attr('data-view', response.Mode || 'GRID')
         }, null, null);
 
 
         //Render preview grid
-        const $previewGrid = $previewTabControl.find('[data-grid="SearchPreviewGrid"]');
+        const $previewGrid        = $popup.find('[data-grid="SearchPreviewGrid"]');
         const $previewGridControl = FwBrowse.loadGridFromTemplate('SearchPreviewGrid');
         $previewGrid.empty().append($previewGridControl);
         $previewGridControl.data('ondatabind', request => {
-            request.SessionId = id;
+            request.SessionId        = id;
             request.ShowAvailability = true;
-            request.FromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-            request.ToDate = FwFormField.getValueByDataField($popup, 'ToDate');
-            request.ShowImages = true;
+            request.FromDate         = FwFormField.getValueByDataField($popup, 'FromDate');
+            request.ToDate           = FwFormField.getValueByDataField($popup, 'ToDate');
+            request.ShowImages       = true;
         });
         FwBrowse.init($previewGridControl);
         FwBrowse.renderRuntimeHtml($previewGridControl);
 
-        //Load Type list
-        let inventoryTypeRequest: any
-            , availableFor
-            , inventoryType
-            , categoryType;
-        inventoryTypeRequest = {}
-        inventoryTypeRequest.searchfieldoperators = ["<>"];
-        inventoryTypeRequest.searchfields = ["Inactive"];
-        inventoryTypeRequest.searchfieldvalues = ["T"];
-        availableFor = FwFormField.getValueByDataField($popup, 'InventoryType');
-        inventoryType = $popup.find('[data-datafield="InventoryType"]');
-
-        let mainTypeBreadCrumb = $popup.find('#breadcrumbs .basetype');
+        this.events($popup, $form, id);
 
         //Sets inventory type by active tab
         if (typeof gridInventoryType == 'undefined') {
@@ -332,39 +231,18 @@ class SearchInterface {
         switch (gridInventoryType) {
             default:
             case 'Rental':
-                inventoryTypeRequest.uniqueids = {
-                    Rental: true
-                }
-                categoryType = 'rentalcategory';
-                inventoryType.find('[value="R"]').prop('checked', true);
-                mainTypeBreadCrumb.text('RENTAL');
+                FwFormField.setValue($popup, 'div[data-datafield="InventoryType"]', 'R', '', true);
                 break;
             case 'Sales':
-                inventoryTypeRequest.uniqueids = {
-                    Sales: true
-                }
-                categoryType = 'salescategory';
-                inventoryType.find('[value="S"]').prop('checked', true);
-                mainTypeBreadCrumb.text('SALES');
+                FwFormField.setValue($popup, 'div[data-datafield="InventoryType"]', 'S', '', true);
                 break;
             case 'Labor':
-                inventoryTypeRequest.uniqueids = {
-                    Labor: true
-                }
-                categoryType = 'laborcategory';
-                inventoryType.find('[value="L"]').prop('checked', true);
-                mainTypeBreadCrumb.text('LABOR');
+                FwFormField.setValue($popup, 'div[data-datafield="InventoryType"]', 'L', '', true);
                 break;
             case 'Misc':
-                inventoryTypeRequest.uniqueids = {
-                    Misc: true
-                }
-                categoryType = 'misccategory';
-                inventoryType.find('[value="M"]').prop('checked', true);
-                mainTypeBreadCrumb.text('MISC');
+                FwFormField.setValue($popup, 'div[data-datafield="InventoryType"]', 'M', '', true);
                 break;
         };
-        mainTypeBreadCrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
 
         //Display # of items from previous session in preview tab
         FwAppData.apiMethod(true, 'GET', `api/v1/inventorysearch/gettotal/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -376,48 +254,78 @@ class SearchInterface {
             }
         }, null, null);
 
-
         //Hide columns based on type
         if (type === 'PurchaseOrder' || type === 'Template') {
             $popup.find('.hideColumns').css('display', 'none');
         }
 
-        this.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
-        this.breadCrumbs($popup);
-        this.events($popup, $form, id);
         return $popup;
     }
+    //----------------------------------------------------------------------------------------------
+    populateTypeMenu($popup) {
+        let self                      = this;
+        let inventoryTypeRequest: any = {};
+        let $breadcrumbs              = $popup.find('#breadcrumbs');
+        let categoryType;
 
-    populateTypeMenu($popup, inventoryTypeRequest, categoryType) {
-        let $searchpopup = jQuery('#searchpopup')
-            , self = this;
+        $breadcrumbs.empty();
+        switch (FwFormField.getValue($popup, '[data-datafield="InventoryType"]')) {
+            case 'R':
+                inventoryTypeRequest.uniqueids = { Rental: true };
+                categoryType                   = 'rentalcategory';
+                $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">RENTAL</div></div>');
+                $popup.find('#itemsearch').attr('data-base', 'RENTAL');
+                break;
+            case 'S':
+                inventoryTypeRequest.uniqueids = { Sales: true };
+                categoryType                   = 'salescategory';
+                $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">SALES</div></div>');
+                $popup.find('#itemsearch').attr('data-base', 'SALES');
+                break;
+            case 'L':
+                inventoryTypeRequest.uniqueids = { Labor: true };
+                categoryType                   = 'laborcategory';
+                $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">LABOR</div></div>');
+                $popup.find('#itemsearch').attr('data-base', 'LABOR');
+                break;
+            case 'M':
+                inventoryTypeRequest.uniqueids = { Misc: true };
+                categoryType                   = 'misccategory';
+                $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">MISC</div></div>');
+                $popup.find('#itemsearch').attr('data-base', 'MISC');
+                break;
+            case 'P':
+                inventoryTypeRequest.uniqueids = { Parts: true };
+                categoryType                   = 'partscategory';
+                $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">PARTS</div></div>');
+                $popup.find('#itemsearch').attr('data-base', 'PARTS');
+                break;
+        }
 
-        $popup.find('#typeName, #inventoryType, #category, #subCategory, #inventory, .type, .category, .subcategory').empty();
+        $popup.find('#typeName, #inventoryType, #category, #subCategory, #inventory').empty();
 
         FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-            let inventoryTypeIndex
-                , inventoryTypeIdIndex
-                , types: any
-                , inventoryTypeColumn;
+            let inventoryTypeIndex,
+                inventoryTypeIdIndex;
 
             switch (categoryType) {
                 case 'misccategory':
-                    inventoryTypeIndex = response.ColumnIndex.MiscType;
+                    inventoryTypeIndex   = response.ColumnIndex.MiscType;
                     inventoryTypeIdIndex = response.ColumnIndex.MiscTypeId;
                     break;
                 case 'laborcategory':
-                    inventoryTypeIndex = response.ColumnIndex.LaborType;
+                    inventoryTypeIndex   = response.ColumnIndex.LaborType;
                     inventoryTypeIdIndex = response.ColumnIndex.LaborTypeId;
                     break;
                 default:
-                    inventoryTypeIndex = response.ColumnIndex.InventoryType;
+                    inventoryTypeIndex   = response.ColumnIndex.InventoryType;
                     inventoryTypeIdIndex = response.ColumnIndex.InventoryTypeId;
                     break;
             }
             //Checks for duplicate inventory types. This loops through EVERY individual item and picks out the different inventory types.
             //Could be sped up by calling into an endpoint with JUST the inventory types.
-            types = [];
-            inventoryTypeColumn = $popup.find('#inventoryType');
+            let types: any          = [];
+            let inventoryTypeColumn = $popup.find('#inventoryType');
             inventoryTypeColumn.empty();
             for (let i = 0; i < response.Rows.length; i++) {
                 if (types.indexOf(response.Rows[i][inventoryTypeIndex]) == -1) {
@@ -427,35 +335,23 @@ class SearchInterface {
             }
 
             //Resizes text to fit into the div
-            self.fitToParent('#inventoryType .fitText span');
-        }, null, $searchpopup);
+            //self.fitToParent('#inventoryType .fitText span');
+        }, null, $popup.find('#searchpopup'));
         this.typeOnClickEvents($popup, categoryType);
     }
-
+    //----------------------------------------------------------------------------------------------
     typeOnClickEvents($popup, categoryType) {
-        const $searchpopup = jQuery('#searchpopup');
-        let self = this;
-
-        let $typeName = $popup.find('#typeName');
-        let inventoryTypeValue = $popup.find('[data-datafield="InventoryType"] input:checked').val();
+        const $searchpopup     = $popup.find('#searchpopup');
+        let self               = this;
+        let $typeName          = $popup.find('#typeName');
+        let inventoryTypeValue = FwFormField.getValue($popup, '[data-datafield="InventoryType"]');
 
         switch (inventoryTypeValue) {
-            case 'R':
-                inventoryTypeValue = "RENTAL";
-                break;
-            case 'S':
-                inventoryTypeValue = "SALES";
-                break;
-            case 'L':
-                inventoryTypeValue = "LABOR";
-                break;
-            case 'M':
-                inventoryTypeValue = "MISC";
-                break;
-            case 'P':
-                inventoryTypeValue = "PARTS";
-                break;
-
+            case 'R': inventoryTypeValue = "RENTAL"; break;
+            case 'S': inventoryTypeValue = "SALES";  break;
+            case 'L': inventoryTypeValue = "LABOR";  break;
+            case 'M': inventoryTypeValue = "MISC";   break;
+            case 'P': inventoryTypeValue = "PARTS";  break;
         }
         $typeName.append(`<ul class="inventoryTypeNav fitText" data-value="${inventoryTypeValue}"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>${inventoryTypeValue}</span></ul>`);
         //Click event for main inv type nav to refresh type list
@@ -465,24 +361,18 @@ class SearchInterface {
 
         $popup.off('click', '#inventoryType ul');
         $popup.on('click', '#inventoryType ul', e => {
-            let inventoryTypeId
-                , breadcrumb
-                , typeRequest: any = {}
-                , categoryBreadCrumbs;
-
             const $this = jQuery(e.currentTarget);
             $popup.find('#inventoryType ul').removeClass('selected');
             $this.addClass('selected');
 
             //Clear out existing bread crumbs and start new one
-            breadcrumb = $popup.find('#breadcrumbs .type');
-            categoryBreadCrumbs = $popup.find("#breadcrumbs .category, #breadcrumbs .subcategory");
-            categoryBreadCrumbs.empty();
-            categoryBreadCrumbs.attr('data-value', '');
-            breadcrumb.text($this.find('span:first-of-type').text());
-            breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            inventoryTypeId = $this.attr('data-value');
-            breadcrumb.attr('data-value', inventoryTypeId);
+            let $breadcrumbs = $popup.find('#breadcrumbs');
+            $breadcrumbs.find('.type, .category, .subcategory').remove();
+            $breadcrumbs.append(`<div class="type breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
+
+            $popup.find('#itemsearch').attr('data-inventorytypeid', $this.attr('data-value'));
+            $popup.find('#itemsearch').attr('data-categoryid', undefined);
+            $popup.find('#itemsearch').attr('data-subcategoryid', undefined);
 
             //Jason H - 10/09/18 layout changes to left-side category columns
             $popup.find('#inventoryType ul').not('.selected').hide();
@@ -490,40 +380,28 @@ class SearchInterface {
                 $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
             }
 
+            
+            let typeRequest: any = {
+                searchfieldoperators: ["<>"],
+                searchfields:         ["Inactive"],
+                searchfieldvalues:    ["T"]
+            };
+
             switch (categoryType) {
-                case 'misccategory':
-                    typeRequest.uniqueids = {
-                        MiscTypeId: inventoryTypeId
-                    }
-                    break;
-                case 'laborcategory':
-                    typeRequest.uniqueids = {
-                        LaborTypeId: inventoryTypeId
-                    }
-                    break;
-                default:
-                    typeRequest.uniqueids = {
-                        InventoryTypeId: inventoryTypeId
-                    }
-                    break;
+                case 'misccategory':  typeRequest.uniqueids = { MiscTypeId:      $this.attr('data-value') }; break;
+                case 'laborcategory': typeRequest.uniqueids = { LaborTypeId:     $this.attr('data-value') }; break;
+                default:              typeRequest.uniqueids = { InventoryTypeId: $this.attr('data-value') }; break;
             }
-            typeRequest.searchfieldoperators = ["<>"];
-            typeRequest.searchfields = ["Inactive"];
-            typeRequest.searchfieldvalues = ["T"];
 
             FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, typeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                let categoryIdIndex
-                    , categoryIndex
-                    , categories: any
-                    , categoryColumn;
-                categoryIdIndex = response.ColumnIndex.CategoryId;
-                categoryIndex = response.ColumnIndex.Category;
+                let categoryIdIndex = response.ColumnIndex.CategoryId;
+                let categoryIndex   = response.ColumnIndex.Category;
 
                 $popup.find('#category, #subCategory').empty();
                 $popup.find('#inventory').empty();
 
-                categories = [];
-                categoryColumn = $popup.find('#category');
+                let categories: any = [];
+                let categoryColumn  = $popup.find('#category');
                 for (let i = 0; i < response.Rows.length; i++) {
                     if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
                         categories.push(response.Rows[i][categoryIndex]);
@@ -534,63 +412,45 @@ class SearchInterface {
                     $popup.find("#category > ul").trigger('click');
                 }
 
-                self.fitToParent('#category .fitText span');
+                //self.fitToParent('#category .fitText span');
             }, null, $searchpopup);
             this.categoryOnClickEvents($popup);
         });
     }
-
+    //----------------------------------------------------------------------------------------------
     categoryOnClickEvents($popup) {
-        const $searchpopup = jQuery('#searchpopup');
-        let self = this
-            , toDate
-            , fromDate;
+        const $searchpopup = $popup.find('#searchpopup');
+        let self           = this;
 
         $popup.off('click', '#category ul');
         $popup.on('click', '#category ul', e => {
-            let breadcrumb
-                , categoryId
-                , inventoryTypeId
-                , parentFormId
-                , request: any
-                , hasSubCategories;
-
             const $this = jQuery(e.currentTarget);
-            parentFormId = FwFormField.getValueByDataField($popup, 'ParentFormId');
-            toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-            fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
+
             $popup.find('#category ul').removeClass('selected');
             $this.addClass('selected');
 
             //Clear and set new breadcrumbs
-            breadcrumb = $popup.find('#breadcrumbs .category');
-            $popup.find("#breadcrumbs .subcategory").empty();
-            $popup.find("#breadcrumbs .subcategory").attr('data-value', '');
-            breadcrumb.text($this.find('span:first-of-type').text());
-            breadcrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
-            categoryId = $this.attr('data-value');
-            inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-            breadcrumb.attr('data-value', categoryId);
+            let $breadcrumbs = $popup.find('#breadcrumbs');
+            $breadcrumbs.find('.category, .subcategory').remove();
+            $breadcrumbs.append(`<div class="category breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
+
+            $popup.find('#itemsearch').attr('data-categoryid', $this.attr('data-value'));
+            $popup.find('#itemsearch').attr('data-subcategoryid', undefined);
 
             let subCatListRequest: any = {};
             subCatListRequest.uniqueids = {
-                CategoryId: categoryId,
-                TypeId: inventoryTypeId,
-                RecType: FwFormField.getValueByDataField($popup, 'InventoryType')
+                CategoryId: $this.attr('data-value'),
+                TypeId:     $popup.find('#itemsearch').attr('data-inventorytypeid'),
+                RecType:    FwFormField.getValueByDataField($popup, 'InventoryType')
             }
 
             FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCatListRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                let subCategoryIdIndex
-                    , subCategoryIndex
-                    , subCategories: any
-                    , subCategoryColumn;
-
-                subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
-                subCategoryIndex = response.ColumnIndex.SubCategory;
+                let subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
+                let subCategoryIndex   = response.ColumnIndex.SubCategory;
                 $popup.find('#subCategory').empty();
 
-                subCategories = [];
-                subCategoryColumn = $popup.find('#subCategory');
+                let subCategories: any = [];
+                let subCategoryColumn  = $popup.find('#subCategory');
                 for (let i = 0; i < response.Rows.length; i++) {
                     if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
                         subCategories.push(response.Rows[i][subCategoryIndex]);
@@ -600,33 +460,29 @@ class SearchInterface {
                 if (response.Rows.length == 1) {
                     $popup.find("#subCategory > ul").trigger('click');
                 }
-                hasSubCategories = false;
+                let hasSubCategories = false;
                 if (response.Rows.length > 0) {
                     hasSubCategories = true;
                 }
                 //Load the Inventory items if selected category doesn't have any sub-categories
                 if (hasSubCategories == false) {
-                    let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
-                    hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
-                    request = {
-                        OrderId: parentFormId,
-                        SessionId: parentFormId,
-                        CategoryId: categoryId,
-                        InventoryTypeId: inventoryTypeId,
-                        AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
-                        WarehouseId: FwFormField.getValueByDataField($popup, 'WarehouseId'),
-                        ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                        SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
-                        Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                        HideInventoryWithZeroQuantity: hideZeroQuantity,
-                        ShowImages: true
+                    let parentFormId = FwFormField.getValueByDataField($popup, 'ParentFormId');
+                    let request: any = {
+                        OrderId:                       parentFormId,
+                        SessionId:                     parentFormId,
+                        CategoryId:                    $this.attr('data-value'),
+                        InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
+                        AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                        WarehouseId:                   FwFormField.getValueByDataField($popup, 'WarehouseId'),
+                        ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                        SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                        Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                        HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+                        ShowImages:                    true,
+                        FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                        ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
                     }
-                    if (fromDate != "") {
-                        request.FromDate = fromDate;
-                    }
-                    if (toDate != "") {
-                        request.ToDate = toDate;
-                    }
+
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('#inventory').empty();
                         if (response.Rows.length > 0) {
@@ -647,62 +503,46 @@ class SearchInterface {
                         $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
                     }
                 }
-                self.fitToParent('#subCategory .fitText span');
+                //self.fitToParent('#subCategory .fitText span');
             }, null, $searchpopup);
             this.subCategoryOnClickEvents($popup);
         });
-    };
-
+    }
+    //----------------------------------------------------------------------------------------------
     subCategoryOnClickEvents($popup) {
-        const $searchpopup = jQuery('#searchpopup');
+        const $searchpopup = $popup.find('#searchpopup');
 
         $popup.off('click', '#subCategory ul');
         $popup.on('click', '#subCategory ul', function (e) {
-            let breadcrumb
-                , subCategoryId
-                , categoryId
-                , inventoryTypeId
-                , request: any
-                , parentFormId
-                , toDate
-                , fromDate;
+            let parentFormId;
             const $this = jQuery(e.currentTarget);
 
             $popup.find('#subCategory ul').removeClass('selected');
             $this.addClass('selected');
             parentFormId = FwFormField.getValueByDataField($popup, 'ParentFormId');
-            toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-            fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
 
             //Clear and set breadcrumbs
-            breadcrumb = $popup.find('#breadcrumbs .subcategory');
-            breadcrumb.text($this.text());
-            subCategoryId = $this.attr('data-value');
-            breadcrumb.attr('data-value', subCategoryId);
-            categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
-            inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
+            let $breadcrumbs = $popup.find('#breadcrumbs');
+            $breadcrumbs.find('.category, .subcategory').remove();
+            $breadcrumbs.append(`<div class="category breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
 
-            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
-            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
-            request = {
-                OrderId: parentFormId,
-                SessionId: parentFormId,
-                CategoryId: categoryId,
-                SubCategoryId: subCategoryId,
-                InventoryTypeId: inventoryTypeId,
-                AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
-                WarehouseId: FwFormField.getValueByDataField($popup, 'WarehouseId'),
-                ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
-                Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                HideInventoryWithZeroQuantity: hideZeroQuantity,
-                ShowImages: true
-            }
-            if (fromDate != "") {
-                request.FromDate = fromDate;
-            }
-            if (toDate != "") {
-                request.ToDate = toDate;
+            $popup.find('#itemsearch').attr('data-subcategoryid', $this.attr('data-value'));
+
+            let request: any = {
+                OrderId:                       parentFormId,
+                SessionId:                     parentFormId,
+                CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid'),
+                SubCategoryId:                 $this.attr('data-value'),
+                InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
+                AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                WarehouseId:                   FwFormField.getValueByDataField($popup, 'WarehouseId'),
+                ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) === 'T' ? true : false,
+                ShowImages:                    true,
+                FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
             }
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -718,31 +558,27 @@ class SearchInterface {
             }, null, $searchpopup);
         });
     }
-
+    //----------------------------------------------------------------------------------------------
     renderInventory($popup, response) {
-        let descriptionIndex      = response.ColumnIndex.Description
-            , quantityAvailable   = response.ColumnIndex.QuantityAvailable
-            , conflictDate        = response.ColumnIndex.ConflictDate
-            , quantityIn          = response.ColumnIndex.QuantityIn
-            , quantityQcRequired  = response.ColumnIndex.QuantityQcRequired
-            , quantity            = response.ColumnIndex.Quantity
-            , dailyRate           = response.ColumnIndex.DailyRate
-            , inventoryId         = response.ColumnIndex.InventoryId
-            , thumbnail           = response.ColumnIndex.Thumbnail
-            , appImageId          = response.ColumnIndex.ImageId
-            , classificationIndex = response.ColumnIndex.Classification
-            , classificationColor = response.ColumnIndex.ClassificationColor
-            , typeIndex           = response.ColumnIndex.InventoryType
-            , categoryIndex       = response.ColumnIndex.Category
-            , subCategoryIndex    = response.ColumnIndex.SubCategory
-            , availableColor      = response.ColumnIndex.QuantityAvailableColor
-            , qtyIsStaleIndex     = response.ColumnIndex.QuantityAvailableIsStale
-            , $inventoryContainer
-            , $cornerTriangle
-            , color
-            , $itemcontainer;
+        let descriptionIndex          = response.ColumnIndex.Description,
+            quantityAvailable         = response.ColumnIndex.QuantityAvailable,
+            conflictDate              = response.ColumnIndex.ConflictDate,
+            quantityIn                = response.ColumnIndex.QuantityIn,
+            quantityQcRequired        = response.ColumnIndex.QuantityQcRequired,
+            quantity                  = response.ColumnIndex.Quantity,
+            dailyRate                 = response.ColumnIndex.DailyRate,
+            inventoryId               = response.ColumnIndex.InventoryId,
+            thumbnail                 = response.ColumnIndex.Thumbnail,
+            appImageId                = response.ColumnIndex.ImageId,
+            classificationIndex       = response.ColumnIndex.Classification,
+            classificationColor       = response.ColumnIndex.ClassificationColor,
+            classificationDescription = response.ColumnIndex.ClassificationDescription,
+            typeIndex                 = response.ColumnIndex.InventoryType,
+            categoryIndex             = response.ColumnIndex.Category,
+            subCategoryIndex          = response.ColumnIndex.SubCategory,
+            qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale;
 
-        $inventoryContainer = $popup.find('#inventory');
+        let $inventoryContainer = $popup.find('#inventory');
         if (response.Rows.length == 0) {
             $inventoryContainer.append('<span style="font-weight: bold; font-size=1.3em">No Results</span>');
         }
@@ -753,63 +589,48 @@ class SearchInterface {
             let rate           = Number(response.Rows[i][dailyRate]).toFixed(2);
             let conflictdate   = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
 
-            let html = [];
-            html.push(`
-                <div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
-                  <div class="item-info">
-                    <div class="cornerTriangle"></div>
-                    <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false">
-                      <input value="${response.Rows[i][inventoryId]}">
-                    </div>
-                    <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
-                    <div data-column="Description" data-datafield="Description" class="columnorder"><div>${response.Rows[i][descriptionIndex]}</div></div>
-                    <div data-column="Type" data-datafield="Type" data-caption="Type" class="columnorder showOnSearch">${response.Rows[i][typeIndex]} </div>
-                    <div data-column="Category" data-datafield="Category" data-caption="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
-                    <div data-column="SubCategory" data-datafield="SubCategory" data-caption="SubCategory" class="columnorder showOnSearch">${response.Rows[i][subCategoryIndex]}</div>
-                    <div data-column="Available" data-datafield="QuantityAvailable" data-caption="Available" class="columnorder hideColumns"><div class="gridcaption">Available</div><div class="available-color value">${response.Rows[i][quantityAvailable]}</div></div>
-                    <div data-column="ConflictDate" data-datafield="ConflictDate" class="columnorder hideColumns"><div class="gridcaption">Conflict</div><div class="value">${conflictdate}</div></div>
-                    <div data-column="AllWh" data-datafield="AllWh" class="columnorder hideColumns">&#160;</div>
-                    <div data-column="In" data-datafield="QuantityIn" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
-                    <div data-column="QC" data-datafield="QuantityQcRequired" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
-                    <div data-column="Rate" data-datafield="DailyRate" class="columnorder rate"><div class="gridcaption">Rate</div><div class="value">${rate}</div> </div>
-                    <div data-column="Quantity" data-datafield="Quantity" class="columnorder">
-                      <div class="gridcaption">Qty</div>
-                      <div style="float:left; border:1px solid #bdbdbd;">
-                        <button class="decrementQuantity" tabindex="-1">-</button>
-                        <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][quantity]}">
-                        <button class="incrementQuantity" tabindex="-1">+</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>`);
-            $itemcontainer = jQuery(html.join(''));
-
+            let itemhtml = `<div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
+                              <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
+                                <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
+                                <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}</div></div></div>
+                                <div data-column="Type" class="columnorder showOnSearch">${response.Rows[i][typeIndex]}</div>
+                                <div data-column="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
+                                <div data-column="SubCategory" class="columnorder showOnSearch">${response.Rows[i][subCategoryIndex]}</div>
+                                <div data-column="Available" class="columnorder hideColumns"><div class="gridcaption">Available</div><div class="available-color value">${response.Rows[i][quantityAvailable]}</div></div>
+                                <div data-column="ConflictDate" class="columnorder hideColumns"><div class="gridcaption">Conflict</div><div class="value">${conflictdate}</div></div>
+                                <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
+                                <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
+                                <div data-column="QC" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
+                                <div data-column="Rate" class="columnorder rate"><div class="gridcaption">Rate</div><div class="value">${rate}</div> </div>
+                                <div data-column="Quantity" class="columnorder">
+                                  <div class="gridcaption">Qty</div>
+                                  <div style="float:left; border:1px solid #bdbdbd;">
+                                    <button class="decrementQuantity" tabindex="-1">-</button>
+                                    <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][quantity]}">
+                                    <button class="incrementQuantity" tabindex="-1">+</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>`;
+            let $itemcontainer = jQuery(itemhtml);
             $inventoryContainer.append($itemcontainer);
 
             if (response.Rows[i][quantity] != 0) {
-                $itemcontainer.find('[data-datafield="Quantity"] input').addClass('lightBlue');
+                $itemcontainer.find('[data-column="Quantity"] input').addClass('lightBlue');
             }
 
-            $cornerTriangle = $itemcontainer.find('.cornerTriangle');
-            if (response.Rows[i][classificationColor] == "") {
-                color = 'transparent';
-            } else {
-                color = response.Rows[i][classificationColor];
-            };
-            $cornerTriangle.css({
-                'border-left-color': color
-            });
-
             if (response.Rows[i][qtyIsStaleIndex] === true) {
-                $itemcontainer.find('div[data-datafield="QuantityAvailable"]').attr('data-state', 'STALE');
+                $itemcontainer.find('div[data-column="Available"]').attr('data-state', 'STALE');
             } else if (response.Rows[i][quantityAvailable] > 0) {
-                $itemcontainer.find('div[data-datafield="QuantityAvailable"]').attr('data-state', 'AVAILABLE');
+                $itemcontainer.find('div[data-column="Available"]').attr('data-state', 'AVAILABLE');
             } else if (response.Rows[i][quantityAvailable] <= 0) {
-                $itemcontainer.find('div[data-datafield="QuantityAvailable"]').attr('data-state', 'NOTAVAILABLE');
+                $itemcontainer.find('div[data-column="Available"]').attr('data-state', 'NOTAVAILABLE');
             }
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-                $itemcontainer.find('div[data-datafield="Description"]').append('<div class="toggleaccessories">Show Accessories</div>');
+                $itemcontainer.find('div[data-column="Description"] .descriptionrow').append(`<div class="classdescription">${response.Rows[i][classificationDescription]}</div>`)
+                $itemcontainer.find('.classdescription').css({ 'background-color': response.Rows[i][classificationColor] });
+                $itemcontainer.find('div[data-column="Description"]').append('<div class="toggleaccessories">Show Accessories</div>');
                 $itemcontainer.append(`<div class="item-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;"></div>`);
             }
         }
@@ -817,14 +638,14 @@ class SearchInterface {
         let $inventory = $popup.find('.item-info');
         let view       = $popup.find('#itemlist').attr('data-view');
 
-        let type = $popup.find('#type').text();
+        let type = $popup.find('#itemsearch').attr('data-moduletype');
         if (type === 'PurchaseOrder' || type === 'Template') {
             $popup.find('.hideColumns').css('display', 'none');
         }
 
         this.listGridView($inventory, view);
     }
-
+    //----------------------------------------------------------------------------------------------
     listGridView($inventory, viewType) {
         let $searchpopup = jQuery('#searchpopup') ;
 
@@ -842,54 +663,29 @@ class SearchInterface {
             };
 
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    events($popup, $form, id) {
+        let self           = this;
+        const $options     = $popup.find('.options');
+        let userId         = JSON.parse(sessionStorage.getItem('userid'));
+        let hasItemInGrids = false;
+        let warehouseId    = FwFormField.getValueByDataField($popup, 'WarehouseId');
+        let $searchpopup   = $popup.find('#searchpopup');
 
-        switch (viewType) {
-            case 'GRID':
-                $searchpopup.find('.item-info .showOnSearch').hide();
-                $searchpopup.find('.accColumns').css('display', 'flex');
-                break;
-            case 'LIST':
-                $searchpopup.find('.accColumns').hide();
-                break;
-            case 'HYBRID':
-                $searchpopup.find('.accColumns').hide();
-                break;
-        }
-    };
-
-    breadCrumbs($popup) {
         $popup.on('click', '#breadcrumbs .basetype', e => {
-            $popup.find('[data-type="radio"]').change();
+            self.populateTypeMenu($popup);
         });
 
         $popup.on('click', '#breadcrumbs .type', e => {
-            let inventoryTypeId = jQuery(e.currentTarget).attr('data-value');
-            $popup.find(`#inventoryType ul[data-value="${inventoryTypeId}"]`).click();
+            let inventorytypeid = $popup.find('#itemsearch').attr('data-inventorytypeid');
+            $popup.find(`#inventoryType ul[data-value="${inventorytypeid}"]`).click();
         });
 
         $popup.on('click', '#breadcrumbs .category', e => {
-            let categoryId = jQuery(e.currentTarget).attr('data-value');
-            $popup.find(`#category ul[data-value="${categoryId}"]`).click();
+            let categoryid = $popup.find('#itemsearch').attr('data-categoryid');
+            $popup.find(`#category ul[data-value="${categoryid}"]`).click();
         });
-    };
-
-    events($popup, $form, id) {
-        let hasItemInGrids
-            , warehouseId
-            , request: any
-            , self = this
-            , availableFor
-            , inventoryTypeRequest: any = {}
-            , categoryType
-            , $searchpopup
-            , userId;
-
-        const $options = $popup.find('.options');
-        userId = JSON.parse(sessionStorage.getItem('userid'));
-        hasItemInGrids = false;
-        warehouseId = FwFormField.getValueByDataField($popup, 'WarehouseId');
-        request = {};
-        $searchpopup = jQuery('#searchpopup');
 
         //Close the Search Interface popup
         $popup.find('.close-modal').one('click', function (e) {
@@ -898,34 +694,37 @@ class SearchInterface {
             jQuery(document).off('keydown');
         });
 
-        //Toggle Options menu
-        $popup.on('click', '.optiontoggle', e => {
-            e.stopPropagation();
-            if ($popup.find('.options').css('display') === 'none') {
-                $popup.find('.options').css('display', 'flex');
-            } else {
-                $popup.find('.options').css('display', 'none');
-            }
+        $popup.on('click', '.options .optionsbutton', (event: JQuery.ClickEvent) => {
+            try {
+                var $options = jQuery(event.currentTarget).parent();
+                if (!$options.hasClass('active')) {
+                    var maxZIndex = FwFunc.getMaxZ('*');
+                    $options.find('.optionsmenu').css('z-index', maxZIndex + 1);
+                    $options.addClass('active');
 
-            //hides options when clicked outside of div
-            jQuery(document).one('click', function closeMenu(e) {
-                $popup.find('.options').css('display', 'none');
-            });
-
-            $options.on('click', e => {
-                if (!jQuery(e.target).is('div.applyOptions, div.restoreDefaults')) {
-                    e.stopPropagation();
+                    jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
+                        try {
+                            if (($options.has(<Element>e.target).length === 0)) {
+                                $options.removeClass('active');
+                                $options.find('.optionsmenu').css('z-index', '0');
+                            } else if ($options.hasClass('active')) {
+                                jQuery(document).one('click', closeMenu);
+                            }
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
+                    });
+                } else {
+                    $options.removeClass('active');
+                    $options.find('.optionsmenu').css('z-index', '0');
                 }
-            });
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
         });
 
         //Apply options and close options menu
         $popup.on('click', '.applyOptions', e => {
-            let request: any = {};
-            let expandAccessories = FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]'));
-            expandAccessories == "T" ? expandAccessories = true : expandAccessories = false;
-            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
-            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
             let $columns = $popup.find('[data-datafield="Columns"] li');
             let selectedColumns = [];
             let notSelectedColumns = [];
@@ -951,38 +750,38 @@ class SearchInterface {
             let columnOrder = selectedColumns.map(a => a.value);
             FwFormField.setValueByDataField($popup, 'ColumnOrder', columnOrder.join(','));
 
-            request.ResultFields = JSON.stringify(selectedColumns);
-            request.WebUserId = userId.webusersid;
-            request.DisableAccessoryAutoExpand = expandAccessories;
-            request.HideZeroQuantity = hideZeroQuantity;
+            let request: any = {
+                ResultFields:                JSON.stringify(selectedColumns),
+                WebUserId:                   userId.webusersid,
+                DisableAccessoryAutoExpand:  FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]')) == "T" ? true : false,
+                HideZeroQuantity:            FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false
+            }
+
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 let columnsToHide = notSelectedColumns.map(a => a.value);
                 FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
+                $popup.find('.options').removeClass('active');
+                $popup.find('.options .optionsmenu').css('z-index', '0');
 
                 //perform search again with new settings
-                let request: any = {
-                    OrderId: id,
-                    SessionId: id,
-                    AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
-                    WarehouseId: warehouseId,
-                    ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                    ShowImages: true,
-                    SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
-                    Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                    HideInventoryWithZeroQuantity: hideZeroQuantity,
-                    SearchText: FwFormField.getValueByDataField($popup, 'SearchBox'),
+                let searchrequest: any = {
+                    OrderId:                       id,
+                    SessionId:                     id,
+                    AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                    WarehouseId:                   warehouseId,
+                    ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                    ShowImages:                    true,
+                    SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                    Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                    HideInventoryWithZeroQuantity: request.HideZeroQuantity,
+                    SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
+                    ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
+                    FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                    CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
+                    InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined
                 }
 
-                const toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-                if (toDate != "") request.ToDate = toDate;
-                const fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-                if (fromDate != "") request.FromDate = fromDate;
-                const categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
-                if (typeof categoryId !== "undefined") request.CategoryId = categoryId;
-                const inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-                if (typeof inventoryTypeId !== "undefined") request.InventoryTypeId = inventoryTypeId;
-
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", searchrequest, FwServices.defaultTimeout, function onSuccess(response) {
                     $popup.find('#inventory').empty();
                     if (response.Rows.length > 0) {
                         const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
@@ -994,7 +793,7 @@ class SearchInterface {
                     SearchInterfaceController.renderInventory($popup, response);
                 }, null, $searchpopup);
 
-                if (expandAccessories) {
+                if (request.DisableAccessoryAutoExpand) {
                     $popup.find('.item-accessories').css('display', 'none');
                 }
             }, null, $searchpopup);
@@ -1002,73 +801,31 @@ class SearchInterface {
 
         //Reset options to defaults
         $popup.on('click', '.restoreDefaults', e => {
-            e.stopPropagation();
             FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
-                [{ value: 'Description', text: 'Description', selected: 'T' },
-                { value: 'Quantity', text: 'Quantity', selected: 'T' },
-                { value: 'Type', text: 'Type', selected: 'F' },
-                { value: 'Category', text: 'Category', selected: 'F' },
-                { value: 'SubCategory', text: 'Sub Category', selected: 'F' },
-                { value: 'Available', text: 'Available Quantity', selected: 'T' },
-                { value: 'ConflictDate', text: 'Conflict Date', selected: 'T' },
-                { value: 'AllWh', text: 'Available Quantity (All Warehouses)', selected: 'T' },
-                { value: 'In', text: 'In Quantity', selected: 'T' },
-                { value: 'QC', text: 'QC Required Quantity', selected: 'T' },
-                { value: 'Rate', text: 'Rate', selected: 'T' }]);
+                [{ value: 'Description', text: 'Description',                         selected: 'T' },
+                { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
+                { value: 'Type',         text: 'Type',                                selected: 'F' },
+                { value: 'Category',     text: 'Category',                            selected: 'F' },
+                { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
+                { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
+                { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
+                { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
+                { value: 'In',           text: 'In Quantity',                         selected: 'T' },
+                { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
+                { value: 'Rate',         text: 'Rate',                                selected: 'T' }]);
 
             FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
             FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
             let gridView = $popup.find('#itemlist').attr('data-view');
             let $inventory = $popup.find('div.item-info');
             self.listGridView($inventory, gridView);
+
+            $popup.find('.options').removeClass('active');
+            $popup.find('.options .optionsmenu').css('z-index', '0');
         });
 
-        //Inventory Type radio change events
-        $popup.find('[data-type="radio"]').on('change', function () {
-            availableFor = $popup.find('[data-type="radio"] input:checked').val();
-            let mainTypeBreadCrumb = $popup.find('#breadcrumbs .basetype');
-
-            switch (availableFor) {
-                case 'R':
-                    inventoryTypeRequest.uniqueids = {
-                        Rental: true
-                    }
-                    categoryType = 'rentalcategory';
-                    mainTypeBreadCrumb.text('RENTAL');
-                    break;
-                case 'S':
-                    inventoryTypeRequest.uniqueids = {
-                        Sales: true
-                    }
-                    categoryType = 'salescategory';
-                    mainTypeBreadCrumb.text('SALES');
-                    break;
-                case 'L':
-                    inventoryTypeRequest.uniqueids = {
-                        Labor: true
-                    }
-                    categoryType = 'laborcategory';
-                    mainTypeBreadCrumb.text('LABOR');
-                    break;
-                case 'M':
-                    inventoryTypeRequest.uniqueids = {
-                        Misc: true
-                    }
-                    categoryType = 'misccategory';
-                    mainTypeBreadCrumb.text('MISC');
-                    break;
-
-                case 'P':
-                    inventoryTypeRequest.uniqueids = {
-                        Parts: true
-                    }
-                    categoryType = 'partscategory';
-                    mainTypeBreadCrumb.text('PARTS');
-                    break;
-            }
-            request.AvailableFor = availableFor;
-            self.populateTypeMenu($popup, inventoryTypeRequest, categoryType);
-            mainTypeBreadCrumb.append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
+        $popup.on('change', 'div[data-datafield="InventoryType"]', function () {
+            self.populateTypeMenu($popup);
 
             let searchValue = FwFormField.getValueByDataField($popup, 'SearchBox');
             let e = jQuery.Event("keydown", { keyCode: 13 });
@@ -1083,29 +840,20 @@ class SearchInterface {
             try {
                 if (code === 13) { //Enter Key
                     e.preventDefault();
-                    let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
-                    hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
                     let request: any = {
-                        OrderId: id,
-                        SessionId: id,
-                        AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
-                        WarehouseId: warehouseId,
-                        ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                        ShowImages: true,
-                        SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
-                        Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                        HideInventoryWithZeroQuantity: hideZeroQuantity,
-                        SearchText: FwFormField.getValueByDataField($popup, 'SearchBox')
-                    }
-
-                    let toDate = FwFormField.getValueByDataField($popup, 'ToDate')
-                        , fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-                    if (fromDate != "") {
-                        request.FromDate = fromDate;
-                    }
-                    if (toDate != "") {
-                        request.ToDate = toDate;
-                    }
+                        OrderId:                       id,
+                        SessionId:                     id,
+                        AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                        WarehouseId:                   warehouseId,
+                        ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                        ShowImages:                    true,
+                        SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                        Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                        HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+                        SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
+                        FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                        ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
+                    };
 
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('#inventory').empty();
@@ -1139,7 +887,7 @@ class SearchInterface {
                 jQuery(e.currentTarget).text('Show Accessories');
             } else {
                 jQuery(e.currentTarget).text('Hide Accessories');
-                let inventoryId = $iteminfo.find('[data-datafield="InventoryId"] input').val();
+                let inventoryId = $iteminfo.attr('data-inventoryid');
                 self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
             }
 
@@ -1151,24 +899,18 @@ class SearchInterface {
         });
 
         //On Quantity input change
-        $popup.on('change', '#inventory [data-datafield="Quantity"] input', e => {
+        $popup.on('change', '.item-info [data-column="Quantity"] input', e => {
             e.stopPropagation();
-            let element
-                , quantity
-                , inventoryId
-                , request: any
-                , $accContainer
-                , accessoryRefresh;
 
-            element = jQuery(e.currentTarget);
-            quantity = element.val();
-            inventoryId = element.parents('.item-info').find('[data-datafield="InventoryId"] input').val();
-            request = {
-                OrderId: id,
-                SessionId: id,
+            let element      = jQuery(e.currentTarget);
+            let quantity     = element.val();
+            let inventoryId  = element.parents('.item-info').attr('data-inventoryid');
+            let request: any = {
+                OrderId:     id,
+                SessionId:   id,
                 InventoryId: inventoryId,
                 WarehouseId: warehouseId,
-                Quantity: quantity
+                Quantity:    quantity
             }
 
             if (quantity > 0) {
@@ -1177,8 +919,8 @@ class SearchInterface {
 
             quantity != 0 ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
-            $accContainer = element.parents('.item-container').find('.item-accessories');
-            accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
+            let $accContainer    = element.parents('.item-container').find('.item-accessories');
+            let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 if (accessoryRefresh == false) {
                     if ($accContainer.length > 0) {
@@ -1194,7 +936,7 @@ class SearchInterface {
         //Update Preview grid tab
         $popup.on('click', '.tab[data-caption="Preview"]', e => {
             self.refreshPreviewGrid($popup, id);
-            let type = $popup.find('#type').text();
+            let type = $popup.find('#itemsearch').attr('data-moduletype');
             if (type === 'PurchaseOrder' || type === 'Template') {
                 $popup.find('[data-type="Grid"] .hideColumns').closest('td').css('display', 'none');
             }
@@ -1203,16 +945,11 @@ class SearchInterface {
         //Image preview confirmation box
         $popup.on('click', '.image', e => {
             e.stopPropagation();
-            let $confirmation
-                , $cancel
-                , image
-                , imageId;
-            image = jQuery(e.currentTarget).attr('src');
-            imageId = jQuery(e.currentTarget).attr('data-value');
+            let imageId = jQuery(e.currentTarget).attr('data-value');
             if (imageId !== '') {
-                $confirmation = FwConfirmation.renderConfirmation('Image Viewer',
+                let $confirmation = FwConfirmation.renderConfirmation('Image Viewer',
                     `<div style="white-space:pre;">\n<img src="${applicationConfig.appbaseurl}${applicationConfig.appvirtualdirectory}fwappimage.ashx?method=GetAppImage&appimageid=${imageId}&thumbnail=false" data-value="${imageId}" alt="No Image" class="image" style="max-width:100%;">`);
-                $cancel = FwConfirmation.addButton($confirmation, 'Close');
+                let $cancel = FwConfirmation.addButton($confirmation, 'Close');
             }
         });
 
@@ -1264,13 +1001,12 @@ class SearchInterface {
         //Saves the user's inventory view setting
         $popup.on('click', '.invviewbtn', e => {
             let $this = jQuery(e.currentTarget),
-                view  = $this.attr('data-buttonview'),
-                viewrequest: any;
+                view  = $this.attr('data-buttonview');
 
             $popup.find('#itemlist').attr('data-view', view);
             self.listGridView($popup.find('div.item-info'), view);
 
-            viewrequest = {
+            let viewrequest: any = {
                 WebUserId: userId.webusersid,
                 Mode:      view
             };
@@ -1278,22 +1014,18 @@ class SearchInterface {
         });
 
         //Accessory quantity change
-        $popup.on('change', '.item-accessory-info [data-datafield="AccQuantity"] input', e => {
-            const element = jQuery(e.currentTarget),
-                inventoryId = element.parents('.item-accessory-info').find('[data-datafield="InventoryId"] input').val(),
-                quantity = element.val(),
-                parentId = element.parents('.item-container').find('.item-info [data-datafield="InventoryId"] input').val();
+        $popup.on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
+            const element = jQuery(e.currentTarget);
 
-            let accRequest: any = {};
-            accRequest = {
-                SessionId: id,
-                ParentId: parentId,
-                InventoryId: inventoryId,
+            let accRequest: any = {
+                SessionId:   id,
+                ParentId:    element.parents('.item-container').find('.item-info').attr('data-inventoryid'),
+                InventoryId: element.parents('.item-accessory-info').attr('data-inventoryid'),
                 WarehouseId: warehouseId,
-                Quantity: quantity
-            }
+                Quantity:    element.val()
+            };
 
-            quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
+            accRequest.Quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
                 //Updates preview tab with total # of items
@@ -1302,44 +1034,23 @@ class SearchInterface {
         });
 
         //Sorting option events
-        $popup.on('change', '.select, .sortby', e => {
-            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
-            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
+        $popup.on('change', 'div[data-datafield="Select"], div[data-datafield="SortBy"]', e => {
             let request: any = {
-                OrderId: id,
-                SessionId: id,
-                AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
-                WarehouseId: warehouseId,
-                ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
-                Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                HideInventoryWithZeroQuantity: hideZeroQuantity,
-                ShowImages: true
-            }
-                , fromDate = FwFormField.getValueByDataField($popup, 'FromDate')
-                , toDate = FwFormField.getValueByDataField($popup, 'ToDate')
-                , inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value')
-                , categoryId = $popup.find('#breadcrumbs .category').attr('data-value')
-                , subCategoryId = $popup.find('#breadcrumbs .subcategory').attr('data-value')
-                , searchQuery = FwFormField.getValueByDataField($popup, 'SearchBox');
-
-            if (fromDate != "") {
-                request.FromDate = fromDate;
-            }
-            if (toDate != "") {
-                request.ToDate = toDate;
-            }
-            if (inventoryTypeId != "") {
-                request.InventoryTypeId = inventoryTypeId;
-            }
-            if (categoryId != "") {
-                request.CategoryId = categoryId;
-            }
-            if (subCategoryId != "") {
-                request.SubCategoryId = subCategoryId;
-            }
-            if (searchQuery != "") {
-                request.SearchText = searchQuery;
+                OrderId:                       id,
+                SessionId:                     id,
+                AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                WarehouseId:                   warehouseId,
+                ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+                ShowImages:                    true,
+                FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
+                InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
+                CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
+                SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
+                SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined
             }
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
@@ -1357,32 +1068,24 @@ class SearchInterface {
 
         //Refresh Availability button
         $popup.on('click', '.refresh-availability', e => {
-            let hideZeroQuantity = FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]'));
-            hideZeroQuantity == "T" ? hideZeroQuantity = true : hideZeroQuantity = false;
             let request: any = {
-                OrderId: id,
-                SessionId: id,
-                AvailableFor: FwFormField.getValueByDataField($popup, 'InventoryType'),
-                WarehouseId: warehouseId,
-                ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                ShowImages: true,
-                SortBy: FwFormField.getValueByDataField($popup, 'SortBy'),
-                Classification: FwFormField.getValueByDataField($popup, 'Select'),
-                HideInventoryWithZeroQuantity: hideZeroQuantity,
-                SearchText: FwFormField.getValueByDataField($popup, 'SearchBox'),
-                RefreshAvailability: true
+                OrderId:                       id,
+                SessionId:                     id,
+                AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                WarehouseId:                   warehouseId,
+                ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                ShowImages:                    true,
+                SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+                SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
+                FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
+                InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
+                CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
+                SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
+                RefreshAvailability:           true
             }
-
-            const toDate = FwFormField.getValueByDataField($popup, 'ToDate');
-            if (toDate != "") request.ToDate = toDate;
-            const fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-            if (fromDate != "") request.FromDate = fromDate;
-            const categoryId = $popup.find('#breadcrumbs .category').attr('data-value');
-            if (typeof categoryId !== "undefined") request.CategoryId = categoryId;
-            const inventoryTypeId = $popup.find('#breadcrumbs .type').attr('data-value');
-            if (typeof inventoryTypeId !== "undefined") request.InventoryTypeId = inventoryTypeId;
-            const subCategoryId = $popup.find('#breadcrumbs .subcategory').attr('data-value');
-            if (typeof subCategoryId !== "undefined") request.SubCategoryId = subCategoryId;
 
             FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                 $popup.find('#inventory').empty();
@@ -1392,21 +1095,10 @@ class SearchInterface {
         });
 
         $popup.on('click', '.acc-refresh-avail', e => {
-            const inventoryId = jQuery(e.currentTarget).parents('.item-container').find('.item-info').find('[data-datafield="InventoryId"] input').val();
+            const inventoryId = jQuery(e.currentTarget).parents('.item-container').find('.item-info').attr('data-inventoryid');
             $popup.data('refreshaccessories', true);
             this.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
         })
-
-        //Expand Categories button
-        //$popup.on('click', '.expandcategorycolumns', e => {
-        //    let $inventory = $popup.find('div.item-info');
-        //    let view = $popup.find('#inventoryView').val();
-        //    $popup.find('#inventory').removeClass('expandedInventoryView');
-        //    $popup.find('.showWhenExpanded').hide();
-        //    this.listGridView($inventory, view);
-        //    $popup.find('[data-datafield="SearchBox"] input').val('');
-        //    $popup.find('#breadcrumbs > div').show();
-        //});
 
         //Increment and decrement buttons
         $popup.on('click', '.incrementQuantity, .decrementQuantity', e => {
@@ -1471,50 +1163,35 @@ class SearchInterface {
                     }
                 })
         }
-    };
-
+    }
+    //----------------------------------------------------------------------------------------------
     refreshPreviewGrid($popup, id) {
-        let previewrequest: any
-            , $searchpopup = jQuery('#searchpopup')
-            , toDate = FwFormField.getValueByDataField($popup, 'ToDate')
-            , fromDate = FwFormField.getValueByDataField($popup, 'FromDate');
-        previewrequest = {
-            SessionId: id,
+        let $searchpopup = $popup.find('#searchpopup');
+        let previewrequest: any = {
+            SessionId:        id,
             ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-            ShowImages: true
+            ShowImages:       true,
+            FromDate:         FwFormField.getValueByDataField($popup, 'FromDate'),
+            ToDate:           FwFormField.getValueByDataField($popup, 'ToDate')
         };
-        if (fromDate != "") {
-            previewrequest.FromDate = fromDate;
-        }
-        if (toDate != "") {
-            previewrequest.ToDate = toDate;
-        }
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearchpreview/browse", previewrequest, FwServices.defaultTimeout, function onSuccess(response) {
             let $grid = $popup.find('[data-name="SearchPreviewGrid"]');
             //FwBrowse.databindcallback($grid, response);
             FwBrowse.search($grid);
         }, null, $searchpopup);
-    };
-
+    }
+    //----------------------------------------------------------------------------------------------
     refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e) {
-        let request: any = {}
-            , accessoryContainer = jQuery(e.currentTarget).parents('.item-container').find('.item-accessories')
-            , toDate = FwFormField.getValueByDataField($popup, 'ToDate')
-            , fromDate = FwFormField.getValueByDataField($popup, 'FromDate')
-            , html: any;
-        request = {
-            SessionId: id,
-            OrderId: id,
-            ParentId: inventoryId,
-            WarehouseId: warehouseId,
+        let accessoryContainer = jQuery(e.currentTarget).parents('.item-container').find('.item-accessories');
+        let request: any = {
+            SessionId:        id,
+            OrderId:          id,
+            ParentId:         inventoryId,
+            WarehouseId:      warehouseId,
             ShowAvailability: $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-            ShowImages: true
-        }
-        if (fromDate != "") {
-            request.FromDate = fromDate;
-        }
-        if (toDate != "") {
-            request.ToDate = toDate;
+            ShowImages:       true,
+            FromDate:         FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+            ToDate:           FwFormField.getValueByDataField($popup, 'ToDate') || undefined
         }
 
         if ($popup.data('refreshaccessories') == true) {
@@ -1522,23 +1199,21 @@ class SearchInterface {
             $popup.data('refreshaccessories', false)
         }
 
-        html = [];
         if (!(accessoryContainer.find('.accColumns').length)) {
-            html.push(`
-             <div class="accColumns" style="width:100%; display:none">
-                <div class="columnorder" data-column="Description">Description</div>
-                <div class="columnorder" data-column="Quantity">Qty</div>
-                <div class="columnorder showOnSearch" data-column="Type"></div> 
-                <div class="columnorder showOnSearch" data-column="Category"></div>
-                <div class="columnorder showOnSearch" data-column="SubCategory"></div>
-                <div class="columnorder hideColumns" data-column="Available">Available</div>
-                <div class="columnorder hideColumns" data-column="ConflictDate">Conflict <div>Date</div></div>
-                <div class="columnorder hideColumns" data-column="AllWh"></div>
-                <div class="columnorder hideColumns" data-column="In">In</div>
-                <div class="columnorder hideColumns" data-column="QC"></div>
-                <div class="columnorder" data-column="Rate"></div>
-              </div>`);
-            accessoryContainer.append(html.join(''));
+            let accessorycolumnshtml =  `<div class="accColumns" style="width:100%; display:none">
+                                           <div class="columnorder" data-column="Description">Description</div>
+                                           <div class="columnorder" data-column="Quantity">Qty</div>
+                                           <div class="columnorder showOnSearch" data-column="Type"></div> 
+                                           <div class="columnorder showOnSearch" data-column="Category"></div>
+                                           <div class="columnorder showOnSearch" data-column="SubCategory"></div>
+                                           <div class="columnorder hideColumns" data-column="Available">Available</div>
+                                           <div class="columnorder hideColumns" data-column="ConflictDate">Conflict <div>Date</div></div>
+                                           <div class="columnorder hideColumns" data-column="AllWh"></div>
+                                           <div class="columnorder hideColumns" data-column="In">In</div>
+                                           <div class="columnorder hideColumns" data-column="QC"></div>
+                                           <div class="columnorder" data-column="Rate"></div>
+                                         </div>`;
+            accessoryContainer.append(jQuery(accessorycolumnshtml));
         }
         // Show column names for grid view
         if (($popup.find('#itemlist').attr('data-view')) == 'GRID') {
@@ -1550,68 +1225,57 @@ class SearchInterface {
 
         FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/accessories", request, FwServices.defaultTimeout, function onSuccess(response) {
             jQuery(e.currentTarget).parents('.item-container').find('.item-accessories .item-accessory-info').remove();
-            const descriptionIndex      = response.ColumnIndex.Description;
-            const qtyIndex              = response.ColumnIndex.Quantity;
-            const qtyInIndex            = response.ColumnIndex.QuantityIn;
-            const qtyAvailIndex         = response.ColumnIndex.QuantityAvailable;
-            const conflictIndex         = response.ColumnIndex.ConflictDate;
-            const inventoryIdIndex      = response.ColumnIndex.InventoryId;
-            const descriptionColorIndex = response.ColumnIndex.DescriptionColor;
-            const quantityColorIndex    = response.ColumnIndex.QuantityColor;
-            const qtyIsStaleIndex       = response.ColumnIndex.QuantityAvailableIsStale;
+            const descriptionIndex               = response.ColumnIndex.Description;
+            const qtyIndex                       = response.ColumnIndex.Quantity;
+            const qtyInIndex                     = response.ColumnIndex.QuantityIn;
+            const qtyAvailIndex                  = response.ColumnIndex.QuantityAvailable;
+            const conflictIndex                  = response.ColumnIndex.ConflictDate;
+            const inventoryIdIndex               = response.ColumnIndex.InventoryId;
+            const classificationIndex            = response.ColumnIndex.Classification;
+            const classificationColorIndex       = response.ColumnIndex.ClassificationColor;
+            const classificationDescriptionIndex = response.ColumnIndex.ClassificationDescription;
+            const quantityColorIndex             = response.ColumnIndex.QuantityColor;
+            const qtyIsStaleIndex                = response.ColumnIndex.QuantityAvailableIsStale;
+            const thumbnail                      = response.ColumnIndex.Thumbnail
+            const appImageId                     = response.ColumnIndex.ImageId
 
             for (var i = 0; i < response.Rows.length; i++) {
-                let conflictdate   = response.Rows[i][conflictIndex] ? moment(response.Rows[i][conflictIndex]).format('L') : "N/A";
+                let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
+                let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
+                let conflictdate   = response.Rows[i][conflictIndex] ? moment(response.Rows[i][conflictIndex]).format('L') : '';
 
-                let accHtml = [];
-                accHtml.push(`
-                <div class="item-accessory-info">
-                  <div data-control="FwFormField" data-type="key" data-datafield="InventoryId" data-caption="InventoryId" class="fwcontrol fwformfield" data-isuniqueid="true" data-enabled="false" style="display:none">
-                    <input value="${response.Rows[i][inventoryIdIndex]}"></input></div>
-                  <div data-column="Description" class="columnorder"><span class="descriptionColor">${response.Rows[i][descriptionIndex]}</span></div>
-                  <div data-column="Quantity" data-datafield="AccQuantity" class="columnorder fwcontrol fwformfield">
-                    <div style="float:left; border:1px solid #bdbdbd;">
-                      <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>
-                      <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][qtyIndex]}">
-                      <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>
-                    </div>
-                  </div>
-                  <div class="columnorder hideColumns" data-column="Available" data-datafield="QuantityAvailable"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
-                  <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
-                  <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
-                  <div class="columnorder" data-column="Type"></div>
-                  <div class="columnorder" data-column="Category"></div>
-                  <div class="columnorder" data-column="SubCategory"></div>
-                  <div class="columnorder" data-column="Rate"></div>
-                  <div class="columnorder" data-column="QC"></div>
-                  <div class="columnorder" data-column="AllWh"></div>
-                </div>`);
-                let $itemaccessoryinfo = jQuery(accHtml.join(''));
-
+                let accessoryhtml = `<div class="item-accessory-info" data-inventoryid="${response.Rows[i][inventoryIdIndex]}">
+                                       <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
+                                       <div data-column="Description" class="columnorder"><div class="descriptionrow">${response.Rows[i][descriptionIndex]}</div></div>
+                                       <div data-column="Quantity" class="columnorder">
+                                         <div style="float:left; border:1px solid #bdbdbd;">
+                                           <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>
+                                           <input type="number" style="padding: 5px 0px; float:left; width:50%; border:none; text-align:center;" value="${response.Rows[i][qtyIndex]}">
+                                           <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>
+                                         </div>
+                                       </div>
+                                       <div class="columnorder hideColumns" data-column="Available" data-datafield="QuantityAvailable"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
+                                       <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
+                                       <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
+                                       <div class="columnorder" data-column="Type"></div>
+                                       <div class="columnorder" data-column="Category"></div>
+                                       <div class="columnorder" data-column="SubCategory"></div>
+                                       <div class="columnorder" data-column="Rate"></div>
+                                       <div class="columnorder" data-column="QC"></div>
+                                       <div class="columnorder" data-column="AllWh"></div>
+                                     </div>`;
+                let $itemaccessoryinfo = jQuery(accessoryhtml);
                 accessoryContainer.append($itemaccessoryinfo);
 
-                let $descriptionColor
-                    , $qty
-                    , $quantityColorDiv
-                    , qtycolor
-                    , desccolor;
-
                 if (response.Rows[i][qtyIndex] != 0) {
-                    $itemaccessoryinfo.find('[data-datafield="AccQuantity"] input').css('background-color', '#c5eefb');
+                    $itemaccessoryinfo.find('[data-column="Quantity"] input').css('background-color', '#c5eefb');
                 }
 
-                $descriptionColor = $itemaccessoryinfo.find('.descriptionColor')
-                if (response.Rows[i][descriptionColorIndex] == "" || response.Rows[i][descriptionColorIndex] == null) {
-                    desccolor = 'transparent';
-                } else {
-                    desccolor = response.Rows[i][descriptionColorIndex];
-                };
-                $descriptionColor.css('border-left-color', desccolor);
-
-                $qty = $itemaccessoryinfo.find('[data-datafield="AccQuantity"]');
+                let $qty = $itemaccessoryinfo.find('[data-column="Quantity"]');
                 $qty.append('<div class="quantityColor"></div>');
-                $quantityColorDiv = $qty.find('.quantityColor');
+                let $quantityColorDiv = $qty.find('.quantityColor');
 
+                let qtycolor;
                 if (response.Rows[i][quantityColorIndex] == "" || response.Rows[i][quantityColorIndex] == null) {
                     qtycolor = 'transparent';
                 } else {
@@ -1627,7 +1291,12 @@ class SearchInterface {
                     $itemaccessoryinfo.find('div[data-datafield="QuantityAvailable"]').attr('data-state', 'NOTAVAILABLE');
                 }
 
-                let type = $popup.find('#type').text();
+                if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
+                    $itemaccessoryinfo.find('div[data-column="Description"] .descriptionrow').append(`<div class="classdescription">${response.Rows[i][classificationDescriptionIndex]}</div>`)
+                    $itemaccessoryinfo.find('.classdescription').css({ 'background-color': response.Rows[i][classificationColorIndex] });
+                }
+
+                let type = $popup.find('#itemsearch').attr('data-moduletype');
                 if (type === 'PurchaseOrder' || type === 'Template') {
                     $popup.find('.hideColumns').css('display', 'none');
                 }
@@ -1656,7 +1325,7 @@ class SearchInterface {
             }
         }, null, $popup.find('#searchpopup'));
     }
-
+    //----------------------------------------------------------------------------------------------
     fitToParent(selector) {
         let numIter
             , regexp
@@ -1688,6 +1357,7 @@ class SearchInterface {
             }
         });
     }
+    //----------------------------------------------------------------------------------------------
 }
 
 var SearchInterfaceController = new SearchInterface();
