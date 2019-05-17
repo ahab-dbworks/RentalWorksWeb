@@ -22,22 +22,18 @@ export class RentalInventoryQCRequiredReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
-                                       console.log('compan', parameters)
 
                     let detailRowCount = 0;
                     const rows = data.rows;
-                    //for (let i = 0; i < rows.length; i++) {
-                    //    console.log('index', rows[i].RowType)
-          
-                    //    if (rows[i].RowType === 'detail') {
-                    //        detailRowCount++
-                    //        if (rows[i + 1].RowType !== 'detail') {
-                    //            rows.splice(rows[i + 1], 0, detailRowCount);
-                    //            detailRowCount = 0;
-                    //        }
-                    //    }
-                    //}
-                    console.log('rpt', data)
+                    for (let i = 0; i < rows.length; i++) {          
+                        if (rows[i].RowType === 'detail') {
+                            detailRowCount++
+                            if (rows[i + 1].RowType !== 'detail') {
+                                rows.splice(i + 1, 0, { "RowType": "RowCount", "Count": detailRowCount });
+                                detailRowCount = 0;
+                            }
+                        }
+                    }
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

@@ -42,6 +42,10 @@
         <td data-value="{{LastDeal}}"></td>
         <td data-value="{{Condition}}"></td>
         {{/ifEquals}}
+        {{#ifEquals RowType "RowCount"}}
+        <td colspan="6" class="total-name">Number of Records:&nbsp;</td>
+        <td class="total-val" data-value="{{Count}}"></td>
+        {{/ifEquals}}
       </tr>
       {{/each}}
     </tbody>
