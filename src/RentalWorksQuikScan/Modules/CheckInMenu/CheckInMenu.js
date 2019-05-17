@@ -674,8 +674,13 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         program.setScanTarget('');
         program.onScanBarcode = function (barcode, barcodeType) {
             try {
-                $ordersearch.find('#ordersearch').fwmobilesearch('setsearchmode', 'ORDERNO');
-                $ordersearch.find('#ordersearch .searchbox').val(barcode).change();
+                if ($ordersearch.is(':visible')) {
+                    $ordersearch.find('#ordersearch').fwmobilesearch('setsearchmode', 'ORDERNO');
+                    $ordersearch.find('#ordersearch .searchbox').val(barcode).change();
+                } 
+                else if ($sessionsearch.is(':visible')) {
+                    screen.$view.find('#sessionsearch .searchbox').val(barcode).change();
+                }
             } catch (ex) {
                 FwFunc.showError(ex);
             }
