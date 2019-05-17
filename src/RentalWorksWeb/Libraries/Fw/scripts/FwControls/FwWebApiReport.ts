@@ -80,6 +80,7 @@ abstract class FwWebApiReport {
                     const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Html';
                     request.parameters = this.convertParameters(this.getParameters($form));
+                    request.parameters.companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
                     const reportPageMessage = new ReportPageMessage();
                     reportPageMessage.action = 'Preview';
                     reportPageMessage.apiUrl = apiUrl;
@@ -116,6 +117,7 @@ abstract class FwWebApiReport {
                     const request: any = this.getRenderRequest($form);
                     request.renderMode = 'Html';
                     request.parameters = this.convertParameters(this.getParameters($form));
+                    request.parameters.companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
                     const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                     jQuery('.application').append($iframe);
                     $iframe.on('load', () => {
@@ -203,6 +205,7 @@ abstract class FwWebApiReport {
                     request.renderMode = 'Pdf';
                     request.downloadPdfAsAttachment = false;
                     request.parameters = this.convertParameters(this.getParameters($form));
+                    request.parameters.companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
                     const win = window.open('', '_blank');
                     const head = win.document.head || win.document.getElementsByTagName('head')[0];
                     const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
@@ -307,6 +310,7 @@ abstract class FwWebApiReport {
                     request.email.subject = '[reportname]';
                     request.email.body = '';
                     request.parameters = this.convertParameters(this.getParameters($form));
+                    request.parameters.companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
                     FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
                         (successResponse: RenderResponse) => {
                             try {
@@ -360,6 +364,7 @@ abstract class FwWebApiReport {
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                                 requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
                                 requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
+                                requestEmailPdf.parameters.companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
                                 FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
                                     (successResponse) => {
                                         try {
