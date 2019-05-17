@@ -197,11 +197,9 @@ namespace RentalWorksQuikScan.Modules
                 }
                 if (qty == -1)
                 {
-                   // string trackedby = FwSqlCommand.GetStringData(conn, "master", "masterid", itemInfo.masterId, "trackedby");
                     if (trackedby == "QUANTITY")
                     {
                         response.action = ACTION_PROMPT_FOR_QTY;
-                        //response.checkInItemInfo = checkInItemInfo;
                         return;
                     }
                     else if (trackedby == "BARCODE" || trackedby == "SERIALNO")
@@ -244,10 +242,6 @@ namespace RentalWorksQuikScan.Modules
                     sp.AddParameter("@msg", SqlDbType.VarChar, ParameterDirection.Output, 255);
                     sp.Execute();
                     response.action = ACTION_QUIKINADDITEM;
-                    //response.outputmasterid = sp.GetParameter("@outputmasterid").ToString().TrimEnd();
-                    //response.outputrentalitemid = sp.GetParameter("@outputrentalitemid").ToString().TrimEnd();
-                    //response.description = description;
-                    //response.trackedby = sp.GetParameter("@trackedby").ToString().TrimEnd();
                     response.status = sp.GetParameter("@status").ToInt32();
                     response.msg = sp.GetParameter("@msg").ToString().TrimEnd();
                 }
@@ -294,7 +288,6 @@ namespace RentalWorksQuikScan.Modules
                     response.inQty = qry.GetField("inqty").ToInt32();
                     response.sessionIn = qry.GetField("sessionin").ToInt32();
                 }
-                
             }
         }
         //----------------------------------------------------------------------------------------------------
@@ -308,7 +301,6 @@ namespace RentalWorksQuikScan.Modules
                 select.PageSize = request.pagesize;
                 select.Add("select *");
                 select.Add("from dbo.funcqiitem(@contractid)");
-                //select.Add("where trackedby in ('BARCODE', 'QUANTITY', 'SERIALNO', 'RFID')");
                 select.Add("order by scannedbydatetime desc");
                 select.AddParameter("@contractid", request.contractId);
                 response.searchresults = qry.QueryToFwJsonTable(select, true);

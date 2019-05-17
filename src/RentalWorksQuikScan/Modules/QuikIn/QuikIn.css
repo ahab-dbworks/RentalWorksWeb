@@ -1,4 +1,4 @@
-﻿.QuikIn .searchresults { /*padding: 5px;*/ }
+﻿.QuikIn .searchresults { }
 .QuikIn .fwmobilesearch .item.link:active { background-color: #455A64; }
 .QuikIn .fwmobilesearch .row1 { font-size: 12px; font-weight: bold; padding: 2px 5px; background-color: #424242; }
 .QuikIn .fwmobilesearch .item.link .row1 { text-decoration: underline; }
@@ -15,24 +15,12 @@
 .QuikIn .fwmobilesearch .value { flex: 1 1 0; font-size: .625em; }
 .QuikIn .fwmobilesearch .item.inrepair .status .value { color: #F44336; }
 
-/*.QuikIn .page-quikinsessionsearch { }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .item { padding: .3em; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .item { border-bottom: 1px solid rgba(80,80,80,1); }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .item:last-child { border-bottom: 0; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .row1 { color: #00aaff; text-decoration: underline; font-size: .75em; font-weight: bold; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .row2 { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: flex; flex-wrap: wrap; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .col1 { flex: 1 1 0; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .col2 { flex: 1 1 0; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .datafield { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: flex; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .caption { flex: 0 0 7em; font-size: .625em; color: #aaaaaa; }
-.QuikIn .page-quikinsessionsearch .fwmobilesearch .value { flex: 1 1 0; font-size: .625em; color: #ffffff; }*/
-
 .QuikIn .SuccessMessage { min-height: 1em; text-align: center; background-color: #43a047; padding: .4em; }
 .QuikIn .ErrorMessage { min-height: 1em; text-align: center; background-color: #ff0000; padding: .4em; }
 
 .QuikIn .ItemInfo { background-color: #e0e0e0; color: #000000; border-top: 1px solid #777777; font-size:.8em; }
 .QuikIn .ItemInfo .Row { display: flex; flex-wrap: wrap; overflow:hidden; }
-.QuikIn .ItemInfo .Row .Field { flex:1 1 0; display: flex; min-width:9em; padding:.1em; /*border-right:1px dotted #bbbbbb; border-bottom:1px dotted #bbbbbb;*/ }
+.QuikIn .ItemInfo .Row .Field { flex:1 1 0; display: flex; min-width:9em; padding:.1em; }
 .QuikIn .ItemInfo .Row .Field .caption { flex: 0 0 6em; white-space: nowrap; box-sizing: border-box; padding: .2em .4em; color: #311b92; }
 .QuikIn .ItemInfo .Row .Field .value { flex:1 1 0; text-align:left; white-space:nowrap; box-sizing:border-box; padding:.2em .4em; }
 .QuikIn .ItemInfo .Row .Field .value.BarCode {font-size:.8em; }
@@ -49,18 +37,6 @@
 .QuikIn .ItemInfo .Row.ButtonRow {justify-content: center;text-align:center;}
 
 .QuikIn .QtyField {border-right:1px solid #777777;}
-
-/*.QuikIn .sessioninsearch .item.itemclass-C .row1 { background-color: #8888ff; }
-.QuikIn .sessioninsearch .item.itemclass-K .row1 { background-color: #03d337; }
-.QuikIn .sessioninsearch .item.itemclass-N .row1 { background-color: #ffae84; }
-.QuikIn .sessioninsearch .item.itemclass-C,
-.QuikIn .sessioninsearch .item.itemclass-CI,
-.QuikIn .sessioninsearch .item.itemclass-CO { border-left: 6px solid #8888ff; }
-.QuikIn .sessioninsearch .item.itemclass-K,
-.QuikIn .sessioninsearch .item.itemclass-KI,
-.QuikIn .sessioninsearch .item.itemclass-KO { border-left: 6px solid #03d337; }
-.QuikIn .sessioninsearch .item.itemclass-N,
-.QuikIn .sessioninsearch .item.itemclass-NI { border-left: 6px solid #ffae84; }*/
 
 .QuikIn .titleRentalItems { color: #ffffff; padding: .3em; text-align: center; border-top:1px solid rgba(255,255,255,.8); }
 .QuikIn .sessioninsearch .row5 .datafield { flex: 1 1 0; }

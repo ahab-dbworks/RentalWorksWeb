@@ -20,7 +20,6 @@
                         screen.pdaSelectSession();
                     } else 
                     if (currentPage.name === screen.pages.scanbarcodes.name) {
-                        //screen.pdaQuikInItem();
                         screen.QuikInAddItem(screen.getBarCode(), -1);
                     }
                 }
@@ -81,7 +80,6 @@
                     state:       'quikinsessionsearch',
                     buttonclick: function () {
                         // Check-In Menu screen doesn't support this yet
-                        //program.popScreen();
                         program.navigate('home/home');
                     }
                 },
@@ -205,26 +203,6 @@
                 };
                 return request;
             },
-            //searchModes: [
-            //    {
-            //        caption: 'Session No', placeholder: 'Session No', value: 'sessionno',
-            //        search: function (orderno) {
-            //            screen.$pageQuikInSessionSearch.find('.quikinsessionsearch').fwmobilesearch('search');
-            //        },
-            //        click: function () {
-            //            screen.$pageQuikInSessionSearch.find('.quikinsessionsearch').fwmobilesearch('clearsearchbox');
-            //        }
-            //    },
-            //    {
-            //        caption: 'Deal', placeholder: 'Deal', value: 'deal',
-            //        search: function (orderno) {
-            //            screen.$pageQuikInSessionSearch.find('.quikinsessionsearch').fwmobilesearch('search');
-            //        },
-            //        click: function () {
-            //            screen.$pageQuikInSessionSearch.find('.quikinsessionsearch').fwmobilesearch('clearsearchbox');
-            //        }
-            //    }
-            //],
             cacheItemTemplate: false,
             itemTemplate: function(model) {
                 var html = [];
@@ -328,70 +306,6 @@
             });
         };
 
-        //screen.pdaQuikInItem = () => {
-        //    var requestPdaQuikIn = {
-        //        code: screen.getBarCode(),
-        //        contractId: screen.getContractId()
-        //    };
-        //    RwServices.callMethod('QuikIn', 'PdaQuikInItem', requestPdaQuikIn, function (responsePdaQuikIn: any) {
-        //        try {
-        //            screen.setBarCode('');
-        //            program.playStatus(responsePdaQuikIn.status === 0);
-        //            if (applicationConfig.quikIn.enableSessionInItemSearch) {
-        //                screen.pages.scanbarcodes.getElement().find('.sessioninsearch').fwmobilesearch('search');
-        //            } else {
-        //                var html = [];
-        //                if (responsePdaQuikIn.genericMsg.length > 0 || responsePdaQuikIn.msg.length > 0) {
-        //                    html.push('<div class="Messages">');
-        //                    if (responsePdaQuikIn.genericMsg.length > 0) {
-        //                        html.push('  <div class="GenericMessage">' + responsePdaQuikIn.genericMsg + '</div>');
-        //                    }
-        //                    if (responsePdaQuikIn.msg.length > 0) {
-        //                        html.push('  <div class="DetailedMessage">' + responsePdaQuikIn.msg + '</div>');
-        //                    }
-        //                    html.push('</div>');
-        //                }
-        //                html.push('<div class="ItemInfo">');
-        //                html.push('  <div class="Row">');
-        //                html.push('    <div class="Field BarCode">');
-        //                html.push('      <div class="value">B/C: ' + responsePdaQuikIn.request.code + '</div>');
-        //                html.push('    </div>');
-        //                html.push('  </div>');
-        //                html.push('  <div class="Row">');
-        //                html.push('    <div class="Field Description">');
-        //                html.push('      <div class="value">' + responsePdaQuikIn.description + '</div>');
-        //                html.push('    </div>');
-        //                html.push('  </div>');
-        //                //html.push('  <div class="Row">');
-        //                //html.push('    <div class="Field Ordered">');
-        //                //html.push('      <div class="caption">Ordered:</div>');
-        //                //html.push('      <div class="value">' + responsePdaQuikIn.qtyOrdered + '</div>');
-        //                //html.push('    </div>');
-        //                //html.push('    <div class="Field Session">');
-        //                //html.push('      <div class="caption">Session:</div>');
-        //                //html.push('      <div class="value">' + responsePdaQuikIn.sessionIn + '</div>');
-        //                //html.push('    </div>');
-        //                //html.push('  </div>');
-        //                //html.push('  <div class="Row">');
-        //                //html.push('    <div class="Field In">');
-        //                //html.push('      <div class="caption">In:</div>');
-        //                //html.push('      <div class="value">' + responsePdaQuikIn.totalIn + '</div>');
-        //                //html.push('    </div>');
-        //                //html.push('    <div class="Field StillOut">');
-        //                //html.push('      <div class="caption">Still Out:</div>');
-        //                //html.push('      <div class="value">' + responsePdaQuikIn.stillOut +  '</div>');
-        //                //html.push('    </div>');
-        //                html.push('  </div>');
-        //                html.push('</div>');
-        //                var htmlString = html.join('\n');
-        //                screen.$view.find('.pdaquikinitem').html(htmlString);
-        //            }
-        //        } catch (ex) {
-        //            FwFunc.showError(ex);
-        //        }
-        //    });
-        //};
-
         screen.QuikInAddItem = (code:string, qty: number) => {
             var requestQuikInAddItem = {
                 code: code,
@@ -420,8 +334,6 @@
                     html.push('</div>');
                     
                     html.push('<div class="ItemInfo">');
-                    //html.push('  <div class="Row">');
-                    //html.push('    <div class="Field BarCode">');
                     var bcLabel = responsePdaQuikIn.trackedby;
                     if (responsePdaQuikIn.trackedby === '') {
                         bcLabel = 'B/C'
@@ -432,11 +344,6 @@
                     else if (responsePdaQuikIn.trackedby === 'SERIALNO') {
                         bcLabel = 'Serial No.';
                     }
-                    //html.push('      <div class="value"><span class="caption">' + bcLabel + ':</span> ' + code + '</div>');
-                    //html.push('    </div>');
-                    //html.push('  </div>');
-                    
-                    
                     if (responsePdaQuikIn.trackedby !== 'QUANTITY') {
                         html.push('  <div class="RowBarcode">');
                         html.push('    ' + bcLabel + ': ' + code);
@@ -524,26 +431,6 @@
                 };
                 return request;
             },
-            //searchModes: [
-            //    {
-            //        caption: 'Description', placeholder: 'Description', value: 'description',
-            //        search: function (orderno) {
-            //            screen.pages.scanbarcodes.getElement().find('.sessioninsearch').fwmobilesearch('search');
-            //        },
-            //        click: function () {
-            //            screen.pages.scanbarcodes.getElement().find('.sessioninsearch').fwmobilesearch('clearsearchbox');
-            //        }
-            //    },
-            //    {
-            //        caption: 'Barcode', placeholder: 'Barcode', value: 'barcode',
-            //        search: function (orderno) {
-            //            screen.pages.scanbarcodes.getElement().find('.sessioninsearch').fwmobilesearch('search');
-            //        },
-            //        click: function () {
-            //            screen.pages.scanbarcodes.getElement().find('.sessioninsearch').fwmobilesearch('clearsearchbox');
-            //        }
-            //    }
-            //],
             cacheItemTemplate: false,
             itemTemplate: function(model) {
                 var html = [];
@@ -643,26 +530,6 @@
                                 FwFunc.showError(ex);
                             }
                         });
-                        
-                        
-                        //var $confirmation = FwConfirmation.renderConfirmation(recorddata.description, '<div class="menubuttons"></div>');
-                        //var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel', true);
-                        //var $btnCancelItem = $confirmation.find('.menubuttons').append('<div class="menubutton cancelitem">Cancel Item</div>');
-                        //$btnCancelItem.on('click', (e: JQuery.ClickEvent) => {
-                        //    var request;
-                        //    try {
-                        //        request = {
-                        //            internalchar: recorddata.internalchar,
-                        //            quikinitemid: recorddata.quikinitemid
-                        //        };
-                        //        RwServices.callMethod("QuikIn", "CancelItem", request, function(response) {
-                        //            screen.pages.scanbarcodes.getElement().find('.sessioninsearch').fwmobilesearch('search');
-                        //        });
-                        //        FwConfirmation.destroyConfirmation($confirmation);
-                        //    } catch(ex) {
-                        //        FwFunc.showError(ex);
-                        //    }
-                        //});
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -687,34 +554,3 @@
 }
 
 var QuikIn = new QuikInClass();
-
-
-
-//<div class="quikin-suspendedsession quikin-suspendedsession-status-{{status}}">
-//  <div class="quikin-suspendedsession-row">
-//    <div class="quikin-suspendedsession-sessionno-label">Session No</div>
-//    <div class="quikin-suspendedsession-sessionno-value">{{sessionno}}</div>
-//    <div class="quikin-suspendedsession-status-label">Status</div>
-//    <div class="quikin-suspendedsession-status-value">{{status}}</div>
-//  </div>
-//  <div class="quikin-suspendedsession-row">
-//    <div class="quikin-suspendedsession-statusdate-label">Date</div>
-//    <div class="quikin-suspendedsession-statusdate-value">{{statusdate}}</div>
-//  </div>
-//  <div class="quikin-suspendedsession-row">
-//    <div class="quikin-suspendedsession-deal-label">Order No</div>
-//    <div class="quikin-suspendedsession-deal-value">{{orderno}}</div>
-//  </div> 
-//  <div class="quikin-suspendedsession-row">
-//    <div class="quikin-suspendedsession-deal-label">Order Desc</div>
-//    <div class="quikin-suspendedsession-deal-value">{{orderdesc}}</div>
-//  </div>
-//  <div class="quikin-suspendedsession-row">
-//    <div class="quikin-suspendedsession-deal-label">Deal / Vendor</div>
-//    <div class="quikin-suspendedsession-deal-value">{{deal}}</div>
-//  </div>
-//  <div class="quikin-suspendedsession-row">
-//    <div class="quikin-suspendedsession-username-label">User</div>
-//    <div class="quikin-suspendedsession-username-value">{{username}}</div>
-//  </div>
-//</div>
