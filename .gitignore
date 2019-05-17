@@ -28,6 +28,8 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 /src/RentalWorksQuikScan/scripts/_references.js
 /src/RentalWorksQuikScan/scripts/Program.js
 /src/RentalWorksQuikScan/scripts/Program.js.map
+/src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js.map
+/src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
 
 /src/RentalWorksTest/Application.config
 
@@ -170,3 +172,4 @@ sync_RentalWorksWeb_to_TrakitWorksWeb.ps1.log
 **/Fw/scripts/Routes.js.map
 **/Fw/scripts/MasterPages/WebMaster.js
 **/Fw/scripts/MasterPages/WebMaster.js.map
+

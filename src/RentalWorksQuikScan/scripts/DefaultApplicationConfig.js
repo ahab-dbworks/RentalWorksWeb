@@ -16,5 +16,10 @@
     photoQuality: 100,
     iPodPhotoQuality: 100,
     iPhonePhotoQuality: 100,
-    defaultPeek: false
+    defaultPeek: false,
+    quikIn: {
+        enableQuikInSessionSearch: false,
+        enableSessionInItemSearch: true,
+        enableCancelItem: true
+    }
 };

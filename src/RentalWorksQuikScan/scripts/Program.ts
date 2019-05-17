@@ -368,6 +368,9 @@ class Program extends FwApplication {
                             checkInType: RwConstants.checkInType.Normal
                         });
                         break;
+                    case 'order/quikin':
+                        screen = QuikIn.getModuleScreen({}, {});
+                        break;
                     case 'utilities/exchange':
                         screen = Exchange.getModuleScreen({}, {});
                         break;

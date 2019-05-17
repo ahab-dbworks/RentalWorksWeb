@@ -8,7 +8,7 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         captionMultiOrder:  RwLanguages.translate('Bar Code No'),
         captionSession:     RwLanguages.translate('Session No'),
         captionDeal:        RwLanguages.translate('Deal No'),
-        captionQuikCheckIn: RwLanguages.translate('Quik Check-In')
+        captionQuikIn:      RwLanguages.translate('QuikIn')
     }, viewModel);
     combinedViewModel.htmlPageBody  = Mustache.render(jQuery('#tmpl-checkInMenu').html(), combinedViewModel);
     screen = {};
@@ -26,6 +26,10 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
     $ordersearch   = screen.$view.find('#cim-ordersearch');
     $sessionsearch = screen.$view.find('#cim-sessionsearch');
     $dealsearch    = screen.$view.find('#cim-dealsearch');
+    $quikin        = screen.$view.find('#cim-quikin');
+
+    var applicationOptions = program.getApplicationOptions();
+    $quikin.toggle(typeof applicationOptions.quikin !== 'undefined' && applicationOptions.quikin.enabled === true);
 
     $menu
         .on('click', '#cim-singleorder', function() {
@@ -51,6 +55,16 @@ RwOrderController.getCheckInMenuScreen = function(viewModel, properties) {
         .on('click', '#cim-deal', function() {
             $menu.hide();
             $dealsearch.showscreen();
+        })
+        .on('click', '#cim-quikin', function() {
+            try {
+                $menu.hide();
+                var quikInScreen = QuikIn.getModuleScreen({}, {});
+                program.pushScreen(quikInScreen);
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
         })
     ;
 
