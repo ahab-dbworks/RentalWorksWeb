@@ -56,9 +56,6 @@
             FwFunc.showError(ex);
         }
 
-        //load control defaults into session storage
-        RwBaseController.loadControlDefaults();
-
         return $browse;
     };
     //----------------------------------------------------------------------------------------------

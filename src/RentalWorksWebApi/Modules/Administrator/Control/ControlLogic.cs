@@ -26,7 +26,7 @@ namespace WebApi.Modules.Administrator.Control
         public string ControlId { get { return control.ControlId; } set { control.ControlId = value; sysControl.ControlId = value; } }
 
         [FwLogicProperty(Id: "8ndnCUXzHCr8K")]
-        public string Company { get { return control.Company; } set { control.Company = value; } }
+        public string CompanyName { get { return control.Company; } set { control.Company = value; } }
 
         [FwLogicProperty(Id: "Aa9e0413UdK9", IsRecordTitle: true)]
         public string SystemName { get { return control.System; } set { control.System = value; } }

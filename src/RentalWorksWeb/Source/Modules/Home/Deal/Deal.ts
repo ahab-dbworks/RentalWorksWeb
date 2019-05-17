@@ -43,9 +43,6 @@ class Deal {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        //load control defaults into session storage
-        RwBaseController.loadControlDefaults();
-
         return $browse;
     }
     //----------------------------------------------------------------------------------------------

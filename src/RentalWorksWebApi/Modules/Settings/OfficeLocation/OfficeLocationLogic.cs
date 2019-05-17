@@ -25,6 +25,9 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [FwLogicProperty(Id:"s72vwwq6Bvd")]
         public string LocationCode { get { return location.LocationCode; } set { location.LocationCode = value; } }
 
+        [FwLogicProperty(Id: "ZeOmhYbh0kY6D")]
+        public string CompanyName { get { return location.CompanyName; } set { location.CompanyName = value; } }
+
         [FwLogicProperty(Id: "17YN2fTfnBCZH")]
         public string Color { get { return location.Color; } set { location.Color = value; } }
 

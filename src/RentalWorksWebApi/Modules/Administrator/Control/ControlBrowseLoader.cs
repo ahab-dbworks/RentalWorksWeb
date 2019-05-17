@@ -14,7 +14,7 @@ namespace WebApi.Modules.Administrator.Control
         public string ControlId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
-        public string Company { get; set; }
+        public string CompanyName { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "system", modeltype: FwDataTypes.Text)]
         public string SystemName { get; set; }

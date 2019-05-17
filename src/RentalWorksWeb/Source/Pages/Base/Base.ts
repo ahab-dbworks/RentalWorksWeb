@@ -131,8 +131,20 @@ class Base {
                                     }
                                 });
 
+                                const promiseGetControlDefaults = FwAjax.callWebApi<any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/control/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+
+
                                 // wait for all the queries to finish
-                                await Promise.all([promiseGetUserSettings, promiseGetCustomFields, promiseGetCustomForms])
+                                await Promise.all([
+                                    promiseGetUserSettings,     // 00
+                                    promiseGetCustomFields,     // 01
+                                    promiseGetCustomForms,      // 02
+                                    promiseGetControlDefaults   // 03
+                                ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
                                         let sounds: any = {}, homePage: any = {};
@@ -167,6 +179,23 @@ class Base {
                                         if (activeCustomForms.length > 0) {
                                             sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                         }
+
+                                        const responseGetControlDefaults = values[3];
+                                        let controlDefaults = {
+                                            defaultdealstatusid: responseGetControlDefaults.DefaultDealStatusId
+                                            , defaultdealstatus: responseGetControlDefaults.DefaultDealStatus
+                                            , defaultcustomerstatusid: responseGetControlDefaults.DefaultCustomerStatusId
+                                            , defaultcustomerstatus: responseGetControlDefaults.DefaultCustomerStatus
+                                            , defaultdealbillingcycleid: responseGetControlDefaults.DefaultDealBillingCycleId
+                                            , defaultdealbillingcycle: responseGetControlDefaults.DefaultDealBillingCycle
+                                            , defaultunitid: responseGetControlDefaults.DefaultUnitId
+                                            , defaultunit: responseGetControlDefaults.DefaultUnit
+                                            , defaulticodemask: responseGetControlDefaults.ICodeMask
+                                            , systemname: responseGetControlDefaults.SystemName
+                                            , companyname: responseGetControlDefaults.CompanyName
+                                        }
+                                        sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
+
 
                                         // set redirectPath to navigate user to default home page, still need to go to the home page to run startup code if the user refreshes the browser
                                         let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
@@ -205,26 +234,6 @@ class Base {
         };
 
         return screen;
-    }
-    //----------------------------------------------------------------------------------------------
-    loadControlDefaults() {
-        const hasDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
-        if (!hasDefaults) {
-            FwAppData.apiMethod(true, 'GET', `api/v1/control/1`, null, FwServices.defaultTimeout, response => {
-                let ControlDefaults = {
-                    defaultdealstatusid: response.DefaultDealStatusId
-                    , defaultdealstatus: response.DefaultDealStatus
-                    , defaultcustomerstatusid: response.DefaultCustomerStatusId
-                    , defaultcustomerstatus: response.DefaultCustomerStatus
-                    , defaultdealbillingcycleid: response.DefaultDealBillingCycleId
-                    , defaultdealbillingcycle: response.DefaultDealBillingCycle
-                    , defaultunitid: response.DefaultUnitId
-                    , defaultunit: response.DefaultUnit
-                    , defaulticodemask: response.ICodeMask
-                }
-                sessionStorage.setItem('controldefaults', JSON.stringify(ControlDefaults));
-            }, null, null);
-        }
     }
     //----------------------------------------------------------------------------------------------
     getAboutScreen() {
