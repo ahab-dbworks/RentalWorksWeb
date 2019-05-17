@@ -178,20 +178,20 @@ namespace WebApi.Modules.Home.Order
             qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
 
             //pick
-            qry.AddParameter("@olddatepick", SqlDbType.Date, ParameterDirection.Input, change.OldPickDate);
-            qry.AddParameter("@newdatepick", SqlDbType.Date, ParameterDirection.Input, change.NewPickDate);
+            if (!change.OldPickDate.Equals(string.Empty)) { qry.AddParameter("@olddatepick", SqlDbType.Date, ParameterDirection.Input, change.OldPickDate); }
+            if (!change.NewPickDate.Equals(string.Empty)) { qry.AddParameter("@newdatepick", SqlDbType.Date, ParameterDirection.Input, change.NewPickDate); }
             qry.AddParameter("@oldtimepick", SqlDbType.NVarChar, ParameterDirection.Input, change.OldPickTime);
             qry.AddParameter("@newtimepick", SqlDbType.NVarChar, ParameterDirection.Input, change.NewPickTime);
 
             //from
-            qry.AddParameter("@olddatefrom", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStartDate);
-            qry.AddParameter("@newdatefrom", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStartDate);
+            if (!change.OldEstimatedStartDate.Equals(string.Empty)) { qry.AddParameter("@olddatefrom", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStartDate); }
+            if (!change.NewEstimatedStartDate.Equals(string.Empty)) { qry.AddParameter("@newdatefrom", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStartDate); }
             qry.AddParameter("@oldtimefrom", SqlDbType.NVarChar, ParameterDirection.Input, change.OldEstimatedStartTime);
             qry.AddParameter("@newtimefrom", SqlDbType.NVarChar, ParameterDirection.Input, change.NewEstimatedStartTime);
 
             //to
-            qry.AddParameter("@olddateto", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStopDate);
-            qry.AddParameter("@newdateto", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStopDate);
+            if (!change.OldEstimatedStopDate.Equals(string.Empty)) { qry.AddParameter("@olddateto", SqlDbType.Date, ParameterDirection.Input, change.OldEstimatedStopDate); }
+            if (!change.NewEstimatedStopDate.Equals(string.Empty)) { qry.AddParameter("@newdateto", SqlDbType.Date, ParameterDirection.Input, change.NewEstimatedStopDate); }
             qry.AddParameter("@oldtimeto", SqlDbType.NVarChar, ParameterDirection.Input, change.OldEstimatedStopTime);
             qry.AddParameter("@newtimeto", SqlDbType.NVarChar, ParameterDirection.Input, change.NewEstimatedStopTime);
             await qry.ExecuteNonQueryAsync();
@@ -383,12 +383,12 @@ namespace WebApi.Modules.Home.Order
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<CopyOrderItemsResponse> CopyOrderItems (FwApplicationConfig appConfig, FwUserSession userSession, CopyOrderItemsRequest request)
+        public static async Task<CopyOrderItemsResponse> CopyOrderItems(FwApplicationConfig appConfig, FwUserSession userSession, CopyOrderItemsRequest request)
         {
             CopyOrderItemsResponse response = new CopyOrderItemsResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                foreach(string OrderItemId in request.OrderItemIds)
+                foreach (string OrderItemId in request.OrderItemIds)
                 {
                     using (FwSqlCommand qry = new FwSqlCommand(conn, "copymasteritem", appConfig.DatabaseSettings.QueryTimeout))
                     {
