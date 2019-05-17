@@ -21,12 +21,12 @@ export class InvoiceReport extends WebpackReport {
                 .then((response: DataTable) => {
                     const controlObject: any = response;
                     Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, parameters)
-                    .then((response: Invoice) => {
+                        .then((response: Invoice) => {
                         const data: any = response;
                         data.Items = DataTable.toObjectList(response.Items);
                         data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                         data.System = 'RENTALWORKS';
-                        data.Company = JSON.parse(sessionStorage.getItem('location')).companyname;
+                        data.Company = parameters.companyName;
                         data.Report = 'INVOICE';
                         if (controlObject.ReportLogoImage != '') {
                             data.Logosrc = controlObject.ReportLogoImage;

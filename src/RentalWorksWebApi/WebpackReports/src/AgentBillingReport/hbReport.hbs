@@ -56,7 +56,7 @@
         <td class="number" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Agentfooter"}}
-        <td class="total-name">{{Agent}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{Agent}}&nbsp;</td>
         <td class="total-val" data-value="{{RentalTotal}}"></td>
         <td class="total-val" data-value="{{SalesTotal}}"></td>
         <td class="total-val" data-value="{{FacilitiesTotal}}"></td>
@@ -68,7 +68,7 @@
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{RentalTotal}}"></td>
         <td class="total-val" data-value="{{SalesTotal}}"></td>
         <td class="total-val" data-value="{{FacilitiesTotal}}"></td>

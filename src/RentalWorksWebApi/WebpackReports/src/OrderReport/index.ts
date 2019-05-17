@@ -26,7 +26,7 @@ export class OrderReport extends WebpackReport {
                             data.Items = DataTable.toObjectList(response.Items);
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
-                            data.Company = JSON.parse(sessionStorage.getItem('location')).companyname;
+                            data.Company = parameters.companyName;
                         if (controlObject.ReportLogoImage != '') {
                             data.Logosrc = controlObject.ReportLogoImage;
                         } 
@@ -36,9 +36,8 @@ export class OrderReport extends WebpackReport {
                         } else {
                             data.Report = 'ORDER';
                         }
-                            console.log('rpt', data)
 
-                            this.renderFooterHtml(data);
+                        this.renderFooterHtml(data);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;
                         }

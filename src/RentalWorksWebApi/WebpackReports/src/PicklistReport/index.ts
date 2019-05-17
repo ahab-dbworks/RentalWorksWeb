@@ -10,7 +10,6 @@ const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
 export class PickListReport extends WebpackReport {
-    picklist: any = null;
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
@@ -23,7 +22,7 @@ export class PickListReport extends WebpackReport {
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.Report = 'PICK LIST';
                     data.System = 'RENTALWORKS';
-                    data.Company = JSON.parse(sessionStorage.getItem('location')).companyname;
+                    data.Company = parameters.companyName;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
@@ -39,7 +38,7 @@ export class PickListReport extends WebpackReport {
         }
     }
 
-    renderFooterHtml(model: any): string {
+    renderFooterHtml(model: DataTable): string {
         this.footerHtml = hbFooter(model);
         return this.footerHtml;
     }
