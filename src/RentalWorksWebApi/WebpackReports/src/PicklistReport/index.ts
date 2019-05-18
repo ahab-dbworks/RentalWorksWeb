@@ -1,5 +1,4 @@
 ﻿import { WebpackReport } from '../../lib/FwReportLibrary/src/scripts/WebpackReport';
-import { CustomField } from '../../lib/FwReportLibrary/src/scripts/CustomField';
 import { DataTable } from '../../lib/FwReportLibrary/src/scripts/Browse';
 import { Ajax } from '../../lib/FwReportLibrary/src/scripts/Ajax';
 import { HandlebarsHelpers } from '../../lib/FwReportLibrary/src/scripts/HandlebarsHelpers';
@@ -17,8 +16,9 @@ export class PickListReport extends WebpackReport {
             HandlebarsHelpers.registerHelpers();
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/picklistreport/runreport`, authorizationHeader, parameters)
-                .then((response: DataTable) => {
-                    const data: any = DataTable.toObjectList(response);
+                .then((response: any) => {
+                    const data: any = response;
+                    data.rows = DataTable.toObjectList(response.Items);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.Report = 'PICK LIST';
                     data.System = 'RENTALWORKS';
