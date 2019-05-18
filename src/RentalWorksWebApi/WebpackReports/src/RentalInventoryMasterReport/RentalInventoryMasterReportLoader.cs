@@ -21,8 +21,8 @@ namespace WebApi.Modules.Reports.RentalInventoryMasterReport
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
-        public bool? Rank { get; set; }
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
@@ -198,7 +198,7 @@ namespace WebApi.Modules.Reports.RentalInventoryMasterReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Quantity", "ReplacementCost", "UnitValue", "UnitCost" };
+                string[] totalFields = new string[] { "Quantity", "ReplacementCost", "UnitValue" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
