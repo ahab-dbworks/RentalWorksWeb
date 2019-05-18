@@ -27,11 +27,14 @@
     <tbody>
       {{#each rows}}
       <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="5" class="header-row">Inventory Type: {{InventoryType}}</td>
+        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="5" class="header-row">Category: {{"Category"}}</td>
+        <td colspan="5" class="lower header-row">Category: {{Category}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="nowrap" data-value="{{ICode}}"></td>
@@ -43,7 +46,7 @@
         <td data-value="{{Condition}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "RowCount"}}
-        <td colspan="6" class="total-name">Number of Records:&nbsp;</td>
+        <td colspan="6" class="total-name">Number of Items:&nbsp;</td>
         <td class="total-val" data-value="{{Count}}"></td>
         {{/ifEquals}}
       </tr>
