@@ -16,7 +16,7 @@ class OrderBase {
         const $orderStatusHistoryGrid = $form.find('div[data-grid="OrderStatusHistoryGrid"]');
         const $orderStatusHistoryGridControl = FwBrowse.loadGridFromTemplate('OrderStatusHistoryGrid');
         $orderStatusHistoryGrid.empty().append($orderStatusHistoryGridControl);
-        $orderStatusHistoryGridControl.data('ondatabind', request => { 
+        $orderStatusHistoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
@@ -27,12 +27,12 @@ class OrderBase {
         const $orderNoteGrid = $form.find('div[data-grid="OrderNoteGrid"]');
         const $orderNoteGridControl = FwBrowse.loadGridFromTemplate('OrderNoteGrid');
         $orderNoteGrid.empty().append($orderNoteGridControl);
-        $orderNoteGridControl.data('ondatabind', request => { 
+        $orderNoteGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
         });
-        $orderNoteGridControl.data('beforesave', request => { 
+        $orderNoteGridControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`)
         });
         FwBrowse.init($orderNoteGridControl);
@@ -41,12 +41,12 @@ class OrderBase {
         const $orderContactGrid = $form.find('div[data-grid="OrderContactGrid"]');
         const $orderContactGridControl = FwBrowse.loadGridFromTemplate('OrderContactGrid');
         $orderContactGrid.empty().append($orderContactGridControl);
-        $orderContactGridControl.data('ondatabind', request => { 
+        $orderContactGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
         });
-        $orderContactGridControl.data('beforesave', request => { 
+        $orderContactGridControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.CompanyId = FwFormField.getValueByDataField($form, 'DealId');
         });
@@ -59,14 +59,14 @@ class OrderBase {
         $orderItemGridRentalControl.data('isSummary', false);
         $orderItemGridRental.addClass('R');
 
-        $orderItemGridRentalControl.data('ondatabind', request => { 
+        $orderItemGridRentalControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'R'
             };
             request.totalfields = this.totalFields;
         });
-        $orderItemGridRentalControl.data('beforesave', request => { 
+        $orderItemGridRentalControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'R';
         }
@@ -90,14 +90,14 @@ class OrderBase {
         $orderItemGridSales.addClass('S');
         $orderItemGridSalesControl.data('isSummary', false);
 
-        $orderItemGridSalesControl.data('ondatabind', request => { 
+        $orderItemGridSalesControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'S'
             };
             request.totalfields = this.totalFields;
         });
-        $orderItemGridSalesControl.data('beforesave', request => { 
+        $orderItemGridSalesControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'S';
         });
@@ -118,14 +118,14 @@ class OrderBase {
         $orderItemGridLabor.addClass('L');
         $orderItemGridLaborControl.data('isSummary', false);
 
-        $orderItemGridLaborControl.data('ondatabind', request => { 
+        $orderItemGridLaborControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'L'
             };
             request.totalfields = this.totalFields;
         });
-        $orderItemGridLaborControl.data('beforesave', request => { 
+        $orderItemGridLaborControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'L';
         });
@@ -146,14 +146,14 @@ class OrderBase {
         $orderItemGridMisc.addClass('M');
         $orderItemGridMiscControl.data('isSummary', false);
 
-        $orderItemGridMiscControl.data('ondatabind', request => { 
+        $orderItemGridMiscControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'M'
             };
             request.totalfields = this.totalFields;
         });
-        $orderItemGridMiscControl.data('beforesave', request => { 
+        $orderItemGridMiscControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'M';
         }
@@ -175,14 +175,14 @@ class OrderBase {
         $orderItemGridUsedSale.addClass('RS');
         $orderItemGridUsedSaleControl.data('isSummary', false);
 
-        $orderItemGridUsedSaleControl.data('ondatabind', request => { 
+        $orderItemGridUsedSaleControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`),
                 RecType: 'RS'
             };
             request.totalfields = this.totalFields;
         });
-        $orderItemGridUsedSaleControl.data('beforesave', request => { 
+        $orderItemGridUsedSaleControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.RecType = 'RS';
         });
@@ -197,13 +197,13 @@ class OrderBase {
         $combinedOrderItemGrid.addClass('A');
         $combinedOrderItemGridControl.data('isSummary', false);
 
-        $combinedOrderItemGridControl.data('ondatabind', request => { 
+        $combinedOrderItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Module}Id`)
             };
             request.totalfields = this.totalFields;
         });
-        $combinedOrderItemGridControl.data('beforesave', request => { 
+        $combinedOrderItemGridControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
         }
         );
@@ -244,12 +244,12 @@ class OrderBase {
         if (mode === 'NEW') {
             $form.find('.combinedtab').hide();
 
-            const usersid    = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-            const name       = sessionStorage.getItem('name');
-            const today      = FwFunc.getDate();
+            const usersid = sessionStorage.getItem('usersid');  // J. Pace 5/25/18  C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+            const name = sessionStorage.getItem('name');
+            const today = FwFunc.getDate();
             const department = JSON.parse(sessionStorage.getItem('department'));
-            const office     = JSON.parse(sessionStorage.getItem('location'));
-            const warehouse  = JSON.parse(sessionStorage.getItem('warehouse'));
+            const office = JSON.parse(sessionStorage.getItem('location'));
+            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
@@ -276,6 +276,8 @@ class OrderBase {
 
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
+        } else {
+            $form.find('.date-fields').hide();
         };
 
         let $emailHistorySubModuleBrowse = this.openEmailHistoryBrowse($form);
@@ -283,18 +285,18 @@ class OrderBase {
 
         FwFormField.loadItems($form.find('.outtype'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
-            { value: 'SHIP',    text: 'Ship to Customer' },
+            { value: 'SHIP', text: 'Ship to Customer' },
             { value: 'PICK UP', text: 'Customer Pick Up' }
         ], true);
 
         FwFormField.loadItems($form.find('.intype'), [
             { value: 'DELIVER', text: 'Customer Deliver' },
-            { value: 'SHIP',    text: 'Customer Ship' },
+            { value: 'SHIP', text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
         ], true);
 
         FwFormField.loadItems($form.find('.online'), [
-            { value: 'PARTIAL',  text: 'Partial' },
+            { value: 'PARTIAL', text: 'Partial' },
             { value: 'COMPLETE', text: 'Complete' }
         ], true);
 
@@ -314,7 +316,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     openEmailHistoryBrowse($form) {
         const $browse = EmailHistoryController.openBrowse();
-        $browse.data('ondatabind', request => { 
+        $browse.data('ondatabind', request => {
             request.uniqueids = {
                 RelatedToId: $form.find(`[data-datafield="${this.Module}Id"] input.fwformfield-value`).val()
             }
@@ -323,7 +325,7 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     renderPrintButton($form: any) {
-        var self   = this;
+        var self = this;
         var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
         $print.prepend('<i class="material-icons">print</i>');
         $print.on('click', function () {
@@ -332,14 +334,14 @@ class OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
-        var self    = this;
+        var self = this;
         var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search');
         $search.prepend('<i class="material-icons">search</i>');
         $search.on('click', function () {
             try {
-                let $form   = jQuery(this).closest('.fwform');
+                let $form = jQuery(this).closest('.fwform');
                 let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-                
+
                 if (orderId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else {
@@ -950,7 +952,7 @@ class OrderBase {
         $form.find('[data-datafield="PrintIssuedToAddressFrom"]').on('change', event => {
             this.issueToAddresses($form, event);
         });
-        
+
         // Stores previous value for Out / InDeliveryDeliveryType
         $form.find('.delivery-delivery').on('click', event => {
             let $element, newValue, prevValue;
@@ -994,7 +996,7 @@ class OrderBase {
             }
         });
         //Hide/Show summary buttons based on rate type
-        $form.find('[data-datafield="RateType"] input').change( e => {
+        $form.find('[data-datafield="RateType"] input').change(e => {
             let rateType = FwFormField.getValueByDataField($form, 'RateType');
             if (rateType === 'MONTHLY') {
                 $form.find('.summaryweekly').hide();
@@ -1206,9 +1208,9 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     printQuoteOrder($form: any) {
         try {
-            var module      = this.Module;
+            var module = this.Module;
             var orderNumber = FwFormField.getValue($form, `div[data-datafield="${module}Number"]`);
-            var orderId     = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
+            var orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
 
             var $report = (module === 'Order') ? RwOrderReportController.openForm() : RwQuoteReportController.openForm();
@@ -1819,7 +1821,7 @@ class OrderBase {
                 for (let i = 0; i < orderTypeData.hiddenLossDamage.length; i++) {
                     jQuery($lossDamageGrid.find(`[data-mappedfield="${orderTypeData.hiddenLossDamage[i]}"]`)).parent().hide();
                 }
-            } 
+            }
             const $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]');
             for (let i = 0; i < orderTypeData.hiddenCombined.length; i++) {
                 jQuery($combinedGrid.find(`[data-mappedfield="${orderTypeData.hiddenCombined[i]}"]`)).parent().hide();
@@ -1960,21 +1962,21 @@ class OrderBase {
 
         if (this.Module === 'Quote') {
             //hide subworksheet and LD menu items
-            $rentalGrid.find('.submenu-btn').filter(   '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $salesGrid.find('.submenu-btn').filter(    '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $laborGrid.find('.submenu-btn').filter(    '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $miscGrid.find('.submenu-btn').filter(     '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $usedSaleGrid.find('.submenu-btn').filter( '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $combinedGrid.find('.submenu-btn').filter( '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $rentalGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $salesGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $laborGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $miscGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $usedSaleGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $combinedGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
         }
         else if (this.Module === 'Order') {
             //hide LD menu items
-            $rentalGrid.find('.submenu-btn').filter(                                                             '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $salesGrid.find('.submenu-btn').filter(                                                              '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $laborGrid.find('.submenu-btn').filter(                                                              '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $miscGrid.find('.submenu-btn').filter(                                                               '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $usedSaleGrid.find('.submenu-btn').filter( '[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
-            $combinedGrid.find('.submenu-btn').filter(                                                           '[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $rentalGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $salesGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $laborGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $miscGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $usedSaleGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
+            $combinedGrid.find('.submenu-btn').filter('[data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"], [data-securityid="78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412"]').hide();
             //Hides non-LD menu items
             $lossDamageGrid.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="AD3FB369-5A40-4984-8A65-46E683851E52"], [data-securityid="B6B68464-B95C-4A4C-BAF2-6AA59B871468"], [data-securityid="01EB96CB-6C62-4D5C-9224-8B6F45AD9F63"], [data-securityid="9476D532-5274-429C-A563-FE89F5B89B01"]').hide();
         }
@@ -2083,6 +2085,69 @@ class OrderBase {
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
         }
+
+        //replace date and time fields
+        const pickDate = FwFormField.getValueByDataField($form, 'PickDate');
+        const pickTime = FwFormField.getValueByDataField($form, 'PickTime');
+        const fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
+        const fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
+        const toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
+        const toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
+
+        const dates = `<span>Pick: ${pickDate} ${pickTime}   Usage: ${fromDate} ${fromTime} - ${toDate} ${toTime}</span> <span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Modify</span>`;
+        $form.find('div.modify-dates').append(dates);
+
+        $form.on('click', '.modify', e => {
+            const request: any = {};
+            const orderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
+            request.uniqueids = {
+                OrderId: orderId
+            };
+            FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/browse`, request, FwServices.defaultTimeout,
+                response => {
+                    const $confirmation = FwConfirmation.renderConfirmation(`Modify ${this.Module} Dates`, '');
+                    $confirmation.find('.fwconfirmationbox').css('width', '900px');
+                    let html = [];
+                    html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="${this.Module} No." data-datafield="${this.Module}Number" data-enabled="false" style="flex:0 1 100px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 200px;"></div>
+                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:0 1 150px;"></div>
+                            </div>
+                          </div>`);
+
+                    const dateIndex = response.ColumnIndex.Date;
+                    const timeIndex = response.ColumnIndex.Time;
+                    const dayOfWeekIndex = response.ColumnIndex.DayOfWeek;
+                    const prodActivityIndex = response.ColumnIndex.IsProductionActivity;
+                    const milestoneIndex = response.ColumnIndex.IsMilestone;
+                    for (let i = 0; i <= response.Rows.length; i++) {
+                        const row = response.Rows[i];
+                        const activityDatesHtml = `<div class="flexrow">
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="" data-datafield="" data-enabled="false" style="flex:0 1 100px;"></div>
+                              <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="" data-datafield="" data-enabled="false" style="flex:0 1 100px;"></div>
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="flex:0 1 150px;"></div>
+                            </div>`;
+                        html.push(activityDatesHtml);
+                    };
+
+                    FwConfirmation.addControls($confirmation, html.join(''));
+
+                    const orderNumber = FwFormField.getValueByDataField($form, `${this.Module}Number`);
+                    FwFormField.setValueByDataField($confirmation, `${this.Module}Number`, orderNumber);
+                    const description = FwFormField.getValueByDataField($form, `Description`);
+                    FwFormField.setValueByDataField($confirmation, `Description`, description);
+                    const dealId = FwFormField.getValueByDataField($form, `DealId`);
+                    const deal = FwFormField.getTextByDataField($form, `DealId`);
+                    FwFormField.setValueByDataField($confirmation, `DealId`, dealId, deal);
+
+                    const $yes = FwConfirmation.addButton($confirmation, 'Apply', false);
+                    FwConfirmation.addButton($confirmation, 'Cancel');
+                },
+                ex => FwFunc.showError(ex), $form);
+        });
+
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
