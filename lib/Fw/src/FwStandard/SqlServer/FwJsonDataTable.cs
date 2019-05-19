@@ -207,7 +207,7 @@ namespace FwStandard.SqlServer
             return row;
         }
         //---------------------------------------------------------------------------------------------
-        public void InsertSubTotalRows(string nameGroupbyColumn, string nameRowTypeColumn, string[] nameSumColumns, bool includeGroupColumnValueInHeader = true, bool includeGroupColumnValueInFooter = true, string totalFor = "Total for")
+        public void InsertSubTotalRows(string nameGroupbyColumn, string nameRowTypeColumn, string[] nameSumColumns, string[] nameHeaderColumns = null, bool includeGroupColumnValueInHeader = true, bool includeGroupColumnValueInFooter = true, string totalFor = "Total for")
         {
             int indexGroupByColumn, indexRowTypeColumn, rowcount;
             string thisRowGroupByText, nextRowGroupByText, thisRowType, nextRowType, checkRowType;
@@ -216,6 +216,7 @@ namespace FwStandard.SqlServer
             object cellvalueobj;
             List<object> row;
             int[] indexSumColumns;
+            int[] indexHeaderColumns = null;
             bool /*isFirstRow,*/ isLastRow, isLastDetailRow, isNextRowNewGroup, isDetailRow, isHeaderRow, isFooterRow, isCheckRowDetail;
 
             thisRowGroupByText = "!@#NOT_DEFINED!@#";
@@ -233,6 +234,15 @@ namespace FwStandard.SqlServer
                 subtotals[sumcolno] = 0;
             }
 
+            if (nameHeaderColumns != null)
+            {
+                indexHeaderColumns = new int[nameHeaderColumns.Length];
+                for (int headerfieldcolno = 0; headerfieldcolno < nameHeaderColumns.Length; headerfieldcolno++)
+                {
+                    indexHeaderColumns[headerfieldcolno] = this.ColumnIndex[nameHeaderColumns[headerfieldcolno]];
+                }
+            }
+
             // subtotal the columns 
             //isFirstRow = true;
             rowcount = this.Rows.Count;
@@ -248,6 +258,13 @@ namespace FwStandard.SqlServer
                         if (includeGroupColumnValueInHeader)
                         {
                             row[indexGroupByColumn] = Rows[rowno][indexGroupByColumn].ToString();
+                            if (indexHeaderColumns != null)
+                            {
+                                for (int fieldno = 0; fieldno < indexHeaderColumns.Length; fieldno++)
+                                {
+                                    row[indexHeaderColumns[fieldno]] = Rows[rowno][indexHeaderColumns[fieldno]];
+                                }
+                            }
                         }
                         Rows.Insert(rowno, row);
                         rowno++;
