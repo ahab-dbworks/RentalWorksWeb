@@ -15,22 +15,16 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public string DateType { get; set; }
-        public bool? IncludeNoCharge { get; set; }
-        // for office/transaction reports 
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
-        public string AgentId { get; set; }
-        public string CustomerId { get; set; }
         public string DealId { get; set; }
-        // for inventory reports 
-        public string WarehouseId { get; set; }
-        public string InventoryTypeId { get; set; }
-        public string CategoryId { get; set; }
-        public string SubCategoryId { get; set; }
+        public string VendorId { get; set; }
+        public string PoClassificationId { get; set; }
+        public string PurchaseOrderId { get; set; }
         public string InventoryId { get; set; }
-        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
-        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems InvoiceStatus { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems PurchaseOrderStatus { get; set; } = new SelectedCheckBoxListItems();
+        public bool? IncludeVendorTax { get; set; }
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

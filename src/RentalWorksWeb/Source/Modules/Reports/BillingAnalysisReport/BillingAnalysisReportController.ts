@@ -31,7 +31,7 @@ const billingAnalysisReportTemplate = `
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Project Status" data-datafield="IncludeProjectStatus"></div>
- <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Credits Invoiced" data-datafield="IncludeProjectStatus"></div>         
+<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Credits Invoiced" data-datafield="IncludeProjectStatus"></div>         
 <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Exclude Orders Billed in Total" data-datafield="ExcludeOrdersBilledInTotal"></div>
               </div>
             </div>

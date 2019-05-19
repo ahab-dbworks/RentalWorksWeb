@@ -8,7 +8,7 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
     public class SubRentalBillingAnalysisReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
@@ -227,19 +227,19 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getsrbillinganalysisrpt ", this.AppConfig.DatabaseSettings.ReportTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getsrbillinganalysisrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@postatus", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@invoicestatus", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@vendorid", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@poclassificationid", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@poid", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@postatus", SqlDbType.Text, ParameterDirection.Input, request.PurchaseOrderStatus.ToString());
+                    qry.AddParameter("@invoicestatus", SqlDbType.Text, ParameterDirection.Input, request.InvoiceStatus.ToString());
+                    qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
+                    qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
+                    qry.AddParameter("@vendorid", SqlDbType.Text, ParameterDirection.Input, request.VendorId);
+                    qry.AddParameter("@poclassificationid", SqlDbType.Text, ParameterDirection.Input, request.PoClassificationId);
+                    qry.AddParameter("@poid", SqlDbType.Text, ParameterDirection.Input, request.PurchaseOrderId);
+                    qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
                     qry.AddParameter("@includevendortax", SqlDbType.Text, ParameterDirection.Input, request.ToDate);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
@@ -248,9 +248,14 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-                dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                string[] totalFields = new string[] { "ItemBilled", "ItemCost" , "ItemVariance"};
+                string[] headerFieldsPurchaseOrder = new string[] { "OrderNumber", "OrderDate", "OrderDescription", "PurchaseOrderNumber", "PurchaseOrderDate", "PoClassification", "Vendor", "ReceiveDate", "ReturnDate" };
+                string[] headerFieldsInvoice = new string[] { "InvoiceNumber", "InvoiceDate", "InvoiceBillingStart", "InvoiceBillingEnd", "VendorInvoiceNumber", "VendorInvoiceDate", "VendorBillingStart", "VendorBillingEnd" };
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields, headerFieldsPurchaseOrder);
+                dt.InsertSubTotalRows("InvoiceNumber", "RowType", totalFields, headerFieldsInvoice);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

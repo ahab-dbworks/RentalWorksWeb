@@ -199,9 +199,9 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] {  };
-                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields, true, false);
-                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields, true, false);
-                dt.InsertSubTotalRows("Category", "RowType", totalFields, true, false);
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields, null, true, false);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields, null, true, false);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields, null, true, false);
                 dt.InsertTotalRow("RowType", "detail", null, totalFields);
             }
             return dt;
