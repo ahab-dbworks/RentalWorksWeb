@@ -1,4 +1,5 @@
 ﻿.QuikIn .searchresults { }
+.QuikIn .fwmobilesearch .item { border-top: 1px solid #444444; }
 .QuikIn .fwmobilesearch .item.link:active { background-color: #455A64; }
 .QuikIn .fwmobilesearch .row1 { font-size: 12px; font-weight: bold; padding: 2px 5px; background-color: #424242; }
 .QuikIn .fwmobilesearch .item.link .row1 { text-decoration: underline; }
@@ -38,6 +39,6 @@
 
 .QuikIn .QtyField {border-right:1px solid #777777;}
 
-.QuikIn .titleRentalItems { color: #ffffff; padding: .3em; text-align: center; border-top:1px solid rgba(255,255,255,.8); }
+.QuikIn .titleRentalItems { color: #ffffff; padding: .3em; text-align: center; border-top: 1px solid rgba(255,255,255,.8); background-color: #3d3d3d; }
 .QuikIn .sessioninsearch .row5 .datafield { flex: 1 1 0; }
 .QuikIn .sessioninsearch .row5 .value { background-color: #ff0000; color: #ffffff; }
