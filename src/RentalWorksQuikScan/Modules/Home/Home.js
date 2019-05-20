@@ -47,7 +47,7 @@ RwHome.getHomeScreen = function(viewModel, properties) {
     $menuObject = RwHome.generateIcon('Settings', 'account/preferences', 'theme/images/icons/128/preferences.png', '5993B190-F084-4658-AEC2-1D467E26473F');
     screen.$view.find('.fwmenu').append($menuObject);
 
-    $menuObject = RwHome.generateIcon('Logoff', 'account/logoff', 'theme/images/icons/128/logoff.png', '3F515109-1B5A-41A7-9B86-5ABF2BC12604');
+    $menuObject = RwHome.generateIcon('Logoff', 'logoff', 'theme/images/icons/128/logoff.png', '3F515109-1B5A-41A7-9B86-5ABF2BC12604');
     screen.$view.find('.fwmenu').append($menuObject);
 
     screen.load = function () {

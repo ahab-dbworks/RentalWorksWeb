@@ -395,7 +395,7 @@ class Program extends FwApplication {
                     case 'inventory/movebclocation':
                         screen = RwInventoryController.getMoveBCLocationScreen({}, {});
                         break;
-                    case 'account/logoff':
+                    case 'logoff':
                         FwApplicationTree.tree = null;
                         sessionStorage.clear();
                         me.screens = [];
@@ -482,7 +482,7 @@ class Program extends FwApplication {
             jQuery('html').addClass('theme-material');
             if (sessionStorage.getItem('sessionLock') === 'true') {
                 sessionStorage.setItem('sessionLock', 'false');
-                me.navigate('account/logoff');
+                me.navigate('logoff');
             } else if (sessionStorage.getItem('authToken')) {
                 me.navigate('home/home');
             } else {
