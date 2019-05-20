@@ -194,13 +194,13 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
         [FwSqlDataField(column: "vendoritemtax", modeltype: FwDataTypes.Decimal)]
         public decimal? VendorItemTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itembilled", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "itembilled", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemBilled { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "itemcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "itemvariance", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "itemvariance", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ItemVariance { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealitemdaterange", modeltype: FwDataTypes.Text)]

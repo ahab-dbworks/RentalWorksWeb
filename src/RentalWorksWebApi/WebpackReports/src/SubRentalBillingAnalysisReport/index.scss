@@ -1,9 +1,5 @@
 ﻿/*Sub-Rental Billing Analysis Report*/
 tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
-        background-color: #DCDCDC;
-    }
-
     td:after {
         content: attr(data-value);
     }
@@ -13,6 +9,10 @@ tbody {
     }
 }
 
+tbody[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
+    background-color: #DCDCDC;
+}
+
 thead {
     th {
         border-bottom: 2px solid #000000;
@@ -20,9 +20,13 @@ thead {
         padding: 5px;
         white-space: nowrap;
     }
+
+    th.usage-period{
+        padding-left:60px;
+    }
 }
 
-.noBorder {
+.no-border {
     border-top: none;
     border-bottom: none;
 }
