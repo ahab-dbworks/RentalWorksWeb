@@ -440,9 +440,11 @@
                 masterclass += (isClickable ? ' link' : '');
                 html.push('<div class="' + masterclass + '">');
 
-                html.push('  <div class="row1">');
-                html.push('     <div class="title">{{description}}</div>');
-                html.push('  </div>');
+                if (typeof model.description !== 'undefined' && model.description.length > 0) {
+                    html.push('  <div class="row1">');
+                    html.push('     <div class="title">{{description}}</div>');
+                    html.push('  </div>');
+                }
 
                 html.push('  <div class="row2">');
                 html.push('    <div class="col1">');
