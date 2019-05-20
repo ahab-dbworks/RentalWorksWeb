@@ -2106,33 +2106,42 @@ class OrderBase {
             FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/browse`, request, FwServices.defaultTimeout,
                 response => {
                     const $confirmation = FwConfirmation.renderConfirmation(`Modify ${this.Module} Dates`, '');
-                    $confirmation.find('.fwconfirmationbox').css('width', '900px');
-                    let html = [];
-                    html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">
+                    $confirmation.find('.fwconfirmationbox').css('min-width', '900px');
+                    let html = `<div class="fwform append-rows" data-controller="none" style="background-color: transparent;">
                             <div class="flexrow">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="${this.Module} No." data-datafield="${this.Module}Number" data-enabled="false" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 200px;"></div>
-                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 300px;"></div>
+                              <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 150px;"></div>
                             </div>
-                          </div>`);
+                          </div>`;
+                    FwConfirmation.addControls($confirmation, html);
 
+                    const descriptionDisplayIndex = response.ColumnIndex.Descriptiondisplay;
                     const dateIndex = response.ColumnIndex.Date;
                     const timeIndex = response.ColumnIndex.Time;
                     const dayOfWeekIndex = response.ColumnIndex.DayOfWeek;
                     const prodActivityIndex = response.ColumnIndex.IsProductionActivity;
                     const milestoneIndex = response.ColumnIndex.IsMilestone;
-                    for (let i = 0; i <= response.Rows.length; i++) {
+                    for (let i = 0; i < response.Rows.length; i++) {
                         const row = response.Rows[i];
-                        const activityDatesHtml = `<div class="flexrow">
-                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="" data-datafield="" data-enabled="false" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="time" class="fwcontrol fwformfield" data-caption="" data-datafield="" data-enabled="false" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="flex:0 1 150px;"></div>
-                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="flex:0 1 150px;"></div>
-                            </div>`;
-                        html.push(activityDatesHtml);
-                    };
+                        const $row = jQuery(`<div class="flexrow">
+                              <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row[descriptionDisplayIndex]}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 150px;"></div>                          
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="flex:1 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="flex:1 1 150px;"></div>
+                            </div>`);
+                      
+                        FwControl.renderRuntimeControls($row.find('.fwcontrol'));
 
-                    FwConfirmation.addControls($confirmation, html.join(''));
+                        FwFormField.setValueByDataField($row, 'Date', row[dateIndex]);
+                        FwFormField.setValueByDataField($row, 'Time', row[timeIndex]);
+                        FwFormField.setValueByDataField($row, 'DayOfWeek', row[dayOfWeekIndex]);
+                        FwFormField.setValueByDataField($row, 'IsProductionActivity', row[prodActivityIndex]);
+                        FwFormField.setValueByDataField($row, 'IsMilestone', row[milestoneIndex]);
+
+                        $confirmation.find('.append-rows').append($row);
+                    };
 
                     const orderNumber = FwFormField.getValueByDataField($form, `${this.Module}Number`);
                     FwFormField.setValueByDataField($confirmation, `${this.Module}Number`, orderNumber);
@@ -2142,7 +2151,12 @@ class OrderBase {
                     const deal = FwFormField.getTextByDataField($form, `DealId`);
                     FwFormField.setValueByDataField($confirmation, `DealId`, dealId, deal);
 
-                    const $yes = FwConfirmation.addButton($confirmation, 'Apply', false);
+                    FwFormField.setValueByDataField($confirmation, `Description`, description);
+
+                    const $apply = FwConfirmation.addButton($confirmation, 'Apply', false);
+                    $apply.on('click', e => {
+                        //
+                    });
                     FwConfirmation.addButton($confirmation, 'Cancel');
                 },
                 ex => FwFunc.showError(ex), $form);
