@@ -316,7 +316,7 @@ namespace WebLibrary.Security
                                                        AddReportsModule("Sales",                                   "{F49DDABE-2185-41EE-9BD0-613264D69AB7}", lv2menuSalesInventoryReports.Id,   "RwSalesReportController",                      description: "List all Sales over a specific date range.");
             var lv2menuVendorReports =         AddReportsMenu("Vendor Reports",                                    "{27E99ADD-6DF1-4DB1-A54F-D7BFA6767C30}", lv1menuReports.Id);
                                                        AddReportsModule("Vendor Invoice Summary",                  "{ABAA791E-72C0-4F27-A3C1-62894B58E9F7}", lv2menuVendorReports.Id,           "RwVendorInvoiceSummaryReportController",       description: "List all Invoices for a specific date range, subtotalled by Purchase Order and Deal.");
-                                                       AddReportsModule("Sub-Rental Billing Analysis",             "{B529574B-2D6D-43D1-A009-CCC1E49371B7}", lv2menuVendorReports.Id,           "SubRentalBillingAnalysisReportController",     description: "");
+                                                       AddReportsModule("Sub-Rental Billing Analysis",             "{B529574B-2D6D-43D1-A009-CCC1E49371B7}", lv2menuVendorReports.Id,           "SubRentalBillingAnalysisReportController",     description: "List all Sub-Rental Billing activity and compare Deal billing amounts with Vendor billing amounts.");
 
             AddModule("Print Order",           "{8B69F4A5-5617-45D1-84BB-E5ED6B2F031D}", null, "RwPrintOrderController");
 
