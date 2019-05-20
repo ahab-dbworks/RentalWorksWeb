@@ -273,6 +273,10 @@ namespace RentalWorksQuikScan.Modules
                         qry.AddParameter($"@orderid{i}", orderid);
                        
                     }
+                    if (orders.Count == 0)
+                    {
+                        qry.Add("select qtyordered=0, stilloutqty=0, inqty=0");
+                    }
                     qry.Add(")");
                     qry.Add("select top 1");
                     qry.Add("  qtyordered  = sum(os.qtyordered),");
