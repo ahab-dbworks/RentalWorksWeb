@@ -104,8 +104,8 @@ class RwSalesReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
         const department = JSON.parse(sessionStorage.getItem('department'));
-        const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
+        const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);

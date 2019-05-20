@@ -129,6 +129,7 @@ class RentalInventoryUsageReportClass extends FwWebApiReport {
                 FwFormField.disable($form.find('div[data-datafield="UtilizationFilterAmount"]'));
             }
         });
+        filterDates.change();
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
