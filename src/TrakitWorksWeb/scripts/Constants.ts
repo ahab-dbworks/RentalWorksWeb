@@ -136,6 +136,11 @@
                 //RetireLossAndDamageItems: { id: '{29DECF73-E409-4B51-81B2-B9196B7EDE18}' },
                 RefreshAvailability: { id: '{BBC9E755-54D3-474A-ACBE-E99D4A8C568D}' }
             }
+        },
+        SearchPreviewGrid: {
+            menuItems: {
+                RefreshAvailability: { id: '{C4168B67-EDD2-4749-9841-95A113251248}' }
+            }
         }
     }
 };

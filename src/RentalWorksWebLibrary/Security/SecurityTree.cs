@@ -734,6 +734,7 @@ namespace WebLibrary.Security
             AddGrid("Rental Inventory Warehouse",             "{9AC6FB16-BC42-42C3-91B7-9346D11CC405}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
             AddGrid("Repair Release",                         "{33DACEA3-20F0-4D7F-A0E3-C2D21BF60BAC}", lv1menuGrids.Id, "RepairReleaseGridController");
             AddGrid("Report Settings",                        "{748FFFB6-175B-4425-A63C-FFFAA6F425E7}", lv1menuGrids.Id, "ReportSettingsGridController");
+            AddGrid("Search Preview",                         "{EFA46DCE-338B-49C3-9016-1BAD13E6A561}", lv1menuGrids.Id, "SearchPreviewGridController");
             AddGrid("Staged Items",                           "{2A719A9F-F237-4C3A-92DF-FBC515204A38}", lv1menuGrids.Id, "StagedItemGridController");
             AddGrid("Stage Holding Items",                    "{1F06BAB4-5D64-43FC-B2A8-FF088064E4A0}", lv1menuGrids.Id, "StageHoldingItemGridController");
             AddGrid("Stage Quantity Items",                   "{162DCF5B-759A-42E9-82E9-88B628B6901D}", lv1menuGrids.Id, "StageQuantityItemGridController");

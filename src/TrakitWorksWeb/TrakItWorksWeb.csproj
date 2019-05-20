@@ -187,6 +187,7 @@
     <Content Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridBrowse.htm" />
     <Content Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
+    <Content Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridBrowse.htm" />
     <Content Include="Source\Grids\VendorTaxOptionGrid\VendorTaxOptionGridBrowse.htm" />
     <Content Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridBrowse.htm" />
     <Content Include="Source\Grids\ContactNoteGrid\ContactNoteGridBrowse.htm" />
@@ -482,6 +483,7 @@
     <Content Include="theme\images\icons\administrator\placeholder.png" />
     <Content Include="theme\images\icons\integration\placeholder.png" />
     <Content Include="theme\images\icons\utilities\placeholder.png" />
+    <Content Include="theme\images\no-image.jpg" />
     <Content Include="theme\images\rentalworkslogo.png" />
     <Content Include="theme\trakitworks.css" />
     <Content Include="version.txt" />
@@ -497,6 +499,7 @@
     <TypeScriptCompile Include="Source\Grids\CheckInSwapGrid\CheckInSwapGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorTaxOptionGrid\VendorTaxOptionGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactCompanyGrid\ContactCompanyGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\ContactNoteGrid\ContactNoteGridController.ts" />

@@ -98,7 +98,7 @@ class SearchInterface {
                           </div>`;
         $popup.find('#itemsearchtabpage').append(jQuery(searchhtml));
 
-        let previewhtml = `<div id="previewHtml" style="overflow: scroll; height:-webkit-fill-available;">
+        let previewhtml = `<div id="previewHtml">
                              <div class="fwmenu default"></div>
                              <div class="flexrow" style="max-width:1800px;">
                                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

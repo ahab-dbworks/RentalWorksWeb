@@ -164,7 +164,51 @@ class Order extends OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
         };
 
+        this.renderPrintButton($form);
+        this.renderSearchButton($form);
+
         return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    renderPrintButton($form: any) {
+        var $print = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Print');
+        $print.prepend('<i class="material-icons">print</i>');
+        $print.on('click', function () {
+            try {
+                var $form       = jQuery(this).closest('.fwform');
+                var orderNumber = FwFormField.getValue($form, 'div[data-datafield="OrderNumber"]');
+                var orderId     = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
+                var $report     = RwOrderReportController.openForm();
+
+                FwModule.openSubModuleTab($form, $report);
+
+                FwFormField.setValue($report, 'div[data-datafield="OrderId"]', orderId, orderNumber);
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderSearchButton($form: any) {
+        var self = this;
+        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search');
+        $search.prepend('<i class="material-icons">search</i>');
+        $search.on('click', function () {
+            try {
+                let $form   = jQuery(this).closest('.fwform');
+                let orderId = FwFormField.getValueByDataField($form, 'OrderId');
+                
+                if (orderId == "") {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else {
+                    let search = new SearchInterface();
+                    search.renderSearchPopup($form, orderId, self.Module);
+                }
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids) {
