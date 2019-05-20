@@ -339,9 +339,9 @@ class OrderBase {
         $search.prepend('<i class="material-icons">search</i>');
         $search.on('click', function () {
             try {
-                let $form = jQuery(this).closest('.fwform');
-                let orderId = FwFormField.getValueByDataField($form, 'OrderId');
-
+                let $form   = jQuery(this).closest('.fwform');
+                let orderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+                
                 if (orderId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else {

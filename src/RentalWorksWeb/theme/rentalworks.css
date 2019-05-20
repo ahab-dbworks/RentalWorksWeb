@@ -441,7 +441,7 @@ ul.fitText span:not(.downArrowNav){
 }
 
 #itemsearch #itemlist {flex: 1 1 0;position:relative;}
-#itemsearch #itemlist #inventory {overflow-y: auto;position: absolute;top: 33px;left: 0;right: 0;bottom: 0;}
+#itemsearch #itemlist #inventory {overflow-y: auto;position: absolute;top: 32px;left: 0;right: 0;bottom: 0;}
 
 #itemsearch #itemlist[data-view="GRID"] .columnDescriptions {display:none;}
 #itemsearch #itemlist[data-view="GRID"] {max-width:1950px;}

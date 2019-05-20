@@ -523,8 +523,8 @@ class SearchInterface {
 
             //Clear and set breadcrumbs
             let $breadcrumbs = $popup.find('#breadcrumbs');
-            $breadcrumbs.find('.category, .subcategory').remove();
-            $breadcrumbs.append(`<div class="category breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
+            $breadcrumbs.find('.subcategory').remove();
+            $breadcrumbs.append(`<div class="subcategory breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
 
             $popup.find('#itemsearch').attr('data-subcategoryid', $this.attr('data-value'));
 
@@ -857,8 +857,7 @@ class SearchInterface {
 
                     FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
                         $popup.find('#inventory').empty();
-                        $popup.find('#breadcrumbs div:not(.basetype)').empty().attr('data-value', '');
-                        $popup.find("#breadcrumbs .basetype").append('<div style="float:right;">&#160; &#160; &#47; &#160; &#160;</div>');
+                        $popup.find('#breadcrumbs').find('.type, .category, .subcategory').remove();
                         if (response.Rows.length > 0) {
                             const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
                             let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
