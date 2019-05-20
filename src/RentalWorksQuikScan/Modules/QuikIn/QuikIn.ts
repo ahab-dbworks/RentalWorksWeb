@@ -1,4 +1,4 @@
-class QuikInClass {
+﻿class QuikInClass {
     getModuleScreen(viewModel, properties): void {
         var combinedViewModel = jQuery.extend({
             captionPageTitle:   RwLanguages.translate('QuikIn'),
@@ -216,37 +216,19 @@ class QuikInClass {
             itemTemplate: function(model) {
                 var html = [];
                 html.push('<div class="item">');
-                html.push('  <div class="row1"><span class="orderdesc">{{orderdesc}}</span></div>');
+                //html.push('  <div class="row1"><span class="orderdesc">{{orderdesc}}</span></div>');
                 html.push('  <div class="row2">');
                 html.push('    <div class="col1">');
-                if (typeof model.orderno !== 'undefined') {
-                    html.push('      <div class="datafield orderno">');
-                    html.push('        <div class="caption">' + RwLanguages.translate('Order No') + ':</div>');
-                    html.push('        <div class="value">{{orderno}}</div>');
-                    html.push('      </div>')
-                }
-                if (typeof model.orderdate !== 'undefined') {
-                    html.push('      <div class="datafield orderdate">')
-                    html.push('        <div class="caption">' + RwLanguages.translate('Date') + ':</div>');
-                    html.push('        <div class="value">{{orderdate}}</div>');
-                    html.push('      </div>');
-                }
                 if (typeof model.deal !== 'undefined') {
                     html.push('      <div class="datafield deal">')
                     html.push('        <div class="caption">' + RwLanguages.translate('Deal') + ':</div>');
                     html.push('        <div class="value">{{deal}}</div>');
                     html.push('      </div>');
                 }
-                if (typeof model.estrentfrom !== 'undefined') {
-                    html.push('      <div class="datafield estrentfrom">')
-                    html.push('        <div class="caption">' + RwLanguages.translate('Est') + ':</div>');
-                    html.push('        <div class="value">{{estrentfrom}}</div>');
-                    html.push('      </div>');
-                }
-                if (typeof model.warehouse !== 'undefined') {
-                    html.push('      <div class="datafield warehouse">')
-                    html.push('        <div class="caption">' + RwLanguages.translate('Warehouse') + ':</div>');
-                    html.push('        <div class="value">{{warehouse}}</div>');
+                if (typeof model.sessionno !== 'undefined') {
+                    html.push('      <div class="datafield sessionno">')
+                    html.push('        <div class="caption">' + RwLanguages.translate('Session No') + ':</div>');
+                    html.push('        <div class="value">{{sessionno}}</div>');
                     html.push('      </div>');
                 }
                 html.push('    </div>');
@@ -261,12 +243,6 @@ class QuikInClass {
                     html.push('      <div class="datafield">')
                     html.push('        <div class="caption statusdate">' + RwLanguages.translate('As Of') + ':</div>');
                     html.push('        <div class="value statusdate">{{statusdate}}</div>');
-                    html.push('      </div>');
-                }
-                if (typeof model.sessionno !== 'undefined') {
-                    html.push('      <div class="datafield sessionno">')
-                    html.push('        <div class="caption">' + RwLanguages.translate('Session No') + ':</div>');
-                    html.push('        <div class="value">{{sessionno}}</div>');
                     html.push('      </div>');
                 }
                 if (typeof model.username !== 'undefined') {
