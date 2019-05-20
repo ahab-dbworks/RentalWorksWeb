@@ -323,7 +323,7 @@ namespace WebApi.Modules.Home.Invoice
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SetNumber(FwSqlConnection conn)
         {
-            InvoiceNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_INVOICE, conn: conn);
+            InvoiceNumber = await AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_INVOICE, OfficeLocationId, conn);
 
             return true;
         }

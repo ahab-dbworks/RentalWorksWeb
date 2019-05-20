@@ -264,7 +264,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 Status = RwConstants.PHYSICAL_INVENTORY_STATUS_NEW;
-                PhysicalInventoryNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_PHYSICAL_INVENTORY, conn: e.SqlConnection).Result;
+                PhysicalInventoryNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_PHYSICAL_INVENTORY, OfficeLocationId, e.SqlConnection).Result;
             }
         }
         //------------------------------------------------------------------------------------ 

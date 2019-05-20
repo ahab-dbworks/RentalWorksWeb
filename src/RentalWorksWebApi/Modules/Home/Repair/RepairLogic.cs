@@ -384,7 +384,7 @@ namespace WebApi.Modules.Home.Repair
         {
             if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert)
             {
-                RepairNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR, conn: e.SqlConnection).Result;
+                RepairNumber = AppFunc.GetNextModuleCounterAsync(AppConfig, UserSession, RwConstants.MODULE_REPAIR, LocationId, e.SqlConnection).Result;
                 Status = RwConstants.REPAIR_STATUS_NEW;
                 StatusDate = FwConvert.ToString(DateTime.Today);
                 InputDate = FwConvert.ToString(DateTime.Today);
