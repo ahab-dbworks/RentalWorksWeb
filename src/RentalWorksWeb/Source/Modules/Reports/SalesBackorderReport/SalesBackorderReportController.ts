@@ -46,7 +46,7 @@ const salesbackorderTemplate = `
 class SalesBackorderReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('SalesBackorderReportController', 'api/v1/salesbackorderreport', salesbackorderTemplate);
+        super('SalesBackorderReport', 'api/v1/salesbackorderreport', salesbackorderTemplate);
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {

@@ -76,7 +76,7 @@ namespace WebApi.Modules.Reports.SalesBackorderReport
         public decimal? QuantityTotalOut { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "qtybackordered", modeltype: FwDataTypes.Decimal)]
-        public decimal? QuantityBackOrdered { get; set; }
+        public decimal? QuantityBackordered { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractid", modeltype: FwDataTypes.Text)]
         public string ContractId { get; set; }
@@ -110,11 +110,11 @@ namespace WebApi.Modules.Reports.SalesBackorderReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddWhereIn("vendorid", request.VendorId);
                     select.AddWhereIn("warehouseid", request.WarehouseId);
-                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
-                    select.AddWhereIn("dealid", request.DealId);
                     select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
+                    select.AddWhereIn("vendorid", request.VendorId);
+                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddOrderBy("warehouse, inventorydepartment, category, masterno, contractdate, contractno, customer, vendor, deal, orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
@@ -122,7 +122,7 @@ namespace WebApi.Modules.Reports.SalesBackorderReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "QuantityOrdered", "QuantityBackOrdered", "QuantityTotalOut" };
+                string[] totalFields = new string[] { "QuantityOrdered", "QuantityBackordered", "QuantityTotalOut" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
