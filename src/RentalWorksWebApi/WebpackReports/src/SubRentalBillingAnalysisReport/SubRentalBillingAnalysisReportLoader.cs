@@ -254,8 +254,8 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields, headerFieldsPurchaseOrder);
-                dt.InsertSubTotalRows("InvoiceNumber", "RowType", totalFields, headerFieldsInvoice);
+                dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields, headerFieldsPurchaseOrder,  totalFor: "Total for PO");
+                dt.InsertSubTotalRows("InvoiceNumber", "RowType", totalFields, headerFieldsInvoice, totalFor: "Total for Order");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
