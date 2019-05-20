@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using WebLibrary;
+using System;
 
 namespace WebApi.Modules.Home.Receipt
 {
@@ -81,5 +82,30 @@ namespace WebApi.Modules.Home.Receipt
             return await DoDeleteAsync(id);
         }
         //------------------------------------------------------------------------------------ 
+        // GET api/v1/receipt/remainingdepositamounts
+        [HttpGet("remainingdepositamounts")]
+        [FwControllerMethod(Id: "rewXg7ccffYIe")]
+        public async Task<ActionResult<RemainingDepositAmountsResponse>> GetRemainingDepositAmounts([FromRoute] string CustomerId, string DealId, string OfficeLocationId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                RemainingDepositAmountsRequest request = new RemainingDepositAmountsRequest();
+                request.CustomerId = CustomerId;
+                request.DealId = DealId;
+                request.OfficeLocationId = OfficeLocationId;
+
+                RemainingDepositAmountsResponse response = await ReceiptFunc.GetRemainingDepositAmounts(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------       
     }
 }

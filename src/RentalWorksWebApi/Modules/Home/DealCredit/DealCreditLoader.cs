@@ -81,8 +81,36 @@ namespace WebApi.Modules.Home.DealCredit
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             select.AddWhere("paymentby = '" + RwConstants.RECEIPT_PAYMENT_BY_DEAL + "'");
+
             addFilterToSelect("DealId", "dealid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+            AddActiveViewFieldToSelect("RecType", "rectype", select, request);
+
+            if ((request != null) && (request.activeviewfields != null))
+            {
+                if (request.activeviewfields.ContainsKey("Status"))
+                {
+                    List<string> values = request.activeviewfields["Status"];
+
+                    //jh wip (need to copy to CustomerCreditLoader, too)
+                    //if (values.Count == 1)
+                    //{
+                    //    string value = values[0];
+                    //    if (!value.ToUpper().Equals("ALL"))
+                    //    {
+                    //        string parameterName = activeViewFieldName.ToLower();
+                    //        select.AddWhere("(" + databaseFieldName + " = @" + parameterName + ")");
+                    //        select.AddParameter("@" + parameterName, value);
+                    //    }
+                    //}
+                    //else if (values.Count > 1)
+                    //{
+                    //    select.AddWhereIn(" and ", databaseFieldName, string.Join(",", values));
+                    //}
+                }
+            }
+
+
         }
         //------------------------------------------------------------------------------------ 
         private string determineRecTypeColor(string recType)

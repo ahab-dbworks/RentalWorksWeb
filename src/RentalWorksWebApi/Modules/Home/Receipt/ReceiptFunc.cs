@@ -5,6 +5,18 @@ using System.Threading.Tasks;
 
 namespace WebApi.Modules.Home.Receipt
 {
+    public class RemainingDepositAmountsRequest
+    {
+        public string CustomerId { get; set; } = "";
+        public string DealId { get; set; } = "";
+        public string OfficeLocationId { get; set; } = "";
+    }
+    public class RemainingDepositAmountsResponse
+    {
+        public decimal DepletingDeposits { get; set; } = 0;
+        public decimal CreditMemos { get; set; } = 0;
+        public decimal Overpayments { get; set; } = 0;
+    }
 
     public static class ReceiptFunc
     {
@@ -35,6 +47,27 @@ namespace WebApi.Modules.Home.Receipt
             await qry.ExecuteNonQueryAsync();
             success = FwConvert.ToBoolean(qry.GetParameter("@success").ToString());
             return success;
+        }
+        //-------------------------------------------------------------------------------------------------------    
+        public static async Task<RemainingDepositAmountsResponse> GetRemainingDepositAmounts (FwApplicationConfig appConfig, FwUserSession userSession, RemainingDepositAmountsRequest request, FwSqlConnection conn = null)
+        {
+            RemainingDepositAmountsResponse response = new RemainingDepositAmountsResponse();
+            if (conn == null)
+            {
+                conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString);
+            }
+            FwSqlCommand qry = new FwSqlCommand(conn, "argetremainingdepositamts", appConfig.DatabaseSettings.QueryTimeout);
+            qry.AddParameter("@customerid", SqlDbType.NVarChar, ParameterDirection.Input, request.CustomerId);
+            qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, request.DealId);
+            qry.AddParameter("@locationid", SqlDbType.NVarChar, ParameterDirection.Input, request.OfficeLocationId);
+            qry.AddParameter("@deposits", SqlDbType.Decimal, ParameterDirection.Output);
+            qry.AddParameter("@credits", SqlDbType.Decimal, ParameterDirection.Output);
+            qry.AddParameter("@overpayments", SqlDbType.Decimal, ParameterDirection.Output);
+            await qry.ExecuteNonQueryAsync();
+            response.DepletingDeposits = FwConvert.ToDecimal(qry.GetParameter("@deposits").ToString());
+            response.CreditMemos = FwConvert.ToDecimal(qry.GetParameter("@credits").ToString());
+            response.Overpayments = FwConvert.ToDecimal(qry.GetParameter("@overpayments").ToString());
+            return response;
         }
         //-------------------------------------------------------------------------------------------------------    
     }

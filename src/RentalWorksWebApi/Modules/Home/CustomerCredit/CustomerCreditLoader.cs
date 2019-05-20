@@ -78,6 +78,7 @@ namespace WebApi.Modules.Home.CustomerCredit
 
             addFilterToSelect("CustomerId", "customerid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+            AddActiveViewFieldToSelect("RecType", "rectype", select, request);
         }
         //------------------------------------------------------------------------------------ 
         private string determineRecTypeColor(string recType)
