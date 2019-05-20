@@ -1,4 +1,4 @@
-﻿class QuikInClass {
+class QuikInClass {
     getModuleScreen(viewModel, properties): void {
         var combinedViewModel = jQuery.extend({
             captionPageTitle:   RwLanguages.translate('QuikIn'),
@@ -79,8 +79,13 @@
                     icon:        '&#xE5CB;', //chevron_left
                     state:       'quikinsessionsearch',
                     buttonclick: function () {
-                        // Check-In Menu screen doesn't support this yet
-                        program.navigate('home/home');
+                        try {
+                            // intead of program.popScreen(), using this workaround to support the fact that the CheckInMenu screen doesn't support going back to it.  The screen is blank.
+                            program.screens = [];
+                            program.navigate('order/checkinmenu');
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
                     }
                 },
                 {
@@ -108,7 +113,11 @@
                     icon:        '&#xE5CB;', //chevron_left
                     state:       'scanbarcodes',
                     buttonclick: function () {
-                        screen.pages.scanbarcodes.back();
+                        try {
+                            screen.pages.scanbarcodes.back();
+                        } catch (ex) {
+                            FwFunc.showError(ex);
+                        }
                     }
                 }
             ]
