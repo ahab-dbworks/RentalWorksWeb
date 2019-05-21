@@ -1,0 +1,33 @@
+﻿/*Sub-Sales Staged Items Report*/
+tbody {
+    td:after {
+        content: attr(data-value);
+    }
+
+    td {
+        padding: 3px;
+    }
+}
+
+tbody[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
+    background-color: #DCDCDC;
+}
+
+thead {
+    th {
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
+}
+
+.no-border {
+    border-top: none;
+    border-bottom: none;
+}
+
+@page {
+    size: landscape;
+    margin: 10px 10px 10px 10px; // Adds margin on the pdf
+}

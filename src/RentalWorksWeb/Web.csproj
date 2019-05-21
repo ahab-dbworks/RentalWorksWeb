@@ -518,6 +518,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\SalesBackorderReport\SalesBackorderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryCatalogReport\SalesInventoryCatalogReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ContractRevisionReport\ContractRevisionReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\SubSalesStagedItemsReport\SubSalesStagedItemsReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SubRentalBillingAnalysisReport\SubRentalBillingAnalysisReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryQCRequiredReport\RentalInventoryQCRequiredReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesQuoteBillingReport\SalesQuoteBillingReportController.ts" />
