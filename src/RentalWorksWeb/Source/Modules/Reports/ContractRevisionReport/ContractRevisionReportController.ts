@@ -122,7 +122,7 @@ class ContractRevisionReport extends FwWebApiReport {
                 { value: "I-CODE CHANGE", text: "I-Code Change", selected: "T" },
                 { value: "RENTAL START DATE", text: "Rental Start Date", selected: "T" },
                 { value: "RENTAL STOP DATE", text: "Rental Stop Date", selected: "T" },
-                { value: "VOIDS", text: "Voids", selected: "T" }
+                { value: "VOID", text: "Voids", selected: "T" }
             ]);
     }
     //----------------------------------------------------------------------------------------------
