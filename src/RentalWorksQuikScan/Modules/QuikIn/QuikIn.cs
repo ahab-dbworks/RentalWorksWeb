@@ -167,16 +167,47 @@ namespace RentalWorksQuikScan.Modules
                                                               usersId: usersid,
                                                               barcode: request.code);
                 string trackedby = itemInfo.trackedby;
-                string code = request.code;
-                string description = itemInfo.description;
-                string masterno = itemInfo.masterNo;
-                string internalchar = itemInfo.internalchar;
-                string masterid = itemInfo.masterId;
-                string rentalitemid = itemInfo.rentalitemid;
-                string itemclass = itemInfo.itemclass;
-                string vendorid = itemInfo.vendorid;
+                string code = string.Empty;
+                string description = string.Empty;
+                string masterno = string.Empty;
+                string internalchar = string.Empty;
+                string masterid = string.Empty;
+                string rentalitemid = string.Empty;
+                string itemclass = string.Empty;
+                string vendorid = string.Empty;
                 string orderby = string.Empty;
                 string outputmasterid = string.Empty;
+                if (trackedby == "BARCODE" || trackedby == "SERIALNO" || trackedby == "RFID")
+                {
+                    code = request.code;
+                    internalchar = itemInfo.internalchar;
+                }
+                else 
+                if (trackedby == "QUANTITY")
+                {
+                    //using (FwSqlCommand qry = new FwSqlCommand(FwSqlConnection.RentalWorks))
+                    //{
+                    //    qry.Add("select top 1 *");
+                    //    qry.Add("from dbo.funcqiquantity(@contractid, @dealid, @departmentid, @rectype, @groupitems @warehouseid)");
+                    //    qry.Add("where rectype = 'R'");
+                    //    qry.Add("  and masterid = @masterid");
+                    //    qry.Add("order by itemclassorderby, orderby, masterno, description, vendor");
+                    //    qry.AddParameter("@contractid", inContractId);
+                    //    qry.AddParameter("@dealid", );
+                    //    qry.AddParameter("@departmentid", );
+                    //    qry.AddParameter("@rectype", );
+                    //    qry.AddParameter("@groupitems", );
+                    //    qry.AddParameter("@warehouseid", );
+                    //}
+                    code = string.Empty;
+                    description = itemInfo.description;
+                    masterno = itemInfo.masterNo;
+                    internalchar = itemInfo.internalchar;
+                    masterid = itemInfo.masterId;
+                    rentalitemid = itemInfo.rentalitemid;
+                    itemclass = itemInfo.itemclass;
+                    vendorid = itemInfo.vendorid;
+                }
 
                 response.status = itemInfo.status;
                 response.msg = itemInfo.msg;
@@ -202,7 +233,7 @@ namespace RentalWorksQuikScan.Modules
                         response.action = ACTION_PROMPT_FOR_QTY;
                         return;
                     }
-                    else if (trackedby == "BARCODE" || trackedby == "SERIALNO")
+                    else if (trackedby == "BARCODE" || trackedby == "SERIALNO" || trackedby == "RFID")
                     {
                         qty = 1;
                     }
@@ -222,7 +253,7 @@ namespace RentalWorksQuikScan.Modules
                 using (FwSqlCommand sp = new FwSqlCommand(conn, "dbo.quikinadditem"))
                 {
                     sp.AddParameter("@code", code);
-                    sp.AddParameter("@contractid", request.contractId);
+                    sp.AddParameter("@contractid", inContractId);
                     sp.AddParameter("@internalchar", internalchar);
                     sp.AddParameter("@usersid", usersid);
                     sp.AddParameter("@masterid", masterid);
@@ -246,52 +277,52 @@ namespace RentalWorksQuikScan.Modules
                     response.msg = sp.GetParameter("@msg").ToString().TrimEnd();
                 }
 
-                List<dynamic> orders;
-                using (FwSqlCommand qry = new FwSqlCommand(conn))
-                {
-                    qry.Add("select orderid");
-                    qry.Add("from checkinorderpriorityview op with (nolock)");
-                    qry.Add("where op.contractid = @contractid");
-                    qry.AddParameter("@contractid", inContractId);
-                    orders = qry.QueryToDynamicList2();
-                }
-                using (FwSqlCommand qry = new FwSqlCommand(conn))
-                {
-                    qry.Add(";with QuikInOrderStatus_CTE(qtyordered, stilloutqty, inqty)");
-                    qry.Add("as");
-                    qry.Add("(");
-                    for  (int i = 0; i < orders.Count; i++)
-                    {
-                        string orderid = orders[i].orderid;
-                        if (i > 0)
-                        {
-                            qry.Add("union");
-                        }
-                        qry.Add("select qtyordered, stilloutqty, inqty");
-                        qry.Add($"from dbo.getorderstatussummary(@orderid{i})");
-                        qry.Add("where masterid = @masterid");
-                        qry.AddParameter($"@orderid{i}", orderid);
+                //List<dynamic> orders;
+                //using (FwSqlCommand qry = new FwSqlCommand(conn))
+                //{
+                //    qry.Add("select orderid");
+                //    qry.Add("from checkinorderpriorityview op with (nolock)");
+                //    qry.Add("where op.contractid = @contractid");
+                //    qry.AddParameter("@contractid", inContractId);
+                //    orders = qry.QueryToDynamicList2();
+                //}
+                //using (FwSqlCommand qry = new FwSqlCommand(conn))
+                //{
+                //    qry.Add(";with QuikInOrderStatus_CTE(qtyordered, stilloutqty, inqty)");
+                //    qry.Add("as");
+                //    qry.Add("(");
+                //    for  (int i = 0; i < orders.Count; i++)
+                //    {
+                //        string orderid = orders[i].orderid;
+                //        if (i > 0)
+                //        {
+                //            qry.Add("union");
+                //        }
+                //        qry.Add("select qtyordered, stilloutqty, inqty");
+                //        qry.Add($"from dbo.getorderstatussummary(@orderid{i})");
+                //        qry.Add("where masterid = @masterid");
+                //        qry.AddParameter($"@orderid{i}", orderid);
                        
-                    }
-                    if (orders.Count == 0)
-                    {
-                        qry.Add("select qtyordered=0, stilloutqty=0, inqty=0");
-                    }
-                    qry.Add(")");
-                    qry.Add("select top 1");
-                    qry.Add("  qtyordered  = sum(os.qtyordered),");
-                    qry.Add("  stilloutqty = sum(os.stilloutqty),");
-                    qry.Add("  inqty       = sum(os.inqty),");
-                    qry.Add("  sessionin   = (select top 1 sum(counted) from dbo.funcqiitem(@contractid) where masterid = @masterid)");
-                    qry.Add("from QuikInOrderStatus_CTE os");
-                    qry.AddParameter("@masterid", masterid);
-                    qry.AddParameter("@contractid", inContractId);
-                    qry.Execute();
-                    response.qtyOrdered = qry.GetField("qtyordered").ToInt32();
-                    response.stillOut = qry.GetField("stilloutqty").ToInt32();
-                    response.inQty = qry.GetField("inqty").ToInt32();
-                    response.sessionIn = qry.GetField("sessionin").ToInt32();
-                }
+                //    }
+                //    if (orders.Count == 0)
+                //    {
+                //        qry.Add("select qtyordered=0, stilloutqty=0, inqty=0");
+                //    }
+                //    qry.Add(")");
+                //    qry.Add("select top 1");
+                //    qry.Add("  qtyordered  = sum(os.qtyordered),");
+                //    qry.Add("  stilloutqty = sum(os.stilloutqty),");
+                //    qry.Add("  inqty       = sum(os.inqty),");
+                //    qry.Add("  sessionin   = (select top 1 sum(counted) from dbo.funcqiitem(@contractid) where masterid = @masterid)");
+                //    qry.Add("from QuikInOrderStatus_CTE os");
+                //    qry.AddParameter("@masterid", masterid);
+                //    qry.AddParameter("@contractid", inContractId);
+                //    qry.Execute();
+                //    response.qtyOrdered = qry.GetField("qtyordered").ToInt32();
+                //    response.stillOut = qry.GetField("stilloutqty").ToInt32();
+                //    response.inQty = qry.GetField("inqty").ToInt32();
+                //    response.sessionIn = qry.GetField("sessionin").ToInt32();
+                //}
             }
         }
         //----------------------------------------------------------------------------------------------------
