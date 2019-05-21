@@ -19,7 +19,7 @@ namespace WebApi.Modules.Reports.ContractRevisionReport
         public string ContractId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractno", modeltype: FwDataTypes.Text)]
-        public string Contractno { get; set; }
+        public string ContractNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "contractdate", modeltype: FwDataTypes.Date)]
         public string ContractDate { get; set; }
@@ -31,7 +31,7 @@ namespace WebApi.Modules.Reports.ContractRevisionReport
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
