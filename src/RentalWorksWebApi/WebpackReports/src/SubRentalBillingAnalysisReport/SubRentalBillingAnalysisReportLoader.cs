@@ -218,14 +218,14 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
         [FwSqlDataField(column: "billingstartdate", modeltype: FwDataTypes.Date)]
         public string BillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
-        public int? Id { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicedaterange", modeltype: FwDataTypes.Text)]
         public string InvoiceDateRange { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "vendordaterange", modeltype: FwDataTypes.Text)]
         public string VendorDateRange { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
+        public int? Id { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(SubRentalBillingAnalysisReportRequest request)
         {

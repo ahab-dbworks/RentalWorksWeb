@@ -54,7 +54,7 @@ namespace WebApi.Modules.Reports.SubSalesStagedItemsReport
         public decimal? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean)]
-        public bool? Rectype { get; set; }
+        public bool? RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
         public string OrderId { get; set; }
@@ -100,7 +100,7 @@ namespace WebApi.Modules.Reports.SubSalesStagedItemsReport
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
                     select.AddWhereIn("warehouseid", request.WarehouseId);
-                    select.AddWhereIn("inventorytypeid", request.InventoryTypeId);
+                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, orderno, orderdate, deal, pono");
