@@ -263,29 +263,51 @@ class Receipt {
     //----------------------------------------------------------------------------------------------
     openCreditBrowse($form) {
         let $browse;
-        const dealCustomer = FwFormField.getValue($form, '.deal-customer:visible');
-        const dealCustomerId = $form.find('.deal-customer:visible').attr('data-datafield');
-        if (dealCustomerId === 'DealId') {
+        const dealCustomerId = FwFormField.getValue($form, '.deal-customer:visible');
+        const dealCustomer = $form.find('.deal-customer:visible').attr('data-datafield');
+        if (dealCustomer === 'DealId') {
             $browse = DealCreditController.openBrowse();
             $browse.data('ondatabind', request => {
-                request.uniqueids = { DealId: dealCustomer }
+                request.uniqueids = { DealId: dealCustomerId }
             });
         } else {
             $browse = CustomerCreditController.openBrowse();
             $browse.data('ondatabind', request => {
-                request.uniqueids = { CustomerId: dealCustomer }
+                request.uniqueids = { CustomerId: dealCustomerId }
             });
         }
         FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($control, dt) => {
-            //this.calculateCreditTotals($form, dt.Totals);
+            this.calculateCreditTotals($form, dealCustomer, dealCustomerId);
         });
 
         FwBrowse.databind($browse);
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    calculateCreditTotals($form, data) {
-        console.log('data', data);
+    calculateCreditTotals($form, datafield, id) {
+        const officeLocation = FwFormField.getValueByDataField($form, 'LocationId')
+        let query: string;
+        if (datafield === 'DealId') {
+            query = `remainingdepositamounts?CustomerId=&DealId=${id}&OfficeLocationId=${officeLocation}`
+        } else {
+            query = `remainingdepositamounts?CustomerId=${id}&DealId=&OfficeLocationId=${officeLocation}`
+        }
+
+        FwAppData.apiMethod(true, 'GET', `${this.apiurl}/${query}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            if (response.OverPayment !== 0) {
+                $form.find(`span[data-creditfield="Overpayments"]`).text(response.Overpayments);
+            } 
+            if (response.CreditMemos !== 0) {
+                $form.find(`span[data-creditfield="CreditMemos"]`).text(response.CreditMemos);
+            }
+            if (response.DepletingDeposits !== 0) {
+                $form.find(`span[data-creditfield="DepletingDeposits"]`).text(response.DepletingDeposits);
+            }
+
+        }, function onError(response) {
+            FwFunc.showError(response);
+        }, null)
+        
     }
     //----------------------------------------------------------------------------------------------
     loadReceiptInvoiceGrid($form: JQuery): void {
