@@ -19,12 +19,14 @@
         <th>Date</th>
         <th>Type</th>
         <th>Deal</th>
-         <th>I-Code</th>
+        <th>I-Code</th>
         <th>Description</th>
+        <th>Reason</th>
         <th class="number">Qty</th>
-        <th>Bar Code</th>
-        <th class="number">Unit Value</th>
-        <th class="number">Replacement Cost</th>
+        <th>From</th>
+        <th>Changed By</th>
+        <th>To</th>
+        <th>Change Date</th>
       </tr>
     </thead>
     <tbody>
@@ -36,34 +38,37 @@
         {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
-          {{#ifEquals RowType "RevisionTypeheader"}}
+        {{#ifEquals RowType "RevisionTypeheader"}}
         <td colspan="5" class="lower header-row">Change Type: {{RevisionType}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="nowrap" data-value="{{ICode}}"></td>
+        <td class="nowrap" data-value="{{ContractNumber}}"></td>
+        <td data-value="{{ContractDate}}"></td>
+        <td data-value="{{ContractType}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
+        <td data-value="{{Reason}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
-        <td data-value="{{BarCode}}"></td>
-        <td data-value="{{TrackedBy}}"></td>
-        <td data-value="{{RentalStatus}}"></td>
-        <td data-value="{{Rank}}"></td>
-        <td class="number" data-value="{{UnitValue}}"></td>
-        <td class="number" data-value="{{ReplacementCost}}"></td>
+        <td data-value="{{Priorvalue}}"></td>
+        <td data-value="{{RevisedBy}}"></td>
+        <td data-value="{{NewValue}}"></td>
+        <td data-value="{{RevisionDate}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="2" class="total-name">{{OfficeLocation}}:&nbsp;</td>
+        <td colspan="7" class="total-name">{{OfficeLocation}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="2" class="total-name">{{Department}}:&nbsp;</td>
+        <td colspan="7" class="total-name">{{Department}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "RevisionTypefooter"}}
-        <td colspan="2" class="total-name">{{RevisionType}}:&nbsp;</td>
+        <td colspan="7" class="total-name">{{RevisionType}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
       </tr>

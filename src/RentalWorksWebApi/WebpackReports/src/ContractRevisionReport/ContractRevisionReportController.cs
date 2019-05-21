@@ -18,7 +18,7 @@ namespace WebApi.Modules.Reports.ContractRevisionReport
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public bool? FilterDates { get; set; }
-        public bool? DaysChanged { get; set; }
+        public int? DaysChanged { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public string UserId { get; set; }
