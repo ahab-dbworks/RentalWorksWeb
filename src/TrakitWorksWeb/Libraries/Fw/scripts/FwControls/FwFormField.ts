@@ -239,12 +239,13 @@ class FwFormFieldClass {
                                 .find('.fwformfield-value')
                                 .val(value);
                         }
-                    } else {
-                        $fwformfield.css({
-                            backgroundColor: 'red'
-                        });
-                        //$fwformfield.find('.fwformfield-control').html(datafield + ' not returned by web service'); //MY 10/01/2015: Causing unmaskvalue function to throw errors because there is no longer an input field available
                     }
+                    //} else {
+                    //    $fwformfield.css({
+                    //        backgroundColor: 'red'
+                    //    });
+                    //    //$fwformfield.find('.fwformfield-control').html(datafield + ' not returned by web service'); //MY 10/01/2015: Causing unmaskvalue function to throw errors because there is no longer an input field available
+                    //}
                 } else {
                     var tables = model;
                     datafieldArray = datafield.toString().split('.');
@@ -265,12 +266,13 @@ class FwFormFieldClass {
                                 .find('.fwformfield-value')
                                 .val(value);
                         }
-                    } else {
-                        $fwformfield.css({
-                            backgroundColor: 'red'
-                        });
-                        //$fwformfield.find('.fwformfield-control').html(datafield + ' not returned by web service'); //MY 10/01/2015: Causing unmaskvalue function to throw errors because there is no longer an input field available
                     }
+                    //} else {
+                    //    $fwformfield.css({
+                    //        backgroundColor: 'red'
+                    //    });
+                    //    //$fwformfield.find('.fwformfield-control').html(datafield + ' not returned by web service'); //MY 10/01/2015: Causing unmaskvalue function to throw errors because there is no longer an input field available
+                    //}
                 }
             }
         });

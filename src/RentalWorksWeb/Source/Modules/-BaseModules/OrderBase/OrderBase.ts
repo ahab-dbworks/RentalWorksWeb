@@ -335,7 +335,7 @@ class OrderBase {
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
         var self = this;
-        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search');
+        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search Inventory');
         $search.prepend('<i class="material-icons">search</i>');
         $search.on('click', function () {
             try {

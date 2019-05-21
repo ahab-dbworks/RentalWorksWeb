@@ -115,8 +115,8 @@ class Order extends OrderBase {
         const $submoduleContractBrowse = this.openContractBrowse($form);
         $form.find('.contract').append($submoduleContractBrowse);
 
-        let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
-        $form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
+        //let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
+        //$form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
 
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
@@ -191,7 +191,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
         var self = this;
-        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search');
+        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search Inventory');
         $search.prepend('<i class="material-icons">search</i>');
         $search.on('click', function () {
             try {
@@ -243,17 +243,17 @@ class Order extends OrderBase {
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
-    openPurchaseOrderBrowse($form) {
-        const $browse = PurchaseOrderController.openBrowse();
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = PurchaseOrderController.ActiveViewFields;
-            request.uniqueids = {
-                OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-            };
-        });
+    //openPurchaseOrderBrowse($form) {
+    //    const $browse = PurchaseOrderController.openBrowse();
+    //    $browse.data('ondatabind', function (request) {
+    //        request.activeviewfields = PurchaseOrderController.ActiveViewFields;
+    //        request.uniqueids = {
+    //            OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+    //        };
+    //    });
 
-        return $browse;
-    }
+    //    return $browse;
+    //}
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
@@ -427,6 +427,14 @@ class Order extends OrderBase {
         if (FwFormField.getValueByDataField($form, 'HasLossAndDamageItem')) {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
+
+        let orderid = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
+        FwAppData.apiMethod(true, 'GET', `api/v1/ordersummary/${orderid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwFormField.setValue($form, 'div[data-datafield="ValueTotal"]', response.ValueTotal);
+            FwFormField.setValue($form, 'div[data-datafield="ReplacementCostTotal"]', response.ReplacementCostTotal);
+            FwFormField.setValue($form, 'div[data-datafield="WeightPounds"]', response.WeightPounds);
+            FwFormField.setValue($form, 'div[data-datafield="WeightOunces"]', response.WeightOunces);
+        }, null, $form);
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {

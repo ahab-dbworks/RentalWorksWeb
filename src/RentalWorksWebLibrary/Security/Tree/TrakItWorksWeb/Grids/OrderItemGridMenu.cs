@@ -15,7 +15,7 @@ namespace WebLibrary.Security.Tree.TrakitWorksWeb.Grids
             tree.AddDownloadExcelSubMenuItem("{3896BEB3-A843-4699-A89E-E6361AB70345}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Summary View", "{87C47D00-E950-4724-8A8B-4528D0B41124}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Copy Template", "{87B6695A-2597-448A-99A0-970996470369}", nodeBrowseOptions.Id);
-            tree.AddSubMenuItem("Search", "{DD765DEF-DF9A-489C-A61D-9A2409B50CFA}", nodeBrowseOptions.Id, true);
+            tree.AddSubMenuItem("Search Inventory", "{DD765DEF-DF9A-489C-A61D-9A2409B50CFA}", nodeBrowseOptions.Id, true);
             tree.AddSubMenuItem("Lock / Unlock Selected", "{6AEC9EA9-E2A0-4B80-A9BF-3784D82EB64C}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Bold / Unbold Selected", "{7C2C3F95-D939-4861-B75E-023EE00B6B7A}", nodeBrowseOptions.Id);
             tree.AddSubMenuItem("Sub Worksheet", "{D31432DB-1343-4542-85B0-40EB6CAF5DE7}", nodeBrowseOptions.Id);
