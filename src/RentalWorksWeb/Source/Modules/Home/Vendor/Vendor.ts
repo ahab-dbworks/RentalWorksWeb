@@ -500,6 +500,7 @@ class Vendor {
                 <div class="flexrow">
                   <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tracking No." style="flex:0 1 600px;">
                     <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Tracking No. Hyperlink" data-datafield="ShippingTrackingLink" style="flex:0 1 550px;"></div>
+                    <div style="padding-left:5px;font-size:14px;" >Use the token @trackingno to indicate where the tracking number needs to be injected.</div>
                   </div>
                 </div>
                 <div class="flexrow">
