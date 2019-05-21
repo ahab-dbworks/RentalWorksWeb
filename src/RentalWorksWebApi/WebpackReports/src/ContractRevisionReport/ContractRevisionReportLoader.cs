@@ -102,9 +102,9 @@ namespace WebApi.Modules.Reports.ContractRevisionReport
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
                     select.AddWhereIn("and", "revisiontype", request.RevisionTypes.ToString(), false);
-                    if (request.FilterDates.GetValueOrDefault(true))
+                    if (request.FilterDates.GetValueOrDefault(false))
                     {
-                        select.AddWhere($"dayschanged < 0 or dayschanged >= {request.DaysChanged}");
+                        select.AddWhere($"(dayschanged < 0 or dayschanged >= {request.DaysChanged})");
                     }
                     select.AddOrderBy("location, department, revisiontype, deal, contractno, revisiondate");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
