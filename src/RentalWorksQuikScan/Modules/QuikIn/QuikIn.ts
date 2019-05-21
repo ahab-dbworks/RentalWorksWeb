@@ -319,19 +319,9 @@
                     html.push('</div>');
                     
                     html.push('<div class="ItemInfo">');
-                    var bcLabel = responsePdaQuikIn.trackedby;
-                    if (responsePdaQuikIn.trackedby === '') {
-                        bcLabel = 'B/C'
-                    }
-                    else if (responsePdaQuikIn.trackedby === 'BARCODE') {
-                        bcLabel = 'Barcode';
-                    }
-                    else if (responsePdaQuikIn.trackedby === 'SERIALNO') {
-                        bcLabel = 'Serial No.';
-                    }
                     if (responsePdaQuikIn.trackedby !== 'QUANTITY') {
                         html.push('  <div class="RowBarcode">');
-                        html.push('    ' + bcLabel + ': ' + code);
+                        html.push('    ' + RwLanguages.translate('Code') + ': ' + code);
                         html.push('  </div>');
                     }
                     if (typeof responsePdaQuikIn.masterno !== 'undefined') {
@@ -343,32 +333,44 @@
                     if (typeof responsePdaQuikIn.qtyOrdered !== 'undefined') {
                         html.push('  <div class="Row RowOrderStatus">');
                         html.push('    <div class="Field Ordered">');
-                        html.push('      <div class="caption">' + RwLanguages.translate('Ordered') + ':</div>');
-                        html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.qtyOrdered + '</span></div>');
+                        html.push('      <div class="caption"></div>');
+                        html.push('      <div class="value"></div>');
                         html.push('    </div>');
                         html.push('    <div class="Field SessionIn">');
                         html.push('      <div class="caption">' + RwLanguages.translate('Session In') + ':</div>');
                         html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.sessionIn + '</span></div>');
                         html.push('    </div>');
                         html.push('  </div>');
-                        html.push('  <div class="Row RowOrderStatus">');
-                        html.push('    <div class="Field In">');
-                        html.push('      <div class="caption">' + RwLanguages.translate('Total In') + ':</div>');
-                        html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.inQty + '</span></div>');
-                        html.push('    </div>');
-                        html.push('    <div class="Field StillOut">');
-                        html.push('      <div class="caption">' + RwLanguages.translate('Still Out') + ':</div>');
-                        html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.stillOut +  '</span></div>');
-                        html.push('    </div>');
-                        html.push('  </div>');
                     }
-                    if (typeof responsePdaQuikIn.counted !== 'undefined') {
-                        html.push('  <div class="Row">');
-                        html.push('    <div class="Field Counted">');
-                        html.push('      <div class="value"><span class="caption">' + RwLanguages.translate('Session In') + 'Counted:</span> ' + responsePdaQuikIn.counted + '</div>');
-                        html.push('    </div>');
-                        html.push('  </div>');
-                    }
+                    //if (typeof responsePdaQuikIn.qtyOrdered !== 'undefined') {
+                    //    html.push('  <div class="Row RowOrderStatus">');
+                    //    html.push('    <div class="Field Ordered">');
+                    //    html.push('      <div class="caption">' + RwLanguages.translate('Ordered') + ':</div>');
+                    //    html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.qtyOrdered + '</span></div>');
+                    //    html.push('    </div>');
+                    //    html.push('    <div class="Field SessionIn">');
+                    //    html.push('      <div class="caption">' + RwLanguages.translate('Session In') + ':</div>');
+                    //    html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.sessionIn + '</span></div>');
+                    //    html.push('    </div>');
+                    //    html.push('  </div>');
+                    //    html.push('  <div class="Row RowOrderStatus">');
+                    //    html.push('    <div class="Field In">');
+                    //    html.push('      <div class="caption">' + RwLanguages.translate('Total In') + ':</div>');
+                    //    html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.inQty + '</span></div>');
+                    //    html.push('    </div>');
+                    //    html.push('    <div class="Field StillOut">');
+                    //    html.push('      <div class="caption">' + RwLanguages.translate('Still Out') + ':</div>');
+                    //    html.push('      <div class="value"><span class="tag">' + responsePdaQuikIn.stillOut +  '</span></div>');
+                    //    html.push('    </div>');
+                    //    html.push('  </div>');
+                    //}
+                    //if (typeof responsePdaQuikIn.counted !== 'undefined') {
+                    //    html.push('  <div class="Row">');
+                    //    html.push('    <div class="Field Counted">');
+                    //    html.push('      <div class="value"><span class="caption">' + RwLanguages.translate('Session In') + ':</span> ' + responsePdaQuikIn.counted + '</div>');
+                    //    html.push('    </div>');
+                    //    html.push('  </div>');
+                    //}
                     if (responsePdaQuikIn.action === 'ACTION_PROMPT_FOR_QTY') {
                         html.push('  <div class="Row QtyRow">');
                         html.push('    <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield qtyfield" data-caption="" data-datafield="qty" data-formatnumeric="true"></div>');
@@ -383,7 +385,8 @@
                     var $pdaquikinitem = screen.$view.find('.pdaquikinitem');
                     $pdaquikinitem.html(htmlString);
                     FwControl.renderRuntimeControls($pdaquikinitem.find('.fwcontrol'));
-                    $pdaquikinitem.find('.btnAddItem').on('click', (w: JQuery.ClickEvent) => {
+                    FwFormField.setValueByDataField($pdaquikinitem, 'qty', 1);
+                    $pdaquikinitem.find('.btnAddItem').on('click', (e: JQuery.ClickEvent) => {
                         try {
                             var qty: any = FwFormField.getValueByDataField(screen.$view, 'qty');
                             if (typeof qty !== 'string') {
@@ -433,55 +436,83 @@
 
                 html.push('  <div class="row2">');
                 html.push('    <div class="col1">');
-                html.push('      <div class="datafield barcode">');
-                var barcodeLabel = model.trackedby;
-                if (model.trackedby === 'BARCODE') {
-                    barcodeLabel = 'Bar Code';
+                if (typeof model.barcode !== 'undefined' && model.barcode.length > 0) {
+                    html.push('      <div class="datafield barcode">');
+                    html.push('        <div class="caption">' + RwLanguages.translate('B/C') + ':</div>');
+                    html.push('        <div class="value">{{barcode}}</div>');
+                    html.push('      </div>');
                 }
-                else if (model.trackedby === 'SERIALNO') {
-                    barcodeLabel = 'Serial No.';
+                if (typeof model.masterno !== 'undefined' && model.masterno.length > 0) {
+                    html.push('      <div class="datafield masterno">');
+                    html.push('        <div class="caption">' + RwLanguages.translate('I-Code') + ':</div>');
+                    html.push('        <div class="value">{{masterno}}</div>');
+                    html.push('      </div>');
                 }
-                html.push('        <div class="caption">' + barcodeLabel + ':</div>');
-                html.push('        <div class="value">{{barcode}}</div>');
-                html.push('      </div>');
+                if (typeof model.trackedby !== 'undefined' && model.trackedby.length > 0) {
+                    html.push('      <div class="datafield trackedby">');
+                    html.push('        <div class="caption">' + RwLanguages.translate('Tracked By') + ':</div>');
+                    html.push('        <div class="value">{{trackedby}}</div>');
+                    html.push('      </div>');
+                }
                 html.push('    </div>');
                 html.push('    <div class="col2">');
-                html.push('      <div class="datafield masterno">');
-                html.push('        <div class="caption">' + RwLanguages.translate('I-Code') + ':</div>');
-                html.push('        <div class="value">{{masterno}}</div>');
-                html.push('      </div>');
+                
+                if (typeof model.counted !== 'undefined' && model.counted.length > 0) {
+                    html.push('      <div class="datafield counted">');
+                    html.push('        <div class="caption">' + RwLanguages.translate('Session In') + ':</div>');
+                    html.push('        <div class="value">{{counted}}</div>');
+                    html.push('      </div>');
+                }
+                if (typeof model.status !== 'undefined' && model.status.length > 0) {
+                    html.push('      <div class="datafield status">');
+                    html.push('        <div class="caption">' + RwLanguages.translate('Status') + ':</div>');
+                    html.push('        <div class="value">{{status}}</div>');
+                    html.push('      </div>');
+                }
+                if (typeof model.scannedby !== 'undefined' && model.scannedby.length > 0) {
+                    html.push('      <div class="datafield scannedby">');
+                    html.push('        <div class="caption">' + RwLanguages.translate('Scanned By') + ':</div>');
+                    html.push('        <div class="value">{{scannedby}}</div>');
+                    html.push('      </div>');
+                }
+                if (typeof model.scannedbydatetime !== 'undefined' && model.scannedbydatetime.length > 0) {
+                    html.push('      <div class="datafield scannedbydatetime">');
+                    html.push('        <div class="caption">' + RwLanguages.translate('Date / Time') + ':</div>');
+                    html.push('        <div class="value">{{scannedbydatetime}}</div>');
+                    html.push('      </div>');
+                }
                 html.push('    </div>');
                 html.push('  </div>');
 
-                html.push('  <div class="row3">');
-                html.push('    <div class="col1">');
-                 html.push('      <div class="datafield status">');
-                html.push('        <div class="caption">Status:</div>');
-                html.push('        <div class="value">{{status}}</div>');
-                html.push('      </div>');
-                html.push('    </div>');
-                html.push('    <div class="col2">');
-                html.push('      <div class="datafield counted">');
-                html.push('        <div class="caption">Session In:</div>');
-                html.push('        <div class="value">{{counted}}</div>');
-                html.push('      </div>');
-                html.push('   </div>');
-                html.push('  </div>');
+                //html.push('  <div class="row3">');
+                //html.push('    <div class="col1">');
+                //html.push('      <div class="datafield status">');
+                //html.push('        <div class="caption">Status:</div>');
+                //html.push('        <div class="value">{{status}}</div>');
+                //html.push('      </div>');
+                //html.push('    </div>');
+                //html.push('    <div class="col2">');
+                //html.push('      <div class="datafield counted">');
+                //html.push('        <div class="caption">Session In:</div>');
+                //html.push('        <div class="value">{{counted}}</div>');
+                //html.push('      </div>');
+                //html.push('   </div>');
+                //html.push('  </div>');
 
-                html.push('  <div class="row4">');
-                html.push('    <div class="col1">');
-                html.push('      <div class="datafield scannedby">');
-                html.push('        <div class="caption">Scanned By:</div>');
-                html.push('        <div class="value">{{scannedby}}</div>');
-                html.push('      </div>');
-                html.push('    </div>');
-                html.push('    <div class="col2">');
-                html.push('      <div class="datafield scannedbydatetime">');
-                html.push('        <div class="caption">Date / Time:</div>');
-                html.push('        <div class="value">{{scannedbydatetime}}</div>');
-                html.push('      </div>');
-                html.push('    </div>');
-                html.push('  </div>');
+                //html.push('  <div class="row4">');
+                //html.push('    <div class="col1">');
+                //html.push('      <div class="datafield scannedby">');
+                //html.push('        <div class="caption">Scanned By:</div>');
+                //html.push('        <div class="value">{{scannedby}}</div>');
+                //html.push('      </div>');
+                //html.push('    </div>');
+                //html.push('    <div class="col2">');
+                //html.push('      <div class="datafield scannedbydatetime">');
+                //html.push('        <div class="caption">Date / Time:</div>');
+                //html.push('        <div class="value">{{scannedbydatetime}}</div>');
+                //html.push('      </div>');
+                //html.push('    </div>');
+                //html.push('  </div>');
                 
                 if (model.exception.length > 0) {
                     html.push('  <div class="row5">');

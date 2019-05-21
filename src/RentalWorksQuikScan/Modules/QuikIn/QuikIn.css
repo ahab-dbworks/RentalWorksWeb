@@ -12,7 +12,7 @@
 .QuikIn .fwmobilesearch .col1 { flex: 1 1 0; }
 .QuikIn .fwmobilesearch .col2 { flex: 1 1 0; }
 .QuikIn .fwmobilesearch .datafield { display: -webkit-box; display: -moz-box; display: -ms-flexbox; display: flex; padding: 2px; }
-.QuikIn .fwmobilesearch .caption { flex: 0 0 6em; font-size: .625em; color: #aaaaaa; }
+.QuikIn .fwmobilesearch .caption { flex: 0 0 6.25em; font-size: .625em; color: #aaaaaa; }
 .QuikIn .fwmobilesearch .value { flex: 1 1 0; font-size: .625em; }
 .QuikIn .fwmobilesearch .item.inrepair .status .value { color: #F44336; }
 
