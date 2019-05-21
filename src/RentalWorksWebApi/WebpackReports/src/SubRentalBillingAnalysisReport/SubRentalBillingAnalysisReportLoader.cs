@@ -221,6 +221,12 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
         public int? Id { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoicedaterange", modeltype: FwDataTypes.Text)]
+        public string InvoiceDateRange { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "vendordaterange", modeltype: FwDataTypes.Text)]
+        public string VendorDateRange { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(SubRentalBillingAnalysisReportRequest request)
         {
             useWithNoLock = false;
@@ -250,7 +256,7 @@ namespace WebApi.Modules.Reports.SubRentalBillingAnalysisReport
             {
                 string[] totalFields = new string[] { "ItemBilled", "ItemCost" , "ItemVariance"};
                 string[] headerFieldsPurchaseOrder = new string[] { "OrderNumber", "OrderDate", "OrderDescription", "PurchaseOrderNumber", "PurchaseOrderDate", "PoClassification", "Vendor", "ReceiveDate", "ReturnDate" };
-                string[] headerFieldsInvoice = new string[] { "InvoiceNumber", "InvoiceDate", "InvoiceBillingStart", "InvoiceBillingEnd", "VendorInvoiceNumber", "VendorInvoiceDate", "VendorBillingStart", "VendorBillingEnd" };
+                string[] headerFieldsInvoice = new string[] { "InvoiceNumber", "InvoiceDate", "InvoiceDateRange", "VendorInvoiceNumber", "VendorInvoiceDate", "VendorDateRange" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);

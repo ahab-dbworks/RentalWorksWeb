@@ -67,22 +67,20 @@
         <th class="no-border"></th>
         <th>Invoice No.</th>
         <th>Date</th>
-        <th class="usage-period" colspan="2">Usage Period</th>
+        <th class="usage-period">Usage Period</th>
         <th>Vendor Invoice No.</th>
         <th>Date</th>
-        <th class="usage-period" colspan="2">Usage Period</th>
+        <th class="usage-period">Usage Period</th>
       </tr>
     </thead>
     <tr>
       <td class="no-border"></td>
       <td data-value="{{InvoiceNumber}}"></td>
       <td data-value="{{InvoiceDate}}"></td>
-      <td data-value="{{InvoiceBillingStart}}"></td>
-      <td data-value="{{InvoiceBillingEnd}}"></td>
+      <td class="nowrap" data-value="{{InvoiceDateRange}}"></td>
       <td data-value="{{VendorInvoiceNumber}}"></td>
       <td data-value="{{VendorInvoiceDate}}"></td>
-      <td data-value="{{VendorBillingStart}}"></td>
-      <td data-value="{{VendorBillingEnd}}"></td>
+      <td class="nowrap" data-value="{{VendorDateRange}}"></td>
     </tr>
     <thead>
       <tr>
