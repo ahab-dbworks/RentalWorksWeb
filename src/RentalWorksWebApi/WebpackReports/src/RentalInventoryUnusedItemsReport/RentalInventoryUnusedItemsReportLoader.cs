@@ -126,7 +126,7 @@ namespace WebApi.Modules.Reports.RentalInventoryUnusedItemsReport
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterno", request.InventoryId);
                     select.AddWhereIn("trackedby", request.TrackedBys.ToString());
-                    select.AddOrderBy("field1,field2");
+                    select.AddOrderBy("warehouse,inventorydepartment,category,masterno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
                 //------------------------------------------------------------------------------------
@@ -134,8 +134,9 @@ namespace WebApi.Modules.Reports.RentalInventoryUnusedItemsReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "Quantity", "ExtendedCost" };
-                dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
