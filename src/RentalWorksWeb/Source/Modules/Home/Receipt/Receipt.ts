@@ -89,6 +89,7 @@ class Receipt {
         let $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
         if (mode === 'NEW') {
+            $form.find(`.credit-amounts`).hide();
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
             FwFormField.setValueByDataField($form, 'RecType', 'P');
@@ -294,14 +295,23 @@ class Receipt {
         }
 
         FwAppData.apiMethod(true, 'GET', `${this.apiurl}/${query}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            if (response.OverPayment !== 0) {
-                $form.find(`span[data-creditfield="Overpayments"]`).text(response.Overpayments);
-            } 
+            if (response.Overpayments !== 0) {
+                $form.find(`span[data-creditfield="Overpayments"]`).text(`Overpayments: $${response.Overpayments}`);
+                $form.find(`span[data-creditfield="Overpayments"]`).show();
+            } else {
+                $form.find(`span[data-creditfield="Overpayments"]`).hide();
+            }
             if (response.CreditMemos !== 0) {
-                $form.find(`span[data-creditfield="CreditMemos"]`).text(response.CreditMemos);
+                $form.find(`span[data-creditfield="CreditMemos"]`).text(`Credit Memos: $${response.CreditMemos}`);
+                $form.find(`span[data-creditfield="CreditMemos"]`).show();
+            } else {
+                $form.find(`span[data-creditfield="CreditMemos"]`).hide();
             }
             if (response.DepletingDeposits !== 0) {
-                $form.find(`span[data-creditfield="DepletingDeposits"]`).text(response.DepletingDeposits);
+                $form.find(`span[data-creditfield="DepletingDeposits"]`).text(`Depleting Deposits: $${response.DepletingDeposits}`);
+                $form.find(`span[data-creditfield="DepletingDeposits"]`).show();
+            } else {
+                $form.find(`span[data-creditfield="DepletingDeposits"]`).hide();
             }
 
         }, function onError(response) {
