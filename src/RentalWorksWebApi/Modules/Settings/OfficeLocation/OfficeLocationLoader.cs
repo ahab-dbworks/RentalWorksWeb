@@ -3,7 +3,6 @@ using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
-using System.Collections.Generic;
 namespace WebApi.Modules.Settings.OfficeLocation
 {
     [FwSqlTable("locationview")]
@@ -21,6 +20,9 @@ namespace WebApi.Modules.Settings.OfficeLocation
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
         public string CompanyName { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text)]
+        public string RateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationcolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string Color { get; set; }

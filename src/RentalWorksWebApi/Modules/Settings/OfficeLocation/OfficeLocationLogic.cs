@@ -28,9 +28,11 @@ namespace WebApi.Modules.Settings.OfficeLocation
         [FwLogicProperty(Id: "ZeOmhYbh0kY6D")]
         public string CompanyName { get { return location.CompanyName; } set { location.CompanyName = value; } }
 
+        [FwLogicProperty(Id: "lGRLyD6Zq20")]
+        public string RateType { get { return location.RateType; } set { location.RateType = value; } }
+
         [FwLogicProperty(Id: "17YN2fTfnBCZH")]
         public string Color { get { return location.Color; } set { location.Color = value; } }
-
 
         [FwLogicProperty(Id:"iU02kRoiKzq")]
         public string DefaultPurchasePoTypeId { get { return location.DefaultPurchasePoTypeId; } set { location.DefaultPurchasePoTypeId = value; } }

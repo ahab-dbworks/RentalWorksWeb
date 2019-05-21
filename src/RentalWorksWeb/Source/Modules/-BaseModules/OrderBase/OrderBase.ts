@@ -276,6 +276,8 @@ class OrderBase {
 
             FwFormField.disable($form.find('.frame'));
             $form.find(".frame .add-on").children().hide();
+
+            FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
         } else {
             $form.find('.date-fields').hide();
         };

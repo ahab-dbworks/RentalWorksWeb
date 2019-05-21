@@ -415,6 +415,7 @@ namespace WebApi.Logic
             public string location { get; set; } = string.Empty;
             public string companyname { get; set; } = string.Empty;
             public string locationcolor { get; set; } = string.Empty;
+            public string ratetype { get; set; } = string.Empty;
         }
         public static async Task<SessionLocation> GetSessionLocation(FwApplicationConfig appConfig, string locationid)
         {
@@ -423,7 +424,7 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select locationid, location, locationcolor, company");
+                    qry.Add("select locationid, location, locationcolor, company, ratetype");
                     qry.Add("from location with (nolock)");
                     qry.Add("where locationid = @locationid");
                     qry.AddParameter("@locationid", locationid);
@@ -432,6 +433,7 @@ namespace WebApi.Logic
                     response.location = qry.GetField("location").ToString().TrimEnd();
                     response.companyname = qry.GetField("company").ToString().TrimEnd();
                     response.locationcolor = qry.GetField("locationcolor").ToHtmlColor();
+                    response.ratetype = qry.GetField("ratetype").ToString().TrimEnd();
                 }
             }
             return response;

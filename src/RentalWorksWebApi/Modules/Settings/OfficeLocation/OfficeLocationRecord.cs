@@ -18,7 +18,10 @@ namespace WebApi.Modules.Settings.OfficeLocation
         //------------------------------------------------------------------------------------        
         [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 60)]
         public string CompanyName { get; set; }
-        //------------------------------------------------------------------------------------        
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ratetype", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
+        public string RateType { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationcolor", modeltype: FwDataTypes.OleToHtmlColor, sqltype: "int")]
         public string Color { get; set; }
         //------------------------------------------------------------------------------------ 
