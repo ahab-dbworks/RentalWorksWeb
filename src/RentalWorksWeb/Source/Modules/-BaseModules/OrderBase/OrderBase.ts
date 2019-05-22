@@ -2252,9 +2252,10 @@ class OrderBase {
                         FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/apply`, request, FwServices.defaultTimeout,
                             response => {
                                 //update form with new dates?
+                                FwConfirmation.destroyConfirmation($confirmation);
                             },
                             ex => FwFunc.showError(ex),
-                            $confirmation);
+                            $confirmation.find('.dates-form'));
                     });
                     FwConfirmation.addButton($confirmation, 'Cancel');
                 },
