@@ -72,7 +72,7 @@ abstract class FwWebApiReport {
         const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
         let companyName;
         if (this.reportName === 'OrderReport' || this.reportName === 'OutContractReport' || this.reportName === 'PickListReport' || this.reportName === 'InvoiceReport') {
-            if (JSON.parse(sessionStorage.getItem('location')).companyname != null) { 
+            if (JSON.parse(sessionStorage.getItem('location')).companyname != null) {
                 companyName = JSON.parse(sessionStorage.getItem('location')).companyname; // temporary solution until Justin can add the company name to these report responses
             }
         } else {
@@ -247,7 +247,7 @@ abstract class FwWebApiReport {
                                 if (!win) throw 'Disable your popup blocker for this site.';
                             } catch (ex) {
                                 FwFunc.showError(ex);
-                            } 
+                            }
                         },
                         (errorResponse) => {
                             if (errorResponse !== 'abort') {
