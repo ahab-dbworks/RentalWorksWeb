@@ -4,8 +4,9 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
-using System.Collections.Generic;
 using FwStandard.AppManager;
+using System;
+
 namespace WebApi.Modules.Home.OrderDates
 {
     [Route("api/v1/[controller]")]
@@ -30,6 +31,36 @@ namespace WebApi.Modules.Home.OrderDates
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
         }
-        //------------------------------------------------------------------------------------ 
+        //------------------------------------------------------------------------------------        
+        // POST api/v1/orderdates/apply
+        [HttpPost("apply")]
+        [FwControllerMethod(Id: "YrL7I5AgzKGdI")]
+        public async Task<ActionResult<ApplyOrderDatesAndTimesResponse>> ApplyOrderDatesAndTimes([FromBody] ApplyOrderDatesAndTimesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                ApplyOrderDatesAndTimesResponse response = new ApplyOrderDatesAndTimesResponse();
+                if (string.IsNullOrEmpty(request.OrderId))
+                {
+                    response.success = false;
+                    response.msg = "OrderId is required.";
+                }
+                else
+                {
+                    response = await OrderDatesFunc.ApplyOrderDatesAndTimes(AppConfig, UserSession, request);
+                }
+
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------        
     }
 }
