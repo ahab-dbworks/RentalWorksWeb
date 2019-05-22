@@ -213,7 +213,7 @@ class Contract {
                 contractNumber = $form.find(`div.fwformfield[data-datafield="${module}Number"] input`).val();
                 contractId = $form.find(`div.fwformfield[data-datafield="${module}Id"] input`).val();
                 recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                $report = RwOutContractReportController.openForm();
+                $report = OutContractReportController.openForm();
 
                 FwModule.openSubModuleTab($form, $report);
 

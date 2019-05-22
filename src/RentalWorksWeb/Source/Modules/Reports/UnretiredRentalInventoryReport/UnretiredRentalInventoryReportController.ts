@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/partsinventoryreorderreport/, action: function (match: RegExpExecArray) {
-        return PartsInventoryReorderReportController.getModuleScreen();
+    pattern: /^reports\/unretiredrentalinventoryreport/, action: function (match: RegExpExecArray) {
+        return UnretiredRentalInventoryReportController.getModuleScreen();
     }
 });
 
-const partsInventoryReorderTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport partsinventoryreorderreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PartsInventoryReorderReportController">
+const unretiredRentalTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Unretired Rental Inventory Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="UnretiredRentalInventoryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -14,29 +14,18 @@ const partsInventoryReorderTemplate = `
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
-            <div class="flexcolumn" style="max-width:300px;">
-              <div class="flexrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Reorder Point">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield class-tracked-radio" data-caption="" data-datafield="ReorderPointMode" data-enabled="true">
-                      <div data-value="ALL" data-caption="All"></div>
-                      <div data-value="LT" data-caption="Items < Reorder Point"></div>
-                      <div data-value="LTE" data-caption="Items &le; Reorder Point"></div>
-                      <div data-value="E" data-caption="Items = Reorder Point"></div>
-                      <div data-value="GTE" data-caption="Items &ge; Reorder Point"></div>
-                      <div data-value="GT" data-caption="Items > Reorder Point"></div>
-                  </div>
+            <div class="flexcolumn" style="max-width:250px;">
+                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Unretired Date Range">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From:" data-datafield="FromDate" data-required="true" style="float:left;max-width:200px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="ToDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
-              <div class="row" style="display:flex;flex-wrap:wrap;">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options" style="margin-top:15px">
-                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Reorder Point of Zero" data-datafield="IncludeZeroReorderPoint" style="float:left;max-width:300px;"></div>
-                  </div>
-                </div>
-              </div>       
-            </div>     
+            </div>
             <div class="flexcolumn" style="max-width:600px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
+               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="float:left;min-width:400px;"></div>
                 </div>
@@ -44,13 +33,16 @@ const partsInventoryReorderTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="PartsCategoryValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-formbeforevalidate="beforeValidate" data-validationname="RentalCategoryValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-formbeforevalidate="beforeValidate" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="PartsInventoryValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="float:left;min-width:400px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Unretired Reason" data-datafield="UnretiredReasonId" data-formbeforevalidate="beforeValidate" data-displayfield="UnretiredReason" data-validationname="UnretiredReasonValidation" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -62,11 +54,10 @@ const partsInventoryReorderTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class PartsInventoryReorderReport extends FwWebApiReport {
+class UnretiredRentalInventoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('PartsInventoryReorderReport', 'api/v1/partsinventoryreorderreport', partsInventoryReorderTemplate);
-        this.reportOptions.HasDownloadExcel = true;
+        super('UnretiredRentalInventoryReport', 'api/v1/UnretiredRentalInventoryReport', unretiredRentalTemplate);
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
@@ -76,6 +67,7 @@ class PartsInventoryReorderReport extends FwWebApiReport {
         screen.properties = {};
 
         const $form = this.openForm();
+
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
@@ -90,6 +82,9 @@ class PartsInventoryReorderReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
+
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
@@ -97,7 +92,7 @@ class PartsInventoryReorderReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {
-        const validationName = request.module;
+        var validationName = request.module;
         if (validationName != null) {
             const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
             const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
@@ -106,15 +101,15 @@ class PartsInventoryReorderReport extends FwWebApiReport {
 
             switch (validationName) {
                 case 'InventoryTypeValidation':
-                    request.uniqueids.Parts = true;
+                    request.uniqueids.Rental = true;
                     break;
-                case 'PartsCategoryValidation':
+                case 'RentalCategoryValidation':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
                     break;
                 case 'SubCategoryValidation':
-                    request.uniqueids.Parts = true;
+                    request.uniqueids.Rental = true;
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     }
@@ -122,7 +117,7 @@ class PartsInventoryReorderReport extends FwWebApiReport {
                         request.uniqueids.CategoryId = categoryId;
                     }
                     break;
-                case 'PartsInventoryValidation':
+                case 'RentalInventoryValidation':
                     if (inventoryTypeId !== "") {
                         request.uniqueids.InventoryTypeId = inventoryTypeId;
                     };
@@ -139,5 +134,5 @@ class PartsInventoryReorderReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var PartsInventoryReorderReportController: any = new PartsInventoryReorderReport();
+var UnretiredRentalInventoryReportController: any = new UnretiredRentalInventoryReport();
 //----------------------------------------------------------------------------------------------

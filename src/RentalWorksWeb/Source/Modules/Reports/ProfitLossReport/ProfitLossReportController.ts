@@ -61,7 +61,7 @@ const profitlossTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class ProfitLossReportClass extends FwWebApiReport {
+class ProfitLossReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('ProfitLossReport', 'api/v1/profitlossreport', profitlossTemplate);
@@ -130,5 +130,5 @@ class ProfitLossReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var ProfitLossReportController: any = new ProfitLossReportClass();
+var ProfitLossReportController: any = new ProfitLossReport();
 //----------------------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/invoicesummaryreport/, action: function (match: RegExpExecArray) {
-        return InvoiceSummaryReportController.getModuleScreen();
+    pattern: /^reports\/vendorinvoicesummaryreport/, action: function (match: RegExpExecArray) {
+        return VendorInvoiceSummaryReportController.getModuleScreen();
     }
 });
 
-const invoiceSummaryTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport invoicesummaryreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="InvoiceSummaryReportController">
+const vendorInvoiceSummaryTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Vendor Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="VendorInvoiceSummaryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -24,7 +24,7 @@ const invoiceSummaryTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
+            <div class="flexcolumn" style="max-width:230px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Type">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-caption="From:" data-datafield="DateType" style="float:left;max-width:200px;">
@@ -33,18 +33,21 @@ const invoiceSummaryTemplate = `
                   </div>
                 </div>
               </div>
+              <div class="flexcolumn" style="max-width:230px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-datafield="IncludeAccruals" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield include-accruals" data-caption="Include Accruals" style="float:left;max-width:110px;"></div>
+                    <div data-datafield="AccrualFromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Accrual From Date" data-enabled="false" style="float:left;max-width:160px;"></div>
+                    <div data-datafield="AccrualToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Accrual To Date" data-enabled="false" style="float:left;max-width:160px;"></div>
+                    <div data-datafield="AccrualsOnly" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Accruals Only" data-enabled="false" style="float:left;max-width:110px;"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Statuses" style="float:left;max-width:200px;"></div>
-                </div>
-              </div>
-            </div>
-            <div class="flexcolumn" style="max-width:250px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeNoCharge" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include &quot;No Charge&quot; Invoices" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>
@@ -57,10 +60,13 @@ const invoiceSummaryTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Customer" data-datafield="CustomerId" data-displayfield="Customer" data-validationname="CustomerValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="float:left;min-width:400px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Purchase Order" data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrder" data-formbeforevalidate="beforeValidate" data-validationname="PurchaseOrderValidation" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -72,10 +78,10 @@ const invoiceSummaryTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class InvoiceSummaryReport extends FwWebApiReport {
+class VendorInvoiceSummaryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('InvoiceSummaryReport', 'api/v1/invoicesummaryreport', invoiceSummaryTemplate);
+        super('VendorInvoiceSummaryReport', 'api/v1/vendorinvoicesummaryreport', vendorInvoiceSummaryTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -97,6 +103,16 @@ class InvoiceSummaryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     openForm() {
         const $form = this.getFrontEnd();
+        // Expose date fields if Include Accruals
+        $form.on('change', '.include-accruals input[type=checkbox]', e => {
+            const isChecked = jQuery(e.currentTarget).is(':checked');
+            FwFormField.setValueByDataField($form, 'AccrualFromDate', '');
+            FwFormField.setValueByDataField($form, 'AccrualToDate', '');
+            FwFormField.toggle($form.find('div[data-datafield="AccrualFromDate"]'), isChecked);
+            FwFormField.toggle($form.find('div[data-datafield="AccrualToDate"]'), isChecked);
+            $form.find('div[data-datafield="AccrualsOnly"] input').prop('checked', false);
+            FwFormField.toggle($form.find('div[data-datafield="AccrualsOnly"]'), isChecked);
+        });
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -117,13 +133,13 @@ class InvoiceSummaryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        const vendorId = FwFormField.getValueByDataField($form, 'VendorId');
         request.uniqueids = {};
 
         switch (validationName) {
-            case 'DealValidation':
-                if (customerId !== "") {
-                    request.uniqueids.CustomerId = customerId;
+            case 'PurchaseOrderValidation':
+                if (vendorId !== "") {
+                    request.uniqueids.VendorId = vendorId;
                 }
                 break;
         };
@@ -132,16 +148,13 @@ class InvoiceSummaryReport extends FwWebApiReport {
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [
             { value: "NEW", text: "New", selected: "T" },
-            { value: "RETURNED", text: "Returned", selected: "T" },
-            { value: "REVISED", text: "Revised", selected: "T" },
             { value: "APPROVED", text: "Approved", selected: "T" },
             { value: "PROCESSED", text: "Processed", selected: "T" },
             { value: "CLOSED", text: "Closed", selected: "T" },
-            { value: "VOID", text: "Void" }
         ]);
     }
     //----------------------------------------------------------------------------------------------
 };
 
-var InvoiceSummaryReportController: any = new InvoiceSummaryReport();
+var VendorInvoiceSummaryReportController: any = new VendorInvoiceSummaryReport();
 //----------------------------------------------------------------------------------------------

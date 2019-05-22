@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/salesinventorypurchasehistoryreport/, action: function (match: RegExpExecArray) {
-        return RwSalesInventoryPurchaseHistoryReportController.getModuleScreen();
+        return SalesInventoryPurchaseHistoryReportController.getModuleScreen();
     }
 });
 
 const salesInventoryPurchaseHistoryTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Inventory Purchase History" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesInventoryPurchaseHistoryReportController">
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Inventory Purchase History" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SalesInventoryPurchaseHistoryReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -75,7 +75,7 @@ const salesInventoryPurchaseHistoryTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwSalesInventoryPurchaseHistoryReportClass extends FwWebApiReport {
+class SalesInventoryPurchaseHistoryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('SalesInventoryPurchaseHistoryReport', 'api/v1/salesinventorypurchasehistoryreport', salesInventoryPurchaseHistoryTemplate);
@@ -84,7 +84,7 @@ class RwSalesInventoryPurchaseHistoryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -162,5 +162,5 @@ class RwSalesInventoryPurchaseHistoryReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwSalesInventoryPurchaseHistoryReportController: any = new RwSalesInventoryPurchaseHistoryReportClass();
+var SalesInventoryPurchaseHistoryReportController: any = new SalesInventoryPurchaseHistoryReport();
 //----------------------------------------------------------------------------------------------

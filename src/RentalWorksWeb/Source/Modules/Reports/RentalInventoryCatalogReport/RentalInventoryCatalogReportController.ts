@@ -1,26 +1,23 @@
 ﻿routes.push({
-    pattern: /^reports\/returnonassetreport/, action: function (match: RegExpExecArray) {
-        return ReturnOnAssetReportController.getModuleScreen();
+    pattern: /^reports\/rentalinventorycatalogreport/, action: function (match: RegExpExecArray) {
+        return RentalInventoryCatalogReportController.getModuleScreen();
     }
 });
 
-const returnOnAssetTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Return On Asset Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="ReturnOnAssetReportController">
+const rentalInventoryCatalogTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport rentalinventorycatalog" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Catalog" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalInventoryCatalogReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
-      <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+      <div id="generaltab" class="tab" style="display:flex;flex-wrap:wrap;" data-tabpageid="generaltabpage" data-caption="General"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
-            <div class="flexcolumn" style="max-width:250px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range">
+            <div class="flexcolumn" style="max-width:200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Classification">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Year" data-datafield="ReportYear" data-displayfield="Year" data-validationname="ReturnOnAssetYearValidation" style="float:left;max-width:300px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Period" data-datafield="ReportPeriod" data-displayfield="Label" data-validationname="ReturnOnAssetPeriodValidation" style="float:left;max-width:300px;"></div>
+                  <div data-datafield="Classifications" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
@@ -41,13 +38,12 @@ const returnOnAssetTemplate = `
             <div class="flexcolumn" style="max-width:285px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeZeroCurrentOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Zero Current Owned" style="float:left;max-width:420px;"></div>
-                  <div data-datafield="IncludeZeroAverageOwned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Zero Average Owned" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="IncludeZeroQuantity" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Zero Quantity" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:600px;">
-               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="float:left;min-width:400px;"></div>
                 </div>
@@ -63,6 +59,9 @@ const returnOnAssetTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="float:left;min-width:400px;"></div>
                 </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Catalog" data-datafield="WarehouseCatalogId" data-displayfield="WarehouseCatalog" data-validationname="WarehouseCatalogValidation" style="float:left;min-width:400px;"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -70,13 +69,13 @@ const returnOnAssetTemplate = `
       </div>
     </div>
   </div>
-</div>`;
-
+</div>
+`;
 //----------------------------------------------------------------------------------------------
-class ReturnOnAssetReport extends FwWebApiReport {
+class RentalInventoryCatalogReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ReturnOnAssetReport', 'api/v1/returnonassetreport', returnOnAssetTemplate);
+        super('RentalInventoryCatalogReport', 'api/v1/rentalinventorycatalogreport', rentalInventoryCatalogTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -103,18 +102,20 @@ class ReturnOnAssetReport extends FwWebApiReport {
     onLoadForm($form) {
         this.load($form, this.reportOptions);
 
-        this.loadLists($form);
-
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-        FwFormField.setValue($form, 'div[data-datafield="ReportPeriod"]', 'FY', 'Full Year');
-        const date = new Date();
-        const year = date.getFullYear();
-        FwFormField.setValue($form, 'div[data-datafield="ReportYear"]', year, year);
+
+        this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         return parameters;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadLists($form) {
+        FwFormField.loadItems($form.find('div[data-datafield="Classifications"]'), [{ value: "I", text: "Item", selected: "T" }, { value: "A", text: "Accessory", selected: "T" }, { value: "C", text: "Complete", selected: "T" }, { value: "K", text: "Kit", selected: "T" }, { value: "N", text: "Container", selected: "T" }, { value: "M", text: "Miscellaneous", selected: "F" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }]);
+        FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate = function ($browse, $form, request) {
@@ -158,12 +159,6 @@ class ReturnOnAssetReport extends FwWebApiReport {
         }
     }
     //----------------------------------------------------------------------------------------------
-    loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="TrackedBys"]'), [{ value: "BARCODE", text: "Barcode", selected: "T" }, { value: "QUANTITY", text: "Quantity", selected: "T" }, { value: "SERIALNO", text: "Serial Number", selected: "T" }, { value: "RFID", text: "RFID", selected: "T" }]);
-        FwFormField.loadItems($form.find('div[data-datafield="Ranks"]'), [{ value: "A", text: "A", selected: "T" }, { value: "B", text: "B", selected: "T" }, { value: "C", text: "C", selected: "T" }, { value: "D", text: "D", selected: "T" }, { value: "E", text: "E", selected: "T" }, { value: "F", text: "F", selected: "T" }, { value: "G", text: "G", selected: "T" }]);
-    }
-    //----------------------------------------------------------------------------------------------
 };
 
-var ReturnOnAssetReportController: any = new ReturnOnAssetReport();
-//----------------------------------------------------------------------------------------------
+var RentalInventoryCatalogReportController: any = new RentalInventoryCatalogReport();

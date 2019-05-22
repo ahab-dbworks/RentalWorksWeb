@@ -1215,7 +1215,7 @@ class OrderBase {
             var orderId = FwFormField.getValue($form, `div[data-datafield="${module}Id"]`);
             var recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
 
-            var $report = (module === 'Order') ? RwOrderReportController.openForm() : RwQuoteReportController.openForm();
+            var $report = (module === 'Order') ? OrderReportController.openForm() : QuoteReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
             FwFormField.setValue($report, `div[data-datafield="${module}Id"]`, orderId, orderNumber);

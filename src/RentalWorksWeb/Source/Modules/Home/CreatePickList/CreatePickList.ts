@@ -125,7 +125,7 @@ class CreatePickList {
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/picklistutilityitem/createpicklist', request, FwServices.defaultTimeout, response => {
                     try {
-                        const $report = RwPickListReportController.openForm();
+                        const $report = PickListReportController.openForm();
                         FwModule.openSubModuleTab($form, $report);
                         FwModule.closeFormTab($tab);
                         FwFormField.setValueByDataField($report, 'PickListId', response.PickListId, response.PickListNumber);

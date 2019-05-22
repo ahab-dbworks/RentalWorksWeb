@@ -75,7 +75,7 @@ const rentalInventoryUsageTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RentalInventoryUsageReportClass extends FwWebApiReport {
+class RentalInventoryUsageReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RentalInventoryUsageReport', 'api/v1/rentalinventoryusagereport', rentalInventoryUsageTemplate);
@@ -173,5 +173,5 @@ class RentalInventoryUsageReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RentalInventoryUsageReportController: any = new RentalInventoryUsageReportClass();
+var RentalInventoryUsageReportController: any = new RentalInventoryUsageReport();
 //----------------------------------------------------------------------------------------------

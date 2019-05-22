@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/salesquotebillingreport/, action: function (match: RegExpExecArray) {
-        return SalesQuoteBillingReportController.getModuleScreen();
+    pattern: /^reports\/gldistributionreport/, action: function (match: RegExpExecArray) {
+        return GLDistributionReportController.getModuleScreen();
     }
 });
 
-const salesQuoteBillingTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Sales Quote Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SalesQuoteBillingReportController">
+const GLDistributionTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport gldistributionreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="G/L Distribution" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="GLDistributionReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -30,10 +30,7 @@ const salesQuoteBillingTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="User" data-validationname="UserValidation" style="float:left;min-width:400px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="GL Account" data-datafield="GlAccountId" data-displayfield="GlAccountDescription" data-validationname="GlAccountValidation" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -42,13 +39,13 @@ const salesQuoteBillingTemplate = `
       </div>
     </div>
   </div>
-</div>`;
-
+</div>
+`;
 //----------------------------------------------------------------------------------------------
-class SalesQuoteBillingReport extends FwWebApiReport {
+class GLDistributionReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('SalesQuoteBillingReport', 'api/v1/salesquotebillingreport', salesQuoteBillingTemplate);
+        super('GLDistributionReport', 'api/v1/gldistributionreport', GLDistributionTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -59,15 +56,12 @@ class SalesQuoteBillingReport extends FwWebApiReport {
         screen.properties = {};
 
         const $form = this.openForm();
+
         screen.load = function () {
             FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
         };
         screen.unload = function () { };
         return screen;
-    }
-    //----------------------------------------------------------------------------------------------
-    convertParameters(parameters: any): any {
-        return parameters;
     }
     //----------------------------------------------------------------------------------------------
     openForm() {
@@ -82,7 +76,10 @@ class SalesQuoteBillingReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
     }
     //----------------------------------------------------------------------------------------------
-}
+    convertParameters(parameters: any) {
+        return parameters;
+    }
+    //----------------------------------------------------------------------------------------------
+};
 
-var SalesQuoteBillingReportController: any = new SalesQuoteBillingReport();
-//----------------------------------------------------------------------------------------------
+var GLDistributionReportController: any = new GLDistributionReport();

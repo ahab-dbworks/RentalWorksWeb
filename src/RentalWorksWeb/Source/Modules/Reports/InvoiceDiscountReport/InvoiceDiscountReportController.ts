@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/invoicesummaryreport/, action: function (match: RegExpExecArray) {
-        return InvoiceSummaryReportController.getModuleScreen();
+    pattern: /^reports\/invoicediscountreport/, action: function (match: RegExpExecArray) {
+        return InvoiceDiscountReportController.getModuleScreen();
     }
 });
 
-const invoiceSummaryTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport invoicesummaryreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="InvoiceSummaryReportController">
+const invoiceDiscountTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport invoicediscountreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Agent Billing" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="InvoiceDiscountReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -34,17 +34,10 @@ const invoiceSummaryTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Statuses" style="float:left;max-width:200px;"></div>
-                </div>
-              </div>
-            </div>
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeNoCharge" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include &quot;No Charge&quot; Invoices" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="DiscountPercent" data-control="FwFormField" data-type="percent" class="fwcontrol fwformfield" data-required="true" data-caption="Show Invoices with a Discount Percent </br> Greater than or Equal to" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>
@@ -62,6 +55,9 @@ const invoiceSummaryTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
                 </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Discount Reason" data-datafield="DiscountReasonId" data-displayfield="DiscountReason" data-validationname="DiscountReasonValidation" style="float:left;min-width:400px;"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -72,10 +68,10 @@ const invoiceSummaryTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class InvoiceSummaryReport extends FwWebApiReport {
+class InvoiceDiscountReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('InvoiceSummaryReport', 'api/v1/invoicesummaryreport', invoiceSummaryTemplate);
+        super('InvoiceDiscountReport', 'api/v1/invoicediscountreport', invoiceDiscountTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -102,8 +98,8 @@ class InvoiceSummaryReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     onLoadForm($form) {
         this.load($form, this.reportOptions);
-        this.loadLists($form);
 
+        $form.find('div[data-datafield="DiscountPercent"] .fwformfield-caption').css('margin-bottom', "2em");
         const department = JSON.parse(sessionStorage.getItem('department'));
         const location = JSON.parse(sessionStorage.getItem('location'));
 
@@ -129,19 +125,7 @@ class InvoiceSummaryReport extends FwWebApiReport {
         };
     };
     //----------------------------------------------------------------------------------------------
-    loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [
-            { value: "NEW", text: "New", selected: "T" },
-            { value: "RETURNED", text: "Returned", selected: "T" },
-            { value: "REVISED", text: "Revised", selected: "T" },
-            { value: "APPROVED", text: "Approved", selected: "T" },
-            { value: "PROCESSED", text: "Processed", selected: "T" },
-            { value: "CLOSED", text: "Closed", selected: "T" },
-            { value: "VOID", text: "Void" }
-        ]);
-    }
-    //----------------------------------------------------------------------------------------------
 };
 
-var InvoiceSummaryReportController: any = new InvoiceSummaryReport();
+var InvoiceDiscountReportController: any = new InvoiceDiscountReport();
 //----------------------------------------------------------------------------------------------

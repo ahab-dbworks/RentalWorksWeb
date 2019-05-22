@@ -68,7 +68,7 @@
                 try {
                     batchNumber = FwFormField.getTextByDataField($form, 'BatchId');
                     batchId = FwFormField.getValueByDataField($form, 'BatchId');
-                    $report = RwReceiptBatchReportController.openForm();
+                    $report = ReceiptBatchReportController.openForm();
                     FwModule.openSubModuleTab($form, $report);
                     FwFormField.setValueByDataField($report, 'BatchId', batchId, batchNumber);
                     $report.find('[data-datafield="BatchId"] input').change(); //sets the batchnumber and batchdate for the report

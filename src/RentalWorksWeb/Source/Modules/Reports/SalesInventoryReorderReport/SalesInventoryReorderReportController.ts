@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/salesinventoryreorderreport/, action: function (match: RegExpExecArray) {
-        return RwSalesInventoryReorderReportController.getModuleScreen();
+        return SalesInventoryReorderReportController.getModuleScreen();
     }
 });
 
 const salesInventoryReorderTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport salesinventoryreorderreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwSalesInventoryReorderReportController">
+<div class="fwcontrol fwcontainer fwform fwreport salesinventoryreorderreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SalesInventoryReorderReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -62,7 +62,7 @@ const salesInventoryReorderTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwSalesInventoryReorderClass extends FwWebApiReport {
+class SalesInventoryReorderReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('SalesInventoryReorderReport', 'api/v1/salesinventoryreorderreport', salesInventoryReorderTemplate);
@@ -71,7 +71,7 @@ class RwSalesInventoryReorderClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -140,5 +140,5 @@ class RwSalesInventoryReorderClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwSalesInventoryReorderReportController: any = new RwSalesInventoryReorderClass();
+var SalesInventoryReorderReportController: any = new SalesInventoryReorderReport();
 //----------------------------------------------------------------------------------------------

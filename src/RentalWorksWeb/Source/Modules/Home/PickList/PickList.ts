@@ -78,7 +78,7 @@
                 const $form = jQuery(e.currentTarget).closest('.fwform');
                 const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
                 const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
-                const $report = RwPickListReportController.openForm();
+                const $report = PickListReportController.openForm();
                 FwModule.openSubModuleTab($form, $report);
                 FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
                 jQuery('.tab.submodule.active').find('.caption').html('Print Pick List');
@@ -272,7 +272,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.Pri
         const $form = jQuery(e.currentTarget).closest('.fwform');
         const pickListNumber = FwFormField.getValueByDataField($form, 'PickListNumber');
         const pickListId = FwFormField.getValueByDataField($form, 'PickListId');
-        const $report = RwPickListReportController.openForm();
+        const $report = PickListReportController.openForm();
         FwModule.openSubModuleTab($form, $report);
         FwFormField.setValueByDataField($report, 'PickListId', pickListId, pickListNumber);
         const $tabPage = FwTabs.getTabPageByElement($report);
@@ -291,7 +291,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.browse.menuItems.P
         let pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
         let pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
         if (pickListId != null) {
-            $browse = RwPickListReportController.openForm();
+            $browse = PickListReportController.openForm();
             FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
             $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
             $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);

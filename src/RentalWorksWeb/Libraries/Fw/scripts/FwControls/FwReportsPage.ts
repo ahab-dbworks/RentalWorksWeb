@@ -126,7 +126,7 @@
 
         $reportsPageModules.on('click', '.pop-out', function (e) {
             e.stopPropagation();
-            program.popOutTab('#/reports/' + moduleName.slice(2));
+            program.popOutTab(`#/reports/${moduleName}`);
             if (jQuery(this).closest('#myDropdown').length !== 0) {
                 jQuery(this).parent().hide();
             }

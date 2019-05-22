@@ -252,7 +252,7 @@ routes.push({ pattern: /^module\/physicalinventory$/, action: function (match: R
 
 //Reports                                             
 //routes.push({ pattern: /^module\/dealoutstanding$/, action: function (match: RegExpExecArray) { return RwDealOutstandingController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match: RegExpExecArray) { return RwInvoiceSummaryReportController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/invoicesummaryreport$/, action: function (match: RegExpExecArray) { return InvoiceSummaryReportController.getModuleScreen(); } });
 
 //Utilities Modules                                   
 routes.push({ pattern: /^module\/invoiceprocessbatch$/, action: function (match: RegExpExecArray) { return InvoiceProcessBatchController.getModuleScreen(); } });

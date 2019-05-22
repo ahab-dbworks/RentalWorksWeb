@@ -644,7 +644,7 @@ class Invoice {
             try {
                 const module = this.Module;
                 const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-                const $report = RwInvoiceReportController.openForm();
+                const $report = InvoiceReportController.openForm();
 
                 FwModule.openSubModuleTab($form, $report);
 
