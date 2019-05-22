@@ -13,6 +13,7 @@ using System;
 using FwStandard.SqlServer;
 using WebApi.Modules.Home.Delivery;
 using System.Reflection;
+using System.Text;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -178,6 +179,42 @@ namespace WebApi.Modules.Home.Order
 
         [FwLogicProperty(Id: "ifAssZW9zbEu", IsReadOnly: true)]
         public bool? HasRentalSaleItem { get; set; }
+
+        //------------------------------------------------------------------------------------ 
+
+        [FwLogicProperty(Id: "E5CwOveaxcBVx", IsReadOnly: true)]
+        public string DatesAndTimes
+        {
+
+            //WIP
+
+            get
+            {
+                //build up the dates and times strings here
+                StringBuilder sb = new StringBuilder();
+
+                //pick date and time
+                if (!string.IsNullOrEmpty(PickDate))
+                {
+                    sb.Append("Pick: ");
+                    sb.Append(PickDate);
+                    if (!string.IsNullOrEmpty(PickTime))
+                    {
+                        sb.Append(" ");
+                        sb.Append(PickTime);
+                    }
+                }
+
+                //estimated start and stop dates
+
+                //other dates
+
+
+
+
+                return sb.ToString();
+            }
+        }
 
         //------------------------------------------------------------------------------------ 
 
