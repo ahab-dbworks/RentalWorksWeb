@@ -46,17 +46,24 @@ class CustomerCredit {
     };
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        //const location = JSON.parse(sessionStorage.getItem('location'));
-        //const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        //const $userLocation: JQuery = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-        //if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-        //    this.ActiveViewFields.LocationId = [location.locationid];
-        //}
-        //const viewSubitems: Array<JQuery> = [];
-        //viewSubitems.push($userLocation, $all);
-        //FwMenu.addViewBtn($menuObject, 'Location', viewSubitems, true, "LocationId");
+        // Type
+        const $all = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $depletingdeposits = FwMenu.generateDropDownViewBtn('Depleting Deposits', false, "D");
+        const $creditmemos = FwMenu.generateDropDownViewBtn('Credit Memos', false, "C");
+        const $overpayments = FwMenu.generateDropDownViewBtn('Overpayments', false, "O");
 
-        //return $menuObject;
+        const viewType: Array<JQuery> = [];
+        viewType.push($all, $depletingdeposits, $creditmemos, $overpayments);
+        FwMenu.addViewBtn($menuObject, 'Type', viewType, true, "RecType");
+
+        // Status
+        const $allStatus = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $amountRemaining = FwMenu.generateDropDownViewBtn('Amount Remaining', false, "R"); // needs value here
+
+        const viewStatus: Array<JQuery> = [];
+        viewStatus.push($allStatus, $amountRemaining);
+        FwMenu.addViewBtn($menuObject, 'Status', viewStatus, true, "Status");
+        return $menuObject;
     };
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {

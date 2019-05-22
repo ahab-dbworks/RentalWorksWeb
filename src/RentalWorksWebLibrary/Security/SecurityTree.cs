@@ -88,8 +88,6 @@ namespace WebLibrary.Security
 
             AddModule("Billing Message",         "{B232DF4D-462A-4810-952D-73F8DE66800C}", null, "BillingMessageController");
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController");
-            AddModule("Customer Credit",         "{CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66}", null, "CustomerCreditController");
-            AddModule("Deal Credit",             "{3DD1BA32-0213-472E-ADA8-E54D531464CC}", null, "DealCreditController");
             AddModule("Suspended Session",       "{5FBE7FF8-3770-48C5-855C-4320C961D95A}", null, "SuspendedSessionController");
             //Settings 
             var lv2menuAccountingSettings   = AddSettingsMenu("Accounting Settings",                  "{BAF9A442-BA44-4DD1-9119-905C1A8FF199}", lv1menuSettings.Id);
@@ -347,8 +345,10 @@ namespace WebLibrary.Security
             AddModule("Reports",             "{3C5C7603-9E7B-47AB-A722-B29CA09B3B8C}", lv1menuAdministrator.Id, "ReportsController");
             AddModule("User",                "{79E93B21-8638-483C-B377-3F4D561F1243}", lv1menuAdministrator.Id, "UserController", "USER");
             // Add Submodules
-            AddSubModule("User Settings", "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
-            AddSubModule("SubWorksheet", "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
+            AddModule("Customer Credit",     "{CCFCD376-FC2B-49F4-BAE0-3FB1F0258F66}", lv1menuSubModules.Id, "CustomerCreditController");
+            AddModule("Deal Credit",         "{3DD1BA32-0213-472E-ADA8-E54D531464CC}", lv1menuSubModules.Id, "DealCreditController");
+            AddSubModule("User Settings",    "{A6704904-01E1-4C6B-B75A-C1D3FCB50C01}", lv1menuSubModules.Id, "UserSettingsController");
+            AddSubModule("SubWorksheet",     "{F24BDA2F-B37C-45C1-B08E-588D02D50B7C}", lv1menuSubModules.Id, "SubWorksheetController");
 
             // Add Grids
             AddGrid("Additional Items",                       "{C9AAA0E7-466E-47F1-973D-61555FFCA6B8}", lv1menuGrids.Id, "AdditionalItemsGridController");

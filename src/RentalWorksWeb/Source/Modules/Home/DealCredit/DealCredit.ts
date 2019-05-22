@@ -46,24 +46,24 @@ class DealCredit {
     };
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        //// Type
-        //const $all = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
-        //const $depletingdeposits = FwMenu.generateDropDownViewBtn('Depleting Deposits', false, "D");
-        //const $creditmemos = FwMenu.generateDropDownViewBtn('Credit Memos', false, "C");
-        //const $overpayments = FwMenu.generateDropDownViewBtn('Overpayments', false, "O");
+        // Type
+        const $all = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $depletingdeposits = FwMenu.generateDropDownViewBtn('Depleting Deposits', false, "D");
+        const $creditmemos = FwMenu.generateDropDownViewBtn('Credit Memos', false, "C");
+        const $overpayments = FwMenu.generateDropDownViewBtn('Overpayments', false, "O");
 
-        //let viewType: Array<JQuery> = [];
-        //viewType.push($all, $depletingdeposits, $creditmemos, $overpayments);
-        //FwMenu.addViewBtn($menuObject, 'Type', viewType, true, "RecType");
+        const viewType: Array<JQuery> = [];
+        viewType.push($all, $depletingdeposits, $creditmemos, $overpayments);
+        FwMenu.addViewBtn($menuObject, 'Type', viewType, true, "RecType");
 
-        //// Status
-        //const $allStatus = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
-        //const $amountRemaining = FwMenu.generateDropDownViewBtn('Amount Remaining', false, "D"); //// needs value here
+        // Status
+        const $allStatus = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        const $amountRemaining = FwMenu.generateDropDownViewBtn('Amount Remaining', false, "R"); // needs value here
 
-        //let viewStatus: Array<JQuery> = [];
-        //viewStatus.push($allStatus, $amountRemaining);
-        //FwMenu.addViewBtn($menuObject, 'Status', viewStatus, true, "Status");
-        //return $menuObject;
+        const viewStatus: Array<JQuery> = [];
+        viewStatus.push($allStatus, $amountRemaining);
+        FwMenu.addViewBtn($menuObject, 'Status', viewStatus, true, "Status");
+        return $menuObject;
     };
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
