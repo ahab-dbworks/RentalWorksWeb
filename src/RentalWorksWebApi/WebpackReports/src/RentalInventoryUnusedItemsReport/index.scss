@@ -14,3 +14,7 @@ thead {
         white-space: nowrap;
     }
 }
+@page {
+    size: landscape;
+    margin: 10px 10px 10px 10px; // Adds margin on the pdf
+}

@@ -1,5 +1,5 @@
 ﻿<!--RentalInventoryUnusedItemsReport-->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow" style="width:1400px;">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,7 +11,7 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:40px;width:1400px;">
   <table>
     <thead>
       <tr>
@@ -62,25 +62,25 @@
         {{#ifEquals RowType "Categoryfooter"}}
         <td colspan="4" class="total-name">{{Category}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="7" class="total-val" data-value="{{UnitCost}}"></td>
+        <td colspan="8" class="total-val" data-value="{{UnitCost}}"></td>
         <td class="total-val" data-value="{{ExtendedCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypefooter"}}
         <td colspan="4" class="total-name">{{InventoryType}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="7" class="total-val" data-value="{{UnitCost}}"></td>
+        <td colspan="8" class="total-val" data-value="{{UnitCost}}"></td>
         <td class="total-val" data-value="{{ExtendedCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
         <td colspan="4" class="total-name">{{Warehouse}}:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="7" class="total-val" data-value="{{UnitCost}}"></td>
+        <td colspan="8" class="total-val" data-value="{{UnitCost}}"></td>
         <td class="total-val" data-value="{{ExtendedCost}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
-        <td colspan="7" class="total-val" data-value="{{UnitCost}}"></td>
+        <td colspan="8" class="total-val" data-value="{{UnitCost}}"></td>
         <td class="total-val" data-value="{{ExtendedCost}}"></td>
         {{/ifEquals}}
       </tr>
