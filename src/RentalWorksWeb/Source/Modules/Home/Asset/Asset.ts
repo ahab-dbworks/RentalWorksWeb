@@ -36,9 +36,8 @@ class RwAsset {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
 
-        const self = this;
-        $browse.data('ondatabind', function (request) {
-            request.activeviewfields = self.ActiveViewFields;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         FwAppData.apiMethod(true, 'GET', "api/v1/inventorystatus", null, FwServices.defaultTimeout, function onSuccess(response) {

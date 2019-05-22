@@ -88,8 +88,8 @@ class Receipt {
     openForm(mode: string, parentModuleInfo?: any) {
         let $form: any = FwModule.loadFormFromTemplate(this.Module);
         $form = FwModule.openForm($form, mode);
+        $form.find(`.credit-amounts`).hide();
         if (mode === 'NEW') {
-            $form.find(`.credit-amounts`).hide();
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValueByDataField($form, 'LocationId', location.locationid, location.location);
             FwFormField.setValueByDataField($form, 'RecType', 'P');

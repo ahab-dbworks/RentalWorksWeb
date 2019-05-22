@@ -8,7 +8,6 @@
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
-        var self = this;
         var screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};

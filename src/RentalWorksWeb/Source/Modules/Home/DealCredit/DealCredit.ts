@@ -46,42 +46,36 @@ class DealCredit {
     };
     //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
-        //const location = JSON.parse(sessionStorage.getItem('location'));
-        //const $all: JQuery = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        //const $userLocation: JQuery = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
-        //if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-        //    this.ActiveViewFields.LocationId = [location.locationid];
-        //}
-        //const viewSubitems: Array<JQuery> = [];
-        //viewSubitems.push($userLocation, $all);
-        //FwMenu.addViewBtn($menuObject, 'Location', viewSubitems, true, "LocationId");
+        //// Type
+        //const $all = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        //const $depletingdeposits = FwMenu.generateDropDownViewBtn('Depleting Deposits', false, "D");
+        //const $creditmemos = FwMenu.generateDropDownViewBtn('Credit Memos', false, "C");
+        //const $overpayments = FwMenu.generateDropDownViewBtn('Overpayments', false, "O");
 
+        //let viewType: Array<JQuery> = [];
+        //viewType.push($all, $depletingdeposits, $creditmemos, $overpayments);
+        //FwMenu.addViewBtn($menuObject, 'Type', viewType, true, "RecType");
+
+        //// Status
+        //const $allStatus = FwMenu.generateDropDownViewBtn('ALL', true, "ALL");
+        //const $amountRemaining = FwMenu.generateDropDownViewBtn('Amount Remaining', false, "D"); //// needs value here
+
+        //let viewStatus: Array<JQuery> = [];
+        //viewStatus.push($allStatus, $amountRemaining);
+        //FwMenu.addViewBtn($menuObject, 'Status', viewStatus, true, "Status");
         //return $menuObject;
     };
     //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
-        // var $form = FwModule.loadFormFromTemplate(this.Module);
-        // let $form = jQuery(AssetController.getFormTemplate());
-
-        //$form = FwModule.openForm($form, mode);
-        //return $form;
     };
     //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        //const $form = this.openForm('EDIT');
-        //FwFormField.setValueByDataField($form, 'ReceiptId', uniqueids.ItemId);
-        //FwModule.loadForm(this.Module, $form);
-
-        //return $form;
     };
     //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
-        FwModule.saveForm(this.Module, $form, parameters);
     };
     //---------------------------------------------------------------------------------------------
     loadAudit($form: JQuery) {
-        const uniqueid = FwFormField.getValueByDataField($form, 'ItemId');
-        FwModule.loadAudit($form, uniqueid);
     };
     //---------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -122,7 +116,7 @@ class DealCredit {
              </div>
              <div class="column spacer" data-width="auto" data-visible="true"></div>
            </div>`;
-    };
+    }
     //---------------------------------------------------------------------------------------------
 }
 
