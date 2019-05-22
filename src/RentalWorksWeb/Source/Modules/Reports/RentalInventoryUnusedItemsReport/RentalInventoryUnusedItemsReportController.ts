@@ -31,7 +31,7 @@ const rentalUnusedItemsTemplate = `
             <div class="flexcolumn" style="max-width:175px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="DaysUnused" data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-required="false" data-caption="Days Unused" style="float:left;max-width:300px;"></div>
+                  <div data-datafield="DaysUnused" data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-required="true" data-caption="Days Unused" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
             </div>
@@ -87,6 +87,9 @@ class RentalInventoryUnusedItemsReport extends FwWebApiReport {
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        const today = FwFunc.getDate();
+        FwFormField.setValueByDataField($form, 'AsOfDate', today);
+        FwFormField.setValueByDataField($form, 'DaysUnused', 100);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
