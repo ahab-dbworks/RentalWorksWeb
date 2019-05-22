@@ -5,7 +5,7 @@
 });
 
 const rentalQCRequiredTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory QC required Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalInventoryQCRequiredReportController">
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory QC Required Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalInventoryQCRequiredReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
