@@ -56,7 +56,7 @@ const subRentalBIllingAnalysisReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="PO Classification" data-datafield="PoClassificationId" data-displayfield="PoClassification" data-validationname="PoClassificationValidation" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="PO Classification" data-datafield="PoClassificationId" data-displayfield="PoClassification" data-validationname="POClassificationValidation" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Purchase Order" data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrder" data-validationname="PurchaseOrderValidation" style="min-width:400px;"></div>
