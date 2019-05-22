@@ -23,10 +23,10 @@ const subSalesStagedItemsReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="SalesCategoryValidation" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="SalesCategoryValidation" data-formbeforevalidate="beforeValidate" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="SalesInventoryValidation" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-displayfield="ICode" data-validationname="SalesInventoryValidation" data-formbeforevalidate="beforeValidate" style="min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -75,8 +75,29 @@ class SubSalesStagedItemsReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse: any, $form: any, request: any) {
+        const validationName = request.module;
+        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const categoryId = FwFormField.getValueByDataField($form, 'CategoryId');
         request.uniqueids = {};
-        request.uniqueids.Sales = true;
+
+        switch (validationName) {
+            case 'InventoryTypeValidation':
+                request.uniqueids.Sales = true;
+                break;
+            case 'SalesCategoryValidation':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                break;
+            case 'SalesInventoryValidation':
+                if (inventoryTypeId !== "") {
+                    request.uniqueids.InventoryTypeId = inventoryTypeId;
+                }
+                if (categoryId !== "") {
+                    request.uniqueids.CategoryId = categoryId;
+                }
+                break;
+        };
     };
     //----------------------------------------------------------------------------------------------
 };
