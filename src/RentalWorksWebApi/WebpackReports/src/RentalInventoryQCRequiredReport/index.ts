@@ -23,17 +23,6 @@ export class RentalInventoryQCRequiredReport extends WebpackReport {
                     data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
 
-                    let detailRowCount = 0;
-                    const rows = data.rows;
-                    for (let i = 0; i < rows.length; i++) {          
-                        if (rows[i].RowType === 'detail') {
-                            detailRowCount++
-                            if (rows[i + 1].RowType !== 'detail') {
-                                rows.splice(i + 1, 0, { "RowType": "RowCount", "Count": detailRowCount });
-                                detailRowCount = 0;
-                            }
-                        }
-                    }
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

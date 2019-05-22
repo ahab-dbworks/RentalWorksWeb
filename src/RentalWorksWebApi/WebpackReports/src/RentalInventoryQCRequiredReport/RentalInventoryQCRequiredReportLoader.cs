@@ -51,7 +51,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
         public string RfId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Text)]
+        [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Integer)]
         public int? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
@@ -202,10 +202,10 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "Quantity" };
-                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields, null, true, false);
-                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields, null, true, false);
-                dt.InsertSubTotalRows("Category", "RowType", totalFields, null, true, false);
-                dt.InsertTotalRow("RowType", "detail", null, totalFields);
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
         }
