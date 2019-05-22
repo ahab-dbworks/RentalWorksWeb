@@ -8,7 +8,7 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
 {
-    [FwSqlTable("dbo.funcqcrequired('')")]
+    [FwSqlTable("dbo.funcqcrequiredweb('')")]
     public class RentalInventoryQCRequiredReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -50,6 +50,9 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
         public string RfId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "qty", modeltype: FwDataTypes.Text)]
+        public int? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
@@ -198,7 +201,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] {  };
+                string[] totalFields = new string[] { "Quantity" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields, null, true, false);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields, null, true, false);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields, null, true, false);
