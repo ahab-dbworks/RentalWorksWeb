@@ -35,5 +35,10 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
             addFilterToSelect("OfficeLocationId", "locationid", select, request);
         }
         //------------------------------------------------------------------------------------    
+        public void DeleteOthers(FwSqlConnection conn = null)
+        {
+            bool b = BrowseActiveViewFieldsFunc.DeleteOthers(AppConfig, UserSession, ModuleName, OfficeLocationId, WebUserId, conn).Result;
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

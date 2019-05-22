@@ -1,5 +1,7 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+
 namespace WebApi.Modules.Utilities.BrowseActiveViewFields
 {
     [FwLogic(Id: "0gbWXsuKZuZHC")]
@@ -11,6 +13,8 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
         {
             dataRecords.Add(browseActiveViewFields);
             HasAudit = false;
+
+            BeforeSave += OnBeforeSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "wAsUeb8VpiUq", IsPrimaryKey: true)]
@@ -32,6 +36,14 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
         //    bool isValid = true; 
         //    return isValid; 
         //} 
+        //------------------------------------------------------------------------------------ 
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                browseActiveViewFields.DeleteOthers(e.SqlConnection);
+            }
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
