@@ -14,8 +14,11 @@ namespace WebApi.Modules.Home.Receipt
     public class RemainingDepositAmountsResponse
     {
         public decimal DepletingDeposits { get; set; } = 0;
+        public string DepletingDepositsFormatted { get; set; } = "";
         public decimal CreditMemos { get; set; } = 0;
+        public string CreditMemosFormatted { get; set; } = "";
         public decimal Overpayments { get; set; } = 0;
+        public string OverpaymentsFormatted { get; set; } = "";
     }
 
     public static class ReceiptFunc
@@ -67,6 +70,12 @@ namespace WebApi.Modules.Home.Receipt
             response.DepletingDeposits = FwConvert.ToDecimal(qry.GetParameter("@deposits").ToString());
             response.CreditMemos = FwConvert.ToDecimal(qry.GetParameter("@credits").ToString());
             response.Overpayments = FwConvert.ToDecimal(qry.GetParameter("@overpayments").ToString());
+
+            response.DepletingDepositsFormatted = FwConvert.ToCurrencyStringNoDollarSign(response.DepletingDeposits);
+            response.CreditMemosFormatted = FwConvert.ToCurrencyStringNoDollarSign(response.CreditMemos);
+            response.OverpaymentsFormatted = FwConvert.ToCurrencyStringNoDollarSign(response.Overpayments);
+
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
