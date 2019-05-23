@@ -223,6 +223,9 @@
         public const string REPAIR_TYPE_OUTSIDE = "OUTSIDE";
 
         //INVENTORY
+        public const string INVENTORY_AVAILABLE_FROM_WAREHOUSE = "W";
+        public const string INVENTORY_AVAILABLE_FROM_CATALOG = "C";
+
         public const string INVENTORY_AVAILABLE_FOR_RENT = "R";
         public const string INVENTORY_AVAILABLE_FOR_SALE = "S";
         public const string INVENTORY_AVAILABLE_FOR_PARTS = "P";

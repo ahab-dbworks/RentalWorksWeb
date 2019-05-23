@@ -411,6 +411,12 @@ namespace WebApi.Modules.Home.Inventory
         //------------------------------------------------------------------------------------ 
         public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {
+            //#jhtodo - need to add a radio group for this on the form, default to Warehouse on new
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                AvailableFrom = RwConstants.INVENTORY_AVAILABLE_FROM_WAREHOUSE;
+            }
+
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
             {
                 InventoryLogic orig = ((InventoryLogic)e.Original);
