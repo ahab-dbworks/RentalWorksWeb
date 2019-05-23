@@ -22,10 +22,6 @@ class SearchInterface {
 
         let searchhtml = `<div id="itemsearch" data-moduletype="${type}">
                             <div class="flexpage">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ParentFormId" style="display:none"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="WarehouseId" style="display:none"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnsToHide" style="display:none"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield fwformcontrol" data-datafield="ColumnOrder" style="display:none"></div>
                               <div class="fwmenu default"></div>
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
                                 <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="InventoryType" data-type="radio">
@@ -156,9 +152,9 @@ class SearchInterface {
                 break;
         }
 
-        FwFormField.setValueByDataField($popup, 'ParentFormId', id);
+        $popup.find('#itemsearch').data('parentformid', id);
         let warehouseId = (type === 'Transfer') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
-        FwFormField.setValueByDataField($popup, 'WarehouseId', warehouseId);
+        $popup.find('#itemsearch').data('warehouseid', warehouseId);
 
         let userId = JSON.parse(sessionStorage.getItem('userid'));
         FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
@@ -177,8 +173,8 @@ class SearchInterface {
                         columnsToHide.push($this.value);
                     }
                 }
-                FwFormField.setValueByDataField($popup, 'ColumnOrder', columnOrder.join(','));
-                FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
+                $popup.find('#itemsearch').data('columnorder', columnOrder);
+                $popup.find('#itemsearch').data('columnstohide', columnsToHide);
             } else {
                 FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
                     [{ value: 'Description', text: 'Description',                         selected: 'T' },
@@ -301,7 +297,7 @@ class SearchInterface {
                 $popup.find('#itemsearch').attr('data-base', 'PARTS');
                 break;
         }
-
+        $popup.find('#itemsearch').attr('data-inventorytypeid', '').attr('data-categoryid', '').attr('data-subcategoryid', '');
         $popup.find('#typeName, #inventoryType, #category, #subCategory, #inventory').empty();
 
         FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
@@ -333,9 +329,6 @@ class SearchInterface {
                     inventoryTypeColumn.append(`<ul class="fitText" data-value="${response.Rows[i][inventoryTypeIdIndex]}"><span>${response.Rows[i][inventoryTypeIndex]}</span></ul>`);
                 }
             }
-
-            //Resizes text to fit into the div
-            //self.fitToParent('#inventoryType .fitText span');
         }, null, $popup.find('#searchpopup'));
         this.typeOnClickEvents($popup, categoryType);
     }
@@ -370,9 +363,7 @@ class SearchInterface {
             $breadcrumbs.find('.type, .category, .subcategory').remove();
             $breadcrumbs.append(`<div class="type breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
 
-            $popup.find('#itemsearch').attr('data-inventorytypeid', $this.attr('data-value'));
-            $popup.find('#itemsearch').attr('data-categoryid', undefined);
-            $popup.find('#itemsearch').attr('data-subcategoryid', undefined);
+            $popup.find('#itemsearch').attr('data-inventorytypeid', $this.attr('data-value')).attr('data-categoryid', '').attr('data-subcategoryid', '');
 
             //Jason H - 10/09/18 layout changes to left-side category columns
             $popup.find('#inventoryType ul').not('.selected').hide();
@@ -380,7 +371,6 @@ class SearchInterface {
                 $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
             }
 
-            
             let typeRequest: any = {
                 searchfieldoperators: ["<>"],
                 searchfields:         ["Inactive"],
@@ -411,8 +401,6 @@ class SearchInterface {
                 if (response.Rows.length === 1) {
                     $popup.find("#category > ul").trigger('click');
                 }
-
-                //self.fitToParent('#category .fitText span');
             }, null, $searchpopup);
             this.categoryOnClickEvents($popup);
         });
@@ -434,8 +422,7 @@ class SearchInterface {
             $breadcrumbs.find('.category, .subcategory').remove();
             $breadcrumbs.append(`<div class="category breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
 
-            $popup.find('#itemsearch').attr('data-categoryid', $this.attr('data-value'));
-            $popup.find('#itemsearch').attr('data-subcategoryid', undefined);
+            $popup.find('#itemsearch').attr('data-categoryid', $this.attr('data-value')).attr('data-subcategoryid', '');
 
             let subCatListRequest: any = {};
             subCatListRequest.uniqueids = {
@@ -466,14 +453,14 @@ class SearchInterface {
                 }
                 //Load the Inventory items if selected category doesn't have any sub-categories
                 if (hasSubCategories == false) {
-                    let parentFormId = FwFormField.getValueByDataField($popup, 'ParentFormId');
+                    let parentFormId = $popup.find('#itemsearch').data('parentformid');
                     let request: any = {
                         OrderId:                       parentFormId,
                         SessionId:                     parentFormId,
                         CategoryId:                    $this.attr('data-value'),
                         InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
                         AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                        WarehouseId:                   FwFormField.getValueByDataField($popup, 'WarehouseId'),
+                        WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
                         ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
                         SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
                         Classification:                FwFormField.getValueByDataField($popup, 'Select'),
@@ -503,7 +490,6 @@ class SearchInterface {
                         $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
                     }
                 }
-                //self.fitToParent('#subCategory .fitText span');
             }, null, $searchpopup);
             this.subCategoryOnClickEvents($popup);
         });
@@ -514,12 +500,11 @@ class SearchInterface {
 
         $popup.off('click', '#subCategory ul');
         $popup.on('click', '#subCategory ul', function (e) {
-            let parentFormId;
             const $this = jQuery(e.currentTarget);
 
             $popup.find('#subCategory ul').removeClass('selected');
             $this.addClass('selected');
-            parentFormId = FwFormField.getValueByDataField($popup, 'ParentFormId');
+            let parentFormId = $popup.find('#itemsearch').data('parentformid');
 
             //Clear and set breadcrumbs
             let $breadcrumbs = $popup.find('#breadcrumbs');
@@ -535,7 +520,7 @@ class SearchInterface {
                 SubCategoryId:                 $this.attr('data-value'),
                 InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
                 AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                WarehouseId:                   FwFormField.getValueByDataField($popup, 'WarehouseId'),
+                WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
                 ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
                 SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
                 Classification:                FwFormField.getValueByDataField($popup, 'Select'),
@@ -651,17 +636,16 @@ class SearchInterface {
 
         if (viewType !== 'GRID') {
             //custom display/sequencing for columns
-            let columnsToHide = FwFormField.getValueByDataField($searchpopup, 'ColumnsToHide').split(',');
+            let columnsToHide = $searchpopup.find('#itemsearch').data('columnstohide');
             $searchpopup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
             for (let i = 0; i < columnsToHide.length; i++) {
                 $searchpopup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
-            };
+            }
 
-            let columnOrder = FwFormField.getValueByDataField($searchpopup, 'ColumnOrder').split(',');
+            let columnOrder = $searchpopup.find('#itemsearch').data('columnorder');
             for (let i = 0; i < columnOrder.length; i++) {
                 $searchpopup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
-            };
-
+            }
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -670,7 +654,7 @@ class SearchInterface {
         const $options     = $popup.find('.options');
         let userId         = JSON.parse(sessionStorage.getItem('userid'));
         let hasItemInGrids = false;
-        let warehouseId    = FwFormField.getValueByDataField($popup, 'WarehouseId');
+        let warehouseId    = $popup.find('#itemsearch').data('warehouseid');
         let $searchpopup   = $popup.find('#searchpopup');
 
         $popup.on('click', '#breadcrumbs .basetype', e => {
@@ -748,7 +732,7 @@ class SearchInterface {
             }
             Array.prototype.push.apply(selectedColumns, notSelectedColumns);
             let columnOrder = selectedColumns.map(a => a.value);
-            FwFormField.setValueByDataField($popup, 'ColumnOrder', columnOrder.join(','));
+            $popup.find('#itemsearch').data('columnorder', columnOrder);
 
             let request: any = {
                 ResultFields:                JSON.stringify(selectedColumns),
@@ -759,7 +743,7 @@ class SearchInterface {
 
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
                 let columnsToHide = notSelectedColumns.map(a => a.value);
-                FwFormField.setValueByDataField($popup, 'ColumnsToHide', columnsToHide.join(','));
+                $popup.find('#itemsearch').data('columnstohide', columnsToHide);
                 $popup.find('.options').removeClass('active');
                 $popup.find('.options .optionsmenu').css('z-index', '0');
 
@@ -1279,7 +1263,7 @@ class SearchInterface {
                     qtycolor = 'transparent';
                 } else {
                     qtycolor = response.Rows[i][quantityColorIndex];
-                };
+                }
                 $quantityColorDiv.css('border-left-color', qtycolor);
 
                 if (response.Rows[i][qtyIsStaleIndex] === true) {
@@ -1301,16 +1285,16 @@ class SearchInterface {
                 }
 
                 //custom display/sequencing for columns
-                let columnsToHide = FwFormField.getValueByDataField($popup, 'ColumnsToHide').split(',');
+                let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
                 $popup.find('.item-accessories .columnorder').css('display', '');
                 for (let i = 0; i < columnsToHide.length; i++) {
                     $popup.find(`.item-accessories [data-column="${columnsToHide[i]}"]`).hide();
-                };
+                }
 
-                let columnOrder = FwFormField.getValueByDataField($popup, 'ColumnOrder').split(',');
+                let columnOrder = $popup.find('#itemsearch').data('columnorder');
                 for (let i = 0; i < columnOrder.length; i++) {
                     $popup.find(`.item-accessories [data-column="${columnOrder[i]}"]`).css('order', i);
-                };
+                }
             }
 
             let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
@@ -1323,38 +1307,6 @@ class SearchInterface {
                 accessoryContainer.find('.acc-refresh-avail').hide();
             }
         }, null, $popup.find('#searchpopup'));
-    }
-    //----------------------------------------------------------------------------------------------
-    fitToParent(selector) {
-        let numIter
-            , regexp
-            , fontSize;
-        numIter = 10;
-        regexp = /\d+(\.\d+)?/;
-        fontSize = function (elem) {
-            let match = elem.css('font-size').match(regexp)
-                , size = match == null ? 16 : parseFloat(match[0]);
-            return isNaN(size) ? 16 : size;
-        }
-        let test = jQuery(selector);
-        jQuery(selector).each(function () {
-            let elem = jQuery(this)
-                , parentWidth = elem.parent().width()
-                , parentHeight = elem.parent().height();
-            if (elem.width() > parentWidth || elem.height() > parentHeight) {
-                let maxSize = fontSize(elem), minSize = 0.1;
-                for (let i = 0; i < numIter; i++) {
-                    var currSize = (minSize + maxSize) / 2;
-                    elem.css('font-size', currSize);
-                    if (elem.width() > parentWidth || elem.height() > parentHeight) {
-                        maxSize = currSize;
-                    } else {
-                        minSize = currSize;
-                    }
-                }
-                elem.css('font-size', minSize);
-            }
-        });
     }
     //----------------------------------------------------------------------------------------------
 }
