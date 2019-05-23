@@ -103,6 +103,7 @@ class Receipt {
             FwFormField.setValue($form, 'div[data-datafield="AppliedById"]', usersid, name);
             // Deal and Customer fields
             $form.find('.deal-customer').data('onchange', () => {
+                $form.find('span.credit-amounts').hide();
                 this.loadReceiptInvoiceGrid($form);
                 const $submoduleCreditBrowse = this.openCreditBrowse($form);
                 $form.find('.credits-page').html($submoduleCreditBrowse);

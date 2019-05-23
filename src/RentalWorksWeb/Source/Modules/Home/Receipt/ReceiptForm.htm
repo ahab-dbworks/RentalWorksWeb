@@ -25,11 +25,11 @@
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Receipt Date" data-datafield="ReceiptDate" data-enabled="false" style="flex:1 1 100px;"></div>
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Office" data-datafield="LocationId" data-displayfield="Location" data-validationname="OfficeLocationValidation" data-enabled="false" style="flex:1 1 200px;"></div>
                 </div>
-                <div style="margin-left:125px;justify-content:space-between;" class="flexrow">
-                  <span class="credit-amounts" style="max-width:215px;padding:3px;background-color:#2196F3;color:white;border-radius:.1em;font-size:1em" data-creditfield="Overpayments"></span>
-                  <span class="credit-amounts" style="max-width:215px;padding:3px;background-color:#2196F3;color:white;border-radius:.1em;font-size:1em" data-creditfield="CreditMemos"></span>
-                  <span class="credit-amounts" style="max-width:215px;padding:3px;background-color:#2196F3;color:white;border-radius:.1em;font-size:1em" data-creditfield="DepletingDeposits"></span>
-                  <span></span>
+                <div style="margin-left:125px;justify-content:flex-start;" class="flexrow receipt-credits">
+                  <span class="credit-amounts" style="max-width:245px;padding:3px;background-color:#FFFF80;color:black;border-radius:.1em;font-size:1em;font-weight:500;" data-creditfield="Overpayments"></span>
+                  <span class="credit-amounts" style="max-width:245px;padding:3px;background-color:#ABABD6;color:black;border-radius:.1em;font-size:1em;font-weight:500;" data-creditfield="CreditMemos"></span>
+                  <span class="credit-amounts" style="max-width:245px;padding:3px;background-color:#37D303;color:black;border-radius:.1em;font-size:1em;font-weight:500;" data-creditfield="DepletingDeposits"></span>
+                  <span style="min-width:303px;"></span>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Payment Type" data-datafield="PaymentTypeId" data-displayfield="PaymentType" data-validationname="PaymentTypeValidation" style="flex:1 1 225px;" data-required="true"></div>
