@@ -24,9 +24,9 @@
 .fwsettings div.well div.panel-group { display: block; }
 .fwsettings div.well div.panel-group div.panel { margin-bottom: 0; border-radius: 4px; margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 4px; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); box-shadow: 0 1px 1px rgba(0,0,0,.05); }
 .fwsettings div.well div.panel-group div.panel-primary { border-color: #428bca; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading { color: #fff; background-color: #428bca; border-color: #428bca; border-bottom: 0; padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons { flex:0; float: left; margin-right: .3em; font-size: 38px; width: 50px; }
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.heading-menu { margin-left:auto; display: inline; font-size: 38px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading { color: #fff; background-color: #428bca; border-color: #428bca; border-bottom: 0; padding:5px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons { flex:0; font-size: 23px; vertical-align: bottom; }
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.heading-menu { margin-left:auto; display: inline; font-size: 23px; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.new-row-menu { cursor: pointer; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.show-inactive { cursor: pointer; } 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div i.hide-inactive { cursor: pointer; } 
@@ -36,7 +36,7 @@
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title { display:flex; margin-top: 0; margin-bottom: 0; font-size: 20px; color: inherit; margin-left:8px}
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title .highlighted { color:yellow; }
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content { float:right; display: none; position:absolute; right:90px; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); border-radius:4px; z-index: 1; } 
-.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content div.flexcolumn div.flexrow { color: black; font-size:18px; padding: 6px 18px; text-decoration: none; display: block; cursor:pointer;} 
+.fwsettings div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content div.flexcolumn div.flexrow { color: black; font-size:16px; padding: 6px 18px; text-decoration: none; display: block; cursor:pointer;} 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-heading small .highlighted {color:yellow;} 
 .fwsettings div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #428bca;}
 
@@ -105,15 +105,15 @@
 .fwreports div.well div.panel-group { display: block; }
 .fwreports div.well div.panel-group div.panel { margin-bottom: 0; border-radius: 4px; margin-bottom: 20px; background-color: #fff; border: 1px solid transparent; border-radius: 4px; -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05); box-shadow: 0 1px 1px rgba(0,0,0,.05); }
 .fwreports div.well div.panel-group div.panel-primary { border-color: #6B5B95; }
-.fwreports div.well div.panel-group div.panel-primary div.panel-heading { color: #fff; background-color: #6B5B95; border-color: #6B5B95; border-bottom: 0; padding: 10px 15px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
-.fwreports div.well div.panel-group div.panel-primary div.panel-heading i.material-icons { flex:0; float: left; margin-right: .3em; font-size: 38px; width: 50px; }
-.fwreports div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.heading-menu { margin-left:auto; display: inline; font-size: 38px; }
-.fwreports div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.pop-out { margin-left:auto; display: inline; font-size: 38px; cursor:pointer; }
+.fwreports div.well div.panel-group div.panel-primary div.panel-heading { color: #fff; background-color: #6B5B95; border-color: #6B5B95; border-bottom: 0; padding:5px; border-bottom: 1px solid transparent; border-top-left-radius: 3px; border-top-right-radius: 3px; }
+.fwreports div.well div.panel-group div.panel-primary div.panel-heading i.material-icons { flex:0;font-size: 23px;vertical-align: bottom;}
+.fwreports div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.heading-menu { margin-left:auto;display:inline;font-size:23px; }
+.fwreports div.well div.panel-group div.panel-primary div.panel-heading i.material-icons.pop-out { margin-left:auto; display: inline; font-size: 23px; cursor:pointer; }
 .fwreports div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title { display:flex; margin-top: 0; margin-bottom: 0; font-size: 20px; color: inherit; margin-left:8px }
 .fwreports div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title .highlighted { color:yellow; }
 .fwreports div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title i.heading-menu { cursor: pointer; } 
 .fwreports div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content { float:right; display: none; position:absolute; right:80px; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); border-radius:4px; z-index: 1; } 
-.fwreports div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content div.flexrow { color: black; font-size:18px; padding: 6px 18px; text-decoration: none; display: block; cursor:pointer;} 
+.fwreports div.well div.panel-group div.panel-primary div.panel-heading h4.panel-title div.dropdown-content div.flexrow { color: black; font-size:16px; padding:5px; text-decoration: none; display: block; cursor:pointer;} 
 .fwreports div.well div.panel-group div.panel-primary div.panel-heading small .highlighted {color:yellow;} 
 .fwreports div.well div.panel-group div.panel-primary div.panel-body { padding: 15px; border-top: 1px solid #ddd; border-top-color: #6B5B95;}
 
