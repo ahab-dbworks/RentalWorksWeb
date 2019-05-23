@@ -271,18 +271,19 @@ class Receipt {
             $browse = DealCreditController.openBrowse();
             $browse.data('ondatabind', request => {
                 request.uniqueids = { DealId: dealCustomerId }
+                request.activeviewfields = DealCreditController.ActiveViewFields;
             });
         } else {
             $browse = CustomerCreditController.openBrowse();
             $browse.data('ondatabind', request => {
                 request.uniqueids = { CustomerId: dealCustomerId }
+                request.activeviewfields = CustomerCreditController.ActiveViewFields;
             });
         }
         FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($control, dt) => {
             this.calculateCreditTotals($form, dealCustomer, dealCustomerId);
         });
 
-        FwBrowse.databind($browse);
         return $browse;
     }
     //----------------------------------------------------------------------------------------------

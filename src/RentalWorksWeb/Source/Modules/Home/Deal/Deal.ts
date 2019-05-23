@@ -6,18 +6,15 @@ class Deal {
 	id: string = Constants.Modules.Home.Deal.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
-        var screen, $browse;
-        var self = this;
-
-        screen = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        $browse = this.openBrowse();
+        const $browse = this.openBrowse();
 
-        screen.load = function () {
-            FwModule.openModuleTab($browse, self.caption, false, 'BROWSE', true);
+        screen.load = () => {
+            FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
             if (typeof filter !== 'undefined') {
                 var datafields = filter.datafield.split('%20');
@@ -150,8 +147,7 @@ class Deal {
     //----------------------------------------------------------------------------------------------
     openContractBrowse($form) {
         let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        let $browse;
-        $browse = ContractController.openBrowse();
+        const $browse = ContractController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = ContractController.ActiveViewFields;
             request.uniqueids = {
@@ -163,8 +159,7 @@ class Deal {
    //---------------------------------------------------------------------------------------------
     openInvoiceBrowse($form) {
         let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        let $browse;
-        $browse = InvoiceController.openBrowse();
+        const $browse = InvoiceController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = InvoiceController.ActiveViewFields;
             request.uniqueids = {
@@ -176,8 +171,7 @@ class Deal {
    //---------------------------------------------------------------------------------------------
     openReceiptBrowse($form) {
         let dealId = FwFormField.getValueByDataField($form, 'DealId');
-        let $browse;
-        $browse = ReceiptController.openBrowse();
+        const $browse = ReceiptController.openBrowse();
         $browse.data('ondatabind', function (request) {
             request.activeviewfields = ReceiptController.ActiveViewFields;
             request.uniqueids = {
@@ -819,11 +813,11 @@ class Deal {
         const $browse = DealCreditController.openBrowse();
 
         $browse.data('ondatabind', request => {
+            request.activeviewfields = DealCreditController.ActiveViewFields;
             request.uniqueids = {
                 DealId: $form.find('[data-datafield="DealId"] input.fwformfield-value').val()
             }
         });
-        FwBrowse.databind($browse);
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
