@@ -70,7 +70,7 @@ class Billing {
         //selects all checkboxes/records
         $browse.data('afterdatabindcallback', () => {
             $browse.find('thead .cbselectrow').click();
-            if ($browse.find('tbody tr').length > 1) {
+            if ($browse.find('tbody tr').length > 0) {
                 $browse.find('.buttonbar .createInvoices').css({ 'pointer-events': '', 'color': '' });
             } else {
                 $browse.find('.buttonbar .createInvoices').css({ 'pointer-events': 'none', 'color': 'gray' });
