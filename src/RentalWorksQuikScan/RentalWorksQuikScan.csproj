@@ -45,7 +45,7 @@
     <RootNamespace>RentalWorksQuikScan</RootNamespace>
     <AssemblyName>RentalWorksQuikScan</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <FwUpdateSchema>true</FwUpdateSchema>
@@ -534,7 +534,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>38152</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:38152/</IISUrl>
+          <IISUrl>http://localhost/qs</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
