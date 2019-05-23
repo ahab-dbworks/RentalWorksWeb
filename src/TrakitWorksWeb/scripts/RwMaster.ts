@@ -22,7 +22,7 @@
             {
                 caption: 'Administrator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: [ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, SettingsController, ReportsController, UserController]
+                children: [ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, ReportsController, SettingsController, UserController]
             }
         ];
     }
