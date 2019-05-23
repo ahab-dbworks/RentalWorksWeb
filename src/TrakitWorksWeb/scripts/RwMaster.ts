@@ -12,7 +12,7 @@
             {
                 caption: 'Inventory',
                 id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
-                children: [AssetController, RepairController, InventoryItemController, ExpendableItemController/*, SalesInventoryController, PartsInventoryController, ContainerController*/]
+                children: [AssetController, ExpendableItemController, InventoryItemController, RepairController/*, SalesInventoryController, PartsInventoryController, ContainerController*/]
           },
             {
                 caption: 'Warehouse',
