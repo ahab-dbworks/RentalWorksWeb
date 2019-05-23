@@ -43,6 +43,8 @@ namespace WebApi.Modules.Home.OrderDates
             }
             try
             {
+                //#jhtodo - this breaks the Audit History function.  Need to to through the normal QuoteController and OrderController for this.
+
                 ApplyOrderDatesAndTimesResponse response = new ApplyOrderDatesAndTimesResponse();
                 if (string.IsNullOrEmpty(request.OrderId))
                 {
