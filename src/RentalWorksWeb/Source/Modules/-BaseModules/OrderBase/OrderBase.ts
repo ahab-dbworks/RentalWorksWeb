@@ -2089,14 +2089,10 @@ class OrderBase {
         }
 
         //replace date and time fields
-        const pickDate = FwFormField.getValueByDataField($form, 'PickDate');
-        const pickTime = FwFormField.getValueByDataField($form, 'PickTime');
-        const fromDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
-        const fromTime = FwFormField.getValueByDataField($form, 'EstimatedStartTime');
-        const toDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
-        const toTime = FwFormField.getValueByDataField($form, 'EstimatedStopTime');
+        const datesAndTimes = FwFormField.getValueByDataField($form, 'DatesAndTimes');
 
-        const dates = `<span style="margin-left:5px;">Pick: ${pickDate} ${pickTime}   Usage: ${fromDate} ${fromTime} - ${toDate} ${toTime}</span> <span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Modify</span>`;
+        $form.find('.modify-dates').empty();
+        const dates = `<span style="margin-left:5px;">${datesAndTimes}</span> <span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Modify</span>`;
         $form.find('div.modify-dates').append(dates);
 
         //activity dates popup

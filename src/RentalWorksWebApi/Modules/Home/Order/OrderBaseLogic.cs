@@ -206,11 +206,37 @@ namespace WebApi.Modules.Home.Order
                 }
 
                 //estimated start and stop dates
+                if (!string.IsNullOrEmpty(EstimatedStartDate))
+                {
+                    if (sb.Length > 0)
+                    {
+                        sb.Append(" ");
+                    }
+                    sb.Append("Start: ");
+                    sb.Append(EstimatedStartDate);
+                    if (!string.IsNullOrEmpty(EstimatedStartTime))
+                    {
+                        sb.Append(" ");
+                        sb.Append(EstimatedStartTime);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(EstimatedStopDate))
+                {
+                    if (sb.Length > 0)
+                    {
+                        sb.Append(" ");
+                    }
+                    sb.Append("Stop: ");
+                    sb.Append(EstimatedStopDate);
+                    if (!string.IsNullOrEmpty(EstimatedStopTime))
+                    {
+                        sb.Append(" ");
+                        sb.Append(EstimatedStopTime);
+                    }
+                }
 
                 //other dates
-
-
-
 
                 return sb.ToString();
             }
