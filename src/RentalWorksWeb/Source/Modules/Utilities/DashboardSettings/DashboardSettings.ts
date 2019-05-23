@@ -34,7 +34,15 @@ class DashboardSettings {
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
 
-        var newsort = Sortable.create($form.find('.sortable').get(0), {
+        //first sortable list (not sure if it can be combined)
+        Sortable.create($form.find('.sortable').get(0), {
+            onEnd: function (evt) {
+                $form.attr('data-modified', 'true');
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            }
+        });
+        //second sortable list
+        Sortable.create($form.find('.sortable').get(1), {
             onEnd: function (evt) {
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
