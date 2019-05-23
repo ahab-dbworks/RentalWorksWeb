@@ -1,0 +1,32 @@
+﻿<div data-name="InventoryCompleteGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse" data-caption="Items" data-rendermode="template" data-showsearch="false" data-refreshaftersave="true" data-controller="InventoryCompleteGridController">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-datafield="InventoryPackageInventoryId" data-browsedatatype="key" data-formdatatype="key" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="#" data-datafield="OrderBy" data-browsedatatype="number" data-formdatatype="number" data-sort="asc" data-formrequired="true" data-formreadonly="true"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="I-Code" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-browsedatatype="validation" data-formdatatype="validation" data-sort="asc" data-validationname="RentalInventoryValidation" data-formrequired="true" data-fullcellcolor="ICodeColor"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Description" data-datafield="Description" data-browsedatatype="text" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-fullcellcolor="LineColor"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Tracked By" data-datafield="ItemTrackedBy" data-browsedatatype="text" data-formdatatype="text" data-sort="asc" data-formrequired="false" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Daily" data-datafield="DailyRate" data-browsedatatype="money" data-formdatatype="text" data-sort="asc" data-formrequired="false" data-formreadonly="true" data-fullcellcolor="LineColor"></div>
+  </div>
+  <!--<div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Currency" data-datafield="" data-browsedatatype="text" data-formdatafield="" data-formdatatype="text" data-sort="asc" data-formrequired="true" data-fullcellcolor="LineColor"></div>
+  </div>-->
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Quantity/%" data-datafield="DefaultQuantity" data-browsedatatype="number" data-formdatatype="number" data-sort="asc" data-formrequired="true" data-fullcellcolor="LineColor"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Option" data-datafield="IsOption" data-browsedatatype="checkbox" data-formdatatype="checkbox" data-sort="asc" data-fullcellcolor="LineColor"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field" data-caption="Charge" data-datafield="Charge" data-browsedatatype="checkbox" data-formdatatype="checkbox" data-sort="asc" data-fullcellcolor="LineColor"></div>
+  </div>
+</div>

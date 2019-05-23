@@ -137,6 +137,14 @@
                 RefreshAvailability: { id: '{BBC9E755-54D3-474A-ACBE-E99D4A8C568D}' }
             }
         },
+        QuoteItemGrid: {
+            menuItems: {
+                SummaryView: { id: '{224054C8-1D06-4DC5-BBED-D6A1112CCB3C}' },
+                Search: { id: '{A87867E1-6756-49C4-AE71-C31648A5F029}' },
+                BoldUnBoldSelected: { id: '{373CEE50-A632-463D-9F6F-0387557509CB}' },
+                RefreshAvailability: { id: '{74E160D8-54C7-4293-9944-CAB226AD4565}' }
+            }
+        },
         SearchPreviewGrid: {
             menuItems: {
                 RefreshAvailability: { id: '{C4168B67-EDD2-4749-9841-95A113251248}' }

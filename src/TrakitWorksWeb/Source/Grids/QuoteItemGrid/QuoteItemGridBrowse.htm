@@ -1,0 +1,59 @@
+﻿<div data-name="QuoteItemGrid" data-control="FwBrowse" data-type="Grid" class="fwcontrol fwbrowse flexbox" data-paging="true" data-multisave="true" data-caption="Items" data-rendermode="template" data-showsearch="false" data-refreshaftersave="true" data-controller="QuoteItemGridController">
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-isuniqueid="true" data-datafield="OrderItemId" data-datatype="key" data-formreadonly="true" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-datafield="OrderId" data-datatype="text" data-formreadonly="true" data-sort="off"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field" data-datafield="ItemOrder" data-datatype="text" data-formreadonly="true" data-sort="asc"></div>
+  </div>
+  <div class="column individual" data-width="10px" data-visible="true">
+    <div class="field template" data-caption="&#35;" data-datafield="RowNumber" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
+  </div>
+  <div class="column combined" data-width="10px" data-visible="false">
+    <div class="field" data-caption="&#35;" data-datafield="RowNumberCombined" data-datatype="text" data-sort="off" data-formreadonly="true"></div>
+  </div>
+  <div class="column combined" data-width="80px" data-visible="false">
+    <div class="field" data-caption="Type" data-datafield="RecType" data-browsedisplayfield="RecTypeDisplay" data-datatype="validation" data-sort="off" data-validationpeek="false" data-validationname="RecTypeValidation"></div>
+  </div>
+  <div class="column" data-width="100px" data-visible="true">
+    <div class="field valtype template" data-caption="Item No" data-datafield="InventoryId" data-browsedisplayfield="ICode" data-fullcellcolor="ICodeColor" data-datatype="validation" data-validationname="GeneralItemValidation" data-sort="none" data-mappedfield="ICode" style="white-space: pre;" data-formbeforevalidate="beforeValidateItem"></div>
+  </div>
+  <div class="column" data-width="auto" data-visible="true">
+    <div class="field template" data-caption="Description" data-datafield="Description" data-halfcellcolor="DescriptionColor" data-datatype="text" data-sort="off" data-mappedfield="Description" style="min-width:250px;"></div>
+  </div>
+  <div class="column" data-width="95px" data-visible="true">
+    <div class="field template" data-caption="From Date" data-datafield="FromDate" data-datatype="date" data-sort="none" data-mappedfield="FromDate"></div>
+  </div>
+  <div class="column" data-width="75px" data-visible="true">
+    <div class="field" data-caption="From Time" data-datafield="FromTime" data-timeformat="24" data-datatype="timepicker" data-sort="none" data-mappedfield="FromTime"></div>
+  </div>
+  <div class="column" data-width="95px" data-visible="true">
+    <div class="field template" data-caption="To Date" data-datafield="ToDate" data-datatype="date" data-sort="none" data-mappedfield="ToDate"></div>
+  </div>
+  <div class="column" data-width="75px" data-visible="true">
+    <div class="field" data-caption="To Time" data-datafield="ToTime" data-timeformat="24" data-datatype="timepicker" data-sort="none" data-mappedfield="ToTime"></div>
+  </div>
+  <div class="column" data-width="40px" data-visible="true">
+    <div class="field template" data-caption="Qty" data-datafield="QuantityOrdered" data-datatype="number" data-sort="none" data-mappedfield="QuantityOrdered"></div>
+  </div>
+  <div class="column" data-width="40px" data-visible="true">
+    <div class="field" data-caption="Avail" data-datafield="AvailableQuantity" data-cellcolor="AvailableQuantityColor" data-datatype="number" data-sort="none" data-formreadonly="true" data-mappedfield="AvailableQuantity"></div>
+  </div>
+  <div class="column" data-width="75px" data-visible="true">
+    <div class="field" data-caption="Conflict" data-datafield="ConflictDate" data-datatype="date" data-sort="none" data-formreadonly="true" data-mappedfield="ConflictDate"></div>
+  </div>
+  <div class="column" data-width="45px" data-visible="true">
+    <div class="field template" data-caption="Unit" data-datafield="Unit" data-datatype="text" data-sort="none" data-formreadonly="true" data-mappedfield="Unit"></div>
+  </div>
+  <div class="column" data-width="40px" data-visible="true">
+    <div class="field template" data-caption="Note" data-datafield="Notes" data-datatype="note" data-sort="none" data-mappedfield="Notes"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field order-item-lock" data-caption="Locked" data-datafield="Locked" data-datatype="text" data-sort="none"></div>
+  </div>
+  <div class="column" data-width="0" data-visible="false">
+    <div class="field order-item-bold" data-caption="Bold" data-datafield="Bold" data-datatype="text" data-sort="none"></div>
+  </div>
+</div>

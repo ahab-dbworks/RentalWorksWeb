@@ -3,7 +3,6 @@
   <div id="quoteform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab"  class="generaltab tab" data-tabpageid="generaltabpage"  data-caption="Request"></div>
-      <div data-type="tab" id="rentaltab"   class="tab"            data-tabpageid="rentaltabpage"   data-caption="Items" style="display:none;"></div>
       <div data-type="tab" id="contactstab" class="tab"            data-tabpageid="contactstabpage" data-caption="Contacts" style="display:none;"></div>
       <div data-type="tab" id="notetab"     class="tab notestab"   data-tabpageid="notetabpage"     data-caption="Notes"></div>
       <div data-type="tab" id="historytab"  class="tab"            data-tabpageid="historytabpage"  data-caption="History" style="display:none;"></div>
@@ -34,10 +33,10 @@
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="PickDate" style="flex:1 1 115px;display:none;"></div>
                   <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="Pick Time" data-datafield="PickTime" data-timeformat="24" style="flex:1 1 84px;display:none;"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Required Date" data-datafield="EstimatedStartDate" style="flex:1 1 115px;"></div>
-                  <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="Required Time" data-datafield="EstimatedStartTime" data-timeformat="24" style="flex:1 1 84px;"></div>
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Return Date" data-datafield="EstimatedStopDate" style="flex:1 1 115px;"></div>
-                  <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="Return Time" data-datafield="EstimatedStopTime" data-timeformat="24" style="flex:1 1 84px;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From Date" data-datafield="EstimatedStartDate" style="flex:1 1 115px;"></div>
+                  <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="From Time" data-datafield="EstimatedStartTime" data-timeformat="24" style="flex:1 1 84px;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To Date" data-datafield="EstimatedStopDate" style="flex:1 1 115px;"></div>
+                  <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="To Time" data-datafield="EstimatedStopTime" data-timeformat="24" style="flex:1 1 84px;"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="Location"></div>
@@ -61,7 +60,7 @@
           </div>
           <div class="wideflexrow">
             <div class="wideflexrow rentalgrid">
-              <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Rental Items"></div>
+              <div data-control="FwGrid" data-grid="QuoteItemGrid" data-securitycaption="Quote Items"></div>
             </div>
           </div>
           <!--Activity section-->
@@ -79,19 +78,6 @@
           </div>
         </div>
       </div>
-
-      <!-- ITEMS TAB -->
-      <!--<div data-type="tabpage" id="rentaltabpage" class="rentalgrid notcombined tabpage" data-tabid="rentaltab">
-        <div class="formpage">
-          <div class="formrow">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Items">
-              <div class="wideflexrow">
-                <div data-control="FwGrid" data-grid="OrderItemGrid" data-securitycaption="Rental Items"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>-->
 
       <!-- CONTACTS TAB -->
       <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">

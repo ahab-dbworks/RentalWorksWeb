@@ -156,6 +156,7 @@ class SearchInterface {
         let warehouseId = (type === 'Transfer') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
         $popup.find('#itemsearch').data('warehouseid', warehouseId);
 
+        let self = this;
         let userId = JSON.parse(sessionStorage.getItem('userid'));
         FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
             //Render options sortable column list
@@ -176,29 +177,26 @@ class SearchInterface {
                 $popup.find('#itemsearch').data('columnorder', columnOrder);
                 $popup.find('#itemsearch').data('columnstohide', columnsToHide);
             } else {
-                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
-                    [{ value: 'Description', text: 'Description',                         selected: 'T' },
-                    { value: 'Type',         text: 'Type',                                selected: 'T' },
-                    { value: 'Category',     text: 'Category',                            selected: 'T' },
-                    { value: 'SubCategory',  text: 'Sub Category',                        selected: 'T' },
+                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
+                    { value: 'Description',  text: 'Description',                         selected: 'T' },
                     { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
+                    { value: 'Type',         text: 'Type',                                selected: 'F' },
+                    { value: 'Category',     text: 'Category',                            selected: 'F' },
+                    { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
                     { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
                     { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
                     { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
                     { value: 'In',           text: 'In Quantity',                         selected: 'T' },
                     { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
-                    { value: 'Rate',         text: 'Rate',                                selected: 'T' }]);
+                    { value: 'Rate',         text: 'Rate',                                selected: 'T' }
+                ]);
             }
 
-            if (response.DisableAccessoryAutoExpand) {
-                FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', true);
-            }
+            FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', response.DisableAccessoryAutoExpand);
+            FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
 
-            if (response.HideZeroQuantity) {
-                FwFormField.setValueByDataField($popup, 'HideZeroQuantity', true);
-            }
-
-            $popup.find('#itemlist').attr('data-view', response.Mode || 'GRID')
+            $popup.find('#itemlist').attr('data-view', response.Mode || 'GRID');
+            self.listGridView($popup);
         }, null, null);
 
 
@@ -620,31 +618,28 @@ class SearchInterface {
             }
         }
 
-        let $inventory = $popup.find('.item-info');
-        let view       = $popup.find('#itemlist').attr('data-view');
-
         let type = $popup.find('#itemsearch').attr('data-moduletype');
         if (type === 'PurchaseOrder' || type === 'Template') {
             $popup.find('.hideColumns').css('display', 'none');
         }
 
-        this.listGridView($inventory, view);
+        this.listGridView($popup);
     }
     //----------------------------------------------------------------------------------------------
-    listGridView($inventory, viewType) {
-        let $searchpopup = jQuery('#searchpopup') ;
+    listGridView($popup) {
+        let view = $popup.find('#itemlist').attr('data-view');
 
-        if (viewType !== 'GRID') {
+        if (view !== 'GRID') {
             //custom display/sequencing for columns
-            let columnsToHide = $searchpopup.find('#itemsearch').data('columnstohide');
-            $searchpopup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
+            let columnsToHide = $popup.find('#itemsearch').data('columnstohide');
+            $popup.find('.columnDescriptions .columnorder, .item-info .columnorder').css('display', '');
             for (let i = 0; i < columnsToHide.length; i++) {
-                $searchpopup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
+                $popup.find(`.columnDescriptions [data-column="${columnsToHide[i]}"], .item-info [data-column="${columnsToHide[i]}"]`).hide();
             }
 
-            let columnOrder = $searchpopup.find('#itemsearch').data('columnorder');
+            let columnOrder = $popup.find('#itemsearch').data('columnorder');
             for (let i = 0; i < columnOrder.length; i++) {
-                $searchpopup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
+                $popup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
             }
         }
     }
@@ -785,8 +780,8 @@ class SearchInterface {
 
         //Reset options to defaults
         $popup.on('click', '.restoreDefaults', e => {
-            FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'),
-                [{ value: 'Description', text: 'Description',                         selected: 'T' },
+            FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
+                { value: 'Description',  text: 'Description',                         selected: 'T' },
                 { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
                 { value: 'Type',         text: 'Type',                                selected: 'F' },
                 { value: 'Category',     text: 'Category',                            selected: 'F' },
@@ -796,13 +791,12 @@ class SearchInterface {
                 { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
                 { value: 'In',           text: 'In Quantity',                         selected: 'T' },
                 { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
-                { value: 'Rate',         text: 'Rate',                                selected: 'T' }]);
+                { value: 'Rate',         text: 'Rate',                                selected: 'T' }
+            ]);
 
             FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
             FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
-            let gridView = $popup.find('#itemlist').attr('data-view');
-            let $inventory = $popup.find('div.item-info');
-            self.listGridView($inventory, gridView);
+            self.listGridView($popup);
 
             $popup.find('.options').removeClass('active');
             $popup.find('.options .optionsmenu').css('z-index', '0');
@@ -987,7 +981,7 @@ class SearchInterface {
                 view  = $this.attr('data-buttonview');
 
             $popup.find('#itemlist').attr('data-view', view);
-            self.listGridView($popup.find('div.item-info'), view);
+            self.listGridView($popup);
 
             let viewrequest: any = {
                 WebUserId: userId.webusersid,
@@ -1219,8 +1213,8 @@ class SearchInterface {
             const classificationDescriptionIndex = response.ColumnIndex.ClassificationDescription;
             const quantityColorIndex             = response.ColumnIndex.QuantityColor;
             const qtyIsStaleIndex                = response.ColumnIndex.QuantityAvailableIsStale;
-            const thumbnail                      = response.ColumnIndex.Thumbnail
-            const appImageId                     = response.ColumnIndex.ImageId
+            const thumbnail                      = response.ColumnIndex.Thumbnail;
+            const appImageId                     = response.ColumnIndex.ImageId;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';

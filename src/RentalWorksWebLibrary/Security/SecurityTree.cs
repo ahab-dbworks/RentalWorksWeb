@@ -716,6 +716,7 @@ namespace WebLibrary.Security
             AddGrid("Inventory Attribute Value",              "{ECEB623B-C84C-4D55-AE86-8E067E119244}", lv1menuGrids.Id, "InventoryAttributeValueGridController");
             AddGrid("Inventory Availability",                 "{548B5500-E8BD-4448-8B4C-2389D54DD803}", lv1menuGrids.Id, "InventoryAvailabilityGridController");
             AddGrid("Inventory Compatibility",                "{AD2D5238-317D-4FDC-950E-E935293CE2F8}", lv1menuGrids.Id, "InventoryCompatibilityGridController");
+            AddGrid("Inventory Complete",                     "{3C3CE861-FEC6-41D6-A9B7-7AB28CC65F40}", lv1menuGrids.Id, "InventoryCompleteGridController");
             AddGrid("Inventory Complete Kit",                 "{9F38BB28-4133-4291-91B8-3F234B5DB437}", lv1menuGrids.Id, "InventoryCompleteKitGridController");
             AddGrid("Inventory Consignment",                  "{2DC8659F-EB2B-43C3-BAD1-0769EB14351F}", lv1menuGrids.Id, "InventoryConsignmentGridController");
             AddGrid("Inventory QC",                           "{8A0A4336-2124-4274-BF9F-ED2CE8CFFE54}", lv1menuGrids.Id, "InventoryQcGridController");
@@ -735,6 +736,7 @@ namespace WebLibrary.Security
             AddGrid("PO Receive Items",                       "{22FFEC79-6500-4C85-B446-E111C8CDAC7C}", lv1menuGrids.Id, "POReceiveItemGridController");
             AddGrid("PO Return Bar Code",                     "{4A0DBA79-DCA2-4A57-AF72-FB49A350777C}", lv1menuGrids.Id, "POReturnBarCodeGridController");
             AddGrid("PO Return Items",                        "{B5D69725-CB16-4E12-9457-1B6EB999FD41}", lv1menuGrids.Id, "POReturnItemGridController");
+            AddGrid("Quote Item",                             "{DFE986B8-557B-4A37-83D9-500FC16626F9}", lv1menuGrids.Id, "QuoteItemGridController");
             AddGrid("Rental Inventory Warehouse",             "{9AC6FB16-BC42-42C3-91B7-9346D11CC405}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
             AddGrid("Repair Release",                         "{33DACEA3-20F0-4D7F-A0E3-C2D21BF60BAC}", lv1menuGrids.Id, "RepairReleaseGridController");
             AddGrid("Report Settings",                        "{748FFFB6-175B-4425-A63C-FFFAA6F425E7}", lv1menuGrids.Id, "ReportSettingsGridController");

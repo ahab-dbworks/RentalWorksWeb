@@ -418,6 +418,39 @@ class InventoryItem {
         FwBrowse.init($inventoryAvailabilityGridControl);
         FwBrowse.renderRuntimeHtml($inventoryAvailabilityGridControl);
 
+        // InventoryCompleteGrid
+        const $inventoryCompleteGrid = $form.find('div[data-grid="InventoryCompleteGrid"]');
+        const $inventoryCompleteGridControl = FwBrowse.loadGridFromTemplate('InventoryCompleteGrid');
+        $inventoryCompleteGrid.empty().append($inventoryCompleteGridControl);
+        $inventoryCompleteGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val(),
+                WarehouseId: warehouse.warehouseid
+            };
+        });
+        $inventoryCompleteGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        $inventoryCompleteGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            let primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                const orderByIndex = dt.ColumnIndex.OrderBy;
+                const inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (let i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        FwBrowse.init($inventoryCompleteGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
+
         // InventoryCompleteKitGrid
         let $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
         let $inventoryCompleteKitGridControl = jQuery(jQuery('#tmpl-grids-InventoryCompleteKitGridBrowse').html());

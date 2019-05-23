@@ -1,4 +1,4 @@
-﻿routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
+routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return QuoteController.getModuleScreen(filter); } });
 
 class Quote extends OrderBase {
@@ -220,29 +220,29 @@ class Quote extends OrderBase {
         FwBrowse.init($orderStatusHistoryGridControl);
         FwBrowse.renderRuntimeHtml($orderStatusHistoryGridControl);
 
-        var $orderItemGridRental        = $form.find('div[data-grid="OrderItemGrid"]');
-        var $orderItemGridRentalControl = jQuery(jQuery('#tmpl-grids-OrderItemGridBrowse').html());
-        $orderItemGridRental.empty().append($orderItemGridRentalControl);
-        $orderItemGridRental.addClass('R');
-        $orderItemGridRentalControl.data('isSummary', false);
+        var $quoteItemGridRental        = $form.find('div[data-grid="QuoteItemGrid"]');
+        var $quoteItemGridRentalControl = jQuery(jQuery('#tmpl-grids-QuoteItemGridBrowse').html());
+        $quoteItemGridRental.empty().append($quoteItemGridRentalControl);
+        $quoteItemGridRental.addClass('R');
+        $quoteItemGridRentalControl.data('isSummary', false);
 
-        $orderItemGridRentalControl.data('ondatabind', function (request) {
+        $quoteItemGridRentalControl.data('ondatabind', function (request) {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'QuoteId'),
                 RecType: 'R'
             };
             request.totalfields = totalFields;
         });
-        $orderItemGridRentalControl.data('beforesave', function (request) {
+        $quoteItemGridRentalControl.data('beforesave', function (request) {
             request.OrderId = FwFormField.getValueByDataField($form, 'QuoteId');
             request.RecType = 'R';
         });
-        FwBrowse.addEventHandler($orderItemGridRentalControl, 'afterdatabindcallback', ($control, dt) => {
+        FwBrowse.addEventHandler($quoteItemGridRentalControl, 'afterdatabindcallback', ($control, dt) => {
             let rentalItems = $form.find('.rentalgrid tbody').children();
             rentalItems.length > 0 ? FwFormField.disable($form.find('[data-datafield="Rental"]')) : FwFormField.enable($form.find('[data-datafield="Rental"]'));
         });
-        FwBrowse.init($orderItemGridRentalControl);
-        FwBrowse.renderRuntimeHtml($orderItemGridRentalControl);
+        FwBrowse.init($quoteItemGridRentalControl);
+        FwBrowse.renderRuntimeHtml($quoteItemGridRentalControl);
 
         var $orderNoteGrid        = $form.find('div[data-grid="OrderNoteGrid"]');
         var $orderNoteGridControl = jQuery(jQuery('#tmpl-grids-OrderNoteGridBrowse').html());
@@ -274,7 +274,7 @@ class Quote extends OrderBase {
         FwBrowse.init($orderContactGridControl);
         FwBrowse.renderRuntimeHtml($orderContactGridControl);
 
-        let itemGrids = [$orderItemGridRental];
+        let itemGrids = [$quoteItemGridRental];
         if ($form.attr('data-mode') === 'NEW') {
             for (var i = 0; i < itemGrids.length; i++) {
                 itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
@@ -289,11 +289,6 @@ class Quote extends OrderBase {
     afterLoad($form: any) {
         let status      = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes    = FwFormField.getValueByDataField($form, 'HasNotes');
-        let rentalTab   = $form.find('[data-type="tab"][data-caption="Rental"]');
-
-        if ($form.find('[data-datafield="CombineActivity"] input').val() === 'false') {
-            if (!FwFormField.getValueByDataField($form, 'Rental')) { rentalTab.hide(), FwFormField.disable($form.find('[data-datafield="RentalSale"]')); }
-        }
 
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
             FwModule.setFormReadOnly($form);
@@ -303,10 +298,8 @@ class Quote extends OrderBase {
             FwTabs.setTabColor($form.find('.notestab'), '#FFFF00');
         }
 
-        //hide subworksheet and add LD items
-        var $orderItemGridRental    = $form.find('[data-name="OrderItemGrid"]');
-        FwBrowse.search($orderItemGridRental);
-        $orderItemGridRental.find('.submenu-btn').filter('[data-securityid="007C4F21-7526-437C-AD1C-4BBB1030AABA"], [data-securityid="427FCDFE-7E42-4081-A388-150D3D7FAE36"]').hide();
+        var $quoteItemGridRental = $form.find('[data-name="QuoteItemGrid"]');
+        FwBrowse.search($quoteItemGridRental);
     }
     //----------------------------------------------------------------------------------------------
     events($form: any) {
