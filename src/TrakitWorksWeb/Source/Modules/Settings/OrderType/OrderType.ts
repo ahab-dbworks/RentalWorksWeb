@@ -170,20 +170,6 @@ class OrderType {
         });
         FwBrowse.init($orderTypeTermsAndConditionsGridControl);
         FwBrowse.renderRuntimeHtml($orderTypeTermsAndConditionsGridControl);
-        //----------
-        const $resaleGrid = $form.find('div[data-grid="ContactTitleGrid"]');
-        const $resaleControl = FwBrowse.loadGridFromTemplate('ContactTitleGrid');
-        $resaleGrid.empty().append($resaleControl);
-        $resaleControl.data('ondatabind', request => {
-            request.uniqueids = {
-                OrderTypeId: FwFormField.getValueByDataField($form, 'OrderTypeId')
-            }
-        });
-        $resaleControl.data('beforesave', request => {
-            request.OrderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId')
-        });
-        FwBrowse.init($resaleControl);
-        FwBrowse.renderRuntimeHtml($resaleControl);
         // ----------
         const $orderTypeContactTitleGrid = $form.find('div[data-grid="OrderTypeContactTitleGrid"]');
         const $orderTypeContactTitleControl = FwBrowse.loadGridFromTemplate('OrderTypeContactTitleGrid');

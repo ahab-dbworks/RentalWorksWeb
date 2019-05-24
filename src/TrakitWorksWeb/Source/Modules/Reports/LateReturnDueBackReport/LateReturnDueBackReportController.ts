@@ -1,7 +1,7 @@
-﻿routes.push({ pattern: /^reports\/latereturnduebackreport$/, action: function (match: RegExpExecArray) { return RwLateReturnDueBackReportController.getModuleScreen(); } });
+﻿routes.push({ pattern: /^reports\/latereturnduebackreport$/, action: function (match: RegExpExecArray) { return LateReturnDueBackReportController.getModuleScreen(); } });
 
 const lateReturnDueBackTemplate = `
-    <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Late Return / Due Back" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwLateReturnDueBackReportController">
+    <div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Late Return / Due Back" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="LateReturnDueBackReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
           <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -85,7 +85,7 @@ const lateReturnDueBackTemplate = `
 
 //----------------------------------------------------------------------------------------------
 
-class RwLateReturnDueBackReport extends FwWebApiReport {
+class LateReturnDueBackReport extends FwWebApiReport {
     constructor() {
         super('LateReturnsReport', 'api/v1/latereturnsreport', lateReturnDueBackTemplate);
     }
@@ -93,7 +93,7 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -218,4 +218,4 @@ class RwLateReturnDueBackReport extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
 };
-var RwLateReturnDueBackReportController: any = new RwLateReturnDueBackReport();
+var LateReturnDueBackReportController: any = new LateReturnDueBackReport();

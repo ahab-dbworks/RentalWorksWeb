@@ -32,6 +32,16 @@
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Used Sale Rates" data-datafield="DisableEditingUsedSaleRate" style="float:left;width:150px;"></div>
               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Disable Editing Loss and Damage Rates" data-datafield="DisableEditingLossAndDamageRate" style="float:left;width:150px;"></div>
             </div>
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Sales Billing Rule" data-datafield="SalesBillingRule" style="float:left;width:500px;">
+                <div data-caption="Bill Sales when items are Staged" data-value="STAGED"></div>
+                <div data-caption="Bill Sales when items are Checked Out" data-value="OUT"></div>
+                <div data-caption="Bill Sales based on Billing Start Date of Contract" data-value="BILLINGDATE"></div>
+              </div>
+            </div>
+            <div class="flexrow">
+              <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock Line-Item with Custom Discount Percentage, D/W and Rates by default" data-datafield="LockLineItemsWhenCustomDiscountUsed"></div>
+            </div>
           </div>
         </div>
       </div>

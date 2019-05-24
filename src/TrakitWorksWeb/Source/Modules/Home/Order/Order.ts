@@ -178,7 +178,7 @@ class Order extends OrderBase {
                 var $form       = jQuery(this).closest('.fwform');
                 var orderNumber = FwFormField.getValue($form, 'div[data-datafield="OrderNumber"]');
                 var orderId     = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
-                var $report     = RwOrderReportController.openForm();
+                var $report     = OrderReportController.openForm();
 
                 FwModule.openSubModuleTab($form, $report);
 
@@ -1233,7 +1233,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.PrintO
         var $form       = jQuery(this).closest('.fwform');
         var orderNumber = FwFormField.getValue($form, 'div[data-datafield="OrderNumber"]');
         var orderId     = FwFormField.getValue($form, 'div[data-datafield="OrderId"]');
-        var $report     = RwOrderReportController.openForm();
+        var $report     = OrderReportController.openForm();
 
         FwModule.openSubModuleTab($form, $report);
 

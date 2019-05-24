@@ -53,11 +53,11 @@
 
                 if (jQuery('html').hasClass('desktop')) {
                     $quantityColumn
-                        .on('click', '.incrementQuantity', function () {
+                        .on('click', '.incrementQuantity', () => {
                             $quantityColumn.data('increment')();
                             $quantityColumn.find('.fieldvalue').change();
                         })
-                        .on('click', '.decrementQuantity', function () {
+                        .on('click', '.decrementQuantity', () => {
                             $quantityColumn.data('decrement')();
                             $quantityColumn.find('.fieldvalue').change();
                         });
@@ -127,6 +127,7 @@
             try {
                 if (response.success === true) {
                     this.$trForAddItem.find('div[data-browsedatafield="QuantityOrdered"] .fieldvalue').val(response.InventoryStatus.QuantityOrdered);
+                    this.$trForAddItem.find('[data-browsedatafield="QuantityStaged"]').attr('data-originalvalue', response.QuantityStaged);
                     this.successSound.play();
                 } else {
 

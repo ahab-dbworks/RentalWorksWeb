@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/rentalinventorycatalogreport/, action: function (match: RegExpExecArray) {
-        return RwRentalInventoryCatalogReportController.getModuleScreen();
+        return RentalInventoryCatalogReportController.getModuleScreen();
     }
 });
 
 const rentalInventoryCatalogTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport rentalinventorycatalog" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Catalog" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwRentalInventoryCatalogReportController">
+<div class="fwcontrol fwcontainer fwform fwreport rentalinventorycatalog" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Catalog" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalInventoryCatalogReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" style="display:flex;flex-wrap:wrap;" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -57,7 +57,7 @@ const rentalInventoryCatalogTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-formbeforevalidate="beforeValidate" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="RentalInventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Catalog" data-datafield="WarehouseCatalogId" data-displayfield="WarehouseCatalog" data-validationname="WarehouseCatalogValidation" style="float:left;min-width:400px;"></div>
@@ -72,7 +72,7 @@ const rentalInventoryCatalogTemplate = `
 </div>
 `;
 //----------------------------------------------------------------------------------------------
-class RwRentalInventoryCatalogReport extends FwWebApiReport {
+class RentalInventoryCatalogReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RentalInventoryCatalogReport', 'api/v1/rentalinventorycatalogreport', rentalInventoryCatalogTemplate);
@@ -81,7 +81,7 @@ class RwRentalInventoryCatalogReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -161,4 +161,4 @@ class RwRentalInventoryCatalogReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwRentalInventoryCatalogReportController: any = new RwRentalInventoryCatalogReport();
+var RentalInventoryCatalogReportController: any = new RentalInventoryCatalogReport();

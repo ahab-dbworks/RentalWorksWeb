@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/dealoutstandingitemsreport/, action: function (match: RegExpExecArray) {
-        return RwDealOutstandingItemsReportController.getModuleScreen();
+        return DealOutstandingItemsReportController.getModuleScreen();
     }
 });
 
 const dealOutstandingItemsTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport dealoutstandingitems" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal Outstanding Items" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwDealOutstandingItemsReportController">
+<div class="fwcontrol fwcontainer fwform fwreport dealoutstandingitems" data-control="FwContainer" data-type="form" data-version="1" data-caption="Deal Outstanding Items" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="DealOutstandingItemsReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -90,7 +90,7 @@ const dealOutstandingItemsTemplate = `
 `;
 
 //----------------------------------------------------------------------------------------------
-class RwDealOutstandingItemsReportClass extends FwWebApiReport {
+class DealOutstandingItemsReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('DealOutstandingItemsReport', 'api/v1/dealoutstandingitemsreport', dealOutstandingItemsTemplate);
@@ -99,7 +99,7 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -179,5 +179,5 @@ class RwDealOutstandingItemsReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwDealOutstandingItemsReportController: any = new RwDealOutstandingItemsReportClass();
+var DealOutstandingItemsReportController: any = new DealOutstandingItemsReport();
 //----------------------------------------------------------------------------------------------

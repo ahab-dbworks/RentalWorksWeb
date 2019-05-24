@@ -120,6 +120,9 @@
             SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: '' },
             SuspendedSession: { id: '', caption: 'Suspended Session', nav: 'module/suspendedsession' },
             Vendor: { id: '92E6B1BE-C9E1-46BD-91A0-DF257A5F909A', caption: 'Vendor', nav: 'module/vendor' }
+        },
+        Settings: {
+            Warehouse: { id: '8DD21206-86D4-4C69-9094-A8CF0A5C93FF', caption: 'Warehouse', nav: 'module/warehouse' }
         }
     },
     Grids: {

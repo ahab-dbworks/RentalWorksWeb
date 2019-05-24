@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/orderreport/, action: function (match: RegExpExecArray) {
-        return RwOrderReportController.getModuleScreen();
+    pattern: /^reports\/quotereport/, action: function (match: RegExpExecArray) {
+        return QuoteReportController.getModuleScreen();
     }
 });
 
-const orderTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwOrderReportController">
+const quoteTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport printorder" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Quote" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="QuoteReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -15,12 +15,11 @@ const orderTemplate = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:300px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order">
+               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order" data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" data-savesetting="false" style="float:left;max-width:300px;"></div>
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Quote" data-datafield="QuoteId" data-displayfield="QuoteNumber" data-savesetting="false" data-validationname="QuoteValidation" style="float:left;max-width:300px;"></div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
@@ -29,16 +28,16 @@ const orderTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwOrderReportClass extends FwWebApiReport {
+class QuoteReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('OrderReport', 'api/v1/orderreport', orderTemplate);
+        super('OrderReport', 'api/v1/orderreport', quoteTemplate);
         this.reportOptions.HasDownloadExcel = false;
     }
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -61,10 +60,13 @@ class RwOrderReportClass extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        return parameters;
+        const convertedParams: any = {};
+        convertedParams.OrderId = parameters.QuoteId;
+        convertedParams.isQuote = true;
+        return convertedParams;
     }
     //----------------------------------------------------------------------------------------------
 };
 
-var RwOrderReportController: any = new RwOrderReportClass();
+var QuoteReportController: any = new QuoteReport();
 //----------------------------------------------------------------------------------------------

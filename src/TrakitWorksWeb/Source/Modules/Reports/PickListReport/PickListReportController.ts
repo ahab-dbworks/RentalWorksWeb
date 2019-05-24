@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/picklistreport/, action: function (match: RegExpExecArray) {
-        return RwPickListReportController.getModuleScreen();
+        return PickListReportController.getModuleScreen();
     }
 });
 
 const pickListTemplate = `
-    <div class="fwcontrol fwcontainer fwform fwreport picklistreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Pick List" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwPickListReportController">
+    <div class="fwcontrol fwcontainer fwform fwreport picklistreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Pick List" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PickListReportController">
       <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
         <div class="tabs" style="margin-right:10px;">
           <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -29,7 +29,7 @@ const pickListTemplate = `
     </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwPickListReportClass extends FwWebApiReport {
+class PickListReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('PickListReport', 'api/v1/picklistreport', pickListTemplate);
@@ -38,7 +38,7 @@ class RwPickListReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -65,5 +65,5 @@ class RwPickListReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwPickListReportController: any = new RwPickListReportClass();
+var PickListReportController: any = new PickListReport();
 //----------------------------------------------------------------------------------------------

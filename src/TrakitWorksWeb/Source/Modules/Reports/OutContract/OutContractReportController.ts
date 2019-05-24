@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/outcontractreport/, action: function (match: RegExpExecArray) {
-        return RwOutContractReportController.getModuleScreen();
+        return OutContractReportController.getModuleScreen();
     }
 });
 
 const outContractReportTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwOutContractReportController">
+<div class="fwcontrol fwcontainer fwform fwreport outcontractreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OutContractReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -27,7 +27,7 @@ const outContractReportTemplate = `
 </div>
 `;
 
-class RwOutContractReportClass extends FwWebApiReport {
+class OutContractReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('OutContractReport', 'api/v1/outcontractreport', outContractReportTemplate);
@@ -36,7 +36,7 @@ class RwOutContractReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -74,4 +74,4 @@ class RwOutContractReportClass extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
 };
-var RwOutContractReportController: any = new RwOutContractReportClass();
+var OutContractReportController: any = new OutContractReport();

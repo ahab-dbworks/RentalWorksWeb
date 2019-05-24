@@ -215,7 +215,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Contract.form.menuItems.Pri
         let contractNumber = FwFormField.getValueByDataField($form, `${module}Number`);
         let contractId = FwFormField.getValueByDataField($form, `${module}Id`);
         let recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-        let $report = RwOutContractReportController.openForm();
+        let $report = OutContractReportController.openForm();
 
         FwModule.openSubModuleTab($form, $report);
 

@@ -165,7 +165,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.form.menuItems.Pri
         $form = jQuery(this).closest('.fwform');
         pickListNumber = $form.find('div.fwformfield[data-datafield="PickListNumber"] input').val();
         pickListId = $form.find('div.fwformfield[data-datafield="PickListId"] input').val();
-        $report = RwPickListReportController.openForm();
+        $report = PickListReportController.openForm();
         FwModule.openSubModuleTab($form, $report);
         $report.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
         $report.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);
@@ -184,7 +184,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.PickList.browse.menuItems.P
         pickListNumber = $browse.find('.selected [data-browsedatafield="PickListNumber"]').attr('data-originalvalue');
         pickListId = $browse.find('.selected [data-browsedatafield="PickListId"]').attr('data-originalvalue');
         if (pickListId != null) {
-            $browse = RwPickListReportController.openForm();
+            $browse = PickListReportController.openForm();
             FwModule.openModuleTab($browse, 'Pick List Report for ' + pickListNumber, true, 'REPORT', true);
             $browse.find('div.fwformfield[data-datafield="PickListId"] input').val(pickListId);
             $browse.find('div.fwformfield[data-datafield="PickListId"] .fwformfield-text').val(pickListNumber);

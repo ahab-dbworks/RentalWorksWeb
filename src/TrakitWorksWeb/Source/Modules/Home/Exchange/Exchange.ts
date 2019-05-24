@@ -292,7 +292,6 @@
     };
     //----------------------------------------------------------------------------------------------
     beforeValidateOrder($browse, $grid, request) {
-        //var DealId = jQuery($grid.find('[data-validationname="DealValidation"] input')).val();
         var $form = $grid.closest('.fwform');
         const DealId: string = FwFormField.getValueByDataField($form, 'DealId');
         if (DealId.length > 0) {

@@ -1,11 +1,9 @@
 ﻿class Warehouse {
-    Module: string;
-    apiurl: string;
-
-    constructor() {
-        this.Module = 'Warehouse';
-        this.apiurl = 'api/v1/warehouse';
-    }
+    Module: string = 'Warehouse';
+    apiurl: string = 'api/v1/warehouse';
+    caption: string = Constants.Modules.Settings.Warehouse.caption;
+    nav: string = Constants.Modules.Settings.Warehouse.nav;
+    id: string = Constants.Modules.Settings.Warehouse.id;
 
     getModuleScreen() {
         var screen, $browse;

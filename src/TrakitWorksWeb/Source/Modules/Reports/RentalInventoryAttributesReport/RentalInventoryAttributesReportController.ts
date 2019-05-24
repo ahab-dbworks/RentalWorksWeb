@@ -1,11 +1,11 @@
 ﻿routes.push({
     pattern: /^reports\/rentalinventoryattributesreport/, action: function (match: RegExpExecArray) {
-        return RwRentalInventoryAttributesReportController.getModuleScreen();
+        return RentalInventoryAttributesReportController.getModuleScreen();
     }
 });
 
 const rentalInventoryAttributesTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Attributes Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RwRentalInventoryAttributesReportController">
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Rental Inventory Attributes Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="RentalInventoryAttributesReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -48,7 +48,7 @@ const rentalInventoryAttributesTemplate = `
 </div>`;
 
 //----------------------------------------------------------------------------------------------
-class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
+class RentalInventoryAttributesReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
         super('RentalInventoryAttributesReport', 'api/v1/rentalinventoryattributesreport', rentalInventoryAttributesTemplate);
@@ -57,7 +57,7 @@ class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};
-        screen.$view = FwModule.getModuleControl(`Rw${this.Module}Controller`);
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
@@ -136,5 +136,5 @@ class RwRentalInventoryAttributesReportClass extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
 };
 
-var RwRentalInventoryAttributesReportController: any = new RwRentalInventoryAttributesReportClass();
+var RentalInventoryAttributesReportController: any = new RentalInventoryAttributesReport();
 //----------------------------------------------------------------------------------------------

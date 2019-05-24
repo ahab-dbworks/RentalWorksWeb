@@ -155,7 +155,7 @@ class Quote extends OrderBase {
                 var $form       = jQuery(this).closest('.fwform');
                 var quoteNumber = FwFormField.getValue($form, 'div[data-datafield="QuoteNumber"]');
                 var quoteId     = FwFormField.getValue($form, 'div[data-datafield="QuoteId"]');
-                var $report     = RwQuoteReportController.openForm();
+                var $report     = QuoteReportController.openForm();
 
                 FwModule.openSubModuleTab($form, $report);
 
@@ -425,7 +425,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.PrintQ
         var $form       = jQuery(this).closest('.fwform');
         var quoteNumber = FwFormField.getValue($form, 'div[data-datafield="QuoteNumber"]');
         var quoteId     = FwFormField.getValue($form, 'div[data-datafield="QuoteId"]');
-        var $report     = RwQuoteReportController.openForm();
+        var $report     = QuoteReportController.openForm();
 
         FwModule.openSubModuleTab($form, $report);
 
