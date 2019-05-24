@@ -1201,70 +1201,73 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
 
             TInventoryWarehouseAvailability availData = await GetAvailability(appConfig, userSession, InventoryId, WarehouseId, FromDate, ToDate, true);
 
-
-            // build up the calendar events
-            //currently hard-coded for "daily" availability.  will need mods to work for "hourly"
             int eventId = 0;
-            foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> d in availData.Dates)
+
+            if (availData != null)
             {
-                DateTime startDateTime = d.Key;
-                DateTime endDateTime = d.Key;
+                // build up the calendar events
+                //currently hard-coded for "daily" availability.  will need mods to work for "hourly"
+                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> d in availData.Dates)
+                {
+                    DateTime startDateTime = d.Key;
+                    DateTime endDateTime = d.Key;
 
-                startDateTime = startDateTime.AddMinutes(1);
-                endDateTime = endDateTime.AddDays(1).AddMinutes(-1);
-                //available
-                eventId++;
-                TInventoryAvailabilityCalendarEvent iAvail = new TInventoryAvailabilityCalendarEvent();
-                iAvail.id = eventId.ToString(); ;
-                iAvail.InventoryId = InventoryId;
-                iAvail.WarehouseId = WarehouseId;
-                iAvail.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
-                iAvail.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                iAvail.text = "Available " + ((int)d.Value.Available.Total).ToString();
-                if (d.Value.Available.Total < 0)
-                {
-                    iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
-                    iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
-                }
-                else
-                {
-                    iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_POSITIVE);
-                    iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_POSITIVE);
-                }
-                response.InventoryAvailabilityCalendarEvents.Add(iAvail);
-
-                //reserved
-                if (d.Value.Reserved.Total != 0)
-                {
+                    startDateTime = startDateTime.AddMinutes(1);
+                    endDateTime = endDateTime.AddDays(1).AddMinutes(-1);
+                    //available
                     eventId++;
-                    TInventoryAvailabilityCalendarEvent iReserve = new TInventoryAvailabilityCalendarEvent();
-                    iReserve.id = eventId.ToString(); ;
-                    iReserve.InventoryId = InventoryId;
-                    iReserve.WarehouseId = WarehouseId;
-                    iReserve.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
-                    iReserve.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    iReserve.text = "Reserved " + ((int)d.Value.Reserved.Total).ToString();
-                    iReserve.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
-                    iReserve.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
-                    response.InventoryAvailabilityCalendarEvents.Add(iReserve);
-                }
+                    TInventoryAvailabilityCalendarEvent iAvail = new TInventoryAvailabilityCalendarEvent();
+                    iAvail.id = eventId.ToString(); ;
+                    iAvail.InventoryId = InventoryId;
+                    iAvail.WarehouseId = WarehouseId;
+                    iAvail.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                    iAvail.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
+                    iAvail.text = "Available " + ((int)d.Value.Available.Total).ToString();
+                    if (d.Value.Available.Total < 0)
+                    {
+                        iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
+                        iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
+                    }
+                    else
+                    {
+                        iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_POSITIVE);
+                        iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_POSITIVE);
+                    }
+                    response.InventoryAvailabilityCalendarEvents.Add(iAvail);
 
-                //returning
-                if (d.Value.Returning.Total != 0)
-                {
-                    eventId++;
-                    TInventoryAvailabilityCalendarEvent iReturn = new TInventoryAvailabilityCalendarEvent();
-                    iReturn.id = eventId.ToString(); ;
-                    iReturn.InventoryId = InventoryId;
-                    iReturn.WarehouseId = WarehouseId;
-                    iReturn.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
-                    iReturn.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    iReturn.text = "Returning " + ((int)d.Value.Returning.Total).ToString();
-                    iReturn.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING);
-                    iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
-                    response.InventoryAvailabilityCalendarEvents.Add(iReturn);
-                }
+                    //reserved
+                    if (d.Value.Reserved.Total != 0)
+                    {
+                        eventId++;
+                        TInventoryAvailabilityCalendarEvent iReserve = new TInventoryAvailabilityCalendarEvent();
+                        iReserve.id = eventId.ToString(); ;
+                        iReserve.InventoryId = InventoryId;
+                        iReserve.WarehouseId = WarehouseId;
+                        iReserve.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                        iReserve.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
+                        iReserve.text = "Reserved " + ((int)d.Value.Reserved.Total).ToString();
+                        iReserve.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
+                        iReserve.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
+                        response.InventoryAvailabilityCalendarEvents.Add(iReserve);
+                    }
 
+                    //returning
+                    if (d.Value.Returning.Total != 0)
+                    {
+                        eventId++;
+                        TInventoryAvailabilityCalendarEvent iReturn = new TInventoryAvailabilityCalendarEvent();
+                        iReturn.id = eventId.ToString(); ;
+                        iReturn.InventoryId = InventoryId;
+                        iReturn.WarehouseId = WarehouseId;
+                        iReturn.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
+                        iReturn.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
+                        iReturn.text = "Returning " + ((int)d.Value.Returning.Total).ToString();
+                        iReturn.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING);
+                        iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
+                        response.InventoryAvailabilityCalendarEvents.Add(iReturn);
+                    }
+
+                }
             }
 
 
