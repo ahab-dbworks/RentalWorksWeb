@@ -250,6 +250,7 @@ class OrderBase {
             const department = JSON.parse(sessionStorage.getItem('department'));
             const office = JSON.parse(sessionStorage.getItem('location'));
             const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+            const controlDefaults = JSON.parse(sessionStorage.getItem('controldefaults'));
 
             FwFormField.setValue($form, 'div[data-datafield="ProjectManagerId"]', usersid, name);
             FwFormField.setValue($form, 'div[data-datafield="AgentId"]', usersid, name);
@@ -262,6 +263,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', office.locationid, office.location);
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
+            FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', controlDefaults.defaultdealbillingcycleid, controlDefaults.defaultdealbillingcycle);
 
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
             FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
