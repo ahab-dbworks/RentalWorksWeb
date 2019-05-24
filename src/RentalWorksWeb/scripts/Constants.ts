@@ -239,7 +239,7 @@
                     }
                 }
             },
-            Warehouse: { id: '931D3E75-68CB-4280-B12F-9A955444AA0C', caption: 'Warehouse', nav: 'module/warehouse' },
+            Warehouse: { id: '931D3E75-68CB-4280-B12F-9A955444AA0C', caption: 'Warehouse', nav: 'module/warehouse' }
         },
         Utilities: {
             InvoiceProcessBatch: {
