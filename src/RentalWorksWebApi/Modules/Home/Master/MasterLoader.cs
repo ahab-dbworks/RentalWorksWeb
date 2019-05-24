@@ -137,7 +137,7 @@ namespace WebApi.Modules.Home.Master
             addFilterToSelect("CategoryId", "categoryid", select, request);
             addFilterToSelect("SubCategoryId", "subcategoryid", select, request);
 
-            AddActiveViewFieldToSelect("Classification", "classification", select, request);
+            AddActiveViewFieldToSelect("Classification", "class", select, request);
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
