@@ -22,7 +22,7 @@ namespace WebApi.Modules.Home.Master
         [FwLogicProperty(Id:"5W33grkqpS7C", IsRecordTitle:true)]
         public string ICode { get { return master.ICode; } set { master.ICode = value; } }
 
-        [FwLogicProperty(Id:"w5YezKMiKGXs")]
+        [FwLogicProperty(Id:"w5YezKMiKGXs", IsRecordTitle: true)]
         public string Description { get { return master.Description; } set { master.Description = value; } }
 
         [JsonIgnore]
