@@ -49,7 +49,9 @@
                     program.navigate(redirectPath);
                 }, 0);
             } else {
-                self.loadSettings(screen.$view);
+                if (sessionStorage.getItem('userType') === 'USER') {
+                    self.loadSettings(screen.$view);
+                }
             }
         };
 
