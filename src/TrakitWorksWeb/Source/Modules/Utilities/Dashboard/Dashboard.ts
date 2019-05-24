@@ -2,9 +2,9 @@ routes.push({ pattern: /^module\/dashboard$/, action: function (match: RegExpExe
 
 class Dashboard {
     Module: string = 'Dashboard';
-    caption: string = 'Dashboard';
-    nav: string = 'module/dashboard';
-    id: string = 'E01F0032-CFAA-4556-9F24-E4C28C5B50A1';
+    caption: string = Constants.Modules.Utilities.Dashboard.caption;
+    nav: string = Constants.Modules.Utilities.Dashboard.nav;
+    id: string = Constants.Modules.Utilities.Dashboard.id;
 
     loadDashboard() {
         program.navigate('home');

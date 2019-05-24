@@ -1,4 +1,4 @@
-﻿class RwMaster extends WebMaster {
+class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     navigation: any;
     //----------------------------------------------------------------------------------------------
@@ -7,34 +7,93 @@
             {
                 caption: 'Agent',
                 id: '91D2F0CF-2063-4EC8-B38D-454297E136A8',
-                children: [QuoteController, OrderController, CustomerController, DealController, VendorController, ContactController, PurchaseOrderController, ProjectController]
+                children: [
+                    Constants.Modules.Home.Quote, 
+                    Constants.Modules.Home.Order, 
+                    Constants.Modules.Home.Customer, 
+                    Constants.Modules.Home.Deal, 
+                    Constants.Modules.Home.Vendor, 
+                    Constants.Modules.Home.Contact, 
+                    Constants.Modules.Home.PurchaseOrder, 
+                    Constants.Modules.Home.Project
+                ]
             },
             {
                 caption: 'Inventory',
                 id: '8AA0C4A4-B583-44CD-BB47-09C43961CE99',
-                children: [RentalInventoryController, SalesInventoryController, PartsInventoryController, AssetController, ContainerController, RepairController, CompleteQcController, PhysicalInventoryController]
+                children: [
+                    Constants.Modules.Home.RentalInventory, 
+                    Constants.Modules.Home.SalesInventory, 
+                    Constants.Modules.Home.PartsInventory, 
+                    Constants.Modules.Home.Asset, 
+                    Constants.Modules.Home.Container, 
+                    Constants.Modules.Home.Repair, 
+                    Constants.Modules.Home.CompleteQc, 
+                    Constants.Modules.Home.PhysicalInventory
+                ]
             },
             {
                 caption: 'Warehouse',
                 id: '22D67715-9C24-4A06-A009-CB10A1EC746B',
-                children: [OrderStatusController, PickListController, ContractController, StagingCheckoutController, ExchangeController, CheckInController, ReceiveFromVendorController,
-                    ReturnToVendorController, AssignBarCodesController, TransferStatusController, TransferOrderController, ManifestController, TransferReceiptController, TransferOutController, TransferInController,
-                    ContainerStatusController, FillContainerController, EmptyContainerController, RemoveFromContainerController]
+                children: [
+                    Constants.Modules.Home.OrderStatus, 
+                    Constants.Modules.Home.PickList, 
+                    Constants.Modules.Home.Contract, 
+                    Constants.Modules.Home.StagingCheckout, 
+                    Constants.Modules.Home.Exchange, 
+                    Constants.Modules.Home.CheckIn, 
+                    Constants.Modules.Home.ReceiveFromVendor,
+                    Constants.Modules.Home.ReturnToVendor, 
+                    Constants.Modules.Home.AssignBarCodes, 
+                    Constants.Modules.Home.TransferStatus, 
+                    Constants.Modules.Home.TransferOrder, 
+                    Constants.Modules.Home.Manifest, 
+                    Constants.Modules.Home.TransferReceipt, 
+                    Constants.Modules.Home.TransferOut, 
+                    Constants.Modules.Home.TransferIn,
+                    Constants.Modules.Home.ContainerStatus, 
+                    Constants.Modules.Home.FillContainer, 
+                    Constants.Modules.Home.EmptyContainer, 
+                    Constants.Modules.Home.RemoveFromContainer
+                ]
             },
             {
                 caption: 'Billing',
                 id: '9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA',
-                children: [BillingController, InvoiceController, ReceiptController, VendorInvoiceController]
+                children: [
+                    Constants.Modules.Home.Billing, 
+                    Constants.Modules.Home.Invoice, 
+                    Constants.Modules.Home.Receipt, 
+                    Constants.Modules.Home.VendorInvoice
+                ]
             },
             {
                 caption: 'Utilities',
                 id: '81609B0E-4B1F-4C13-8BE0-C1948557B82D',
-                children: [DashboardController, DashboardSettingsController, InvoiceProcessBatchController, ReceiptProcessBatchController, VendorInvoiceProcessBatchController, QuikActivityCalendarController]
+                children: [
+                    Constants.Modules.Utilities.Dashboard, 
+                    Constants.Modules.Utilities.DashboardSettings, 
+                    Constants.Modules.Utilities.InvoiceProcessBatch, 
+                    Constants.Modules.Utilities.ReceiptProcessBatch, 
+                    Constants.Modules.Utilities.VendorInvoiceProcessBatch, 
+                    Constants.Modules.Utilities.QuikActivityCalendar
+                ]
             },
             {
                 caption: 'Administrator',
                 id: 'F188CB01-F627-4DD3-9B91-B6486F0977DC',
-                children: [ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, EmailHistoryController, GroupController, HotfixController, UserController, SettingsController, ReportsController]
+                children: [
+                    Constants.Modules.Administrator.Control, 
+                    Constants.Modules.Administrator.CustomField, 
+                    Constants.Modules.Administrator.CustomForm, 
+                    Constants.Modules.Administrator.DuplicateRule, 
+                    Constants.Modules.Administrator.EmailHistory, 
+                    Constants.Modules.Administrator.Group, 
+                    Constants.Modules.Administrator.Hotfix, 
+                    Constants.Modules.Administrator.User, 
+                    Constants.Modules.Administrator.Settings, 
+                    Constants.Modules.Administrator.Reports
+                ]
             }
         ];
     }

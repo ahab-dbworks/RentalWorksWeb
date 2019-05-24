@@ -1,4 +1,4 @@
-﻿class RwMaster extends WebMaster {
+class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     navigation: any;
     //----------------------------------------------------------------------------------------------
@@ -7,22 +7,53 @@
             {
                 caption: 'TrakitWorks',
                 id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [ContactController, /*CustomerController,*/ DealController, OrderController, PurchaseOrderController, QuoteController, VendorController]
+                children: [
+                    Constants.Modules.Home.Contact, 
+                    Constants.Modules.Home.Deal, 
+                    Constants.Modules.Home.Order, 
+                    Constants.Modules.Home.PurchaseOrder, 
+                    Constants.Modules.Home.Quote, 
+                    Constants.Modules.Home.Vendor
+                ]
             },
             {
                 caption: 'Inventory',
                 id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
-                children: [AssetController, /*ExpendableItemController,*/ InventoryItemController, RepairController/*, SalesInventoryController, PartsInventoryController, ContainerController*/]
+                children: [
+                    Constants.Modules.Home.Asset, 
+                    Constants.Modules.Home.InventoryItem, 
+                    Constants.Modules.Home.Repair
+                ]
           },
             {
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
-                children: [AssignBarCodesController, CheckInController, ContractController, ExchangeController, OrderStatusController, PickListController, ReceiveFromVendorController, ReturnToVendorController, StagingCheckoutController/*, InvoiceController*/]
+                children: [
+                    Constants.Modules.Home.AssignBarCodes, 
+                    Constants.Modules.Home.CheckIn, 
+                    Constants.Modules.Home.Contract, 
+                    Constants.Modules.Home.Exchange, 
+                    Constants.Modules.Home.OrderStatus, 
+                    Constants.Modules.Home.PickList, 
+                    Constants.Modules.Home.ReceiveFromVendor, 
+                    Constants.Modules.Home.ReturnToVendor, 
+                    Constants.Modules.Home.StagingCheckout
+                ]
             },
             {
                 caption: 'Administrator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
-                children: [ControlController, CustomFieldController, CustomFormController, DuplicateRuleController, GroupController, HotfixController, ReportsController, SettingsController, UserController]
+                children: [
+                    Constants.Modules.Administrator.Control, 
+                    Constants.Modules.Administrator.CustomField, 
+                    Constants.Modules.Administrator.CustomForm, 
+                    Constants.Modules.Administrator.DuplicateRule, 
+                    Constants.Modules.Administrator.Group, 
+                    Constants.Modules.Administrator.Hotfix, 
+                    Constants.Modules.Administrator.Reports, 
+                    Constants.Modules.Administrator.Settings, 
+                    Constants.Modules.Administrator.User
+                ]
             }
         ];
     }

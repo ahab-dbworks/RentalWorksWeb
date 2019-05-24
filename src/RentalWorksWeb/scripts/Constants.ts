@@ -242,6 +242,8 @@
             Warehouse: { id: '931D3E75-68CB-4280-B12F-9A955444AA0C', caption: 'Warehouse', nav: 'module/warehouse' }
         },
         Utilities: {
+            Dashboard: { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'module/dashboard' },
+            DashboardSettings: { id: '1B40C62A-1FA0-402E-BE52-9CBFDB30AD3F', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' },
             InvoiceProcessBatch: {
                 form: {
                     menuItems: {
@@ -249,13 +251,16 @@
                     }
                 }
             },
+            QuikActivityCalendar: {caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar', id: '897BCF55-6CE7-412C-82CB-557B045F8C0A'},
             ReceiptProcessBatch: {
                 form: {
                     menuItems: {
                         ExportSettings: { id: '{0D951DA8-1843-4080-AD73-B0DF7F27189B}' }
                     }
                 }
-            }
+            },
+            VendorInvoiceProcessBatch: {id: '4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240', caption: 'Process Vendor Invoices', nav: 'module/vendorinvoiceprocessbatch' }
+
         }
     },
     Grids: {

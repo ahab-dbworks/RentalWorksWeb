@@ -123,6 +123,10 @@
         },
         Settings: {
             Warehouse: { id: '8DD21206-86D4-4C69-9094-A8CF0A5C93FF', caption: 'Warehouse', nav: 'module/warehouse' }
+        },
+        Utilities: {
+            Dashboard: { id: 'E01F0032-CFAA-4556-9F24-E4C28C5B50A1', caption: 'Dashboard', nav: 'module/dashboard' },
+            DashboardSettings: { id: 'AD262A8E-A487-4786-895D-6E3DA1DB13BD', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' }
         }
     },
     Grids: {

@@ -2,9 +2,9 @@
 
 class QuikActivityCalendar {
     Module: string = 'QuikActivityCalendar';
-    caption: string = 'QuikActivity Calendar';
-    nav: string = 'module/quikactivitycalendar';
-    id: string = '897BCF55-6CE7-412C-82CB-557B045F8C0A';
+    caption: string = Constants.Modules.Utilities.QuikActivityCalendar.caption;
+    nav: string = Constants.Modules.Utilities.QuikActivityCalendar.nav;
+    id: string = Constants.Modules.Utilities.QuikActivityCalendar.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
