@@ -47,7 +47,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"pyloqM7YJynM", IsReadOnly:true)]
         public string InvoiceDueDate { get; set; }
 
-        [FwLogicProperty(Id:"xSvVrp2IR3db", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id:"xSvVrp2IR3db", DisableDirectModify: true)]
         public string InvoiceType { get { return invoice.InvoiceType; } set { invoice.InvoiceType = value; } }
 
         [FwLogicProperty(Id:"jqgSo9AZFl3s")]
@@ -110,7 +110,7 @@ namespace WebApi.Modules.Home.Invoice
         [FwLogicProperty(Id:"gbjEsq2kr1wh")]
         public string WaNo { get { return invoice.WaNo; } set { invoice.WaNo = value; } }
 
-        [FwLogicProperty(Id:"ru1fRazQa3dV", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id:"ru1fRazQa3dV", DisableDirectModify: true)]
         public string Status { get { return invoice.Status; } set { invoice.Status = value; } }
 
         [FwLogicProperty(Id:"9TmbcT4DPrUQ")]
