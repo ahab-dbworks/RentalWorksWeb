@@ -8,13 +8,13 @@ class RwMaster extends WebMaster {
                 caption: 'Agent',
                 id: '91D2F0CF-2063-4EC8-B38D-454297E136A8',
                 children: [
-                    Constants.Modules.Home.Quote, 
-                    Constants.Modules.Home.Order, 
-                    Constants.Modules.Home.Customer, 
-                    Constants.Modules.Home.Deal, 
-                    Constants.Modules.Home.Vendor, 
-                    Constants.Modules.Home.Contact, 
-                    Constants.Modules.Home.PurchaseOrder, 
+                    Constants.Modules.Home.Quote,
+                    Constants.Modules.Home.Order,
+                    Constants.Modules.Home.Customer,
+                    Constants.Modules.Home.Deal,
+                    Constants.Modules.Home.Vendor,
+                    Constants.Modules.Home.Contact,
+                    Constants.Modules.Home.PurchaseOrder,
                     Constants.Modules.Home.Project
                 ]
             },
@@ -22,13 +22,13 @@ class RwMaster extends WebMaster {
                 caption: 'Inventory',
                 id: '8AA0C4A4-B583-44CD-BB47-09C43961CE99',
                 children: [
-                    Constants.Modules.Home.RentalInventory, 
-                    Constants.Modules.Home.SalesInventory, 
-                    Constants.Modules.Home.PartsInventory, 
-                    Constants.Modules.Home.Asset, 
-                    Constants.Modules.Home.Container, 
-                    Constants.Modules.Home.Repair, 
-                    Constants.Modules.Home.CompleteQc, 
+                    Constants.Modules.Home.RentalInventory,
+                    Constants.Modules.Home.SalesInventory,
+                    Constants.Modules.Home.PartsInventory,
+                    Constants.Modules.Home.Asset,
+                    Constants.Modules.Home.Container,
+                    Constants.Modules.Home.Repair,
+                    Constants.Modules.Home.CompleteQc,
                     Constants.Modules.Home.PhysicalInventory
                 ]
             },
@@ -36,24 +36,24 @@ class RwMaster extends WebMaster {
                 caption: 'Warehouse',
                 id: '22D67715-9C24-4A06-A009-CB10A1EC746B',
                 children: [
-                    Constants.Modules.Home.OrderStatus, 
-                    Constants.Modules.Home.PickList, 
-                    Constants.Modules.Home.Contract, 
-                    Constants.Modules.Home.StagingCheckout, 
-                    Constants.Modules.Home.Exchange, 
-                    Constants.Modules.Home.CheckIn, 
+                    Constants.Modules.Home.OrderStatus,
+                    Constants.Modules.Home.PickList,
+                    Constants.Modules.Home.Contract,
+                    Constants.Modules.Home.StagingCheckout,
+                    Constants.Modules.Home.Exchange,
+                    Constants.Modules.Home.CheckIn,
                     Constants.Modules.Home.ReceiveFromVendor,
-                    Constants.Modules.Home.ReturnToVendor, 
-                    Constants.Modules.Home.AssignBarCodes, 
-                    Constants.Modules.Home.TransferStatus, 
-                    Constants.Modules.Home.TransferOrder, 
-                    Constants.Modules.Home.Manifest, 
-                    Constants.Modules.Home.TransferReceipt, 
-                    Constants.Modules.Home.TransferOut, 
+                    Constants.Modules.Home.ReturnToVendor,
+                    Constants.Modules.Home.AssignBarCodes,
+                    Constants.Modules.Home.TransferStatus,
+                    Constants.Modules.Home.TransferOrder,
+                    Constants.Modules.Home.Manifest,
+                    Constants.Modules.Home.TransferReceipt,
+                    Constants.Modules.Home.TransferOut,
                     Constants.Modules.Home.TransferIn,
-                    Constants.Modules.Home.ContainerStatus, 
-                    Constants.Modules.Home.FillContainer, 
-                    Constants.Modules.Home.EmptyContainer, 
+                    Constants.Modules.Home.ContainerStatus,
+                    Constants.Modules.Home.FillContainer,
+                    Constants.Modules.Home.EmptyContainer,
                     Constants.Modules.Home.RemoveFromContainer
                 ]
             },
@@ -61,9 +61,9 @@ class RwMaster extends WebMaster {
                 caption: 'Billing',
                 id: '9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA',
                 children: [
-                    Constants.Modules.Home.Billing, 
-                    Constants.Modules.Home.Invoice, 
-                    Constants.Modules.Home.Receipt, 
+                    Constants.Modules.Home.Billing,
+                    Constants.Modules.Home.Invoice,
+                    Constants.Modules.Home.Receipt,
                     Constants.Modules.Home.VendorInvoice
                 ]
             },
@@ -71,11 +71,11 @@ class RwMaster extends WebMaster {
                 caption: 'Utilities',
                 id: '81609B0E-4B1F-4C13-8BE0-C1948557B82D',
                 children: [
-                    Constants.Modules.Utilities.Dashboard, 
-                    Constants.Modules.Utilities.DashboardSettings, 
-                    Constants.Modules.Utilities.InvoiceProcessBatch, 
-                    Constants.Modules.Utilities.ReceiptProcessBatch, 
-                    Constants.Modules.Utilities.VendorInvoiceProcessBatch, 
+                    Constants.Modules.Utilities.Dashboard,
+                    Constants.Modules.Utilities.DashboardSettings,
+                    Constants.Modules.Utilities.InvoiceProcessBatch,
+                    Constants.Modules.Utilities.ReceiptProcessBatch,
+                    Constants.Modules.Utilities.VendorInvoiceProcessBatch,
                     Constants.Modules.Utilities.QuikActivityCalendar
                 ]
             },
@@ -83,15 +83,15 @@ class RwMaster extends WebMaster {
                 caption: 'Administrator',
                 id: 'F188CB01-F627-4DD3-9B91-B6486F0977DC',
                 children: [
-                    Constants.Modules.Administrator.Control, 
-                    Constants.Modules.Administrator.CustomField, 
-                    Constants.Modules.Administrator.CustomForm, 
-                    Constants.Modules.Administrator.DuplicateRule, 
-                    Constants.Modules.Administrator.EmailHistory, 
-                    Constants.Modules.Administrator.Group, 
-                    Constants.Modules.Administrator.Hotfix, 
-                    Constants.Modules.Administrator.User, 
-                    Constants.Modules.Administrator.Settings, 
+                    Constants.Modules.Administrator.Control,
+                    Constants.Modules.Administrator.CustomField,
+                    Constants.Modules.Administrator.CustomForm,
+                    Constants.Modules.Administrator.DuplicateRule,
+                    Constants.Modules.Administrator.EmailHistory,
+                    Constants.Modules.Administrator.Group,
+                    Constants.Modules.Administrator.Hotfix,
+                    Constants.Modules.Administrator.User,
+                    Constants.Modules.Administrator.Settings,
                     Constants.Modules.Administrator.Reports
                 ]
             }
@@ -210,14 +210,14 @@ class RwMaster extends WebMaster {
                             const locationid = FwFormField.getValueByDataField($confirmation, 'OfficeLocationId');
                             const warehouseid = FwFormField.getValueByDataField($confirmation, 'WarehouseId');
                             const departmentid = FwFormField.getValueByDataField($confirmation, 'DepartmentId');
-                            
+
                             // Ajax: Get Office Location Info
                             const responseGetOfficeLocationInfo = await FwAjax.callWebApi<any>({
                                 httpMethod: 'GET',
                                 url: `${applicationConfig.apiurl}api/v1/account/officelocation?locationid=${locationid}&warehouseid=${warehouseid}&departmentid=${departmentid}`,
                                 $elementToBlock: $confirmation
                             });
-                            
+
                             sessionStorage.setItem('location', JSON.stringify(responseGetOfficeLocationInfo.location));
                             sessionStorage.setItem('warehouse', JSON.stringify(responseGetOfficeLocationInfo.warehouse));
                             sessionStorage.setItem('department', JSON.stringify(responseGetOfficeLocationInfo.department));
@@ -235,6 +235,21 @@ class RwMaster extends WebMaster {
     }
     //----------------------------------------------------------------------------------------------
     buildSystemBar($usercontrol: JQuery<HTMLElement>) {
+        if (sessionStorage['toolbar']) {
+            const toolbarModules = JSON.parse(sessionStorage.getItem('toolbar'));
+            for (let i = 0; i < toolbarModules.length; i++) {
+                const $this = toolbarModules[i];
+                const $module = jQuery(`<div class="toolbar-module dashboard" style="display:flex;"><i class="material-icons" title="${$this.text}">star</i><span>${$this.text}</span></div>`);
+                $module.on('click', function () {
+                    try {
+                        program.getModule($this.value);
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+                FwFileMenu.UserControl_addSystemBarControl($this.text, $module, $usercontrol);
+            }
+        }
         const $dashboard = jQuery('<i class="material-icons dashboard" title="Dashboard">insert_chart</i>');
         $dashboard.on('click', function () {
             try {
@@ -243,7 +258,7 @@ class RwMaster extends WebMaster {
                 FwFunc.showError(ex);
             }
         });
-        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol);
 
         const $settings = jQuery('<i class="material-icons dashboard" title="Settings">settings</i>');
         $settings.on('click', function () {

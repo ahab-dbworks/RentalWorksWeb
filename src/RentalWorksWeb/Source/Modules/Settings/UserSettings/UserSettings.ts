@@ -53,20 +53,24 @@
         const settingsModules = FwApplicationTree.getChildrenByType(node, 'SettingsModule');
         const modules = mainModules.concat(settingsModules);
         const allModules = [];
+        const sortableModules = [];
         for (let i = 0; i < modules.length; i++) {
-            const moduleGUID = modules[i].id;
-            const moduleCaption = modules[i].properties.caption;
-            const moduleController = modules[i].properties.controller;
-            if (typeof window[moduleController] !== 'undefined') {
-                if (window[moduleController].hasOwnProperty('apiurl')) {
-                    const moduleNav = window[moduleController].nav;
-                    if (moduleNav) {
-                        allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+            if (modules[i].properties.visible === "T") {
+                const moduleGUID = modules[i].id;
+                const moduleCaption = modules[i].properties.caption;
+                const moduleController = modules[i].properties.controller;
+                if (typeof window[moduleController] !== 'undefined') {
+                    if (window[moduleController].hasOwnProperty('apiurl')) {
+                        const moduleNav = window[moduleController].nav;
+                        if (moduleNav) {
+                            allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
+                            sortableModules.push({ value: moduleNav, text: moduleCaption });
+                        }
                     }
                 }
             }
         };
-        allModules.push({value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', apiurl: 'module/dashboard' });
+        allModules.push({ value: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', text: 'Dashboard', apiurl: 'module/dashboard' });
         //Sort modules
         function compare(a, b) {
             if (a.text < b.text)
@@ -79,9 +83,41 @@
         const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
 
+        sortableModules.sort(compare);
+        const $availModules = $form.find('.available-modules');
+        FwFormField.loadItems($availModules, sortableModules, true);
+
         const userId = JSON.parse(sessionStorage.getItem('userid'));
         $form.find('div.fwformfield[data-datafield="UserId"] input').val(userId.webusersid);
         FwModule.loadForm(this.Module, $form);
+
+        $form.data('beforesave', request => {
+            const $selectedModules = FwFormField.getValue2($form.find('.selected-modules'));
+            const modules: any = [];
+            for (let i = 0; i < $selectedModules.length; i++) {
+                modules.push({
+                    text: $selectedModules[i].text
+                    , value: $selectedModules[i].value
+                });
+            }
+            request.ToolBarJson = JSON.stringify(modules);
+        });
+
+        //first sortable list (not sure if it can be combined)
+        Sortable.create($form.find('.sortable').get(0), {
+            onEnd: function (evt) {
+                $form.attr('data-modified', 'true');
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            }
+        });
+        //second sortable list
+        Sortable.create($form.find('.sortable').get(1), {
+            onEnd: function (evt) {
+                $form.attr('data-modified', 'true');
+                $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+            }
+        });
+
         this.events($form);
         return $form;
     }
@@ -117,7 +153,7 @@
             const moduleUrl = jQuery(this).find(':selected').attr('data-apiurl')
             FwFormField.setValueByDataField($form, 'HomeMenuPath', moduleUrl)
         });
-     
+
     };
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
@@ -150,6 +186,14 @@
         const theme = sessionStorage.getItem('applicationtheme');
         jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browseRows);
         jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
+
+        const selectedModules = JSON.parse(FwFormField.getValueByDataField($form, 'ToolBarJson'));
+        if (selectedModules.length > 0) {
+            FwFormField.loadItems($form.find('.selected-modules'), selectedModules);
+        } else {
+            //no modules selected text
+        }
+
     }
     //----------------------------------------------------------------------------------------------
 }

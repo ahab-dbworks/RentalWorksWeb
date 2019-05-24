@@ -147,14 +147,16 @@ class Base {
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
-                                        let sounds: any = {}, homePage: any = {};
+                                        let sounds: any = {}, homePage: any = {}, toolbar: any = {};
                                         sounds.successSoundFileName      = responseGetUserSettings.SuccessSoundFileName;
                                         sounds.errorSoundFileName        = responseGetUserSettings.ErrorSoundFileName;
                                         sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
                                         homePage.guid = responseGetUserSettings.HomeMenuGuid;
                                         homePage.path = responseGetUserSettings.HomeMenuPath;
+                                        toolbar = responseGetUserSettings.ToolBarJson;
                                         sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                         sessionStorage.setItem('homePage', JSON.stringify(homePage));
+                                        sessionStorage.setItem('toolbar', toolbar);
 
                                         const responseGetCustomFields = values[1];
                                         var customFields = [];
