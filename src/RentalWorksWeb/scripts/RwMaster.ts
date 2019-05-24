@@ -235,6 +235,20 @@ class RwMaster extends WebMaster {
     }
     //----------------------------------------------------------------------------------------------
     buildSystemBar($usercontrol: JQuery<HTMLElement>) {
+        const toolbarModules = JSON.parse(sessionStorage.getItem('toolbar'));
+        for (let i = 0; i < toolbarModules.length; i++) {
+            const $this = toolbarModules[i];
+            const $module = jQuery(`<div class="toolbar-module dashboard" style="display:flex;"><i class="material-icons" title="${$this.text}">star</i><span>${$this.text}</span></div>`);
+            $module.on('click', function () {
+                try {
+                    program.getModule($this.value);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            });
+            FwFileMenu.UserControl_addSystemBarControl($this.text, $module, $usercontrol);
+        }
+
         const $dashboard = jQuery('<i class="material-icons dashboard" title="Dashboard">insert_chart</i>');
         $dashboard.on('click', function () {
             try {
@@ -243,7 +257,7 @@ class RwMaster extends WebMaster {
                 FwFunc.showError(ex);
             }
         });
-        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol)
+        FwFileMenu.UserControl_addSystemBarControl('dashboard', $dashboard, $usercontrol);
 
         const $settings = jQuery('<i class="material-icons dashboard" title="Settings">settings</i>');
         $settings.on('click', function () {
