@@ -1,7 +1,3 @@
-//routes.push({ pattern: /^module\/repair$/, action: function (match: RegExpExecArray) { return RepairController.getModuleScreen(); } });
-//routes.push({ pattern: /^module\/repair\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return RepairController.getModuleScreen(filter); } });
-
-//---------------------------------------------------------------------------------
 class Repair {
     Module: string = 'Repair';
     apiurl: string = 'api/v1/repair';
@@ -10,6 +6,7 @@ class Repair {
 	id: string = Constants.Modules.Home.Repair.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen = (filter?: { datafield: string, search: string }) => {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
@@ -28,7 +25,7 @@ class Repair {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
-                const parsedSearch = filter.search.replace(/%20/g, " ");
+                const parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
                 $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
             }
 

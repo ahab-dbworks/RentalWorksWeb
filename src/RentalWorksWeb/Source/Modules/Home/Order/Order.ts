@@ -1,7 +1,3 @@
-//routes.push({ pattern: /^module\/order$/, action: function (match: RegExpExecArray) { return OrderController.getModuleScreen(); } });
-//routes.push({ pattern: /^module\/order\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return OrderController.getModuleScreen(filter); } });
-
-//----------------------------------------------------------------------------------------------
 class Order extends OrderBase {
     Module = 'Order';
     apiurl: string = 'api/v1/order';
@@ -23,14 +19,24 @@ class Order extends OrderBase {
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Order', false, 'BROWSE', true);
 
-            if (typeof filter !== 'undefined' && filter.datafield === 'agent') {
-                filter.search = filter.search.split('%20').reverse().join(', ');
+             // Dashboard search
+            if (typeof filter !== 'undefined') {
+                let parsedSearch;
+                if (filter.datafield === 'agent') {
+                    parsedSearch = filter.search.split('%20').reverse().join(', ');
+                } else {
+                    parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
+                }
+
+                const datafields = filter.datafield.split('%20');
+                for (let i = 0; i < datafields.length; i++) {
+                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+                }
+                filter.datafield = datafields.join('');
+
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
             }
 
-            if (typeof filter !== 'undefined') {
-                filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
-            }
             FwBrowse.databind($browse);
             FwBrowse.screenload($browse);
         };

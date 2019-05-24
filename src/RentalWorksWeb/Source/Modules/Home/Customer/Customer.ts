@@ -1,7 +1,4 @@
-﻿//routes.push({ pattern: /^module\/customer$/, action: function (match: RegExpExecArray) { return CustomerController.getModuleScreen(); } });
-//routes.push({ pattern: /^module\/customer\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return CustomerController.getModuleScreen(filter); } });
-
-class Customer {
+﻿class Customer {
     Module: string = 'Customer';
     apiurl: string = 'api/v1/customer';
     caption: string = Constants.Modules.Home.Customer.caption;
@@ -20,13 +17,15 @@ class Customer {
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
+            // Dashboard search
             if (typeof filter !== 'undefined') {
-                var datafields = filter.datafield.split('%20');
+                const datafields = filter.datafield.split('%20');
                 for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
                 }
                 filter.datafield = datafields.join('')
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
+                const parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
             }
 
             FwBrowse.databind($browse);

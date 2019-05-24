@@ -9,7 +9,7 @@ class Billing {
     ActiveView: string = 'ALL';
     SessionId: string;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen(filter?: any) {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};

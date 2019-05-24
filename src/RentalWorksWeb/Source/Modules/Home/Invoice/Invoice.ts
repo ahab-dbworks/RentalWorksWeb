@@ -1,12 +1,8 @@
-routes.push({ pattern: /^module\/invoice$/, action: function (match: RegExpExecArray) { return InvoiceController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/invoice\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return InvoiceController.getModuleScreen(filter); } });
-
-//----------------------------------------------------------------------------------------------
 class Invoice {
     Module: string = 'Invoice';
     apiurl: string = 'api/v1/invoice';
     caption: string = Constants.Modules.Home.Invoice.caption;
-	nav: string = Constants.Modules.Home.Invoice.nav;
+	nav: string = Constants.Modules.Home.Invoice.nav;$
 	id: string = Constants.Modules.Home.Invoice.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
@@ -20,13 +16,15 @@ class Invoice {
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
+            // Dashboard search
             if (typeof filter !== 'undefined') {
-                var datafields = filter.datafield.split('%20');
+                const datafields = filter.datafield.split('%20');
                 for (let i = 0; i < datafields.length; i++) {
                     datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
-                }
+                };
                 filter.datafield = datafields.join('')
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
+                const parsedSearch = filter.search.replace(/%20/g, " ").replace(/%2f/g, '/');
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(parsedSearch);
             }
 
             FwBrowse.databind($browse);
