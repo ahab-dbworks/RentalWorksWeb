@@ -43,6 +43,8 @@ namespace FwStandard.Reporting
                     await page.WaitForFunctionAsync("() => (report.renderReportCompleted === true)", waitOptions);
                     pdfOptions.HeaderTemplate = await page.EvaluateExpressionAsync<string>("report.headerHtml");
                     pdfOptions.FooterTemplate = await page.EvaluateExpressionAsync<string>("report.footerHtml");
+                    pdfOptions.HeaderTemplate = (pdfOptions.HeaderTemplate == null) ? string.Empty : pdfOptions.HeaderTemplate;
+                    pdfOptions.FooterTemplate = (pdfOptions.FooterTemplate == null) ? string.Empty : pdfOptions.FooterTemplate;
                     await page.PdfAsync(pdfOutputPath, pdfOptions);
 
                     // Clean up pdf directory, a different approach is probably needed so this isn't getting fired off by a bunch of users at the same time
