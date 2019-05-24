@@ -3,6 +3,7 @@
     isRentalWorks: true,
     appId: 'D901DE93-EC22-45A1-BB4A-DD282CAF59FB',
     appCaption: 'TrakitWorks',
+    appTitle: 'Trakit<span class="tiwred">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span>',
     MainMenu: {
         Reports: { id: 'F62D2B01-E4C4-4E97-BFAB-6CF2B872A4E4' },
         Settings: { id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485' }

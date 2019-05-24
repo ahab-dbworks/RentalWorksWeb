@@ -1,5 +1,6 @@
 class Program extends FwApplication {
     name = Constants.appCaption;
+    title = Constants.appTitle;
     //---------------------------------------------------------------------------------
     constructor() {
         super();

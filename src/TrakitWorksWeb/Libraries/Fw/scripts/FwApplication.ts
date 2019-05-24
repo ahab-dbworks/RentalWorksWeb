@@ -1,5 +1,6 @@
 class FwApplication {
     name:  string;
+    title: string;
     screens: any[] = [];
     audioMode: string;
     audioSuccessArray: number[];

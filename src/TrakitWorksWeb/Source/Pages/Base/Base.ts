@@ -17,7 +17,7 @@
                     FwFunc.showError(ex);
                 }
             })
-            .find('.programlogo').empty().html('<div class="bgothm">Trakit<span class="tiwred">Works<span><span style="font-size:14px;vertical-align:super;">&#174;</span></div>');
+            .find('.programlogo').empty().html('<div class="bgothm">Trakit<span class="tiwred">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
 
         return screen;
     }
@@ -192,7 +192,7 @@
                     FwFunc.showError(ex);
                 }
             })
-            .find('.programlogo').empty().html('<div class="bgothm">Trakit<span class="tiwred">Works<span><span style="font-size:14px;vertical-align:super;">&#174;</span></div>');
+            .find('.programlogo').empty().html('<div class="bgothm">Trakit<span class="tiwred">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
 
         screen.load = function () {
             setTimeout(function () {
@@ -215,7 +215,7 @@
         screen.viewModel = viewModel;
         screen.properties = properties;
         screen.$view
-            .find('#programlogo').empty().html('<div class="bgothm">Trakit<span class="tiwred">Works<span><span style="font-size:14px;vertical-align:super;">&#174;</span></div>');
+            .find('#programlogo').empty().html('<div class="bgothm">Trakit<span class="tiwred">Works<span style="font-size:14px;vertical-align:super;">&#174;</span></span></div>');
         ;
         return screen;
     }
