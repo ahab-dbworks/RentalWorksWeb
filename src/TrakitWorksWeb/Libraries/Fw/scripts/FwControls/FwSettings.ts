@@ -593,22 +593,22 @@ class FwSettingsClass {
         html.push('        </div>');
         html.push('        <div style="margin-left:auto;">');
         if (showNew) {
-            html.push('          <i class="material-icons new-row-menu">add</i>');
+            html.push('          <i class="material-icons new-row-menu" title="Add New">add</i>');
         }
-        html.push('          <i class="material-icons show-inactive">visibility</i>');
-        html.push('          <i class="material-icons hide-inactive" style="display:none">visibility_off</i>');
-        html.push('          <i class="material-icons pop-out">open_in_new</i>');
-        html.push('          <i class="material-icons refresh">cached</i>');
+        html.push('          <i class="material-icons show-inactive" title="Show All">visibility</i>');
+        html.push('          <i class="material-icons hide-inactive" style="display:none" title="Hide Inactive">visibility_off</i>');
+        html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
+        html.push('          <i class="material-icons refresh" title="Refresh">cached</i>');
         html.push('          <i class="material-icons heading-menu">more_vert</i>');
         html.push('        </div>');
         html.push('        </h4>');
         html.push('      </div>');
         if (description === "") {
             html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small id="description-text">' + moduleName + '</small>');
+            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
         } else {
             html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small id="description-text">' + description + '</small>');
+            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
         }
         html.push('    </div>');
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body header-content" id="' + moduleName + '"></div></div>');

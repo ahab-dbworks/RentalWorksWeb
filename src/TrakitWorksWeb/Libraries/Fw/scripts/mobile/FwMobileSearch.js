@@ -186,11 +186,11 @@
                         $record.css({ 'cursor': 'pointer' });
                     }
                     $record.data('recorddata', itemmodel);
-                    $record.on('click', function() {
+                    $record.on('click', function(e) {
                         try {
                             jQuery(window).off('scroll');
                             if (typeof plugin._options.recordClick === 'function') {
-                                plugin._options.recordClick.call(plugin, $(this).data('recorddata'), $(this));
+                                plugin._options.recordClick.call(plugin, $(this).data('recorddata'), $(this), e);
                             }
                         } catch(ex) {
                             FwFunc.showError(ex);
