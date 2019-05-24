@@ -34,8 +34,10 @@
                 const idIndex = responseGetActiveViewFields.ColumnIndex.Id;
                 for (let i = 0; i < responseGetActiveViewFields.Rows.length; i++) {
                     let controller = `${responseGetActiveViewFields.Rows[i][moduleNameIndex]}Controller`;
-                    window[controller].ActiveViewFields = JSON.parse(responseGetActiveViewFields.Rows[i][activeViewFieldsIndex]);
-                    window[controller].ActiveViewFieldsId = responseGetActiveViewFields.Rows[i][idIndex];
+                    if (typeof window[controller] !== 'undefined') {
+                        window[controller].ActiveViewFields = JSON.parse(responseGetActiveViewFields.Rows[i][activeViewFieldsIndex]);
+                        window[controller].ActiveViewFieldsId = responseGetActiveViewFields.Rows[i][idIndex];
+                    }
                 }
                 window.firstLoadCompleted = true;
             }
