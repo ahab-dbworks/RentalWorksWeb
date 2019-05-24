@@ -955,6 +955,7 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 foreach (TInventoryWarehouseAvailabilityKey availKey in availCache.Keys)
                 {
                     //AvailabilityCache[availKey] = availCache[availKey];
+                    //#jhtodo - need exclusive access to the AvailabilityCache object before adding/updating below
                     if (!AvailabilityCache.TryAdd(availKey, availCache[availKey]))  // try to add the value.  if not allowed, then updated it below
                     {
                         AvailabilityCache[availKey] = availCache[availKey];
