@@ -54,6 +54,9 @@ class CustomForm {
             $form.find('.userGrid, .groupGrid').hide();
         }
 
+        //removes field propagation
+        $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]');
+
         this.loadModules($form);
         this.events($form);
         return $form;
