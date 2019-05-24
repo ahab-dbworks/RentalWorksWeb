@@ -1,5 +1,5 @@
 routes.push({ pattern: /^module\/invoice$/, action: function (match: RegExpExecArray) { return InvoiceController.getModuleScreen(); } });
-routes.push({ pattern: /^module\/invoice\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { datafield: match[1], search: match[2] }; return InvoiceController.getModuleScreen(filter); } });
+routes.push({ pattern: /^module\/invoice\/(\w+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return InvoiceController.getModuleScreen(filter); } });
 
 //----------------------------------------------------------------------------------------------
 class Invoice {
@@ -11,7 +11,7 @@ class Invoice {
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
     //----------------------------------------------------------------------------------------------
-    getModuleScreen(filter?: any) {
+    getModuleScreen(filter?: { datafield: string, search: string }) {
         const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
@@ -20,13 +20,13 @@ class Invoice {
         screen.load = () => {
             FwModule.openModuleTab($browse, this.caption, false, 'BROWSE', true);
 
-            if (typeof filter !== 'undefined' && filter.datafield === 'agent') {
-                filter.search = filter.search.split('%20').reverse().join(', ');
-            }
-
             if (typeof filter !== 'undefined') {
-                filter.datafield = filter.datafield.charAt(0).toUpperCase() + filter.datafield.slice(1);
-                $browse.find(`div[data-browsedatafield="${filter.datafield}"] input`).val(filter.search);
+                var datafields = filter.datafield.split('%20');
+                for (let i = 0; i < datafields.length; i++) {
+                    datafields[i] = datafields[i].charAt(0).toUpperCase() + datafields[i].substr(1);
+                }
+                filter.datafield = datafields.join('')
+                $browse.find(`div[data-browsedatafield="${filter.datafield}"]`).find('input').val(filter.search);
             }
 
             FwBrowse.databind($browse);
