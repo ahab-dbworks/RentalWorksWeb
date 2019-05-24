@@ -42,6 +42,9 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
+        public string Customer { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
         public string DepartmentId { get; set; }
         //------------------------------------------------------------------------------------ 

@@ -27,9 +27,6 @@ namespace WebApi.Modules.Home.Invoice
         [FwSqlDataField(column: "customerid", modeltype: FwDataTypes.Text)]
         public string CustomerId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "customer", modeltype: FwDataTypes.Text)]
-        public string Customer { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "custtypeid", modeltype: FwDataTypes.Text)]
         public string CustomerTypeId { get; set; }
         //------------------------------------------------------------------------------------ 
