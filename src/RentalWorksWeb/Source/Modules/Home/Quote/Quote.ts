@@ -140,7 +140,7 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Quote" data-control="FwBrowse" data-type="Browse" id="QuoteBrowse" class="fwcontrol fwbrowse" data-orderby="QuoteId" data-sort="desc" data-controller="QuoteController">
+        <div data-name="Quote" data-control="FwBrowse" data-type="Browse" id="QuoteBrowse" class="fwcontrol fwbrowse" data-controller="QuoteController">
           <div class="column flexcolumn" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="QuoteId" data-datatype="key" data-sort="off"></div>
           </div>
@@ -151,10 +151,10 @@ class Quote extends OrderBase {
             <div class="field" data-datafield="Inactive" data-datatype="text"  data-visible="false"></div>
           </div>-->
           <div class="column flexcolumn" max-width="75px" data-visible="true">
-            <div class="field" data-caption="Quote No" data-datafield="QuoteNumber" data-cellcolor="QuoteNumberColor" data-datatype="text" data-sort="off" data-searchfieldoperators="startswith"></div>
+            <div class="field" data-caption="Quote No" data-datafield="QuoteNumber" data-cellcolor="QuoteNumberColor" data-datatype="text" data-sort="desc" data-sortsequence="2" data-searchfieldoperators="startswith"></div>
           </div>
           <div class="column flexcolumn" max-width="75px" data-visible="true">
-            <div class="field" data-caption="Date" data-datafield="QuoteDate" data-browsedatatype="date" data-sort="desc"></div>
+            <div class="field" data-caption="Date" data-datafield="QuoteDate" data-browsedatatype="date" data-sortsequence="1" data-sort="desc"></div>
           </div>
           <div class="column flexcolumn" max-width="20px" data-visible="true">
             <div class="field" data-caption="Version" data-datafield="VersionNumber" data-datatype="text" data-sort="off"></div>

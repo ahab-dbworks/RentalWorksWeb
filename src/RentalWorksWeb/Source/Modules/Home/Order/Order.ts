@@ -284,7 +284,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
         return `
-        <div data-name="Order" data-control="FwBrowse" data-type="Browse" id="OrderBrowse" class="fwcontrol fwbrowse" data-orderby="OrderNumber" data-controller="OrderController" data-hasinactive="false">
+        <div data-name="Order" data-control="FwBrowse" data-type="Browse" id="OrderBrowse" class="fwcontrol fwbrowse" data-controller="OrderController">
           <div class="column" data-width="0" data-visible="false">
             <div class="field" data-isuniqueid="true" data-datafield="OrderId" data-browsedatatype="key"></div>
           </div>
