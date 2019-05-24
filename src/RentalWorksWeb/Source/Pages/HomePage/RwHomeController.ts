@@ -211,12 +211,12 @@
                 html.push('<div class="flexrow" style="max-width:unset"><div class="flexcolumn" style="flex:5 1 0;"><div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.officeLocationCode + '</div></div></div><div class="flexcolumn fullscreen-fields">');
                 html.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Settings">')
                 html.push(self.getSettingsHtml());
-                html.push('<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol apply-fullscreen" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">Apply</div></div>')
+                // html.push('<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol apply-fullscreen" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">Apply</div></div>') // button was removed in lieu of change events on all fields
                 html.push('</div></div></div>');
                 FwConfirmation.addControls($confirmation, html.join(''));
                 $confirmation.find('.fwconfirmationbox').css('width', '80%');
 
-                $confirmation.find('.apply-fullscreen').on('click', function () {
+                function applyFullscreenChanges(): void {
                     let fullscreenStacked;
                     let fullscreenWidgetType = FwFormField.getValue($confirmation, '.widgettype');
                     (FwFormField.getValue($confirmation, '.stacked') === 'T') ? fullscreenStacked = true : fullscreenStacked = false;
@@ -273,7 +273,11 @@
                             FwFunc.showError(ex);
                         }
                     }, null, jQuery(widgetfullscreen).parent());                
-                }) 
+
+                }
+                $confirmation.find('.apply-fullscreen').on('change', () => {
+                    applyFullscreenChanges();
+                });
 
                 var widgetfullscreen = $confirmation.find('#' + widgetData.apiname + 'fullscreen');
 
@@ -383,34 +387,34 @@
         let html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype" data-caption="Chart Type" data-datafield="Widget"></div>');
+        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield widgettype apply-fullscreen" data-caption="Chart Type" data-datafield="Widget"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield stacked" data-caption="Stacked" data-datafield="Stacked"></div>');
+        html.push('<div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield stacked apply-fullscreen" data-caption="Stacked" data-datafield="Stacked"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield officelocation apply-fullscreen" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-validationname="OfficeLocationValidation" style="float:left;max-width:400px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield datebehavior apply-fullscreen" data-caption="Date Behavior" data-datafield="DateBehaviorId" data-displayfield="DateBehavior" data-validationname="WidgetDateBehaviorValidation" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
+        html.push('<div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield datefield apply-fullscreen" data-caption="Date Field" data-datafield="DateField" style="display:none;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
+        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fromdate apply-fullscreen" data-caption="From Date" data-datafield="FromDate" style="display:none;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
+        html.push('<div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield todate apply-fullscreen" data-caption="To Date" data-datafield="ToDate" style="display:none;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
+        html.push('<div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield defaultpoints apply-fullscreen" data-caption="Number of Data Points" data-datafield="DefaultDataPoints"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield axisformat apply-fullscreen" data-caption="Axis Number Format" data-datafield="AxisNumberFormatId" data-displayfield="AxisNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('<div class="flexrow">');
-        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
+        html.push('<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield dataformat apply-fullscreen" data-caption="Data Number Format" data-datafield="DataNumberFormatId" data-displayfield="DataNumberFormat" data-validationname="WidgetNumberFormatValidation" style="float:left;width:200px;"></div>');
         html.push('</div>');
         html.push('</div>');
 
