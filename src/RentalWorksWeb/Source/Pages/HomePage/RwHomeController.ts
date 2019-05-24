@@ -207,7 +207,7 @@
                 var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
                 var html = [];
                 html.push('<div class="flexrow" style="max-width:unset"><div class="flexcolumn" style="flex:5 1 0;"><div data-chart="' + widgetData.apiname + '" class="chart-container" style="overflow:hidden;"><canvas style="padding:5px;" id="' + widgetData.apiname + 'fullscreen"></canvas><div class="fullscreenofficebar">' + widgetData.officeLocationCode + '</div></div></div><div class="flexcolumn fullscreen-fields">');
-                html.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Fullscreen Data">')
+                html.push('<div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Settings">')
                 html.push(self.getSettingsHtml());
                 html.push('<div class="flexrow" style="max-width:none;justify-content:center"><div class="fwformcontrol apply-fullscreen" data-type="button" style="flex:0 1 350px;margin:75px 0 0 10px;text-align:center;">Apply</div></div>')
                 html.push('</div></div></div>');
