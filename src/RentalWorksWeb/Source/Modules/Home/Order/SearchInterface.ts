@@ -876,39 +876,65 @@ class SearchInterface {
         });
 
         //On Quantity input change
-        $popup.on('change', '.item-info [data-column="Quantity"] input', e => {
-            e.stopPropagation();
+        $popup
+            .on('click', '.item-info [data-column="Quantity"] input', e => {
+                jQuery(e.currentTarget).select();
+            })
+            .on('change', '.item-info [data-column="Quantity"] input', e => {
+                e.stopPropagation();
 
-            let element      = jQuery(e.currentTarget);
-            let quantity     = element.val();
-            let inventoryId  = element.parents('.item-info').attr('data-inventoryid');
-            let request: any = {
-                OrderId:     id,
-                SessionId:   id,
-                InventoryId: inventoryId,
-                WarehouseId: warehouseId,
-                Quantity:    quantity
-            }
-
-            if (quantity > 0) {
-                hasItemInGrids = true;
-            }
-
-            quantity != 0 ? element.addClass('lightBlue') : element.removeClass('lightBlue');
-
-            let $accContainer    = element.parents('.item-container').find('.item-accessories');
-            let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
-            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                if (accessoryRefresh == false) {
-                    if ($accContainer.length > 0) {
-                        self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
-                    }
+                let element      = jQuery(e.currentTarget);
+                let quantity     = element.val();
+                let inventoryId  = element.parents('.item-info').attr('data-inventoryid');
+                let request: any = {
+                    OrderId:     id,
+                    SessionId:   id,
+                    InventoryId: inventoryId,
+                    WarehouseId: warehouseId,
+                    Quantity:    quantity
                 }
 
-                //Updates Preview tab with total # of items
-                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
-            }, null, $searchpopup);
-        });
+                if (quantity > 0) {
+                    hasItemInGrids = true;
+                }
+
+                quantity != 0 ? element.addClass('lightBlue') : element.removeClass('lightBlue');
+
+                let $accContainer    = element.parents('.item-container').find('.item-accessories');
+                let accessoryRefresh = $popup.find('.toggleAccessories input').prop('checked');
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if (accessoryRefresh == false) {
+                        if ($accContainer.length > 0) {
+                            self.refreshAccessoryQuantity($popup, id, warehouseId, inventoryId, e);
+                        }
+                    }
+
+                    //Updates Preview tab with total # of items
+                    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+                }, null, $searchpopup);
+            })
+            .on('click', '.item-accessory-info [data-column="Quantity"] input', e => {
+                jQuery(e.currentTarget).select();
+            })
+            .on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
+                const element = jQuery(e.currentTarget);
+
+                let accRequest: any = {
+                    SessionId:   id,
+                    ParentId:    element.parents('.item-container').find('.item-info').attr('data-inventoryid'),
+                    InventoryId: element.parents('.item-accessory-info').attr('data-inventoryid'),
+                    WarehouseId: warehouseId,
+                    Quantity:    element.val()
+                };
+
+                accRequest.Quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
+
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    //Updates preview tab with total # of items
+                    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+                }, null, null);
+            })
+        ;
 
         //Update Preview grid tab
         $popup.on('click', '.tab[data-caption="Preview"]', e => {
@@ -988,26 +1014,6 @@ class SearchInterface {
                 Mode:      view
             };
             FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", viewrequest, FwServices.defaultTimeout, function onSuccess(response) { }, null, null);
-        });
-
-        //Accessory quantity change
-        $popup.on('change', '.item-accessory-info [data-column="Quantity"] input', e => {
-            const element = jQuery(e.currentTarget);
-
-            let accRequest: any = {
-                SessionId:   id,
-                ParentId:    element.parents('.item-container').find('.item-info').attr('data-inventoryid'),
-                InventoryId: element.parents('.item-accessory-info').attr('data-inventoryid'),
-                WarehouseId: warehouseId,
-                Quantity:    element.val()
-            };
-
-            accRequest.Quantity != "0" ? element.addClass('lightBlue') : element.removeClass('lightBlue');
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch", accRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                //Updates preview tab with total # of items
-                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
-            }, null, null);
         });
 
         //Sorting option events

@@ -27,7 +27,7 @@ namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Settings
                     var nodeFormSubMenu = tree.AddSubMenu("{0DEAF798-3522-4079-B3EF-5729C2E7201D}", nodeFormMenuBar.Id);
                         var nodeFormOptions = tree.AddSubMenuGroup("Options", "{A69F6246-4273-40D4-86F6-849733642E68}", nodeFormSubMenu.Id);
                             tree.AddSubMenuItem("Copy Request", "{85B7FD07-74CD-4320-AFB0-9718EE5C8CDD}", nodeFormOptions.Id);
-                            tree.AddSubMenuItem("Search Inventory", "{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}", nodeFormOptions.Id);
+                            //tree.AddSubMenuItem("Search Inventory", "{66EDC5EA-DC03-4A5B-82F2-A41D2B8A34E4}", nodeFormOptions.Id);
                             tree.AddSubMenuItem("Print Request", "{CC3F3DB4-21A4-4E70-8992-30886B2D1515}", nodeFormOptions.Id);
                             tree.AddSubMenuItem("Create Order", "{F9B8EAC3-07BD-4286-B4F8-CCBE53710B1F}", nodeFormOptions.Id);
                             //tree.AddSubMenuItem("New Version", "{18ECF5BB-18E0-45F5-AB9A-98A377E38D1F}", nodeFormOptions.Id);

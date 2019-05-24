@@ -191,7 +191,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
         var self = this;
-        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Search Inventory');
+        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch');
         $search.prepend('<i class="material-icons">search</i>');
         $search.on('click', function () {
             try {
