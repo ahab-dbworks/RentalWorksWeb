@@ -233,7 +233,7 @@ class RwAsset {
               <div data-type="tabpage" id="assettabpage" class="tabpage" data-tabid="assettab">
                 <div class="formpage">
                   <div class="formrow">
-                    <div class="formcolumn" style="width:675px;">
+                    <div class="formcolumn" style="width:700px;">
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Asset">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="display:none;"></div>
