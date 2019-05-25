@@ -64,6 +64,7 @@
             let rateType = $form.find('[data-datafield="RateType"] input').val();
             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
             $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+            $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(warehouseId);
         });
     }
     //----------------------------------------------------------------------------------------------

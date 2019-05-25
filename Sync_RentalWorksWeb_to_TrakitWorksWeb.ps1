@@ -129,7 +129,7 @@ try {
         'Grids\POReceiveItemGrid',
         'Grids\POReturnBarCodeGrid',
         'Grids\POReturnItemGrid',
-        'Grids\RentalInventoryWarehouseGrid',
+        #'Grids\RentalInventoryWarehouseGrid',
         'Grids\RepairReleaseGrid',
         'Grids\ReportSettingsGrid',
         'Grids\StagedItemGrid',

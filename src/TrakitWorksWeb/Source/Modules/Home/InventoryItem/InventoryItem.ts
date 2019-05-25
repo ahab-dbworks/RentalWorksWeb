@@ -322,7 +322,7 @@ class InventoryItem {
         var $kittab           = $form.find('.kittab');
         var $settingstab      = $form.find('.settingstab');
 
-        var $rentalinventorywarehousegrid = $form.find('[data-grid="RentalInventoryWarehouseGrid"]');
+        var $rentalinventorywarehousegrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
         var $containerwarehousegrid       = $form.find('[data-grid="ContainerWarehouseGrid"]');
 
         switch (FwFormField.getValue2($classification)) {
