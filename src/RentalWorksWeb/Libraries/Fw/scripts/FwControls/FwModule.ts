@@ -848,6 +848,7 @@
                         $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');
                     }
                 }
+                setTimeout(() => { FwModule.validateForm($form); }, 500); // some fields with .error with values assigned as the result of another validation were not being triggered
             })
             .on('change', '.fwformfield[data-enabled="true"][data-datafield!=""]', function (e) {
                 e.stopPropagation();
@@ -1634,6 +1635,8 @@
 
         if (!isvalid) {
             FwNotification.renderNotification('ERROR', 'Please resolve the error(s) on the form.');
+        } else {
+            $form.find('[data-type="tab"].error').removeClass('error');
         }
 
         return isvalid;
