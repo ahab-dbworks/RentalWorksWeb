@@ -360,6 +360,9 @@ namespace WebApi.Modules.Home.Deal
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "vendorrebaterate", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? SubRentalEquipmentRebateRentalPerecent { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "enablewebquoterequest", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? EnableWebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------
 
 
@@ -426,9 +429,6 @@ namespace WebApi.Modules.Home.Deal
                     //------------------------------------------------------------------------------------ 
                     [FwSqlDataField(column: "revdate", modeltype: FwDataTypes.UTCDateTime, sqltype: "smalldatetime")]
                     public string Revdate { get; set; }
-                    //------------------------------------------------------------------------------------ 
-                    [FwSqlDataField(column: "enablewebquoterequest", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-                    public bool? Enablewebquoterequest { get; set; }
                     //------------------------------------------------------------------------------------ 
                     [FwSqlDataField(column: "sapaccountno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
                     public string Sapaccountno { get; set; }

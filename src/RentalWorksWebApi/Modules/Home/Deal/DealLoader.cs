@@ -429,6 +429,9 @@ namespace WebApi.Modules.Home.Deal
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "securitydepositamt", modeltype: FwDataTypes.Decimal)]
         public decimal? SecurityDepositAmount { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "enablewebquoterequest", modeltype: FwDataTypes.Boolean)]
+        public bool? EnableWebQuoteRequest { get; set; }
         //------------------------------------------------------------------------------------ 
-     }
+    }
 }

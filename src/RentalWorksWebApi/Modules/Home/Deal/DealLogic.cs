@@ -486,7 +486,8 @@ namespace WebApi.Modules.Home.Deal
         [FwLogicProperty(Id:"vqCwNU6wSRPv")]
         public int? SubRentalEquipmentRebateRentalPerecent { get { return deal.SubRentalEquipmentRebateRentalPerecent; } set { deal.SubRentalEquipmentRebateRentalPerecent = value; } }
 
-
+        [FwLogicProperty(Id: "iKVnae22M2DY")]
+        public bool? EnableWebQuoteRequest { get { return deal.EnableWebQuoteRequest; } set { deal.EnableWebQuoteRequest = value; } }
         //------------------------------------------------------------------------------------
         public void OnBeforeSaveDeal(object sender, BeforeSaveDataRecordEventArgs e)
         {

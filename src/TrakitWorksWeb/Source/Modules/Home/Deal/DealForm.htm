@@ -4,6 +4,7 @@
     <div class="tabs">
       <div data-type="tab" id="dealtab"     class="tab"                  data-tabpageid="dealtabpage"     data-caption="Job"></div>
       <div data-type="tab" id="shippingtab" class="tab"                  data-tabpageid="shippingtabpage" data-caption="Shipping"></div>
+      <div data-type="tab" id="webacesstab" class="tab" data-tabpageid="webaccesstabpage" data-caption="Web Access"></div>
       <div data-type="tab" id="ordertab"    class="tab orders submodule" data-tabpageid="ordertabpage"    data-caption="Orders"   data-enabled="false"></div>
       <div data-type="tab" id="contactstab" class="tab contacts"         data-tabpageid="contactstabpage" data-caption="Contacts" data-enabled="false"></div>
       <div data-type="tab" id="notestab"    class="tab notes"            data-tabpageid="notestabpage"    data-caption="Notes"    data-enabled="false"></div>
@@ -166,12 +167,30 @@
           </div>
         </div>
       </div>
+
+      <!-- ##### WEB ACCESS tab ##### -->
+      <div data-type="tabpage" id="webaccesstabpage" class="tabpage" data-tabid="webaccesstab">
+        <div class="flexpage">
+          <div class="flexrow">
+            <div class="flexcolumn" style="flex:0 1 275px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Web Access">
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Enable Web Equipment Request" data-datafield="EnableWebQuoteRequest" style="flex:1 1 250px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- ##### CONTACTS ##### tab -->
       <div data-type="tabpage" id="contactstabpage" class="tabpage" data-tabid="contactstab">
         <div class="flexrow">
           <div data-control="FwGrid" data-grid="CompanyContactGrid" data-securitycaption="Deal Contacts"></div>
         </div>
       </div>
+
       <!-- ##### NOTES tab ##### -->
       <div data-type="tabpage" id="notestabpage" class="tabpage" data-tabid="notestab">
         <div class="flexrow">
