@@ -114,6 +114,7 @@ html.theme-material .fwform-section {
 #itemsearch .refresh-availability[data-type="button"] {margin: 16px 7px 0px 7px;}
 
 #itemsearch div[data-datafield="SearchBox"] .fwformfield-caption {font-weight:bold;font-size:1em;}
+#itemsearch div[data-datafield="SearchBox"] .fwformfield-control {border: 1px solid #9E9E9E;}
 
 #itemsearch .breadcrumbrow {display: flex;flex:0 0 auto;align-items: center;background-color: #fafafa;border-top: 1px solid #BDBDBD;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #breadcrumbs {padding-left: 20px;display:flex;flex: 1 0 auto;}
@@ -128,50 +129,14 @@ html.theme-material .fwform-section {
 #itemsearch .options.active .optionsmenu {display:block;}
 
 #itemsearch #categorycolumns {border-top: 1px solid #BDBDBD;border-right: 1px solid #BDBDBD;overflow-y: auto;position: absolute;top: 0;left: 0;right: 0;bottom: 0;}
-
-#typeName, #inventoryType, #category, #subCategory {
-    width: 200px;
-    margin: 5px 0px 0px 5px;
-    float: left;
-}
-#itemsearch .downArrowNav {
-    position: absolute;
-    left: 10px;
-}
-
-ul.fitText {
-    cursor: pointer;
-    margin: 2px;
-    padding: 5px 5px 5px 40px;
-}
-
-ul.fitText span:not(.downArrowNav){
-    left:-10px;
-    position:relative;
-}
-
- #inventoryType ul, #category ul, #subCategory ul {
-    background-color: white;
-    color: black;
-    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2);
-}
-
-#itemsearch .inventoryTypeNav {
-    background-color: #4CAF50;
-    color: black;
-    /*box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);*/
-}
-
-    #inventoryType ul.selected, #category ul.selected, #subCategory ul.selected {
-        background-color: #4CAF50;
-        color: black;
-        /*box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);*/
-    }
-
-#inventoryType ul:hover:not(.selected), #category ul:hover:not(.selected), #subCategory ul:hover:not(.selected) {
-    /*box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);*/
-    background-color: #E0E0E0;
-}
+#itemsearch #categorycolumns > div:not(:first-child) {border-top: 1px solid #9E9E9E;}
+#itemsearch #categorycolumns ul {margin:0;cursor:pointer;padding:5px;display:flex;}
+#itemsearch #categorycolumns ul.selected {background-color: #AED581;}
+#itemsearch #categorycolumns ul .downArrowNav {height:24px;width:24px;}
+#itemsearch #categorycolumns ul .downArrowNav i {display:none;}
+#itemsearch #categorycolumns ul.selected .downArrowNav i {display:block;}
+#itemsearch #categorycolumns ul:hover:not(.selected) {background-color: #E0E0E0;}
+#itemsearch #categorycolumns #subCategory ul {padding:5px 5px 5px 29px;}
 
 #itemsearch #itemlist {flex: 1 1 0;position:relative;}
 #itemsearch #itemlist #inventory {overflow-y: scroll;position: absolute;top: 32px;left: 0;right: 0;bottom: 0;}

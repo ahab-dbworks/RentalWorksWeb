@@ -44,7 +44,7 @@ class SearchInterface {
                               <div style="display:flex;flex:1 1 0;">
                                 <div class="flexcolumn" style="flex:0 0 230px;display:flex;flex-direction:column;position:relative;">
                                   <div id="categorycolumns">
-                                    <div id="typeName"></div>
+                                    <div id="baseType"></div>
                                     <div id="inventoryType"></div>
                                     <div id="category"></div>
                                     <div id="subCategory"></div>
@@ -263,40 +263,46 @@ class SearchInterface {
         let categoryType;
 
         $breadcrumbs.empty();
+        $popup.find('#itemsearch').attr('data-inventorytypeid', '').attr('data-categoryid', '').attr('data-subcategoryid', '');
+        $popup.find('#baseType, #inventoryType, #category, #subCategory, #inventory').empty();
+
         switch (FwFormField.getValue($popup, '[data-datafield="InventoryType"]')) {
             case 'R':
                 inventoryTypeRequest.uniqueids = { Rental: true };
                 categoryType                   = 'rentalcategory';
                 $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">RENTAL</div></div>');
+                $popup.find('#baseType').append(`<ul class="selected"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>RENTAL</span></ul>`);
                 $popup.find('#itemsearch').attr('data-base', 'RENTAL');
                 break;
             case 'S':
                 inventoryTypeRequest.uniqueids = { Sales: true };
                 categoryType                   = 'salescategory';
                 $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">SALES</div></div>');
+                $popup.find('#baseType').append(`<ul class="selected" data-value="SALES"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>SALES</span></ul>`);
                 $popup.find('#itemsearch').attr('data-base', 'SALES');
                 break;
             case 'L':
                 inventoryTypeRequest.uniqueids = { Labor: true };
                 categoryType                   = 'laborcategory';
                 $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">LABOR</div></div>');
+                $popup.find('#baseType').append(`<ul class="selected" data-value="LABOR"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>LABOR</span></ul>`);
                 $popup.find('#itemsearch').attr('data-base', 'LABOR');
                 break;
             case 'M':
                 inventoryTypeRequest.uniqueids = { Misc: true };
                 categoryType                   = 'misccategory';
                 $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">MISC</div></div>');
+                $popup.find('#baseType').append(`<ul class="selected" data-value="MISC"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>MISC</span></ul>`);
                 $popup.find('#itemsearch').attr('data-base', 'MISC');
                 break;
             case 'P':
                 inventoryTypeRequest.uniqueids = { Parts: true };
                 categoryType                   = 'partscategory';
                 $breadcrumbs.append('<div class="basetype breadcrumb"><div class="value">PARTS</div></div>');
+                $popup.find('#baseType').append(`<ul class="selected" data-value="PARTS"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>PARTS</span></ul>`);
                 $popup.find('#itemsearch').attr('data-base', 'PARTS');
                 break;
         }
-        $popup.find('#itemsearch').attr('data-inventorytypeid', '').attr('data-categoryid', '').attr('data-subcategoryid', '');
-        $popup.find('#typeName, #inventoryType, #category, #subCategory, #inventory').empty();
 
         FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
             let inventoryTypeIndex,
@@ -324,222 +330,13 @@ class SearchInterface {
             for (let i = 0; i < response.Rows.length; i++) {
                 if (types.indexOf(response.Rows[i][inventoryTypeIndex]) == -1) {
                     types.push(response.Rows[i][inventoryTypeIndex]);
-                    inventoryTypeColumn.append(`<ul class="fitText" data-value="${response.Rows[i][inventoryTypeIdIndex]}"><span>${response.Rows[i][inventoryTypeIndex]}</span></ul>`);
+                    inventoryTypeColumn.append(`<ul data-value="${response.Rows[i][inventoryTypeIdIndex]}" data-caption="${response.Rows[i][inventoryTypeIndex]}">
+                                                  <span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>
+                                                  <span>${response.Rows[i][inventoryTypeIndex]}</span>
+                                                </ul>`);
                 }
             }
         }, null, $popup.find('#searchpopup'));
-        this.typeOnClickEvents($popup, categoryType);
-    }
-    //----------------------------------------------------------------------------------------------
-    typeOnClickEvents($popup, categoryType) {
-        const $searchpopup     = $popup.find('#searchpopup');
-        let self               = this;
-        let $typeName          = $popup.find('#typeName');
-        let inventoryTypeValue = FwFormField.getValue($popup, '[data-datafield="InventoryType"]');
-
-        switch (inventoryTypeValue) {
-            case 'R': inventoryTypeValue = "RENTAL"; break;
-            case 'S': inventoryTypeValue = "SALES";  break;
-            case 'L': inventoryTypeValue = "LABOR";  break;
-            case 'M': inventoryTypeValue = "MISC";   break;
-            case 'P': inventoryTypeValue = "PARTS";  break;
-        }
-        $typeName.append(`<ul class="inventoryTypeNav fitText" data-value="${inventoryTypeValue}"><span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span><span>${inventoryTypeValue}</span></ul>`);
-        //Click event for main inv type nav to refresh type list
-        $typeName.find('.inventoryTypeNav').on('click', e => {
-            $popup.find('[data-type="radio"]').change();
-        });
-
-        $popup.off('click', '#inventoryType ul');
-        $popup.on('click', '#inventoryType ul', e => {
-            const $this = jQuery(e.currentTarget);
-            $popup.find('#inventoryType ul').removeClass('selected');
-            $this.addClass('selected');
-
-            //Clear out existing bread crumbs and start new one
-            let $breadcrumbs = $popup.find('#breadcrumbs');
-            $breadcrumbs.find('.type, .category, .subcategory').remove();
-            $breadcrumbs.append(`<div class="type breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
-
-            $popup.find('#itemsearch').attr('data-inventorytypeid', $this.attr('data-value')).attr('data-categoryid', '').attr('data-subcategoryid', '');
-
-            //Jason H - 10/09/18 layout changes to left-side category columns
-            $popup.find('#inventoryType ul').not('.selected').hide();
-            if ($this.find('span').hasClass('downArrowNav') == false) {
-                $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
-            }
-
-            let typeRequest: any = {
-                searchfieldoperators: ["<>"],
-                searchfields:         ["Inactive"],
-                searchfieldvalues:    ["T"]
-            };
-
-            switch (categoryType) {
-                case 'misccategory':  typeRequest.uniqueids = { MiscTypeId:      $this.attr('data-value') }; break;
-                case 'laborcategory': typeRequest.uniqueids = { LaborTypeId:     $this.attr('data-value') }; break;
-                default:              typeRequest.uniqueids = { InventoryTypeId: $this.attr('data-value') }; break;
-            }
-
-            FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, typeRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                let categoryIdIndex = response.ColumnIndex.CategoryId;
-                let categoryIndex   = response.ColumnIndex.Category;
-
-                $popup.find('#category, #subCategory').empty();
-                $popup.find('#inventory').empty();
-
-                let categories: any = [];
-                let categoryColumn  = $popup.find('#category');
-                for (let i = 0; i < response.Rows.length; i++) {
-                    if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
-                        categories.push(response.Rows[i][categoryIndex]);
-                        categoryColumn.append(`<ul class="fitText" data-value="${response.Rows[i][categoryIdIndex]}"><span>${response.Rows[i][categoryIndex]}</span></ul>`);
-                    }
-                }
-                if (response.Rows.length === 1) {
-                    $popup.find("#category > ul").trigger('click');
-                }
-            }, null, $searchpopup);
-            this.categoryOnClickEvents($popup);
-        });
-    }
-    //----------------------------------------------------------------------------------------------
-    categoryOnClickEvents($popup) {
-        const $searchpopup = $popup.find('#searchpopup');
-        let self           = this;
-
-        $popup.off('click', '#category ul');
-        $popup.on('click', '#category ul', e => {
-            const $this = jQuery(e.currentTarget);
-
-            $popup.find('#category ul').removeClass('selected');
-            $this.addClass('selected');
-
-            //Clear and set new breadcrumbs
-            let $breadcrumbs = $popup.find('#breadcrumbs');
-            $breadcrumbs.find('.category, .subcategory').remove();
-            $breadcrumbs.append(`<div class="category breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
-
-            $popup.find('#itemsearch').attr('data-categoryid', $this.attr('data-value')).attr('data-subcategoryid', '');
-
-            let subCatListRequest: any = {};
-            subCatListRequest.uniqueids = {
-                CategoryId: $this.attr('data-value'),
-                TypeId:     $popup.find('#itemsearch').attr('data-inventorytypeid'),
-                RecType:    FwFormField.getValueByDataField($popup, 'InventoryType')
-            }
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCatListRequest, FwServices.defaultTimeout, function onSuccess(response) {
-                let subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
-                let subCategoryIndex   = response.ColumnIndex.SubCategory;
-                $popup.find('#subCategory').empty();
-
-                let subCategories: any = [];
-                let subCategoryColumn  = $popup.find('#subCategory');
-                for (let i = 0; i < response.Rows.length; i++) {
-                    if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
-                        subCategories.push(response.Rows[i][subCategoryIndex]);
-                        subCategoryColumn.append(`<ul class="fitText" data-value="${response.Rows[i][subCategoryIdIndex]}"><span>${response.Rows[i][subCategoryIndex]}</span></ul>`);
-                    }
-                }
-                if (response.Rows.length == 1) {
-                    $popup.find("#subCategory > ul").trigger('click');
-                }
-                let hasSubCategories = false;
-                if (response.Rows.length > 0) {
-                    hasSubCategories = true;
-                }
-                //Load the Inventory items if selected category doesn't have any sub-categories
-                if (hasSubCategories == false) {
-                    let parentFormId = $popup.find('#itemsearch').data('parentformid');
-                    let request: any = {
-                        OrderId:                       parentFormId,
-                        SessionId:                     parentFormId,
-                        CategoryId:                    $this.attr('data-value'),
-                        InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
-                        AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                        WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
-                        ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                        SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                        Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                        HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
-                        ShowImages:                    true,
-                        FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                        ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
-                    }
-
-                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                        $popup.find('#inventory').empty();
-                        if (response.Rows.length > 0) {
-                            const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                            let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                            if (typeof obj != 'undefined') {
-                                $popup.find('.refresh-availability').show();
-                            }
-                        }
-                        SearchInterfaceController.renderInventory($popup, response);
-                    }, null, $searchpopup);
-                } else {
-                    $popup.find('#inventory').empty();
-
-                    //Jason H - 10/09/18 layout changes to left-side category columns
-                    $popup.find('#category ul').not('.selected').hide();
-                    if ($this.find('span').hasClass('downArrowNav') == false) {
-                        $this.append(`<span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>`);
-                    }
-                }
-            }, null, $searchpopup);
-            this.subCategoryOnClickEvents($popup);
-        });
-    }
-    //----------------------------------------------------------------------------------------------
-    subCategoryOnClickEvents($popup) {
-        const $searchpopup = $popup.find('#searchpopup');
-
-        $popup.off('click', '#subCategory ul');
-        $popup.on('click', '#subCategory ul', function (e) {
-            const $this = jQuery(e.currentTarget);
-
-            $popup.find('#subCategory ul').removeClass('selected');
-            $this.addClass('selected');
-            let parentFormId = $popup.find('#itemsearch').data('parentformid');
-
-            //Clear and set breadcrumbs
-            let $breadcrumbs = $popup.find('#breadcrumbs');
-            $breadcrumbs.find('.subcategory').remove();
-            $breadcrumbs.append(`<div class="subcategory breadcrumb"><div class="value">${$this.find('span:first-of-type').text()}</div></div>`);
-
-            $popup.find('#itemsearch').attr('data-subcategoryid', $this.attr('data-value'));
-
-            let request: any = {
-                OrderId:                       parentFormId,
-                SessionId:                     parentFormId,
-                CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid'),
-                SubCategoryId:                 $this.attr('data-value'),
-                InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
-                AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
-                ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) === 'T' ? true : false,
-                ShowImages:                    true,
-                FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
-            }
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                $popup.find('#inventory').empty();
-                if (response.Rows.length > 0) {
-                    const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                    let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                    if (typeof obj != 'undefined') {
-                        $popup.find('.refresh-availability').show();
-                    }
-                }
-                SearchInterfaceController.renderInventory($popup, response);
-            }, null, $searchpopup);
-        });
     }
     //----------------------------------------------------------------------------------------------
     renderInventory($popup, response) {
@@ -563,7 +360,7 @@ class SearchInterface {
 
         let $inventoryContainer = $popup.find('#inventory');
         if (response.Rows.length == 0) {
-            $inventoryContainer.append('<span style="font-weight: bold; font-size=1.3em">No Results</span>');
+            $inventoryContainer.append('<div style="font-weight: bold; font-size:1.3em;text-align: center;padding-top: 50px;">0 Items Found</div>');
         }
 
         for (let i = 0; i < response.Rows.length; i++) {
@@ -652,19 +449,196 @@ class SearchInterface {
         let warehouseId    = $popup.find('#itemsearch').data('warehouseid');
         let $searchpopup   = $popup.find('#searchpopup');
 
-        $popup.on('click', '#breadcrumbs .basetype', e => {
-            self.populateTypeMenu($popup);
-        });
+        $popup
+            .on('click', '#breadcrumbs .basetype', e => {
+                self.populateTypeMenu($popup);
+            })
+            .on('click', '#breadcrumbs .type', e => {
+                let inventorytypeid = $popup.find('#itemsearch').attr('data-inventorytypeid');
+                $popup.find(`#inventoryType ul[data-value="${inventorytypeid}"]`).click();
+            })
+            .on('click', '#breadcrumbs .category', e => {
+                let categoryid = $popup.find('#itemsearch').attr('data-categoryid');
+                $popup.find(`#category ul[data-value="${categoryid}"]`).click();
+            })
+            .on('click', '#baseType ul', e => {
+                self.populateTypeMenu($popup);
+            })
+            .on('click', '#inventoryType ul', e => {
+                const $this = jQuery(e.currentTarget);
+                $popup.find('#inventoryType ul').removeClass('selected');
+                $this.addClass('selected');
+                $popup.find('#inventoryType ul').not('.selected').hide();
 
-        $popup.on('click', '#breadcrumbs .type', e => {
-            let inventorytypeid = $popup.find('#itemsearch').attr('data-inventorytypeid');
-            $popup.find(`#inventoryType ul[data-value="${inventorytypeid}"]`).click();
-        });
+                //Clear out existing bread crumbs and start new one
+                let $breadcrumbs = $popup.find('#breadcrumbs');
+                $breadcrumbs.find('.type, .category, .subcategory').remove();
+                $breadcrumbs.append(`<div class="type breadcrumb"><div class="value">${$this.attr('data-caption')}</div></div>`);
 
-        $popup.on('click', '#breadcrumbs .category', e => {
-            let categoryid = $popup.find('#itemsearch').attr('data-categoryid');
-            $popup.find(`#category ul[data-value="${categoryid}"]`).click();
-        });
+                $popup.find('#itemsearch').attr('data-inventorytypeid', $this.attr('data-value')).attr('data-categoryid', '').attr('data-subcategoryid', '');
+
+                let categoryType;
+                switch (FwFormField.getValue($popup, '[data-datafield="InventoryType"]')) {
+                    case 'R': categoryType = 'rentalcategory'; break;
+                    case 'S': categoryType = 'salescategory';  break;
+                    case 'L': categoryType = 'laborcategory';  break;
+                    case 'M': categoryType = 'misccategory';   break;
+                    case 'P': categoryType = 'partscategory';  break;
+                }
+
+                let typeRequest: any = {
+                    searchfieldoperators: ["<>"],
+                    searchfields:         ["Inactive"],
+                    searchfieldvalues:    ["T"]
+                };
+
+                switch (categoryType) {
+                    case 'misccategory':  typeRequest.uniqueids = { MiscTypeId:      $this.attr('data-value') }; break;
+                    case 'laborcategory': typeRequest.uniqueids = { LaborTypeId:     $this.attr('data-value') }; break;
+                    default:              typeRequest.uniqueids = { InventoryTypeId: $this.attr('data-value') }; break;
+                }
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, typeRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    let categoryIdIndex = response.ColumnIndex.CategoryId;
+                    let categoryIndex   = response.ColumnIndex.Category;
+
+                    $popup.find('#category, #subCategory').empty();
+                    $popup.find('#inventory').empty();
+
+                    let categories: any = [];
+                    let categoryColumn  = $popup.find('#category');
+                    for (let i = 0; i < response.Rows.length; i++) {
+                        if (categories.indexOf(response.Rows[i][categoryIndex]) == -1) {
+                            categories.push(response.Rows[i][categoryIndex]);
+                            categoryColumn.append(`<ul data-value="${response.Rows[i][categoryIdIndex]}" data-caption="${response.Rows[i][categoryIndex]}">
+                                                     <span class="downArrowNav"><i class="material-icons">keyboard_arrow_down</i></span>
+                                                     <span>${response.Rows[i][categoryIndex]}</span>
+                                                   </ul>`);
+                        }
+                    }
+                    if (response.Rows.length === 1) {
+                        $popup.find("#category > ul").trigger('click');
+                    }
+                }, null, $searchpopup);
+            })
+            .on('click', '#category ul', e => {
+                const $this = jQuery(e.currentTarget);
+                $popup.find('#category ul').removeClass('selected');
+                $this.addClass('selected');
+
+                //Clear and set new breadcrumbs
+                let $breadcrumbs = $popup.find('#breadcrumbs');
+                $breadcrumbs.find('.category, .subcategory').remove();
+                $breadcrumbs.append(`<div class="category breadcrumb"><div class="value">${$this.attr('data-caption')}</div></div>`);
+
+                $popup.find('#itemsearch').attr('data-categoryid', $this.attr('data-value')).attr('data-subcategoryid', '');
+
+                let subCatListRequest: any = {};
+                subCatListRequest.uniqueids = {
+                    CategoryId: $this.attr('data-value'),
+                    TypeId:     $popup.find('#itemsearch').attr('data-inventorytypeid'),
+                    RecType:    FwFormField.getValueByDataField($popup, 'InventoryType')
+                }
+
+                FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCatListRequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    let subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
+                    let subCategoryIndex   = response.ColumnIndex.SubCategory;
+                    $popup.find('#subCategory').empty();
+
+                    //Load the Inventory items if selected category doesn't have any sub-categories
+                    if (response.Rows.length == 0) {
+                        let parentFormId = $popup.find('#itemsearch').data('parentformid');
+                        let request: any = {
+                            OrderId:                       parentFormId,
+                            SessionId:                     parentFormId,
+                            CategoryId:                    $this.attr('data-value'),
+                            InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
+                            AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                            WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
+                            ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                            SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                            Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                            HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+                            ShowImages:                    true,
+                            FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                            ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
+                        }
+
+                        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                            $popup.find('#inventory').empty();
+                            if (response.Rows.length > 0) {
+                                const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
+                                let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
+                                if (typeof obj != 'undefined') {
+                                    $popup.find('.refresh-availability').show();
+                                }
+                            }
+                            SearchInterfaceController.renderInventory($popup, response);
+                        }, null, $searchpopup);
+                    } else {
+                        $popup.find('#inventory').empty();
+                        $popup.find('#category ul').not('.selected').hide();
+
+                        let subCategories: any = [];
+                        let subCategoryColumn  = $popup.find('#subCategory');
+                        for (let i = 0; i < response.Rows.length; i++) {
+                            if (subCategories.indexOf(response.Rows[i][subCategoryIndex]) == -1) {
+                                subCategories.push(response.Rows[i][subCategoryIndex]);
+                                subCategoryColumn.append(`<ul data-value="${response.Rows[i][subCategoryIdIndex]}" data-caption="${response.Rows[i][subCategoryIndex]}">
+                                                            <span>${response.Rows[i][subCategoryIndex]}</span>
+                                                          </ul>`);
+                            }
+                        }
+                        if (response.Rows.length == 1) {
+                            $popup.find("#subCategory > ul").trigger('click');
+                        }
+                    }
+                }, null, $searchpopup);
+            })
+            .on('click', '#subCategory ul', function (e) {
+                const $this = jQuery(e.currentTarget);
+
+                $popup.find('#subCategory ul').removeClass('selected');
+                $this.addClass('selected');
+                let parentFormId = $popup.find('#itemsearch').data('parentformid');
+
+                //Clear and set breadcrumbs
+                let $breadcrumbs = $popup.find('#breadcrumbs');
+                $breadcrumbs.find('.subcategory').remove();
+                $breadcrumbs.append(`<div class="subcategory breadcrumb"><div class="value">${$this.attr('data-caption')}</div></div>`);
+
+                $popup.find('#itemsearch').attr('data-subcategoryid', $this.attr('data-value'));
+
+                let request: any = {
+                    OrderId:                       parentFormId,
+                    SessionId:                     parentFormId,
+                    CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid'),
+                    SubCategoryId:                 $this.attr('data-value'),
+                    InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
+                    AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                    WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
+                    ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                    SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                    Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                    HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) === 'T' ? true : false,
+                    ShowImages:                    true,
+                    FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                    ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
+                }
+
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    $popup.find('#inventory').empty();
+                    if (response.Rows.length > 0) {
+                        const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
+                        let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
+                        if (typeof obj != 'undefined') {
+                            $popup.find('.refresh-availability').show();
+                        }
+                    }
+                    SearchInterfaceController.renderInventory($popup, response);
+                }, null, $searchpopup);
+            })
+        ;
 
         //Close the Search Interface popup
         $popup.find('.close-modal').one('click', function (e) {
