@@ -333,6 +333,7 @@
     <Content Include="Source\Validations\AttributeValidation\AttributeValidationBrowse.htm" />
     <Content Include="Source\Validations\AttributeValueValidation\AttributeValueValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyContactValidation\CompanyContactValidationBrowse.htm" />
+    <Content Include="Source\Validations\CompanyValidation\CompanyValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactValidation\ContactValidationBrowse.htm" />
@@ -621,6 +622,7 @@
     <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\HomeController.ts" />
     <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />
+    <TypeScriptCompile Include="Source\Validations\CompanyValidation\CompanyValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\GeneralItemValidation\GeneralItemValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\RentalInventoryValidation\RentalInventoryValidationController.ts" />
     <TypeScriptCompile Include="Source\Validations\SalesInventoryValidation\SalesInventoryValidationController.ts" />
