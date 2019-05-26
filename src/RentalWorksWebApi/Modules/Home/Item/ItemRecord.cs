@@ -198,9 +198,9 @@ namespace WebApi.Modules.Home.Item
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> SaveNoteASync(string Note)
+        public async Task<bool> SaveNoteAsync(string Note)
         {
-            return await AppFunc.SaveNoteASync(AppConfig, UserSession, ItemId, "", "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, ItemId, "", "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
     }

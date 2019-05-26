@@ -454,7 +454,7 @@ namespace WebApi.Modules.Home.Master
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            return await AppFunc.SaveNoteASync(AppConfig, UserSession, MasterId, "", "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, MasterId, "", "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
         public async Task<bool> SaveWardrobeDetailedDescription(string description, FwSqlConnection conn)

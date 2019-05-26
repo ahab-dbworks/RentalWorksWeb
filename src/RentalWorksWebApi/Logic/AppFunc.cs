@@ -202,7 +202,7 @@ namespace WebApi.Logic
             return counter;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<bool> SaveNoteASync(FwApplicationConfig appConfig, FwUserSession userSession, string uniqueId1, string uniqueId2, string uniqueId3, string note)
+        public static async Task<bool> SaveNoteAsync(FwApplicationConfig appConfig, FwUserSession userSession, string uniqueId1, string uniqueId2, string uniqueId3, string note)
         {
             bool saved = false;
             if (note != null)

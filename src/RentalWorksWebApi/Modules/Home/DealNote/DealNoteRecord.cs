@@ -34,7 +34,7 @@ namespace WebApi.Modules.Home.DealNote
         //------------------------------------------------------------------------------------
         public async Task<bool> SaveNoteASync(string Note)
         {
-            return await AppFunc.SaveNoteASync(AppConfig, UserSession, DealId, DealNoteId, "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, DealId, DealNoteId, "", Note);
         }
         //-------------------------------------------------------------------------------------------------------    
     }

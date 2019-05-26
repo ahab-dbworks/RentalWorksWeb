@@ -521,7 +521,7 @@ namespace WebApi.Modules.Home.Item
             }
             if (doSaveNote)
             {
-                bool saved = item.SaveNoteASync(ItemNotes).Result;
+                bool saved = item.SaveNoteAsync(ItemNotes).Result;
                 if (saved)
                 {
                     e.RecordsAffected++;

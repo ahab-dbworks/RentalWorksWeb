@@ -275,7 +275,7 @@ namespace WebApi.Modules.Home.MasterItem
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            bool saved = await AppFunc.SaveNoteASync(AppConfig, UserSession, OrderId, MasterItemId, "", Note);
+            bool saved = await AppFunc.SaveNoteAsync(AppConfig, UserSession, OrderId, MasterItemId, "", Note);
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "syncorderitem", this.AppConfig.DatabaseSettings.QueryTimeout);

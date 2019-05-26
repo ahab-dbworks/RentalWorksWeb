@@ -53,7 +53,7 @@ namespace WebApi.Modules.Home.OrderNote
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            return await AppFunc.SaveNoteASync(AppConfig, UserSession, OrderId, OrderNoteId, "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, OrderId, OrderNoteId, "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
     }

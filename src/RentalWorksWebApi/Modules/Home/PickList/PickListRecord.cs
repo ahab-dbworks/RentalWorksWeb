@@ -141,7 +141,7 @@ namespace WebApi.Modules.Home.PickList
         //------------------------------------------------------------------------------------ 
         public async Task<bool> SaveNoteASync(string Note)
         {
-            return await AppFunc.SaveNoteASync(AppConfig, UserSession, PickListId, "", "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, PickListId, "", "", Note);
         }
         //-------------------------------------------------------------------------------------------------------
         public override async Task<bool> DeleteAsync()

@@ -37,7 +37,7 @@ namespace WebApi.Modules.Home.VendorNote
         //------------------------------------------------------------------------------------
         public async Task<bool> SaveNoteASync(string Note)
         {
-            return await AppFunc.SaveNoteASync(AppConfig, UserSession, VendorId, VendorNoteId, "", Note);
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, VendorId, VendorNoteId, "", Note);
         }
         //-------------------------------------------------------------------------------------------------------    
     }
