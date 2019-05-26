@@ -100,15 +100,19 @@ namespace FwStandard.DataLayer
         public virtual async Task<int> SaveAsync(FwDataReadWriteRecord original, FwSqlConnection conn = null)
         {
             int rowsAffected = 0;
-            TDataRecordSaveMode saveMode = TDataRecordSaveMode.smInsert;
+
+            BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
+            beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
+            beforeSaveArgs.Original = original;
+            beforeSaveArgs.SqlConnection = conn;
 
             if (NoPrimaryKeysHaveValues)
             {
-                saveMode = TDataRecordSaveMode.smInsert;
+                beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
             }
             else if (AllPrimaryKeysHaveValues)
             {
-                saveMode = TDataRecordSaveMode.smUpdate;
+                beforeSaveArgs.SaveMode = TDataRecordSaveMode.smUpdate;
             }
             else
             {
@@ -120,7 +124,7 @@ namespace FwStandard.DataLayer
                 conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
             }
 
-            if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+            if (beforeSaveArgs.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
                 if (AssignPrimaryKeys == null)
                 {
@@ -133,25 +137,15 @@ namespace FwStandard.DataLayer
                 }
             }
 
-            BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
-            beforeSaveArgs.SaveMode = saveMode;
-            beforeSaveArgs.Original = original;
-            beforeSaveArgs.SqlConnection = conn;
-
-            AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
-            afterSaveArgs.SaveMode = saveMode;
-            afterSaveArgs.Original = original;
-            afterSaveArgs.SqlConnection = conn;
-
             BeforeSave?.Invoke(this, beforeSaveArgs);
 
             if (beforeSaveArgs.PerformSave)
             {
-                if ((saveMode.Equals(TDataRecordSaveMode.smInsert)) || ForceSave || IsModified(original))  // don't proceed with db activity if nothing changed
+                if ((beforeSaveArgs.SaveMode.Equals(TDataRecordSaveMode.smInsert)) || ForceSave || IsModified(original))  // don't proceed with db activity if nothing changed
                 {
                     using (FwSqlCommand cmd = new FwSqlCommand(conn, AppConfig.DatabaseSettings.QueryTimeout))
                     {
-                        if (saveMode.Equals(TDataRecordSaveMode.smInsert))
+                        if (beforeSaveArgs.SaveMode.Equals(TDataRecordSaveMode.smInsert))
                         {
                             rowsAffected = await cmd.InsertAsync(TableName, this, AppConfig.DatabaseSettings);
                         }
@@ -162,6 +156,10 @@ namespace FwStandard.DataLayer
                         bool savePerformed = (rowsAffected > 0);
                         if (savePerformed)
                         {
+                            AfterSaveDataRecordEventArgs afterSaveArgs = new AfterSaveDataRecordEventArgs();
+                            afterSaveArgs.SaveMode = beforeSaveArgs.SaveMode;
+                            afterSaveArgs.Original = original;
+                            afterSaveArgs.SqlConnection = conn;
                             AfterSave?.Invoke(this, afterSaveArgs);
                         }
                     }

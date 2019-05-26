@@ -26,11 +26,16 @@ namespace WebApi.Modules.Home.Contact
 
             BeforeSave += OnBeforeSaveContactLogic;
             BeforeValidate += BeforeValidateContact;
-            BeforeDelete += ContactLogic_BeforeDelete;
 
+            contact.BeforeDelete += Contact_BeforeDelete;
             user.BeforeSave += BeforeSaveUser;
+            user.BeforeDelete += User_BeforeDelete;
             webUser.BeforeSave += BeforeSaveWebUser;
+            webUser.BeforeDelete += WebUser_BeforeDelete;
         }
+        private bool deleteUser = false;
+        private string deleteUserId = string.Empty;
+        private bool deleteWebUser = false;
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"QYCltLBdmJfW", IsPrimaryKey:true)]
         public string ContactId { get { return contact.ContactId; } set { contact.ContactId = value; } }
@@ -219,25 +224,16 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         private void BeforeSaveUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            // reload the WebUserId and UserId 
-            ContactLogic contact2 = new ContactLogic();
-            contact2.SetDependencies(AppConfig, UserSession);
-            object[] pk = GetPrimaryKeys();
-            bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
-            if (string.IsNullOrEmpty(WebUserId))
+            // get the usersid
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                WebUserId = contact2.WebUserId;
-            }
-            if (string.IsNullOrEmpty(UserId))
-            {
-                UserId = contact2.UserId;
-            }
-
-            user.UserId = this.UserId;
-            if (!string.IsNullOrEmpty(this.WebUserId)) // it already seems to generate the UserId by the time it gets to this point so we need to check WebUserId instead to know if we are doing an insert or update
-            {
-                e.SaveMode = TDataRecordSaveMode.smUpdate;
-                e.PerformSave = false;
+                var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
+                if (row.ContainsKey("webusersid") && row.ContainsKey("usersid"))
+                {
+                    user.UserId = row["usersid"].ToString().TrimEnd();
+                    e.SaveMode = TDataRecordSaveMode.smUpdate;
+                    e.PerformSave = false;
+                }
             }
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
             {
@@ -257,29 +253,47 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         private void BeforeSaveWebUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            webUser.WebUserId = this.WebUserId;
-
-            // doing these for insert and update to fix any bad data even though this is really an insert only sort of thing
-            webUser.UserId = this.UserId;
-            webUser.ContactId = this.ContactId;
-
-            // the saveMode always starts off as insert, so we need to set it correctly here
-            if (!string.IsNullOrEmpty(this.WebUserId))
+            // get the webusersid
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                e.SaveMode = TDataRecordSaveMode.smUpdate;
+                var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
+                if (row.ContainsKey("webusersid") && row.ContainsKey("usersid"))
+                {
+                    webUser.WebUserId = row["webusersid"].ToString().TrimEnd();
+                    e.SaveMode = TDataRecordSaveMode.smUpdate;
+                }
             }
             if (e.SaveMode == TDataRecordSaveMode.smInsert)
             {
                 webUser.ApplicationTheme = "theme-material";
+                webUser.UserId = user.UserId;
+                webUser.ContactId = this.ContactId;
             }
         }
         //------------------------------------------------------------------------------------
-        private void ContactLogic_BeforeDelete(object sender, BeforeDeleteEventArgs e)
+        private void Contact_BeforeDelete(object sender, BeforeDeleteEventArgs e)
         {
-            // need to load the contact record before deleting, so we can get the UserId and WebUserId for deleting those records.
-            object[] pk = GetPrimaryKeys();
-            e.PerformDelete = this.LoadAsync<ContactLogic>(pk).Result;
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+            {
+                var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
+                e.PerformDelete = row.ContainsKey("usersid");
+                if (row.ContainsKey("usersid") && row.ContainsKey("webusersid"))
+                {
+                    this.UserId = row["usersid"].ToString().TrimEnd();
+                    this.WebUserId = row["webusersid"].ToString().TrimEnd();
+                }
+            }
         }
         //------------------------------------------------------------------------------------
-    }
+        private void User_BeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            e.PerformDelete = !string.IsNullOrEmpty(this.UserId);
+        }
+        //------------------------------------------------------------------------------------
+        private void WebUser_BeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            e.PerformDelete = !string.IsNullOrEmpty(this.WebUserId);
+        }
+        //------------------------------------------------------------------------------------
+        }
 }
