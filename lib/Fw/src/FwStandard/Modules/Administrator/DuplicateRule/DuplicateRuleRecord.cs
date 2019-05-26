@@ -33,7 +33,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<bool> SaveFields(string Fields, string FieldTypes)
+        public async Task<bool> SaveFieldsAsync(string Fields, string FieldTypes)
         {
             bool saved = false;
             if (Fields != null)

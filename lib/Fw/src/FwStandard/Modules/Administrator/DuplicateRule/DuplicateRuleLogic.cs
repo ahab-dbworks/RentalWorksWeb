@@ -74,7 +74,7 @@ namespace FwStandard.Modules.Administrator.DuplicateRule
         public void OnAfterSaveDuplicateRule(object sender, AfterSaveDataRecordEventArgs e)
         {
             bool saved = false;
-            saved = duplicateRule.SaveFields(Fields, FieldTypes).Result;
+            saved = duplicateRule.SaveFieldsAsync(Fields, FieldTypes).Result;
             refreshDuplicateRules();
         }
         //------------------------------------------------------------------------------------ 
