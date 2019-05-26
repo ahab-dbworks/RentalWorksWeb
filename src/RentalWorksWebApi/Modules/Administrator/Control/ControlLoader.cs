@@ -561,5 +561,11 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcontactgroupsid", modeltype: FwDataTypes.Text)]
+        public string DefaultContactGroupId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultcontactgroupname", modeltype: FwDataTypes.Text)]
+        public string DefaultContactGroupName { get; set; }
+        //------------------------------------------------------------------------------------ 
     }
 }

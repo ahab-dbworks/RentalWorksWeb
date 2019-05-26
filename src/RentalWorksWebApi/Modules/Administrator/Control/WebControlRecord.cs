@@ -9,7 +9,7 @@ namespace WebApi.Modules.Administrator.Control
     public class WebControlRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "controlid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
+        [FwSqlDataField(column: "webcontrolid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey: true)]
         public string ControlId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reportlogoimageid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
@@ -17,6 +17,9 @@ namespace WebApi.Modules.Administrator.Control
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "groupsid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        public string DefaultContactGroupId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
     }
 }

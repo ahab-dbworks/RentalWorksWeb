@@ -18,12 +18,14 @@ namespace WebApi.Modules.Administrator.Control
         {
             dataRecords.Add(control);
             dataRecords.Add(sysControl);
+            dataRecords.Add(webControl);
             dataLoader = controlLoader;
             browseLoader = controlBrowseLoader;
         }
+
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "sQNl9X1N2HZZ", IsPrimaryKey: true)]
-        public string ControlId { get { return control.ControlId; } set { control.ControlId = value; sysControl.ControlId = value; } }
+        public string ControlId { get { return control.ControlId; } set { control.ControlId = value; sysControl.ControlId = value; webControl.ControlId = value; } }
 
         [FwLogicProperty(Id: "8ndnCUXzHCr8K")]
         public string CompanyName { get { return control.Company; } set { control.Company = value; } }
@@ -587,11 +589,14 @@ namespace WebApi.Modules.Administrator.Control
         public int? ReportLogoImageWidth { get; set; }
 
         //------------------------------------------------------------------------------------ 
-
-
         [FwLogicProperty(Id: "aDqR7r0S7E0ZQ")]
         public string DateStamp { get { return control.DateStamp; } set { control.DateStamp = value; } }
-
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "CHKY9htidEel")]
+        public string DefaultContactGroupId { get { return webControl.DefaultContactGroupId; } set { webControl.DefaultContactGroupId = value; } }
+        //------------------------------------------------------------------------------------ 
+        [FwLogicProperty(Id: "OI5NyvH5W25h")]
+        public string DefaultContactGroupName { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
         {
