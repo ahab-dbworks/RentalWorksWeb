@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 ﻿using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
+using System;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 using WebLibrary;
@@ -23,9 +24,10 @@ namespace WebApi.Modules.Home.Contact
             dataRecords.Add(webUser);
             dataLoader = contactLoader;
 
+            BeforeSave += OnBeforeSaveContactLogic;
             BeforeValidate += BeforeValidateContact;
+            BeforeDelete += ContactLogic_BeforeDelete;
 
-            contact.AfterSave += AfterSaveContact;
             user.BeforeSave += BeforeSaveUser;
             webUser.BeforeSave += BeforeSaveWebUser;
         }
@@ -200,51 +202,83 @@ namespace WebApi.Modules.Home.Contact
                 user.RentalDepartmentId = "X";
             }
         }
-        //------------------------------------------------------------------------------------
-        private void AfterSaveContact(object sender, AfterSaveDataRecordEventArgs e)
+        //------------------------------------------------------------------------------------ 
+        public void OnBeforeSaveContactLogic(object sender, BeforeSaveEventArgs e)
         {
-            if (e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smUpdate)
+            ContactRecordType = "CONTACT";
+            if (!string.IsNullOrEmpty(this.WebPassword))
             {
-                if ((string.IsNullOrEmpty(WebUserId)) || (string.IsNullOrEmpty(UserId)))
+                // Encyrypt the WebPassword if the user supplies a new one
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
                 {
-                    ContactLogic contact2 = new ContactLogic();
-                    contact2.SetDependencies(AppConfig, UserSession);
-                    object[] pk = GetPrimaryKeys();
-                    bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
-                    if (string.IsNullOrEmpty(WebUserId)) 
-                    {
-                        WebUserId = contact2.WebUserId;
-                    }
-                    if (string.IsNullOrEmpty(UserId))
-                    {
-                        UserId = contact2.UserId;
-                    }
+                    this.WebPassword = FwSqlData.EncryptAsync(conn, this.AppConfig.DatabaseSettings, this.WebPassword.ToUpper()).Result;
                 }
+                this.PasswordLastUpdated = FwConvert.ToUtcIso8601DateTime(DateTime.UtcNow);
             }
         }
         //------------------------------------------------------------------------------------
         private void BeforeSaveUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
+            // reload the WebUserId and UserId 
+            ContactLogic contact2 = new ContactLogic();
+            contact2.SetDependencies(AppConfig, UserSession);
+            object[] pk = GetPrimaryKeys();
+            bool b = contact2.LoadAsync<ContactLogic>(pk).Result;
+            if (string.IsNullOrEmpty(WebUserId))
+            {
+                WebUserId = contact2.WebUserId;
+            }
+            if (string.IsNullOrEmpty(UserId))
+            {
+                UserId = contact2.UserId;
+            }
+
+            user.UserId = this.UserId;
+            if (!string.IsNullOrEmpty(this.WebUserId)) // it already seems to generate the UserId by the time it gets to this point so we need to check WebUserId instead to know if we are doing an insert or update
+            {
+                e.SaveMode = TDataRecordSaveMode.smUpdate;
+                e.PerformSave = false;
+            }
             if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
             {
                 //fields are required for a user
-                user.FirstName = UserId;
-                user.LastName = UserId;
-                user.LoginName = UserId;
-                user.OfficeLocationId = UserId;
-                user.WarehouseId = UserId;
-                user.GroupId = UserId;
-                user.RentalDepartmentId = UserId;
+                user.FirstName = string.Empty;
+                user.LastName = this.UserId;
+                user.LoginName = this.UserId; ;
+                user.OfficeLocationId = string.Empty;
+                user.WarehouseId = string.Empty;
+                user.PrimaryOfficeLocationId = string.Empty;
+                user.PrimaryWarehouseId = string.Empty;
+                user.GroupId = string.Empty;
+                user.DefaultDepartmentType = string.Empty;
+                user.RentalDepartmentId = string.Empty;
             }
         }
         //------------------------------------------------------------------------------------
         private void BeforeSaveWebUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
-            if ((e.SaveMode == FwStandard.BusinessLogic.TDataRecordSaveMode.smInsert))
+            webUser.WebUserId = this.WebUserId;
+
+            // doing these for insert and update to fix any bad data even though this is really an insert only sort of thing
+            webUser.UserId = this.UserId;
+            webUser.ContactId = this.ContactId;
+
+            // the saveMode always starts off as insert, so we need to set it correctly here
+            if (!string.IsNullOrEmpty(this.WebUserId))
             {
-                WebUserUserId = UserId;
-                WebUserContactId = ContactId;
+                e.SaveMode = TDataRecordSaveMode.smUpdate;
             }
+            if (e.SaveMode == TDataRecordSaveMode.smInsert)
+            {
+                webUser.ApplicationTheme = "theme-material";
+            }
+        }
+        //------------------------------------------------------------------------------------
+        private void ContactLogic_BeforeDelete(object sender, BeforeDeleteEventArgs e)
+        {
+            // need to load the contact record before deleting, so we can get the UserId and WebUserId for deleting those records.
+            object[] pk = GetPrimaryKeys();
+            e.PerformDelete = this.LoadAsync<ContactLogic>(pk).Result;
         }
         //------------------------------------------------------------------------------------
     }
