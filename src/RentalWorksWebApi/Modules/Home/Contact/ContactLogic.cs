@@ -33,9 +33,6 @@ namespace WebApi.Modules.Home.Contact
             webUser.BeforeSave += BeforeSaveWebUser;
             webUser.BeforeDelete += WebUser_BeforeDelete;
         }
-        private bool deleteUser = false;
-        private string deleteUserId = string.Empty;
-        private bool deleteWebUser = false;
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"QYCltLBdmJfW", IsPrimaryKey:true)]
         public string ContactId { get { return contact.ContactId; } set { contact.ContactId = value; } }
@@ -228,7 +225,7 @@ namespace WebApi.Modules.Home.Contact
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
-                if (row.ContainsKey("webusersid") && row.ContainsKey("usersid"))
+                if (row.ContainsKey("usersid"))
                 {
                     user.UserId = row["usersid"].ToString().TrimEnd();
                     e.SaveMode = TDataRecordSaveMode.smUpdate;
@@ -257,7 +254,7 @@ namespace WebApi.Modules.Home.Contact
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
-                if (row.ContainsKey("webusersid") && row.ContainsKey("usersid"))
+                if (row.ContainsKey("webusersid"))
                 {
                     webUser.WebUserId = row["webusersid"].ToString().TrimEnd();
                     e.SaveMode = TDataRecordSaveMode.smUpdate;
