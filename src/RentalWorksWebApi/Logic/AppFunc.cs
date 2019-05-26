@@ -529,6 +529,10 @@ namespace WebApi.Logic
                     response.name = qry.GetField("name").ToString().TrimEnd();
                     response.browsedefaultrows = qry.GetField("browsedefaultrows").ToString().TrimEnd();
                     response.applicationtheme = qry.GetField("applicationtheme").ToString().TrimEnd();
+                    if (string.IsNullOrEmpty(response.applicationtheme))
+                    {
+                        response.applicationtheme = "theme-material";
+                    }
                     response.locationid = qry.GetField("locationid").ToString().TrimEnd();
                     response.location = qry.GetField("location").ToString().TrimEnd();
                     response.warehouseid = qry.GetField("warehouseid").ToString().TrimEnd();
