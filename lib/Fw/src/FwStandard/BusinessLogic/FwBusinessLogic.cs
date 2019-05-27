@@ -1172,6 +1172,10 @@ namespace FwStandard.BusinessLogic
                         {
                             p = this.GetType().GetProperty("ToolBarJson"); //temporary
                         }
+                        if (p == null)
+                        {
+                            p = this.GetType().GetProperty("Html"); //temporary
+                        }
                         if (p != null)
                         {
                             savePerformed = (p.GetValue(this, null) != null);
