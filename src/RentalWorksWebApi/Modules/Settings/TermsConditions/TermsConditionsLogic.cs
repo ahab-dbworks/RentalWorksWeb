@@ -14,7 +14,7 @@ namespace WebApi.Modules.Settings.TermsConditions
         {
             dataRecords.Add(termsConditions);
             dataLoader = termsConditionsLoader;
-            termsConditions.AfterSave += OnAfterSaveTermsConditions;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"Hm3bRTR0i0K16", IsPrimaryKey:true)]
@@ -39,11 +39,27 @@ namespace WebApi.Modules.Settings.TermsConditions
         public string DateStamp { get { return termsConditions.DateStamp; } set { termsConditions.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveTermsConditions(object sender, AfterSaveDataRecordEventArgs e)
+        public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = termsConditions.SaveHtmlASync(Html).Result;
+            bool doSaveHtml = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveHtml = true;
+            }
+            else if (e.Original != null)
+            {
+                TermsConditionsLogic orig = (TermsConditionsLogic)e.Original;
+                doSaveHtml = (!orig.Html.Equals(Html));
+            }
+            if (doSaveHtml)
+            {
+                bool saved = AppFunc.SaveNoteAsync(AppConfig, UserSession, TermsConditionsId, "", "", Html).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }
-
 }

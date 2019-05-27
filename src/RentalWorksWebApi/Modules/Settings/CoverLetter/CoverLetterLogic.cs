@@ -14,7 +14,7 @@ namespace WebApi.Modules.Settings.CoverLetter
         {
             dataRecords.Add(coverLetter);
             dataLoader = coverLetterLoader;
-            coverLetter.AfterSave += OnAfterSaveCoverLetter;
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------
         [FwLogicProperty(Id:"yZZ8EaKd8mc1", IsPrimaryKey:true)]
@@ -36,9 +36,26 @@ namespace WebApi.Modules.Settings.CoverLetter
         public string DateStamp { get { return coverLetter.DateStamp; } set { coverLetter.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-        public void OnAfterSaveCoverLetter(object sender, AfterSaveDataRecordEventArgs e)
+        public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            bool saved = coverLetter.SaveHtmlASync(Html).Result;
+            bool doSaveHtml = false;
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smInsert))
+            {
+                doSaveHtml = true;
+            }
+            else if (e.Original != null)
+            {
+                CoverLetterLogic orig = (CoverLetterLogic)e.Original;
+                doSaveHtml = (!orig.Html.Equals(Html));
+            }
+            if (doSaveHtml)
+            {
+                bool saved = AppFunc.SaveNoteAsync(AppConfig, UserSession, CoverLetterId, "", "", Html).Result;
+                if (saved)
+                {
+                    e.RecordsAffected++;
+                }
+            }
         }
         //------------------------------------------------------------------------------------
     }
