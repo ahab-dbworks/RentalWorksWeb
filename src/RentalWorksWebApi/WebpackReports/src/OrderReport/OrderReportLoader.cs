@@ -263,6 +263,9 @@ namespace WebApi.Modules.Reports.OrderReport
         [FwSqlDataField(column: "termsconditionsnewpage", modeltype: FwDataTypes.Boolean)]
         public bool? TermsAndConditionsNewPage { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "termsconditions", modeltype: FwDataTypes.Text)]
+        public string TermsAndConditions { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
         public string ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------ 
