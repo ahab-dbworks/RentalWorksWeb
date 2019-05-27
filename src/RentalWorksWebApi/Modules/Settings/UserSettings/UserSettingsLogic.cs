@@ -1,4 +1,5 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
 using WebApi.Logic;
 using WebApi.Modules.Administrator.User;
 
@@ -15,6 +16,9 @@ namespace WebApi.Modules.Settings.UserSettings
         {
             dataRecords.Add(webUser);
             dataLoader = userSettingsLoader;
+
+            AfterSave += OnAfterSave;
+
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"ZX86VoX5ZVvar", IsPrimaryKey:true)]
@@ -63,10 +67,19 @@ namespace WebApi.Modules.Settings.UserSettings
         public string NotificationSoundFileName { get; set; }
 
         [FwLogicProperty(Id: "ypkfs1JBnySIQ")]
-        public string ToolBarJson { get { return webUser.ToolBarJson; } set { webUser.ToolBarJson = value; } }
+        public string ToolBarJson { get; set; }
 
         [FwLogicProperty(Id:"JGq0mOToNeqi")]
         public string DateStamp { get { return webUser.DateStamp; } set { webUser.DateStamp = value; } }
         //------------------------------------------------------------------------------------ 
+        public virtual void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            bool saved = webUser.SaveToolBarJsonAsync(ToolBarJson).Result;
+            if (saved)
+            {
+                e.RecordsAffected++;
+            }
+        }
+        //------------------------------------------------------------------------------------
     }
 }

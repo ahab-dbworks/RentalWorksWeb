@@ -1,7 +1,10 @@
 using FwStandard.BusinessLogic;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Threading.Tasks;
 using WebApi.Data;
+using WebApi.Logic;
+
 namespace WebApi.Modules.Administrator.User
 {
     [FwSqlTable("webusers")]
@@ -92,8 +95,12 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "notificationsoundid", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 8)]
         public string NotificationSoundId { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "toolbarjson", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
-        public string ToolBarJson { get; set; }
-        //------------------------------------------------------------------------------------
+
+        public async Task<bool> SaveToolBarJsonAsync(string Note)
+        {
+            return await AppFunc.SaveNoteAsync(AppConfig, UserSession, WebUserId, "TOOLBAR", "", Note);
+        }
+        //-------------------------------------------------------------------------------------------------------
+
     }
 }
