@@ -104,7 +104,6 @@ namespace FwStandard.DataLayer
             BeforeSaveDataRecordEventArgs beforeSaveArgs = new BeforeSaveDataRecordEventArgs();
             beforeSaveArgs.SaveMode = TDataRecordSaveMode.smInsert;
             beforeSaveArgs.Original = original;
-            beforeSaveArgs.SqlConnection = conn;
 
             if (NoPrimaryKeysHaveValues)
             {
@@ -123,6 +122,8 @@ namespace FwStandard.DataLayer
             {
                 conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString);
             }
+
+            beforeSaveArgs.SqlConnection = conn;
 
             if (beforeSaveArgs.SaveMode.Equals(TDataRecordSaveMode.smInsert))
             {
