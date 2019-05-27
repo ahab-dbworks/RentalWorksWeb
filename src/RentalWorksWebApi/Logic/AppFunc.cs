@@ -528,6 +528,10 @@ namespace WebApi.Logic
                     response.fullname = qry.GetField("fullname").ToString().TrimEnd();
                     response.name = qry.GetField("name").ToString().TrimEnd();
                     response.browsedefaultrows = qry.GetField("browsedefaultrows").ToString().TrimEnd();
+                    if (string.IsNullOrEmpty(response.browsedefaultrows))
+                    {
+                        response.browsedefaultrows = "15";
+                    }
                     response.applicationtheme = qry.GetField("applicationtheme").ToString().TrimEnd();
                     if (string.IsNullOrEmpty(response.applicationtheme))
                     {
