@@ -221,6 +221,8 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         private void BeforeSaveUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
+            //#jhtodo - replace with Logical loads, or move these references to SQL tablename and fieldnames to the Record classes.
+
             // get the usersid
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
@@ -250,6 +252,9 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         private void BeforeSaveWebUser(object sender, BeforeSaveDataRecordEventArgs e)
         {
+
+            //#jhtodo - replace with Logical loads, or move these references to SQL tablename and fieldnames to the Record classes.
+
             // get the webusersid
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
@@ -270,6 +275,9 @@ namespace WebApi.Modules.Home.Contact
         //------------------------------------------------------------------------------------
         private void Contact_BeforeDelete(object sender, BeforeDeleteEventArgs e)
         {
+
+            //#jhtodo - replace with Logical loads, or move these references to SQL tablename and fieldnames to the Record classes.
+
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
                 var row = FwSqlCommand.GetRowAsync(conn, this.AppConfig.DatabaseSettings.QueryTimeout, "webusers", "contactid", this.ContactId, false).Result;
