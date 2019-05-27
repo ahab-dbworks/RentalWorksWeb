@@ -607,6 +607,14 @@
             $form.find('.fwform-menu .submenu-btn').css({ 'pointer-events': 'none', 'color': 'lightgray' });
         }
 
+        //Enable/disable duplicate fields based on classification
+        if (classification === 'C') {
+            FwFormField.disable($form.find('.kits-tab[data-datafield="SeparatePackageOnQuoteOrder"]'));
+            FwFormField.disable($form.find('.kits-tab[data-datafield="OverrideSystemDefaultRevenueAllocationBehavior"]'));
+            FwFormField.enable($form.find('.completes-tab[data-datafield="SeparatePackageOnQuoteOrder"]'));
+            FwFormField.enable($form.find('.completes-tab[data-datafield="OverrideSystemDefaultRevenueAllocationBehavior"]'));
+        }
+
         const overrideDefaultAllocation = FwFormField.getValueByDataField($form, 'OverrideSystemDefaultRevenueAllocationBehavior');
         const allocateRevChecked = FwFormField.getValueByDataField($form, 'AllocateRevenueForAccessories');
         const $allocateRevenueForAcc = $form.find('[data-datafield="AllocateRevenueForAccessories"]');
