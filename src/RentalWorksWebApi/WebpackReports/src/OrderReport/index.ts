@@ -37,11 +37,14 @@ export class OrderReport extends WebpackReport {
                             data.Report = 'ORDER';
                         }
 
-                        this.renderFooterHtml(data);
+                            this.renderFooterHtml(data);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;
                         }
                             document.getElementById('pageBody').innerHTML = hbReport(data);
+                            if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
+                                document.getElementById('terms').innerHTML = data.TermsAndConditions;
+                            }
                         this.onRenderReportCompleted();
                     })
                     .catch((ex) => {
