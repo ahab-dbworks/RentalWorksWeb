@@ -1156,6 +1156,7 @@ namespace FwStandard.BusinessLogic
 
                     //justin 10/16/2018 CAS-23961-WQNG temporary fix to make the AfterSave fire whenever notes are supplied.  Notes are currently saved outside of this framework.
                     //justin 03/05/2019 would like to automate the saving of "notes" data to the appnote table instead of hand-coding the save function in each inherited BusinessLogic.
+                    //#jhtodo
                     if (!savePerformed)
                     {
                         PropertyInfo p = null;
@@ -1166,6 +1167,10 @@ namespace FwStandard.BusinessLogic
                         if (p == null)
                         {
                             p = this.GetType().GetProperty("Note");
+                        }
+                        if (p == null)
+                        {
+                            p = this.GetType().GetProperty("ToolBarJson"); //temporary
                         }
                         if (p != null)
                         {
