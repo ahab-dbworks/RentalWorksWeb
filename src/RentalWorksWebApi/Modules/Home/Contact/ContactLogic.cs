@@ -270,6 +270,7 @@ namespace WebApi.Modules.Home.Contact
                 webUser.ApplicationTheme = "theme-material";
                 webUser.UserId = user.UserId;
                 webUser.ContactId = this.ContactId;
+                webUser.BrowseDefaultRows = 15;
             }
         }
         //------------------------------------------------------------------------------------
