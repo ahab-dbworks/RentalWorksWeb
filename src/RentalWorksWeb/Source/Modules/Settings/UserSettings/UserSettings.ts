@@ -64,7 +64,7 @@
                         const moduleNav = window[moduleController].nav;
                         if (moduleNav) {
                             allModules.push({ value: moduleGUID, text: moduleCaption, apiurl: moduleNav });
-                            sortableModules.push({ value: moduleNav, text: moduleCaption });
+                            sortableModules.push({ value: moduleNav, text: moduleCaption, selected: 'T' });
                         }
                     }
                 }
@@ -83,6 +83,10 @@
         const $defaultHomePage = $form.find('.default-home-page');
         FwFormField.loadItems($defaultHomePage, allModules, true);
 
+        //add utility modules
+        sortableModules.push({ value: 'module/quikactivitycalendar', text: 'QuikActivity Calendar', selected: 'T' });
+        sortableModules.push({ value: 'module/vendorinvoiceprocessbatch', text: 'Process Vendor Invoices', selected: 'T' });
+
         sortableModules.sort(compare);
         const $availModules = $form.find('.available-modules');
         FwFormField.loadItems($availModules, sortableModules, true);
@@ -98,6 +102,7 @@
                 modules.push({
                     text: $selectedModules[i].text
                     , value: $selectedModules[i].value
+                    , selected: 'T'
                 });
             }
             request.ToolBarJson = JSON.stringify(modules);
@@ -181,6 +186,11 @@
         setTimeout(function () { location.reload(); }, 1000);
     };
     //----------------------------------------------------------------------------------------------
+    afterSave($form) {
+        const toolBarJson = FwFormField.getValueByDataField($form, 'ToolBarJson')
+        sessionStorage.setItem('toolbar', toolBarJson);
+    }
+    //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         const browseRows = sessionStorage.getItem('browsedefaultrows');
         const theme = sessionStorage.getItem('applicationtheme');
@@ -190,10 +200,12 @@
         const selectedModules = JSON.parse(FwFormField.getValueByDataField($form, 'ToolBarJson'));
         if (selectedModules.length > 0) {
             FwFormField.loadItems($form.find('.selected-modules'), selectedModules);
-        } else {
-            //no modules selected text
-        }
-
+              //remove duplicates(selected modules) from available modules list 
+            const $availableModules = $form.find('.available-modules');
+            for (let i = 0; i < selectedModules.length; i++) {
+                $availableModules.find(`[data-value="${selectedModules[i].value}"]`).remove();
+            }
+        } 
     }
     //----------------------------------------------------------------------------------------------
 }
