@@ -304,7 +304,7 @@ class Vendor {
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Last Name"   data-datafield="LastName"       data-required="false" style="flex:1 1 200px;"></div>
                           </div>
                         </div>
-                        <div data-control="FwFormField"     data-type="text" class="fwcontrol fwformfield" data-caption="Vendor No"   data-datafield="VendorNumber"                         style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Vendor No" data-datafield="VendorNumber" data-required="true" style="flex:1 1 125px;"></div>
                       </div>
                       <div class="flexrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Federal ID No" data-datafield="FederalIdNumber" style="flex:1 1 100px;"></div>
