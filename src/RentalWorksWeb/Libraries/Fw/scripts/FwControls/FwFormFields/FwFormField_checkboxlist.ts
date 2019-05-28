@@ -77,6 +77,9 @@
                 html.push('<input class="checkbox" type="checkbox" id="');
                 html.push(checkboxid);
                 html.push('"');
+                if ($control.attr('data-showcheckboxes') === 'false') {
+                    html.push(' style="display:none" ');
+                }
                 if (items[i].selected === 'T') {
                     html.push(' checked="checked"');
                 }

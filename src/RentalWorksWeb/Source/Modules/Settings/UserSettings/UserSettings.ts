@@ -99,27 +99,36 @@
             const $selectedModules = FwFormField.getValue2($form.find('.selected-modules'));
             const modules: any = [];
             for (let i = 0; i < $selectedModules.length; i++) {
-                modules.push({
-                    text: $selectedModules[i].text
-                    , value: $selectedModules[i].value
-                    , selected: 'T'
-                });
+                if ($selectedModules[i].selected === "true") {
+                    modules.push({
+                        text: $selectedModules[i].text
+                        , value: $selectedModules[i].value
+                        , selected: 'T'
+                    });
+                }
             }
             request.ToolBarJson = JSON.stringify(modules);
         });
 
-        //first sortable list (not sure if it can be combined)
+        //first sortable list
         Sortable.create($form.find('.sortable').get(0), {
             onEnd: function (evt) {
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
+
         //second sortable list
         Sortable.create($form.find('.sortable').get(1), {
             onEnd: function (evt) {
                 $form.attr('data-modified', 'true');
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
+
+                //hide checkboxes when moving item from "selected modules" to "available modules"
+                const $parentField = jQuery(evt.item.parentElement).parents('[data-type="checkboxlist"]');
+                if ($parentField.hasClass('available-modules')) {
+                    jQuery(evt.item).find('input').css('display', 'none');
+                }
             }
         });
 
@@ -189,6 +198,9 @@
     afterSave($form) {
         const toolBarJson = FwFormField.getValueByDataField($form, 'ToolBarJson')
         sessionStorage.setItem('toolbar', toolBarJson);
+
+        //remove unchecked modules
+        $form.find('.selected-modules li[data-selected="F"]').remove();
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
@@ -197,15 +209,17 @@
         jQuery($form.find('div.fwformfield[data-datafield="BrowseDefaultRows"] select')).val(browseRows);
         jQuery($form.find('div.fwformfield[data-datafield="ApplicationTheme"] select')).val(theme);
 
-        const selectedModules = JSON.parse(FwFormField.getValueByDataField($form, 'ToolBarJson'));
+        let selectedModules = FwFormField.getValueByDataField($form, 'ToolBarJson');
         if (selectedModules.length > 0) {
+            selectedModules = JSON.parse(selectedModules);
             FwFormField.loadItems($form.find('.selected-modules'), selectedModules);
-              //remove duplicates(selected modules) from available modules list 
+
+            //remove duplicates(selected modules) from available modules list 
             const $availableModules = $form.find('.available-modules');
             for (let i = 0; i < selectedModules.length; i++) {
                 $availableModules.find(`[data-value="${selectedModules[i].value}"]`).remove();
             }
-        } 
+        }
     }
     //----------------------------------------------------------------------------------------------
 }
