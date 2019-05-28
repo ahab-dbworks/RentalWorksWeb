@@ -78,7 +78,26 @@ class CustomField {
             if (moduleNav == 'CustomField') {
                 break;
             }
+            if (moduleNav == 'Asset') {
+                moduleNav = 'Item';
+            }
             allModules.push({ value: moduleNav, text: moduleCaption });
+
+            //const controller = modules[i].properties.controller;
+            //const moduleCaption = modules[i].properties.caption;
+            //if (typeof window[controller] !== 'undefined') {
+            //    if (window[controller].hasOwnProperty('apiurl')) {
+            //        let moduleNav = window[controller].nav;
+            //        if (moduleNav) {
+            //            const sliceIndex = moduleNav.lastIndexOf('/');
+            //            moduleNav = moduleNav.slice(sliceIndex + 1);
+            //            if (moduleNav == 'customfield') {
+            //                break;
+            //            }
+            //            allModules.push({ value: moduleNav, text: moduleCaption });
+            //        }
+            //    }
+            //}
         };
         for (var i = 0; i < settingsModules.length; i++) {
             var settingsModuleNav = settingsModules[i].properties.controller.slice(0, -10);
