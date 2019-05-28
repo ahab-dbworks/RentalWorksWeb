@@ -2092,7 +2092,7 @@ class OrderBase {
 
         //replace date and time fields
         const datesAndTimes = FwFormField.getValueByDataField($form, 'DatesAndTimes');
-
+        $form.find('.date-fields').hide();
         $form.find('.modify-dates').empty();
         const dates = `<span style="margin-left:5px;">${datesAndTimes}</span> <span class="modify" style="cursor:pointer; color:blue; margin-left:20px; text-decoration:underline;">Modify</span>`;
         $form.find('div.modify-dates').append(dates);
@@ -2117,45 +2117,44 @@ class OrderBase {
                             <div class="flexrow">
                                 <div class="flexcolumn dates" style="max-width:770px;"></div>
                                 <div class="flexcolumn toggle-edits" style="max-width:350px;">
+                                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billing Dates">
+                                        <div class="flexrow">                                    
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
+                                        </div> 
+                                    </div>
                                     <div class="flexrow">
-                                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Use General Billing Dates" data-datafield="" style="flex:1 1 190px"></div>
                                         <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Lock BIlling Dates" data-datafield="" style="flex:1 1 150px"></div>
                                     </div>
-                                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="General Billing Dates">
-                                        <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date" data-enabled="false"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date" data-enabled="false"></div>
-                                        </div> 
-                                    </div>
                                     <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Specify Billing Dates by Type" data-datafield="SpecifyBillingDatesByType"></div>
-                                        <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Rental Billing Period" style="font-size:.8em;">
+                                        <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Rental Billing Period" style="display:none;">
                                             <div class="flexrow">                                    
-                                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date" data-enabled="false"></div>
-                                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date" data-enabled="false"></div>
+                                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
+                                                <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
                                             </div> 
                                         </div>
-                                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Facilities Billing Period">
+                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Facilities Billing Period" style="display:none;">
                                         <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date" data-enabled="false"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date" data-enabled="false"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
                                         </div> 
                                     </div>
-                                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Vehicle Billing Period">
+                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Vehicle Billing Period" style="display:none;">
                                         <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date" data-enabled="false"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date" data-enabled="false"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
                                         </div> 
                                     </div>
-                                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Crew Billing Period">
+                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Crew Billing Period" style="display:none;">
                                         <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date" data-enabled="false"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date" data-enabled="false"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
                                         </div> 
                                     </div>
-                                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Misc Billing Period">
+                                    <div class="fwcontrol fwcontainer fwform-section date-types" data-control="FwContainer" data-type="section" data-caption="Misc Billing Period" style="display:none;">
                                         <div class="flexrow">                                    
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date" data-enabled="false"></div>
-                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date" data-enabled="false"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Start" data-datafield="Date"></div>
+                                            <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Stop" data-datafield="Date"></div>
                                         </div> 
                                     </div>
                                 </div>
@@ -2210,9 +2209,14 @@ class OrderBase {
                         }
                     });
 
-                    //$confirmation.find('[data-datafield="SpecifyBillingDatesByType"]').on('change', e => {
-
-                    //});
+                    $confirmation.find('[data-datafield="SpecifyBillingDatesByType"]').on('change', e => {
+                        const isChecked = FwFormField.getValueByDataField($confirmation, 'SpecifyBillingDatesByType');
+                        if (isChecked === 'T') {
+                            $confirmation.find('.date-types').show();
+                        } else {
+                            $confirmation.find('.date-types').hide();
+                        }
+                    });
 
                     const orderNumber = FwFormField.getValueByDataField($form, `${this.Module}Number`);
                     FwFormField.setValueByDataField($confirmation, `${this.Module}Number`, orderNumber);
@@ -2249,8 +2253,9 @@ class OrderBase {
 
                         FwAppData.apiMethod(true, 'POST', `api/v1/orderdates/apply`, request, FwServices.defaultTimeout,
                             response => {
-                                //update form with new dates?
                                 FwConfirmation.destroyConfirmation($confirmation);
+                                this.saveForm($form, '');
+                                FwModule.refreshForm($form, this);
                             },
                             ex => FwFunc.showError(ex),
                             $confirmation.find('.dates-form'));
