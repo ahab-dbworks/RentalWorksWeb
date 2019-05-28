@@ -1144,10 +1144,9 @@ class FwSettingsClass {
                         }
                     }
 
+                    var module: any = [];
                     for (var i = 0; i < results.length; i++) {
                         //check descriptions for match
-                        var module: any = [];
-
                         for (var k = 0; k < $module.length; k++) {
                             // match results
                             if ($module.eq(k).attr('id').toUpperCase() === results[i]) {
