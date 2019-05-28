@@ -738,6 +738,9 @@ namespace WebApi.Modules.Home.Order
         [FwLogicProperty(Id: "MCc3fhkBPtjH")]
         public string OutDeliveryFreightTrackingNumber { get { return outDelivery.FreightTrackingNumber; } set { outDelivery.FreightTrackingNumber = value; } }
 
+        [FwLogicProperty(Id: "2UOMh8pmiE7Ja", IsReadOnly: true)]
+        public string OutDeliveryFreightTrackingUrl { get; set; }
+
         [FwLogicProperty(Id: "s4KNcQmn3LxA")]
         public bool? OutDeliveryDropShip { get { return outDelivery.DropShip; } set { outDelivery.DropShip = value; } }
 
@@ -911,6 +914,9 @@ namespace WebApi.Modules.Home.Order
 
         [FwLogicProperty(Id: "uScn0z45Qm10")]
         public string InDeliveryFreightTrackingNumber { get { return inDelivery.FreightTrackingNumber; } set { inDelivery.FreightTrackingNumber = value; } }
+
+        [FwLogicProperty(Id: "xwggHLCeRHNUQ", IsReadOnly: true)]
+        public string InDeliveryFreightTrackingUrl { get; set; }
 
         [FwLogicProperty(Id: "U2PvKH1QzI32")]
         public bool? InDeliveryDropShip { get { return inDelivery.DropShip; } set { inDelivery.DropShip = value; } }

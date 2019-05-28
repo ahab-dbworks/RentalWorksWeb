@@ -443,6 +443,9 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "outdeliveryfreighttrackno", modeltype: FwDataTypes.Text)]
         public string OutDeliveryFreightTrackingNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "outdeliverytrackingurl", modeltype: FwDataTypes.Text)]
+        public string OutDeliveryFreightTrackingUrl{ get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outdeliveryfromcountryid", modeltype: FwDataTypes.Text)]
         public string OutDeliveryFromCountryId { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -620,6 +623,9 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryfreighttrackno", modeltype: FwDataTypes.Text)]
         public string InDeliveryFreightTrackingNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "indeliverytrackingurl", modeltype: FwDataTypes.Text)]
+        public string InDeliveryFreightTrackingUrl { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "indeliveryfromcountryid", modeltype: FwDataTypes.Text)]
         public string InDeliveryFromCountryId { get; set; }

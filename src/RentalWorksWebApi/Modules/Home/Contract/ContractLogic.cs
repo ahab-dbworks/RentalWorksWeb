@@ -1,5 +1,7 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
+using WebApi.Modules.Home.Delivery;
+
 namespace WebApi.Modules.Home.Contract
 {
     [FwLogic(Id:"EHxKFjXfUroP")]
@@ -7,11 +9,15 @@ namespace WebApi.Modules.Home.Contract
     {
         //------------------------------------------------------------------------------------ 
         ContractRecord contract = new ContractRecord();
+        DeliveryRecord delivery = new DeliveryRecord();
+
+
         ContractLoader contractLoader = new ContractLoader();
         ContractBrowseLoader contractBrowseLoader = new ContractBrowseLoader();
         public ContractLogic()
         {
             dataRecords.Add(contract);
+            dataRecords.Add(delivery);
             dataLoader = contractLoader;
             browseLoader = contractBrowseLoader;
         }
@@ -129,6 +135,21 @@ namespace WebApi.Modules.Home.Contract
 
         [FwLogicProperty(Id:"Bz8PoIrzCKb3", IsReadOnly:true)]
         public string PoOrderDescription { get; set; }
+
+        [FwLogicProperty(Id: "MCBigdZOp7K0U")]
+        public string DeliveryId { get { return contract.DeliveryId; } set { contract.DeliveryId = value; delivery.DeliveryId = value; } }
+
+        [FwLogicProperty(Id: "ftMG0J65mG8PY")]
+        public string CarrierId { get { return delivery.CarrierId; } set { delivery.CarrierId = value; } }
+
+        [FwLogicProperty(Id: "tXE1ta9zHqbZs", IsReadOnly: true)]
+        public string Carrier { get; set; }
+
+        [FwLogicProperty(Id: "ks9a0eF5nSXJb")]
+        public string DeliveryFreightTrackingNumber { get { return delivery.FreightTrackingNumber; } set { delivery.FreightTrackingNumber = value; } }
+
+        [FwLogicProperty(Id: "4LKJeHPt0MGoc", IsReadOnly: true)]
+        public string DeliveryFreightTrackingUrl { get; set; }
 
         [FwLogicProperty(Id:"7lTe6d93tfl6")]
         public string DateStamp { get { return contract.DateStamp; } set { contract.DateStamp = value; } }

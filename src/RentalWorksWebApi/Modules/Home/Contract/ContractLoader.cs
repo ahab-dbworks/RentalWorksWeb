@@ -58,6 +58,21 @@ namespace WebApi.Modules.Home.Contract
         [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text)]
         public string SessionId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deliveryid", modeltype: FwDataTypes.Text)]
+        public string DeliveryId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "carrierid", modeltype: FwDataTypes.Text)]
+        public string CarrierId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "carrier", modeltype: FwDataTypes.Text)]
+        public string Carrier { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackingnumber", modeltype: FwDataTypes.Text)]
+        public string DeliveryFreightTrackingNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "trackingurl", modeltype: FwDataTypes.Text)]
+        public string DeliveryFreightTrackingUrl { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
