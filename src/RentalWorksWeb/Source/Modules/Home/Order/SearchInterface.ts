@@ -304,6 +304,8 @@ class SearchInterface {
                 break;
         }
 
+        inventoryTypeRequest.orderby = "OrderBy";
+
         FwAppData.apiMethod(true, 'POST', `api/v1/${categoryType}/browse`, inventoryTypeRequest, FwServices.defaultTimeout, function onSuccess(response) {
             let inventoryTypeIndex,
                 inventoryTypeIdIndex;
@@ -489,7 +491,8 @@ class SearchInterface {
                 let typeRequest: any = {
                     searchfieldoperators: ["<>"],
                     searchfields:         ["Inactive"],
-                    searchfieldvalues:    ["T"]
+                    searchfieldvalues:    ["T"],
+                    orderby:              "OrderBy"
                 };
 
                 switch (categoryType) {
@@ -534,11 +537,13 @@ class SearchInterface {
                 $popup.find('#itemsearch').attr('data-categoryid', $this.attr('data-value')).attr('data-subcategoryid', '');
 
                 let subCatListRequest: any = {};
+                subCatListRequest.orderby = "OrderBy";
                 subCatListRequest.uniqueids = {
                     CategoryId: $this.attr('data-value'),
                     TypeId:     $popup.find('#itemsearch').attr('data-inventorytypeid'),
                     RecType:    FwFormField.getValueByDataField($popup, 'InventoryType')
                 }
+
 
                 FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCatListRequest, FwServices.defaultTimeout, function onSuccess(response) {
                     let subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
