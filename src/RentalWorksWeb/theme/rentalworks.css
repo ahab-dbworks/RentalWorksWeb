@@ -396,7 +396,7 @@ Form tables
 #itemsearch #categorycolumns {border-top: 1px solid #BDBDBD;border-right: 1px solid #BDBDBD;overflow-y: auto;position: absolute;top: 0;left: 0;right: 0;bottom: 0;}
 #itemsearch #categorycolumns > div:not(:first-child) {border-top: 1px solid #9E9E9E;}
 #itemsearch #categorycolumns ul {margin:0;cursor:pointer;padding:5px;display:flex;}
-#itemsearch #categorycolumns ul.selected {background-color: #AED581;}
+#itemsearch #categorycolumns ul.selected {background-color: #B0BEC5;}
 #itemsearch #categorycolumns ul .downArrowNav {height:24px;width:24px;}
 #itemsearch #categorycolumns ul .downArrowNav i {display:none;}
 #itemsearch #categorycolumns ul.selected .downArrowNav i {display:block;}
@@ -432,7 +432,7 @@ Form tables
 #itemsearch #itemlist[data-view="GRID"] .item-accessories {display:none;}
 
 #itemsearch #itemlist[data-view="LIST"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
-#itemsearch #itemlist[data-view="LIST"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;}
+#itemsearch #itemlist[data-view="LIST"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="ItemImage"] {display:none;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] {flex:1 0 250px;margin:0 10px;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Description"] .descriptionrow {display:flex;align-items:center;}
@@ -452,7 +452,7 @@ Form tables
 #itemsearch #itemlist[data-view="LIST"] .item-accessories div[data-column="Description"] {margin-left: 26px;}
 
 #itemsearch #itemlist[data-view="HYBRID"] .columnDescriptions {display:flex;align-items:center;padding:5px 20px 5px 5px;background-color:#e0e0e0;color:#464646;border-bottom:1px solid #BDBDBD;font-weight:bold;}
-#itemsearch #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;}
+#itemsearch #itemlist[data-view="HYBRID"] .item-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] {width:4em;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] .item-info div[data-column="ItemImage"] {height:4em;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ItemImage"] img {max-height:100%;max-width:100%;}
@@ -487,13 +487,14 @@ Form tables
     background-color: #c5eefb;
 }
 
-.item-container .available-color {padding:4px 8px;border-radius:4px;display:inline-block;color:#ffffff;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
-.item-container div[data-column="Available"][data-state="AVAILABLE"] .available-color {background-color:#7CB342;}
-.item-container div[data-column="Available"][data-state="NOTAVAILABLE"] .available-color {background-color:#f44336;}
-.item-container div[data-column="Available"][data-state="STALE"] .available-color {background-color:#1565C0;}
+.item-container .available-color {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
+.item-container div[data-column="Available"][data-state="enough"] .available-color {background-color:#7CB342;color:#ffffff;}
+.item-container div[data-column="Available"][data-state="negative"] .available-color {background-color:#f44336;color:#ffffff;}
+.item-container div[data-column="Available"][data-state="stale"] .available-color {background-color:#1565C0;color:#ffffff;}
+.item-container div[data-column="Available"][data-state="low"] .available-color {background-color:#ffeb3b;}
 
 .item-container .item-accessories {}
-.item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-top: 1px solid #BDBDBD;background-color:#EEEEEE;}
+.item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;background-color:#EEEEEE;}
 
 .item-accessory-info .quantityColor {
     border-left: 20px solid;

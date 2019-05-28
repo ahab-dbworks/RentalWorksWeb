@@ -358,7 +358,7 @@ class SearchInterface {
             typeIndex                 = response.ColumnIndex.InventoryType,
             categoryIndex             = response.ColumnIndex.Category,
             subCategoryIndex          = response.ColumnIndex.SubCategory,
-            qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale;
+            availabilityStateIndex    = response.ColumnIndex.AvailabilityState;
 
         let $inventoryContainer = $popup.find('#inventory');
         if (response.Rows.length == 0) {
@@ -401,13 +401,7 @@ class SearchInterface {
                 $itemcontainer.find('[data-column="Quantity"] input').addClass('lightBlue');
             }
 
-            if (response.Rows[i][qtyIsStaleIndex] === true) {
-                $itemcontainer.find('div[data-column="Available"]').attr('data-state', 'STALE');
-            } else if (response.Rows[i][quantityAvailable] > 0) {
-                $itemcontainer.find('div[data-column="Available"]').attr('data-state', 'AVAILABLE');
-            } else if (response.Rows[i][quantityAvailable] <= 0) {
-                $itemcontainer.find('div[data-column="Available"]').attr('data-state', 'NOTAVAILABLE');
-            }
+            $itemcontainer.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                 $itemcontainer.find('div[data-column="Description"] .descriptionrow').append(`<div class="classdescription">${response.Rows[i][classificationDescription]}</div>`)
@@ -543,7 +537,6 @@ class SearchInterface {
                     TypeId:     $popup.find('#itemsearch').attr('data-inventorytypeid'),
                     RecType:    FwFormField.getValueByDataField($popup, 'InventoryType')
                 }
-
 
                 FwAppData.apiMethod(true, 'POST', "api/v1/subcategory/browse", subCatListRequest, FwServices.defaultTimeout, function onSuccess(response) {
                     let subCategoryIdIndex = response.ColumnIndex.SubCategoryId;
@@ -1200,6 +1193,7 @@ class SearchInterface {
             const qtyIsStaleIndex                = response.ColumnIndex.QuantityAvailableIsStale;
             const thumbnail                      = response.ColumnIndex.Thumbnail;
             const appImageId                     = response.ColumnIndex.ImageId;
+            const availabilityStateIndex         = response.ColumnIndex.AvailabilityState;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
@@ -1216,7 +1210,7 @@ class SearchInterface {
                                            <button class="incrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">+</button>
                                          </div>
                                        </div>
-                                       <div class="columnorder hideColumns" data-column="Available" data-datafield="QuantityAvailable"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
+                                       <div class="columnorder hideColumns" data-column="Available"><div class="available-color">${response.Rows[i][qtyAvailIndex]}</div></div>
                                        <div class="columnorder hideColumns" data-column="ConflictDate">${conflictdate}</div>
                                        <div class="hideColumns columnorder" data-column="In">${response.Rows[i][qtyInIndex]}</div>
                                        <div class="columnorder" data-column="Type"></div>
@@ -1245,13 +1239,7 @@ class SearchInterface {
                 }
                 $quantityColorDiv.css('border-left-color', qtycolor);
 
-                if (response.Rows[i][qtyIsStaleIndex] === true) {
-                    $itemaccessoryinfo.find('div[data-datafield="QuantityAvailable"]').attr('data-state', 'STALE');
-                } else if (response.Rows[i][qtyAvailIndex] > 0) {
-                    $itemaccessoryinfo.find('div[data-datafield="QuantityAvailable"]').attr('data-state', 'AVAILABLE');
-                } else if (response.Rows[i][qtyAvailIndex] <= 0) {
-                    $itemaccessoryinfo.find('div[data-datafield="QuantityAvailable"]').attr('data-state', 'NOTAVAILABLE');
-                }
+                $itemaccessoryinfo.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
 
                 if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
                     $itemaccessoryinfo.find('div[data-column="Description"] .descriptionrow').append(`<div class="classdescription">${response.Rows[i][classificationDescriptionIndex]}</div>`)
