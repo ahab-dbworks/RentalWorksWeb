@@ -495,11 +495,12 @@ namespace WebApi.Logic
         {
             public string webusersid { get; set; } = string.Empty;
             public string usersid { get; set; } = string.Empty;
+            public string contactid { get; set; } = string.Empty;
             public string usertype { get; set; } = string.Empty;
             public string email { get; set; } = string.Empty;
             public string fullname { get; set; } = string.Empty;
             public string name { get; set; } = string.Empty;
-            public string browsedefaultrows { get; set; } = string.Empty;
+            public int browsedefaultrows { get; set; } = 0;
             public string applicationtheme { get; set; } = string.Empty;
             public string locationid { get; set; } = string.Empty;
             public string location { get; set; } = string.Empty;
@@ -516,21 +517,22 @@ namespace WebApi.Logic
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select webusersid, usersid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department");
+                    qry.Add("select webusersid, usersid, contactid, usertype, email, fullname, name, browsedefaultrows, applicationtheme, locationid, location, warehouseid, warehouse, departmentid, department");
                     qry.Add("from webusersview with (nolock)");
                     qry.Add("where webusersid = @webusersid");
                     qry.AddParameter("@webusersid", userSession.WebUsersId);
                     await qry.ExecuteAsync();
                     response.webusersid = qry.GetField("webusersid").ToString().TrimEnd();
                     response.usersid = qry.GetField("usersid").ToString().TrimEnd();
+                    response.contactid = qry.GetField("contactid").ToString().TrimEnd();
                     response.usertype = qry.GetField("usertype").ToString().TrimEnd();
                     response.email = qry.GetField("email").ToString().TrimEnd();
                     response.fullname = qry.GetField("fullname").ToString().TrimEnd();
                     response.name = qry.GetField("name").ToString().TrimEnd();
-                    response.browsedefaultrows = qry.GetField("browsedefaultrows").ToString().TrimEnd();
-                    if (string.IsNullOrEmpty(response.browsedefaultrows))
+                    response.browsedefaultrows = qry.GetField("browsedefaultrows").ToInt32();
+                    if (response.browsedefaultrows <= 0)
                     {
-                        response.browsedefaultrows = "15";
+                        response.browsedefaultrows = 15;
                     }
                     response.applicationtheme = qry.GetField("applicationtheme").ToString().TrimEnd();
                     if (string.IsNullOrEmpty(response.applicationtheme))
