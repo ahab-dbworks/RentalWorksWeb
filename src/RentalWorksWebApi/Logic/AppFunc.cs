@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
@@ -245,7 +245,7 @@ namespace WebApi.Logic
             return saved;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetDepartmentLocation(FwApplicationConfig appConfig, FwUserSession userSession, string departmentId, string locationId, string fieldName)
+        public static async Task<string> GetDepartmentLocationAsync(FwApplicationConfig appConfig, FwUserSession userSession, string departmentId, string locationId, string fieldName)
         {
             string str = "";
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -267,7 +267,7 @@ namespace WebApi.Logic
             return str;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<string> GetLocation(FwApplicationConfig appConfig, FwUserSession userSession, string locationId, string fieldName)
+        public static async Task<string> GetLocationAsync(FwApplicationConfig appConfig, FwUserSession userSession, string locationId, string fieldName)
         {
             string str = "";
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -287,7 +287,7 @@ namespace WebApi.Logic
             return str;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<bool> IsDbWorksUser(FwApplicationConfig appConfig, FwUserSession userSession)
+        public static async Task<bool> IsDbWorksUserAsync(FwApplicationConfig appConfig, FwUserSession userSession)
         {
             bool isDbWorks = false;
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -417,7 +417,7 @@ namespace WebApi.Logic
             public string locationcolor { get; set; } = string.Empty;
             public string ratetype { get; set; } = string.Empty;
         }
-        public static async Task<SessionLocation> GetSessionLocation(FwApplicationConfig appConfig, string locationid)
+        public static async Task<SessionLocation> GetSessionLocationAsync(FwApplicationConfig appConfig, string locationid)
         {
             var response = new SessionLocation();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -446,7 +446,7 @@ namespace WebApi.Logic
             public bool promptforcheckoutexceptions { get; set; } = true;
             public bool promptforcheckinexceptions { get; set; } = true;
         }
-        public static async Task<SessionWarehouse> GetSessionWarehouse(FwApplicationConfig appConfig, string warehouseid)
+        public static async Task<SessionWarehouse> GetSessionWarehouseAsync(FwApplicationConfig appConfig, string warehouseid)
         {
             var response = new SessionWarehouse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -472,7 +472,7 @@ namespace WebApi.Logic
             public string departmentid { get; set; } = string.Empty;
             public string department { get; set; } = string.Empty;
         }
-        public static async Task<SessionDepartment> GetSessionDepartment(FwApplicationConfig appConfig, string departmentid)
+        public static async Task<SessionDepartment> GetSessionDepartmentAsync(FwApplicationConfig appConfig, string departmentid)
         {
             var response = new SessionDepartment();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
@@ -509,7 +509,7 @@ namespace WebApi.Logic
             public string department { get; set; } = string.Empty;
 
         }
-        public static async Task<SessionUser> GetSessionUser(FwApplicationConfig appConfig, FwUserSession userSession)
+        public static async Task<SessionUser> GetSessionUserAsync(FwApplicationConfig appConfig, FwUserSession userSession)
         {
             var response = new SessionUser();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))

@@ -407,7 +407,7 @@ namespace WebApi.Modules.Home.Repair
                 }
                 if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
                 {
-                    TaxOptionId = AppFunc.GetDepartmentLocation(AppConfig, UserSession, DepartmentId, LocationId, "repairtaxoptionid").Result;
+                    TaxOptionId = AppFunc.GetDepartmentLocationAsync(AppConfig, UserSession, DepartmentId, LocationId, "repairtaxoptionid").Result;
                 }
                 tmpTaxId = AppFunc.GetNextIdAsync(AppConfig, conn: e.SqlConnection).Result;
                 TaxId = tmpTaxId;

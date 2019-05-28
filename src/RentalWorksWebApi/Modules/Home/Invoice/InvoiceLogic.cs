@@ -494,7 +494,7 @@ namespace WebApi.Modules.Home.Invoice
                 bool x = invoice.SetNumber(e.SqlConnection).Result;
                 if ((TaxOptionId == null) || (TaxOptionId.Equals(string.Empty)))
                 {
-                    TaxOptionId = AppFunc.GetLocation(AppConfig, UserSession, OfficeLocationId, "taxoptionid").Result;
+                    TaxOptionId = AppFunc.GetLocationAsync(AppConfig, UserSession, OfficeLocationId, "taxoptionid").Result;
                 }
             }
         }

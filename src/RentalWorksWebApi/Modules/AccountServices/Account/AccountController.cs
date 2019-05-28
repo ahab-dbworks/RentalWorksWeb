@@ -1,4 +1,4 @@
-﻿using FwStandard.Models;
+using FwStandard.Models;
 using FwStandard.Security;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
@@ -37,12 +37,11 @@ namespace WebApi.Modules.AccountServices
         public async Task<GetSessionResponse> GetSession([FromQuery]string applicationId)
         {
             var response = new GetSessionResponse();
-            response.webUser = await AppFunc.GetSessionUser(this.AppConfig, this.UserSession);
+            response.webUser = await AppFunc.GetSessionUserAsync(this.AppConfig, this.UserSession);
 
-            // run the rest of the queries in parallel
-            var taskSessionLocation = AppFunc.GetSessionLocation(this.AppConfig, response.webUser.locationid);
-            var taskSessionWarehouse = AppFunc.GetSessionWarehouse(this.AppConfig, response.webUser.warehouseid);
-            var taskSessionDepartment = AppFunc.GetSessionDepartment(this.AppConfig, response.webUser.departmentid);
+            var taskSessionLocation = AppFunc.GetSessionLocationAsync(this.AppConfig, response.webUser.locationid);
+            var taskSessionWarehouse = AppFunc.GetSessionWarehouseAsync(this.AppConfig, response.webUser.warehouseid);
+            var taskSessionDepartment = AppFunc.GetSessionDepartmentAsync(this.AppConfig, response.webUser.departmentid);
             var taskClientCode = FwSqlData.GetClientCodeAsync(this.AppConfig.DatabaseSettings);
             var taskApplicationTree = FwSecurityTree.Tree.GetGroupsTreeAsync(applicationId, this.UserSession.GroupsId, true);
             var taskApplicationOptions = FwSqlData.GetApplicationOptionsAsync(this.AppConfig.DatabaseSettings);
@@ -94,9 +93,9 @@ namespace WebApi.Modules.AccountServices
         public async Task<GetOfficeLocationResponse> GetOfficeLocation([FromQuery]string locationid, [FromQuery]string warehouseid, [FromQuery]string departmentid)
         {
             // run all the queries in parallel
-            var taskSessionLocation = AppFunc.GetSessionLocation(this.AppConfig, locationid);
-            var taskSessionWarehouse = AppFunc.GetSessionWarehouse(this.AppConfig, warehouseid);
-            var taskSessionDepartment = AppFunc.GetSessionDepartment(this.AppConfig, departmentid);
+            var taskSessionLocation = AppFunc.GetSessionLocationAsync(this.AppConfig, locationid);
+            var taskSessionWarehouse = AppFunc.GetSessionWarehouseAsync(this.AppConfig, warehouseid);
+            var taskSessionDepartment = AppFunc.GetSessionDepartmentAsync(this.AppConfig, departmentid);
 
             // wait for all the queries to finish
             Task.WaitAll(new Task[] { taskSessionLocation, taskSessionWarehouse, taskSessionDepartment });

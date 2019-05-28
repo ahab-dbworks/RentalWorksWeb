@@ -76,7 +76,7 @@ namespace WebApi.Modules.Administrator.User
             AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
 
-            if ((string.IsNullOrEmpty(UserId)) && (!AppFunc.IsDbWorksUser(AppConfig, UserSession).Result))
+            if ((string.IsNullOrEmpty(UserId)) && (!AppFunc.IsDbWorksUserAsync(AppConfig, UserSession).Result))
             {
                 select.AddWhere("(email not like '%@dbworks.com')");
             }
