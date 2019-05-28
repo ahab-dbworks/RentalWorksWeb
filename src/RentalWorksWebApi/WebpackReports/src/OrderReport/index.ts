@@ -40,11 +40,16 @@ export class OrderReport extends WebpackReport {
                             this.renderFooterHtml(data);
                         if (this.action === 'Preview' || this.action === 'PrintHtml') {
                             document.getElementById('pageFooter').innerHTML = this.footerHtml;
-                        }
-                            document.getElementById('pageBody').innerHTML = hbReport(data);
-                            if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
-                                document.getElementById('terms').innerHTML = data.TermsAndConditions;
                             }
+                        document.getElementById('pageBody').innerHTML = hbReport(data);
+                        if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
+                            const termEl = document.getElementById('terms');
+                            termEl.innerHTML = data.TermsAndConditions;
+                            if (data.TermsAndConditionsNewPage) {
+                                const termsRow = document.getElementById('termsRow');
+                                termsRow.style.cssText = "page-break-before:always;"; 
+                            }
+                        }
                         this.onRenderReportCompleted();
                     })
                     .catch((ex) => {
