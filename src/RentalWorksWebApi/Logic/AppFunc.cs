@@ -1,4 +1,4 @@
-using FwStandard.Models;
+﻿using FwStandard.Models;
 using FwStandard.SqlServer;
 using System.Data;
 using System.Threading.Tasks;
@@ -548,6 +548,37 @@ namespace WebApi.Logic
                 }
             }
             return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public class SessionDeal
+        {
+            public string dealid { get; set; } = string.Empty;
+            public string deal { get; set; } = string.Empty;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<SessionDeal> GetSessionDealAsync(FwApplicationConfig appConfig, string contactid)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 dealid = companyid, deal = (select top 1 d.deal from deal d with(nolock) where d.dealid = ccv.companyid)");
+                    qry.Add("from compcontactview ccv with (nolock)");
+                    qry.Add("where contactid = @contactid");
+                    qry.Add("  and companytype = 'DEAL'");
+                    qry.Add("  and inactive <> 'T'");
+                    qry.Add("order by company");
+                    qry.AddParameter("@contactid", contactid);
+                    await qry.ExecuteAsync();
+                    var response = new SessionDeal();
+                    if (qry.RowCount == 1)
+                    {
+                        response.dealid = qry.GetField("dealid").ToString().TrimEnd();
+                        response.deal = qry.GetField("deal").ToString().TrimEnd();
+                    }
+                    return response;
+                }
+            }
         }
         //-------------------------------------------------------------------------------------------------------
     }

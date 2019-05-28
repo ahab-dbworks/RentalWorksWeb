@@ -104,6 +104,9 @@
                                 sessionStorage.setItem('department',         JSON.stringify(responseSessionInfo.department));
                                 sessionStorage.setItem('webusersid',         responseSessionInfo.webUser.webusersid);
                                 sessionStorage.setItem('userid',             JSON.stringify(responseSessionInfo.webUser));
+                                if (responseSessionInfo.webUser.usertype == 'CONTACT') {
+                                    sessionStorage.setItem('deal', JSON.stringify(responseSessionInfo.deal));
+                                }
                                 jQuery('html').removeClass('theme-material');
                                 
                                 // run several AJAX calls in parallel

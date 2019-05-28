@@ -1,10 +1,11 @@
-using FwStandard.Models;
+﻿using FwStandard.Models;
 using FwStandard.Security;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
@@ -26,6 +27,7 @@ namespace WebApi.Modules.AccountServices
             public AppFunc.SessionWarehouse warehouse { get; set; } = null;
             public AppFunc.SessionDepartment department { get; set; } = null;
             public AppFunc.SessionUser webUser { get; set; } = null;
+            public AppFunc.SessionDeal deal { get; set; } = null;
             public FwSecurityTreeNode applicationtree { get; set; } = null;
             public dynamic applicationOptions { get; set; } = null;
             public string clientcode { get; set; } = string.Empty;
@@ -39,6 +41,10 @@ namespace WebApi.Modules.AccountServices
             var response = new GetSessionResponse();
             response.webUser = await AppFunc.GetSessionUserAsync(this.AppConfig, this.UserSession);
 
+            if (this.UserSession.UserType == "CONTACT")
+            {
+                var taskSessionDeal = AppFunc.GetSessionDealAsync(this.AppConfig, response.webUser.contactid);
+            }
             var taskSessionLocation = AppFunc.GetSessionLocationAsync(this.AppConfig, response.webUser.locationid);
             var taskSessionWarehouse = AppFunc.GetSessionWarehouseAsync(this.AppConfig, response.webUser.warehouseid);
             var taskSessionDepartment = AppFunc.GetSessionDepartmentAsync(this.AppConfig, response.webUser.departmentid);
@@ -48,7 +54,12 @@ namespace WebApi.Modules.AccountServices
 
             // wait for all the queries to finish
             Task.WaitAll(new Task[] { taskSessionLocation, taskSessionWarehouse, taskSessionDepartment, taskClientCode, taskApplicationTree, taskApplicationOptions });
-            
+
+            if (this.UserSession.UserType == "CONTACT")
+            {
+                var taskSessionDeal = AppFunc.GetSessionDealAsync(this.AppConfig, response.webUser.contactid);
+                response.deal = taskSessionDeal.Result;
+            }
             response.location = taskSessionLocation.Result;
             response.warehouse = taskSessionWarehouse.Result;
             response.department = taskSessionDepartment.Result;
