@@ -82,6 +82,9 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         [FwSqlDataField(column: "availisstale", modeltype: FwDataTypes.Boolean)]
         public bool? QuantityAvailableIsStale { get; set; } = true;
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availabilitystate", modeltype: FwDataTypes.Text)]
+        public string AvailabilityState { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 

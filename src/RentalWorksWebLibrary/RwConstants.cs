@@ -339,6 +339,11 @@
 
         public const int AVAILABILITY_COLOR_ORDER = 618726; //blue TEMPORARY
 
+        public const string AVAILABILITY_STATE_STALE = "stale";
+        public const string AVAILABILITY_STATE_NEGATIVE = "negative";
+        public const string AVAILABILITY_STATE_ZERO = "zero";
+        public const string AVAILABILITY_STATE_ENOUGH = "enough";
+
 
         //CONTACTS / COMPANY
         public const string COMPANY_TYPE_LEAD = "LEAD";

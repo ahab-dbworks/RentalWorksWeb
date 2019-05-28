@@ -75,6 +75,9 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "availisstale", modeltype: FwDataTypes.Boolean)]
         public bool? QuantityAvailableIsStale { get; set; } = true;
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "availabilitystate", modeltype: FwDataTypes.Text)]
+        public string AvailabilityState { get; set; } 
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "conflictdate", modeltype: FwDataTypes.Date)]
         public string ConflictDate { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -166,6 +169,7 @@ namespace WebApi.Modules.Home.InventorySearch
                             bool isStale = true;
                             DateTime? conflictDate = null;
                             string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
+                            string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
                             TInventoryWarehouseAvailability availData = null;
                             if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
@@ -180,11 +184,30 @@ namespace WebApi.Modules.Home.InventorySearch
 
                             //qtyAvailable -= qty; // not sure on this yet
 
+                            if (isStale)
+                            {
+                                availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
+                            }
+                            else if (qtyAvailable < 0)
+                            {
+                                availabilityState = RwConstants.AVAILABILITY_STATE_NEGATIVE;
+                            }
+                            else if (qtyAvailable == 0)
+                            {
+                                availabilityState = RwConstants.AVAILABILITY_STATE_ZERO;
+                            }
+                            else if (qtyAvailable > 0)
+                            {
+                                availabilityState = RwConstants.AVAILABILITY_STATE_ENOUGH;
+                            }
+
 
                             row[dtOut.GetColumnNo("QuantityAvailable")] = qtyAvailable;
                             row[dtOut.GetColumnNo("ConflictDate")] = conflictDate;
                             row[dtOut.GetColumnNo("QuantityAvailableColor")] = availColor;
                             row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
+                            row[dtOut.GetColumnNo("AvailabilityState")] = availabilityState;
+
                         }
                     }
                 }
