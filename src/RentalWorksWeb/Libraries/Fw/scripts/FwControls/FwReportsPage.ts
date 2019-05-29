@@ -9,6 +9,7 @@
         var html = [];
 
         html.push('<div class="fwreportsheader">');
+        html.push('  <div class="reports-header-title">Reports</div>');
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="reportsSearch" class="form-control" placeholder="Search..." autofocus>');
         html.push('    <span class="input-group-clear">');

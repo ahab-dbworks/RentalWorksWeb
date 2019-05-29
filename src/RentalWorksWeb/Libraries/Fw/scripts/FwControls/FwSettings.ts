@@ -19,6 +19,7 @@ class FwSettingsClass {
         html.push('<div class="fwsettingsheader">');
         //html.push('<div class="settingsmenu">');
         //html.push('</div>')
+        html.push('  <div class="settings-header-title">Settings</div>');
         html.push('  <div class="input-group pull-right">');
         html.push('    <input type="text" id="settingsSearch" class="form-control" placeholder="Search..." autofocus>');
         html.push('    <span class="input-group-clear">');
