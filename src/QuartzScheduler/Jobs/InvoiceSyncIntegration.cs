@@ -30,10 +30,6 @@ namespace QuartzScheduler.Jobs
             {
                 GetDatabaseConnection();
                 syncInvoices = GetInvoices();
-                //need to create a batch
-                // dbo.createchargebatch2
-                //processinvoice  
-
                 ProcessInvoices(syncInvoices);
             }
             catch (Exception ex)
@@ -61,7 +57,7 @@ namespace QuartzScheduler.Jobs
                 return;
             }
             verboseLogging = ((string)ConfigurationManager.AppSettings["verboseLogging"]).ToLower() == "true";
-            rentalworksdbConnectionString = ConfigurationManager.ConnectionStrings["rentalworks"].ConnectionString;
+            rentalworksdbConnectionString = ConfigurationManager.ConnectionStrings["rentalworksdb"].ConnectionString;
             invoicedbConnectionString= ConfigurationManager.ConnectionStrings["invoicedb"].ConnectionString;
             if (verboseLogging)
             {
@@ -77,7 +73,7 @@ namespace QuartzScheduler.Jobs
             using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
             {
                 qry.Add("select distinct invoiceid");
-                qry.Add("from   syncinvoice with (nolock)");
+                qry.Add("from   syncinvoiceview with (nolock)");
                 qry.Add("where  processdate is null");
                 result = qry.QueryToDynamicList();
             }
@@ -89,9 +85,13 @@ namespace QuartzScheduler.Jobs
             dynamic syncInvoice;
             for (int i = 0; i < syncInvoices.Count; i++)
             {
-                syncInvoice = ProcessInvoice(syncInvoices[i].invoiceId);
+                if (verboseLogging)
+                {
+                    Console.Out.WriteLine($"  @processing invoice record id: {syncInvoices[i].invoiceid}");
+                }
+                syncInvoice = ProcessInvoice(syncInvoices[i].invoiceid);
                 ProcessData(syncInvoice);
-                UpdateSyncInvoice(syncInvoices[i].invoiceId);
+                UpdateSyncInvoice(syncInvoices[i].invoiceid);
             }
         }
         //---------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ namespace QuartzScheduler.Jobs
             using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
             {
                 qry.Add("select *");
-                qry.Add("from   syncinvoice with (nolock)");
+                qry.Add("from   syncinvoiceview with (nolock)");
                 qry.Add("where  invoiceid = @invoiceid");
                 qry.AddParameter("@invoiceid", invoiceId);
                 qry.Add("order by syncinvoiceid");
@@ -114,10 +114,43 @@ namespace QuartzScheduler.Jobs
         {
             for (int i = 0; i < syncInvoice.Count; i++)
             {
-                using (QuartzSqlCommand qry = new QuartzSqlCommand(invoicedbConnectionString))
+                using (QuartzSqlCommand qry = new QuartzSqlCommand(invoicedbConnectionString, "dbo.processinvoicetransaction"))
                 {
-                    //create transaction in the invoice db
-                    //
+                    if (verboseLogging)
+                    {
+                        Console.Out.WriteLine($"  @processing invoice line item i: {i}");
+                    }
+
+                    try
+                    {
+                        qry.AddParameter("@syncinvoiceid", syncInvoice[i].syncinvoiceid);
+                        qry.AddParameter("@invoicetype", syncInvoice[i].invoicetype);
+                        qry.AddParameter("@invoiceno", syncInvoice[i].invoiceno);
+                        qry.AddParameter("@custno", syncInvoice[i].custno);
+                        qry.AddParameter("@invoicedate", syncInvoice[i].invoicedate);
+                        qry.AddParameter("@locationcode", syncInvoice[i].locationcode);
+                        qry.AddParameter("@location", syncInvoice[i].location);
+                        qry.AddParameter("@warehouse", syncInvoice[i].warehouse);
+                        qry.AddParameter("@currencycode", syncInvoice[i].currencycode);
+                        qry.AddParameter("@invoiceitemid", syncInvoice[i].invoiceitemid);
+                        qry.AddParameter("@masterid", syncInvoice[i].masterid);
+                        qry.AddParameter("@description", syncInvoice[i].description);
+                        qry.AddParameter("@unit", syncInvoice[i].unit);
+                        qry.AddParameter("@qty", syncInvoice[i].qty);
+                        qry.AddParameter("@cost", syncInvoice[i].cost);
+                        qry.AddParameter("@rate", syncInvoice[i].rate);
+                        qry.AddParameter("@revenuebase", syncInvoice[i].revenuebase);
+                        qry.AddParameter("@costbase", syncInvoice[i].costbase);
+                        qry.AddParameter("@taxable", syncInvoice[i].taxable);
+                        qry.AddParameter("@total", syncInvoice[i].total);
+                        qry.AddParameter("@discountamt", syncInvoice[i].discountamt);
+                        qry.Execute();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Error.WriteLine(ex.Message + ex.StackTrace);
+                    }
                 }
 
             }
@@ -132,11 +165,8 @@ namespace QuartzScheduler.Jobs
                 Console.Out.WriteLine($"  @invoiceid: {invoiceId}");
             }
 
-            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString))
+            using (QuartzSqlCommand qry = new QuartzSqlCommand(rentalworksdbConnectionString, "dbo.processupdatesyncinvoice"))
             {
-                qry.Add("update syncinvoice");
-                qry.Add("set processdate = getdate()");
-                qry.Add("where @invoiceid = @invoiceid");
                 qry.AddParameter("@invoiceid", invoiceId);
                 qry.Execute();
             }

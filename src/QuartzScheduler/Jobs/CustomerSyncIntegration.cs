@@ -102,6 +102,7 @@ namespace QuartzScheduler.Jobs
             Console.Out.WriteLine("Executing: GetData.");
             if (verboseLogging)
             {
+                Console.Out.WriteLine(JOB_NAME);
                 Console.Out.WriteLine($"  @synccustomerdate: {syncDate}");
             }
 
@@ -132,7 +133,7 @@ namespace QuartzScheduler.Jobs
                 {
                     if (verboseLogging)
                     {
-                        Console.Out.WriteLine($"  @processing record i: {i}");
+                        Console.Out.WriteLine($"  @processing customer record i: {i}");
                     }
 
                     qry.AddParameter("@companydivision", syncList[i].companydivision);
@@ -140,12 +141,14 @@ namespace QuartzScheduler.Jobs
                     qry.AddParameter("custstatus", syncList[i].custstatus);
                     qry.AddParameter("location", syncList[i].location);
                     qry.AddParameter("custcat", syncList[i].custcat);
+                    qry.AddParameter("custtype", syncList[i].custtype);
                     qry.AddParameter("customer", syncList[i].customer);
                     qry.AddParameter("add1", syncList[i].add1);
                     qry.AddParameter("add2", syncList[i].add2);
                     qry.AddParameter("city", syncList[i].city);
                     qry.AddParameter("state", syncList[i].state);
                     qry.AddParameter("zip", syncList[i].zip);
+                    qry.AddParameter("country", syncList[i].country);
                     qry.AddParameter("phone", syncList[i].phone);
                     qry.AddParameter("faxno", syncList[i].faxno);
                     qry.AddParameter("payterms", syncList[i].payterms);
@@ -175,6 +178,7 @@ namespace QuartzScheduler.Jobs
             Console.Out.WriteLine("Executing: update controlsync in rentalworks database.");
             if (verboseLogging)
             {
+                Console.Out.WriteLine(JOB_NAME);
                 Console.Out.WriteLine($"  @synccustomerdate: {syncDate}");
             }
 

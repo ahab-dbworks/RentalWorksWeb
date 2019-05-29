@@ -132,7 +132,7 @@ namespace QuartzScheduler.Jobs
                 {
                     if (verboseLogging)
                     {
-                        Console.Out.WriteLine($"  @processing record i: {i}");
+                        Console.Out.WriteLine($"  @processing sales item record i: {i}");
                     }
 
                     qry.AddParameter("@location", syncList[i].location);
