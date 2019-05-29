@@ -21,9 +21,11 @@ html.theme-material .fwbrowse[data-type="Grid"] .browsecaption {text-align:cente
 html.theme-material .fwbrowse[data-type="Grid"][data-caption=""] .browsecaption {display:none;}
 html.theme-material .fwbrowse[data-type="Grid"] .gridmenu {background-color: #EFEFEF;}
 html.theme-material .fwbrowse[data-type="Grid"] tbody .browsecontextmenucell {background-color: #f5f5f5;}
-html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenu {cursor:pointer;width:24px;height:24px;padding:4px;}
+html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenu {cursor:pointer;width:24px;height:24px;padding:4px;border-left: 1px solid #e0e0e0;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell .fwcontextmenu {line-height:1;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell.menuError { color: red !important; background-color: pink !important;}
+html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell.menuError { color: red !important; background-color: pink !important;}
+
 
 html.theme-material .fwbrowse table .divselectrow {padding:4px;height:24px;width:24px;text-align:center;}
 html.theme-material .fwbrowse table input.cbselectrow {opacity:0;padding:0;position: absolute;}
@@ -336,6 +338,7 @@ html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divsaverow .mate
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .divsaverow .material-icons {color:#ffffff;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow {width:24px;height:24px;padding:4px;cursor:pointer;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr .divcancelsaverow .material-icons {color:#607D8B;}
+html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected td.browsecontextmenucell {z-index:1;}
 html.theme-material .fwbrowse[data-type="Grid"] table tbody tr.selected .browsecontextmenucell .divcancelsaverow .material-icons {color:#ffffff;}
 html.theme-material .fwbrowse[data-type="Grid"] table tfoot tr.pagerrow {background-color: #efefef;}
 html.theme-material .fwbrowse[data-type="Grid"] tfoot tr.pagerrow .pager div.buttons .button[data-enabled="true"]:hover {background-color:rgba(0,0,0,.2);}
