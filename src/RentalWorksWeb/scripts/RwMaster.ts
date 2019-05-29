@@ -127,14 +127,20 @@ class RwMaster extends WebMaster {
     }
     //----------------------------------------------------------------------------------------------
     getUserControl($context: JQuery) {
+        var usertype = sessionStorage.getItem('userType');
+        var username = sessionStorage.getItem('fullname')
+
         const $usercontrol = FwFileMenu.UserControl_render($context);
 
         this.buildSystemBar($context);
-        this.buildOfficeLocation($context);
+        if (usertype === 'USER') {
+            this.buildOfficeLocation($context);
+        }
+        else if (usertype === 'CONTACT') {
+            this.buildDealPicker($context);
+        }
 
         // Add SystemBarControl: User Name
-        var usertype = sessionStorage.getItem('userType');
-        var username = sessionStorage.getItem('fullname')
         var $controlUserName = jQuery(`<div title="User Type: ${usertype}">${username}</div>`);
         FwFileMenu.UserControl_addSystemBarControl('username', $controlUserName, $usercontrol);
         // Add DropDownMenuItem: User Settings
@@ -222,6 +228,63 @@ class RwMaster extends WebMaster {
                             sessionStorage.setItem('warehouse', JSON.stringify(responseGetOfficeLocationInfo.warehouse));
                             sessionStorage.setItem('department', JSON.stringify(responseGetOfficeLocationInfo.department));
                             FwConfirmation.destroyConfirmation($confirmation);
+                            window.location.reload(false);
+                        }
+                    } catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                });
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    buildDealPicker($usercontrol: JQuery<HTMLElement>) {
+        var deal = JSON.parse(sessionStorage.getItem('deal'));
+        var $btnDealPicker = jQuery(`<div class="dealpicker" style="display:flex; align-items:center;">
+                                       <div class="caption" style="font-size:.8em;color:#b71c1c;flex:0 0 auto; margin:0 .4em 0 0;">Job:</div> 
+                                       <div class="value" style="flex:1 1 0;">${deal.deal}<i class="material-icons" style="font-size:inherit;">&#xE5CF</i></div>
+                                     </div>`)
+                .css('cursor','pointer')
+                .attr('title', 'Switch Jobs');
+
+
+        FwFileMenu.UserControl_addSystemBarControl('dealpicker', $btnDealPicker, $usercontrol);
+
+        $btnDealPicker.hover((e: JQuery.Event) => {
+            $btnDealPicker.css('background-color', '#eeeeee');
+        }, (e: JQuery.Event) => {
+            $btnDealPicker.css('background-color', 'inherit');
+        });
+        
+        $btnDealPicker.on('click', function () {
+            try {
+                var $confirmation = FwConfirmation.renderConfirmation('Switch Deals...', '');
+                const $select = FwConfirmation.addButton($confirmation, 'Select', false);
+                var $cancel = FwConfirmation.addButton($confirmation, 'Cancel', true);
+
+                FwConfirmation.addControls($confirmation, `<div class="fwform" data-controller="UserController" style="background-color: transparent;">
+                                                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                                                               <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-validationname="ContactDealValidation" data-required="true"></div>
+                                                             </div>
+                                                           </div>`);
+
+                const deal = JSON.parse(sessionStorage.getItem('deal'));
+                FwFormField.setValueByDataField($confirmation, 'DealId', deal.dealid, deal.deal);
+
+                $select.on('click', async () => {
+                    try {
+                        let valid = FwModule.validateForm($confirmation);
+                        if (valid) {
+                            const deal = {
+                                dealid: FwFormField.getValueByDataField($confirmation, 'DealId'),
+                                deal: FwFormField.getTextByDataField($confirmation, 'DealId')
+                            };
+                            sessionStorage.setItem('deal', JSON.stringify(deal));
+                            
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            $btnDealPicker.find('.value').text(deal.deal);
                             window.location.reload(false);
                         }
                     } catch (ex) {

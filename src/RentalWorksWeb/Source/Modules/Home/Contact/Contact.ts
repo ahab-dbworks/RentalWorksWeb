@@ -433,6 +433,19 @@ class Contact {
                     </div>
                   </div>
                 </div>
+                <div class="flexrow">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Equipment Requests" style="flex:0 1 500px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Default Deal" data-datafield="DefaultDealId" data-displayfield="DefaultDeal" data-validationname="ContactJobValidation" style="float:left;width:175px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Location" data-datafield="LocationId" data-displayfield="Location" data-validationname="OfficeLocationValidation" style="float:left;width:175px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="float:left;width:175px;"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
      <!-- QUOTE TAB -->
