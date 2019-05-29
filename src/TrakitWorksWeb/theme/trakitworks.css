@@ -129,9 +129,9 @@ html.theme-material .fwform-section {
 #itemsearch .options.active .optionsmenu {display:block;}
 
 #itemsearch #categorycolumns {border-top: 1px solid #BDBDBD;border-right: 1px solid #BDBDBD;overflow-y: auto;position: absolute;top: 0;left: 0;right: 0;bottom: 0;}
-#itemsearch #categorycolumns > div:not(:first-child) {border-top: 1px solid #9E9E9E;}
+#itemsearch #categorycolumns > div {margin-bottom:6px;}
 #itemsearch #categorycolumns ul {margin:0;cursor:pointer;padding:5px;display:flex;}
-#itemsearch #categorycolumns ul.selected {background-color: #B0BEC5;}
+#itemsearch #categorycolumns ul.selected {background-color:#66BB6A;}
 #itemsearch #categorycolumns ul .downArrowNav {height:24px;width:24px;}
 #itemsearch #categorycolumns ul .downArrowNav i {display:none;}
 #itemsearch #categorycolumns ul.selected .downArrowNav i {display:block;}

@@ -645,134 +645,129 @@ class SearchInterface {
             jQuery(document).off('keydown');
         });
 
-        $popup.on('click', '.options .optionsbutton', (event: JQuery.ClickEvent) => {
-            try {
-                var $options = jQuery(event.currentTarget).parent();
-                if (!$options.hasClass('active')) {
-                    var maxZIndex = FwFunc.getMaxZ('*');
-                    $options.find('.optionsmenu').css('z-index', maxZIndex + 1);
-                    $options.addClass('active');
+        $popup
+            .on('click', '.options .optionsbutton', (event: JQuery.ClickEvent) => {
+                try {
+                    var $options = jQuery(event.currentTarget).parent();
+                    if (!$options.hasClass('active')) {
+                        var maxZIndex = FwFunc.getMaxZ('*');
+                        $options.find('.optionsmenu').css('z-index', maxZIndex + 1);
+                        $options.addClass('active');
 
-                    jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
-                        try {
-                            if (($options.has(<Element>e.target).length === 0)) {
-                                $options.removeClass('active');
-                                $options.find('.optionsmenu').css('z-index', '0');
-                            } else if ($options.hasClass('active')) {
-                                jQuery(document).one('click', closeMenu);
+                        jQuery(document).one('click', function closeMenu(e: JQuery.ClickEvent) {
+                            try {
+                                if (($options.has(<Element>e.target).length === 0)) {
+                                    $options.removeClass('active');
+                                    $options.find('.optionsmenu').css('z-index', '0');
+                                } else if ($options.hasClass('active')) {
+                                    jQuery(document).one('click', closeMenu);
+                                }
+                            } catch (ex) {
+                                FwFunc.showError(ex);
                             }
-                        } catch (ex) {
-                            FwFunc.showError(ex);
-                        }
-                    });
-                } else {
-                    $options.removeClass('active');
-                    $options.find('.optionsmenu').css('z-index', '0');
-                }
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        });
-
-        //Apply options and close options menu
-        $popup.on('click', '.applyOptions', e => {
-            let $columns = $popup.find('[data-datafield="Columns"] li');
-            let selectedColumns = [];
-            let notSelectedColumns = [];
-
-            for (let i = 0; i < $columns.length; i++) {
-                let $this = jQuery($columns[i]);
-                let column: any = {};
-                $searchpopup.find(`.columnorder[data-column="${$this.attr('data-value')}"]`).css('order', i);
-                if ($this.attr('data-selected') == 'T') {
-                    column.order = i;
-                    column.value = $this.attr('data-value');
-                    column.text = $this.find('label').text();
-                    column.selected = 'T';
-                    selectedColumns.push(column);
-                } else {
-                    column.value = $this.attr('data-value');
-                    column.text = $this.find('label').text();
-                    column.selected = 'F';
-                    notSelectedColumns.push(column);
-                }
-            }
-            Array.prototype.push.apply(selectedColumns, notSelectedColumns);
-            let columnOrder = selectedColumns.map(a => a.value);
-            $popup.find('#itemsearch').data('columnorder', columnOrder);
-
-            let request: any = {
-                ResultFields:                JSON.stringify(selectedColumns),
-                WebUserId:                   userId.webusersid,
-                DisableAccessoryAutoExpand:  FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]')) == "T" ? true : false,
-                HideZeroQuantity:            FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false
-            }
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                let columnsToHide = notSelectedColumns.map(a => a.value);
-                $popup.find('#itemsearch').data('columnstohide', columnsToHide);
-                $popup.find('.options').removeClass('active');
-                $popup.find('.options .optionsmenu').css('z-index', '0');
-
-                //perform search again with new settings
-                let searchrequest: any = {
-                    OrderId:                       id,
-                    SessionId:                     id,
-                    AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                    WarehouseId:                   warehouseId,
-                    ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                    ShowImages:                    true,
-                    SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                    Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                    HideInventoryWithZeroQuantity: request.HideZeroQuantity,
-                    SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
-                    ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-                    FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                    CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
-                    InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined
-                }
-
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", searchrequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    $popup.find('#inventory').empty();
-                    if (response.Rows.length > 0) {
-                        const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                        let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                        if (typeof obj != 'undefined') {
-                            $popup.find('.refresh-availability').show();
-                        }
+                        });
+                    } else {
+                        $options.removeClass('active');
+                        $options.find('.optionsmenu').css('z-index', '0');
                     }
-                    SearchInterfaceController.renderInventory($popup, response);
-                }, null, $searchpopup);
-
-                if (request.DisableAccessoryAutoExpand) {
-                    $popup.find('.item-accessories').css('display', 'none');
+                } catch (ex) {
+                    FwFunc.showError(ex);
                 }
-            }, null, $searchpopup);
-        });
-
-        //Reset options to defaults
-        $popup.on('click', '.restoreDefaults', e => {
-            FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
-                { value: 'Description',  text: 'Description',                         selected: 'T' },
-                { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
-                { value: 'Type',         text: 'Type',                                selected: 'F' },
-                { value: 'Category',     text: 'Category',                            selected: 'F' },
-                { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
-                { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
-                { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
-                { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
-                { value: 'In',           text: 'In Quantity',                         selected: 'T' },
-                { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
-                { value: 'Rate',         text: 'Rate',                                selected: 'T' }
-            ]);
-
-            FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
-            FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
-            self.listGridView($popup);
-
-            $popup.find('.options').removeClass('active');
-            $popup.find('.options .optionsmenu').css('z-index', '0');
-        });
+            })
+            .on('click', '.options .applyOptions', e => {
+                let $columns = $popup.find('[data-datafield="Columns"] li');
+                let selectedColumns = [];
+                let notSelectedColumns = [];
+    
+                for (let i = 0; i < $columns.length; i++) {
+                    let $this = jQuery($columns[i]);
+                    let column: any = {};
+                    $searchpopup.find(`.columnorder[data-column="${$this.attr('data-value')}"]`).css('order', i);
+                    if ($this.attr('data-selected') == 'T') {
+                        column.order = i;
+                        column.value = $this.attr('data-value');
+                        column.text = $this.find('label').text();
+                        column.selected = 'T';
+                        selectedColumns.push(column);
+                    } else {
+                        column.value = $this.attr('data-value');
+                        column.text = $this.find('label').text();
+                        column.selected = 'F';
+                        notSelectedColumns.push(column);
+                    }
+                }
+                Array.prototype.push.apply(selectedColumns, notSelectedColumns);
+                let columnOrder = selectedColumns.map(a => a.value);
+                $popup.find('#itemsearch').data('columnorder', columnOrder);
+    
+                let request: any = {
+                    ResultFields:                JSON.stringify(selectedColumns),
+                    WebUserId:                   userId.webusersid,
+                    DisableAccessoryAutoExpand:  FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]')) == "T" ? true : false,
+                    HideZeroQuantity:            FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false
+                }
+    
+                FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
+                    let columnsToHide = notSelectedColumns.map(a => a.value);
+                    $popup.find('#itemsearch').data('columnstohide', columnsToHide);
+                    $popup.find('.options').removeClass('active');
+                    $popup.find('.options .optionsmenu').css('z-index', '0');
+    
+                    //perform search again with new settings
+                    let searchrequest: any = {
+                        OrderId:                       id,
+                        SessionId:                     id,
+                        AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                        WarehouseId:                   warehouseId,
+                        ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                        ShowImages:                    true,
+                        SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                        Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                        HideInventoryWithZeroQuantity: request.HideZeroQuantity,
+                        SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
+                        ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
+                        FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                        CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
+                        SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
+                        InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined
+                    }
+    
+                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", searchrequest, FwServices.defaultTimeout, function onSuccess(response) {
+                        $popup.find('#inventory').empty();
+                        if (response.Rows.length > 0) {
+                            const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
+                            let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
+                            if (typeof obj != 'undefined') {
+                                $popup.find('.refresh-availability').show();
+                            }
+                        }
+                        SearchInterfaceController.renderInventory($popup, response);
+                    }, null, $searchpopup);
+    
+                    if (request.DisableAccessoryAutoExpand) {
+                        $popup.find('.item-accessories').css('display', 'none');
+                    }
+                }, null, $searchpopup);
+            })
+            .on('click', '.options .restoreDefaults', e => {
+                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
+                    { value: 'Description',  text: 'Description',                         selected: 'T' },
+                    { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
+                    { value: 'Type',         text: 'Type',                                selected: 'F' },
+                    { value: 'Category',     text: 'Category',                            selected: 'F' },
+                    { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
+                    { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
+                    { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
+                    { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
+                    { value: 'In',           text: 'In Quantity',                         selected: 'T' },
+                    { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
+                    { value: 'Rate',         text: 'Rate',                                selected: 'T' }
+                ]);
+    
+                FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
+                FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
+            })
+        ;
 
         $popup.on('change', 'div[data-datafield="InventoryType"]', function () {
             self.populateTypeMenu($popup);
