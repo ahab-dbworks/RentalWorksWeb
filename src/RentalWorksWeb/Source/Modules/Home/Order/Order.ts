@@ -300,7 +300,9 @@ class Order extends OrderBase {
         const trackingNumber = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingNumber');
         const $trackShipmentBtn = $form.find('.track-shipment');
         if (trackingNumber === '') {
-            $trackShipmentBtn.attr('data-enabled', 'false');
+            FwFormField.disable($trackShipmentBtn);
+        } else {
+            FwFormField.enable($trackShipmentBtn);
         }
     };
     //----------------------------------------------------------------------------------------------
