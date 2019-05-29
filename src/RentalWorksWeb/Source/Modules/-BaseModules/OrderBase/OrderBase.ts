@@ -280,6 +280,13 @@ class OrderBase {
             $form.find(".frame .add-on").children().hide();
 
             FwFormField.setValueByDataField($form, 'RateType', office.ratetype, office.ratetype);
+            if (office.ratetype === 'MONTHLY') {
+                $form.find('.summaryweekly').hide();
+                $form.find('.summarymonthly').show();
+            } else {
+                $form.find('.summarymonthly').hide();
+                $form.find('.summaryweekly').show();
+            }
         } else {
             $form.find('.date-fields').hide();
         };
@@ -1000,7 +1007,7 @@ class OrderBase {
             }
         });
         //Hide/Show summary buttons based on rate type
-        $form.find('[data-datafield="RateType"] input').change(e => {
+        $form.find('[data-datafield="RateType"] input').on('change', e => {
             let rateType = FwFormField.getValueByDataField($form, 'RateType');
             if (rateType === 'MONTHLY') {
                 $form.find('.summaryweekly').hide();
