@@ -1,8 +1,8 @@
 ﻿class InvoiceProcessBatch {
     Module: string = 'InvoiceProcessBatch';
-    caption: string = 'Process Invoices';
-    nav: string = 'module/invoiceprocessbatch';
-    id: string = '5DB3FB9C-6F86-4696-867A-9B99AB0D6647';
+    caption: string = Constants.Modules.Utilities.InvoiceProcessBatch.caption;
+    nav: string = Constants.Modules.Utilities.InvoiceProcessBatch.nav;
+    id: string = Constants.Modules.Utilities.InvoiceProcessBatch.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         const screen: any = {};

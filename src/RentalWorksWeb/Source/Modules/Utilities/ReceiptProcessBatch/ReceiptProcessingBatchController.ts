@@ -1,8 +1,8 @@
 ﻿class ReceiptProcessBatch {
     Module: string = 'ReceiptProcessBatch';
-    caption: string = 'Process Receipts';
-    nav: string = 'module/receiptprocessbatch';
-    id: string = '0BB9B45C-57FA-47E1-BC02-39CEE720792C';
+    caption: string = Constants.Modules.Utilities.ReceiptProcessBatch.caption;
+    nav: string = Constants.Modules.Utilities.ReceiptProcessBatch.nav;
+    id: string = Constants.Modules.Utilities.ReceiptProcessBatch.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};

@@ -244,15 +244,15 @@
         Utilities: {
             Dashboard: { id: 'DF8111F5-F022-40B4-BAE6-23B2C6CF3705', caption: 'Dashboard', nav: 'module/dashboard' },
             DashboardSettings: { id: '1B40C62A-1FA0-402E-BE52-9CBFDB30AD3F', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' },
-            InvoiceProcessBatch: {
+            InvoiceProcessBatch: { id: '5DB3FB9C-6F86-4696-867A-9B99AB0D6647', caption: 'Process Invoices', nav: 'module/invoiceprocessbatch',
                 form: {
                     menuItems: {
                         ExportSettings: { id: '{28D5F4EF-9A60-4D7F-B294-4B302B88413F}' }
                     }
                 }
             },
-            QuikActivityCalendar: {caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar', id: '897BCF55-6CE7-412C-82CB-557B045F8C0A'},
-            ReceiptProcessBatch: {
+            QuikActivityCalendar: { id: '897BCF55-6CE7-412C-82CB-557B045F8C0A', caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar' },
+            ReceiptProcessBatch: { id: '0BB9B45C-57FA-47E1-BC02-39CEE720792C', caption: 'Process Receipts', nav: 'module/receiptprocessbatch',
                 form: {
                     menuItems: {
                         ExportSettings: { id: '{0D951DA8-1843-4080-AD73-B0DF7F27189B}' }
