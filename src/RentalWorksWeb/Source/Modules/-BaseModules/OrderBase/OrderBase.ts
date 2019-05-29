@@ -1910,11 +1910,8 @@ class OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-
     afterLoad($form) {
-
         this.renderFrames($form, FwFormField.getValueByDataField($form, `${this.Module}Id`));
-
         this.applyOrderTypeAndRateTypeToForm($form);
 
         // disable/enable PO Number and Amount based on PO Pending
@@ -1951,16 +1948,13 @@ class OrderBase {
         if (rateType === 'MONTHLY') {
             $form.find('.summaryweekly').hide();
             $form.find('.summarymonthly').show();
-        } else if (rateType === 'WEEKLY') {
+        } else {
             $form.find('.summarymonthly').hide();
             $form.find('.summaryweekly').show();
         }
 
         $form.find(".totals .add-on").hide();
         $form.find('.totals input').css('text-align', 'right');
-
-
-
 
         // find all the items grids on the form
         let $rentalGrid = $form.find('.rentalgrid [data-name="OrderItemGrid"]');
