@@ -779,8 +779,11 @@
             auditTabIds = FwTabs.addTab($formTabControl, 'Audit', false, 'AUDIT', false);
             $auditControl = jQuery(FwBrowse.loadGridFromTemplate('AuditHistoryGrid'));
             $auditControl.data('ondatabind', function (request) {
+                const apiurl = window[controller].apiurl;
+                const sliceIndex = apiurl.lastIndexOf('/');
+                const moduleName = apiurl.slice(sliceIndex + 1);
                 request.uniqueids = {};
-                request.uniqueids.ModuleName = window[controller].Module;
+                request.uniqueids.ModuleName = moduleName;
                 for (let i = 0; i < 2; i++) {
                     let uniqueIdValue = jQuery($keys[i]).find('input').val();
                     if (typeof uniqueIdValue !== 'undefined') {
