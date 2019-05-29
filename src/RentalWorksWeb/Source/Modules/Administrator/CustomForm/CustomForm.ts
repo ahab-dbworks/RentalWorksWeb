@@ -55,7 +55,7 @@ class CustomForm {
         }
 
         //removes field propagation
-        $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]');
+        $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
         this.loadModules($form);
         this.events($form);
