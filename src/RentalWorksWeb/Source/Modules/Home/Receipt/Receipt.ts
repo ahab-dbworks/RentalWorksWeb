@@ -244,7 +244,7 @@ class Receipt {
         setTimeout(() => {
             const $submoduleCreditBrowse = this.openCreditBrowse($form);
             $form.find('.credits-page').append($submoduleCreditBrowse);
-        }, 0)
+        }, 100)
     }
     //----------------------------------------------------------------------------------------------
     events($form: JQuery): void {
@@ -283,7 +283,7 @@ class Receipt {
         FwBrowse.addEventHandler($browse, 'afterdatabindcallback', ($control, dt) => {
             this.calculateCreditTotals($form, dealCustomer, dealCustomerId);
         });
-
+        FwBrowse.databind($browse);
         return $browse;
     }
     //----------------------------------------------------------------------------------------------
