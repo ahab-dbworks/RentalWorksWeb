@@ -36,29 +36,45 @@ namespace WebApi.Modules.AccountServices
 
         // GET api/v1/account/sessioninfo
         [HttpGet("session")]
-        public async Task<GetSessionResponse> GetSession([FromQuery]string applicationId)
+        public async Task<ActionResult<GetSessionResponse>> GetSession([FromQuery]string applicationId)
         {
             var response = new GetSessionResponse();
-            response.webUser = await AppFunc.GetSessionUserAsync(this.AppConfig, this.UserSession);
+            var waitList = new List<Task>();
+            Task<AppFunc.SessionDeal> taskSessionDeal = null;
 
+            response.webUser = await AppFunc.GetSessionUserAsync(this.AppConfig, this.UserSession);
             if (this.UserSession.UserType == "CONTACT")
             {
-                var taskSessionDeal = AppFunc.GetSessionDealAsync(this.AppConfig, response.webUser.contactid);
+                taskSessionDeal = AppFunc.GetSessionDealAsync(this.AppConfig, response.webUser.contactid);
+                waitList.Add(taskSessionDeal);
             }
             var taskSessionLocation = AppFunc.GetSessionLocationAsync(this.AppConfig, response.webUser.locationid);
+            waitList.Add(taskSessionLocation);
             var taskSessionWarehouse = AppFunc.GetSessionWarehouseAsync(this.AppConfig, response.webUser.warehouseid);
+            waitList.Add(taskSessionWarehouse);
             var taskSessionDepartment = AppFunc.GetSessionDepartmentAsync(this.AppConfig, response.webUser.departmentid);
+            waitList.Add(taskSessionDepartment);
             var taskClientCode = FwSqlData.GetClientCodeAsync(this.AppConfig.DatabaseSettings);
+            waitList.Add(taskClientCode);
             var taskApplicationTree = FwSecurityTree.Tree.GetGroupsTreeAsync(applicationId, this.UserSession.GroupsId, true);
+            waitList.Add(taskApplicationTree);
             var taskApplicationOptions = FwSqlData.GetApplicationOptionsAsync(this.AppConfig.DatabaseSettings);
+            waitList.Add(taskApplicationOptions);
 
             // wait for all the queries to finish
-            Task.WaitAll(new Task[] { taskSessionLocation, taskSessionWarehouse, taskSessionDepartment, taskClientCode, taskApplicationTree, taskApplicationOptions });
+
+            Task.WaitAll(waitList.ToArray());
 
             if (this.UserSession.UserType == "CONTACT")
             {
-                var taskSessionDeal = AppFunc.GetSessionDealAsync(this.AppConfig, response.webUser.contactid);
-                response.deal = taskSessionDeal.Result;
+                if (taskSessionDeal != null)
+                {
+                    if (taskSessionDeal.Result == null)
+                    {
+                        return new ForbidResult();
+                    }
+                    response.deal = taskSessionDeal.Result;
+                }
             }
             response.location = taskSessionLocation.Result;
             response.warehouse = taskSessionWarehouse.Result;
@@ -101,7 +117,7 @@ namespace WebApi.Modules.AccountServices
         
         // GET api/v1/account/locationinfo?locationid=value&warehouseid=value&departmentid=value
         [HttpGet("officelocation")]
-        public async Task<GetOfficeLocationResponse> GetOfficeLocation([FromQuery]string locationid, [FromQuery]string warehouseid, [FromQuery]string departmentid)
+        public async Task<ActionResult<GetOfficeLocationResponse>> GetOfficeLocation([FromQuery]string locationid, [FromQuery]string warehouseid, [FromQuery]string departmentid)
         {
             // run all the queries in parallel
             var taskSessionLocation = AppFunc.GetSessionLocationAsync(this.AppConfig, locationid);

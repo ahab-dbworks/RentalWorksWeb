@@ -139,7 +139,6 @@ namespace WebApi.Modules.Home.Order
             addFilterToSelect("DealId", "dealid", select, request);
             addFilterToSelect("CustomerId", "customerid", select, request);
 
-
             if (GetMiscFieldAsBoolean("Staging", request).GetValueOrDefault(false))
             {
                 //select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_CONFIRMED + "," + RwConstants.ORDER_STATUS_ACTIVE + "," + RwConstants.ORDER_STATUS_COMPLETE);
@@ -194,9 +193,20 @@ namespace WebApi.Modules.Home.Order
             }
 
             AddActiveViewFieldToSelect("Status", "status", select, request);
-            AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
-            AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
+            if (UserSession.UserType == "USER")
+            {
+                AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
+                AddActiveViewFieldToSelect("WarehouseId", "warehouseid", select, request);
+            }
+            else if (UserSession.UserType == "CONTACT")
+            {
+                // filter out any orders that a Contact does not belong to
+                select.AddWhere("DealId in (select companyid from compcontactview with (nolock) where contactid = @contactid and companytype='DEAL' and inactive <> 'T')");
+                select.AddParameter("@contactid", this.UserSession.ContactId);
 
+
+                AddActiveViewFieldToSelect("DealId", "dealid", select, request);
+            }
         }
         //------------------------------------------------------------------------------------    
     }

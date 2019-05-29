@@ -124,11 +124,18 @@ namespace WebApi.Modules.Home.CompanyContact
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            addFilterToSelect("CompanyId", "companyid", select, request);
-            addFilterToSelect("ContactId", "contactid", select, request);
+            if (this.UserSession.UserType == "USER")
+            {
+                addFilterToSelect("CompanyId", "companyid", select, request);
+                addFilterToSelect("ContactId", "contactid", select, request);
 
-            AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
+                AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
+            }
+            else if (this.UserSession.UserType == "CONTACT")
+            {
+                select.AddWhere("contactid = @contactid");
+                select.AddParameter("@contactid", this.UserSession.ContactId);
+            }
         }
         //------------------------------------------------------------------------------------ 
         private string determineCompanyTypeColor(string companyType)

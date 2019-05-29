@@ -10,6 +10,7 @@ using System;
 using WebLibrary;
 using WebApi.Modules.Home.Order;
 using FwStandard.SqlServer;
+using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Quote
 {
@@ -25,6 +26,10 @@ namespace WebApi.Modules.Home.Quote
         [FwControllerMethod(Id:"5aghkpZ8BLC68")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
+            if (!await AppFunc.ValidateBrowseRequestActiveViewDealId(this.AppConfig, this.UserSession, browseRequest))
+            {
+                return new BadRequestResult();
+            }
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 

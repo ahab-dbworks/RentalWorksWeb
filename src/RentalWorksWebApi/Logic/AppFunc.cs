@@ -1,6 +1,10 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using System.Threading.Tasks;
 using WebLibrary;
 
@@ -558,26 +562,150 @@ namespace WebApi.Logic
         //-------------------------------------------------------------------------------------------------------
         public static async Task<SessionDeal> GetSessionDealAsync(FwApplicationConfig appConfig, string contactid)
         {
+            SessionDeal response = null;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry1 = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry1.Add("select top 1 d.dealid, d.deal");
+                    qry1.Add("from contact c with (nolock)");
+                    qry1.Add("  left outer join dealview d with (nolock) on (c.dealid = d.dealid)");
+                    qry1.Add("where contactid = @contactid");
+                    qry1.Add("  and d.inactive <> 'T'");
+                    qry1.Add("  and d.dealid <> ''");
+                    qry1.Add("  and d.dealid in (select companyid");
+                    qry1.Add("                   from compcontactview ccv with (nolock)");
+                    qry1.Add("                   where ccv.contactid = @contactid");
+                    qry1.Add("                     and ccv.companytype = 'DEAL'");
+                    qry1.Add("                     and ccv.inactive <> 'T')");
+                    qry1.AddParameter("@contactid", contactid);
+                    await qry1.ExecuteAsync();
+
+                    // The Contact has an Active dealid set
+                    if (qry1.RowCount == 1)
+                    {
+                        response = new SessionDeal();
+                        response.dealid = qry1.GetField("dealid").ToString().TrimEnd();
+                        response.deal = qry1.GetField("deal").ToString().TrimEnd();
+                    }
+                    else
+                    {
+                        // since the Contact has an invalid active dealid, go blank it out
+                        using (FwSqlCommand qry3 = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                        {
+                            qry3.Add("update contact");
+                            qry3.Add("set dealid = @dealid");
+                            qry3.Add("where contactid = @contactid");
+                            qry3.AddParameter("@dealid", string.Empty);
+                            qry3.AddParameter("@contactid", contactid);
+                            await qry3.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+
+                if (response == null)
+                {
+                    // load the first deal the Contact belongs to alphabetically
+                    using (FwSqlCommand qry2 = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                    {
+                        qry2.Add("select top 1 d.dealid, d.deal");
+                        qry2.Add("from compcontactview ccv with (nolock)");
+                        qry2.Add("  left outer join deal d with (nolock) on (ccv.companyid = d.dealid)");
+                        qry2.Add("where contactid = @contactid");
+                        qry2.Add("  and ccv.companytype = 'DEAL'");
+                        qry2.Add("  and ccv.inactive <> 'T'");
+                        qry2.Add("order by company");
+                        qry2.AddParameter("@contactid", contactid);
+                        await qry2.ExecuteAsync();
+                        if (qry2.RowCount == 1)
+                        {
+                            response = new SessionDeal();
+                            response.dealid = qry2.GetField("dealid").ToString().TrimEnd();
+                            response.deal = qry2.GetField("deal").ToString().TrimEnd();
+
+                            // set this Deal as the Contact's active dealid, since it's going to be selected as their active dealid when they login
+                            using (FwSqlCommand qry3 = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                            {
+                                qry3.Add("update contact");
+                                qry3.Add("set dealid = @dealid");
+                                qry3.Add("where contactid = @contactid");
+                                qry3.AddParameter("@dealid", response.dealid);
+                                qry3.AddParameter("@contactid", contactid);
+                                await qry3.ExecuteNonQueryAsync();
+                            }
+                        }
+                    }
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> ValidateBrowseRequestActiveViewDealId(FwApplicationConfig appConfig, FwUserSession userSession, BrowseRequest browseRequest)
+        {
+            var isValid = true;
+            if (userSession.UserType == "CONTACT")
+            {
+                // DealId is request for Contacts
+                if (!browseRequest.activeviewfields.ContainsKey("DealId"))
+                {
+                    isValid = false;
+                }
+                var dealIds = browseRequest.activeviewfields["DealId"];
+                if (dealIds.Count <= 0)
+                {
+                    isValid = false;
+                }
+                isValid = await AppFunc.ValidateContactBelongsToDealsAsync(appConfig, userSession.ContactId, dealIds);
+            }
+            return isValid;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> ValidateContactBelongsToDealsAsync(FwApplicationConfig appConfig, string contactid, List<string> dealids)
+        {
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    qry.Add("select top 1 dealid = companyid, deal = (select top 1 d.deal from deal d with(nolock) where d.dealid = ccv.companyid)");
-                    qry.Add("from compcontactview ccv with (nolock)");
-                    qry.Add("where contactid = @contactid");
-                    qry.Add("  and companytype = 'DEAL'");
-                    qry.Add("  and inactive <> 'T'");
-                    qry.Add("order by company");
+                    qry.Add("select hasdeal = case");
+                    qry.Add("                   when exists(select companyid");
+                    qry.Add("                               from compcontactview with (nolock)");
+                    qry.Add("                               where contactid = @contactid");
+                    qry.Add("                                  and companytype = 'DEAL'");
+                    qry.Add("                                  and inactive <> 'T'");
+                    StringBuilder companyFilter = new StringBuilder();
+                    companyFilter.Append("                                  and companyid in (");
+                    for (int i = 0; i < dealids.Count; i++)
+                    {
+                        if (i > 0)
+                        {
+                            companyFilter.Append(", ");
+                        }
+                        string dealidParameterName = $"@dealid{i}";
+                        companyFilter.Append(dealidParameterName);
+                        qry.AddParameter(dealidParameterName, dealids[i]);
+                    }
+                    companyFilter.Append(")) then 'T'");
+                    qry.Add(companyFilter.ToString());
+                    qry.Add("                   else 'F'");
+                    qry.Add("                 end");
                     qry.AddParameter("@contactid", contactid);
                     await qry.ExecuteAsync();
-                    var response = new SessionDeal();
+                    var hasdeal = false;
                     if (qry.RowCount == 1)
                     {
-                        response.dealid = qry.GetField("dealid").ToString().TrimEnd();
-                        response.deal = qry.GetField("deal").ToString().TrimEnd();
+                        hasdeal = qry.GetField("hasdeal").ToBoolean();
                     }
-                    return response;
+                    return hasdeal;
                 }
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<string> GetDealLocationIdAsync(FwApplicationConfig appConfig, string dealid)
+        {
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                string locationid = (await FwSqlCommand.GetDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "deal", "dealid", dealid, "locationid")).ToString().TrimEnd();
+                return locationid;
             }
         }
         //-------------------------------------------------------------------------------------------------------

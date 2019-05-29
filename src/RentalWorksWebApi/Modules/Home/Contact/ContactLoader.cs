@@ -163,6 +163,24 @@ namespace WebApi.Modules.Home.Contact
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DefaultDealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        public string DefaultDeal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
+        public string LocationId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
+        public string Location { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
+        public string WarehouseId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
+        public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

@@ -188,6 +188,24 @@ namespace WebApi.Modules.Home.Contact
         [FwLogicProperty(Id:"lq0kifooMFzd")]
         public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
 
+        [FwLogicProperty(Id: "l8VxIy5GqGzB")]
+        public string DefaultDealId{ get { return contact.DealId; } set { contact.DealId = value; } }
+
+        [FwLogicProperty(Id: "0cCkZ7XplnCq")]
+        public string DefaultDeal { get; set; }
+
+        [FwLogicProperty(Id: "2fpG92DwUB3i")]
+        public string LocationId { get { return contact.LocationId; } set { contact.LocationId = value; } }
+
+        [FwLogicProperty(Id: "ucnkZn3aRIdp")]
+        public string Location { get; set; }
+
+        [FwLogicProperty(Id: "gdtjlQF0YugR")]
+        public string WarehouseId { get { return contact.WarehouseId; } set { contact.WarehouseId = value; } }
+
+        [FwLogicProperty(Id: "bBBteohngzfI")]
+        public string Warehouse { get; set; }
+
         //------------------------------------------------------------------------------------
         private void BeforeValidateContact(object sender, BeforeValidateEventArgs e)
         {
