@@ -2,8 +2,8 @@ class Order extends OrderBase {
     Module = 'Order';
     apiurl: string = 'api/v1/order';
     caption: string = Constants.Modules.Home.Order.caption;
-	nav: string = Constants.Modules.Home.Order.nav;
-	id: string = Constants.Modules.Home.Order.id;
+    nav: string = Constants.Modules.Home.Order.nav;
+    id: string = Constants.Modules.Home.Order.id;
     lossDamageSessionId: string = '';
     successSoundFileName: string;
     errorSoundFileName: string;
@@ -19,7 +19,7 @@ class Order extends OrderBase {
         screen.load = function () {
             FwModule.openModuleTab($browse, 'Order', false, 'BROWSE', true);
 
-             // Dashboard search
+            // Dashboard search
             if (typeof filter !== 'undefined') {
                 let parsedSearch;
                 if (filter.datafield === 'agent') {
@@ -57,7 +57,7 @@ class Order extends OrderBase {
             }
         });
 
-        $browse.data('ondatabind', request =>  {
+        $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;
         });
 
@@ -93,7 +93,7 @@ class Order extends OrderBase {
         const $complete = FwMenu.generateDropDownViewBtn('Complete', false, "COMPLETE");
         const $cancelled = FwMenu.generateDropDownViewBtn('Cancelled', false, "CANCELLED");
         const $closed = FwMenu.generateDropDownViewBtn('Closed', false, "CLOSED");
-      
+
         let viewSubitems: Array<JQuery> = [];
         viewSubitems.push($all, $confirmed, $active, $hold, $complete, $cancelled, $closed);
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
@@ -192,7 +192,7 @@ class Order extends OrderBase {
         });
         return $browse;
     }
-   //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     openInvoiceBrowse($form) {
         const $browse = InvoiceController.openBrowse();
         const orderId = FwFormField.getValueByDataField($form, 'OrderId');
@@ -204,14 +204,14 @@ class Order extends OrderBase {
         });
         return $browse;
     }
-   //---------------------------------------------------------------------------------------------
+    //---------------------------------------------------------------------------------------------
     renderGrids($form) {
         super.renderGrids($form);
         // ----------
         const $orderPickListGrid = $form.find('div[data-grid="OrderPickListGrid"]');
         const $orderPickListGridControl = FwBrowse.loadGridFromTemplate('OrderPickListGrid');
         $orderPickListGrid.empty().append($orderPickListGridControl);
-        $orderPickListGridControl.data('ondatabind', request => { 
+        $orderPickListGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
@@ -222,7 +222,7 @@ class Order extends OrderBase {
         const $orderSnapshotGrid = $form.find('div[data-grid="OrderSnapshotGrid"]');
         const $orderSnapshotGridControl = FwBrowse.loadGridFromTemplate('OrderSnapshotGrid');
         $orderSnapshotGrid.empty().append($orderSnapshotGridControl);
-        $orderSnapshotGridControl.data('ondatabind', request => { 
+        $orderSnapshotGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId')
             };
@@ -235,20 +235,20 @@ class Order extends OrderBase {
         $orderItemGridLossDamage.empty().append($orderItemGridLossDamageControl);
         $orderItemGridLossDamageControl.data('isSummary', false);
         $orderItemGridLossDamage.addClass('F');
-        $orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true'); 
+        $orderItemGridLossDamage.find('div[data-datafield="InventoryId"]').attr('data-formreadonly', 'true');
         $orderItemGridLossDamage.find('div[data-datafield="Description"]').attr('data-formreadonly', 'true');
         $orderItemGridLossDamage.find('div[data-datafield="ItemId"]').attr('data-formreadonly', 'true');
-        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3'); 
-        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false'); 
+        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digits', '3');
+        $orderItemGridLossDamage.find('div[data-datafield="Price"]').attr('data-digitsoptional', 'false');
 
-        $orderItemGridLossDamageControl.data('ondatabind', request => { 
+        $orderItemGridLossDamageControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, 'OrderId'),
                 RecType: 'F'
             };
             request.totalfields = this.totalFields;
         });
-        $orderItemGridLossDamageControl.data('beforesave', request => { 
+        $orderItemGridLossDamageControl.data('beforesave', request => {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             request.RecType = 'F';
         }
@@ -265,7 +265,22 @@ class Order extends OrderBase {
 
 
     };
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        super.events($form);
 
+        //Track shipment
+        $form.find('.track-shipment').on('click', e => {
+            const trackingURL = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingUrl');
+            if (trackingURL !== '') {
+                try {
+                    window.open(trackingURL);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         super.afterLoad($form);
@@ -280,6 +295,13 @@ class Order extends OrderBase {
             FwFormField.disable(FwFormField.getDataField($form, 'LossAndDamage'));
         }
         if (!FwFormField.getValueByDataField($form, 'LossAndDamage')) { $form.find('[data-type="tab"][data-caption="Loss And Damage"]').hide() }
+
+        //Disable 'Track Shipment' button
+        const trackingNumber = FwFormField.getValueByDataField($form, 'OutDeliveryFreightTrackingNumber');
+        const $trackShipmentBtn = $form.find('.track-shipment');
+        if (trackingNumber === '') {
+            $trackShipmentBtn.attr('data-enabled', 'false');
+        }
     };
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string {
@@ -336,7 +358,7 @@ class Order extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
-      return `
+        return `
       <div id="orderform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Order" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderController">
         <div data-control="FwFormField" data-type="key" class="fwcontrol fwformfield OrderId" data-isuniqueid="true" data-saveorder="1" data-caption="" data-datafield="OrderId"></div>
         <div id="orderform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
@@ -1316,6 +1338,11 @@ class Order extends OrderBase {
                         <div data-control="FwFormField" data-type="validation" data-validationname="VendorValidation" class="fwcontrol fwformfield" data-caption="Carrier" data-datafield="OutDeliveryCarrierId" data-displayfield="OutDeliveryCarrier" data-formbeforevalidate="beforeValidateCarrier"></div>
                         <div data-control="FwFormField" data-type="validation" data-validationname="ShipViaValidation" class="fwcontrol fwformfield" data-caption="Ship Via" data-datafield="OutDeliveryShipViaId" data-displayfield="OutDeliveryShipVia" data-formbeforevalidate="beforeValidateOutShipVia"></div>
                       </div>
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="OutDeliveryFreightTrackingUrl" style="display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="OutDeliveryFreightTrackingNumber" style="flex:1 1 250px;"></div>
+                        <div class="fwformcontrol track-shipment" data-type="button" style="flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Track Shipment</div>
+                      </div>
                     </div>
                     <div class="flexrow">
                       <div class="flexcolumn" style="width:25%;flex:0 1 auto;">
@@ -1653,8 +1680,8 @@ class Order extends OrderBase {
             });
             // Complete Session
             $popup.find('.complete-session').on('click', event => {
-            let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
-            $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
+                let $lossAndDamageItemGrid = $popup.find('div[data-grid="LossAndDamageItemGrid"]');
+                $lossAndDamageItemGrid = jQuery($lossAndDamageItemGrid);
                 let request: any = {};
                 request.SourceOrderId = FwFormField.getValueByDataField($form, 'OrderId');
                 request.SessionId = this.lossDamageSessionId
@@ -1685,7 +1712,7 @@ class Order extends OrderBase {
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                    }, $lossAndDamageItemGrid);
+                }, $lossAndDamageItemGrid);
             });
             // Select None
             $popup.find('.selectnone').on('click', e => {
@@ -1706,7 +1733,7 @@ class Order extends OrderBase {
                     }
                 }, function onError(response) {
                     FwFunc.showError(response);
-                    }, $lossAndDamageItemGrid);
+                }, $lossAndDamageItemGrid);
             });
             //Options button
             $popup.find('.options-button').on('click', e => {
@@ -1766,7 +1793,7 @@ class Order extends OrderBase {
                 FwFormField.enable($confirmation.find('.fwformfield'));
                 FwFormField.enable($yes);
                 FwModule.refreshForm($form, OrderController);
-                }, $form);
+            }, $form);
         }
     }
     //----------------------------------------------------------------------------------------------

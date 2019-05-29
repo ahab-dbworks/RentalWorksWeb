@@ -6,6 +6,7 @@ class Contract {
     id: string = '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA';
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
+    //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         let screen, $browse;
 
@@ -27,7 +28,7 @@ class Contract {
 
         return screen;
     }
-
+    //----------------------------------------------------------------------------------------------
     openBrowse = () => {
         let $browse = jQuery(this.getBrowseTemplate());
         $browse = FwModule.openBrowse($browse);
@@ -64,7 +65,6 @@ class Contract {
 
         return $browse;
     }
-
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems = ($menuObject) => {
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -78,13 +78,15 @@ class Contract {
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         return $menuObject;
     };
-
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
+
+        this.events($form);
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -97,7 +99,21 @@ class Contract {
 
         return $form;
     }
-
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        //Track shipment
+        $form.find('.track-shipment').on('click', e => {
+            const trackingURL = FwFormField.getValueByDataField($form, 'DeliveryFreightTrackingUrl');
+            if (trackingURL !== '') {
+                try {
+                    window.open(trackingURL);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         const module = (this.Module == 'Contract' ? 'Contract' : 'Manifest');
         const $contractSummaryGrid = $form.find('div[data-grid="ContractSummaryGrid"]');;
@@ -147,11 +163,11 @@ class Contract {
         FwBrowse.init($contractExchangeItemGridControl);
         FwBrowse.renderRuntimeHtml($contractExchangeItemGridControl);
     }
-
+    //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         const $contractSummaryGrid = $form.find('[data-name="ContractSummaryGrid"]');
         FwBrowse.search($contractSummaryGrid);
@@ -229,6 +245,13 @@ class Contract {
                 FwFunc.showError(ex);
             }
         });
+
+        //Disable 'Track Shipment' button
+        const trackingNumber = FwFormField.getValueByDataField($form, 'DeliveryFreightTrackingNumber');
+        const $trackShipmentBtn = $form.find('.track-shipment');
+        if (trackingNumber === '') {
+            $trackShipmentBtn.attr('data-enabled', 'false');
+        }
     }
     //----------------------------------------------------------------------------------------------  
     getBrowseTemplate(): string {
@@ -286,6 +309,7 @@ class Contract {
             <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
             <div data-type="tab" id="rentaltab" class="tab" data-tabpageid="rentaltabpage" data-caption="Rental Detail"></div>
             <div data-type="tab" id="salestab" class="tab" data-tabpageid="salestabpage" data-caption="Sales Detail"></div>
+            <div data-type="tab" id="deliverytab" class="tab" data-tabpageid="deliverytabpage" data-caption="Delivery"></div>
           </div>
           <div class="tabpages">
             <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -333,6 +357,17 @@ class Contract {
                   </div>
                 </div>
               </div>
+            </div>
+            <div data-type="tabpage" id="deliverytabpage" class="tabpage" data-tabid="deliverytab">
+                <div class="flexpage" style="max-width:500px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Delivery">
+                        <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking URL" data-datafield="DeliveryFreightTrackingUrl" style="display:none;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Tracking Number" data-datafield="DeliveryFreightTrackingNumber"></div>
+                            <div class="fwformcontrol track-shipment" data-type="button" style="flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Track Shipment</div>
+                        </div>
+                    </div>
+                </div>
             </div>
           </div>
         </div>
