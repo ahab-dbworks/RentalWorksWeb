@@ -191,7 +191,7 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
         var self = this;
-        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch');
+        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
         $search.prepend('<i class="material-icons">search</i>');
         $search.on('click', function () {
             try {
@@ -200,7 +200,7 @@ class Order extends OrderBase {
                 
                 if (orderId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-                } else {
+                } else if (!jQuery(this).hasClass('disabled')) {
                     let search = new SearchInterface();
                     search.renderSearchPopup($form, orderId, self.Module);
                 }
@@ -396,6 +396,7 @@ class Order extends OrderBase {
 
         if (status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
+            $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
         }
 
         if (hasNotes) {
