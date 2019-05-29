@@ -334,6 +334,7 @@
     <Content Include="Source\Validations\AttributeValueValidation\AttributeValueValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyContactValidation\CompanyContactValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyValidation\CompanyValidationBrowse.htm" />
+    <Content Include="Source\Validations\ContactCompanyValidation\ContactCompanyValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactEventValidation\ContactEventValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactTitleValidation\ContactTitleValidationBrowse.htm" />
     <Content Include="Source\Validations\ContactValidation\ContactValidationBrowse.htm" />
@@ -348,6 +349,7 @@
     <Content Include="Source\Validations\DealClassificationValidation\DealClassificationValidationBrowse.htm" />
     <Content Include="Source\Validations\DealStatusValidation\DealStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\DealTypeValidation\DealTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\ContactJobValidation\ContactJobValidationBrowse.htm" />
     <Content Include="Source\Validations\DealValidation\DealValidationBrowse.htm" />
     <Content Include="Source\Validations\DepartmentValidation\DepartmentValidationBrowse.htm" />
     <Content Include="Source\Validations\DiscountTemplateValidation\DiscountTemplateValidationBrowse.htm" />

@@ -58,6 +58,10 @@ class Contact {
             }
         });
 
+        FwFormField.getDataField($form, 'DefaultDealId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
+            request.uniqueids.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
+        });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------

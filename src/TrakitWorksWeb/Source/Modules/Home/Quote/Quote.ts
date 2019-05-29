@@ -67,9 +67,9 @@ class Quote extends OrderBase {
             FwFunc.showError(ex);
         }
 
-        var department = JSON.parse(sessionStorage.getItem('department'));;
-        var location   = JSON.parse(sessionStorage.getItem('location'));;
-
+        var department = JSON.parse(sessionStorage.getItem('department'));
+        var location   = JSON.parse(sessionStorage.getItem('location'));
+        
         FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
             self.DefaultOrderType = response.DefaultOrderType;
             self.DefaultOrderTypeId = response.DefaultOrderTypeId;
@@ -92,18 +92,27 @@ class Quote extends OrderBase {
         viewSubitems.push($all, $active, $reserved, $ordered, $cancelled, $closed);
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
-        //Location Filter
-        const location      = JSON.parse(sessionStorage.getItem('location'));
-        const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
-        const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
+        if (sessionStorage.getItem('userType') === 'USER') {
+            //Location Filter
+            const location      = JSON.parse(sessionStorage.getItem('location'));
+            const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
+            const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
-        if (typeof this.ActiveViewFields["LocationId"] == 'undefined') {
-            this.ActiveViewFields.LocationId = [location.locationid];
+            if (typeof this.ActiveViewFields["LocationId"] === 'undefined') {
+                this.ActiveViewFields.LocationId = [location.locationid];
+            }
+
+            let viewLocation: Array<JQuery> = [];
+            viewLocation.push($userLocation, $allLocations);
+            FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
         }
-
-        let viewLocation: Array<JQuery> = [];
-        viewLocation.push($userLocation, $allLocations);
-        FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "LocationId");
+        else if (sessionStorage.getItem('userType') === 'CONTACT') {
+            //Deal Filter
+            const deal      = JSON.parse(sessionStorage.getItem('deal'));
+            if (typeof this.ActiveViewFields["DealId"] === 'undefined') {
+                this.ActiveViewFields.DealId = [deal.dealid];
+            }
+        }
 
         return $menuObject;
     }
