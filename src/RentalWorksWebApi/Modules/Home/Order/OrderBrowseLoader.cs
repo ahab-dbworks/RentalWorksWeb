@@ -22,6 +22,10 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
         public string OrderNumberColor { get; set; }
         //------------------------------------------------------------------------------------ 
+
+
+        //note: when adding field here, be sure to also add them to the OrderLoader class
+
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);

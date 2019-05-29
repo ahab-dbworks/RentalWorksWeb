@@ -25,6 +25,9 @@ namespace WebApi.Modules.Home.Quote
         [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer)]
         public int? VersionNumber { get; set; }
         //------------------------------------------------------------------------------------
+
+        //note: when adding field here, be sure to also add them to the QuoteLoader class
+
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
