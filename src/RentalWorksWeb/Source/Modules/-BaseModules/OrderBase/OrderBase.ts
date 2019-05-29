@@ -2098,7 +2098,7 @@ class OrderBase {
         $form.find('div.modify-dates').append(dates);
 
         //activity dates popup
-        $form.on('click', '.modify', e => {
+        $form.find('.modify').off().on('click', e => {
             const request: any = {};
             const orderId = FwFormField.getValueByDataField($form, `${this.Module}Id`);
             request.uniqueids = {
