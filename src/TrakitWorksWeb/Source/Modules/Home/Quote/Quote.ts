@@ -80,7 +80,6 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         const $all:       JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
-        const $prospect:  JQuery = FwMenu.generateDropDownViewBtn('Prospect', true, "PROSPECT");
         const $active:    JQuery = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
         const $reserved:  JQuery = FwMenu.generateDropDownViewBtn('Reserved', false, "RESERVED");
         const $ordered:   JQuery = FwMenu.generateDropDownViewBtn('Ordered', false, "ORDERED");
@@ -90,7 +89,7 @@ class Quote extends OrderBase {
         FwMenu.addVerticleSeparator($menuObject);
 
         let viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all, $prospect, $active, $reserved, $ordered, $cancelled, $closed);
+        viewSubitems.push($all, $active, $reserved, $ordered, $cancelled, $closed);
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
         //Location Filter
@@ -129,6 +128,12 @@ class Quote extends OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
+
+            if (sessionStorage.getItem('userType') === 'CONTACT') {
+                var deal: any = sessionStorage.getItem('deal');
+                FwFormField.disable($form.find('div[data-datafield="DealId"]'));
+                FwFormField.setValue($form, 'div[data-datafield="DealId"]', deal.dealid, deal.deal)
+            }
         }
 
         if (typeof parentModuleInfo !== 'undefined') {
@@ -138,11 +143,6 @@ class Quote extends OrderBase {
         this.events($form);
         this.renderPrintButton($form);
         this.renderSearchButton($form);
-        //this.activityCheckboxEvents($form, mode);
-        //if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
-            //this.renderFrames($form, parentModuleInfo.QuoteId);
-            //this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
-        //}
 
         return $form;
     }
