@@ -607,7 +607,7 @@ abstract class FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     getEmailTemplate() {
         return `
-            <div style="width:540px;">
+              <div style="width:540px;">
               <div class="formrow">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="from" data-control="FwFormField" data-type="text" class="fwcontrol fwformfield from" data-caption="From" data-allcaps="false" data-enabled="false"></div>

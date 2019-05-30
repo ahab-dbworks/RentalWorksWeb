@@ -24,8 +24,6 @@ html.theme-material .fwbrowse[data-type="Grid"] tbody .browsecontextmenucell {ba
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenu {cursor:pointer;width:24px;height:24px;padding:4px;border-left: 1px solid #e0e0e0;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell .fwcontextmenu {line-height:1;}
 html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell.menuError { color: red !important; background-color: pink !important;}
-html.theme-material .fwbrowse[data-type="Grid"] .browsecontextmenucell.menuError { color: red !important; background-color: pink !important;}
-
 
 html.theme-material .fwbrowse table .divselectrow {padding:4px;height:24px;width:24px;text-align:center;}
 html.theme-material .fwbrowse table input.cbselectrow {opacity:0;padding:0;position: absolute;}
