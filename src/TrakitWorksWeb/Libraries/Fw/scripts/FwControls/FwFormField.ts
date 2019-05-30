@@ -331,6 +331,11 @@ class FwFormFieldClass {
         });
     }
     //---------------------------------------------------------------------------------
+    disableDataField($parent: JQuery, datafield: string) {
+        let $field = FwFormField.getDataField($parent, datafield);
+        FwFormField.disable($field);
+    }
+    //---------------------------------------------------------------------------------
     enable($controls: JQuery) {
         $controls.each(function (index, element) {
             var $control, data_type;
@@ -345,6 +350,11 @@ class FwFormFieldClass {
                 }
             }
         });
+    }
+    //---------------------------------------------------------------------------------
+    enableDataField($parent: JQuery, datafield: string) {
+        let $field = FwFormField.getDataField($parent, datafield);
+        FwFormField.enable($field);
     }
     //---------------------------------------------------------------------------------
     getValue($parent: JQuery, selector: string) {
