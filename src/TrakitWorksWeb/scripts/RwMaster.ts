@@ -3,20 +3,36 @@
     navigation: any;
     //----------------------------------------------------------------------------------------------
     initMainMenu() {
-        this.navigation = [
-            {
-                caption: 'TrakitWorks',
-                id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
-                children: [
-                    Constants.Modules.Home.Contact, 
-                    Constants.Modules.Home.Deal, 
-                    Constants.Modules.Home.Order, 
-                    Constants.Modules.Home.PurchaseOrder, 
-                    Constants.Modules.Home.Quote, 
-                    Constants.Modules.Home.Vendor
-                ]
-            },
-            {
+        let userType = sessionStorage.getItem('userType');
+        this.navigation = [];
+        
+        // TrakitWorks Menu
+        let menuTrakitWorks = {
+            caption: 'TrakitWorks',
+            id: 'B05953D7-DC85-486C-B9A4-7743875DFABC',
+            children: []
+        };
+        if (userType == 'USER')
+        {
+            menuTrakitWorks.children.push(Constants.Modules.Home.Contact);
+            menuTrakitWorks.children.push(Constants.Modules.Home.Deal);
+            menuTrakitWorks.children.push(Constants.Modules.Home.Order);
+            menuTrakitWorks.children.push(Constants.Modules.Home.PurchaseOrder);
+        }
+        if (userType == 'USER' || userType == 'CONTACT')
+        {
+            menuTrakitWorks.children.push(Constants.Modules.Home.Quote);
+        }
+        if (userType == 'USER')
+        {
+            menuTrakitWorks.children.push(Constants.Modules.Home.Vendor);
+        }
+        this.navigation.push(menuTrakitWorks);
+
+        if (userType == 'USER')
+        {
+            // Inventory Menu
+            let menuInventory = {
                 caption: 'Inventory',
                 id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
                 children: [
@@ -24,8 +40,10 @@
                     Constants.Modules.Home.InventoryItem, 
                     Constants.Modules.Home.Repair
                 ]
-          },
-            {
+            };
+            this.navigation.push(menuInventory);
+
+            let menuWarehouse = {
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
                 children: [
@@ -39,8 +57,10 @@
                     Constants.Modules.Home.ReturnToVendor, 
                     Constants.Modules.Home.StagingCheckout
                 ]
-            },
-            {
+            };
+            this.navigation.push(menuWarehouse);
+
+            let menuAdministrator = {
                 caption: 'Administrator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
                 children: [
@@ -54,8 +74,10 @@
                     Constants.Modules.Administrator.Settings, 
                     Constants.Modules.Administrator.User
                 ]
-            }
-        ];
+            };
+            this.navigation.push(menuAdministrator);
+        }
+        
     }
     //----------------------------------------------------------------------------------------------
     buildMainMenu($view: JQuery) {

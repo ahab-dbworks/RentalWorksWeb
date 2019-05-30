@@ -3,22 +3,32 @@ class RwMaster extends WebMaster {
     navigation: any;
     //----------------------------------------------------------------------------------------------
     initMainMenu() {
-        this.navigation = [
-            {
-                caption: 'Agent',
-                id: '91D2F0CF-2063-4EC8-B38D-454297E136A8',
-                children: [
-                    Constants.Modules.Home.Quote,
-                    Constants.Modules.Home.Order,
-                    Constants.Modules.Home.Customer,
-                    Constants.Modules.Home.Deal,
-                    Constants.Modules.Home.Vendor,
-                    Constants.Modules.Home.Contact,
-                    Constants.Modules.Home.PurchaseOrder,
-                    Constants.Modules.Home.Project
-                ]
-            },
-            {
+        let userType = sessionStorage.getItem('userType');
+        this.navigation = [];
+        
+        // Agent Menu
+        let menuAgent = {
+            caption: 'Agent',
+            id: '91D2F0CF-2063-4EC8-B38D-454297E136A8',
+            children: []
+        };
+        if (userType == 'USER' || userType == 'CONTACT') {
+            menuAgent.children.push(Constants.Modules.Home.Quote);
+        }
+        if (userType == 'USER') {
+            menuAgent.children.push(Constants.Modules.Home.Order);
+            menuAgent.children.push(Constants.Modules.Home.Customer);
+            menuAgent.children.push(Constants.Modules.Home.Deal);
+            menuAgent.children.push(Constants.Modules.Home.Vendor);
+            menuAgent.children.push(Constants.Modules.Home.Contact);
+            menuAgent.children.push(Constants.Modules.Home.PurchaseOrder);
+            menuAgent.children.push(Constants.Modules.Home.Project);
+        }
+        this.navigation.push(menuAgent);
+        
+        if (userType == 'USER') {
+            // Inventory Menu
+            let menuInventory = {
                 caption: 'Inventory',
                 id: '8AA0C4A4-B583-44CD-BB47-09C43961CE99',
                 children: [
@@ -31,8 +41,11 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.CompleteQc,
                     Constants.Modules.Home.PhysicalInventory
                 ]
-            },
-            {
+            };
+            this.navigation.push(menuInventory);
+
+            // Warehouse Menu
+            let menuWarehouse = {
                 caption: 'Warehouse',
                 id: '22D67715-9C24-4A06-A009-CB10A1EC746B',
                 children: [
@@ -56,8 +69,11 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.EmptyContainer,
                     Constants.Modules.Home.RemoveFromContainer
                 ]
-            },
-            {
+            };
+            this.navigation.push(menuWarehouse);
+        
+            // Billing Menu
+            let menuBilling = {
                 caption: 'Billing',
                 id: '9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA',
                 children: [
@@ -66,8 +82,11 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.Receipt,
                     Constants.Modules.Home.VendorInvoice
                 ]
-            },
-            {
+            };
+            this.navigation.push();
+
+            // Utilities Menu
+            let menuUtilities = {
                 caption: 'Utilities',
                 id: '81609B0E-4B1F-4C13-8BE0-C1948557B82D',
                 children: [
@@ -78,8 +97,11 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Utilities.VendorInvoiceProcessBatch,
                     Constants.Modules.Utilities.QuikActivityCalendar
                 ]
-            },
-            {
+            };
+            this.navigation.push(menuUtilities);
+
+            // Administrator Menu
+            let menuAdministrator = {
                 caption: 'Administrator',
                 id: 'F188CB01-F627-4DD3-9B91-B6486F0977DC',
                 children: [
@@ -94,8 +116,9 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Administrator.Settings,
                     Constants.Modules.Administrator.Reports
                 ]
-            }
-        ];
+            };
+            this.navigation.push(menuAdministrator);
+        }
     }
     //----------------------------------------------------------------------------------------------
     buildMainMenu($view: JQuery) {
