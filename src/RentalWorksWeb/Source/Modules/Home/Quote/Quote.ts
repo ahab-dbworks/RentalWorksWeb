@@ -135,6 +135,17 @@ class Quote extends OrderBase {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = super.openForm(mode, parentModuleInfo);
+        let userType = sessionStorage.getItem('userType');
+        if (mode === 'NEW') {
+            if (userType === 'CONTACT') {
+                let deal = JSON.parse(sessionStorage.getItem('deal'));
+                FwFormField.setValueByDataField($form, 'DealId', deal.dealid, deal.deal);
+            }
+        }
+        if (userType === 'CONTACT') {
+            FwFormField.disableDataField($form, 'DealId');
+        }
+
         return $form;
     };
 

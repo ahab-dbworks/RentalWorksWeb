@@ -118,6 +118,7 @@ class Quote extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
+        let userType = sessionStorage.getItem('userType');
         let $form = FwModule.loadFormFromTemplate(this.Module);
         $form     = FwModule.openForm($form, mode);
 
@@ -138,15 +139,18 @@ class Quote extends OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
 
-            if (sessionStorage.getItem('userType') === 'CONTACT') {
-                var deal: any = sessionStorage.getItem('deal');
-                FwFormField.disable($form.find('div[data-datafield="DealId"]'));
-                FwFormField.setValue($form, 'div[data-datafield="DealId"]', deal.dealid, deal.deal)
+            if (userType === 'CONTACT') {
+                let deal = JSON.parse(sessionStorage.getItem('deal'));
+                FwFormField.setValueByDataField($form, 'DealId', deal.dealid, deal.deal);
             }
         }
 
         if (typeof parentModuleInfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
+        }
+
+        if (userType === 'CONTACT') {
+            FwFormField.disableDataField($form, 'DealId');
         }
 
         this.events($form);
