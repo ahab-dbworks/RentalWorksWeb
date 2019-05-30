@@ -674,6 +674,7 @@ namespace WebLibrary.Security
             // Utilities
             AddModule("Dashboard",                     "{E01F0032-CFAA-4556-9F24-E4C28C5B50A1}", lv1menuUtilities.Id, "DashboardController");
             AddModule("Dashboard Settings",            "{AD262A8E-A487-4786-895D-6E3DA1DB13BD}", lv1menuUtilities.Id, "DashboardSettingsController");
+            AddModule("QuikActivity Calendar",         "{FB114A8F-1675-4C7C-BC9C-A4C005A405D7}", lv1menuUtilities.Id, "QuikActivityCalendarController");
 
             // Administrator
             AddModule("Control",         "{044829ED-579F-4AAD-B464-B4823FDB5A35}", lv1menuAdministrator.Id, "ControlController");

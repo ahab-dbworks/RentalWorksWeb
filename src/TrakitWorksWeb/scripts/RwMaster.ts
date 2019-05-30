@@ -36,8 +36,8 @@
                 caption: 'Inventory',
                 id: 'CA7EDF90-F08A-4E5C-BA6B-87DB6A14D485',
                 children: [
-                    Constants.Modules.Home.Asset, 
-                    Constants.Modules.Home.InventoryItem, 
+                    Constants.Modules.Home.Asset,
+                    Constants.Modules.Home.InventoryItem,
                     Constants.Modules.Home.Repair
                 ]
             };
@@ -47,31 +47,42 @@
                 caption: 'Warehouse',
                 id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
                 children: [
-                    Constants.Modules.Home.AssignBarCodes, 
-                    Constants.Modules.Home.CheckIn, 
-                    Constants.Modules.Home.Contract, 
-                    Constants.Modules.Home.Exchange, 
-                    Constants.Modules.Home.OrderStatus, 
-                    Constants.Modules.Home.PickList, 
-                    Constants.Modules.Home.ReceiveFromVendor, 
-                    Constants.Modules.Home.ReturnToVendor, 
+                    Constants.Modules.Home.AssignBarCodes,
+                    Constants.Modules.Home.CheckIn,
+                    Constants.Modules.Home.Contract,
+                    Constants.Modules.Home.Exchange,
+                    Constants.Modules.Home.OrderStatus,
+                    Constants.Modules.Home.PickList,
+                    Constants.Modules.Home.ReceiveFromVendor,
+                    Constants.Modules.Home.ReturnToVendor,
                     Constants.Modules.Home.StagingCheckout
                 ]
             };
             this.navigation.push(menuWarehouse);
+            
+            let menuUtilities = {
+                caption: 'Utilities',
+                id: '293A157D-EA8E-48F6-AE97-15F9DE53041A',
+                children: [
+                    Constants.Modules.Utilities.Dashboard,
+                    Constants.Modules.Utilities.DashboardSettings,
+                    Constants.Modules.Utilities.QuikActivityCalendar
+                ]
+            };
+            this.navigation.push(menuUtilities);
 
             let menuAdministrator = {
                 caption: 'Administrator',
                 id: 'A3EE3EE9-4C98-4315-B08D-2FAD67C04E07',
                 children: [
-                    Constants.Modules.Administrator.Control, 
-                    Constants.Modules.Administrator.CustomField, 
-                    Constants.Modules.Administrator.CustomForm, 
-                    Constants.Modules.Administrator.DuplicateRule, 
-                    Constants.Modules.Administrator.Group, 
-                    Constants.Modules.Administrator.Hotfix, 
-                    Constants.Modules.Administrator.Reports, 
-                    Constants.Modules.Administrator.Settings, 
+                    Constants.Modules.Administrator.Control,
+                    Constants.Modules.Administrator.CustomField,
+                    Constants.Modules.Administrator.CustomForm,
+                    Constants.Modules.Administrator.DuplicateRule,
+                    Constants.Modules.Administrator.Group,
+                    Constants.Modules.Administrator.Hotfix,
+                    Constants.Modules.Administrator.Reports,
+                    Constants.Modules.Administrator.Settings,
                     Constants.Modules.Administrator.User
                 ]
             };

@@ -621,6 +621,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\QuikActivityCalendar\QuikActivityCalendar.ts" />
     <TypeScriptCompile Include="Source\Pages\Base\Base.ts" />
     <TypeScriptCompile Include="Source\Pages\HomePage\HomeController.ts" />
     <TypeScriptCompile Include="Source\Validations\BaseInventoryValidation\BaseInventoryValidationController.ts" />

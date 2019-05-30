@@ -126,7 +126,8 @@
         },
         Utilities: {
             Dashboard: { id: 'E01F0032-CFAA-4556-9F24-E4C28C5B50A1', caption: 'Dashboard', nav: 'module/dashboard' },
-            DashboardSettings: { id: 'AD262A8E-A487-4786-895D-6E3DA1DB13BD', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' }
+            DashboardSettings: { id: 'AD262A8E-A487-4786-895D-6E3DA1DB13BD', caption: 'Dashboard Settings', nav: 'module/dashboardsettings' },
+            QuikActivityCalendar: { id: 'FB114A8F-1675-4C7C-BC9C-A4C005A405D7', caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar' }
         }
     },
     Grids: {
