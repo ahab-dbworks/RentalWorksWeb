@@ -88,6 +88,7 @@ class Quote extends OrderBase {
     addBrowseMenuItems($menuObject: any) {
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $new: JQuery = FwMenu.generateDropDownViewBtn('New', false, "NEW");
+        const $request: JQuery = FwMenu.generateDropDownViewBtn('Request', false, "REQUEST");
         const $prospect: JQuery = FwMenu.generateDropDownViewBtn('Prospect', true, "PROSPECT");
         const $active: JQuery = FwMenu.generateDropDownViewBtn('Active', false, "ACTIVE");
         const $reserved: JQuery = FwMenu.generateDropDownViewBtn('Reserved', false, "RESERVED");
@@ -98,7 +99,7 @@ class Quote extends OrderBase {
         FwMenu.addVerticleSeparator($menuObject);
 
         let viewSubitems: Array<JQuery> = [];
-        viewSubitems.push($all, $new, $prospect, $active, $reserved, $ordered, $cancelled, $closed);
+        viewSubitems.push($all, $new, $request, $prospect, $active, $reserved, $ordered, $cancelled, $closed);
         FwMenu.addViewBtn($menuObject, 'View', viewSubitems, true, "Status");
 
         if (sessionStorage.getItem('userType') === 'USER') {
