@@ -218,7 +218,13 @@ class Quote extends OrderBase {
                 if (quoteId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else if (!jQuery(this).hasClass('disabled')) {
-                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/submit/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) { }, null, null);
+                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/submit/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                        if (response !== null) {
+                            FwNotification.renderNotification('SUCCESS', 'Request Submitted.');
+                            FwFormField.setValueByDataField($form, 'Status', response.Status);
+                            $form.find('.btn[data-securityid="submitbtn"]').addClass('disabled');
+                        }
+                    }, null, null);
                 }
             }
             catch (ex) {
@@ -337,6 +343,7 @@ class Quote extends OrderBase {
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        let self        = this;
         let status      = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes    = FwFormField.getValueByDataField($form, 'HasNotes');
 
@@ -347,6 +354,17 @@ class Quote extends OrderBase {
 
         if ((sessionStorage.getItem('userType') === 'CONTACT') && (status !== 'NEW')) {
             $form.find('.btn[data-securityid="submitbtn"]').addClass('disabled');
+        }
+
+        if ((sessionStorage.getItem('userType') === 'USER') && (status === 'REQUEST')) {
+            var $confirmation = FwConfirmation.renderConfirmation('Activate Request?', 'Would you like to activate this request?');
+            var $yes          = FwConfirmation.addButton($confirmation, 'Yes');
+            var $no           = FwConfirmation.addButton($confirmation, 'No');
+
+            $yes.on('click', function () {
+                FwFormField.setValueByDataField($form, 'Status', 'ACTIVE');
+                self.saveForm($form, { closetab: false });
+            });
         }
 
         if (hasNotes) {

@@ -134,8 +134,11 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------
         public async Task<QuoteLogic> SubmitQuoteASync()
         {
-            await dealOrder.SubmitQuote();
-            await LoadAsync<QuoteLogic>();
+            bool success = await dealOrder.SubmitQuote();
+
+            if (success) {
+                await LoadAsync<QuoteLogic>();
+            }
             return this;
         }
         //------------------------------------------------------------------------------------
