@@ -154,6 +154,7 @@ class Quote extends OrderBase {
 
         if (userType === 'CONTACT') {
             FwFormField.disableDataField($form, 'DealId');
+            this.renderSubmitButton($form);
         }
 
         this.events($form);
@@ -196,6 +197,27 @@ class Quote extends OrderBase {
                 } else if (!jQuery(this).hasClass('disabled')) {
                     let search = new SearchInterface();
                     search.renderSearchPopup($form, orderId, self.Module);
+                }
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderSubmitButton($form: any) {
+        var self = this;
+        var $submit = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Submit Request', 'submitbtn');
+        $submit.prepend('<i class="material-icons">publish</i>');
+        $submit.on('click', function () {
+            try {
+                let $form   = jQuery(this).closest('.fwform');
+                let quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+                
+                if (quoteId == "") {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else if (!jQuery(this).hasClass('disabled')) {
+                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/submit/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) { }, null, null);
                 }
             }
             catch (ex) {
@@ -320,6 +342,10 @@ class Quote extends OrderBase {
         if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
             FwModule.setFormReadOnly($form);
             $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
+        }
+
+        if ((sessionStorage.getItem('userType') === 'CONTACT') && (status !== 'NEW')) {
+            $form.find('.btn[data-securityid="submitbtn"]').addClass('disabled');
         }
 
         if (hasNotes) {
