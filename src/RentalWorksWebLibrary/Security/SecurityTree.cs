@@ -747,6 +747,12 @@ namespace WebLibrary.Security
             AddGrid("Stage Quantity Items",                   "{162DCF5B-759A-42E9-82E9-88B628B6901D}", lv1menuGrids.Id, "StageQuantityItemGridController");
             AddGrid("Vendor Note",                            "{87681463-5C45-4A84-ABEB-FE010E31BC06}", lv1menuGrids.Id, "VendorNoteGridController");
             AddGrid("Vendor Tax Option",                      "{87E47D86-C161-4337-8B0D-5BC9003E890E}", lv1menuGrids.Id, "VendorTaxOptionGridController");
+            AddGrid("Warehouse Availability Hour",            "{D69B1630-8B41-48BC-B362-2033F428A60C}", lv1menuGrids.Id, "WarehouseAvailabilityHourGridController");
+            AddGrid("Warehouse Department",                   "{C1A66C89-20EC-42CC-84FA-787F5BD7093F}", lv1menuGrids.Id, "WarehouseDepartmentGridController");
+            AddGrid("Warehouse Department User",              "{9DD3FB80-2287-484D-BD1D-38BCEE1E838E}", lv1menuGrids.Id, "WarehouseDepartmentUserGridController");
+            AddGrid("Warehouse Inventory Type",               "{09705490-1824-4BBE-987E-40BB1508213C}", lv1menuGrids.Id, "WarehouseInventoryTypeGridController");
+            AddGrid("Warehouse Office Location",              "{70677F1B-83ED-4AF7-B243-95C5B14FDD5B}", lv1menuGrids.Id, "WarehouseOfficeLocationGridController");
+            AddGrid("Warehouse QuikLocate Approver",          "{4B6EE2AA-8F4B-44FE-A08C-4D9DADD2B56A}", lv1menuGrids.Id, "WarehouseQuikLocateApproverGridController");
         }
         //---------------------------------------------------------------------------------------------
     }

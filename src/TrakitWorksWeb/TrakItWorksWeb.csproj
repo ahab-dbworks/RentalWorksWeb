@@ -231,6 +231,12 @@
     <Content Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridBrowse.htm" />
     <Content Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridBrowse.htm" />
     <Content Include="Source\Grids\VendorNoteGrid\VendorNoteGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseAvailabilityHourGrid\WarehouseAvailabilityHourGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseDepartmentGrid\WarehouseDepartmentGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseDepartmentUserGrid\WarehouseDepartmentUserGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseOfficeLocationGrid\WarehouseOfficeLocationGridBrowse.htm" />
+    <Content Include="Source\Grids\WarehouseQuikLocateApproverGrid\WarehouseQuikLocateApproverGridBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Control\ControlBrowse.htm" />
     <Content Include="Source\Modules\Administrator\Control\ControlForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomField\CustomFieldBrowse.htm" />
@@ -548,6 +554,12 @@
     <TypeScriptCompile Include="Source\Grids\StageHoldingItemGrid\StageHoldingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\StageQuantityItemGrid\StageQuantityItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorNoteGrid\VendorNoteGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseAvailabilityHourGrid\WarehouseAvailabilityHourGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseDepartmentGrid\WarehouseDepartmentGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseDepartmentUserGrid\WarehouseDepartmentUserGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseInventoryTypeGrid\WarehouseInventoryTypeGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseOfficeLocationGrid\WarehouseOfficeLocationGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\WarehouseQuikLocateApproverGrid\WarehouseQuikLocateApproverGridController.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderBase\OrderBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
