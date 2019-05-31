@@ -391,6 +391,40 @@ namespace WebApi.Modules.Home.Quote
         {
             return await DoPostAsync<QuoteLogic>(l);
         }
+        //------------------------------------------------------------------------------------       
+        // POST api/v1/quote/submit/A0000001
+        [HttpPost("submit/{id}")]
+        [FwControllerMethod(Id: "")]
+        public async Task<ActionResult<QuoteLogic>> SubmitQuote([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                QuoteLogic quote = new QuoteLogic();
+                quote.SetDependencies(AppConfig, UserSession);
+                if (await quote.LoadAsync<QuoteLogic>(ids))
+                {
+                    await quote.SubmitQuoteASync();
+                    return new OkObjectResult(quote);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
+        }
         //------------------------------------------------------------------------------------
     }
 }

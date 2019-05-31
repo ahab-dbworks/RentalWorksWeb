@@ -46,6 +46,10 @@ namespace WebApi.Modules.Home.Quote
                 QuoteDate = FwConvert.ToString(DateTime.Today);
                 Status = ((string.IsNullOrEmpty(DealId)) ? RwConstants.QUOTE_STATUS_PROSPECT : RwConstants.QUOTE_STATUS_ACTIVE);
                 VersionNumber = 1;
+                if (this.UserSession.UserType == "CONTACT")
+                {
+                    Status = RwConstants.QUOTE_STATUS_NEW;
+                }
             }
             else // (updating)
             {
@@ -126,6 +130,13 @@ namespace WebApi.Modules.Home.Quote
             bool x = await l.LoadAsync<QuoteLogic>(keys);
 
             return l;
+        }
+        //------------------------------------------------------------------------------------
+        public async Task<QuoteLogic> SubmitQuoteASync()
+        {
+            await dealOrder.SubmitQuote();
+            await LoadAsync<QuoteLogic>();
+            return this;
         }
         //------------------------------------------------------------------------------------
     }

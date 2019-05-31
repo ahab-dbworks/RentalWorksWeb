@@ -46,6 +46,7 @@
         public const string ORDER_TYPE_TRANSFER = "T";
         public const string ORDER_TYPE_CONTAINER = "N";
 
+        public const string QUOTE_STATUS_NEW = "NEW";
         public const string QUOTE_STATUS_PROSPECT = "PROSPECT";
         public const string QUOTE_STATUS_RESERVED = "RESERVED";
         public const string QUOTE_STATUS_ACTIVE = "ACTIVE";

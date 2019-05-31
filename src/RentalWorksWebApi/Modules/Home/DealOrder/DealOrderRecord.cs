@@ -1319,5 +1319,26 @@ public string DateStamp { get; set; }
             return contractId;
         }
         //-------------------------------------------------------------------------------------------------------    
+        public async Task<bool> SubmitQuote()
+        {
+            bool success = false;
+            int errno = 0;
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "websubmitquote", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@webusersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.WebUsersId);
+                    qry.AddParameter("@errno", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@errmsg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    errno = qry.GetParameter("@errno").ToInt32();
+                    success = (errno == 0);
+                }
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }
