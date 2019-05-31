@@ -142,6 +142,8 @@ class Quote extends OrderBase {
             if (userType === 'CONTACT') {
                 let deal = JSON.parse(sessionStorage.getItem('deal'));
                 FwFormField.setValueByDataField($form, 'DealId', deal.dealid, deal.deal);
+                FwFormField.setValueByDataField($form, 'PendingPo', true);
+                FwFormField.setValueByDataField($form, 'PoNumber', 'PENDING');
             }
         }
 
@@ -205,6 +207,17 @@ class Quote extends OrderBase {
         var $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="QuoteId"] input').val(uniqueids.QuoteId);
         FwModule.loadForm(this.Module, $form);
+
+        let userType = sessionStorage.getItem('userType');
+        if (userType === 'CONTACT') {
+            let PoNumber = FwFormField.getValueByDataField($form, 'PoNumber');
+            if (PoNumber === '' || PoNumber === 'PENDING') {
+                FwFormField.setValueByDataField($form, 'PendingPo', true);
+                FwFormField.setValueByDataField($form, 'PoNumber', 'PENDING');
+            } else {
+                FwFormField.setValueByDataField($form, 'PendingPo', false);
+            }
+        }
 
         return $form;
     }
