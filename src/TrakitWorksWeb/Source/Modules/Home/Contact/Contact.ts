@@ -61,6 +61,16 @@ class Contact {
         FwFormField.getDataField($form, 'DefaultDealId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
             request.uniqueids.ContactId = FwFormField.getValueByDataField($form, 'ContactId');
         });
+        FwFormField.getDataField($form, 'LocationId').on('change', (e: JQuery.ChangeEvent) => {
+            try {
+                FwFormField.setValueByDataField($form, 'WarehouseId', '', '');
+            } catch(ex) {
+                FwFunc.showError(ex);
+            }
+        });
+        FwFormField.getDataField($form, 'WarehouseId').data('beforevalidate', ($validationbrowse: JQuery, $object: JQuery, request: any, datafield, $tr: JQuery) => {
+            request.uniqueids.LocationId = FwFormField.getValueByDataField($form, 'LocationId');
+        });
 
         return $form;
     }
