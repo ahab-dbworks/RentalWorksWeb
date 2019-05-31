@@ -156,49 +156,7 @@ class SearchInterface {
         let warehouseId = (type === 'Transfer') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
         $popup.find('#itemsearch').data('warehouseid', warehouseId);
 
-        let self = this;
-        let userId = JSON.parse(sessionStorage.getItem('userid'));
-        FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            //Render options sortable column list
-            if (response.ResultFields) {
-                let columns = JSON.parse(response.ResultFields);
-                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), columns);
-
-                let columnsToHide = [];
-                let columnOrder = [];
-                for (let i = 0; i < columns.length; i++) {
-                    let $this = columns[i];
-                    columnOrder.push($this.value);
-
-                    if ($this.selected == 'F') {
-                        columnsToHide.push($this.value);
-                    }
-                }
-                $popup.find('#itemsearch').data('columnorder', columnOrder);
-                $popup.find('#itemsearch').data('columnstohide', columnsToHide);
-            } else {
-                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
-                    { value: 'Description',  text: 'Description',                         selected: 'T' },
-                    { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
-                    { value: 'Type',         text: 'Type',                                selected: 'F' },
-                    { value: 'Category',     text: 'Category',                            selected: 'F' },
-                    { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
-                    { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
-                    { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
-                    { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
-                    { value: 'In',           text: 'In Quantity',                         selected: 'T' },
-                    { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
-                    { value: 'Rate',         text: 'Rate',                                selected: 'T' }
-                ]);
-            }
-
-            FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', response.DisableAccessoryAutoExpand);
-            FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
-
-            $popup.find('#itemlist').attr('data-view', response.Mode || 'GRID');
-            self.listGridView($popup);
-        }, null, null);
-
+        this.getViewSettings($popup);
 
         //Render preview grid
         const $previewGrid        = $popup.find('[data-grid="SearchPreviewGrid"]');
@@ -435,6 +393,100 @@ class SearchInterface {
                 $popup.find(`.columnDescriptions [data-column="${columnOrder[i]}"], .item-info [data-column="${columnOrder[i]}"]`).css('order', i);
             }
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    setDefaultViewSettings($popup) {
+        FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
+            { value: 'Description',  text: 'Description',                         selected: 'T' },
+            { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
+            { value: 'Type',         text: 'Type',                                selected: 'F' },
+            { value: 'Category',     text: 'Category',                            selected: 'F' },
+            { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
+            { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
+            { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
+            { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
+            { value: 'In',           text: 'In Quantity',                         selected: 'T' },
+            { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
+            { value: 'Rate',         text: 'Rate',                                selected: 'T' }
+        ]);
+    
+        FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
+        FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
+
+        $popup.find('#itemlist').attr('data-view', 'GRID');
+
+        this.saveViewSettings($popup);
+    }
+    //----------------------------------------------------------------------------------------------
+    getViewSettings($popup) {
+        let self = this;
+        let userId = JSON.parse(sessionStorage.getItem('userid'));
+        FwAppData.apiMethod(true, 'GET', `api/v1/usersearchsettings/${userId.webusersid}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            //Render options sortable column list
+            if (response.ResultFields) {
+                self.setViewSettings($popup, response);
+            } else {
+                self.setDefaultViewSettings($popup);
+            }
+        }, null, null);
+    }
+    //----------------------------------------------------------------------------------------------
+    saveViewSettings($popup) {
+        let self         = this;
+        let $searchpopup = $popup.find('#searchpopup');
+        let $columns     = $popup.find('[data-datafield="Columns"] li');
+        let columns      = [];
+    
+        for (let i = 0; i < $columns.length; i++) {
+            let $this = jQuery($columns[i]);
+            let column: any = {
+                order:    i,
+                value:    $this.attr('data-value'),
+                text:     $this.find('label').text(),
+                selected: $this.attr('data-selected') == 'T' ? 'T' : 'F'
+            };
+            columns.push(column);
+        }
+    
+        let request: any = {
+            ResultFields:                JSON.stringify(columns),
+            WebUserId:                   JSON.parse(sessionStorage.getItem('userid')).webusersid,
+            DisableAccessoryAutoExpand:  FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]')) == "T" ? true : false,
+            HideZeroQuantity:            FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+            Mode:                        $popup.find('#itemlist').attr('data-view')
+        };
+    
+        FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
+            self.setViewSettings($popup, response);
+    
+            if (request.DisableAccessoryAutoExpand) {
+                $popup.find('.item-accessories').css('display', 'none');
+            }
+        }, null, $searchpopup);
+    }
+    //----------------------------------------------------------------------------------------------
+    setViewSettings($popup, response) {
+        let columns = JSON.parse(response.ResultFields);
+        FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), columns);
+
+        let columnsToHide = [];
+        let columnOrder   = [];
+        for (let i = 0; i < columns.length; i++) {
+            let $this = columns[i];
+            columnOrder.push($this.value);
+
+            if ($this.selected == 'F') {
+                columnsToHide.push($this.value);
+            }
+        }
+        $popup.find('#itemsearch').data('columnorder', columnOrder);
+        $popup.find('#itemsearch').data('columnstohide', columnsToHide);
+
+        FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', response.DisableAccessoryAutoExpand);
+        FwFormField.setValueByDataField($popup, 'HideZeroQuantity', response.HideZeroQuantity);
+
+        $popup.find('#itemlist').attr('data-view', response.Mode);
+        this.listGridView($popup);
     }
     //----------------------------------------------------------------------------------------------
     events($popup, $form, id) {
@@ -675,97 +727,47 @@ class SearchInterface {
                 }
             })
             .on('click', '.options .applyOptions', e => {
-                let $columns = $popup.find('[data-datafield="Columns"] li');
-                let selectedColumns = [];
-                let notSelectedColumns = [];
+                self.saveViewSettings($popup);
+                $popup.find('.options').removeClass('active');
+                $popup.find('.options .optionsmenu').css('z-index', '0');
     
-                for (let i = 0; i < $columns.length; i++) {
-                    let $this = jQuery($columns[i]);
-                    let column: any = {};
-                    $searchpopup.find(`.columnorder[data-column="${$this.attr('data-value')}"]`).css('order', i);
-                    if ($this.attr('data-selected') == 'T') {
-                        column.order = i;
-                        column.value = $this.attr('data-value');
-                        column.text = $this.find('label').text();
-                        column.selected = 'T';
-                        selectedColumns.push(column);
-                    } else {
-                        column.value = $this.attr('data-value');
-                        column.text = $this.find('label').text();
-                        column.selected = 'F';
-                        notSelectedColumns.push(column);
-                    }
-                }
-                Array.prototype.push.apply(selectedColumns, notSelectedColumns);
-                let columnOrder = selectedColumns.map(a => a.value);
-                $popup.find('#itemsearch').data('columnorder', columnOrder);
-    
-                let request: any = {
-                    ResultFields:                JSON.stringify(selectedColumns),
-                    WebUserId:                   userId.webusersid,
-                    DisableAccessoryAutoExpand:  FwFormField.getValue2($popup.find('[data-datafield="DisableAccessoryAutoExpand"]')) == "T" ? true : false,
-                    HideZeroQuantity:            FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false
+                //perform search again with new settings
+                let searchrequest: any = {
+                    OrderId:                       id,
+                    SessionId:                     id,
+                    AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+                    WarehouseId:                   warehouseId,
+                    ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+                    ShowImages:                    true,
+                    SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+                    Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+                    HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
+                    SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
+                    ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
+                    FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+                    CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
+                    SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
+                    InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined
                 }
     
-                FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    let columnsToHide = notSelectedColumns.map(a => a.value);
-                    $popup.find('#itemsearch').data('columnstohide', columnsToHide);
-                    $popup.find('.options').removeClass('active');
-                    $popup.find('.options .optionsmenu').css('z-index', '0');
-    
-                    //perform search again with new settings
-                    let searchrequest: any = {
-                        OrderId:                       id,
-                        SessionId:                     id,
-                        AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                        WarehouseId:                   warehouseId,
-                        ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                        ShowImages:                    true,
-                        SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                        Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                        HideInventoryWithZeroQuantity: request.HideZeroQuantity,
-                        SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
-                        ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-                        FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                        CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
-                        SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
-                        InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined
-                    }
-    
-                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", searchrequest, FwServices.defaultTimeout, function onSuccess(response) {
-                        $popup.find('#inventory').empty();
-                        if (response.Rows.length > 0) {
-                            const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                            let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                            if (typeof obj != 'undefined') {
-                                $popup.find('.refresh-availability').show();
-                            }
+                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", searchrequest, FwServices.defaultTimeout, function onSuccess(response) {
+                    $popup.find('#inventory').empty();
+                    if (response.Rows.length > 0) {
+                        const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
+                        let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
+                        if (typeof obj != 'undefined') {
+                            $popup.find('.refresh-availability').show();
                         }
-                        SearchInterfaceController.renderInventory($popup, response);
-                    }, null, $searchpopup);
-    
-                    if (request.DisableAccessoryAutoExpand) {
-                        $popup.find('.item-accessories').css('display', 'none');
                     }
+                    SearchInterfaceController.renderInventory($popup, response);
                 }, null, $searchpopup);
             })
             .on('click', '.options .restoreDefaults', e => {
-                FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
-                    { value: 'Description',  text: 'Description',                         selected: 'T' },
-                    { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
-                    { value: 'Type',         text: 'Type',                                selected: 'F' },
-                    { value: 'Category',     text: 'Category',                            selected: 'F' },
-                    { value: 'SubCategory',  text: 'Sub Category',                        selected: 'F' },
-                    { value: 'Available',    text: 'Available Quantity',                  selected: 'T' },
-                    { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
-                    { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
-                    { value: 'In',           text: 'In Quantity',                         selected: 'T' },
-                    { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
-                    { value: 'Rate',         text: 'Rate',                                selected: 'T' }
-                ]);
-    
-                FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
-                FwFormField.setValueByDataField($popup, 'HideZeroQuantity', false);
+                self.setDefaultViewSettings($popup);
+
+                $popup.find('.options').removeClass('active');
+                $popup.find('.options .optionsmenu').css('z-index', '0');
+                self.listGridView($popup);
             })
         ;
 
@@ -947,9 +949,7 @@ class SearchInterface {
                     FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
                     let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
                         $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                        $quoteItemGrid       = $form.find('div[data-name="QuoteItemGrid"]');
                     let $transferItemGridRental = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
                     let $transferItemGridSales = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
                     if ($form.find('.combinedtab').css('display') != 'none') {
@@ -958,9 +958,7 @@ class SearchInterface {
 
                     if ($form.find('.notcombinedtab').css('display') != 'none') {
                         FwBrowse.search($orderItemGridRental);
-                        FwBrowse.search($orderItemGridMisc);
-                        FwBrowse.search($orderItemGridLabor);
-                        FwBrowse.search($orderItemGridSales);
+                        FwBrowse.search($quoteItemGrid);
                         FwBrowse.search($transferItemGridRental);
                         FwBrowse.search($transferItemGridSales);
                     }
@@ -974,13 +972,7 @@ class SearchInterface {
                 view  = $this.attr('data-buttonview');
 
             $popup.find('#itemlist').attr('data-view', view);
-            self.listGridView($popup);
-
-            let viewrequest: any = {
-                WebUserId: userId.webusersid,
-                Mode:      view
-            };
-            FwAppData.apiMethod(true, 'POST', "api/v1/usersearchsettings/", viewrequest, FwServices.defaultTimeout, function onSuccess(response) { }, null, null);
+            self.saveViewSettings($popup);
         });
 
         //Sorting option events
