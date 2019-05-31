@@ -172,7 +172,7 @@ class Quote extends OrderBase {
 
                 FwModule.openSubModuleTab($form, $report);
 
-                FwFormField.setValue($report, 'div[data-datafield="QuoteId"]', quoteId, quoteNumber);
+                FwFormField.setValueByDataField($report, 'QuoteId', quoteId, quoteNumber);
             } catch (ex) {
                 FwFunc.showError(ex);
             }
