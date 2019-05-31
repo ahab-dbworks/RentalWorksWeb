@@ -394,7 +394,7 @@ namespace WebApi.Modules.Home.Quote
         //------------------------------------------------------------------------------------       
         // POST api/v1/quote/submit/A0000001
         [HttpPost("submit/{id}")]
-        [FwControllerMethod(Id: "")]
+        [FwControllerMethod(Id: "85YP7Omvhhmh")]
         public async Task<ActionResult<QuoteLogic>> SubmitQuote([FromRoute]string id)
         {
             if (!ModelState.IsValid)
