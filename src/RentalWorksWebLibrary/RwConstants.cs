@@ -137,6 +137,7 @@
         public const string CONTRACT_TYPE_FILL = "FILL";
 
         //INVOICE
+        public const string INVOICE_DATE_TYPE_INPUT_DATE = "INPUT_DATE";
         public const string INVOICE_DATE_TYPE_INVOICE_DATE = "INVOICE_DATE";
         public const string INVOICE_DATE_TYPE_BILLING_START_DATE = "BILLING_START_DATE";
         public const string INVOICE_STATUS_NEW = "NEW";
