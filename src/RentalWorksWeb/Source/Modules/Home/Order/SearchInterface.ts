@@ -171,7 +171,11 @@ class SearchInterface {
         });
         FwBrowse.init($previewGridControl);
         FwBrowse.renderRuntimeHtml($previewGridControl);
+        FwBrowse.addEventHandler($previewGridControl, 'afterdatabindcallback', () => {
+            this.updatePreviewTabQuantity($popup, id, false);
+        });
 
+        this.updatePreviewTabQuantity($popup, id, true);
         this.events($popup, $form, id);
 
         //Sets inventory type by active tab
@@ -195,16 +199,6 @@ class SearchInterface {
                 FwFormField.setValue($popup, 'div[data-datafield="InventoryType"]', 'M', '', true);
                 break;
         };
-
-        //Display # of items from previous session in preview tab
-        FwAppData.apiMethod(true, 'GET', `api/v1/inventorysearch/gettotal/${id}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            if (response.TotalQuantityInSession) {
-                $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
-
-                FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
-
-            }
-        }, null, null);
 
         //Hide columns based on type
         if (type === 'PurchaseOrder' || type === 'Template') {
@@ -1109,6 +1103,21 @@ class SearchInterface {
                     }
                 })
         }
+    }
+    //----------------------------------------------------------------------------------------------
+    updatePreviewTabQuantity($popup, id, initialLoad) {
+        //Display # of items from previous session in preview tab
+        FwAppData.apiMethod(true, 'GET', `api/v1/inventorysearch/gettotal/${id}`, null, FwServices.defaultTimeout,
+            response => {
+                if (response.TotalQuantityInSession) {
+                    $popup.find('.tab[data-caption="Preview"] .caption').text(`Preview (${response.TotalQuantityInSession})`);
+                    if (initialLoad === true) {
+                        FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
+                    }
+                }
+            },
+            ex => FwFunc.showError(ex)
+            , null);
     }
     //----------------------------------------------------------------------------------------------
     refreshPreviewGrid($popup, id) {
