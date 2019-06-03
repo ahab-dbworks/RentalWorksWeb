@@ -510,6 +510,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PurchaseOrder\PurchaseOrder.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\BillingStatementReport\BillingStatementReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesTaxUSAReport\SalesTaxUSAReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProfitLossReport\ProfitLossReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingAnalysisReport\BillingAnalysisReportController.ts" />
@@ -959,7 +960,6 @@
     <Content Include="Source\Validations\ReportDefinitionValidation\ReportDefinitionValidationBrowse.htm" />
     <Content Include="Source\Validations\ReportDesignerValidation\ReportDesignerValidationBrowse.htm" />
     <Content Include="Source\Validations\DealClassificationValidation\DealClassificationValidationBrowse.htm" />
-    <Content Include="Source\Validations\DealStatusValidation\DealStatusValidationBrowse.htm" />
     <Content Include="Source\Validations\CompanyTaxOptionValidation\CompanyTaxOptionValidationBrowse.htm" />
     <Content Include="Source\Validations\DealTypeValidation\DealTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\DiscountTemplateValidation\DiscountTemplateValidationBrowse.htm" />
