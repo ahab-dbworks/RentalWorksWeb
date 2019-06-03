@@ -1,0 +1,29 @@
+﻿/*SalesTaxUSAReport*/
+
+tbody {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
+    }
+}
+
+.top-section-header {
+    th {
+        background-color: #DCDCDC;
+        text-align: center;
+    }
+}
+thead {
+    th.row1 {
+        border-top: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
+
+    th.row2 {
+        border-bottom: 2px solid #000000;
+        font-weight: bold;
+        padding: 5px;
+        white-space: nowrap;
+    }
+}

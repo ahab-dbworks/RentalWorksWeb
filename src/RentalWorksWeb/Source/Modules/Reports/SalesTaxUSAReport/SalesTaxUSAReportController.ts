@@ -28,18 +28,10 @@ const salesTaxUSATemplate = `
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Type">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-caption="From:" data-datafield="DateType" style="float:left;max-width:200px;">
-                    
                     <div data-value="INPUT_DATE" data-caption="Create Date"></div>
                     <div data-value="INVOICE_DATE" data-caption="Invoice Date"></div>
                     <div data-value="BILLING_START_DATE" data-caption="Billing Start Date"></div>
                   </div>
-                </div>
-              </div>
-            </div>
-            <div class="flexcolumn" style="max-width:250px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="IncludeNoCharge" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include &quot;No Charge&quot; Invoices" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>
@@ -106,6 +98,8 @@ class SalesTaxUSAReport extends FwWebApiReport {
 
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+
+        this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
