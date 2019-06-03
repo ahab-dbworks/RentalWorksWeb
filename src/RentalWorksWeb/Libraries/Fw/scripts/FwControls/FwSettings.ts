@@ -1186,7 +1186,7 @@ class FwSettingsClass {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group').show();
                     }
-                    module.show().find('#searchId').hide();;
+                    module.show().find('#searchId').hide();
 
                     let searchResults = $control.find('.panel-heading:visible');
 

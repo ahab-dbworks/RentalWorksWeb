@@ -201,21 +201,20 @@
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').empty();
                 jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
 
-                var $reports, val, $module;
-
                 me.getCaptions(screen);
                 filter = [];
-                $reports = jQuery('small#description');
-                $module = jQuery('a#title');
-                val = jQuery.trim(this.value).toUpperCase();
+                const $reportDescriptions = jQuery('small#description');
+                const $reportTitles = jQuery('a#title');
+                const val = jQuery.trim(this.value).toUpperCase();
+                const $reports = jQuery('.panel-group');
                 if (val === "") {
                     jQuery(this).parent().find('.input-group-clear').css('display', 'none');
                     $control.find('.highlighted').removeClass('highlighted');
-                    $reports.closest('div.panel-group').show();
+                    $reportDescriptions.closest('div.panel-group').show();
                 } else {
                     var results = [];
                     results.push(val);
-                    $reports.closest('div.panel-group').hide();
+                    $reportDescriptions.closest('div.panel-group').hide();
                     for (var caption in screen.moduleCaptions) {
                         if (caption.indexOf(val) !== -1) {
                             for (var moduleName in screen.moduleCaptions[caption]) {
@@ -279,17 +278,33 @@
                         }
                     }
 
+                    const modules: any = [];
                     for (var i = 0; i < results.length; i++) {
-                        //check descriptions for match
-                        var module = $reports.filter(function () {
+                        //check report ids for match
+                        for (let k = 0; k < $reports.length; k++) {
+                            if ($reports.eq(k).attr('id').toUpperCase() === results[i]) {
+                                modules.push($reports.eq(k)[0]);
+                            }
+                        }
+
+                         //check descriptions for match
+                        const matchedDescription = $reportDescriptions.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
-                        module.find('.highlighted').removeClass('highlighted');
-                        let panel = $module.filter(function () { return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]) }).closest('div.panel-group');
+                        matchedDescription.find('.highlighted').removeClass('highlighted');
+                        if (matchedDescription.length > 0) {
+                            modules.push(matchedDescription);
+                        }
 
-                        matchDescriptionTitle(panel);
-                        matchDescriptionTitle(module);
+                        //check titles for match
+                        const matchedTitle = $reportTitles.filter(function () {
+                            return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
+                        }).closest('div.panel-group');
+                        if (matchedTitle.length > 0) {
+                            modules.push(matchedTitle);
+                        }
                     }
+                    matchDescriptionTitle(modules);
 
                     let searchResults = $control.find('.panel-heading:visible');
 
