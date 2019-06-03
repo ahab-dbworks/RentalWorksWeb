@@ -76,6 +76,7 @@
 
   <ItemGroup>
     <Folder Include="Modules\Administrator\Designer\Services\" />
+    <Folder Include="WebpackReports\src\BillingStatementReport\" />
     <Folder Include="wwwroot\temp\downloads\" />
     <Folder Include="wwwroot\Reports\" />
   </ItemGroup>
