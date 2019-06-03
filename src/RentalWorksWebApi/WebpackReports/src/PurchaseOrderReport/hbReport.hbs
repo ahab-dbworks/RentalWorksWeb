@@ -1,0 +1,138 @@
+﻿<!--Purchase Order Report-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">As Of: {{Today}}</span>
+    <span class="rpt-header-center">Sales From: {{FromDate}} To: {{ToDate}}</span>
+    <span class="rpt-header-center">{{CostTypeText}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Rank</th>
+        <th>Unit</th>
+        <th class="number">Unit <div>Cost</div></th>
+        <th class="number">Unit <div>Price</div></th>
+        <th class="number">On Hand</th>
+        <th class="number">Allocated</th>
+        <th class="number">In Transit</th>
+        <th class="number">On PO</th>
+        <th class="number">On Hand <div>Cost</div></th>
+        <th class="number">On Hand <div>Price</div></th>
+        <th>Last Sale</th>
+        <th class="number">Period Sales</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="nowrap" data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{Rank}}"></td>
+        <td data-value="{{Unit}}"></td>
+        {{#ifEquals ../ViewSetting "AverageCostView"}}
+        <td class="number" data-value="{{UnitAverageCost}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ViewSetting "DefaultCostView"}}
+        <td class="number" data-value="{{UnitDefaultCost}}"></td>
+        {{/ifEquals}}
+        <td class="number" data-value="{{UnitPrice}}"></td>
+        <td class="number" data-value="{{QuantityIn}}"></td>
+        <td class="number" data-value="{{QuantityAllocated}}"></td>
+        <td class="number" data-value="{{QuantityInTransit}}"></td>
+        <td class="number" data-value="{{QuantityOnPO}}"></td>
+        {{#ifEquals ../ViewSetting "AverageCostView"}}
+        <td class="number" data-value="{{QuantityInAverageCost}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ViewSetting "DefaultCostView"}}
+        <td class="number" data-value="{{QuantityInDefaultCost}}"></td>
+        {{/ifEquals}}
+        <td class="number" data-value="{{QuantityInPrice}}"></td>
+        <td data-value="{{LastSaleDate}}"></td>
+        <td class="number" data-value="{{Revenue}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryfooter"}}
+        <td colspan="6" class="total-name">{{Category}}:&nbsp;</td>
+        <td class="total-val" data-value="{{QuantityIn}}"></td>
+        <td class="total-val" data-value="{{QuantityAllocated}}"></td>
+        <td class="total-val" data-value="{{QuantityInTransit}}"></td>
+        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
+        {{#ifEquals ../ViewSetting "AverageCostView"}}
+        <td class="total-val" data-value="{{QuantityInAverageCost}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ViewSetting "DefaultCostView"}}
+        <td class="total-val" data-value="{{QuantityInDefaultCost}}"></td>
+        {{/ifEquals}}
+        <td class="total-val" data-value="{{QuantityInPrice}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Revenue}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypefooter"}}
+        <td colspan="6" class="total-name">{{InventoryType}}:&nbsp;</td>
+        <td class="total-val" data-value="{{QuantityIn}}"></td>
+        <td class="total-val" data-value="{{QuantityAllocated}}"></td>
+        <td class="total-val" data-value="{{QuantityInTransit}}"></td>
+        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
+        {{#ifEquals ../ViewSetting "AverageCostView"}}
+        <td class="total-val" data-value="{{QuantityInAverageCost}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ViewSetting "DefaultCostView"}}
+        <td class="total-val" data-value="{{QuantityInDefaultCost}}"></td>
+        {{/ifEquals}}
+        <td class="total-val" data-value="{{QuantityInPrice}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Revenue}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Warehousefooter"}}
+        <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td class="total-val" data-value="{{QuantityIn}}"></td>
+        <td class="total-val" data-value="{{QuantityAllocated}}"></td>
+        <td class="total-val" data-value="{{QuantityInTransit}}"></td>
+        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
+        {{#ifEquals ../ViewSetting "AverageCostView"}}
+        <td class="total-val" data-value="{{QuantityInAverageCost}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ViewSetting "DefaultCostView"}}
+        <td class="total-val" data-value="{{QuantityInDefaultCost}}"></td>
+        {{/ifEquals}}
+        <td class="total-val" data-value="{{QuantityInPrice}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Revenue}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{QuantityIn}}"></td>
+        <td class="total-val" data-value="{{QuantityAllocated}}"></td>
+        <td class="total-val" data-value="{{QuantityInTransit}}"></td>
+        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
+        {{#ifEquals ../ViewSetting "AverageCostView"}}
+        <td class="total-val" data-value="{{QuantityInAverageCost}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ViewSetting "DefaultCostView"}}
+        <td class="total-val" data-value="{{QuantityInDefaultCost}}"></td>
+        {{/ifEquals}}
+        <td class="total-val" data-value="{{QuantityInPrice}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Revenue}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
