@@ -132,7 +132,7 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         public decimal? SalesTax { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "totallabor", modeltype: FwDataTypes.Decimal)]
-        public decimal? Totallabor { get; set; }
+        public decimal? TotalLabor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxablelabor", modeltype: FwDataTypes.Decimal)]
         public decimal? TaxableLabor { get; set; }
@@ -212,8 +212,8 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-                dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                dt.InsertSubTotalRows("TaxOption", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

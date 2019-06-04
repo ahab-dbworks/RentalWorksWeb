@@ -25,6 +25,8 @@ export class BillingStatementReport extends WebpackReport {
                     data.Report = 'Billing Statement Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+
+                    console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

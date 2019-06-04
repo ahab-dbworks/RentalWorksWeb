@@ -99,8 +99,8 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.Decimal)]
         public decimal? PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "arrectype", modeltype: FwDataTypes.Boolean)]
-        public bool? ArrecType { get; set; }
+        [FwSqlDataField(column: "arrectype", modeltype: FwDataTypes.Text)]
+        public string ARRecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
         public string RecType { get; set; }
@@ -132,6 +132,7 @@ namespace WebApi.Modules.Reports.BillingStatementReport
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
+                    qry.AddParameter("@includenocharge", SqlDbType.Text, ParameterDirection.Input, request.IncludeNoCharge.GetValueOrDefault(false)?"T":"F");
                     qry.AddParameter("@dealstatusid", SqlDbType.Text, ParameterDirection.Input, request.DealStatusId);
                     qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, request.DealTypeId);
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);

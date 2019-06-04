@@ -16,136 +16,104 @@
     <thead class="top-section-header">
       <tr>
         <th colspan="2" style="background-color:white;"></th>
-        <th colspan="8" style="border-right:3px solid black;">OWNED</th>
-        <th colspan="3" style="border-right:3px solid black;">SUBRENTAL</th>
-        <th style="border-right:3px solid black;">CONSIGNMENT</th>
+        <th colspan="8" style="border-right:3px solid black;">RENTAL</th>
+        <th colspan="3" style="border-right:3px solid black;">SALES,PARTS,MISC</th>
+        <th style="border-right:3px solid black;">LABOR</th>
         <th>TOTAL</th>
       </tr>
     </thead>
     <thead>
       <tr>
-        <th class="row1">I-Code</th>
-        <th class="row1">Description</th>
-        <th class="row1 number">Average</th>
-        <th class="row1 number">Current</th>
-        <th class="row1 number">Avail</th>
-        <th class="row1 number">Days</th>
-        <th class="row1 number">Days In</th>
-        <th class="row1 number">Usage</th>
-        <th class="row1 number">Days</th>
-        <th class="row1 number">Revenue</th>
-        <th class="row1 number">Days</th>
-        <th class="row1 number">Revenue</th>
-        <th class="row1 number">Cost</th>
-        <th class="row1 number">Fees</th>
-        <th class="row1 number">Adjusted</th>
-      </tr>
-      <tr>
-        <th class="row2"></th>
-        <th class="row2"></th>
-        <th class="row2 number">Owned</th>
-        <th class="row2 number">Owned</th>
-        <th class="row2 number">Days</th>
-        <th class="row2 number">Out</th>
-        <th class="row2 number">Repair</th>
-        <th class="row2 number">%</th>
-        <th class="row2 number">Billed</th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number"></th>
-        <th class="row2 number">Revenue</th>
+        <th class="row1">Invoice No.</th>
+        <th class="row1">Date</th>
+        <th class="row1 number">Total</th>
+        <th class="row1 number">Taxable</th>
+        <th class="row1 number">Tax</th>
+        <th class="row1 number">Non-Tax</th>
+        <th class="row1 number">Total</th>
+        <th class="row1 number">Taxable</th>
+        <th class="row1 number">Tax</th>
+        <th class="row1 number">Non-Tax</th>
+        <th class="row1 number">Total</th>
+        <th class="row1 number">Taxable</th>
+        <th class="row1 number">Tax</th>
+        <th class="row1 number">Non-Tax</th>
+        <th class="row1 number">Total Tax</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
-        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
-        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
-        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+        {{#ifEquals RowType "TaxOptionheader"}}
+        <td colspan="3" class="lower header-row">Tax Option: {{TaxOption}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td class="nowrap">{{ICode}}</td>
-        <td data-value="{{Description}}"></td>
-        <td class="number" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="number" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="number" data-value="{{AvailableDays}}"></td>
-        <td class="number" data-value="{{DaysOut}}"></td>
-        <td class="number" data-value="{{DaysOutOfService}}"></td>
-        <td class="number" data-value="{{UsagePercent}}"></td>
-        <td class="number" data-value="{{DaysBilled}}"></td>
-        <td class="number" data-value="{{Revenue}}"></td>
-        <td class="number" data-value="{{DaysSubRented}}"></td>
-        <td class="number" data-value="{{SubRentalRevenue}}"></td>
-        <td class="number" data-value="{{SubRentalCost}}"></td>
-        <td class="number" data-value="{{ConsignmentFees}}"></td>
-        <td class="number" data-value="{{AdjustedRevenue}}"></td>
+        <td class="nowrap">{{InvoiceNumber}}</td>
+        <td data-value="{{InvoiceDate}}"></td>
+        <td class="number" data-value="{{TotalRental}}"></td>
+        <td class="number" data-value="{{TaxableRental}}"></td>
+        <td class="number" data-value="{{NontaxableRental}}"></td>
+        <td class="number" data-value="{{RentalTax}}"></td>
+        <td class="number" data-value="{{TotalSales}}"></td>
+        <td class="number" data-value="{{TaxableSales}}"></td>
+        <td class="number" data-value="{{NontaxableSales}}"></td>
+        <td class="number" data-value="{{SalesTax}}"></td>
+        <td class="number" data-value="{{TotalLabor}}"></td>
+        <td class="number" data-value="{{TaxableLabor}}"></td>
+        <td class="number" data-value="{{NontaxableLabor}}"></td>
+        <td class="number" data-value="{{LaborTax}}"></td>
+        <td class="number" data-value="{{TotalTax}}"></td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{TotalRental}}"></td>
+        <td class="total-val" data-value="{{TaxableRental}}"></td>
+        <td class="total-val" data-value="{{NontaxableRental}}"></td>
+        <td class="total-val" data-value="{{RentalTax}}"></td>
+        <td class="total-val" data-value="{{TotalSales}}"></td>
+        <td class="total-val" data-value="{{TaxableSales}}"></td>
+        <td class="total-val" data-value="{{NontaxableSales}}"></td>
+        <td class="total-val" data-value="{{SalesTax}}"></td>
+        <td class="total-val" data-value="{{TotalLabor}}"></td>
+        <td class="total-val" data-value="{{TaxableLabor}}"></td>
+        <td class="total-val" data-value="{{NontaxableLabor}}"></td>
+        <td class="total-val" data-value="{{LaborTax}}"></td>
+        <td class="total-val" data-value="{{TotalTax}}"></td>
         {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="2" class="total-name">{{Category}}&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
+        {{#ifEquals RowType "TaxOptionfooter"}}
+        <td colspan="2" class="total-name">{{TaxOption}}&nbsp;</td>
+        <td class="total-val" data-value="{{TotalRental}}"></td>
+        <td class="total-val" data-value="{{TaxableRental}}"></td>
+        <td class="total-val" data-value="{{NontaxableRental}}"></td>
+        <td class="total-val" data-value="{{RentalTax}}"></td>
+        <td class="total-val" data-value="{{TotalSales}}"></td>
+        <td class="total-val" data-value="{{TaxableSales}}"></td>
+        <td class="total-val" data-value="{{NontaxableSales}}"></td>
+        <td class="total-val" data-value="{{SalesTax}}"></td>
+        <td class="total-val" data-value="{{TotalLabor}}"></td>
+        <td class="total-val" data-value="{{TaxableLabor}}"></td>
+        <td class="total-val" data-value="{{NontaxableLabor}}"></td>
+        <td class="total-val" data-value="{{LaborTax}}"></td>
+        <td class="total-val" data-value="{{TotalTax}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{AverageOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{CurrentOwnedQuantity}}"></td>
-        <td class="total-val" data-value="{{AvailableDays}}"></td>
-        <td class="total-val" data-value="{{DaysOut}}"></td>
-        <td class="total-val" data-value="{{DaysOutOfService}}"></td>
-        <td colspan="2" class="total-val" data-value="{{DaysBilled}}"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-        <td class="total-val" data-value="{{DaysSubRented}}"></td>
-        <td class="total-val" data-value="{{SubRentalRevenue}}"></td>
-        <td class="total-val" data-value="{{SubRentalCost}}"></td>
-        <td class="total-val" data-value="{{ConsignmentFees}}"></td>
-        <td class="total-val" data-value="{{AdjustedRevenue}}"></td>
+        <td class="total-val" data-value="{{TotalRental}}"></td>
+        <td class="total-val" data-value="{{TaxableRental}}"></td>
+        <td class="total-val" data-value="{{NontaxableRental}}"></td>
+        <td class="total-val" data-value="{{RentalTax}}"></td>
+        <td class="total-val" data-value="{{TotalSales}}"></td>
+        <td class="total-val" data-value="{{TaxableSales}}"></td>
+        <td class="total-val" data-value="{{NontaxableSales}}"></td>
+        <td class="total-val" data-value="{{SalesTax}}"></td>
+        <td class="total-val" data-value="{{TotalLabor}}"></td>
+        <td class="total-val" data-value="{{TaxableLabor}}"></td>
+        <td class="total-val" data-value="{{NontaxableLabor}}"></td>
+        <td class="total-val" data-value="{{LaborTax}}"></td>
+        <td class="total-val" data-value="{{TotalTax}}"></td>
         {{/ifEquals}}
       </tr>
       {{/each}}
