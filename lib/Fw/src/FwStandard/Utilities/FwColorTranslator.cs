@@ -26,18 +26,18 @@ namespace FwStandard.Utilities
 
         public static string OleColorToHtmlColor(int oleColor)
         {
-            int red = (int)((byte)(oleColor >> 16 & 255));
+            int red = (int)((byte)(oleColor & 255));
             int green = (int)((byte)(oleColor >> 8 & 255));
-            int blue = (int)((byte)(oleColor & 255));
+            int blue = (int)((byte)(oleColor >> 16 & 255));
             string htmlColor = String.Format("rgb({0},{1},{2})", red, green, blue);
             return htmlColor;
         }
 
         public static string OleColorToHtmlColor(int oleColor, double opacity)
         {
-            int red = (int)((byte)(oleColor >> 16 & 255));
+            int red = (int)((byte)(oleColor & 255));
             int green = (int)((byte)(oleColor >> 8 & 255));
-            int blue = (int)((byte)(oleColor & 255));
+            int blue = (int)((byte)(oleColor >> 16 & 255));
             string htmlColor = String.Format("rgba({0},{1},{2},{3})", red, green, blue, opacity);
             return htmlColor;
         }
