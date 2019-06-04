@@ -1340,5 +1340,26 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<string> ActivateQuoteRequest()
+        {
+            string newOrderId = string.Empty;
+
+            if ((OrderId != null) && 
+                (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) && 
+                (Status.Equals(RwConstants.QUOTE_STATUS_REQUEST)))
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "quoterequesttoquote", this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                    qry.AddParameter("@neworderid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    newOrderId = qry.GetParameter("@neworderid").ToString();
+                }
+            }
+            return newOrderId;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

@@ -142,5 +142,17 @@ namespace WebApi.Modules.Home.Quote
             return this;
         }
         //------------------------------------------------------------------------------------
+        public async Task<QuoteLogic> ActivateQuoteRequestASync()
+        {
+            string newOrderId = await dealOrder.ActivateQuoteRequest();
+
+            string[] keys = { newOrderId };
+            QuoteLogic q = new QuoteLogic();
+            q.SetDependencies(AppConfig, UserSession);
+            bool x = await q.LoadAsync<QuoteLogic>(keys);
+
+            return q;
+        }
+        //------------------------------------------------------------------------------------    
     }
 }

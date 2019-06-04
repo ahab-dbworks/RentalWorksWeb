@@ -54,6 +54,7 @@
         public const string QUOTE_STATUS_ORDERED = "ORDERED";
         public const string QUOTE_STATUS_CLOSED = "CLOSED";
         public const string QUOTE_STATUS_CANCELLED = "CANCELLED";
+        public const string QUOTE_STATUS_REQUEST = "REQUEST";
 
         public const string ORDER_STATUS_CONFIRMED = "CONFIRMED";
         public const string ORDER_STATUS_ACTIVE = "ACTIVE";
