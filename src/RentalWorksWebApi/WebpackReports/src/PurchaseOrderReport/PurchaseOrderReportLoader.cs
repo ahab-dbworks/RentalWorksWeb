@@ -62,10 +62,10 @@ namespace WebApi.Modules.Reports.PurchaseOrderReport
         [FwSqlDataField(column: "agent", modeltype: FwDataTypes.Text)]
         public string Agent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pototal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "pototal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseOrderTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invtotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "invtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
