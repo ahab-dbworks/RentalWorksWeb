@@ -1,0 +1,80 @@
+﻿<!--BillingStatementReport-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Invoice No.</th>
+        <th>PO No.</th>
+        <th>Order Description</th>
+        <th>Billing Start</th>
+        <th>Billing End</th>
+        <th>Billing Cycle</th>
+        <th class="number">Amount</th>
+        <th class="number">Balance</th>
+                <th class="number">Credits</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerheader"}}
+        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealheader"}}
+        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td data-value="{{InvoiceNumber}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
+        <td data-value="{{InvoiceDate}}"></td>
+        <td data-value="{{InvoiceDescription}}"></td>
+        <td data-value="{{BillingStartDate}}"></td>
+        <td data-value="{{BillingEndDate}}"></td>
+        <td data-value="{{BillingCycle}}"></td>
+        <td class="number" data-value="{{InvoiceTax}}"></td>
+        <td class="number" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Dealfooter"}}
+        <td colspan="8" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerfooter"}}
+        <td colspan="8" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="8" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="8" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td colspan="8" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

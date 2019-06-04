@@ -12,7 +12,6 @@ export class SalesTaxUSAReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
-            console.log('params', parameters)
             HandlebarsHelpers.registerHelpers();
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/SalesTaxUSAReport/runreport`, authorizationHeader, parameters)
