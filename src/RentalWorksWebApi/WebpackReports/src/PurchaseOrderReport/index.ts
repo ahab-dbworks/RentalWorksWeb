@@ -21,6 +21,7 @@ export class PurchaseOrderReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
                     data.Report = 'Purchase Order Report';
                     data.System = 'RENTALWORKS';
+                    data.Company = parameters.companyName;
                     console.log(data);
 
                     this.renderFooterHtml(data);
