@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace WebApi.Modules.Reports.GlDistributionReport
 {
-    [FwSqlTable("dbo.funcglsummary(@fromdate, @todate)")]
+    [FwSqlTable("dbo.funcglsummaryrpt(@fromdate, @todate)")]
     public class GlDistributionReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
@@ -34,6 +34,21 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         [FwSqlDataField(column: "glacctdesc", modeltype: FwDataTypes.Text)]
         public string AccountDescription { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text)]
+        public string InvoiceNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "gldate", modeltype: FwDataTypes.Date)]
+        public string GlDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
+        public string DealId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
+        public string Deal{ get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "itemdescription", modeltype: FwDataTypes.Text)]
+        public string ItemDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "debit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Debit { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -47,15 +62,26 @@ namespace WebApi.Modules.Reports.GlDistributionReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
+                    
+                    if (request.IsSummary.GetValueOrDefault(false))
+                    {
+                        this.OverrideTableName = "dbo.funcglsummaryrpt(@fromdate, @todate)";
+                    }
+                    else
+                    {
+                        this.OverrideTableName = "dbo.funcgldetailrpt(@fromdate, @todate)";
+                    }
+
                     useWithNoLock = false;
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
 
                     select.AddWhereIn("locationid", request.OfficeLocationId);
                     select.AddWhereIn("glaccountid", request.GlAccountId);
+                    select.AddWhereIn("dealid", request.DealId);
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
                     select.AddOrderBy("location,groupheading,glno,glacctdesc");

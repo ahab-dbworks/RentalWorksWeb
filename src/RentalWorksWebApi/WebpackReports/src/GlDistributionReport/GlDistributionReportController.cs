@@ -21,6 +21,8 @@ namespace WebApi.Modules.Reports.GlDistributionReport
         public DateTime ToDate { get; set; }
         public string OfficeLocationId { get; set; }
         public string GlAccountId { get; set; }
+        public string DealId { get; set; }
+        public bool? IsSummary { get; set; }
     }
 
 
