@@ -109,13 +109,11 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
                     select.AddWhereIn("locationid", request.OfficeLocationId);
                     select.AddWhereIn("dealid", request.DealId);
                     select.AddWhereIn("agentid", request.AgentId);
                     //addDateFilterToSelect("estrentfrom", request.FromDate, select, ">=", "estrentfrom");
                     //addDateFilterToSelect("estrentfrom", request.ToDate, select, "<=", "estrentfrom");
-
 
                     if ((string.IsNullOrEmpty(request.DateField)) || (!request.DateField.Equals("estrentfrom")))
                     {
@@ -124,8 +122,6 @@ namespace WebApi.Modules.Reports.SalesQuoteBillingReport
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
                     select.AddParameter("@datefield", request.DateField);
-
-
                     select.AddOrderBy("location, agent, orderno, versionno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
