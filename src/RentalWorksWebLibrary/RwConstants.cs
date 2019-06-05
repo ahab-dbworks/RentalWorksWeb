@@ -119,13 +119,13 @@
         public const string ITEMCLASS_CONTAINER_OPTION = "NO";
         public const string ITEMCLASS_MISCELLANEOUS = "M";
 
-        public const int COMPLETE_COLOR = 6382847;        // blue
-        public const int KIT_COLOR = 65280;               // greeen
-        public const int MISCELLANEOUS_COLOR = 16711808;  // pink/choral
-        public const int ITEM_COLOR = 16777215;           // white
-        public const int ACCESSORY_COLOR = 16775680;      // yelow
+        public const int COMPLETE_COLOR = 16746632;     // purple
+        public const int KIT_COLOR = 5101142;           // green
+        public const int MISCELLANEOUS_COLOR = 6382847; // pink/coral
+        public const int ITEM_COLOR = 16777215;         // white
+        public const int ACCESSORY_COLOR = 65535;       // yellow
 
-        public const int SUB_COLOR = 16757132;      // salmon
+        public const int SUB_COLOR = 9220607;           // salmon
 
 
         //CONTRACT
@@ -180,8 +180,8 @@
         public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
         public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
 
-        public const int PO_NEEDS_APPROVAL_COLOR = 16740429; // light red
-        public const int PO_DROP_SHIP_COLOR = 6205102; // teal
+        public const int PO_NEEDS_APPROVAL_COLOR = 5075199; // light red
+        public const int PO_DROP_SHIP_COLOR = 11447902; // teal
         public const int PO_ITEMS_NEED_BARCODE_COLOR = 8388736; // purple
         public const int PO_ITEMS_IN_HOLDING_COLOR = 12320443; // light green
 
@@ -234,8 +234,8 @@
         public const string INVENTORY_AVAILABLE_FOR_PARTS = "P";
         public const string INVENTORY_AVAILABLE_FOR_VEHICLE = "V";
 
-        public const int INVENTORY_AVAILABLE_FOR_SALE_COLOR = 16728163;  // reddish
-        public const int INVENTORY_AVAILABLE_FOR_PARTS_COLOR = 13004796;  // purplish
+        public const int INVENTORY_AVAILABLE_FOR_SALE_COLOR = 6504703;  // reddish
+        public const int INVENTORY_AVAILABLE_FOR_PARTS_COLOR = 16543686;  // purplish
 
         public const string INVENTORY_STATUS_TYPE_IN = "IN";
         public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
@@ -297,7 +297,7 @@
         public const string CONTAINER_PACKING_LIST_BEHAVIOR_DO_NOTHING = "NONE";
         public const string CONTAINER_STATUS_READY = "READY";
         public const string CONTAINER_STATUS_INCOMPLETE = "INCOMPLETE";
-        public const int CONTAINER_INCOMPLETE_COLOR = 16711684; // red
+        public const int CONTAINER_INCOMPLETE_COLOR = 262399; // red
 
 
         public const string VEHICLE_TYPE_VEHICLE = "VEHICLE";
@@ -325,22 +325,22 @@
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_TAX = "VENDOR INVOICE TAX";
 
         //AVAILABILITY
-        public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 13429759; //aqua
+        public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 16772044; //aqua
         public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0; //black
-        public const int AVAILABILITY_COLOR_NEGATIVE = 16711680; //red
+        public const int AVAILABILITY_COLOR_NEGATIVE = 255; //red
         public const int AVAILABILITY_COLOR_POSITIVE = 1176137; //green
         public const int AVAILABILITY_TEXT_COLOR_NEGATIVE = 16777215; //white
         public const int AVAILABILITY_TEXT_COLOR_POSITIVE = 0; //black
         public const int AVAILABILITY_COLOR_RESERVED = 15132390; //gray
         public const int AVAILABILITY_TEXT_COLOR_RESERVED = 0; //black
-        public const int AVAILABILITY_COLOR_RETURNING = 618726; //blue
+        public const int AVAILABILITY_COLOR_RETURNING = 15101961; //blue
         public const int AVAILABILITY_TEXT_COLOR_RETURNING = 16777215; //white
-        public const int AVAILABILITY_COLOR_NEEDRECALC = 3211473; //dark blue
+        public const int AVAILABILITY_COLOR_NEEDRECALC = 13697073; //dark blue
         public const int AVAILABILITY_TEXT_COLOR_NEEDRECALC = 16777215; //white
         public const int AVAILABILITY_COLOR_HISTORICAL_DATE = 15132390; //gray
         public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0; //black
 
-        public const int AVAILABILITY_COLOR_ORDER = 618726; //blue TEMPORARY
+        public const int AVAILABILITY_COLOR_ORDER = 15101961; //blue TEMPORARY
 
         public const string AVAILABILITY_STATE_STALE = "stale";
         public const string AVAILABILITY_STATE_NEGATIVE = "negative";
@@ -354,19 +354,19 @@
         public const string COMPANY_TYPE_CUSTOMER = "CUSTOMER";
         public const string COMPANY_TYPE_DEAL = "DEAL";
         public const string COMPANY_TYPE_VENDOR = "VENDOR";
-        public const int COMPANY_TYPE_LEAD_COLOR = 16744512; // orange
+        public const int COMPANY_TYPE_LEAD_COLOR = 4227327; // orange
         public const int COMPANY_TYPE_PROSPECT_COLOR = 16711808; //pink/purple
-        public const int COMPANY_TYPE_CUSTOMER_COLOR = 16777088; // light yellow
+        public const int COMPANY_TYPE_CUSTOMER_COLOR = 8454143; // light yellow
         public const int COMPANY_TYPE_DEAL_COLOR = 253498; //deal;
-        public const int COMPANY_TYPE_VENDOR_COLOR = 2144255; //light blue
+        public const int COMPANY_TYPE_VENDOR_COLOR = 16758576; //light blue
 
 
         //GLOBAL
-        public const int NEGATIVE_VARIANCE_COLOR = 16711684; // red
+        public const int NEGATIVE_VARIANCE_COLOR = 262399; // red
 
 
         //STAGING / CHECK-OUT
-        public const int STAGING_PENDING_ITEMS_MISSING_COLOR = 16711684; // red
+        public const int STAGING_PENDING_ITEMS_MISSING_COLOR = 262399; // red
 
 
         //CUSTOM FORM
