@@ -7,8 +7,8 @@ namespace WebApi.Modules.Administrator.AlertCondition
     public class AlertConditionRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "alertid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required:true)]
-        public string AlertId { get; set; }
+        [FwSqlDataField(column: "alertid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
+        public string AlertId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "alertconditionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey:true)]
         public string AlertConditionId { get; set; }
