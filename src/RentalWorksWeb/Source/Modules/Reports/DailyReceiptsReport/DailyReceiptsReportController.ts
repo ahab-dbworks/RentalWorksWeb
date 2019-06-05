@@ -24,6 +24,13 @@ const dailyReceiptsTemplate = `
                 </div>
               </div>
             </div>
+            <div class="flexcolumn" style="max-width:225px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Sort & Total By">
+                  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                    <div data-datafield="SortBy" data-control="FwFormField" data-checkboxlist="persist" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-sortable="true" data-orderby="true" style="float:left;width:500px;margin-top:-2px"></div>
+                  </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -80,6 +87,7 @@ class DailyReceiptsReport extends FwWebApiReport {
 
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+        this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
@@ -99,6 +107,16 @@ class DailyReceiptsReport extends FwWebApiReport {
                 break;
         };
     };
+    //----------------------------------------------------------------------------------------------
+    loadLists($form: JQuery): void {
+        FwFormField.loadItems($form.find('div[data-datafield="SortBy"]'),
+            [
+                { value: "OfficeLocation", text: "Office Location", selected: "T" },
+                { value: "Customer", text: "Customer", selected: "T" },
+                { value: "Deal", text: "Deal", selected: "T" },
+                { value: "PaymentType", text: "Payment Type", selected: "T" },
+            ]);
+    }
     //----------------------------------------------------------------------------------------------
 };
 
