@@ -26,9 +26,6 @@ class SearchInterface {
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
                                 <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="InventoryType" data-type="radio">
                                   <div data-value="R" data-caption="Rental"></div>
-                                  <div data-value="S" data-caption="Sales"></div>
-                                  <div data-value="L" data-caption="Labor"></div>
-                                  <div data-value="M" data-caption="Misc"></div>
                                   <div data-value="P" data-caption="Parts"></div>
                                 </div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
@@ -128,7 +125,7 @@ class SearchInterface {
         let stopDate;
         switch (type) {
             case 'Order':
-            case 'Quote':
+            case 'Request':
                 startDate = FwFormField.getValueByDataField($form, 'EstimatedStartDate');
                 stopDate = FwFormField.getValueByDataField($form, 'EstimatedStopDate');
                 FwFormField.setValueByDataField($popup, 'FromDate', startDate);

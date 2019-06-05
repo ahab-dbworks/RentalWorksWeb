@@ -1,14 +1,16 @@
 routes.push({ pattern: /^module\/quote$/, action: function (match: RegExpExecArray) { return QuoteController.getModuleScreen(); } });
 routes.push({ pattern: /^module\/quote\/(\S+)\/(\S+)/, action: function (match: RegExpExecArray) { var filter = { 'datafield': match[1], 'search': match[2].replace(/%20/g, ' ').replace(/%2f/g, '/') }; return QuoteController.getModuleScreen(filter); } });
 
-class Quote extends OrderBase {
+class Quote {
     Module:             string = 'Quote';
     apiurl:             string = 'api/v1/quote';
-    caption: string = Constants.Modules.Home.Quote.caption;
-	nav: string = Constants.Modules.Home.Quote.nav;
-	id: string = Constants.Modules.Home.Quote.id;
+    caption:            string = Constants.Modules.Home.Quote.caption;
+	nav:                string = Constants.Modules.Home.Quote.nav;
+	id:                 string = Constants.Modules.Home.Quote.id;
     ActiveViewFields:   any    = {};
     ActiveViewFieldsId: string;
+    DefaultOrderType:   string;
+    DefaultOrderTypeId: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var self        = this;
@@ -140,12 +142,12 @@ class Quote extends OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
+            FwFormField.setValueByDataField($form, 'PendingPo', true);
+            FwFormField.setValueByDataField($form, 'PoNumber', 'PENDING');
 
             if (userType === 'CONTACT') {
                 let deal = JSON.parse(sessionStorage.getItem('deal'));
                 FwFormField.setValueByDataField($form, 'DealId', deal.dealid, deal.deal);
-                FwFormField.setValueByDataField($form, 'PendingPo', true);
-                FwFormField.setValueByDataField($form, 'PoNumber', 'PENDING');
             }
         }
 
@@ -197,7 +199,7 @@ class Quote extends OrderBase {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else if (!jQuery(this).hasClass('disabled')) {
                     let search = new SearchInterface();
-                    search.renderSearchPopup($form, orderId, self.Module);
+                    search.renderSearchPopup($form, orderId, 'Request');
                 }
             }
             catch (ex) {
@@ -237,17 +239,6 @@ class Quote extends OrderBase {
         var $form = this.openForm('EDIT', uniqueids);
         $form.find('div.fwformfield[data-datafield="QuoteId"] input').val(uniqueids.QuoteId);
         FwModule.loadForm(this.Module, $form);
-
-        let userType = sessionStorage.getItem('userType');
-        if (userType === 'CONTACT') {
-            let PoNumber = FwFormField.getValueByDataField($form, 'PoNumber');
-            if (PoNumber === '' || PoNumber === 'PENDING') {
-                FwFormField.setValueByDataField($form, 'PendingPo', true);
-                FwFormField.setValueByDataField($form, 'PoNumber', 'PENDING');
-            } else {
-                FwFormField.setValueByDataField($form, 'PendingPo', false);
-            }
-        }
 
         return $form;
     }
@@ -362,8 +353,19 @@ class Quote extends OrderBase {
             var $no           = FwConfirmation.addButton($confirmation, 'No');
 
             $yes.on('click', function () {
-                FwFormField.setValueByDataField($form, 'Status', 'ACTIVE');
-                self.saveForm($form, { closetab: false });
+                let quoteId       = FwFormField.getValueByDataField($form, 'QuoteId');
+
+                FwAppData.apiMethod(true, 'POST', `api/v1/quote/activatequoterequest/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwNotification.renderNotification('SUCCESS', 'Request Activated.');
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    let uniqueids: any = {
+                        QuoteId: response.QuoteId
+                    };
+                    var $quoteform = QuoteController.loadForm(uniqueids);
+                    FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+
+                    FwModule.refreshForm($form, QuoteController);
+                }, null, $confirmation);
             });
         }
 
@@ -453,6 +455,9 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CopyQu
         html.push('    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="RequestDescription" data-enabled="false" style="width:340px;float:left;"></div>');
         html.push('  </div>');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push('    <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="New Deal" data-datafield="CopyToDealId" data-browsedisplayfield="Deal" data-validationname="DealValidation"></div>');
+        html.push('  </div>');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Dates" data-datafield="CopyDates"></div>');
         html.push('    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Copy Line Item Notes" data-datafield="CopyLineItemNotes"></div>');
         html.push('  </div>');
@@ -517,7 +522,7 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Search
         FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
     } else {
         search = new SearchInterface();
-        search.renderSearchPopup($form, quoteId, 'Quote');
+        search.renderSearchPopup($form, quoteId, 'Request');
     }
 };
 //----------------------------------------------------------------------------------------------
@@ -630,26 +635,32 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Cancel
 //----------------------------------------------------------------------------------------------
 //Create Order
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CreateOrder.id] = function (event) {
-    let $form         = jQuery(this).closest('.fwform');
-    let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
-    var $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Request ${quoteNumber}?</div>`);
-    var $yes          = FwConfirmation.addButton($confirmation, 'Create Order', false);
-    var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+    let $form  = jQuery(this).closest('.fwform');
+    let status = FwFormField.getValueByDataField($form, 'Status');
+    
+    if (status === 'ACTIVE') {
+        let $quoteTab     = jQuery('#' + $form.closest('.tabpage').attr('data-tabid'));
+        let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
+        var $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Request ${quoteNumber}?</div>`);
+        var $yes          = FwConfirmation.addButton($confirmation, 'Create Order');
+        var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
 
-    $yes.on('click', function () {
-        var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-        FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-            FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
-            FwConfirmation.destroyConfirmation($confirmation);
-            let uniqueids: any = {
-                OrderId: response.OrderId
-            };
-            var $orderform = OrderController.loadForm(uniqueids);
-            FwModule.openModuleTab($orderform, "", true, 'FORM', true);
-
-            FwModule.refreshForm($form, QuoteController);
-        }, null, $confirmation);
-    });
+        $yes.on('click', function () {
+            var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/quote/createorder/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwTabs.removeTab($quoteTab);
+                let uniqueids: any = {
+                    OrderId: response.OrderId
+                };
+                var $orderform = OrderController.loadForm(uniqueids);
+                FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+                FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
+            }, null, $confirmation);
+        });
+    } else {
+        FwNotification.renderNotification('WARNING', 'Can only convert an "Active" request to an order!');
+    }
 };
 //----------------------------------------------------------------------------------------------
 //Cancel / Uncancel - Browse

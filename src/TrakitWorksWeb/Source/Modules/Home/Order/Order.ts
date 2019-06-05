@@ -12,6 +12,8 @@ class Order extends OrderBase {
     errorSoundFileName:   string;
     ActiveViewFields:     any = {};
     ActiveViewFieldsId:   string;
+    DefaultOrderType:     string;
+    DefaultOrderTypeId:   string;
     //-----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: any) {
         const screen: any = {};
@@ -141,9 +143,6 @@ class Order extends OrderBase {
 
         this.events($form);
         this.getSoundUrls($form);
-        if (typeof parentModuleInfo !== 'undefined' && mode !== 'NEW') {
-            this.dynamicColumns($form, parentModuleInfo.OrderTypeId);
-        }
 
         if (mode === 'NEW') {
             const today = FwFunc.getDate();
@@ -392,7 +391,9 @@ class Order extends OrderBase {
         let status        = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes      = FwFormField.getValueByDataField($form, 'HasNotes');
         let rentalTab     = $form.find('.rentaltab'),
-            lossDamageTab = $form.find('.lossdamagetab')
+            lossDamageTab = $form.find('.lossdamagetab');
+
+        this.dynamicColumns($form);
 
         if (status === 'CLOSED' || status === 'CANCELLED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
@@ -605,6 +606,9 @@ class Order extends OrderBase {
                         }
                         break;
                 }
+            })
+            .on('change', 'div[data-datafield="OrderTypeId"]', event => {
+                this.dynamicColumns($form);
             })
         ;
     }
@@ -929,10 +933,6 @@ class Order extends OrderBase {
                 FwModule.refreshForm($form, OrderController);
                 }, $form);
         }
-    }
-    //----------------------------------------------------------------------------------------------
-    afterSave($form) {
-        this.dynamicColumns($form, FwFormField.getValueByDataField($form, 'OrderTypeId'));
     }
     //----------------------------------------------------------------------------------------------
     beforeValidateOutShipVia($browse: any, $form: any, request: any) {

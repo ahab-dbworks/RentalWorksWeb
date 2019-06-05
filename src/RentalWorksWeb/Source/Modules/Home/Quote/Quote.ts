@@ -1449,41 +1449,33 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Cancel
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CreateOrder.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
-        let quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
-        var $confirmation, $yes, $no;
+        let $form  = jQuery(this).closest('.fwform');
+        let status = FwFormField.getValueByDataField($form, 'Status');
 
-        $confirmation = FwConfirmation.renderConfirmation('Create Order', '');
-        $confirmation.find('.fwconfirmationbox').css('width', '450px');
-        var html = [];
-        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
-        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push('    <div>Create Order for Quote ' + quoteNumber + '?</div>');
-        html.push('  </div>');
-        html.push('</div>');
+        if (status === 'ACTIVE') {
+            let $quoteTab     = jQuery('#' + $form.closest('.tabpage').attr('data-tabid'));
+            let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
+            var $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Quote ${quoteNumber}?</div>`);
+            var $yes          = FwConfirmation.addButton($confirmation, 'Create Order', false);
+            var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
 
-        FwConfirmation.addControls($confirmation, html.join(''));
-
-        $yes = FwConfirmation.addButton($confirmation, 'Create Order', false);
-        $no = FwConfirmation.addButton($confirmation, 'Cancel');
-
-        $yes.on('click', createOrder);
-        var $confirmationbox = jQuery('.fwconfirmationbox');
-        function createOrder() {
-            var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
-            FwAppData.apiMethod(true, 'POST', "api/v1/quote/createorder/" + quoteId, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
-                FwConfirmation.destroyConfirmation($confirmation);
-                let uniqueids: any = {};
-                uniqueids.OrderId = response.OrderId;
-                var $orderform = OrderController.loadForm(uniqueids);
-                FwModule.openModuleTab($orderform, "", true, 'FORM', true);
-
-                FwModule.refreshForm($form, QuoteController);
-            }, null, $confirmationbox);
-        }   
-    }
-    catch (ex) {
+            $yes.on('click', function () {
+                var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');
+                FwAppData.apiMethod(true, 'POST', "api/v1/quote/createorder/" + quoteId, null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    FwTabs.removeTab($quoteTab);
+                    let uniqueids: any = {
+                        OrderId: response.OrderId
+                    };
+                    var $orderform = OrderController.loadForm(uniqueids);
+                    FwModule.openModuleTab($orderform, "", true, 'FORM', true);
+                    FwNotification.renderNotification('SUCCESS', 'Order Successfully Created.');
+                }, null, $confirmation);
+            });
+        } else {
+            FwNotification.renderNotification('WARNING', 'Can only convert an "Active" quote to an order!');
+        }
+    } catch (ex) {
         FwFunc.showError(ex);
     }
 };

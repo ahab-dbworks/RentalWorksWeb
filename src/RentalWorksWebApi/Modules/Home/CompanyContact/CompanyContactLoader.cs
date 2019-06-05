@@ -124,14 +124,14 @@ namespace WebApi.Modules.Home.CompanyContact
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            if (this.UserSession.UserType == "USER")
-            {
-                addFilterToSelect("CompanyId", "companyid", select, request);
-                addFilterToSelect("ContactId", "contactid", select, request);
 
-                AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
-            }
-            else if (this.UserSession.UserType == "CONTACT")
+            addFilterToSelect("CompanyType", "companytype", select, request);
+            addFilterToSelect("CompanyId", "companyid", select, request);
+            addFilterToSelect("ContactId", "contactid", select, request);
+
+            AddActiveViewFieldToSelect("CompanyType", "companytype", select, request);
+
+            if (this.UserSession.UserType == "CONTACT")
             {
                 select.AddWhere("contactid = @contactid");
                 select.AddParameter("@contactid", this.UserSession.ContactId);
