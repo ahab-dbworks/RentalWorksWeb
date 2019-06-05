@@ -232,7 +232,7 @@ namespace WebApi.Modules.Home.Invoice
         public int? Vendorsplitrate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "wano", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 10)]
-        public string WaNo { get; set; }
+        public string WorkAuthorizationNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoicegrosstotal", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 19, scale: 2)]
         public decimal? InvoiceGrossTotal { get; set; }

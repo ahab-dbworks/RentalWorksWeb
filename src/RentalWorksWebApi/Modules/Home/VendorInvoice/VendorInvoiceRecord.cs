@@ -132,7 +132,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         public bool? OrbitSapType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "wano", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 10)]
-        public string WaNo { get; set; }
+        public string WorkAuthorizationNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "paymentrequestno", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 30)]
         public string PaymentRequestNumber { get; set; }

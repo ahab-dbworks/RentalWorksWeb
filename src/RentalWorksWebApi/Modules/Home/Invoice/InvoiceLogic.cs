@@ -108,7 +108,7 @@ namespace WebApi.Modules.Home.Invoice
         public string PurchaseOrderNumber { get; set; }
 
         [FwLogicProperty(Id:"gbjEsq2kr1wh")]
-        public string WaNo { get { return invoice.WaNo; } set { invoice.WaNo = value; } }
+        public string WorkAuthorizationNumber { get { return invoice.WorkAuthorizationNumber; } set { invoice.WorkAuthorizationNumber = value; } }
 
         [FwLogicProperty(Id:"ru1fRazQa3dV", DisableDirectModify: true)]
         public string Status { get { return invoice.Status; } set { invoice.Status = value; } }
