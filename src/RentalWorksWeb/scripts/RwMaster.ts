@@ -83,7 +83,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.VendorInvoice
                 ]
             };
-            this.navigation.push();
+            this.navigation.push(menuBilling);
 
             // Utilities Menu
             let menuUtilities = {
