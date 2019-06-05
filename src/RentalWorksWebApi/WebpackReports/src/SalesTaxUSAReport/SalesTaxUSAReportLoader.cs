@@ -14,26 +14,14 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
     public class SalesTaxUSAReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
         public string RowType { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "sessionid", modeltype: FwDataTypes.Text)]
-        public string SessionId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
-        public string InvoiceId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
-        public string DepartmentId { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
-        public string Department { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "taxoptionid", modeltype: FwDataTypes.Text)]
         public string TaxOptionId { get; set; }
@@ -41,11 +29,20 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         [FwSqlDataField(column: "taxoption", modeltype: FwDataTypes.Text)]
         public string TaxOption { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "departmentid", modeltype: FwDataTypes.Text)]
+        public string DepartmentId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "department", modeltype: FwDataTypes.Text)]
+        public string Department { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deal", modeltype: FwDataTypes.Text)]
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "invoiceid", modeltype: FwDataTypes.Text)]
+        public string InvoiceId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invoiceno", modeltype: FwDataTypes.Text)]
         public string InvoiceNumber { get; set; }
@@ -170,27 +167,8 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         [FwSqlDataField(column: "pst", modeltype: FwDataTypes.Decimal)]
         public decimal? Pst { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
-        public int? Id { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
-        public string Rowtype { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime)]
-        public string DateStamp { get; set; }
-        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(SalesTaxUSAReportRequest request)
         {
-            string dateField = "invoicedate";
-            if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
-            {
-                dateField = "billingstart";
-            }
-            else if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_INPUT_DATE))
-            {
-                dateField = "inputdate";
-            }
-
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
@@ -198,10 +176,10 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@datetype", SqlDbType.Text, ParameterDirection.Input, dateField);
+                    qry.AddParameter("@datetype", SqlDbType.Text, ParameterDirection.Input, request.DateType);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
-                    qry.AddParameter("@statuses", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
+                    qry.AddParameter("@invoicestatus", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
 
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
