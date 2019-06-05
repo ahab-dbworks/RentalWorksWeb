@@ -5,7 +5,7 @@
 });
 
 const dailyReceiptsTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Daily Receipts" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="InvoiceSummaryReportController">
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Daily Receipts" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="DailyReceiptsReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
