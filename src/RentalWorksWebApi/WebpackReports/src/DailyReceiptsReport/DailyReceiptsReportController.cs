@@ -21,6 +21,7 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
         public string CustomerId { get; set; }
         public string DealId { get; set; }
         public string PaymentTypeId { get; set; }
+        public CheckBoxListItems SortBy { get; set; } = new CheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

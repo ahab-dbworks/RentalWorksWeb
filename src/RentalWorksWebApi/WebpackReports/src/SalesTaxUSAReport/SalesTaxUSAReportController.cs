@@ -18,8 +18,6 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public string DateType { get; set; }
-        public bool? IncludeNoCharge { get; set; }
-        // for office/transaction reports 
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public SelectedCheckBoxListItems Statuses { get; set; } = new SelectedCheckBoxListItems();

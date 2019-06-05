@@ -62,13 +62,13 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         [FwSqlDataField(column: "invoicetotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? InvoiceTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentalrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "rentalrate", modeltype: FwDataTypes.Percentage)]
         public decimal? RentalRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "salesrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "salesrate", modeltype: FwDataTypes.Percentage)]
         public decimal? SalesRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "laborrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        [FwSqlDataField(column: "laborrate", modeltype: FwDataTypes.Percentage)]
         public decimal? LaborRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "status", modeltype: FwDataTypes.Text)]
@@ -95,31 +95,31 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         [FwSqlDataField(column: "taxcountry", modeltype: FwDataTypes.Text)]
         public string TaxCountry { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "totalrental", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "totalrental", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TotalRental { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxablerental", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "taxablerental", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TaxableRental { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nontaxablerental", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "nontaxablerental", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? NontaxableRental { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentaltax1", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "rentaltax1", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? RentalTax1 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentaltax2", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "rentaltax2", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? RentalTax2 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rentaltax", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "rentaltax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? RentalTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "totalsales", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "totalsales", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TotalSales { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxablesales", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "taxablesales", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TaxableSales { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nontaxablesales", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "nontaxablesales", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? NontaxableSales { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "salestax1", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
@@ -131,13 +131,13 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         [FwSqlDataField(column: "salestax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? SalesTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "totallabor", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "totallabor", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TotalLabor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxablelabor", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "taxablelabor", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TaxableLabor { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "nontaxablelabor", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "nontaxablelabor", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? NontaxableLabor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "labortax1", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
@@ -203,7 +203,6 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
                     qry.AddParameter("@statuses", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
 
-
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
@@ -211,9 +210,10 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
+                string[] totalFields = new string[] { "TotalRental", "TaxableRental", "NontaxableRental", "RentalTax", "TotalSales", "TaxableSales", "NontaxableSales", "SalesTax", "TotalLabor", "TaxableLabor", "NontaxableLabor", "LaborTax", "TotalTax" };
+                string[] headerFieldsTaxRate = new string[] { "RentalRate", "SalesRate", "LaborRate" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-                dt.InsertSubTotalRows("TaxOption", "RowType", totalFields);
+                dt.InsertSubTotalRows("TaxOption", "RowType", totalFields, headerFieldsTaxRate, totalFor: "Total for Tax Option");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
