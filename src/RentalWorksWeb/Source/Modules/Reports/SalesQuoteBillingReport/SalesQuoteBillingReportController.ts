@@ -24,6 +24,16 @@ const salesQuoteBillingTemplate = `
                 </div>
               </div>
             </div>
+           <div class="flexcolumn" style="max-width:200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter By Date">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-caption="" data-datafield="DateType" style="float:left;max-width:200px;">
+                    <div data-value="ShipDate" data-caption="Quote Ship Date"></div>
+                    <div data-value="CreateDate" data-caption="Quote Create Date"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
