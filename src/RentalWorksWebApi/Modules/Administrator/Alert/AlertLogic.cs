@@ -12,13 +12,13 @@ namespace WebApi.Modules.Administrator.Alert
             dataRecords.Add(alert);
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "6c9PL4mHxpfO ")]
+        [FwLogicProperty(Id: "6c9PL4mHxpfO", IsPrimaryKey:true)]
         public string AlertId { get { return alert.AlertId; } set { alert.AlertId = value; } }
-        [FwLogicProperty(Id: "QlcNGC0VsxNE ")]
+        [FwLogicProperty(Id: "QlcNGC0VsxNE", IsRecordTitle:true)]
         public string AlertName { get { return alert.AlertName; } set { alert.AlertName = value; } }
-        [FwLogicProperty(Id: "iL9L6gQI0Bh6 ")]
+        [FwLogicProperty(Id: "iL9L6gQI0Bh6")]
         public string ModuleName { get { return alert.ModuleName; } set { alert.ModuleName = value; } }
-        [FwLogicProperty(Id: "bOJyRGKEFtWo ")]
+        [FwLogicProperty(Id: "bOJyRGKEFtWo")]
         public bool? Inactive { get { return alert.Inactive; } set { alert.Inactive = value; } }
         [FwLogicProperty(Id: "d3w1qNkDKUVBP")]
         public string DateStamp { get { return alert.DateStamp; } set { alert.DateStamp = value; } }

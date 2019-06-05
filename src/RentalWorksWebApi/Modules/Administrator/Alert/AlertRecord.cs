@@ -7,7 +7,7 @@ namespace WebApi.Modules.Administrator.Alert
     public class AlertRecord : AppDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "alertid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
+        [FwSqlDataField(column: "alertid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey:true)]
         public string AlertId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "alertname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
