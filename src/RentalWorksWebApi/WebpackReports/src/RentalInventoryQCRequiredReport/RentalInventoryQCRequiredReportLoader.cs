@@ -46,7 +46,7 @@ namespace WebApi.Modules.Reports.RentalInventoryQCRequiredReport
         public string BarCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "mfgserial", modeltype: FwDataTypes.Text)]
-        public string MfgSerial { get; set; }
+        public string SerialNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rfid", modeltype: FwDataTypes.Text)]
         public string RfId { get; set; }
