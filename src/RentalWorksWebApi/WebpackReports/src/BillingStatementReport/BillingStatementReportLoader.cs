@@ -84,10 +84,10 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         [FwSqlDataField(column: "due", modeltype: FwDataTypes.Decimal)]
         public decimal? Due { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "received", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "received", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Received { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "remaining", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "remaining", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Remaining { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pmtdate", modeltype: FwDataTypes.Date)]
@@ -96,7 +96,7 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         [FwSqlDataField(column: "pmtdesc", modeltype: FwDataTypes.Text)]
         public string PaymentDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "pmtamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PaymentAmount { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "arrectype", modeltype: FwDataTypes.Text)]
