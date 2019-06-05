@@ -115,14 +115,12 @@ class Alert {
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.getFields($form);
-
-
+        this.events($form);
         return $form;
     }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
-        var $form;
-
+        let $form;
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="AlertId"] input').val(uniqueids.AlertId);
         FwModule.loadForm(this.Module, $form);
@@ -132,71 +130,89 @@ class Alert {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
+
+        const $conditions = $form.find('.conditions');
+        const alertId = FwFormField.getValueByDataField($form, 'AlertId')
+        for (let i = 0; i < $conditions.length; i++) {
+            let request: any = {};
+            const $this = jQuery($conditions[i]);
+            request = {
+                AlertId: alertId
+                , FieldName: FwFormField.getValue2($this.find('[data-datafield="FieldName"]'))
+                , Condition: FwFormField.getValue2($this.find('[data-datafield="Condition"]'))
+                , Value: FwFormField.getValue2($this.find('[data-datafield="Value"]'))
+            };
+            FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition`, request, FwServices.defaultTimeout,
+                response => { },
+                ex => FwFunc.showError(ex),
+                $form);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    events($form) {
+        //load condition types based on datafield's datatype
+        $form.on('change', '.fields', e => {
+            const $this = jQuery(e.currentTarget);
+            const $conditionTypeSelect = $this.closest('.conditions').find('[data-datafield="Condition"]');
+            const dataType = $this.find(':selected').attr('data-datatype');
+
+            if (dataType === 'Integer' || dataType === 'Decimal' || dataType === 'Date') {
+                FwFormField.loadItems($conditionTypeSelect, [
+                    { value: 'CONTAINS', text: 'CONTAINS', selected: 'F' },
+                    { value: 'CHANGEDBY', text: 'CHANGED BY', selected: 'T' }
+                ], true);
+            } else {
+                FwFormField.loadItems($conditionTypeSelect, [
+                    { value: 'CONTAINS', text: 'CONTAINS', selected: 'T' }
+                ], true);
+            }
+        });
+
+        //add condition fields
+        const $conditionSection = $form.find('.conditions').parent();
+        $form.on('click', 'i.add-condition', e => {
+            let $conditionRow = jQuery(`
+              <div class="flexrow conditions">
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fields" data-caption="Data Field" data-datafield="FieldName" data-allcaps="false" style="flex:1 1 0; max-width:250px;"></div>
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition Type" data-datafield="ConditionType" style="flex:1 1 0; max-width:250px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ConditionValue" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-required="true"></div>
+                <div style="width:80px;">
+                    <i class="material-icons delete-condition" style="cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
+                    <i class="material-icons add-condition" style="cursor:pointer; margin:23px 0px 0px 10px;">add_circle_outline</i>
+                </div>
+              </div>`);
+            FwControl.renderRuntimeControls($conditionRow.find('.fwcontrol'));
+            $conditionSection.append($conditionRow);
+        });
+        //delete condition
+        $form.on('click', 'i.delete-condition', e => {
+            const $this = jQuery(e.currentTarget);
+            const $conditionRow = $this.closest('.conditions');
+            $form.find($conditionRow).remove();
+        });
     }
     //----------------------------------------------------------------------------------------------
     getFields($form: JQuery): void {
-        let self = this;
-        $form.find('div.modules').on("change", function () {
-            let moduleUrl, request;
-            moduleUrl = jQuery(this).find(':selected').attr('data-apiurl');
+        $form.find('div.modules').on("change", e => {
+            const moduleUrl = jQuery(e.currentTarget).find(':selected').attr('data-apiurl');
+            FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, null, FwServices.defaultTimeout,
+                response => {
+                    let customFields;
+                    let fieldsList = response._Fields;
+                    const $datafield = $form.find('[data-datafield="FieldName"]');
 
-            FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                let fieldsList = response._Fields;
-                let customFields;
+                    fieldsList = fieldsList
+                        .filter(obj => { return obj.Name != 'DateStamp' })
+                        .map(obj => { return { 'value': obj.Name, 'text': obj.Name, 'datatype': obj.DataType } });
 
-                if (response._Custom.length > 0) {
-                    customFields = response._Custom.map(obj => { return { 'Name': obj.FieldName, 'DataType': obj.FieldType } })
-                    jQuery.merge(fieldsList, customFields);
-                }
-                fieldsList = fieldsList.sort(self.compare);
-
-                let fieldsHtml = [];
-                let $fields = $form.find('.fields');
-                for (var i = 0; i < fieldsList.length; i++) {
-                    let field = fieldsList[i];
-                    if (field.Name != 'DateStamp' && field.Name != 'RecordTitle' && field.Name != '_Custom' && field.Name != '_Fields') {
-                        let uniqueId = FwApplication.prototype.uniqueId(10);
-                        fieldsHtml.push(`<div data-control="FwFormField"
-                                data-iscustomfield="${typeof customFields == "undefined" ? false : customFields.indexOf(fieldsList[i]) === -1 ? false : true }"
-                                data-type="checkbox"
-                                class="fwcontrol fwformfield check SystemRuleTRUE"
-                                data-enabled="true"
-                                data-caption="${field.Name}"
-                                data-value="${field.Name}"
-                                style="float:left;width:320px; padding: 10px 0px;">
-                                <input id="${uniqueId}" class="fwformfield-control fwformfield-value" type="checkbox" data-fieldtype="${field.DataType}" name="${field.Name}"/>
-                                <label class="fwformfield-caption" for="${uniqueId}">${field.Name}</label>
-                                </div>
-                       `);
+                    if (response._Custom.length > 0) {
+                        customFields = response._Custom.map(obj => { return { 'value': obj.FieldName, 'text': obj.FieldName, 'datatype': obj.FieldType } })
+                        jQuery.merge(fieldsList, customFields);
                     }
-                }
-                $fields.empty().append(fieldsHtml.join('')).html();
-
-                let fields = FwFormField.getValueByDataField($form, 'Fields');
-                fields = fields.split(",");
-                let fieldTypes = FwFormField.getValueByDataField($form, 'FieldTypes');
-                fieldTypes = fieldTypes.split(",");
-
-                jQuery.each(fields, function (i, val) {
-                    jQuery(`input[name="${val}"]`).prop("checked", true)
-                });
-
-                $form.on('change', '[type="checkbox"]', e => {
-                    let $this = jQuery(e.currentTarget);
-                    let field = $this.attr('name');
-                    let fieldType = $this.attr('data-fieldtype');
-                    let index = fields.indexOf(field);
-                    if (index === -1) {
-                        fields.push(field);
-                        fieldTypes.push(fieldType);
-                    } else {
-                        fields.splice(index, 1);
-                        fieldTypes.splice(index, 1);
-                    }
-                    FwFormField.setValueByDataField($form, 'Fields', fields.join(","));
-                    FwFormField.setValueByDataField($form, 'FieldTypes', fieldTypes.join(","));
-                });
-            }, null, $form);
+                    fieldsList = fieldsList.sort(this.compare);
+                    FwFormField.loadItems($datafield, fieldsList);
+                },
+                ex => FwFunc.showError(ex), $form);
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -206,9 +222,6 @@ class Alert {
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         $form.find('div.modules').change();
-        if (FwFormField.getValueByDataField($form, 'SystemRule') === 'true') {
-            FwFormField.toggle($form.find('.SystemRuleTRUE'), false);
-        }
 
         //set form as unmodified after saving
         const $tabpage = $form.parent();
