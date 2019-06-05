@@ -10,6 +10,7 @@
     },
     Modules: {
         Administrator: {
+            Alert: { id: '6E5F47FB-1F18-443E-B464-9D2351857361', caption: 'Alerts', nav: 'module/alert' },
             Control: { id: 'B3ADDF49-64EB-4740-AB41-4327E6E56242', caption: 'Control', nav: 'module/control' },
             CustomField: { id: 'C98C4CB4-2036-4D70-BC29-8F5A2874B178', caption: 'Custom Fields', nav: 'module/customfield' },
             CustomForm: { id: 'CB2EF8FF-2E8D-4AD0-B880-07037B839C5E', caption: 'Custom Forms', nav: 'module/customform' },
