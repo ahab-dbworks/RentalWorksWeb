@@ -24,6 +24,14 @@ const GLDistributionTemplate = `
                 </div>
               </div>
             </div>
+            <div class="flexcolumn" style="max-width:400px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
+                <div data-datafield="Summary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                  <div data-value="true" data-caption="Summary View"></div>
+                  <div data-value="false" data-caption="Detail View"></div>
+                </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -31,6 +39,9 @@ const GLDistributionTemplate = `
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="GL Account" data-datafield="GlAccountId" data-displayfield="GlAccountDescription" data-validationname="GlAccountValidation" style="float:left;min-width:400px;"></div>
+                </div>
+               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" style="min-width:400px;"></div>
                 </div>
               </div>
             </div>
