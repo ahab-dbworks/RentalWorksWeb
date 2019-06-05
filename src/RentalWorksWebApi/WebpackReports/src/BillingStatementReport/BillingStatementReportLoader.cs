@@ -8,21 +8,17 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.BillingStatementReport
 {
-    [FwSqlTable("tmpreporttable")]
     public class BillingStatementReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
         public string RowType { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
-        public int? Id { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
-        public string Location { get; set; }
+        public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
@@ -73,7 +69,7 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         public string PurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "wano", modeltype: FwDataTypes.Text)]
-        public string WarehouseNumber { get; set; }
+        public string WorkAuthorizationNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderno", modeltype: FwDataTypes.Text)]
         public string OrderNumber { get; set; }
@@ -81,7 +77,7 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         [FwSqlDataField(column: "invoicedesc", modeltype: FwDataTypes.Text)]
         public string InvoiceDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "due", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "due", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Due { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "received", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
@@ -132,7 +128,7 @@ namespace WebApi.Modules.Reports.BillingStatementReport
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
-                    qry.AddParameter("@includenocharge", SqlDbType.Text, ParameterDirection.Input, request.IncludeNoCharge.GetValueOrDefault(false)?"T":"F");
+                    qry.AddParameter("@includenocharge", SqlDbType.Text, ParameterDirection.Input, request.IncludeNoCharge.GetValueOrDefault(false) ? "T" : "F");
                     qry.AddParameter("@includepaid", SqlDbType.Text, ParameterDirection.Input, request.IncludePaidInvoices.GetValueOrDefault(false) ? "T" : "F");
                     qry.AddParameter("@includezerobalance", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroBalance.GetValueOrDefault(false) ? "T" : "F");
                     qry.AddParameter("@paymentsthroughtoday", SqlDbType.Text, ParameterDirection.Input, request.PaymentsThroughToday.GetValueOrDefault(false) ? "T" : "F");
@@ -147,9 +143,9 @@ namespace WebApi.Modules.Reports.BillingStatementReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-                dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                string[] totalFields = new string[] { "Due", "Received", "Remaining" };
+                dt.InsertSubTotalRows("DealId", "RowType", totalFields);
+                dt.InsertSubTotalRows("InvoiceId", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
