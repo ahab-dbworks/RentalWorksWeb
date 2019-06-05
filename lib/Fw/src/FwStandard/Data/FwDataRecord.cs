@@ -35,7 +35,6 @@ namespace FwStandard.DataLayer
         public FwApplicationConfig AppConfig { get; set; }
         public FwCustomValues _Custom = new FwCustomValues(); // for mapping back to BusinessLogic class
         protected bool useWithNoLock = true;
-        //private string tableAlias = "t";
 
         [JsonIgnore]
         public bool ForceSave { get; set; } = false;
@@ -78,16 +77,25 @@ namespace FwStandard.DataLayer
                 //return this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
                 //justin 09/25/2018 make sure the Table attribute is defined before reading the value
                 string tableName = null;
-                FwSqlTableAttribute tableAttribute = (FwSqlTableAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(FwSqlTableAttribute));
-                if (tableAttribute != null)
+                if (!string.IsNullOrEmpty(OverrideTableName))
                 {
-                    tableName = this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
+                    tableName = OverrideTableName;
+                }
+                else
+                {
+                    FwSqlTableAttribute tableAttribute = (FwSqlTableAttribute)Attribute.GetCustomAttribute(this.GetType(), typeof(FwSqlTableAttribute));
+                    if (tableAttribute != null)
+                    {
+                        tableName = this.GetType().GetTypeInfo().GetCustomAttribute<FwSqlTableAttribute>().Table;
+                    }
                 }
                 return tableName;
             }
         }
         //------------------------------------------------------------------------------------
         protected string TableAlias { get; set; } = "t";
+        //------------------------------------------------------------------------------------
+        protected string OverrideTableName { get; set; } = "";
         //------------------------------------------------------------------------------------
         protected virtual int PrimaryKeyCount
         {
