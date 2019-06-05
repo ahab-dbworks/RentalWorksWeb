@@ -20,7 +20,7 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         public bool? IncludeNoCharge { get; set; }
         public bool? IncludePaidInvoices { get; set; }
         public bool? IncludeZeroBalance { get; set; }
-        public bool? ReduceBalance { get; set; }
+        public bool? PaymentsThroughToday { get; set; }
         public string OfficeLocationId { get; set; }
         public string DealStatusId { get; set; }
         public string DealTypeId { get; set; }

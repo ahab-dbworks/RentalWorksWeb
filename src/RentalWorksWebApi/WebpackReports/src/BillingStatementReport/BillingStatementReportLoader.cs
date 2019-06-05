@@ -133,27 +133,13 @@ namespace WebApi.Modules.Reports.BillingStatementReport
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@includenocharge", SqlDbType.Text, ParameterDirection.Input, request.IncludeNoCharge.GetValueOrDefault(false)?"T":"F");
+                    qry.AddParameter("@includepaid", SqlDbType.Text, ParameterDirection.Input, request.IncludePaidInvoices.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@includezerobalance", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroBalance.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@paymentsthroughtoday", SqlDbType.Text, ParameterDirection.Input, request.PaymentsThroughToday.GetValueOrDefault(false) ? "T" : "F");
                     qry.AddParameter("@dealstatusid", SqlDbType.Text, ParameterDirection.Input, request.DealStatusId);
                     qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, request.DealTypeId);
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
-
-                    if (!request.IncludeNoCharge.GetValueOrDefault(false))
-                    {
-                       
-                    }
-                    if (!request.IncludePaidInvoices.GetValueOrDefault(false))
-                    {
-
-                    }
-                    if (!request.IncludeZeroBalance.GetValueOrDefault(false))
-                    {
-
-                    }
-                    if (!request.ReduceBalance.GetValueOrDefault(false))
-                    {
-
-                    }
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }

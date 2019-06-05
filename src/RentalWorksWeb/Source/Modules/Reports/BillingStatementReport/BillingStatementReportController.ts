@@ -36,7 +36,7 @@ const billingStatmentTemplate = `
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Zero Balance" data-datafield="IncludeZeroBalance" data-required="true" style="float:left;max-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Payments after 'To' date will reduce balance" data-datafield="ReduceBalance" data-required="true" style="float:left;max-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Payments after 'To' date will reduce balance" data-datafield="PaymentsThroughToday" data-required="true" style="float:left;max-width:400px;"></div>
                 </div>
               </div>
             </div>
