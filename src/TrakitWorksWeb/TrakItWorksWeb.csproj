@@ -331,6 +331,8 @@
     <Content Include="Source\Modules\Settings\Unit\UnitBrowse.htm" />
     <Content Include="Source\Modules\Settings\Unit\UnitForm.htm" />
     <Content Include="Source\Modules\Settings\UserSettings\UserSettingsForm.htm" />
+    <Content Include="Source\Modules\Settings\VendorClass\VendorClassBrowse.htm" />
+    <Content Include="Source\Modules\Settings\VendorClass\VendorClassForm.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseBrowse.htm" />
     <Content Include="Source\Modules\Settings\Warehouse\WarehouseForm.htm" />
     <Content Include="Source\Modules\Utilities\DashboardSettings\DashboardSettingsForm.htm" />
@@ -374,6 +376,7 @@
     <Content Include="Source\Validations\PartsCategoryValidation\PartsCategoryValidationBrowse.htm" />
     <Content Include="Source\Validations\PaymentTermsValidation\PaymentTermsValidationBrowse.htm" />
     <Content Include="Source\Validations\PaymentTypeValidation\PaymentTypeValidationBrowse.htm" />
+    <Content Include="Source\Validations\PersonValidation\PersonValidationBrowse.htm" />
     <Content Include="Source\Validations\POClassificationValidation\POClassificationValidationBrowse.htm" />
     <Content Include="Source\Validations\POTypeValidation\POTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\ProductionTypeValidation\ProductionTypeValidationBrowse.htm" />
@@ -630,6 +633,7 @@
     <TypeScriptCompile Include="Source\Modules\Settings\State\State.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Unit\Unit.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\UserSettings\UserSettings.ts" />
+    <TypeScriptCompile Include="Source\Modules\Settings\VendorClass\VendorClass.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\Warehouse\Warehouse.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\Dashboard\Dashboard.ts" />

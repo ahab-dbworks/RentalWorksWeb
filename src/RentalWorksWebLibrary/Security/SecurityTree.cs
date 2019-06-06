@@ -669,7 +669,8 @@ namespace WebLibrary.Security
                                            AddSettingsModule("Repair Item Status",  "{7D08F487-C6D7-4C54-ACA1-4C4A1AD27188}", lv1menuSettings.Id,          "RepairItemStatusController",   description: "");
                                            AddSettingsModule("Ship Via",            "{86FB4938-CD09-4898-BCEC-5E209879201A}", lv1menuSettings.Id,          "ShipViaController",            description: "");
             var lv2menuVendorSettings    = AddSettingsMenu("Vendor Settings",     "{A0FE5063-A7BB-489D-83FE-E99642CF57B1}", lv1menuSettings.Id);
-                                             AddSettingsModule("Organization Type",   "{11290C88-D1C8-4FAA-A660-0C4A53200CBD}", lv2menuVendorSettings.Id,    "OrganizationTypeController",   description: "");
+                                           AddSettingsModule("Organization Type",   "{11290C88-D1C8-4FAA-A660-0C4A53200CBD}", lv2menuVendorSettings.Id,    "OrganizationTypeController",   description: "");
+                                           AddSettingsModule("Vendor Class",        "{4934AA80-7C62-4566-AAE6-7AACD45307C6}", lv2menuVendorSettings.Id,    "VendorClassController",        description: "");
                                            AddSettingsModule("Warehouse",           "{8DD21206-86D4-4C69-9094-A8CF0A5C93FF}", lv1menuSettings.Id,          "WarehouseController",          description: "");
 
 
