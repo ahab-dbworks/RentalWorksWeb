@@ -96,13 +96,11 @@ class SearchInterface {
 
         let previewhtml = `<div id="previewHtml">
                              <div class="fwmenu default"></div>
-                             <div class="flexrow" style="max-width:1800px;">
-                               <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                                 <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>
-                               </div>
+                             <div style="padding: 5px;text-align: right;">
+                               <div data-type="button" class="fwformcontrol addToOrder">Add to ${type}</div>
                              </div>
-                             <div class="flexrow" style="max-width:1800px; justify-content: flex-end; margin-bottom:55px;">
-                               <div data-type="button" class="fwformcontrol addToOrder" style="max-width:140px;">Add to ${type}</div>
+                             <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                               <div data-control="FwGrid" data-grid="SearchPreviewGrid" data-securitycaption="Preview"></div>
                              </div>
                            </div>`;
         $popup.find('#previewtabpage').append(jQuery(previewhtml));

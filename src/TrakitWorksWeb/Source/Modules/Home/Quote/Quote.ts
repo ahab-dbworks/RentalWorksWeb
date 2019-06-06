@@ -155,14 +155,16 @@ class Quote {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
         }
 
-        if (userType === 'CONTACT') {
-            FwFormField.disableDataField($form, 'DealId');
-            this.renderSubmitButton($form);
-        }
-
         this.events($form);
         this.renderPrintButton($form);
         this.renderSearchButton($form);
+
+        if (userType === 'CONTACT') {
+            FwFormField.disableDataField($form, 'DealId');
+            this.renderSubmitButton($form);
+        } else if (userType === 'USER') {
+            this.renderActiveRequest($form);
+        }
 
         return $form;
     }
@@ -187,9 +189,9 @@ class Quote {
     }
     //----------------------------------------------------------------------------------------------
     renderSearchButton($form: any) {
-        var self = this;
         var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
         $search.prepend('<i class="material-icons">search</i>');
+        $search.addClass('disabled');
         $search.on('click', function () {
             try {
                 let $form   = jQuery(this).closest('.fwform');
@@ -201,17 +203,16 @@ class Quote {
                     let search = new SearchInterface();
                     search.renderSearchPopup($form, orderId, 'Request');
                 }
-            }
-            catch (ex) {
+            } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
     }
     //----------------------------------------------------------------------------------------------
     renderSubmitButton($form: any) {
-        var self = this;
         var $submit = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Submit Request', 'submitbtn');
         $submit.prepend('<i class="material-icons">publish</i>');
+        $submit.addClass('disabled');
         $submit.on('click', function () {
             try {
                 let $form   = jQuery(this).closest('.fwform');
@@ -220,16 +221,56 @@ class Quote {
                 if (quoteId == "") {
                     FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
                 } else if (!jQuery(this).hasClass('disabled')) {
-                    FwAppData.apiMethod(true, 'POST', `api/v1/quote/submit/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                        if (response !== null) {
-                            FwNotification.renderNotification('SUCCESS', 'Request Submitted.');
-                            FwFormField.setValueByDataField($form, 'Status', response.Status);
-                            $form.find('.btn[data-securityid="submitbtn"]').addClass('disabled');
-                        }
-                    }, null, null);
+                    var $confirmation = FwConfirmation.renderConfirmation('Submit Request', 'Would you like to submit this request?');
+                    var $submit       = FwConfirmation.addButton($confirmation, 'Submit');
+                    var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                    $submit.on('click', function() {
+                        FwAppData.apiMethod(true, 'POST', `api/v1/quote/submit/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                            if (response !== null) {
+                                FwNotification.renderNotification('SUCCESS', 'Request Submitted.');
+                                FwFormField.setValueByDataField($form, 'Status', response.Status);
+                                $form.find('.btn[data-securityid="submitbtn"]').addClass('disabled');
+                            }
+                        }, null, null);
+                    });
                 }
+            } catch (ex) {
+                FwFunc.showError(ex);
             }
-            catch (ex) {
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderActiveRequest($form: any) {
+        var $activate = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'Activate Request', 'activatebtn');
+        $activate.prepend('<i class="material-icons">publish</i>');
+        $activate.addClass('disabled');
+        $activate.on('click', function () {
+            try {
+                let $form = jQuery(this).closest('.fwform');
+                
+                if (!jQuery(this).hasClass('disabled')) {
+                    var $confirmation = FwConfirmation.renderConfirmation('Activate Request?', 'Would you like to activate this request?');
+                    var $activate     = FwConfirmation.addButton($confirmation, 'Activate');
+                    var $cancel       = FwConfirmation.addButton($confirmation, 'Cancel');
+
+                    $activate.on('click', function () {
+                        let quoteId       = FwFormField.getValueByDataField($form, 'QuoteId');
+                        let $quoteTab     = jQuery('#' + $form.closest('.tabpage').attr('data-tabid'));
+
+                        FwAppData.apiMethod(true, 'POST', `api/v1/quote/activatequoterequest/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            FwTabs.removeTab($quoteTab);
+                            let uniqueids: any = {
+                                QuoteId: response.QuoteId
+                            };
+                            var $quoteform = QuoteController.loadForm(uniqueids);
+                            FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
+                            FwNotification.renderNotification('SUCCESS', 'Request Activated.');
+                        }, null, $confirmation);
+                    });
+                }
+            } catch (ex) {
                 FwFunc.showError(ex);
             }
         });
@@ -320,53 +361,28 @@ class Quote {
         });
         FwBrowse.init($orderContactGridControl);
         FwBrowse.renderRuntimeHtml($orderContactGridControl);
-
-        let itemGrids = [$quoteItemGridRental];
-        if ($form.attr('data-mode') === 'NEW') {
-            for (var i = 0; i < itemGrids.length; i++) {
-                itemGrids[i].find('.btn').filter(function () { return jQuery(this).data('type') === 'NewButton' })
-                    .off()
-                    .on('click', function () {
-                        self.saveForm($form, { closetab: false });
-                    })
-            }
-        }
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         let self        = this;
         let status      = FwFormField.getValueByDataField($form, 'Status');
         let hasNotes    = FwFormField.getValueByDataField($form, 'HasNotes');
+        let usertype    = sessionStorage.getItem('userType');
 
-        if (status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') {
+        if ((status === 'ORDERED' || status === 'CLOSED' || status === 'CANCELLED') ||
+           ((usertype === 'CONTACT') && (status === 'ACTIVE' || status === 'RESERVED')) ||
+           ((usertype === 'USER') && (status === 'REQUEST' || status === 'NEW'))) {
             FwModule.setFormReadOnly($form);
-            $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
+        } else {
+            $form.find('.btn[data-securityid="searchbtn"]').removeClass('disabled');
         }
 
-        if ((sessionStorage.getItem('userType') === 'CONTACT') && (status !== 'NEW')) {
-            $form.find('.btn[data-securityid="submitbtn"]').addClass('disabled');
+        if ((usertype === 'CONTACT') && (status === 'NEW')) {
+            $form.find('.btn[data-securityid="submitbtn"]').removeClass('disabled');
         }
 
-        if ((sessionStorage.getItem('userType') === 'USER') && (status === 'REQUEST')) {
-            var $confirmation = FwConfirmation.renderConfirmation('Activate Request?', 'Would you like to activate this request?');
-            var $yes          = FwConfirmation.addButton($confirmation, 'Yes');
-            var $no           = FwConfirmation.addButton($confirmation, 'No');
-
-            $yes.on('click', function () {
-                let quoteId       = FwFormField.getValueByDataField($form, 'QuoteId');
-
-                FwAppData.apiMethod(true, 'POST', `api/v1/quote/activatequoterequest/${quoteId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                    FwNotification.renderNotification('SUCCESS', 'Request Activated.');
-                    FwConfirmation.destroyConfirmation($confirmation);
-                    let uniqueids: any = {
-                        QuoteId: response.QuoteId
-                    };
-                    var $quoteform = QuoteController.loadForm(uniqueids);
-                    FwModule.openModuleTab($quoteform, "", true, 'FORM', true);
-
-                    FwModule.refreshForm($form, QuoteController);
-                }, null, $confirmation);
-            });
+        if ((usertype === 'USER') && (status === 'REQUEST')) {
+            $form.find('.btn[data-securityid="activatebtn"]').removeClass('disabled');
         }
 
         if (hasNotes) {
