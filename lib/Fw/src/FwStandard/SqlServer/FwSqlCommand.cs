@@ -357,7 +357,18 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public void AddParameter(string name, object value)
         {
-            //this.sqlCommand.Parameters.AddWithValue(name, value);
+            if (value is bool?)
+            {
+                bool? b = (bool?)value;
+                value = b.GetValueOrDefault(false) ? "T" : "F";
+            }
+            else if (value is bool)
+            {
+                bool b = (bool)value;
+                value = b ? "T" : "F";
+            }
+
+
             SqlParameter param = this.sqlCommand.Parameters.AddWithValue(name, value);
 
             //justin 05/07/2018  override the default type of nvarchar here.  We want varchar to avoid implicit conversion in the query optimizer
@@ -369,8 +380,17 @@ namespace FwStandard.SqlServer
         //------------------------------------------------------------------------------------
         public void AddParameter(string name, SqlDbType sqlDbType, ParameterDirection direction, object value)
         {
+            if (value is bool?)
+            {
+                bool? b = (bool?)value;
+                value = b.GetValueOrDefault(false) ? "T" : "F";
+            }
+            else if (value is bool)
+            {
+                bool b = (bool)value;
+                value = b ? "T" : "F";
+            }
             SqlParameter parameter;
-
             parameter = sqlCommand.Parameters.Add(name, sqlDbType, -1);
             parameter.Direction = direction;
             parameter.Value = value;
