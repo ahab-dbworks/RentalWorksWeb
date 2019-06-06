@@ -19,9 +19,9 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string OrderDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string OrderNumberColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        //public string OrderNumberColor { get; set; }
+        ////------------------------------------------------------------------------------------ 
 
 
         //note: when adding field here, be sure to also add them to the OrderLoader class

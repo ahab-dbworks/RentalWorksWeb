@@ -2,6 +2,8 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
+using System.Collections.Generic;
 using WebApi.Modules.Home.Order;
 using WebLibrary;
 
@@ -9,7 +11,7 @@ namespace WebApi.Modules.Home.Quote
 {
     public class QuoteLoader : OrderBaseLoader
     {
-        //------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string QuoteId { get; set; }
         //------------------------------------------------------------------------------------
@@ -19,9 +21,9 @@ namespace WebApi.Modules.Home.Quote
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string QuoteDate { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string QuoteNumberColor { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "ordernocolor", modeltype: FwDataTypes.OleToHtmlColor)]
+        //public string QuoteNumberColor { get; set; }
+        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "versionno", modeltype: FwDataTypes.Integer)]
         public int? VersionNumber { get; set; }
         //------------------------------------------------------------------------------------

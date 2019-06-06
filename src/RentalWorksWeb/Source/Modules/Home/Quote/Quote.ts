@@ -193,7 +193,7 @@ class Quote extends OrderBase {
             <div class="field" data-datafield="Inactive" data-datatype="text"  data-visible="false"></div>
           </div>-->
           <div class="column flexcolumn" max-width="75px" data-visible="true">
-            <div class="field" data-caption="Quote No" data-datafield="QuoteNumber" data-cellcolor="QuoteNumberColor" data-datatype="text" data-sort="desc" data-sortsequence="2" data-searchfieldoperators="startswith"></div>
+            <div class="field" data-caption="Quote No" data-datafield="QuoteNumber" data-cellcolor="NumberColor" data-datatype="text" data-sort="desc" data-sortsequence="2" data-searchfieldoperators="startswith"></div>
           </div>
           <div class="column flexcolumn" max-width="75px" data-visible="true">
             <div class="field" data-caption="Date" data-datafield="QuoteDate" data-browsedatatype="date" data-sortsequence="1" data-sort="desc"></div>

@@ -2,6 +2,7 @@
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System;
 using System.Collections.Generic;
 using WebApi.Data;
 using WebLibrary;
@@ -11,6 +12,14 @@ namespace WebApi.Modules.Home.Order
     [FwSqlTable("orderwebbrowseview")]
     public abstract class OrderBaseBrowseLoader : AppDataLoadRecord
     {
+        //------------------------------------------------------------------------------------
+        public OrderBaseBrowseLoader()
+        {
+            AfterBrowse += OnAfterBrowse;
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
+        public string Type { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "orderdesc", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
@@ -87,21 +96,6 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "ordertotal", modeltype: FwDataTypes.Decimal)]
         public decimal? Total { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "currencycolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string CurrencyColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "statuscolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string StatusColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ponocolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string PoNumberColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "warehousecolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string WarehouseColor { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "descriptioncolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string DescriptionColor { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "refno", modeltype: FwDataTypes.Text)]
         public string ReferenceNumber { get; set; }
         //------------------------------------------------------------------------------------
@@ -128,6 +122,72 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "salesrepresentative", modeltype: FwDataTypes.Text)]
         public string OutsideSalesRepresentative { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean)]
+        public bool? LossAndDamage { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "repair", modeltype: FwDataTypes.Boolean)]
+        public bool? Repair { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ismultiwarehouse", modeltype: FwDataTypes.Boolean)]
+        public bool? IsMultiWarehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
+        public bool? NoCharge { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "dealstatustype", modeltype: FwDataTypes.Text)]
+        public string DealStatusType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "customerstatustype", modeltype: FwDataTypes.Text)]
+        public string CustomerStatusType { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
+        public string CurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(column: "locdefaultcurrencyid", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationDefaultCurrencyId { get; set; }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string NumberColor
+        {
+            get { return getNumberColor(Type, Status, EstimatedStopDate); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string DescriptionColor
+        {
+            get { return getDescriptionColor(Repair, LossAndDamage); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string WarehouseColor
+        {
+            get { return getWarehouseColor(IsMultiWarehouse); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string PoNumberColor
+        {
+            get { return getPoNumberColor(NoCharge); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string StatusColor
+        {
+            get { return getStatusColor(Type, Status, DealStatusType, CustomerStatusType); }
+            set { }
+        }
+        //------------------------------------------------------------------------------------
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
+        public string CurrencyColor
+        {
+            get { return getCurrencyColor(CurrencyId, OfficeLocationDefaultCurrencyId); }
+            set { }
+        }
         //------------------------------------------------------------------------------------
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
@@ -209,5 +269,101 @@ namespace WebApi.Modules.Home.Order
             }
         }
         //------------------------------------------------------------------------------------    
+        public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)
+        {
+            if (e.DataTable != null)
+            {
+                FwJsonDataTable dt = e.DataTable;
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        row[dt.GetColumnNo("NumberColor")] = getNumberColor(row[dt.GetColumnNo("Type")].ToString(), row[dt.GetColumnNo("Status")].ToString(), row[dt.GetColumnNo("EstimatedStopDate")].ToString());
+                        row[dt.GetColumnNo("DescriptionColor")] = getDescriptionColor(FwConvert.ToBoolean(row[dt.GetColumnNo("Repair")].ToString()), FwConvert.ToBoolean(row[dt.GetColumnNo("LossAndDamage")].ToString()));
+                        row[dt.GetColumnNo("WarehouseColor")] = getWarehouseColor(FwConvert.ToBoolean(row[dt.GetColumnNo("IsMultiWarehouse")].ToString()));
+                        row[dt.GetColumnNo("PoNumberColor")] = getPoNumberColor(FwConvert.ToBoolean(row[dt.GetColumnNo("NoCharge")].ToString()));
+                        row[dt.GetColumnNo("StatusColor")] = getStatusColor(row[dt.GetColumnNo("Type")].ToString(), row[dt.GetColumnNo("Status")].ToString(), row[dt.GetColumnNo("DealStatusType")].ToString(), row[dt.GetColumnNo("CustomerStatusType")].ToString());
+                        row[dt.GetColumnNo("CurrencyColor")] = getCurrencyColor(row[dt.GetColumnNo("CurrencyId")].ToString(), row[dt.GetColumnNo("OfficeLocationDefaultCurrencyId")].ToString());
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------    
+        protected string getNumberColor(string orderType, string status, string estimatedStopDate)
+        {
+            string color = null;
+            if ((orderType.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (status.Equals(RwConstants.QUOTE_STATUS_ORDERED)))
+            {
+                color = RwGlobals.QUOTE_ORDER_LOCKED_COLOR;
+            }
+            else if ((orderType.Equals(RwConstants.ORDER_TYPE_QUOTE)) && (status.Equals(RwConstants.QUOTE_STATUS_RESERVED)))
+            {
+                color = RwGlobals.QUOTE_RESERVED_COLOR;
+            }
+            else if ((orderType.Equals(RwConstants.ORDER_TYPE_ORDER)) && (status.Equals(RwConstants.ORDER_STATUS_ACTIVE)) && (FwConvert.ToDateTime(estimatedStopDate) < DateTime.Today))
+            {
+                color = RwGlobals.ORDER_LATE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getDescriptionColor(bool? isRepair, bool? isLossAndDamage)
+        {
+            string color = null;
+            if (isRepair.GetValueOrDefault(false))
+            {
+                color = RwGlobals.ORDER_REPAIR_COLOR;
+            }
+            else if (isLossAndDamage.GetValueOrDefault(false))
+            {
+                color = RwGlobals.ORDER_LOSS_AND_DAMAGE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getWarehouseColor(bool? isMultiWarehouse)
+        {
+            string color = null;
+            if (isMultiWarehouse.GetValueOrDefault(false))
+            {
+                color = RwGlobals.QUOTE_ORDER_MULTI_WAREHOUSE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getPoNumberColor(bool? noCharge)
+        {
+            string color = null;
+            if (noCharge.GetValueOrDefault(false))
+            {
+                color = RwGlobals.QUOTE_ORDER_NO_CHARGE_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getStatusColor(string orderType, string status, string dealStatusType, string customerStatusType)
+        {
+            string color = null;
+            if (orderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (status.Equals(RwConstants.QUOTE_STATUS_REQUEST))) 
+            {
+                color = RwGlobals.QUOTE_REQUEST_COLOR;
+            }
+            else if (status.Equals(RwConstants.QUOTE_STATUS_HOLD) || status.Equals(RwConstants.ORDER_STATUS_HOLD) || dealStatusType.Equals(RwConstants.DEAL_STATUS_TYPE_HOLD) || customerStatusType.Equals(RwConstants.CUSTOMER_STATUS_TYPE_HOLD))
+            {
+                color = RwGlobals.QUOTE_ORDER_ON_HOLD_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected string getCurrencyColor(string currencyId, string officeLocationCurrencyId)
+        {
+            string color = null;
+            if ((!string.IsNullOrEmpty(currencyId)) && (!currencyId.Equals(officeLocationCurrencyId)))
+            {
+                color = RwGlobals.FOREIGN_CURRENCY_COLOR;
+            }
+            return color;
+        }
+        //------------------------------------------------------------------------------------ 
     }
 }

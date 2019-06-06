@@ -1,5 +1,8 @@
 using FwStandard.AppManager;
+using FwStandard.BusinessLogic;
+using System.Reflection;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.DealStatus
 {
@@ -37,6 +40,18 @@ namespace WebApi.Modules.Settings.DealStatus
         [FwLogicProperty(Id:"xiKGgYZZ8rr8")]
         public string DateStamp { get { return dealStatus.DateStamp; } set { dealStatus.DateStamp = value; } }
 
+        //------------------------------------------------------------------------------------
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                PropertyInfo property = typeof(DealStatusLogic).GetProperty(nameof(DealStatusLogic.StatusType));
+                string[] acceptableValues = { RwConstants.DEAL_STATUS_TYPE_OPEN, RwConstants.DEAL_STATUS_TYPE_CLOSED, RwConstants.DEAL_STATUS_TYPE_HOLD, RwConstants.DEAL_STATUS_TYPE_INACTIVE };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+            return isValid;
+        }
         //------------------------------------------------------------------------------------
     }
 

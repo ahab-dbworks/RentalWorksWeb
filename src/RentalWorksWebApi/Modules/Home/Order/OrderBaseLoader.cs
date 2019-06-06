@@ -10,9 +10,6 @@ namespace WebApi.Modules.Home.Order
     public abstract class OrderBaseLoader : OrderBaseBrowseLoader
     {
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "ordertype", modeltype: FwDataTypes.Text)]
-        public string Type { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -33,9 +30,6 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rentalsale", modeltype: FwDataTypes.Boolean)]
         public bool? RentalSale { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "finalld", modeltype: FwDataTypes.Boolean)]
-        public bool? LossAndDamage { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hasrentalitem", modeltype: FwDataTypes.Boolean)]
         public bool? HasRentalItem { get; set; }
@@ -115,9 +109,6 @@ namespace WebApi.Modules.Home.Order
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
         public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "currencyid", modeltype: FwDataTypes.Text)]
-        public string CurrencyId { get; set; }
-        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "currencycode", modeltype: FwDataTypes.Text)]
         public string CurrencyCode { get; set; }
         //------------------------------------------------------------------------------------
@@ -159,9 +150,6 @@ namespace WebApi.Modules.Home.Order
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "laborrate2", modeltype: FwDataTypes.Decimal)]
         public decimal? LaborTaxRate2 { get; set; }
-        //------------------------------------------------------------------------------------
-        [FwSqlDataField(column: "nocharge", modeltype: FwDataTypes.Boolean)]
-        public bool? NoCharge { get; set; }
         //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "nochargereason", modeltype: FwDataTypes.Text)]
         public string NoChargeReason { get; set; }

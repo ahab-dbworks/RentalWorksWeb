@@ -323,7 +323,7 @@ class Order extends OrderBase {
             <div class="field" data-isuniqueid="false" data-datafield="DealId" data-browsedatatype="key"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
-            <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-cellcolor="OrderNumberColor" data-browsedatatype="text" data-sort="desc" data-sortsequence="2" data-searchfieldoperators="startswith"></div>
+            <div class="field" data-caption="Order No." data-datafield="OrderNumber" data-cellcolor="NumberColor" data-browsedatatype="text" data-sort="desc" data-sortsequence="2" data-searchfieldoperators="startswith"></div>
           </div>
           <div class="column" data-width="100px" data-visible="true">
             <div class="field" data-caption="Date" data-datafield="OrderDate" data-browsedatatype="date" data-sortsequence="1" data-sort="desc"></div>

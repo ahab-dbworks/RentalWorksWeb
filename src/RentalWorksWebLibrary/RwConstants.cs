@@ -85,15 +85,15 @@
         public const string RATE_TYPE_3WEEK = "3WEEK";
         public const string RATE_TYPE_MONTHLY = "MONTHLY";
 
-        public const int QUOTE_ORDER_LOCKED_COLOR = 16740429;
-        public const int QUOTE_ORDER_ON_HOLD_COLOR = 15347727;
-        public const int QUOTE_RESERVED_COLOR = 2003199;
-        public const int QUOTE_ORDER_NO_CHARGE_COLOR = 16744512;
-        public const int QUOTE_ORDER_MULTI_WAREHOUSE_COLOR = 14082432;
-        public const int QUOTE_REQUEST_COLOR = 65280;
-        public const int ORDER_LATE_COLOR = 16757721;
-        public const int ORDER_REPAIR_COLOR = 6205102;
-        public const int ORDER_LOSS_AND_DAMAGE_COLOR = 4194368;
+        public const int QUOTE_ORDER_LOCKED_COLOR = 5075199;               // light red
+        public const int QUOTE_ORDER_ON_HOLD_COLOR = 995562;               // red
+        public const int QUOTE_RESERVED_COLOR = 16748574;                  // light blue
+        public const int QUOTE_ORDER_NO_CHARGE_COLOR = 4227327;            // orange/red
+        public const int QUOTE_ORDER_MULTI_WAREHOUSE_COLOR = 8446422;      // mustard/light-green
+        public const int QUOTE_REQUEST_COLOR = 65280;                      // bright green
+        public const int ORDER_LATE_COLOR = 14267391;                      // pink/light purple
+        public const int ORDER_REPAIR_COLOR = 11447902;                    // teal
+        public const int ORDER_LOSS_AND_DAMAGE_COLOR = 4194368;            // dark purple
 
 
         //QUOTE/ORDER LINE-ITEMS
@@ -169,7 +169,7 @@
         public const string PROJECT_STATUS_CLOSED = "CLOSED";
 
         //CURRENCY
-        public const int FOREIGN_CURRENCY_COLOR = 9830346;
+        public const int FOREIGN_CURRENCY_COLOR = 13303701;   // mint green
 
         //PURCHASE ORDER
         public const string PURCHASE_ORDER_STATUS_NEW = "NEW";
@@ -180,10 +180,10 @@
         public const string PURCHASE_ORDER_STATUS_VOID = "VOID";
         public const string PURCHASE_ORDER_STATUS_SNAPSHOT = "SNAPSHOT";
 
-        public const int PO_NEEDS_APPROVAL_COLOR = 5075199; // light red
-        public const int PO_DROP_SHIP_COLOR = 11447902; // teal
-        public const int PO_ITEMS_NEED_BARCODE_COLOR = 8388736; // purple
-        public const int PO_ITEMS_IN_HOLDING_COLOR = 12320443; // light green
+        public const int PO_NEEDS_APPROVAL_COLOR = 5075199;         // light red
+        public const int PO_DROP_SHIP_COLOR = 11447902;             // teal
+        public const int PO_ITEMS_NEED_BARCODE_COLOR = 8388736;     // purple
+        public const int PO_ITEMS_IN_HOLDING_COLOR = 12320443;      // light green
 
 
 
@@ -208,12 +208,12 @@
         public const string RECEIPT_RECTYPE_WRITE_OFF = "W";
         public const string RECEIPT_RECTYPE_CREDIT_MEMO = "C";
 
-        public const int RECEIPT_RECTYPE_OVERPAYMENT_COLOR = 16777088;
-        public const int RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR = 3658499;
-        public const int RECEIPT_RECTYPE_REFUND_CHECK_COLOR = 7303167;
-        public const int RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR = 16740207;
-        public const int RECEIPT_RECTYPE_WRITE_OFF_COLOR = 16744512;
-        public const int RECEIPT_RECTYPE_CREDIT_MEMO_COLOR = 11250646;
+        public const int RECEIPT_RECTYPE_OVERPAYMENT_COLOR = 8454143;            // yellow
+        public const int RECEIPT_RECTYPE_DEPLETING_DEPOSIT_COLOR = 250679;       // green
+        public const int RECEIPT_RECTYPE_REFUND_CHECK_COLOR = 16740207;          // blue 
+        public const int RECEIPT_RECTYPE_NSF_ADJUSTMENT_COLOR = 7303167;         // light red
+        public const int RECEIPT_RECTYPE_WRITE_OFF_COLOR = 4227327;              // light orange
+        public const int RECEIPT_RECTYPE_CREDIT_MEMO_COLOR = 14068651;           // light purple
 
 
         //REPAIR
@@ -234,7 +234,7 @@
         public const string INVENTORY_AVAILABLE_FOR_PARTS = "P";
         public const string INVENTORY_AVAILABLE_FOR_VEHICLE = "V";
 
-        public const int INVENTORY_AVAILABLE_FOR_SALE_COLOR = 6504703;  // reddish
+        public const int INVENTORY_AVAILABLE_FOR_SALE_COLOR = 6504703;    // reddish
         public const int INVENTORY_AVAILABLE_FOR_PARTS_COLOR = 16543686;  // purplish
 
         public const string INVENTORY_STATUS_TYPE_IN = "IN";
@@ -325,20 +325,20 @@
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_TAX = "VENDOR INVOICE TAX";
 
         //AVAILABILITY
-        public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 16772044; //aqua
-        public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0; //black
-        public const int AVAILABILITY_COLOR_NEGATIVE = 255; //red
-        public const int AVAILABILITY_COLOR_POSITIVE = 1176137; //green
-        public const int AVAILABILITY_TEXT_COLOR_NEGATIVE = 16777215; //white
-        public const int AVAILABILITY_TEXT_COLOR_POSITIVE = 0; //black
-        public const int AVAILABILITY_COLOR_RESERVED = 15132390; //gray
-        public const int AVAILABILITY_TEXT_COLOR_RESERVED = 0; //black
-        public const int AVAILABILITY_COLOR_RETURNING = 15101961; //blue
-        public const int AVAILABILITY_TEXT_COLOR_RETURNING = 16777215; //white
-        public const int AVAILABILITY_COLOR_NEEDRECALC = 13697073; //dark blue
-        public const int AVAILABILITY_TEXT_COLOR_NEEDRECALC = 16777215; //white
-        public const int AVAILABILITY_COLOR_HISTORICAL_DATE = 15132390; //gray
-        public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0; //black
+        public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 16772044;      //aqua
+        public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0;        //black
+        public const int AVAILABILITY_COLOR_NEGATIVE = 255;                  //red
+        public const int AVAILABILITY_COLOR_POSITIVE = 1176137;              //green
+        public const int AVAILABILITY_TEXT_COLOR_NEGATIVE = 16777215;        //white
+        public const int AVAILABILITY_TEXT_COLOR_POSITIVE = 0;               //black
+        public const int AVAILABILITY_COLOR_RESERVED = 15132390;             //gray
+        public const int AVAILABILITY_TEXT_COLOR_RESERVED = 0;               //black
+        public const int AVAILABILITY_COLOR_RETURNING = 15101961;            //blue
+        public const int AVAILABILITY_TEXT_COLOR_RETURNING = 16777215;       //white
+        public const int AVAILABILITY_COLOR_NEEDRECALC = 13697073;           //dark blue
+        public const int AVAILABILITY_TEXT_COLOR_NEEDRECALC = 16777215;      //white
+        public const int AVAILABILITY_COLOR_HISTORICAL_DATE = 15132390;      //gray
+        public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0;        //black
 
         public const int AVAILABILITY_COLOR_ORDER = 15101961; //blue TEMPORARY
 
@@ -354,15 +354,15 @@
         public const string COMPANY_TYPE_CUSTOMER = "CUSTOMER";
         public const string COMPANY_TYPE_DEAL = "DEAL";
         public const string COMPANY_TYPE_VENDOR = "VENDOR";
-        public const int COMPANY_TYPE_LEAD_COLOR = 4227327; // orange
-        public const int COMPANY_TYPE_PROSPECT_COLOR = 16711808; //pink/purple
-        public const int COMPANY_TYPE_CUSTOMER_COLOR = 8454143; // light yellow
-        public const int COMPANY_TYPE_DEAL_COLOR = 253498; //deal;
-        public const int COMPANY_TYPE_VENDOR_COLOR = 16758576; //light blue
+        public const int COMPANY_TYPE_LEAD_COLOR = 4227327;          // orange
+        public const int COMPANY_TYPE_PROSPECT_COLOR = 8388863;      //pink/purple
+        public const int COMPANY_TYPE_CUSTOMER_COLOR = 8454143;      // light yellow
+        public const int COMPANY_TYPE_DEAL_COLOR = 253498;           //green;
+        public const int COMPANY_TYPE_VENDOR_COLOR = 16758576;       //light blue
 
 
         //GLOBAL
-        public const int NEGATIVE_VARIANCE_COLOR = 262399; // red
+        public const int NEGATIVE_VARIANCE_COLOR = 262399;             // red
 
 
         //STAGING / CHECK-OUT
@@ -407,6 +407,21 @@
         public const string DEPARTMENT_SALES_BILLING_RULE_BILL_WHEN_STAGED = "STAGED";
         public const string DEPARTMENT_SALES_BILLING_RULE_BILL_WHEN_CHECKED_OUT = "OUT";
         public const string DEPARTMENT_SALES_BILLING_RULE_BILL_ON_CONTRACT_BILLING_START_DATE = "BILLINGDATE";
+
+
+        //CUSTOMER
+        public const string CUSTOMER_STATUS_TYPE_OPEN = "O";
+        public const string CUSTOMER_STATUS_TYPE_CLOSED = "O";
+        public const string CUSTOMER_STATUS_TYPE_HOLD = "H";
+        public const string CUSTOMER_STATUS_TYPE_INACTIVE = "I";
+
+
+        //DEAL
+        public const string DEAL_STATUS_TYPE_OPEN = "O";
+        public const string DEAL_STATUS_TYPE_CLOSED = "O";
+        public const string DEAL_STATUS_TYPE_HOLD = "H";
+        public const string DEAL_STATUS_TYPE_INACTIVE = "I";
+
 
     }
 
