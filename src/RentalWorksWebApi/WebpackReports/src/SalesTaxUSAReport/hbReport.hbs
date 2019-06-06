@@ -16,9 +16,9 @@
     <thead class="top-section-header">
       <tr>
         <th colspan="2" style="background-color:white;"></th>
-        <th colspan="8" style="border-right:3px solid black;">RENTAL</th>
-        <th colspan="3" style="border-right:3px solid black;">SALES,PARTS,MISC</th>
-        <th style="border-right:3px solid black;">LABOR</th>
+        <th colspan="4" style="border-right:3px solid black;">RENTAL</th>
+        <th colspan="4" style="border-right:3px solid black;">SALES, PARTS, MISC</th>
+        <th colspan="4" style="border-right:3px solid black;">LABOR</th>
         <th>TOTAL</th>
       </tr>
     </thead>
@@ -48,8 +48,12 @@
         <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "TaxOptionheader"}}
-        <td colspan="3" class="lower header-row">Tax Option: {{TaxOption}}</td>
+        <td colspan="2" class="lower header-row">Tax Option: {{TaxOption}}</td>
+        <td class="tax-option">Rental: {{RentalRate}}</td>
+        <td class="tax-option">Sales: {{SalesRate}}</td>
+        <td class="tax-option">Labor: {{LaborRate}}</td>
         {{/ifEquals}}
+
         {{#ifEquals RowType "detail"}}
         <td class="nowrap">{{InvoiceNumber}}</td>
         <td data-value="{{InvoiceDate}}"></td>

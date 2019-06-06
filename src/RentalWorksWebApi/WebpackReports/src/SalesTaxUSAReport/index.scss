@@ -4,6 +4,10 @@ tbody {
     tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
+
+    td.tax-option {
+        font-weight:600;
+    }
 }
 
 .top-section-header {

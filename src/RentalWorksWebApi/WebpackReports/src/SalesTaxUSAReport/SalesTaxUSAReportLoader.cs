@@ -191,7 +191,7 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
                 string[] totalFields = new string[] { "TotalRental", "TaxableRental", "NontaxableRental", "RentalTax", "TotalSales", "TaxableSales", "NontaxableSales", "SalesTax", "TotalLabor", "TaxableLabor", "NontaxableLabor", "LaborTax", "TotalTax" };
                 string[] headerFieldsTaxRate = new string[] { "RentalRate", "SalesRate", "LaborRate" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-                dt.InsertSubTotalRows("TaxOption", "RowType", totalFields, headerFieldsTaxRate, totalFor: "Total for Tax Option");
+                dt.InsertSubTotalRows("TaxOption", "RowType", totalFields, headerFieldsTaxRate, totalFor: "Total for");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
