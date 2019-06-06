@@ -74,20 +74,26 @@ class Billing {
                 $browse.find('.buttonbar .createInvoices').css({ 'pointer-events': '', 'color': '' });
             } else {
                 $browse.find('.buttonbar .createInvoices').css({ 'pointer-events': 'none', 'color': 'gray' });
-            } 
+            }
         });
 
-        //Creates Search Messages tab
-        const $billingMessageBrowse = BillingMessageController.openBrowse();
-        $billingMessageBrowse.attr('data-newtab', 'false');
-        FwModule.openModuleTab($billingMessageBrowse, 'Search Messages', true, 'BROWSE', false);
-        const $msgTab = FwTabs.getTabByElement($billingMessageBrowse);
-        $msgTab.css({ 'background-color': '#e08080', 'color': '#000077', 'display': 'none' });
-
         //populate browse
+        let $billingMessageBrowse;
+        let $msgTab;
         $popup.on('click', 'div.billingSearchButton', e => {
             let request: any = {};
             const isValid = FwModule.validateForm($popup);
+
+            const $messagesTab = $browse.closest('.tabpages').siblings().find('.tab[data-caption="Search Messages"]');
+            if ($messagesTab.length < 1) {
+                //Creates Search Messages tab
+                $billingMessageBrowse = BillingMessageController.openBrowse();
+                $billingMessageBrowse.attr('data-newtab', 'false');
+                FwModule.openModuleTab($billingMessageBrowse, 'Search Messages', true, 'BROWSE', false);
+                $msgTab = FwTabs.getTabByElement($billingMessageBrowse);
+                $msgTab.css({ 'background-color': '#e08080', 'color': '#000077', 'display': 'none' });
+            }
+
             if (isValid === true) {
                 $popup.hide();
                 request = {
