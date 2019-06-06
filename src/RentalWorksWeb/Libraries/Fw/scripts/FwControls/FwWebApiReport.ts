@@ -86,31 +86,34 @@ abstract class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnPreview.on('click', (event: JQuery.Event) => {
                 try {
-                    const request: any = this.getRenderRequest($form);
-                    request.renderMode = 'Html';
-                    request.parameters = this.convertParameters(this.getParameters($form));
-                    request.parameters.companyName = companyName;
-                    const reportPageMessage = new ReportPageMessage();
-                    reportPageMessage.action = 'Preview';
-                    reportPageMessage.apiUrl = apiUrl;
-                    reportPageMessage.authorizationHeader = authorizationHeader;
-                    reportPageMessage.request = request;
+                    const isValid = FwModule.validateForm($form);
+                    if (isValid) {
+                        const request: any = this.getRenderRequest($form);
+                        request.renderMode = 'Html';
+                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters.companyName = companyName;
+                        const reportPageMessage = new ReportPageMessage();
+                        reportPageMessage.action = 'Preview';
+                        reportPageMessage.apiUrl = apiUrl;
+                        reportPageMessage.authorizationHeader = authorizationHeader;
+                        reportPageMessage.request = request;
 
-                    const win = window.open(urlHtmlReport);
+                        const win = window.open(urlHtmlReport);
 
-                    if (!win) {
-                        throw 'Disable your popup blocker for this site.';
-                    } else {
-                        const sendMessage = (event) => {
-                            const message = event.data;
-                            if (message === urlHtmlReport) {
-                                win.postMessage(reportPageMessage, urlHtmlReport);
+                        if (!win) {
+                            throw 'Disable your popup blocker for this site.';
+                        } else {
+                            const sendMessage = (event) => {
+                                const message = event.data;
+                                if (message === urlHtmlReport) {
+                                    win.postMessage(reportPageMessage, urlHtmlReport);
+                                }
+                                if (message === 'ReportUnload') { // removing listener clears window but removes ability to refresh reports
+                                    window.removeEventListener('message', sendMessage)
+                                }
                             }
-                            if (message === 'ReportUnload') { // removing listener clears window but removes ability to refresh reports
-                                window.removeEventListener('message', sendMessage)
-                            }
+                            window.addEventListener('message', sendMessage) // messsage is from new tab (rendered report) indicating page fully loaded. -webpackreport.ts
                         }
-                        window.addEventListener('message', sendMessage) // messsage is from new tab (rendered report) indicating page fully loaded. -webpackreport.ts
                     }
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -123,23 +126,26 @@ abstract class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnPrintPdf.on('click', (event: JQuery.Event) => {
                 try {
-                    const request: any = this.getRenderRequest($form);
-                    request.renderMode = 'Html';
-                    request.parameters = this.convertParameters(this.getParameters($form));
-                    request.parameters.companyName = companyName;
-                    const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
-                    jQuery('.application').append($iframe);
-                    $iframe.on('load', () => {
-                        setTimeout(() => {
-                            const message: any = new ReportPageMessage();
-                            message.action = 'PrintHtml';
-                            message.apiUrl = apiUrl;
-                            message.authorizationHeader = authorizationHeader;
-                            message.request = request;
-                            $iframe[0].focus();
-                            (<any>$iframe[0]).contentWindow.postMessage(message, '*');
-                        }, 0);
-                    });
+                    const isValid = FwModule.validateForm($form);
+                    if (isValid) {
+                        const request: any = this.getRenderRequest($form);
+                        request.renderMode = 'Html';
+                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters.companyName = companyName;
+                        const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
+                        jQuery('.application').append($iframe);
+                        $iframe.on('load', () => {
+                            setTimeout(() => {
+                                const message: any = new ReportPageMessage();
+                                message.action = 'PrintHtml';
+                                message.apiUrl = apiUrl;
+                                message.authorizationHeader = authorizationHeader;
+                                message.request = request;
+                                $iframe[0].focus();
+                                (<any>$iframe[0]).contentWindow.postMessage(message, '*');
+                            }, 0);
+                        });
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -151,54 +157,57 @@ abstract class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnDownloadExcel.on('click', event => {
                 try {
-                    const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
-                    $confirmation.find('.fwconfirmationbox').css('width', '450px');
+                    const isValid = FwModule.validateForm($form);
+                    if (isValid) {
+                        const $confirmation = FwConfirmation.renderConfirmation('Download Excel Workbook', '');
+                        $confirmation.find('.fwconfirmationbox').css('width', '450px');
 
-                    const html: Array<string> = [];
-                    html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
-                    html.push(`  <div class="flexrow">`);
-                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield sub-headings" data-caption="Include Sub Headings and Sub Totals" data-datafield="" style="flex: 0 1 200px;"></div>`);
-                    html.push(`  </div>`);
-                    html.push(`  <div class="flexrow">`);
-                    html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="flex: 0 1 200px;margin-top:-5px;"></div>`);
-                    html.push('  </div>');
-                    html.push(`</div>`);
+                        const html: Array<string> = [];
+                        html.push(`<div class="fwform" data-controller="none" style="background-color: transparent;">`);
+                        html.push(`  <div class="flexrow">`);
+                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield sub-headings" data-caption="Include Sub Headings and Sub Totals" data-datafield="" style="flex: 0 1 200px;"></div>`);
+                        html.push(`  </div>`);
+                        html.push(`  <div class="flexrow">`);
+                        html.push(`    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield ID-col" data-caption="Include ID columns" data-datafield="" style="flex: 0 1 200px;margin-top:-5px;"></div>`);
+                        html.push('  </div>');
+                        html.push(`</div>`);
 
-                    FwConfirmation.addControls($confirmation, html.join(''));
-                    const $yes = FwConfirmation.addButton($confirmation, 'Download', false);
-                    const $no = FwConfirmation.addButton($confirmation, 'Cancel');
-                    $confirmation.find('.sub-headings input').prop('checked', false);
-                    const request: any = this.getRenderRequest($form);
-                    request.downloadPdfAsAttachment = true;
-                    $yes.on('click', () => {
-                        $confirmation.find('.sub-headings input').prop('checked') === true ? request.IncludeSubHeadingsAndSubTotals = true : request.IncludeSubHeadingsAndSubTotals = false;
-                        let includeIdColumns: boolean;
-                        $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
-                        request.IncludeIdColumns = includeIdColumns;
+                        FwConfirmation.addControls($confirmation, html.join(''));
+                        const $yes = FwConfirmation.addButton($confirmation, 'Download', false);
+                        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+                        $confirmation.find('.sub-headings input').prop('checked', false);
+                        const request: any = this.getRenderRequest($form);
+                        request.downloadPdfAsAttachment = true;
                         const convertedparameters = this.convertParameters(this.getParameters($form));
                         for (let key in convertedparameters) {
                             request[key] = convertedparameters[key];
                         }
-                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
-                            (successResponse) => {
-                                try {
-                                    const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${successResponse.downloadUrl}" style="display:none;"></iframe>`);
-                                    jQuery('#application').append($iframe);
-                                    setTimeout(function () {
-                                        $iframe.remove();
-                                    }, 500);
-                                } catch (ex) {
-                                    FwFunc.showError(ex);
-                                }
-                            },
-                            (errorResponse) => {
-                                if (errorResponse !== 'abort') {
-                                    FwFunc.showError(errorResponse);
-                                }
-                            }, null);
-                        FwConfirmation.destroyConfirmation($confirmation);
-                        FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
-                    });
+                        $yes.on('click', () => {
+                            $confirmation.find('.sub-headings input').prop('checked') === true ? request.IncludeSubHeadingsAndSubTotals = true : request.IncludeSubHeadingsAndSubTotals = false;
+                            let includeIdColumns: boolean;
+                            $confirmation.find('.ID-col input').prop('checked') === true ? includeIdColumns = true : includeIdColumns = false;
+                            request.IncludeIdColumns = includeIdColumns;
+                            FwAppData.apiMethod(true, 'POST', `${this.apiurl}/exportexcelxlsx/${this.reportName}`, request, timeout,
+                                (successResponse) => {
+                                    try {
+                                        const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${successResponse.downloadUrl}" style="display:none;"></iframe>`);
+                                        jQuery('#application').append($iframe);
+                                        setTimeout(function () {
+                                            $iframe.remove();
+                                        }, 500);
+                                    } catch (ex) {
+                                        FwFunc.showError(ex);
+                                    }
+                                },
+                                (errorResponse) => {
+                                    if (errorResponse !== 'abort') {
+                                        FwFunc.showError(errorResponse);
+                                    }
+                                }, null);
+                            FwConfirmation.destroyConfirmation($confirmation);
+                            FwNotification.renderNotification('INFO', 'Downloading Excel Workbook...');
+                        });
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -210,50 +219,53 @@ abstract class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnOpenPdf.on('click', (event: JQuery.Event) => {
                 try {
-                    const request: any = this.getRenderRequest($form);
-                    request.renderMode = 'Pdf';
-                    request.downloadPdfAsAttachment = false;
-                    request.parameters = this.convertParameters(this.getParameters($form));
-                    request.parameters.companyName = companyName;
-                    const win = window.open('', '_blank');
-                    const head = win.document.head || win.document.getElementsByTagName('head')[0];
-                    const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
-                    const loaderStyle = win.document.createElement('style');
-                    loaderStyle.innerHTML = `
-                        html, body { min-height:100% !important; }
-                        .loader-container { position:absolute;top:0;right:0;left:0;bottom:0;display:flex;align-items:center;justify-content:center; }
-                        .loader { border: 16px solid #f3f3f3;border-top: 16px solid #3498db;border-radius:50%;width:120px;height:120px;animation:spin 2s linear infinite; }
-                        @keyframes spin {
-                            0% { transform: rotate(0deg); }
-                            100% { transform: rotate(360deg); }
-                        }`;
-                    head.appendChild(loaderStyle);
-                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
-                        (successResponse: RenderResponse) => {
-                            try {
-                                win.location.href = successResponse.pdfReportUrl;
-                                if (win == null) throw 'Unable to open the report in a new window. Check your popup blocker.'
-                                const setWindowTitle = () => {
-                                    if (win.document) // If loaded
-                                    {
-                                        win.document.title = "Report (PDF)";
+                    const isValid = FwModule.validateForm($form);
+                    if (isValid) {
+                        const request: any = this.getRenderRequest($form);
+                        request.renderMode = 'Pdf';
+                        request.downloadPdfAsAttachment = false;
+                        request.parameters = this.convertParameters(this.getParameters($form));
+                        request.parameters.companyName = companyName;
+                        const win = window.open('', '_blank');
+                        const head = win.document.head || win.document.getElementsByTagName('head')[0];
+                        const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
+                        const loaderStyle = win.document.createElement('style');
+                        loaderStyle.innerHTML = `
+                            html, body { min-height:100% !important; }
+                            .loader-container { position:absolute;top:0;right:0;left:0;bottom:0;display:flex;align-items:center;justify-content:center; }
+                            .loader { border: 16px solid #f3f3f3;border-top: 16px solid #3498db;border-radius:50%;width:120px;height:120px;animation:spin 2s linear infinite; }
+                            @keyframes spin {
+                                0% { transform: rotate(0deg); }
+                                100% { transform: rotate(360deg); }
+                            }`;
+                        head.appendChild(loaderStyle);
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
+                            (successResponse: RenderResponse) => {
+                                try {
+                                    win.location.href = successResponse.pdfReportUrl;
+                                    if (win == null) throw 'Unable to open the report in a new window. Check your popup blocker.'
+                                    const setWindowTitle = () => {
+                                        if (win.document) // If loaded
+                                        {
+                                            win.document.title = "Report (PDF)";
+                                        }
+                                        else // If not loaded yet
+                                        {
+                                            setTimeout(setWindowTitle, 10); // Recheck again every 10 ms
+                                        }
                                     }
-                                    else // If not loaded yet
-                                    {
-                                        setTimeout(setWindowTitle, 10); // Recheck again every 10 ms
-                                    }
+                                    setWindowTitle();
+                                    if (!win) throw 'Disable your popup blocker for this site.';
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
                                 }
-                                setWindowTitle();
-                                if (!win) throw 'Disable your popup blocker for this site.';
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            }
-                        },
-                        (errorResponse) => {
-                            if (errorResponse !== 'abort') {
-                                FwFunc.showError(errorResponse);
-                            }
-                        }, null);
+                            },
+                            (errorResponse) => {
+                                if (errorResponse !== 'abort') {
+                                    FwFunc.showError(errorResponse);
+                                }
+                            }, null);
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -310,31 +322,35 @@ abstract class FwWebApiReport {
             FwMenu.addVerticleSeparator($menuObject);
             $btnEmailMePdf.on('click', (event: JQuery.Event) => {
                 try {
-                    const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
-                    const request: any = this.getRenderRequest($form);
-                    request.renderMode = 'Email';
-                    request.email.from = '[me]';
-                    request.email.to = '[me]';
-                    request.email.cc = '';
-                    request.email.subject = '[reportname]';
-                    request.email.body = '';
-                    request.parameters = this.convertParameters(this.getParameters($form));
-                    request.parameters.companyName = companyName;
-                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
-                        (successResponse: RenderResponse) => {
-                            try {
-                            } catch (ex) {
-                                FwFunc.showError(ex);
-                            } finally {
+                    const isValid = FwModule.validateForm($form);
+                    if (isValid) {
+                        const request: any = this.getRenderRequest($form);
+                        request.renderMode = 'Email';
+                        request.email.from = '[me]';
+                        request.email.to = '[me]';
+                        request.email.cc = '';
+                        request.email.subject = '[reportname]';
+                        request.email.body = '';
+                        request.parameters = this.convertParameters(this.getParameters($form));
+
+                        const $notification = FwNotification.renderNotification('PERSISTENTINFO', 'Preparing Report...');
+                        request.parameters.companyName = companyName;
+                        FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, request, timeout,
+                            (successResponse: RenderResponse) => {
+                                try {
+                                } catch (ex) {
+                                    FwFunc.showError(ex);
+                                } finally {
+                                    FwNotification.closeNotification($notification);
+                                }
+                            },
+                            (errorResponse) => {
                                 FwNotification.closeNotification($notification);
-                            }
-                        },
-                        (errorResponse) => {
-                            FwNotification.closeNotification($notification);
-                            if (errorResponse !== 'abort') {
-                                FwFunc.showError(errorResponse);
-                            }
-                        }, null);
+                                if (errorResponse !== 'abort') {
+                                    FwFunc.showError(errorResponse);
+                                }
+                            }, null);
+                    }
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -373,23 +389,25 @@ abstract class FwWebApiReport {
                                 requestEmailPdf.email.subject = FwFormField.getValueByDataField($confirmation, 'subject');
                                 requestEmailPdf.email.body = FwFormField.getValueByDataField($confirmation, 'body');
                                 requestEmailPdf.parameters = this.convertParameters(this.getParameters($form));
-                                requestEmailPdf.parameters.companyName = companyName;
-                                FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
-                                    (successResponse) => {
-                                        try {
-                                            FwNotification.renderNotification('SUCCESS', 'Email Sent');
-                                        } catch (ex) {
-                                            FwFunc.showError(ex);
-                                        } finally {
+                                if (requestEmailPdf.parameters != null) {
+                                    requestEmailPdf.parameters.companyName = companyName;
+                                    FwAppData.apiMethod(true, 'POST', `${this.apiurl}/render`, requestEmailPdf, timeout,
+                                        (successResponse) => {
+                                            try {
+                                                FwNotification.renderNotification('SUCCESS', 'Email Sent');
+                                            } catch (ex) {
+                                                FwFunc.showError(ex);
+                                            } finally {
+                                                FwNotification.closeNotification($notification);
+                                            }
+                                        },
+                                        (errorResponse) => {
                                             FwNotification.closeNotification($notification);
-                                        }
-                                    },
-                                    (errorResponse) => {
-                                        FwNotification.closeNotification($notification);
-                                        if (errorResponse !== 'abort') {
-                                            FwFunc.showError(errorResponse);
-                                        }
-                                    }, $form);
+                                            if (errorResponse !== 'abort') {
+                                                FwFunc.showError(errorResponse);
+                                            }
+                                        }, $form);
+                                }
                             } catch (ex) {
                                 FwFunc.showError(ex);
                             }
