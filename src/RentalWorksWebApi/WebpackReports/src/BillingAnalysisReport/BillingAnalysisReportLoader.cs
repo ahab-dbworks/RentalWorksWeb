@@ -323,18 +323,18 @@ namespace WebApi.Modules.Reports.BillingAnalysisReport
                         select.AddWhere("notyetinvoiced <> 0");
                     }
 
-                    select.AddParameter("@includerental", includeRental ? "T" : "F");
-                    select.AddParameter("@includesales", includeSales ? "T" : "F");
-                    select.AddParameter("@includemisc", includeMisc ? "T" : "F");
-                    select.AddParameter("@includelabor", includeLabor ? "T" : "F");
-                    select.AddParameter("@includeld", includeLd ? "T" : "F");
-                    select.AddParameter("@includers", includeRentalSale ? "T" : "F");
-                    select.AddParameter("@includetaxordertotal", includeTaxOrderTotal ? "T" : "F");
-                    select.AddParameter("@includetaxordercost", includeTaxOrderCost ? "T" : "F");
-                    select.AddParameter("@includetaxinvoiced", includeTaxInvoiced ? "T" : "F");
-                    select.AddParameter("@includetaxvendorinvoice", includeTaxVendorInvoice ? "T" : "F");
-                    select.AddParameter("@includecreditsinvoiced", request.IncludeCreditsInvoiced.GetValueOrDefault(false) ? "T" : "F");
-                    select.AddParameter("@includebilledintotal", request.ExcludeOrdersBilledInTotal.GetValueOrDefault(false) ? "F" : "T");
+                    select.AddParameter("@includerental", includeRental);
+                    select.AddParameter("@includesales", includeSales);
+                    select.AddParameter("@includemisc", includeMisc);
+                    select.AddParameter("@includelabor", includeLabor);
+                    select.AddParameter("@includeld", includeLd);
+                    select.AddParameter("@includers", includeRentalSale);
+                    select.AddParameter("@includetaxordertotal", includeTaxOrderTotal);
+                    select.AddParameter("@includetaxordercost", includeTaxOrderCost);
+                    select.AddParameter("@includetaxinvoiced", includeTaxInvoiced);
+                    select.AddParameter("@includetaxvendorinvoice", includeTaxVendorInvoice);
+                    select.AddParameter("@includecreditsinvoiced", request.IncludeCreditsInvoiced);
+                    select.AddParameter("@includebilledintotal", !request.ExcludeOrdersBilledInTotal);
                     select.AddOrderBy("location,agent,orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

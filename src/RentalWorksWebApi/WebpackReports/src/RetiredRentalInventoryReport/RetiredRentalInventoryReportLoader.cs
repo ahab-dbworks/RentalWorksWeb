@@ -200,7 +200,7 @@ namespace WebApi.Modules.Reports.RetiredRentalInventoryReport
                     qry.AddParameter("@availfor", SqlDbType.Text, ParameterDirection.Input, RwConstants.INVENTORY_AVAILABLE_FOR_RENT);
                     qry.AddParameter("@retiredfromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@retiredtodate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@includeunretired", SqlDbType.Text, ParameterDirection.Input, request.IncludeUnretired.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@includeunretired", SqlDbType.Text, ParameterDirection.Input, request.IncludeUnretired);
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);

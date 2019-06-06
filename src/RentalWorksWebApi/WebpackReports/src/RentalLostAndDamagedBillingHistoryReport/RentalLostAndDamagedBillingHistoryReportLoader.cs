@@ -191,8 +191,8 @@ namespace WebApi.Modules.Reports.RentalLostAndDamagedBillingHistoryReport
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
-                    qry.AddParameter("@excluderetired", SqlDbType.Text, ParameterDirection.Input, request.ExcludeRetiredItems.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@excludeunretired", SqlDbType.Text, ParameterDirection.Input, request.ExcludeUnretiredItems.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@excluderetired", SqlDbType.Text, ParameterDirection.Input, request.ExcludeRetiredItems);
+                    qry.AddParameter("@excludeunretired", SqlDbType.Text, ParameterDirection.Input, request.ExcludeUnretiredItems);
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);

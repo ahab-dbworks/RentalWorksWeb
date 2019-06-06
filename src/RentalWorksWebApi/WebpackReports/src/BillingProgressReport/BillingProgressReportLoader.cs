@@ -89,13 +89,13 @@ namespace WebApi.Modules.Reports.BillingProgressReport
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getbillingprogressrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@asofdate", SqlDbType.Date, ParameterDirection.Input, request.AsOfDate);
-                    qry.AddParameter("@includeconfirmed", SqlDbType.Text, ParameterDirection.Input, includeConfirmed ? "T" : "F");
-                    qry.AddParameter("@includehold", SqlDbType.Text, ParameterDirection.Input, includeHold ? "T" : "F");
-                    qry.AddParameter("@includeactive", SqlDbType.Text, ParameterDirection.Input, includeActive ? "T" : "F");
-                    qry.AddParameter("@includecomplete", SqlDbType.Text, ParameterDirection.Input, includeComplete ? "T" : "F");
-                    qry.AddParameter("@includeclosed", SqlDbType.Text, ParameterDirection.Input, includeClosed ? "T" : "F");
-                    qry.AddParameter("@includecredits", SqlDbType.Text, ParameterDirection.Input, request.IncludeCredits.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@excludebilled100", SqlDbType.Text, ParameterDirection.Input, request.ExcludeBilled100.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@includeconfirmed", SqlDbType.Text, ParameterDirection.Input, includeConfirmed);
+                    qry.AddParameter("@includehold", SqlDbType.Text, ParameterDirection.Input, includeHold);
+                    qry.AddParameter("@includeactive", SqlDbType.Text, ParameterDirection.Input, includeActive);
+                    qry.AddParameter("@includecomplete", SqlDbType.Text, ParameterDirection.Input, includeComplete);
+                    qry.AddParameter("@includeclosed", SqlDbType.Text, ParameterDirection.Input, includeClosed);
+                    qry.AddParameter("@includecredits", SqlDbType.Text, ParameterDirection.Input, request.IncludeCredits);
+                    qry.AddParameter("@excludebilled100", SqlDbType.Text, ParameterDirection.Input, request.ExcludeBilled100);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
                     qry.AddParameter("@dealcsrid", SqlDbType.Text, ParameterDirection.Input, request.DealCsrId);

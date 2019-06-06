@@ -128,10 +128,10 @@ namespace WebApi.Modules.Reports.BillingStatementReport
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
-                    qry.AddParameter("@includenocharge", SqlDbType.Text, ParameterDirection.Input, request.IncludeNoCharge.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@includepaid", SqlDbType.Text, ParameterDirection.Input, request.IncludePaidInvoices.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@includezerobalance", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroBalance.GetValueOrDefault(false) ? "T" : "F");
-                    qry.AddParameter("@paymentsthroughtoday", SqlDbType.Text, ParameterDirection.Input, request.PaymentsThroughToday.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@includenocharge", SqlDbType.Text, ParameterDirection.Input, request.IncludeNoCharge);
+                    qry.AddParameter("@includepaid", SqlDbType.Text, ParameterDirection.Input, request.IncludePaidInvoices);
+                    qry.AddParameter("@includezerobalance", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroBalance);
+                    qry.AddParameter("@paymentsthroughtoday", SqlDbType.Text, ParameterDirection.Input, request.PaymentsThroughToday);
                     qry.AddParameter("@dealstatusid", SqlDbType.Text, ParameterDirection.Input, request.DealStatusId);
                     qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, request.DealTypeId);
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);

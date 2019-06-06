@@ -97,7 +97,7 @@ namespace WebApi.Modules.Reports.PartsInventoryReorderReport
                 {
                     qry.AddParameter("@availfor", SqlDbType.Text, ParameterDirection.Input, RwConstants.INVENTORY_AVAILABLE_FOR_PARTS);
                     qry.AddParameter("@mode", SqlDbType.Text, ParameterDirection.Input, request.ReorderPointMode);
-                    qry.AddParameter("@includezeroreorderpoint", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroReorderPoint.GetValueOrDefault(false) ? "T" : "F");
+                    qry.AddParameter("@includezeroreorderpoint", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroReorderPoint);
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
