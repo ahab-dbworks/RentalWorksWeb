@@ -204,8 +204,11 @@ namespace WebApi.Modules.Administrator.Control
         //[FwLogicProperty(Id:"fE8OXhLt4iUVW")]
         //public bool? Phyclosewithoutadj { get { return sysControl.Phyclosewithoutadj; } set { sysControl.Phyclosewithoutadj = value; } }
 
-        //[FwLogicProperty(Id:"vJHCCcfjlFN18")]
-        //public string NonrecurbillperiodId { get { return sysControl.NonrecurbillperiodId; } set { sysControl.NonrecurbillperiodId = value; } }
+        [FwLogicProperty(Id: "vJHCCcfjlFN18")]
+        public string DefaultNonRecurringBillingCycleId { get { return sysControl.DefaultNonRecurringBillingCycleId; } set { sysControl.DefaultNonRecurringBillingCycleId = value; } }
+
+        [FwLogicProperty(Id: "I4WKllH1cIfdI", IsReadOnly: true)]
+        public string DefaultNonRecurringBillingCycle { get; set; }
 
         //[FwLogicProperty(Id:"p2ROs4QHzemcG")]
         //public bool? Revenueforcompletes { get { return sysControl.Revenueforcompletes; } set { sysControl.Revenueforcompletes = value; } }

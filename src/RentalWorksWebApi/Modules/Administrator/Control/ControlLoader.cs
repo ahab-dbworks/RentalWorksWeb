@@ -178,7 +178,10 @@ namespace WebApi.Modules.Administrator.Control
         public bool? Phyclosewithoutadj { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nonrecurbillperiodid", modeltype: FwDataTypes.Text)]
-        public string NonrecurbillperiodId { get; set; }
+        public string DefaultNonRecurringBillingCycleId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "nonrecurbillperiod", modeltype: FwDataTypes.Text)]
+        public string DefaultNonRecurringBillingCycle { get; set; }
         //------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "revenueforcompletes", modeltype: FwDataTypes.Boolean)]
         //public bool? Revenueforcompletes { get; set; }
