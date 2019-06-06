@@ -2,6 +2,11 @@
 {
     public static class RwConstants
     {
+
+        //USER
+        public const string WEB_USER_TYPE_USER = "USER";
+        public const string WEB_USER_TYPE_CONTACT = "CONTACT";
+
         //GL ACCOUNTS
         public const string GL_ACCOUNT_TYPE_ASSET = "ASSET";
         public const string GL_ACCOUNT_TYPE_INCOME = "INCOME";

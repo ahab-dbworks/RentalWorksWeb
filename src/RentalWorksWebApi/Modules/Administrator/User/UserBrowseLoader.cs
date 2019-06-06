@@ -5,6 +5,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Collections.Generic;
 using WebApi.Logic;
+using WebLibrary;
 
 namespace WebApi.Modules.Administrator.User
 {
@@ -69,6 +70,7 @@ namespace WebApi.Modules.Administrator.User
             select.Parse();
             select.AddWhere("(username > '')");
             select.AddWhere("(groupsid > '')");
+            select.AddWhere("(usertype = '" + RwConstants.WEB_USER_TYPE_USER + "')");
             addFilterToSelect("LocationId", "locationid", select, request);
             addFilterToSelect("WarehouseId", "warehouseid", select, request);
             addFilterToSelect("GroupId", "groupsid", select, request);
