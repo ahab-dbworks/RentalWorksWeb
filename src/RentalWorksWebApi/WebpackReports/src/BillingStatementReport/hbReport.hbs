@@ -25,7 +25,7 @@
         <th class="top">Invoice No.</th>
         <th class="top">PO No.</th>
         <th class="top">Description</th>
-        <th class="top number">Amounts</th>
+        <th class="top number">Amount Due</th>
         <th class="top number">Credits</th>
         <th class="top number">Balance</th>
       </tr>
@@ -38,6 +38,13 @@
       </tr>
     </thead>
     {{/ifEquals}}
+    {{#ifEquals RowType "InvoiceNumberheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="lower header-row" colspan="4">Invoice: {{InvoiceNumber}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr>
@@ -45,7 +52,7 @@
         <td>{{InvoiceNumber}}</td>
         <td>{{PurchaseOrderNumber}}</td>
         <td>{{InvoiceDescription}}</td>
-        <td class="number">{{PaymentAmount}}</td>
+        <td class="number">{{Due}}</td>
         <td class="number">{{Received}}</td>
         <td class="number">{{Remaining}}</td>
       </tr>
@@ -53,7 +60,7 @@
       <tr>
         <th colspan="2"></th>
         <th class="subHeaders">Payment Date</th>
-        <th class="subHeaders" colspan="4">Descrription</th>
+        <th class="subHeaders" colspan="4">Description</th>
       </tr>
       <tr class="subValues">
         <td colspan="2"></td>
@@ -69,6 +76,15 @@
       {{#ifEquals RowType "Dealfooter"}}
       <tr>
         <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{Due}}"></td>
+        <td class="total-val" data-value="{{Received}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InvoiceNumberfooter"}}
+      <tr>
+        <td colspan="5" class="total-name">{{InvoiceNumber}}&nbsp;</td>
+        <td class="total-val" data-value="{{Due}}"></td>
         <td class="total-val" data-value="{{Received}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
       </tr>
@@ -76,6 +92,7 @@
       {{#ifEquals RowType "grandtotal"}}
       <tr>
         <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Due}}"></td>
         <td class="total-val" data-value="{{Received}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
       </tr>
