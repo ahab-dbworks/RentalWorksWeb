@@ -123,7 +123,7 @@ class Order extends OrderBase {
         FwFormField.loadItems($form.find('div[data-datafield="weightselector"]'), [
             { value: 'IMPERIAL', caption: 'Imperial', checked: true},
             { value: 'METRIC',   caption: 'Metric' }
-        ], true);
+        ]);
 
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },

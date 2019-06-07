@@ -188,6 +188,7 @@
     <Content Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridBrowse.htm" />
     <Content Include="Source\Grids\CompanyContactGrid\CompanyContactGridBrowse.htm" />
     <Content Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridBrowse.htm" />
+    <Content Include="Source\Grids\InventoryKitGrid\InventoryKitGridBrowse.htm" />
     <Content Include="Source\Grids\QuoteItemGrid\QuoteItemGridBrowse.htm" />
     <Content Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridBrowse.htm" />
     <Content Include="Source\Grids\VendorTaxOptionGrid\VendorTaxOptionGridBrowse.htm" />
@@ -514,6 +515,7 @@
     <TypeScriptCompile Include="Source\Grids\CheckOutPendingItemGrid\CheckOutPendingItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CompanyContactGrid\CompanyContactGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\InventoryCompleteGrid\InventoryCompleteGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\InventoryKitGrid\InventoryKitGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\QuoteItemGrid\QuoteItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SearchPreviewGrid\SearchPreviewGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\VendorTaxOptionGrid\VendorTaxOptionGridController.ts" />

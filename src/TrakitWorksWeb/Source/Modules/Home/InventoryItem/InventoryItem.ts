@@ -328,6 +328,7 @@ class InventoryItem {
         switch (FwFormField.getValue2($classification)) {
             case 'I':
             case 'A':
+                $completeskitstab.show();
                 $classification.find('option[value="N"]').hide();
                 $classification.find('option[value="C"]').hide();
                 $classification.find('option[value="K"]').hide();
@@ -355,12 +356,14 @@ class InventoryItem {
                 break;
             case 'K':
                 $kittab.show();
+                $completeskitstab.show();
                 FwBrowse.search($rentalinventorywarehousegrid);
                 FwFormField.disable($classification);
                 FwFormField.disable($trackedby);
                 FwFormField.setValue2($trackedby, '');
                 break;
             case 'M':
+                $completeskitstab.show();
                 FwBrowse.search($rentalinventorywarehousegrid);
                 FwFormField.disable($classification);
                 FwFormField.disable($trackedby);
@@ -450,6 +453,38 @@ class InventoryItem {
         });
         FwBrowse.init($inventoryCompleteGridControl);
         FwBrowse.renderRuntimeHtml($inventoryCompleteGridControl);
+
+        // InventoryKitGrid
+        const $inventoryKitGrid = $form.find('div[data-grid="InventoryKitGrid"]');
+        const $inventoryKitGridControl = FwBrowse.loadGridFromTemplate('InventoryKitGrid');
+        $inventoryKitGrid.empty().append($inventoryKitGridControl);
+        $inventoryKitGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                PackageId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+        });
+        $inventoryKitGridControl.data('beforesave', function (request) {
+            request.PackageId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        $inventoryKitGridControl.data('isfieldeditable', function ($field, dt, rowIndex) {
+            let primaryRowIndex;
+            if (primaryRowIndex === undefined) {
+                const orderByIndex = dt.ColumnIndex.OrderBy;
+                const inventoryIdIndex = dt.ColumnIndex.InventoryId
+                for (let i = 0; i < dt.Rows.length; i++) {
+                    if (dt.Rows[i][orderByIndex] === 1 && dt.Rows[i][inventoryIdIndex] !== '') {
+                        primaryRowIndex = i
+                    }
+                }
+            }
+            if (rowIndex === primaryRowIndex) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+        FwBrowse.init($inventoryKitGridControl);
+        FwBrowse.renderRuntimeHtml($inventoryKitGridControl);
 
         // InventoryCompleteKitGrid
         let $inventoryCompleteKitGrid = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
