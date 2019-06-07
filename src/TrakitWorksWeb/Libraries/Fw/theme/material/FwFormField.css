@@ -456,3 +456,15 @@ html.theme-material .button.theme:active {background-image:linear-gradient(rgba(
 html.theme-material .button.theme {background-color:#1F76BA;border:1px solid #193f5c;color:rgba(255, 255, 255, 0.8);box-shadow: 1px 2px 3px rgba(0,0,0,.4);}
 html.theme-material .button.theme:hover {color:#ffffff;}
 /*#endregion*/
+
+/*#region data-type="togglebuttons" */
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control {/*display:inline-flex;*/}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item {display:inline-block;position:relative;flex-grow:1;}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item input.fwformfield-value {opacity:0;position:absolute;z-index:-1;top:0;left:0;}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item .togglebutton-button {display:block;border:1px solid rgba(0, 0, 0, 0.12);text-align:center;padding: 0.30rem 1rem;cursor: pointer;}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item:first-child .togglebutton-button {border-top-left-radius: 2px;border-bottom-left-radius: 2px;}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item:not(:first-child) .togglebutton-button {border-left:1px solid transparent;}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item:last-child .togglebutton-button {border-top-right-radius: 2px;border-bottom-right-radius: 2px;}
+html.theme-material .fwformfield[data-type="togglebuttons"] .fwformfield-control .togglebutton-item input.fwformfield-value:checked + .togglebutton-button {border-color:#2196F3;background-color:#E3F2FD;}
+html.theme-material .fwformfield[data-type="togglebuttons"][data-enabled="false"] .fwformfield-control .togglebutton-item .togglebutton-button {cursor:default;background-color: #F5F5F5;color:rgb(84, 84, 84);}
+/*#endregion*/

@@ -112,20 +112,13 @@
               </div>
               <!-- Weight section -->
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Weight">
-                <div class="flexrow btn-group" style="margin-top:10px;padding-left:5px;padding-right:5px;">
-                  <button class="twActive" id="weightImperial">Imperial</button>
-                  <button id="weightMetric">Metric</button>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="weightselector"></div>
                 </div>
                 <div class="flexrow">
                   <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Pounds" data-datafield="WeightPounds" data-enabled="false" style="flex:1 1 65px;"></div>
                   <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Ounces" data-datafield="WeightOunces" data-enabled="false" style="flex:1 1 60px;"></div>
                 </div>
-                <!--<div class="flexrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="flex:1 1 125px;margin-top:10px;">
-                    <div data-value="" data-caption="Imperial"></div>
-                    <div data-value="" data-caption="Metric"></div>
-                  </div>
-                </div>-->
               </div>
             </div>
           </div>
@@ -180,51 +173,36 @@
                 </div>
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Outgoing Address">
-                <div class="flexrow btn-group">
-                  <button class="twActive" id="outgoingDeal">Deal</button>
-                  <button id="outgoingOther">Other</button>
-                  <button id="outgoingVenue">Venue</button>
-                  <button id="outgoingWarehouse">Warehouse</button>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="OutDeliveryAddressType"></div>
                 </div>
                 <div class="flexrow">
-                  <!--<div class="flexcolumn" style="flex:0 1 125px;">
-                    <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Address" data-datafield="OutDeliveryAddressType">
-                      <div data-value="DEAL" data-caption="Deal" style="border:1px solid silver;"></div>
-                      <div data-value="OTHER" data-caption="Other" style="border:1px solid silver;"></div>
-                      <div data-value="VENUE" data-caption="Venue" style="border:1px solid silver;"></div>
-                      <div data-value="WAREHOUSE" data-caption="Warehouse" style="border:1px solid silver;"></div>
-                    </div>
-                  </div>-->
-                  <div class="flexcolumn" style="width:75%;">
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="OutDeliveryToLocation"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="OutDeliveryToAttention"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="OutDeliveryToAddress1"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OutDeliveryToAddress2"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="OutDeliveryToCity"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="OutDeliveryToState"></div>
-                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="OutDeliveryToZipCode"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-validationname="CountryValidation" data-datafield="OutDeliveryToCountryId" data-displayfield="OutDeliveryToCountry"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Cross Streets" data-datafield="OutDeliveryToCrossStreets"></div>
-                    </div>
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="OutDeliveryDeliveryNotes"></div>
-                    </div>
-                  </div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="OutDeliveryToLocation"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Attention" data-datafield="OutDeliveryToAttention"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Address" data-datafield="OutDeliveryToAddress1"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OutDeliveryToAddress2"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="City" data-datafield="OutDeliveryToCity"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="State/Province" data-datafield="OutDeliveryToState"></div>
+                  <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Zip/Postal" data-datafield="OutDeliveryToZipCode"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Country" data-validationname="CountryValidation" data-datafield="OutDeliveryToCountryId" data-displayfield="OutDeliveryToCountry"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Cross Streets" data-datafield="OutDeliveryToCrossStreets"></div>
+                </div>
+                <div class="flexrow">
+                  <div data-control="FwFormField" data-type="textarea" class="fwcontrol fwformfield" data-caption="Notes" data-datafield="OutDeliveryDeliveryNotes"></div>
                 </div>
               </div>
             </div>
@@ -249,27 +227,16 @@
                 </div>
               </div>
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Incoming Address">
-                <div class="flexrow btn-group">
-                  <button id="incomingDeal">Deal</button>
-                  <button id="incomingOther">Other</button>
-                  <button id="incomingVenue">Venue</button>
-                  <button class="twActive" id="incomingWarehouse">Warehouse</button>
-                </div>
                 <div class="flexrow">
                   <!--<div class="flexcolumn" style="flex:0 1 125px;">
-                    <div class="flexrow">
-                      <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Address" data-datafield="InDeliveryAddressType">
-                        <div data-value="DEAL" data-caption="Deal"></div>
-                        <div data-value="OTHER" data-caption="Other"></div>
-                        <div data-value="VENUE" data-caption="Venue"></div>
-                        <div data-value="WAREHOUSE" data-caption="Warehouse"></div>
-                      </div>
-                    </div>
                     <div class="flexrow">
                       <div class="addresscopy fwformcontrol" data-type="button" style="flex:0 1 50px;margin:15px 0 0 10px;text-align:center;">Copy</div>
                     </div>
                   </div>-->
                   <div class="flexcolumn" style="width:75%;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="InDeliveryAddressType"></div>
+                    </div>
                     <div class="flexrow">
                       <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Location" data-datafield="InDeliveryToLocation"></div>
                     </div>

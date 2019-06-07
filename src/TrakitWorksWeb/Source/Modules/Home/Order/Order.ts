@@ -120,6 +120,11 @@ class Order extends OrderBase {
         //let $submodulePurchaseOrderBrowse = this.openPurchaseOrderBrowse($form);
         //$form.find('.subPurchaseOrderSubModule').append($submodulePurchaseOrderBrowse);
 
+        FwFormField.loadItems($form.find('div[data-datafield="weightselector"]'), [
+            { value: 'IMPERIAL', caption: 'Imperial', checked: true},
+            { value: 'METRIC',   caption: 'Metric' }
+        ], true);
+
         FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryDeliveryType"]'), [
             { value: 'DELIVER', text: 'Deliver to Customer' },
             { value: 'SHIP',    text: 'Ship to Customer' },
@@ -131,6 +136,13 @@ class Order extends OrderBase {
             { value: 'SHIP',    text: 'Customer Ship' },
             { value: 'PICK UP', text: 'Pick Up from Customer' }
         ], true);
+
+        var deliverAddressTypes = [{ value: 'DEAL',      caption: 'Job' },
+                                   { value: 'VENUE',     caption: 'Venue' },
+                                   { value: 'WAREHOUSE', caption: 'Warehouse' },
+                                   { value: 'OTHER',     caption: 'Other' }];
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), deliverAddressTypes);
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryAddressType"]'), deliverAddressTypes);
 
         if (typeof parentModuleInfo !== 'undefined') {
             FwFormField.setValue($form, 'div[data-datafield="DealId"]', parentModuleInfo.DealId, parentModuleInfo.Deal);
