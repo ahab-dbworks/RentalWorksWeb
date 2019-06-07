@@ -13,7 +13,7 @@ namespace WebApi.Modules.Home.ContainerItem
         public string ItemId { get; set; }
     }
 
-    public class InstantiateContainerItemResponse : TSpStatusReponse
+    public class InstantiateContainerItemResponse : TSpStatusResponse
     {
         public string ContainerItemId = "";
     }
@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.ContainerItem
         public string DeleteAll { get; set; }
     }
 
-    public class EmptyContainerItemResponse : TSpStatusReponse
+    public class EmptyContainerItemResponse : TSpStatusResponse
     {
         public string InContractId = "";
     }
@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.ContainerItem
         public decimal? Quantity { get; set; }
     }
 
-    public class RemoveFromContainerResponse : TSpStatusReponse
+    public class RemoveFromContainerResponse : TSpStatusResponse
     {
         public string OutputContractId = "";
         public decimal? QuantityRemoved;

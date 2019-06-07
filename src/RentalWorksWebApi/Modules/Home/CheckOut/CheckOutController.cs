@@ -209,7 +209,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             try
             {
-                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
                     ContractLogic contract = new ContractLogic();

@@ -11,7 +11,7 @@ using WebLibrary;
 namespace WebApi.Logic
 {
 
-    public class TSpStatusReponse
+    public class TSpStatusResponse
     {
         public int status = 0;
         public bool success = false;

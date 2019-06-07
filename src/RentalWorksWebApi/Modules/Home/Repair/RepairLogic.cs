@@ -478,22 +478,22 @@ namespace WebApi.Modules.Home.Repair
             }
         }
         //------------------------------------------------------------------------------------
-        public async Task<TSpStatusReponse> ToggleEstimate()
+        public async Task<TSpStatusResponse> ToggleEstimate()
         {
             return await repair.ToggleEstimate();
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> ToggleComplete()
+        public async Task<TSpStatusResponse> ToggleComplete()
         {
             return await repair.ToggleComplete();
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> ReleaseItems(int quantity)
+        public async Task<TSpStatusResponse> ReleaseItems(int quantity)
         {
             return await repair.ReleaseItems(quantity);
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> Void()
+        public async Task<TSpStatusResponse> Void()
         {
             return await repair.Void();
         }

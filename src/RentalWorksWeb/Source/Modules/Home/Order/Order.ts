@@ -1860,7 +1860,7 @@ class Order extends OrderBase {
 
         FwConfirmation.addControls($confirmation, html.join(''));
 
-        const $yes = FwConfirmation.addButton($confirmation, 'Create Snapshot', false);
+        const $yes = FwConfirmation.addButton($confirmation, 'Put On Hold', false);
         const $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
         $yes.on('click', putOnHold);

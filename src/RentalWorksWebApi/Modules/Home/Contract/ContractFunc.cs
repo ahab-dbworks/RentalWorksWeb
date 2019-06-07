@@ -11,9 +11,9 @@ namespace WebApi.Modules.Home.Contract
     public static class ContractFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusReponse> AssignContract(FwApplicationConfig appConfig, FwUserSession userSession, string contractId)
+        public static async Task<TSpStatusResponse> AssignContract(FwApplicationConfig appConfig, FwUserSession userSession, string contractId)
         {
-            TSpStatusReponse response = new TSpStatusReponse();
+            TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "assigncontract", appConfig.DatabaseSettings.QueryTimeout);

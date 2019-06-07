@@ -26,7 +26,7 @@ namespace WebApi.Modules.Home.Billing
 
     }
 
-    public class PopulateBillingResponse : TSpStatusReponse
+    public class PopulateBillingResponse : TSpStatusResponse
     {
         public string SessionId { get; set; }
         public int BillingMessages { get; set; }

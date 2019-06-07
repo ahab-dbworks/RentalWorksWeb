@@ -179,9 +179,9 @@ namespace WebApi.Modules.Home.VendorInvoice
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<ToggleVendorInvoiceApprovedReponse> ToggleApproved()
+        public async Task<ToggleVendorInvoiceApprovedResponse> ToggleApproved()
         {
-            ToggleVendorInvoiceApprovedReponse response = await VendorInvoiceFunc.ToggleVendorInvoiceApproved(AppConfig, UserSession, VendorInvoiceId);
+            ToggleVendorInvoiceApprovedResponse response = await VendorInvoiceFunc.ToggleVendorInvoiceApproved(AppConfig, UserSession, VendorInvoiceId);
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    

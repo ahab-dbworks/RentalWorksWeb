@@ -69,7 +69,7 @@ namespace WebApi.Modules.Home.VendorInvoice
         // POST api/v1/vendorinvoice/toggleapproved/A0000001
         [HttpPost("toggleapproved/{id}")]
         [FwControllerMethod(Id: "qGQ28sAtqVz4")]
-        public async Task<ActionResult<ToggleVendorInvoiceApprovedReponse>> ToggleApproved([FromRoute]string id)
+        public async Task<ActionResult<ToggleVendorInvoiceApprovedResponse>> ToggleApproved([FromRoute]string id)
         {
             if (!ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace WebApi.Modules.Home.VendorInvoice
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<VendorInvoiceLogic>(ids))
                 {
-                    ToggleVendorInvoiceApprovedReponse response = await l.ToggleApproved();
+                    ToggleVendorInvoiceApprovedResponse response = await l.ToggleApproved();
                     return new OkObjectResult(response);
                 }
                 else

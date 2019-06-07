@@ -37,7 +37,7 @@ namespace WebApi.Modules.Home.CompleteQc
         // POST api/v1/completeqc/completeqcitem
         [HttpPost("completeqcitem")]
         [FwControllerMethod(Id: "xzYWo1xclDpJ")]
-        public async Task<ActionResult<CompleteQcItemReponse>> CompleteQcItem([FromBody]CompleteQcItemRequest request)
+        public async Task<ActionResult<CompleteQcItemResponse>> CompleteQcItem([FromBody]CompleteQcItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace WebApi.Modules.Home.CompleteQc
             }
             try
             {
-                CompleteQcItemReponse response = await CompleteQcFunc.CompleteQcItem(AppConfig, UserSession, request);
+                CompleteQcItemResponse response = await CompleteQcFunc.CompleteQcItem(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
 
             }
@@ -62,7 +62,7 @@ namespace WebApi.Modules.Home.CompleteQc
         // POST api/v1/completeqc/updateqcitem
         [HttpPost("updateqcitem")]
         [FwControllerMethod(Id: "ge5Y42NIEBGE")]
-        public async Task<ActionResult<UpdateQcItemReponse>> StageItem([FromBody]UpdateQcItemRequest request)
+        public async Task<ActionResult<UpdateQcItemResponse>> StageItem([FromBody]UpdateQcItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -70,7 +70,7 @@ namespace WebApi.Modules.Home.CompleteQc
             }
             try
             {
-                UpdateQcItemReponse response = await CompleteQcFunc.UpdateQcItem(AppConfig, UserSession, request);
+                UpdateQcItemResponse response = await CompleteQcFunc.UpdateQcItem(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

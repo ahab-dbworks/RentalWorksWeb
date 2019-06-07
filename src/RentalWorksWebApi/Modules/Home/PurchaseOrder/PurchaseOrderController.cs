@@ -267,7 +267,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             try
             {
 
-                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
                     List<ContractLogic> contracts = new List<ContractLogic>();
@@ -382,7 +382,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             try
             {
 
-                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
 
@@ -461,7 +461,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         // GET api/v1/purchaseorder/nextvendorinvoicedefaultdates/A0000001
         [HttpGet("nextvendorinvoicedefaultdates/{PurchaseOrderId}")]
         [FwControllerMethod(Id: "e4lReUTArJ5Kg")]
-        public async Task<ActionResult<NextVendorInvoiceDefaultDatesReponse>> GetNextVendorInvoiceDefaultDates([FromRoute] string PurchaseOrderId)
+        public async Task<ActionResult<NextVendorInvoiceDefaultDatesResponse>> GetNextVendorInvoiceDefaultDates([FromRoute] string PurchaseOrderId)
         {
             if (!ModelState.IsValid)
             {
@@ -469,7 +469,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
             }
             try
             {
-                NextVendorInvoiceDefaultDatesReponse response = await PurchaseOrderFunc.GetNextVendorInvoiceDefaultDates(AppConfig, UserSession, PurchaseOrderId);
+                NextVendorInvoiceDefaultDatesResponse response = await PurchaseOrderFunc.GetNextVendorInvoiceDefaultDates(AppConfig, UserSession, PurchaseOrderId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

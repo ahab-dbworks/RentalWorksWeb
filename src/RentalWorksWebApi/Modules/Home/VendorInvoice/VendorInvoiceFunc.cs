@@ -19,20 +19,20 @@ namespace WebApi.Modules.Home.VendorInvoice
     }
 
 
-    public class UpdateVendorInvoiceItemsReponse : TSpStatusReponse
+    public class UpdateVendorInvoiceItemsResponse : TSpStatusResponse
     {
     }
 
-    public class ToggleVendorInvoiceApprovedReponse : TSpStatusReponse
+    public class ToggleVendorInvoiceApprovedResponse : TSpStatusResponse
     {
     }
 
     public static class VendorInvoiceFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<UpdateVendorInvoiceItemsReponse> UpdateVendorInvoiceItem(FwApplicationConfig appConfig, FwUserSession userSession, UpdateVendorInvoiceItemsRequest request)
+        public static async Task<UpdateVendorInvoiceItemsResponse> UpdateVendorInvoiceItem(FwApplicationConfig appConfig, FwUserSession userSession, UpdateVendorInvoiceItemsRequest request)
         {
-            UpdateVendorInvoiceItemsReponse response = new UpdateVendorInvoiceItemsReponse();
+            UpdateVendorInvoiceItemsResponse response = new UpdateVendorInvoiceItemsResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "updatevendorinvoiceitem", appConfig.DatabaseSettings.QueryTimeout);
@@ -53,9 +53,9 @@ namespace WebApi.Modules.Home.VendorInvoice
             return response;
         }
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<ToggleVendorInvoiceApprovedReponse> ToggleVendorInvoiceApproved(FwApplicationConfig appConfig, FwUserSession userSession, string vendorInvoiceId)
+        public static async Task<ToggleVendorInvoiceApprovedResponse> ToggleVendorInvoiceApproved(FwApplicationConfig appConfig, FwUserSession userSession, string vendorInvoiceId)
         {
-            ToggleVendorInvoiceApprovedReponse response = new ToggleVendorInvoiceApprovedReponse();
+            ToggleVendorInvoiceApprovedResponse response = new ToggleVendorInvoiceApprovedResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "vendorinvoiceapproved", appConfig.DatabaseSettings.QueryTimeout);

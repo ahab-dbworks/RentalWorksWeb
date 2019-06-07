@@ -23,7 +23,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
     }
 
 
-    public class SelectAllNonePoWorksheetItemResponse : TSpStatusReponse
+    public class SelectAllNonePoWorksheetItemResponse : TSpStatusResponse
     {
     }
 

@@ -25,7 +25,7 @@ namespace WebApi.Modules.Home.OrderDates
         public List<OrderDatesAndTime> DatesAndTimes = new List<OrderDatesAndTime>();
     }
 
-    public class ApplyOrderDatesAndTimesResponse : TSpStatusReponse
+    public class ApplyOrderDatesAndTimesResponse : TSpStatusResponse
     {
     }
 

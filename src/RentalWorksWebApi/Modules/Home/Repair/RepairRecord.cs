@@ -160,22 +160,22 @@ namespace WebApi.Modules.Home.Repair
         [FwSqlDataField(column: "datestamp", modeltype: FwDataTypes.UTCDateTime, sqltype: "datetime")]
         public string DateStamp { get; set; }
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> ToggleEstimate()
+        public async Task<TSpStatusResponse> ToggleEstimate()
         {
             return await RepairFunc.ToggleRepairEstimate(AppConfig, UserSession, RepairId);
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> ToggleComplete()
+        public async Task<TSpStatusResponse> ToggleComplete()
         {
             return await RepairFunc.ToggleRepairComplete(AppConfig, UserSession, RepairId);
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> ReleaseItems(int quantity)
+        public async Task<TSpStatusResponse> ReleaseItems(int quantity)
         {
             return await RepairFunc.ReleaseRepairItems(AppConfig, UserSession, RepairId, quantity);
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<TSpStatusReponse> Void()
+        public async Task<TSpStatusResponse> Void()
         {
             return await RepairFunc.VoidRepair(AppConfig, UserSession, RepairId);
         }

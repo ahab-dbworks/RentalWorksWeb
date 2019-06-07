@@ -135,7 +135,7 @@ namespace WebApi.Modules.Home.CheckIn
             try
             {
 
-                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
 
@@ -169,7 +169,7 @@ namespace WebApi.Modules.Home.CheckIn
         // POST api/v1/checkin/checkinitem
         [HttpPost("checkinitem")]
         [FwControllerMethod(Id:"H0hnbimbsrSh")]
-        public async Task<ActionResult<TCheckInItemReponse>> CheckInItem([FromBody]CheckInItemRequest request)
+        public async Task<ActionResult<TCheckInItemResponse>> CheckInItem([FromBody]CheckInItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -177,7 +177,7 @@ namespace WebApi.Modules.Home.CheckIn
             }
             try
             {
-                TCheckInItemReponse checkInItemResponse = new TCheckInItemReponse();
+                TCheckInItemResponse checkInItemResponse = new TCheckInItemResponse();
                 if ((string.IsNullOrEmpty(request.OrderItemId)) && (string.IsNullOrEmpty(request.Code)))
                 {
                     checkInItemResponse.success = false;

@@ -11,9 +11,9 @@ namespace WebApi.Modules.Home.Repair
     {
 
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusReponse> ToggleRepairEstimate(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
+        public static async Task<TSpStatusResponse> ToggleRepairEstimate(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
         {
-            TSpStatusReponse response = new TSpStatusReponse();
+            TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "togglerepairestimated", appConfig.DatabaseSettings.QueryTimeout);
@@ -28,9 +28,9 @@ namespace WebApi.Modules.Home.Repair
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusReponse> ToggleRepairComplete(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
+        public static async Task<TSpStatusResponse> ToggleRepairComplete(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
         {
-            TSpStatusReponse response = new TSpStatusReponse();
+            TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "togglerepaircomplete", appConfig.DatabaseSettings.QueryTimeout);
@@ -45,9 +45,9 @@ namespace WebApi.Modules.Home.Repair
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusReponse> ReleaseRepairItems(FwApplicationConfig appConfig, FwUserSession userSession, string repairId, int quantity)
+        public static async Task<TSpStatusResponse> ReleaseRepairItems(FwApplicationConfig appConfig, FwUserSession userSession, string repairId, int quantity)
         {
-            TSpStatusReponse response = new TSpStatusReponse();
+            TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "releaserepairitems", appConfig.DatabaseSettings.QueryTimeout);
@@ -63,9 +63,9 @@ namespace WebApi.Modules.Home.Repair
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusReponse> VoidRepair(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
+        public static async Task<TSpStatusResponse> VoidRepair(FwApplicationConfig appConfig, FwUserSession userSession, string repairId)
         {
-            TSpStatusReponse response = new TSpStatusReponse();
+            TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "voidrepair", appConfig.DatabaseSettings.QueryTimeout);

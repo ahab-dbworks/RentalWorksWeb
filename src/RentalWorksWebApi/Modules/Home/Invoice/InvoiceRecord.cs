@@ -328,7 +328,7 @@ namespace WebApi.Modules.Home.Invoice
             return true;
         }
         //-------------------------------------------------------------------------------------------------------
-        public async Task<TSpStatusReponse> Void()
+        public async Task<TSpStatusResponse> Void()
         {
             return await InvoiceFunc.VoidInvoice(AppConfig, UserSession, InvoiceId);
         }

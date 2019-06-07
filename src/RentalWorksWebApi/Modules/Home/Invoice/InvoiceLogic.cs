@@ -529,7 +529,7 @@ namespace WebApi.Modules.Home.Invoice
         }
         //------------------------------------------------------------------------------------ 
 
-        public async Task<TSpStatusReponse> Void()
+        public async Task<TSpStatusResponse> Void()
         {
             return await invoice.Void();
         }

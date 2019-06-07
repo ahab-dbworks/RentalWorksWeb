@@ -310,11 +310,11 @@ namespace WebApi.Modules.Home.VendorInvoice
                 request.PurchaseOrderId = PurchaseOrderId;
                 request.BillingStartDate = FwConvert.ToDateTime(BillingStartDate);
                 request.BillingEndDate = FwConvert.ToDateTime(BillingEndDate);
-                UpdateVendorInvoiceItemsReponse response = VendorInvoiceFunc.UpdateVendorInvoiceItem(AppConfig, UserSession, request).Result;
+                UpdateVendorInvoiceItemsResponse response = VendorInvoiceFunc.UpdateVendorInvoiceItem(AppConfig, UserSession, request).Result;
             }
         }
         //------------------------------------------------------------------------------------ 
-        public async Task<ToggleVendorInvoiceApprovedReponse> ToggleApproved()
+        public async Task<ToggleVendorInvoiceApprovedResponse> ToggleApproved()
         {
             return await vendorInvoice.ToggleApproved();
         }

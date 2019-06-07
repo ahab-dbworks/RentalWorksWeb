@@ -20,7 +20,7 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
     }
 
 
-    public class ReceiptProcessBatchResponse : TSpStatusReponse
+    public class ReceiptProcessBatchResponse : TSpStatusResponse
     {
         public ReceiptProcessBatchLogic Batch;
     }
@@ -30,7 +30,7 @@ namespace WebApi.Modules.Utilities.ReceiptProcessBatch
         public string BatchId { get; set; }
     }
 
-    public class ExportReceiptResponse : TSpStatusReponse
+    public class ExportReceiptResponse : TSpStatusResponse
     {
         public ReceiptProcessBatchLogic batch = null;
         public string downloadUrl = "";

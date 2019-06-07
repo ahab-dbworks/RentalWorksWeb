@@ -75,7 +75,7 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusReponse response = await l.ToggleEstimate();
+                    TSpStatusResponse response = await l.ToggleEstimate();
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);
@@ -118,7 +118,7 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusReponse response = await l.ToggleComplete();
+                    TSpStatusResponse response = await l.ToggleComplete();
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);
@@ -161,7 +161,7 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusReponse response = await l.ReleaseItems(quantity);
+                    TSpStatusResponse response = await l.ReleaseItems(quantity);
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);
@@ -204,7 +204,7 @@ namespace WebApi.Modules.Home.Repair
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<RepairLogic>(ids))
                 {
-                    TSpStatusReponse response = await l.Void();
+                    TSpStatusResponse response = await l.Void();
                     if (response.success)
                     {
                         await l.LoadAsync<RepairLogic>(ids);

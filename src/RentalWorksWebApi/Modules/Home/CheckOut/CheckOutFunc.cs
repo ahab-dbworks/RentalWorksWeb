@@ -31,7 +31,7 @@ namespace WebApi.Modules.Home.CheckOut
         public string OrderId { get; set; }
     }
 
-    public class CreateOutContractResponse : TSpStatusReponse
+    public class CreateOutContractResponse : TSpStatusResponse
     {
         public string ContractId { get; set; }
     }
@@ -48,7 +48,7 @@ namespace WebApi.Modules.Home.CheckOut
     }
 
 
-    public class MoveStagedItemResponse : TSpStatusReponse
+    public class MoveStagedItemResponse : TSpStatusResponse
     {
     }
 
@@ -65,7 +65,7 @@ namespace WebApi.Modules.Home.CheckOut
         public int QuantityRemaining { get; set; }
     }
 
-    public class StageItemResponse : TSpStatusReponse
+    public class StageItemResponse : TSpStatusResponse
     {
         public string InventoryId { get; set; }
         public string OrderItemId { get; set; }
@@ -78,7 +78,7 @@ namespace WebApi.Modules.Home.CheckOut
         public bool ShowUnstage { get; set; }
     }
 
-    public class CheckOutAllStagedResponse : TSpStatusReponse
+    public class CheckOutAllStagedResponse : TSpStatusResponse
     {
         public string ContractId { get; set; }
     }
@@ -90,11 +90,11 @@ namespace WebApi.Modules.Home.CheckOut
     }
 
 
-    public class SelectAllNoneStageQuantityItemResponse : TSpStatusReponse
+    public class SelectAllNoneStageQuantityItemResponse : TSpStatusResponse
     {
     }
 
-    public class StagingTabsResponse : TSpStatusReponse
+    public class StagingTabsResponse : TSpStatusResponse
     {
         public bool QuantityTab = false;
         public bool HoldingTab = false;

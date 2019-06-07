@@ -19,7 +19,7 @@ namespace WebApi.Modules.Home.LossAndDamage
     }
 
 
-    public class StartLossAndDamageSessionResponse : TSpStatusReponse
+    public class StartLossAndDamageSessionResponse : TSpStatusResponse
     {
         public string SessionId;
     }
@@ -35,7 +35,7 @@ namespace WebApi.Modules.Home.LossAndDamage
     }
 
 
-    public class UpdateLossAndDamageItemResponse : TSpStatusReponse
+    public class UpdateLossAndDamageItemResponse : TSpStatusResponse
     {
         public int? NewQuantity;
     }
@@ -49,7 +49,7 @@ namespace WebApi.Modules.Home.LossAndDamage
     }
 
 
-    public class CompleteLossAndDamageSessionResponse : TSpStatusReponse
+    public class CompleteLossAndDamageSessionResponse : TSpStatusResponse
     {
     }
 

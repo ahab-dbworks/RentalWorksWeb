@@ -954,7 +954,7 @@ public string Moddate { get; set; }
 public string DateStamp { get; set; } 
 //------------------------------------------------------------------------------------              
              */
-        public class OrderOnHoldResponse : TSpStatusReponse
+        public class OrderOnHoldResponse : TSpStatusResponse
         {
         }
 

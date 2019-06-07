@@ -7,7 +7,7 @@ using WebApi.Logic;
 namespace WebApi.Modules.Home.CompleteQc
 {
 
-    public class CompleteQcItemReponse : TSpStatusReponse
+    public class CompleteQcItemResponse : TSpStatusResponse
     {
         public string InventoryId{ get; set; }
         public string ICode{ get; set; }
@@ -21,16 +21,16 @@ namespace WebApi.Modules.Home.CompleteQc
     }
 
 
-    public class UpdateQcItemReponse : TSpStatusReponse
+    public class UpdateQcItemResponse : TSpStatusResponse
     {
     }
 
     public static class CompleteQcFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<CompleteQcItemReponse> CompleteQcItem(FwApplicationConfig appConfig, FwUserSession userSession, CompleteQcItemRequest request)
+        public static async Task<CompleteQcItemResponse> CompleteQcItem(FwApplicationConfig appConfig, FwUserSession userSession, CompleteQcItemRequest request)
         {
-            CompleteQcItemReponse response = new CompleteQcItemReponse();
+            CompleteQcItemResponse response = new CompleteQcItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "completeqcitem", appConfig.DatabaseSettings.QueryTimeout);
@@ -63,9 +63,9 @@ namespace WebApi.Modules.Home.CompleteQc
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<UpdateQcItemReponse> UpdateQcItem(FwApplicationConfig appConfig, FwUserSession userSession, UpdateQcItemRequest request)
+        public static async Task<UpdateQcItemResponse> UpdateQcItem(FwApplicationConfig appConfig, FwUserSession userSession, UpdateQcItemRequest request)
         {
-            UpdateQcItemReponse response = new UpdateQcItemReponse();
+            UpdateQcItemResponse response = new UpdateQcItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "updateqcitem", appConfig.DatabaseSettings.QueryTimeout);

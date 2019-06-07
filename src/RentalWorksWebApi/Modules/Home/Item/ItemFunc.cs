@@ -5,7 +5,7 @@ using WebApi.Logic;
 namespace WebApi.Modules.Home.Item
 {
 
-    public class ItemByBarCodeResponse : TSpStatusReponse
+    public class ItemByBarCodeResponse : TSpStatusResponse
     {
         public ItemLogic Item { get; set; } = new ItemLogic();
     }

@@ -6,15 +6,15 @@ using WebApi.Logic;
 
 namespace WebApi.Modules.Home.Invoice
 {
-    public class ToggleInvoiceApprovedResponse : TSpStatusReponse
+    public class ToggleInvoiceApprovedResponse : TSpStatusResponse
     {
     }
     public static class InvoiceFunc
     {
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<TSpStatusReponse> VoidInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
+        public static async Task<TSpStatusResponse> VoidInvoice(FwApplicationConfig appConfig, FwUserSession userSession, string invoiceId)
         {
-            TSpStatusReponse response = new TSpStatusReponse();
+            TSpStatusResponse response = new TSpStatusResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "deleteinvoice", appConfig.DatabaseSettings.QueryTimeout);

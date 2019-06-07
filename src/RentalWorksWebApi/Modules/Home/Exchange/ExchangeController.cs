@@ -42,7 +42,7 @@ namespace WebApi.Modules.Home.Exchange
         public int? Quantity;
     }
 
-    public class ExchangeItemInResponse : ExchangeItemSpStatusReponse
+    public class ExchangeItemInResponse : ExchangeItemSpStatusResponse
     {
         public string ContractId;
         public string InCode;
@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.Exchange
         public string OutCode;
     }
 
-    public class ExchangeItemOutResponse : ExchangeItemSpStatusReponse
+    public class ExchangeItemOutResponse : ExchangeItemSpStatusResponse
     {
         public string ContractId;
         public string InCode;
@@ -142,7 +142,7 @@ namespace WebApi.Modules.Home.Exchange
                     }
                 }
 
-                ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId, */request.InCode, request.Quantity, "");
+                ExchangeItemSpStatusResponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId, */request.InCode, request.Quantity, "");
                 response.Deal = exchangeItemResponse.Deal;
                 response.OrderNumber = exchangeItemResponse.OrderNumber;
                 response.OrderDescription = exchangeItemResponse.OrderDescription;
@@ -222,7 +222,7 @@ namespace WebApi.Modules.Home.Exchange
                     }
 
 
-                    ExchangeItemSpStatusReponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId,*/ request.InCode, request.Quantity, request.OutCode);
+                    ExchangeItemSpStatusResponse exchangeItemResponse = await ExchangeFunc.ExchangeItem(AppConfig, UserSession, request.ContractId, /*request.OrderId, request.DealId, request.DepartmentId,*/ request.InCode, request.Quantity, request.OutCode);
                     response.Deal = exchangeItemResponse.Deal;
                     response.OrderNumber = exchangeItemResponse.OrderNumber;
                     response.OrderDescription = exchangeItemResponse.OrderDescription;
@@ -286,7 +286,7 @@ namespace WebApi.Modules.Home.Exchange
             try
             {
 
-                TSpStatusReponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
+                TSpStatusResponse response = await ContractFunc.AssignContract(AppConfig, UserSession, id);
                 if (response.success)
                 {
 

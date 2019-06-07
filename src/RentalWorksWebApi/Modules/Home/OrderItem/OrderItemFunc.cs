@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.OrderItem
         public int? StartAtIndex { get; set; }
         public List<string> OrderItemIds { get; set; } = new List<string>();
     }
-    public class SortOrderItemsResponse : TSpStatusReponse
+    public class SortOrderItemsResponse : TSpStatusResponse
     {
     }
 

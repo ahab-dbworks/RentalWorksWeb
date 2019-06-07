@@ -24,7 +24,7 @@ namespace WebApi.Modules.Home.Exchange
     }
 
 
-    public class ExchangeItemSpStatusReponse : TSpStatusReponse
+    public class ExchangeItemSpStatusResponse : TSpStatusResponse
     {
         public string OrderId;
         public string OrderNumber;
@@ -72,9 +72,9 @@ create procedure dbo.exchangebc(@exchangecontractid  char(08),
          
          */
         //-------------------------------------------------------------------------------------------------------    
-        public static async Task<ExchangeItemSpStatusReponse> ExchangeItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, /*string orderId, string dealId, string departmentId,*/ string inCode, int? quantity, string outCode)
+        public static async Task<ExchangeItemSpStatusResponse> ExchangeItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, /*string orderId, string dealId, string departmentId,*/ string inCode, int? quantity, string outCode)
         {
-            ExchangeItemSpStatusReponse response = new ExchangeItemSpStatusReponse();
+            ExchangeItemSpStatusResponse response = new ExchangeItemSpStatusResponse();
 
             if (string.IsNullOrEmpty(outCode))  //user is supplying an In Code.  We are validating the code to provide metadata about the item
             {

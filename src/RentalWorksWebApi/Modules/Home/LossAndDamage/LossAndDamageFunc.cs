@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.LossAndDamage
     }
 
 
-    public class SelectAllNoneLossAndDamageItemResponse : TSpStatusReponse
+    public class SelectAllNoneLossAndDamageItemResponse : TSpStatusResponse
     {
     }
 
@@ -31,7 +31,7 @@ namespace WebApi.Modules.Home.LossAndDamage
     }
 
 
-    public class RetireLossAndDamageItemResponse : TSpStatusReponse
+    public class RetireLossAndDamageItemResponse : TSpStatusResponse
     {
         public string ContractId { get; set; }
     }

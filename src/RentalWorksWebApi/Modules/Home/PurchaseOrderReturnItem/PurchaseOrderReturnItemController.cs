@@ -27,7 +27,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
     }
 
 
-    public class ReturnItemResponse : TSpStatusReponse
+    public class ReturnItemResponse : TSpStatusResponse
     {
         public string ContractId;
         public string PurchaseOrderId;
@@ -47,7 +47,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReturnItem
     }
 
 
-    public class SelectAllNoneReturnItemResponse : TSpStatusReponse
+    public class SelectAllNoneReturnItemResponse : TSpStatusResponse
     {
     }
 

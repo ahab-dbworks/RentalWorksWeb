@@ -17,7 +17,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
         public DateTime AsOfDate { get; set; }
     }
 
-    public class InvoiceProcessBatchResponse : TSpStatusReponse
+    public class InvoiceProcessBatchResponse : TSpStatusResponse
     {
         public InvoiceProcessBatchLogic Batch;
     }
@@ -27,7 +27,7 @@ namespace WebApi.Modules.Utilities.InvoiceProcessBatch
         public string BatchId { get; set; }
     }
 
-    public class ExportInvoiceResponse : TSpStatusReponse
+    public class ExportInvoiceResponse : TSpStatusResponse
     {
         public InvoiceProcessBatchLogic batch = null;
         public string downloadUrl = "";

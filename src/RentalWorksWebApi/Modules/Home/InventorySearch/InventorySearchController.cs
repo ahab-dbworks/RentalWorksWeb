@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.InventorySearch
         public string SessionId;
         public string OrderId;
     }
-    public class InventorySearchGetTotalResponse: TSpStatusReponse
+    public class InventorySearchGetTotalResponse: TSpStatusResponse
     {
         public decimal? TotalQuantityInSession;
     }

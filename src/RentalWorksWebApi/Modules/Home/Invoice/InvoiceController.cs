@@ -83,7 +83,7 @@ namespace WebApi.Modules.Home.Invoice
                 l.SetDependencies(AppConfig, UserSession);
                 if (await l.LoadAsync<InvoiceLogic>(ids))
                 {
-                    TSpStatusReponse response = await l.Void();
+                    TSpStatusResponse response = await l.Void();
                     if (response.success)
                     {
                         await l.LoadAsync<InvoiceLogic>(ids);

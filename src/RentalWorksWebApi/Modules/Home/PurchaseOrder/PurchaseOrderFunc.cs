@@ -46,7 +46,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string ContractId;
     }
 
-    public class PurchaseOrderReceiveBarCodeAddItemsResponse : TSpStatusReponse
+    public class PurchaseOrderReceiveBarCodeAddItemsResponse : TSpStatusResponse
     {
         public int ItemsAdded;
     }
@@ -57,13 +57,13 @@ namespace WebApi.Modules.Home.PurchaseOrder
         public string ContractId;
     }
 
-    public class PurchaseOrderReceiveAssignBarCodesResponse : TSpStatusReponse
+    public class PurchaseOrderReceiveAssignBarCodesResponse : TSpStatusResponse
     {
     }
 
 
 
-    public class NextVendorInvoiceDefaultDatesReponse : TSpStatusReponse
+    public class NextVendorInvoiceDefaultDatesResponse : TSpStatusResponse
     {
         public DateTime? BillingStartDate { get; set; }
         public DateTime? BillingEndDate { get; set; }
@@ -218,9 +218,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
             return contractIds;
         }
         //-------------------------------------------------------------------------------------------------------            
-        public static async Task<NextVendorInvoiceDefaultDatesReponse> GetNextVendorInvoiceDefaultDates(FwApplicationConfig appConfig, FwUserSession userSession, string purchaseOrderId)
+        public static async Task<NextVendorInvoiceDefaultDatesResponse> GetNextVendorInvoiceDefaultDates(FwApplicationConfig appConfig, FwUserSession userSession, string purchaseOrderId)
         {
-            NextVendorInvoiceDefaultDatesReponse response = new NextVendorInvoiceDefaultDatesReponse();
+            NextVendorInvoiceDefaultDatesResponse response = new NextVendorInvoiceDefaultDatesResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "getnextvendorinvoicedefaultdates", appConfig.DatabaseSettings.QueryTimeout);

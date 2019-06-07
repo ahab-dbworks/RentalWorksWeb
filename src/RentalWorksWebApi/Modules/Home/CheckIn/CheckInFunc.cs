@@ -21,7 +21,7 @@ namespace WebApi.Modules.Home.CheckIn
         public int QuantityRemaining;
     }
 
-    public class TCheckInItemReponse : TSpStatusReponse
+    public class TCheckInItemResponse : TSpStatusResponse
     {
         public string ContractId;
         public string OrderId;
@@ -62,8 +62,8 @@ namespace WebApi.Modules.Home.CheckIn
             return contractId;
         }
         //-------------------------------------------------------------------------------------------------------
-        //public static async Task<TCheckInItemReponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string code, string orderItemId, int? quantity, bool? addOrderToContract, bool? swapItem)
-        public static async Task<TCheckInItemReponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, CheckInItemRequest request)
+        //public static async Task<TCheckInItemResponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, string contractId, string code, string orderItemId, int? quantity, bool? addOrderToContract, bool? swapItem)
+        public static async Task<TCheckInItemResponse> CheckInItem(FwApplicationConfig appConfig, FwUserSession userSession, CheckInItemRequest request)
         {
 
             /*
@@ -113,7 +113,7 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
              
              
              */
-            TCheckInItemReponse response = new TCheckInItemReponse();
+            TCheckInItemResponse response = new TCheckInItemResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "pdacheckinitem", appConfig.DatabaseSettings.QueryTimeout);

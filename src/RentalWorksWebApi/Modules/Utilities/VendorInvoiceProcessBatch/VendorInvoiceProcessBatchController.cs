@@ -15,7 +15,7 @@ namespace WebApi.Modules.Utilities.VendorInvoiceProcessBatch
     {
     }
 
-    public class VendorInvoiceProcessBatchResponse : TSpStatusReponse
+    public class VendorInvoiceProcessBatchResponse : TSpStatusResponse
     {
         public string BatchId { get; set; }
     }

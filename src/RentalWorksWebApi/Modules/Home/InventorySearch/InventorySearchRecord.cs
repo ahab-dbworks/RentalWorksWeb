@@ -38,7 +38,7 @@ namespace WebApi.Modules.Home.InventorySearch
         {
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                TSpStatusReponse response = new TSpStatusReponse();
+                TSpStatusResponse response = new TSpStatusResponse();
 
                 FwSqlCommand qry = new FwSqlCommand(conn, "savetmpsearchsession", this.AppConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, SessionId);

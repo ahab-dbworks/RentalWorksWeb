@@ -15,7 +15,7 @@ namespace WebApi.Modules.Home.Billing
         public List<string> BillingIds { get; set; } = new List<string>();
     }
 
-    public class CreateInvoicesResponse : TSpStatusReponse
+    public class CreateInvoicesResponse : TSpStatusResponse
     {
         public string InvoiceCreationBatchId { get; set; } = "";
     }

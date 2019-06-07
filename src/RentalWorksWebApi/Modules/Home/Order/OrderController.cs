@@ -244,7 +244,7 @@ namespace WebApi.Modules.Home.Order
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/order/onhold/A0000001
-        [HttpPost("cancel/{id}")]
+        [HttpPost("onhold/{id}")]
         [FwControllerMethod(Id: "ChTLbGO95bgpJ")]
         public async Task<ActionResult<OrderLogic>> OnHoldOrder([FromRoute]string id)
         {

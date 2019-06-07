@@ -45,7 +45,7 @@ namespace WebApi.Modules.Home.Order
         public bool? AdjustContractDates;
     }
 
-    public class CreatePoWorksheetSessionResponse : TSpStatusReponse
+    public class CreatePoWorksheetSessionResponse : TSpStatusResponse
     {
         public string SessionId;
     }
@@ -57,7 +57,7 @@ namespace WebApi.Modules.Home.Order
         public string RecType;
     }
 
-    public class ModifyPoWorksheetSessionResponse : TSpStatusReponse
+    public class ModifyPoWorksheetSessionResponse : TSpStatusResponse
     {
         public string SessionId;
         public string VendorId;
@@ -81,12 +81,12 @@ namespace WebApi.Modules.Home.Order
         public string SessionId;
     }
 
-    public class CompletePoWorksheetSessionResponse : TSpStatusReponse
+    public class CompletePoWorksheetSessionResponse : TSpStatusResponse
     {
         public string PurchaseOrderId;
     }
 
-    public class PoWorksheetSessionTotalsResponse : TSpStatusReponse
+    public class PoWorksheetSessionTotalsResponse : TSpStatusResponse
     {
         public double? GrossTotal;
         public double? Discount;
@@ -102,7 +102,7 @@ namespace WebApi.Modules.Home.Order
         public string RecType { get; set; }
     }
 
-    public class CopyTemplateResponse : TSpStatusReponse
+    public class CopyTemplateResponse : TSpStatusResponse
     {
     }
 
@@ -113,7 +113,7 @@ namespace WebApi.Modules.Home.Order
         public List<string> OrderItemIds { get; set; } = new List<string>();
     }
 
-    public class CopyOrderItemsResponse : TSpStatusReponse
+    public class CopyOrderItemsResponse : TSpStatusResponse
     {
         public List<string> OrderItemIds { get; set; } = new List<string>();
     }
