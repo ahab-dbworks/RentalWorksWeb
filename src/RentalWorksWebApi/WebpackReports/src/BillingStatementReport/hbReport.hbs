@@ -47,6 +47,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
+      {{#ifEquals ARRecType ""}}
       <tr>
         <td class="nowrap">{{InvoiceDate}}</td>
         <td>{{InvoiceNumber}}</td>
@@ -56,26 +57,30 @@
         <td class="number">{{Received}}</td>
         <td class="number">{{Remaining}}</td>
       </tr>
+      {{/ifEquals}}
       {{#if HasPayments}}
       <tr>
         <th colspan="2"></th>
         <th class="subHeaders">Payment Date</th>
         <th class="subHeaders" colspan="4">Description</th>
       </tr>
+
       <tr class="subValues">
         <td colspan="2"></td>
         <td>{{PaymentDate}}</td>
-        <td colspan="2">{{PaymentDescription}}</td>
+        <td>{{PaymentDescription}}</td>
+        <td class="number">{{Due}}</td>
         <td class="number">{{Received}}</td>
         <td class="number">{{Remaining}}</td>
       </tr>
+  
       {{/if}}
     </tbody>
     {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
       {{#ifEquals RowType "Dealfooter"}}
       <tr>
-        <td colspan="5" class="total-name">{{Deal}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{Deal}}&nbsp;</td>
         <td class="total-val" data-value="{{Due}}"></td>
         <td class="total-val" data-value="{{Received}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
@@ -83,7 +88,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "InvoiceNumberfooter"}}
       <tr>
-        <td colspan="5" class="total-name">{{InvoiceNumber}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{InvoiceNumber}}&nbsp;</td>
         <td class="total-val" data-value="{{Due}}"></td>
         <td class="total-val" data-value="{{Received}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
@@ -91,7 +96,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
       <tr>
-        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Due}}"></td>
         <td class="total-val" data-value="{{Received}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>

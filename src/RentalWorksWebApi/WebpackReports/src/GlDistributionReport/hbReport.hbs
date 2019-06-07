@@ -12,11 +12,14 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
+
+  <!--SUMMARY VIEW TABLE-->
+  {{#ifEquals ViewSetting "SummaryView"}}
   <table>
     <thead>
       <tr>
-        <th>G/L Account</th>
-        <th>Description</th>
+        <th>G/L No.</th>
+        <th>Account Description</th>
         <th class="number">Debit</th>
         <th class="number">Credit</th>
       </tr>
@@ -50,4 +53,54 @@
       {{/each}}
     </tbody>
   </table>
+  {{/ifEquals}}
+  <!--DETAIL VIEW TABLE-->
+  {{#ifEquals ViewSetting "DetailView"}}
+  <table>
+    <thead>
+      <tr>
+        <th>G/L No.</th>
+        <th>Date</th>
+        <th>Account Description</th>
+        <th>Invoice No.</th>
+        <th>Deal</th>
+        <th>Item Description</th>
+        <th class="number">Debit</th>
+        <th class="number">Credit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype="{{RowType}}">
+        {{#ifEquals RowType "Locationheader"}}
+        <td colspan="5" class="header-row">Location: {{Location}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "GroupHeadingheader"}}
+        <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td data-value="{{AccountNumber}}"></td>
+        <td data-value="{{GlDate}}"></td>
+        <td data-value="{{AccountDescription}}"></td>
+        <td data-value="{{InvoiceNumber}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td data-value="{{ItemDescription}}"></td>
+        <td class="number" data-value="{{Debit}}"></td>
+        <td class="number" data-value="{{Credit}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "GroupHeadingfooter"}}
+        <td colspan="6" class="total-name">{{GroupHeading}}&nbsp;</td>
+        <td class="total-val" data-value="{{Debit}}"></td>
+        <td class="total-val" data-value="{{Credit}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Locationfooter"}}
+        <td colspan="6" class="total-name">{{Location}}&nbsp;</td>
+        <td class="total-val" data-value="{{Debit}}"></td>
+        <td class="total-val" data-value="{{Credit}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  {{/ifEquals}}
 </div>

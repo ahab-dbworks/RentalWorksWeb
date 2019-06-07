@@ -24,6 +24,13 @@ export class GLDistributionReport extends WebpackReport {
                     data.Report = 'G/L Distribution Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+                    // Determine Summary or Detail View
+                    if (parameters.Summary === 'true') {
+                        data.ViewSetting = 'SummaryView';
+                    } else {
+                        data.ViewSetting = 'DetailView';
+                    }
+                    console.log('rpt: ', data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
