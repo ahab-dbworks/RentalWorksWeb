@@ -64,7 +64,7 @@ namespace WebApi.Modules.Reports.RentalEquipmentRepairHistoryReport
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
-            return await DoExportExcelXlsxFileAsync(dt);
+            return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/rentalequipmentrepairhistoryreport/runreport 
