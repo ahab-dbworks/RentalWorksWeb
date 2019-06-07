@@ -6,7 +6,8 @@ tbody {
     }
 
     td.tax-option {
-        font-weight:600;
+        font-weight: 600;
+        border-bottom: 1px solid black;
     }
 }
 
@@ -17,14 +18,8 @@ tbody {
     }
 }
 thead {
-    th.row1 {
+    th {
         border-top: 2px solid #000000;
-        font-weight: bold;
-        padding: 5px;
-        white-space: nowrap;
-    }
-
-    th.row2 {
         border-bottom: 2px solid #000000;
         font-weight: bold;
         padding: 5px;
