@@ -6,6 +6,7 @@ class Alert {
     caption: string = Constants.Modules.Administrator.Alert.caption;
     nav: string = Constants.Modules.Administrator.Alert.nav;
     id: string = Constants.Modules.Administrator.Alert.id;
+    datafields: any = [];
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
         const screen: any = {};
@@ -46,6 +47,50 @@ class Alert {
             FwFormField.disable($form.find('.ifnew'));
         }
 
+        $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
+
+        this.loadModules($form);
+        this.events($form);
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadForm(uniqueids: any) {
+        let $form;
+        $form = this.openForm('EDIT');
+        $form.find('div.fwformfield[data-datafield="AlertId"] input').val(uniqueids.AlertId);
+        FwModule.loadForm(this.Module, $form);
+
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    saveForm($form: any, parameters: any) {
+        FwModule.saveForm(this.Module, $form, parameters);
+
+        const $conditions = $form.find('.conditions');
+        const alertId = FwFormField.getValueByDataField($form, 'AlertId')
+        for (let i = 0; i < $conditions.length; i++) {
+            let request: any = {};
+            const $this = jQuery($conditions[i]);
+            const fieldName = FwFormField.getValue2($this.find('[data-datafield="FieldName"]'));
+            const condition = FwFormField.getValue2($this.find('[data-datafield="Condition"]'));
+            const value = FwFormField.getValue2($this.find('[data-datafield="Value"]'));
+
+            if (fieldName !== '' && condition !== '' && value !== '') {
+                request = {
+                    AlertId: alertId
+                    , FieldName: fieldName
+                    , Condition: condition
+                    , Value: value
+                };
+                FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition`, request, FwServices.defaultTimeout,
+                    response => { },
+                    ex => FwFunc.showError(ex),
+                    $form);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    loadModules($form) {
         //load modules
         const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
         const mainModules = FwApplicationTree.getChildrenByType(node, 'Module');
@@ -115,38 +160,6 @@ class Alert {
         FwFormField.loadItems($moduleSelect, allModules);
 
         this.getFields($form);
-        this.events($form);
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    loadForm(uniqueids: any) {
-        let $form;
-        $form = this.openForm('EDIT');
-        $form.find('div.fwformfield[data-datafield="AlertId"] input').val(uniqueids.AlertId);
-        FwModule.loadForm(this.Module, $form);
-
-        return $form;
-    }
-    //----------------------------------------------------------------------------------------------
-    saveForm($form: any, parameters: any) {
-        FwModule.saveForm(this.Module, $form, parameters);
-
-        const $conditions = $form.find('.conditions');
-        const alertId = FwFormField.getValueByDataField($form, 'AlertId')
-        for (let i = 0; i < $conditions.length; i++) {
-            let request: any = {};
-            const $this = jQuery($conditions[i]);
-            request = {
-                AlertId: alertId
-                , FieldName: FwFormField.getValue2($this.find('[data-datafield="FieldName"]'))
-                , Condition: FwFormField.getValue2($this.find('[data-datafield="Condition"]'))
-                , Value: FwFormField.getValue2($this.find('[data-datafield="Value"]'))
-            };
-            FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition`, request, FwServices.defaultTimeout,
-                response => { },
-                ex => FwFunc.showError(ex),
-                $form);
-        }
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
@@ -174,14 +187,19 @@ class Alert {
             let $conditionRow = jQuery(`
               <div class="flexrow conditions">
                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fields" data-caption="Data Field" data-datafield="FieldName" data-allcaps="false" style="flex:1 1 0; max-width:250px;"></div>
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition Type" data-datafield="ConditionType" style="flex:1 1 0; max-width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="ConditionValue" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-required="true"></div>
+                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:250px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-required="true"></div>
                 <div style="width:80px;">
                     <i class="material-icons delete-condition" style="cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
                     <i class="material-icons add-condition" style="cursor:pointer; margin:23px 0px 0px 10px;">add_circle_outline</i>
                 </div>
               </div>`);
             FwControl.renderRuntimeControls($conditionRow.find('.fwcontrol'));
+            const moduleName = FwFormField.getValueByDataField($form, 'ModuleName');
+            if (moduleName != '') {
+                const $datafield = $conditionRow.find('.fields');
+                FwFormField.loadItems($datafield, this.datafields);
+            }
             $conditionSection.append($conditionRow);
         });
         //delete condition
@@ -210,6 +228,7 @@ class Alert {
                         jQuery.merge(fieldsList, customFields);
                     }
                     fieldsList = fieldsList.sort(this.compare);
+                    this.datafields = fieldsList;
                     FwFormField.loadItems($datafield, fieldsList);
                 },
                 ex => FwFunc.showError(ex), $form);
@@ -229,6 +248,25 @@ class Alert {
         $tab.find('.modified').html('');
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+
+        //load conditions
+        const request: any = {};
+        request.uniqueids = {
+            AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition/browse`, request, FwServices.defaultTimeout,
+            response => {
+                if (response.Rows.length > 0) {
+                    const fieldNameIndex = response.ColumnIndex.FieldName;
+                    const conditionIndex = response.ColumnIndex.Condition;
+                    for (let i = 0; i < response.Rows.length; i++) {
+                        //
+                    }
+                }
+            },
+            ex => FwFunc.showError(ex),
+            $form);
+
     }
     //----------------------------------------------------------------------------------------------
     compare(a, b) {

@@ -461,7 +461,10 @@
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
+    <Content Include="Source\Modules\Administrator\Alert\AlertBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\Alert\AlertForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormForm.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixBrowse.htm" />
