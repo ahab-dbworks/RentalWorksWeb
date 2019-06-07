@@ -65,7 +65,7 @@ namespace WebApi.Modules.Home.CheckOut
         public int QuantityRemaining { get; set; }
     }
 
-    public class StageItemReponse : TSpStatusReponse
+    public class StageItemResponse : TSpStatusReponse
     {
         public string InventoryId { get; set; }
         public string OrderItemId { get; set; }
@@ -135,9 +135,9 @@ namespace WebApi.Modules.Home.CheckOut
 
                      */
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<StageItemReponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, StageItemRequest request)
+        public static async Task<StageItemResponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, StageItemRequest request)
         {
-            StageItemReponse response = new StageItemReponse();
+            StageItemResponse response = new StageItemResponse();
             if (string.IsNullOrEmpty(request.OrderId))
             {
                 response.msg = "OrderId is required.";

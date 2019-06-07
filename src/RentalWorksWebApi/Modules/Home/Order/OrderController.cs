@@ -242,6 +242,36 @@ namespace WebApi.Modules.Home.Order
                 return GetApiExceptionResult(ex);
             }
         }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/order/onhold/A0000001
+        [HttpPost("cancel/{id}")]
+        [FwControllerMethod(Id: "ChTLbGO95bgpJ")]
+        public async Task<ActionResult<OrderLogic>> OnHoldOrder([FromRoute]string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                string[] ids = id.Split('~');
+                OrderLogic Order = new OrderLogic();
+                Order.SetDependencies(AppConfig, UserSession);
+                if (await Order.LoadAsync<OrderLogic>(ids))
+                {
+                    await Order.OnHoldOrderASync();
+                    return new OkObjectResult(Order);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
         //------------------------------------------------------------------------------------        
         // POST api/v1/order/applybottomlinedaysperweek
         [HttpPost("applybottomlinedaysperweek")]

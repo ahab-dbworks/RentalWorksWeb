@@ -88,6 +88,7 @@
                         //CancelSnapshot: { id: '{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}' },
                         ViewSnapshot: { id: '{03000DCC-3D58-48EA-8BDF-A6D6B30668F5}' },
                         CancelUncancel: { id: '{6B644862-9030-4D42-A29B-30C8DAC29D3E}' },
+                        OnHold: { id: '{00AB18C2-221A-46F9-86DC-A7145D13A0D8}' },
                         OrderStatus: { id: '{CF245A59-3336-42BC-8CCB-B88807A9D4EA}' },
                         CheckOut: { id: '{771DCE59-EB57-48B2-B189-177B414A4ED3}' },
                         CheckIn: { id: '{380318B6-7E4D-446D-A018-1EB7720F4338}' }

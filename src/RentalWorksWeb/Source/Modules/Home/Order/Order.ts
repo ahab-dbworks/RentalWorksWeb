@@ -1844,6 +1844,35 @@ class Order extends OrderBase {
             }, null, $confirmationbox);
         }
     };
+    //----------------------------------------------------------------------------------------------
+    OrderOnHold($form: JQuery, event: any): void {
+        const orderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
+        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+
+        const $confirmation = FwConfirmation.renderConfirmation('Put On Hold', '');
+        $confirmation.find('.fwconfirmationbox').css('width', '450px');
+        const html = [];
+        html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
+        html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
+        html.push(`    <div>Put Order ${orderNumber} on Hold?</div>`);
+        html.push('  </div>');
+        html.push('</div>');
+
+        FwConfirmation.addControls($confirmation, html.join(''));
+
+        const $yes = FwConfirmation.addButton($confirmation, 'Create Snapshot', false);
+        const $no = FwConfirmation.addButton($confirmation, 'Cancel');
+
+        $yes.on('click', putOnHold);
+        let $confirmationbox = jQuery('.fwconfirmationbox');
+        function putOnHold() {
+            FwAppData.apiMethod(true, 'POST', `api/v1/order/onhold/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwNotification.renderNotification('SUCCESS', 'Order Put on Hold.');
+                FwConfirmation.destroyConfirmation($confirmation);
+
+            }, null, $confirmationbox);
+        }
+    };
 
     //----------------------------------------------------------------------------------------------
 };
@@ -2031,7 +2060,16 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Search
         FwFunc.showError(ex);
     }
 };
-
+//----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.OnHold.id] = function (e) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        const orderId = FwFormField.getValueByDataField($form, 'OrderId');
+        OrderController.OrderOnHold($form, orderId);
+    } catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.PrintOrder.id] = function (e) {
     try {

@@ -77,6 +77,13 @@ namespace WebApi.Modules.Home.Order
             return this;
         }
         //------------------------------------------------------------------------------------    
+        public async Task<OrderLogic> OnHoldOrderASync()
+        {
+            await dealOrder.OnHoldOrder();
+            await LoadAsync<OrderLogic>();
+            return this;
+        }
+        //------------------------------------------------------------------------------------    
         public async Task<OrderLogic> CreateSnapshotASync()
         {
             string newOrderId = await dealOrder.CreateSnapshot();

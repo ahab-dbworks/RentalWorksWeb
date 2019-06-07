@@ -98,7 +98,7 @@ namespace WebApi.Modules.Home.CheckOut
         // POST api/v1/checkout/stageitem
         [HttpPost("stageitem")]
         [FwControllerMethod(Id: "cjSZS0HLutCV")]
-        public async Task<ActionResult<StageItemReponse>> StageItem([FromBody]StageItemRequest request)
+        public async Task<ActionResult<StageItemResponse>> StageItem([FromBody]StageItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace WebApi.Modules.Home.CheckOut
             }
             try
             {
-                StageItemReponse stageItemResponse = await CheckOutFunc.StageItem(AppConfig, UserSession, request);
+                StageItemResponse stageItemResponse = await CheckOutFunc.StageItem(AppConfig, UserSession, request);
                 return new OkObjectResult(stageItemResponse);
 
             }

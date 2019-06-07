@@ -954,11 +954,9 @@ public string Moddate { get; set; }
 public string DateStamp { get; set; } 
 //------------------------------------------------------------------------------------              
              */
-
-
-
-
-
+        public class OrderOnHoldResponse : TSpStatusReponse
+        {
+        }
 
         //------------------------------------------------------------------------------------
         public async Task<bool> SavePoASync(string PoNumber, decimal? PoAmount, FwSqlConnection conn = null)
@@ -1228,6 +1226,29 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<OrderOnHoldResponse> OnHoldOrder()
+        {
+            OrderOnHoldResponse response = new OrderOnHoldResponse();
+
+                if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_ORDER)))
+                {
+                    using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
+                    {
+                        FwSqlCommand qry = new FwSqlCommand(conn, "orderonhold", this.AppConfig.DatabaseSettings.QueryTimeout);
+                        qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                        qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                        qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                        qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                        await qry.ExecuteNonQueryAsync();
+                        response.status = qry.GetParameter("@status").ToInt32();
+                        response.success = (qry.GetParameter("@status").ToInt32() == 0);
+                        response.msg = qry.GetParameter("@msg").ToString();
+                    }
+                }
+            
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public async Task<string> CreateNewVersion()
         {
             string newId = "";
@@ -1344,8 +1365,8 @@ public string DateStamp { get; set; }
         {
             string newOrderId = string.Empty;
 
-            if ((OrderId != null) && 
-                (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) && 
+            if ((OrderId != null) &&
+                (Type.Equals(RwConstants.ORDER_TYPE_QUOTE)) &&
                 (Status.Equals(RwConstants.QUOTE_STATUS_REQUEST)))
             {
                 using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
