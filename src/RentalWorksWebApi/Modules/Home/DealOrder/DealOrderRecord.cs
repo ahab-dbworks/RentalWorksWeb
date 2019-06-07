@@ -956,6 +956,7 @@ public string DateStamp { get; set; }
              */
         public class OrderOnHoldResponse : TSpStatusResponse
         {
+            public OrderLogic order { get; set; } = null;
         }
 
         //------------------------------------------------------------------------------------

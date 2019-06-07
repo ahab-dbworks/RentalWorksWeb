@@ -179,7 +179,6 @@ namespace WebApi.Modules.Home.CheckOut
                     qry.AddParameter("@showaddcompletetoorder", SqlDbType.NVarChar, ParameterDirection.Output);
                     qry.AddParameter("@showunstage", SqlDbType.NVarChar, ParameterDirection.Output);
 
-
                     qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
                     qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                     await qry.ExecuteNonQueryAsync();

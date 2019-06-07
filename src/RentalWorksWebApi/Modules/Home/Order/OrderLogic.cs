@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using WebApi.Modules.Home.DealOrder;
 using WebLibrary;
+using static WebApi.Modules.Home.DealOrder.DealOrderRecord;
 
 namespace WebApi.Modules.Home.Order
 {
@@ -77,11 +78,15 @@ namespace WebApi.Modules.Home.Order
             return this;
         }
         //------------------------------------------------------------------------------------    
-        public async Task<OrderLogic> OnHoldOrderASync()
+        public async Task<OrderOnHoldResponse> OnHoldOrderASync()
         {
-            await dealOrder.OnHoldOrder();
-            await LoadAsync<OrderLogic>();
-            return this;
+            OrderOnHoldResponse response = await dealOrder.OnHoldOrder();
+            if (response.success)
+            {
+                await LoadAsync<OrderLogic>();
+                response.order = this;
+            }
+            return response;
         }
         //------------------------------------------------------------------------------------    
         public async Task<OrderLogic> CreateSnapshotASync()

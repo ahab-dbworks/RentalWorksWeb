@@ -1849,12 +1849,12 @@ class Order extends OrderBase {
         const orderNumber = FwFormField.getValueByDataField($form, 'OrderNumber');
         const orderId = FwFormField.getValueByDataField($form, 'OrderId');
 
-        const $confirmation = FwConfirmation.renderConfirmation('Put On Hold', '');
+        const $confirmation = FwConfirmation.renderConfirmation('On Hold', '');
         $confirmation.find('.fwconfirmationbox').css('width', '450px');
         const html = [];
         html.push('<div class="fwform" data-controller="none" style="background-color: transparent;">');
         html.push('  <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">');
-        html.push(`    <div>Put Order ${orderNumber} on Hold?</div>`);
+        html.push(`    <div>Put Order ${orderNumber} On Hold?</div>`);
         html.push('  </div>');
         html.push('</div>');
 
@@ -1867,9 +1867,11 @@ class Order extends OrderBase {
         let $confirmationbox = jQuery('.fwconfirmationbox');
         function putOnHold() {
             FwAppData.apiMethod(true, 'POST', `api/v1/order/onhold/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                FwNotification.renderNotification('SUCCESS', 'Order Put on Hold.');
-                FwConfirmation.destroyConfirmation($confirmation);
-
+                if (response.success === true) {
+                    FwNotification.renderNotification('SUCCESS', 'Order Is Now On Hold.');
+                    FwModule.refreshForm($form, OrderController)
+                    FwConfirmation.destroyConfirmation($confirmation);
+                } 
             }, null, $confirmationbox);
         }
     };

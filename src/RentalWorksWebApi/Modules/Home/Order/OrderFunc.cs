@@ -312,9 +312,6 @@ namespace WebApi.Modules.Home.Order
             return await SelectAllNonePoWorksheetItem(appConfig, userSession, sessionId, false);
         }
         //-------------------------------------------------------------------------------------------------------
-
-
-
         public static async Task<CompletePoWorksheetSessionResponse> CompletePoWorksheetSession(FwApplicationConfig appConfig, FwUserSession userSession, string sessionId)
         {
             CompletePoWorksheetSessionResponse response = new CompletePoWorksheetSessionResponse();
