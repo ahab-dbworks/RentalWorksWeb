@@ -1,12 +1,7 @@
 using FwStandard.AppManager;
-using FwStandard.BusinessLogic;
-using WebApi.Modules.Home.ItemDimension;
-using WebApi.Modules.Home.Master;
 using WebApi.Logic;
-using static FwStandard.DataLayer.FwDataReadWriteRecord;
 using System.Threading.Tasks;
 using FwStandard.SqlServer;
-using WebApi.Modules.Home.InventorySearch;
 using static WebApi.Modules.Home.InventorySearchPreview.InventorySearchPreviewController;
 
 namespace WebApi.Modules.Home.InventorySearchPreview
@@ -24,6 +19,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
             dataLoader = inventorySearchLoader;
 
             ReloadOnSave = false;
+            LoadOriginalBeforeSaving = false;
         }
         //------------------------------------------------------------------------------------ 
 
