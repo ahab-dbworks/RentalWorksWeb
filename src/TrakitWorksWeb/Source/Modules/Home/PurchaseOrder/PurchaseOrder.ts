@@ -105,6 +105,26 @@ class PurchaseOrder {
         FwFormField.disable($form.find('[data-datafield="SubMiscellaneous"]'));
         FwFormField.disable($form.find('[data-datafield="SubVehicle"]'));
 
+        //Toggle Buttons on Deliver/Ship tab
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryDeliveryType"]'), [
+            { value: 'DELIVER', text: 'Deliver' },
+            { value: 'SHIP', text: 'Ship' },
+            { value: 'PICK UP', text: 'Vendor Pick Up' }
+        ], true);
+
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryDeliveryType"]'), [
+            { value: 'DELIVER', text: 'Vendor Deliver' },
+            { value: 'SHIP', text: 'Vendor Ship' },
+            { value: 'PICK UP', text: 'Pick Up' }
+        ], true);
+
+        var deliverAddressTypes = [{ value: 'DEAL', caption: 'Job' },
+        { value: 'VENUE', caption: 'Venue' },
+        { value: 'WAREHOUSE', caption: 'Warehouse' },
+        { value: 'OTHER', caption: 'Other' }];
+        FwFormField.loadItems($form.find('div[data-datafield="OutDeliveryAddressType"]'), deliverAddressTypes);
+        FwFormField.loadItems($form.find('div[data-datafield="InDeliveryAddressType"]'), deliverAddressTypes);
+
         if (mode === 'NEW') {
             $form.find('.ifnew').attr('data-enabled', 'true');
 
