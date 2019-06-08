@@ -12,9 +12,8 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-
   <!--SUMMARY VIEW TABLE-->
-  {{#ifEquals ViewSetting "SummaryView"}}
+  {{#ifEquals IsSummary true}}
   <table>
     <thead>
       <tr>
@@ -55,7 +54,7 @@
   </table>
   {{/ifEquals}}
   <!--DETAIL VIEW TABLE-->
-  {{#ifEquals ViewSetting "DetailView"}}
+  {{#ifEquals IsSummary false}}
   <table>
     <thead>
       <tr>

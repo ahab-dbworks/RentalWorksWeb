@@ -25,10 +25,10 @@ export class GLDistributionReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     // Determine Summary or Detail View
-                    if (parameters.Summary === 'true') {
-                        data.ViewSetting = 'SummaryView';
+                    if (parameters.IsSummary === 'true') {
+                        data.IsSummary = true;
                     } else {
-                        data.ViewSetting = 'DetailView';
+                        data.IsSummary = false;
                     }
                     console.log('rpt: ', data);
                     this.renderFooterHtml(data);
