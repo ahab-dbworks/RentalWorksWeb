@@ -66,7 +66,7 @@ class Alert {
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
 
-        const $conditions = $form.find('.conditions');
+        const $conditions = $form.find('.condition-row');
         const alertId = FwFormField.getValueByDataField($form, 'AlertId')
         for (let i = 0; i < $conditions.length; i++) {
             let request: any = {};
@@ -74,18 +74,22 @@ class Alert {
             const fieldName = FwFormField.getValue2($this.find('[data-datafield="FieldName"]'));
             const condition = FwFormField.getValue2($this.find('[data-datafield="Condition"]'));
             const value = FwFormField.getValue2($this.find('[data-datafield="Value"]'));
-
+            const alertConditionId = FwFormField.getValue2($this.find('[data-datafield="AlertConditionId"]'));
             if (fieldName !== '' && condition !== '' && value !== '') {
-                request = {
-                    AlertId: alertId
-                    , FieldName: fieldName
-                    , Condition: condition
-                    , Value: value
-                };
-                FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition`, request, FwServices.defaultTimeout,
-                    response => { },
-                    ex => FwFunc.showError(ex),
-                    $form);
+                if (alertConditionId !== '') {
+                    request = {
+                        AlertId: alertId
+                        , FieldName: fieldName
+                        , Condition: condition
+                        , Value: value
+                    };
+                    FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition`, request, FwServices.defaultTimeout,
+                        response => { },
+                        ex => FwFunc.showError(ex),
+                        $form);
+                } else {
+                    //check receipt api
+                }
             }
         }
     }
@@ -163,49 +167,45 @@ class Alert {
     }
     //----------------------------------------------------------------------------------------------
     events($form) {
-        //load condition types based on datafield's datatype
-        $form.on('change', '.fields', e => {
-            const $this = jQuery(e.currentTarget);
-            const $conditionTypeSelect = $this.closest('.conditions').find('[data-datafield="Condition"]');
-            const dataType = $this.find(':selected').attr('data-datatype');
+        ////load condition types based on datafield's datatype
+        //$form.on('change', '[data-datafield="FieldName"]', e => {
+        //    const $this = jQuery(e.currentTarget);
+        //    const $conditionTypeSelect = $this.closest('.conditions').find('[data-datafield="Condition"]');
+        //    const dataType = $this.find(':selected').attr('data-datatype');
 
-            if (dataType === 'Integer' || dataType === 'Decimal' || dataType === 'Date') {
-                FwFormField.loadItems($conditionTypeSelect, [
-                    { value: 'CONTAINS', text: 'CONTAINS', selected: 'F' },
-                    { value: 'CHANGEDBY', text: 'CHANGED BY', selected: 'T' }
-                ], true);
-            } else {
-                FwFormField.loadItems($conditionTypeSelect, [
-                    { value: 'CONTAINS', text: 'CONTAINS', selected: 'T' }
-                ], true);
-            }
-        });
+        //    if (dataType === 'Integer' || dataType === 'Decimal' || dataType === 'Date') {
+        //        FwFormField.loadItems($conditionTypeSelect, [
+        //            { value: 'CONTAINS', text: 'Contains', selected: 'F' },
+        //            { value: 'CHANGEDBY', text: 'Changed By', selected: 'F' },
+        //            { value: 'EQUALS', text: 'Equals', selected: 'T' },
+        //            { value: 'DOESNOTEQUAL', text: 'Does Not Equal', selected: 'F' }
+        //        ], true);
+        //    } else {
+        //        FwFormField.loadItems($conditionTypeSelect, [
+        //            { value: 'CONTAINS', text: 'Contains', selected: 'T' },
+        //            { value: 'STARTSWITH', text: 'Starts With', selected: 'F' },
+        //            { value: 'ENDSWITH', text: 'Ends With', selected: 'F' },
+        //            { value: 'EQUALS', text: 'Equals', selected: 'F' },
+        //            { value: 'DOESNOTCONTAIN', text: 'Does Not Contain', selected: 'F' },
+        //            { value: 'DOESNOTEQUAL', text: 'Does Not Equal', selected: 'F' }
+        //        ], true);
+        //    }
+        //});
 
         //add condition fields
-        const $conditionSection = $form.find('.conditions').parent();
+        const $conditionList = $form.find('.condition-list')
         $form.on('click', 'i.add-condition', e => {
-            let $conditionRow = jQuery(`
-              <div class="flexrow conditions">
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fields" data-caption="Data Field" data-datafield="FieldName" data-allcaps="false" style="flex:1 1 0; max-width:250px;"></div>
-                <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:250px;"></div>
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-required="true"></div>
-                <div style="width:80px;">
-                    <i class="material-icons delete-condition" style="cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
-                    <i class="material-icons add-condition" style="cursor:pointer; margin:23px 0px 0px 10px;">add_circle_outline</i>
-                </div>
-              </div>`);
-            FwControl.renderRuntimeControls($conditionRow.find('.fwcontrol'));
-            const moduleName = FwFormField.getValueByDataField($form, 'ModuleName');
-            if (moduleName != '') {
-                const $datafield = $conditionRow.find('.fields');
-                FwFormField.loadItems($datafield, this.datafields);
-            }
-            $conditionSection.append($conditionRow);
+            const $this = jQuery(e.currentTarget);
+            $this.siblings('.delete-condition').show();
+            $this.hide();
+            let $conditionRow = this.renderConditionRow($form);
+            $conditionRow.find('.delete-condition').hide();
+            $conditionList.prepend($conditionRow);
         });
         //delete condition
         $form.on('click', 'i.delete-condition', e => {
             const $this = jQuery(e.currentTarget);
-            const $conditionRow = $this.closest('.conditions');
+            const $conditionRow = $this.closest('.condition-row');
             $form.find($conditionRow).remove();
         });
     }
@@ -217,8 +217,6 @@ class Alert {
                 response => {
                     let customFields;
                     let fieldsList = response._Fields;
-                    const $datafield = $form.find('[data-datafield="FieldName"]');
-
                     fieldsList = fieldsList
                         .filter(obj => { return obj.Name != 'DateStamp' })
                         .map(obj => { return { 'value': obj.Name, 'text': obj.Name, 'datatype': obj.DataType } });
@@ -229,10 +227,90 @@ class Alert {
                     }
                     fieldsList = fieldsList.sort(this.compare);
                     this.datafields = fieldsList;
-                    FwFormField.loadItems($datafield, fieldsList);
+                    const $fieldListSection = $form.find('.field-list');
+                    for (let i = 0; i < fieldsList.length; i++) {
+                        $fieldListSection.append(`<p>${fieldsList[i].text}</p>`);
+                    }
+                    this.addConditionRow($form);
                 },
                 ex => FwFunc.showError(ex), $form);
         });
+    }
+    //----------------------------------------------------------------------------------------------
+    addConditionRow($form) {
+        const $conditionsList = $form.find('.condition-list');
+        $conditionsList.empty();
+
+        const $conditionRow = this.renderConditionRow($form);
+        $conditionRow.find('.delete-condition').hide();
+        $conditionsList.append($conditionRow);
+
+        const mode = $form.attr('data-mode');
+        if (mode === 'EDIT') {
+            this.loadConditionRows($form);
+        }
+    }
+     //----------------------------------------------------------------------------------------------
+    renderConditionRow($form) {
+        let $conditionRow = jQuery(`
+                            <div class="flexrow condition-row">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="AlertConditionId" style="display:none;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName" data-allcaps="false" style="flex:1 1 0; max-width:250px;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:250px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-required="true"></div>
+                              <i class="material-icons delete-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
+                              <i class="material-icons add-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">add_circle_outline</i>
+                            </div>`);
+        FwControl.renderRuntimeControls($conditionRow.find('.fwcontrol'));
+        const moduleName = FwFormField.getValueByDataField($form, 'ModuleName');
+        if (moduleName != '') {
+            const $datafield = $conditionRow.find('[data-datafield="FieldName"]');
+            FwFormField.loadItems($datafield, this.datafields);
+
+            const $conditionSelect = $conditionRow.find('[data-datafield="Condition"]');
+            FwFormField.loadItems($conditionSelect, [
+                { value: 'CONTAINS', text: 'Contains', selected: 'T' },
+                { value: 'STARTSWITH', text: 'Starts With', selected: 'F' },
+                { value: 'ENDSWITH', text: 'Ends With', selected: 'F' },
+                { value: 'EQUALS', text: 'Equals', selected: 'F' },
+                { value: 'DOESNOTCONTAIN', text: 'Does Not Contain', selected: 'F' },
+                { value: 'DOESNOTEQUAL', text: 'Does Not Equal', selected: 'F' },
+                { value: 'CHANGEDBY', text: 'Changed By', selected: 'F' }
+            ]);
+        }
+        return $conditionRow;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadConditionRows($form) {
+        const request: any = {};
+        request.uniqueids = {
+            AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition/browse`, request, FwServices.defaultTimeout,
+            response => {
+                if (response.Rows.length > 0) {
+                    const alertConditionIdIndex = response.ColumnIndex.AlertConditionId;
+                    const fieldNameIndex = response.ColumnIndex.FieldName;
+                    const conditionIndex = response.ColumnIndex.Condition;
+                    const valueIndex = response.ColumnIndex.Value;
+                    const $conditionList = $form.find('.condition-list');
+                    for (let i = 0; i < response.Rows.length; i++) {
+                        const alertConditionId = response.Rows[i][alertConditionIdIndex];
+                        const fieldName = response.Rows[i][fieldNameIndex];
+                        const condition = response.Rows[i][conditionIndex];
+                        const value = response.Rows[i][valueIndex];
+                        let $conditionRow = this.renderConditionRow($form);
+                        $conditionRow.find('.add-condition').hide();
+                        FwFormField.setValue2($conditionRow.find('[data-datafield="AlertConditionId"]'), alertConditionId);
+                        FwFormField.setValue2($conditionRow.find('[data-datafield="FieldName"]'), fieldName);
+                        FwFormField.setValue2($conditionRow.find('[data-datafield="Condition"]'), condition);
+                        FwFormField.setValue2($conditionRow.find('[data-datafield="Value"]'), value);
+                        $conditionList.append($conditionRow);
+                    }
+                }
+            },
+            ex => FwFunc.showError(ex),
+            $form);
     }
     //----------------------------------------------------------------------------------------------
     afterSave($form: any): void {
@@ -248,25 +326,6 @@ class Alert {
         $tab.find('.modified').html('');
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
-
-        //load conditions
-        const request: any = {};
-        request.uniqueids = {
-            AlertId: FwFormField.getValueByDataField($form, 'AlertId')
-        }
-        FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition/browse`, request, FwServices.defaultTimeout,
-            response => {
-                if (response.Rows.length > 0) {
-                    const fieldNameIndex = response.ColumnIndex.FieldName;
-                    const conditionIndex = response.ColumnIndex.Condition;
-                    for (let i = 0; i < response.Rows.length; i++) {
-                        //
-                    }
-                }
-            },
-            ex => FwFunc.showError(ex),
-            $form);
-
     }
     //----------------------------------------------------------------------------------------------
     compare(a, b) {
