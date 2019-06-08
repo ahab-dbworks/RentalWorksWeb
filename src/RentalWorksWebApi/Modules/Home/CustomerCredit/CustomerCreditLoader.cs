@@ -79,6 +79,25 @@ namespace WebApi.Modules.Home.CustomerCredit
             addFilterToSelect("CustomerId", "customerid", select, request);
             AddActiveViewFieldToSelect("LocationId", "locationid", select, request);
             AddActiveViewFieldToSelect("RecType", "rectype", select, request);
+
+            //Status=R (Remaining Only)
+            if ((request != null) && (request.activeviewfields != null))
+            {
+                if (request.activeviewfields.ContainsKey("Status"))
+                {
+                    List<string> values = request.activeviewfields["Status"];
+
+                    if (values.Count == 1)
+                    {
+                        string value = values[0];
+                        if (value.ToUpper().Equals("R"))
+                        {
+                            select.AddWhere("(remaining <> 0)");
+                        }
+                    }
+                }
+            }
+
         }
         //------------------------------------------------------------------------------------ 
         private string determineRecTypeColor(string recType)
