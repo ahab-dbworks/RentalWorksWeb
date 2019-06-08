@@ -15,9 +15,13 @@ export class BillingStatementReport extends WebpackReport {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
-
+            //Ajax.get<DataTable>(`${apiUrl}/api/v1/control/1`, authorizationHeader)
+            //    .then((response: DataTable) => {
+            //        const controlObject: any = response;
             Ajax.post<DataTable>(`${apiUrl}/api/v1/BillingStatementReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
+                    //const data: any = response;
+                    //data.Items = DataTable.toObjectList(response);
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.FromDate = parameters.FromDate;
@@ -25,7 +29,9 @@ export class BillingStatementReport extends WebpackReport {
                     data.Report = 'Billing Statement Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-
+                    //if (controlObject.ReportLogoImage != '') {
+                    //    data.Logosrc = controlObject.ReportLogoImage;
+                    //} 
                     console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -36,7 +42,8 @@ export class BillingStatementReport extends WebpackReport {
                 })
                 .catch((ex) => {
                     this.onRenderReportFailed(ex);
-                });
+                //});
+                })
         } catch (ex) {
             this.onRenderReportFailed(ex);
         }

@@ -58,13 +58,14 @@
         <td class="number">{{Remaining}}</td>
       </tr>
       {{/ifEquals}}
-      {{#if HasPayments}}
+      {{#ifEquals HasPayments true}}
       <tr>
         <th colspan="2"></th>
         <th class="subHeaders">Payment Date</th>
         <th class="subHeaders" colspan="4">Description</th>
       </tr>
-
+      {{/ifEquals}}
+      {{#ifNotEquals ARRecType ""}}
       <tr class="subValues">
         <td colspan="2"></td>
         <td>{{PaymentDate}}</td>
@@ -73,8 +74,7 @@
         <td class="number">{{Received}}</td>
         <td class="number">{{Remaining}}</td>
       </tr>
-  
-      {{/if}}
+      {{/ifNotEquals}}
     </tbody>
     {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
