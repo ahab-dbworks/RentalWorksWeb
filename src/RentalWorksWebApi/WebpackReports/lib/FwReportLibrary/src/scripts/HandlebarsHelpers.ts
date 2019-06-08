@@ -8,6 +8,9 @@ export class HandlebarsHelpers {
         Handlebars.registerHelper('ifEquals', function (arg1, arg2, options) {
             return (arg1 == arg2) ? options.fn(this) : options.inverse(this);
         });
+        Handlebars.registerHelper('ifNotEquals', function (arg1, arg2, options) {
+            return (arg1 != arg2) ? options.fn(this) : options.inverse(this);
+        });
         Handlebars.registerHelper('checkLength', function (arg1, arg2, options) {
             'use strict';
             if (arg1.length > arg2) {
