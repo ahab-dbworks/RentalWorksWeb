@@ -36,10 +36,10 @@ const outstandingSubRentalReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal Type" data-datafield="DealTypeId" data-displayfield="DealType" data-validationname="DealTypeValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-formbeforevalidate="beforeValidate" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="Vendoralidation" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="CategoryValidation" style="float:left;min-width:400px;"></div>
@@ -87,10 +87,26 @@ class OutstandingSubRentalReport extends FwWebApiReport {
         this.load($form, this.reportOptions);
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        const department = JSON.parse(sessionStorage.getItem('department'));
+        FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         return parameters;
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate($browse, $form, request) {
+        const validationName = request.module;
+        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
+        request.uniqueids = {};
+
+        switch (validationName) {
+            case 'DealValidation':
+                if (customerId !== "") {
+                    request.uniqueids.CustomerId = customerId;
+                }
+                break;
+        }
     }
     //----------------------------------------------------------------------------------------------
 };
