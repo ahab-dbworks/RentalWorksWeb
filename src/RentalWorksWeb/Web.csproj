@@ -511,6 +511,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Project\Project.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingStatementReport\BillingStatementReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\ReturnReceiptReport\ReturnReceiptReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesTaxUSAReport\SalesTaxUSAReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ProfitLossReport\ProfitLossReportController.ts" />
