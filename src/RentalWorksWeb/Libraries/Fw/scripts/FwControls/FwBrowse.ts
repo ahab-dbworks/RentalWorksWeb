@@ -3571,7 +3571,9 @@ class FwBrowseClass {
                 const module = window[controller].Module;
                 const apiurl = window[controller].apiurl;
 
-                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, FwServices.defaultTimeout, function (response) {
+                const timeout = 7200; // 2 hour timeout for the ajax request
+
+                FwAppData.apiMethod(true, 'POST', `${apiurl}/exportexcelxlsx/${module}`, request, timeout, function (response) {
                     try {
                         const $iframe = jQuery(`<iframe src="${applicationConfig.apiurl}${response.downloadUrl}" style="display:none;"></iframe>`);
                         jQuery('#application').append($iframe);
