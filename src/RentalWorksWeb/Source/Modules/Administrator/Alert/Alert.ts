@@ -49,6 +49,10 @@ class Alert {
 
         $form.off('change', '.fwformfield[data-enabled="true"][data-datafield!=""]:not(.find-field)');
 
+        $form.data('beforesave', request => {
+            request.AlertConditionList = this.getConditionData($form);
+        });
+
         this.loadModules($form);
         this.events($form);
         return $form;
@@ -65,33 +69,6 @@ class Alert {
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
-
-        const $conditions = $form.find('.condition-row');
-        const alertId = FwFormField.getValueByDataField($form, 'AlertId')
-        for (let i = 0; i < $conditions.length; i++) {
-            let request: any = {};
-            const $this = jQuery($conditions[i]);
-            const fieldName = FwFormField.getValue2($this.find('[data-datafield="FieldName"]'));
-            const condition = FwFormField.getValue2($this.find('[data-datafield="Condition"]'));
-            const value = FwFormField.getValue2($this.find('[data-datafield="Value"]'));
-            const alertConditionId = FwFormField.getValue2($this.find('[data-datafield="AlertConditionId"]'));
-            if (fieldName !== '' && condition !== '' && value !== '') {
-                if (alertConditionId !== '') {
-                    request = {
-                        AlertId: alertId
-                        , FieldName: fieldName
-                        , Condition: condition
-                        , Value: value
-                    };
-                    FwAppData.apiMethod(true, 'POST', `api/v1/alertcondition`, request, FwServices.defaultTimeout,
-                        response => { },
-                        ex => FwFunc.showError(ex),
-                        $form);
-                } else {
-                    //check receipt api
-                }
-            }
-        }
     }
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
@@ -206,7 +183,21 @@ class Alert {
         $form.on('click', 'i.delete-condition', e => {
             const $this = jQuery(e.currentTarget);
             const $conditionRow = $this.closest('.condition-row');
-            $form.find($conditionRow).remove();
+            const id = FwFormField.getValue2($conditionRow.find('[data-datafield="AlertConditionId"]'));
+            FwAppData.apiMethod(true, 'DELETE', `api/v1/alertcondition/${id}`, null, FwServices.defaultTimeout,
+                response => {
+                    $form.find($conditionRow).remove();
+                  },
+            ex => FwFunc.showError(ex), $form);
+        });
+        //enable save button when conditions are changed
+        $form.on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', e => {
+            e.stopPropagation();
+            const $tabpage = $form.parent();
+            const $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+            $tab.find('.modified').html('*');
+            $form.attr('data-modified', 'true');
+            $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
         });
     }
     //----------------------------------------------------------------------------------------------
@@ -228,6 +219,7 @@ class Alert {
                     fieldsList = fieldsList.sort(this.compare);
                     this.datafields = fieldsList;
                     const $fieldListSection = $form.find('.field-list');
+                    $fieldListSection.empty();
                     for (let i = 0; i < fieldsList.length; i++) {
                         $fieldListSection.append(`<p>${fieldsList[i].text}</p>`);
                     }
@@ -250,7 +242,7 @@ class Alert {
             this.loadConditionRows($form);
         }
     }
-     //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     renderConditionRow($form) {
         let $conditionRow = jQuery(`
                             <div class="flexrow condition-row">
@@ -313,8 +305,37 @@ class Alert {
             $form);
     }
     //----------------------------------------------------------------------------------------------
+    getConditionData($form) {
+        const $conditions = $form.find('.condition-row');
+        const alertId = FwFormField.getValueByDataField($form, 'AlertId');
+        const conditionList: any = [];
+        for (let i = 0; i < $conditions.length; i++) {
+            const $this = jQuery($conditions[i]);
+            const fieldName = FwFormField.getValue2($this.find('[data-datafield="FieldName"]'));
+            const condition = FwFormField.getValue2($this.find('[data-datafield="Condition"]'));
+            const value = FwFormField.getValue2($this.find('[data-datafield="Value"]'));
+            const alertConditionId = FwFormField.getValue2($this.find('[data-datafield="AlertConditionId"]'));
+            if (fieldName !== '' && condition !== '' && value !== '') {
+                conditionList.push({
+                    AlertConditionId: alertConditionId
+                    , AlertId: alertId
+                    , FieldName: fieldName
+                    , Condition: condition
+                    , Value: value
+                });
+            }
+        }
+
+        return conditionList;
+    }
+    //----------------------------------------------------------------------------------------------
     afterSave($form: any): void {
         FwFormField.disable($form.find('div[data-datafield="ModuleName"]'));
+        const $tabpage = $form.parent();
+        const $tab = jQuery('#' + $tabpage.attr('data-tabid'));
+        $tab.find('.modified').html('');
+        $form.attr('data-modified', 'false');
+        $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
