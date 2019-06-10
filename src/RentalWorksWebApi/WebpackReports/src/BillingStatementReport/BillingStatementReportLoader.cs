@@ -20,6 +20,27 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         [FwSqlDataField(column: "location", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "company", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationCompany { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locadd1", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationAddress1 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locadd2", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationAddress2 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loccity", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationCity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "locstate", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationState { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loczip", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationZipCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loccountry", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationCountry { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dealid", modeltype: FwDataTypes.Text)]
         public string DealId { get; set; }
         //------------------------------------------------------------------------------------ 
