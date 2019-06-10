@@ -26,35 +26,35 @@ export class OrderReport extends WebpackReport {
                             data.Items = DataTable.toObjectList(response.Items);
                             data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                             data.System = 'RENTALWORKS';
-                            data.Company = parameters.companyName;
-                        if (controlObject.ReportLogoImage != '') {
-                            data.Logosrc = controlObject.ReportLogoImage;
-                        } 
-                        if (parameters.isQuote) {
-                            data.Report = 'QUOTE';
-                            document.title = 'Quote Report'
-                        } else {
-                            data.Report = 'ORDER';
-                        }
+                            if (controlObject.ReportLogoImage != '') {
+                                data.Logosrc = controlObject.ReportLogoImage;
+                            }
+                            if (parameters.isQuote) {
+                                data.Report = 'QUOTE';
+                                document.title = 'Quote Report'
+                            } else {
+                                data.Report = 'ORDER';
+                            }
 
                             this.renderFooterHtml(data);
-                        if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                            document.getElementById('pageFooter').innerHTML = this.footerHtml;
+                            if (this.action === 'Preview' || this.action === 'PrintHtml') {
+                                document.getElementById('pageFooter').innerHTML = this.footerHtml;
                             }
-                        document.getElementById('pageBody').innerHTML = hbReport(data);
-                        if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
-                            const termEl = document.getElementById('terms');
-                            termEl.innerHTML = data.TermsAndConditions;
-                            if (data.TermsAndConditionsNewPage) {
-                                const termsRow = document.getElementById('termsRow');
-                                termsRow.style.cssText = "page-break-before:always;"; 
+
+                            document.getElementById('pageBody').innerHTML = hbReport(data);
+                            if (data.TermsAndConditions !== null || data.TermsAndConditions !== '') {
+                                const termEl = document.getElementById('terms');
+                                termEl.innerHTML = data.TermsAndConditions;
+                                if (data.TermsAndConditionsNewPage) {
+                                    const termsRow = document.getElementById('termsRow');
+                                    termsRow.style.cssText = "page-break-before:always;";
+                                }
                             }
-                        }
-                        this.onRenderReportCompleted();
-                    })
-                    .catch((ex) => {
-                        this.onRenderReportFailed(ex);
-                    });
+                            this.onRenderReportCompleted();
+                        })
+                        .catch((ex) => {
+                            this.onRenderReportFailed(ex);
+                        });
                 })
                 .catch((ex) => {
                     console.log('exception: ', ex)

@@ -22,25 +22,24 @@ export class InvoiceReport extends WebpackReport {
                     const controlObject: any = response;
                     Ajax.post<Invoice>(`${apiUrl}/api/v1/invoicereport/runreport`, authorizationHeader, parameters)
                         .then((response: Invoice) => {
-                        const data: any = response;
-                        data.Items = DataTable.toObjectList(response.Items);
-                        data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
-                        data.System = 'RENTALWORKS';
-                        data.Company = parameters.companyName;
-                        data.Report = 'INVOICE';
-                        if (controlObject.ReportLogoImage != '') {
-                            data.Logosrc = controlObject.ReportLogoImage;
-                        } 
-                        this.renderFooterHtml(data);
-                        if (this.action === 'Preview' || this.action === 'PrintHtml') {
-                            document.getElementById('pageFooter').innerHTML = this.footerHtml;
-                        }
-                        document.getElementById('pageBody').innerHTML = hbReport(data);
-                        this.onRenderReportCompleted();
-                    })
-                    .catch((ex) => {
-                        this.onRenderReportFailed(ex);
-                    });
+                            const data: any = response;
+                            data.Items = DataTable.toObjectList(response.Items);
+                            data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
+                            data.System = 'RENTALWORKS';
+                            data.Report = 'INVOICE';
+                            if (controlObject.ReportLogoImage != '') {
+                                data.Logosrc = controlObject.ReportLogoImage;
+                            }
+                            this.renderFooterHtml(data);
+                            if (this.action === 'Preview' || this.action === 'PrintHtml') {
+                                document.getElementById('pageFooter').innerHTML = this.footerHtml;
+                            }
+                            document.getElementById('pageBody').innerHTML = hbReport(data);
+                            this.onRenderReportCompleted();
+                        })
+                        .catch((ex) => {
+                            this.onRenderReportFailed(ex);
+                        });
                 })
                 .catch((ex) => {
                     console.log('exception: ', ex)
