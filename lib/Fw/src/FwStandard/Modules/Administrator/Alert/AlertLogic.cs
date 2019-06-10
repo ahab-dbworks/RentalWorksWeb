@@ -1,11 +1,10 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using FwStandard.Models;
+using FwStandard.Modules.Administrator.AlertCondition;
 using System.Collections.Generic;
-using WebApi.Logic;
-using WebApi.Modules.Administrator.AlertCondition;
 
-namespace WebApi.Modules.Administrator.Alert
+namespace FwStandard.Modules.Administrator.Alert
 {
     public class AlertCondition
     {
@@ -16,8 +15,8 @@ namespace WebApi.Modules.Administrator.Alert
         public string Value { get; set; }
     }
 
-    [FwLogic(Id: "uDfoWwYV6HwI ")]
-    public class AlertLogic : AppBusinessLogic
+    [FwLogic(Id: "uDfoWwYV6HwI")]
+    public class AlertLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         AlertRecord alert = new AlertRecord();
@@ -25,6 +24,7 @@ namespace WebApi.Modules.Administrator.Alert
         {
             dataRecords.Add(alert);
             AfterSave += OnAfterSave;
+            AfterDelete += OnAfterDeleteAlert;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "6c9PL4mHxpfO", IsPrimaryKey:true)]
@@ -39,7 +39,7 @@ namespace WebApi.Modules.Administrator.Alert
         public string AlertBody { get { return alert.AlertBody; } set { alert.AlertBody = value; } }
         [FwLogicProperty(Id: "bOJyRGKEFtWo")]
         public bool? Inactive { get { return alert.Inactive; } set { alert.Inactive = value; } }
-        [FwLogicProperty(Id: "bXWbP0NW8cY")]
+        [FwLogicProperty(Id: "bXWbP0NW8cY", IsNotAudited: true)]
         public List<AlertCondition> AlertConditionList { get; set; }
         [FwLogicProperty(Id: "d3w1qNkDKUVBP")]
         public string DateStamp { get { return alert.DateStamp; } set { alert.DateStamp = value; } }
@@ -53,6 +53,7 @@ namespace WebApi.Modules.Administrator.Alert
         //------------------------------------------------------------------------------------ 
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
+            refreshAlerts();
             List<AlertConditionLogic> previousConditionData = new List<AlertConditionLogic>();
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
@@ -74,10 +75,12 @@ namespace WebApi.Modules.Administrator.Alert
                 {
                     if (acPrev.AlertConditionId.ToString().Equals(acNew.AlertConditionId)) // find the matching record
                     {
-                        if (!acPrev.FieldName.Equals(acNew.FieldName))
+                        if ((!acPrev.FieldName.Equals(acNew.FieldName)) || (!acPrev.Condition.Equals(acNew.Condition)) || (!acPrev.Value.Equals(acNew.Value)))
                         {
                             AlertConditionLogic cNew = acPrev.MakeCopy<AlertConditionLogic>();
                             cNew.FieldName = acNew.FieldName;
+                            cNew.Condition = acNew.Condition;
+                            cNew.Value = acNew.Value;
                             cNew.SetDependencies(AppConfig, UserSession);
                             int saveCount = cNew.SaveAsync(acPrev, conn: e.SqlConnection).Result;
                         }
@@ -101,6 +104,10 @@ namespace WebApi.Modules.Administrator.Alert
                     ac.AlertConditionId = acNew.AlertConditionId.ToString();
                 }
             }
+        }
+        public void OnAfterDeleteAlert(object sender, AfterDeleteEventArgs e)
+        {
+            refreshAlerts();
         }
     }
 }

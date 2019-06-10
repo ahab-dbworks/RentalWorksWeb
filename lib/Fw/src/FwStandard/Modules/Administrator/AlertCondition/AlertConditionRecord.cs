@@ -2,11 +2,10 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-namespace WebApi.Modules.Administrator.AlertCondition
+namespace FwStandard.Modules.Administrator.AlertCondition
 {
     [FwSqlTable("webalertcondition")]
-    public class AlertConditionRecord : AppDataReadWriteRecord
+    public class AlertConditionRecord : FwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "alertid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]

@@ -1,9 +1,9 @@
 using FwStandard.AppManager;
-using WebApi.Logic;
-namespace WebApi.Modules.Administrator.AlertCondition
+using FwStandard.BusinessLogic;
+namespace FwStandard.Modules.Administrator.AlertCondition
 {
     [FwLogic(Id: "yKwRfuJ0IdqLo")]
-    public class AlertConditionLogic : AppBusinessLogic
+    public class AlertConditionLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         AlertConditionRecord alertCondition = new AlertConditionRecord();
