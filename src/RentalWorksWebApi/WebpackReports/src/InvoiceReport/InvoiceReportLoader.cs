@@ -89,6 +89,9 @@ namespace WebApi.Modules.Reports.InvoiceReport
         [FwSqlDataField(column: "officelocation", modeltype: FwDataTypes.Text)]
         public string OfficeLocation { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "loccompany", modeltype: FwDataTypes.Text)]
+        public string OfficeLocationCompany { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locadd1", modeltype: FwDataTypes.Text)]
         public string OfficeLocationAddress1 { get; set; }
         //------------------------------------------------------------------------------------ 
