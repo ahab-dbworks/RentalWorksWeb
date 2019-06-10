@@ -71,15 +71,10 @@ abstract class FwWebApiReport {
         const apiUrl = applicationConfig.apiurl.substring(0, applicationConfig.apiurl.length - 1);
         const authorizationHeader = `Bearer ${sessionStorage.getItem('apiToken')}`;
         let companyName;
-        if (this.reportName === 'OrderReport' || this.reportName === 'OutContractReport' || this.reportName === 'PickListReport' || this.reportName === 'InvoiceReport') {
-            if (JSON.parse(sessionStorage.getItem('location')).companyname != null) {
-                companyName = JSON.parse(sessionStorage.getItem('location')).companyname; // temporary solution until Justin can add the company name to these report responses
-            }
-        } else {
-            if (JSON.parse(sessionStorage.getItem('controldefaults')).companyname != null) {
-                companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
-            }
+        if (JSON.parse(sessionStorage.getItem('controldefaults')).companyname != null) {
+            companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
         }
+        
         // Preview Button
         if ((typeof reportOptions.HasExportHtml === 'undefined') || (reportOptions.HasExportHtml === true)) {
             const $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');
