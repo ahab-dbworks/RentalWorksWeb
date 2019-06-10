@@ -24,16 +24,20 @@
 
             if (this._options.buttons.length > 0) {
                 for (var i = 0; i < this._options.buttons.length; i++) {
-                    if (this._options.buttons[i].type == 'menu') {
+                    var button = this._options.buttons[i];
+                    if (typeof button.id === 'undefined') {
+                        button.id = this._generateUID();
+                    }
+                    if (button.type == 'menu') {
                         var $menu = $('<div/>', {
-                            id:           this._options.buttons[i].id,
-                            'class':      'btn menu ' + this._options.buttons[i].orientation,
+                            id:           button.id,
+                            'class':      'btn menu ' + button.orientation,
                             'data-index': i,
-                            'data-state': this._options.buttons[i].state,
-                            html:         '<i class="material-icons">' + this._options.buttons[i].icon + '</i><div class="menu-dropdown"></div>'
+                            'data-state': button.state,
+                            html:         '<i class="material-icons">' + button.icon + '</i><div class="menu-dropdown"></div>'
                         }).appendTo(this.$element);
-                        for (var j = 0; j < this._options.buttons[i].menuoptions.length; j++) {
-                            var menuoption  = this._options.buttons[i].menuoptions[j];
+                        for (var j = 0; j < button.menuoptions.length; j++) {
+                            var menuoption  = button.menuoptions[j];
                             var $menuoption = $('<div/>', {
                                 id:             menuoption.id,
                                 'class':        'menu-dropdown-btn',
@@ -42,19 +46,29 @@
                                 html:           menuoption.caption
                             }).appendTo($menu.find('.menu-dropdown'));
                         }
-                    } else if ((this._options.buttons[i].type == 'standard') || (typeof this._options.buttons[i].type == 'undefined')) {
+                    } else if ((button.type == 'standard') || (typeof button.type == 'undefined')) {
                         var $option = $('<div/>', {
-                            id:             this._options.buttons[i].id,
-                            'class':        'btn standard ' + this._options.buttons[i].orientation,
+                            id:             button.id,
+                            'class':        'btn standard ' + button.orientation,
                             'data-index':   i,
-                            'data-state':   this._options.buttons[i].state,
-                            'data-caption': this._options.buttons[i].caption,
-                            html:           '<i class="material-icons">' + this._options.buttons[i].icon + '</i><div class="btncaption">' + this._options.buttons[i].caption + '</div>'
+                            'data-state':   button.state,
+                            'data-caption': button.caption,
+                            html:           '<i class="material-icons">' + button.icon + '</i><div class="btncaption">' + button.caption + '</div>'
                         }).appendTo(this.$element);
                     }
                 }
                 this._buttons = this.$element.find('.btn');
             }
+        },
+        _generateUID: function() {
+            //https://stackoverflow.com/questions/6248666/how-to-generate-short-uid-like-ax4j9z-in-js
+            // I generate the UID from two parts here 
+            // to ensure the random number provide enough bits.
+            var firstPart = (Math.random() * 46656) | 0;
+            var secondPart = (Math.random() * 46656) | 0;
+            firstPart = ("000" + firstPart.toString(36)).slice(-3);
+            secondPart = ("000" + secondPart.toString(36)).slice(-3);
+            return firstPart + secondPart;
         },
         _bindEvents: function() {
             var plugin    = this,

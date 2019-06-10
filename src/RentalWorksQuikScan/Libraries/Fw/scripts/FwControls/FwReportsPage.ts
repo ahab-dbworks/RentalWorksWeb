@@ -99,17 +99,17 @@
         html.push('          <div class="pop-out flexrow"><i class="material-icons">open_in_new</i>Pop Out Module</div>');
         html.push('          </div>');
         html.push('        <div style="margin-left:auto;">');
-        html.push('          <i class="material-icons pop-out">open_in_new</i>');
+        html.push('          <i class="material-icons pop-out" title="Pop Out">open_in_new</i>');
         html.push('          <i class="material-icons heading-menu">more_vert</i>');
         html.push('        </div>');
         html.push('      </h4>');
         html.push('      </div>');
         if (description === "") {
             html.push('      <small id="description" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small id="description-text">' + moduleName + '</small>');
+            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
         } else {
             html.push('      <small id="description" style="display:none;">' + description + '</small>');
-            html.push('      <small id="description-text">' + description + '</small>');
+            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
         }
         html.push('    </div>');
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body" id="' + moduleName + '"></div></div>');
@@ -126,7 +126,7 @@
 
         $reportsPageModules.on('click', '.pop-out', function (e) {
             e.stopPropagation();
-            program.popOutTab('#/reports/' + moduleName.slice(2));
+            program.popOutTab(`#/reports/${moduleName}`);
             if (jQuery(this).closest('#myDropdown').length !== 0) {
                 jQuery(this).parent().hide();
             }

@@ -1580,7 +1580,7 @@ class FwBrowseClass {
                                                         $submenuitem = FwGridMenu.addSubMenuBtn($optiongroup, gridSubMenuItem.properties.caption, gridSubMenuItem.id);
                                                         $submenuitem.on('click', function (e: JQuery.ClickEvent) {
                                                             try {
-                                                                e.stopPropagation();
+                                                                //e.stopPropagation();
                                                                 const securityid = jQuery(e.target).closest('.submenu-btn').attr('data-securityid');
                                                                 const func = FwApplicationTree.clickEvents[`{${securityid}}`];
                                                                 if (typeof func !== 'function') {
