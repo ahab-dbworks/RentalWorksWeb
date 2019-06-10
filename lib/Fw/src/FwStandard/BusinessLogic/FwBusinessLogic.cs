@@ -2,6 +2,8 @@
 using FwStandard.AppManager;
 using FwStandard.DataLayer;
 using FwStandard.Models;
+using FwStandard.Modules.Administrator.Alert;
+using FwStandard.Modules.Administrator.AlertCondition;
 using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
@@ -177,6 +179,9 @@ namespace FwStandard.BusinessLogic
 
         [JsonIgnore]
         protected static FwJsonDataTable duplicateRules = null;
+
+        [JsonIgnore]
+        protected static FwJsonDataTable alerts = null;
 
         [JsonIgnore]
         public static FwCustomFields customFields = null;
@@ -634,6 +639,23 @@ namespace FwStandard.BusinessLogic
             return rulesLoaded;
         }
         //------------------------------------------------------------------------------------
+        protected virtual bool refreshAlerts()
+        {
+            bool alertsLoaded = false;
+
+            BrowseRequest browseRequest = new BrowseRequest();
+            browseRequest.module = "Alert";
+            AlertLogic l = new AlertLogic();
+            if (dataRecords.Count > 0)
+            {
+                l.AppConfig = dataRecords[0].AppConfig;
+                alerts = l.BrowseAsync(browseRequest).Result;
+                alertsLoaded = true;
+            }
+
+            return alertsLoaded;
+        }
+        //------------------------------------------------------------------------------------
         public bool refreshCustomFields()
         {
             bool customFieldsLoaded = false;
@@ -886,6 +908,180 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        protected virtual void CheckAlerts(TDataRecordSaveMode saveMode)
+        {
+            if (alerts == null)
+            {
+                refreshAlerts();
+            }
+            if (alerts != null)
+            {
+                object[] ids = GetPrimaryKeys();
+                var alertRows = alerts.Rows;
+                List<object> alertList = new List<object>();
+
+                foreach (var row in alertRows)
+                {
+                    if (row[2].ToString().Equals(this.BusinessLogicModuleName))
+                    {
+                        alertList.Add(row);
+                    }
+                }
+
+                if (alertList.Count > 0)
+                {
+                    Type type = this.GetType();
+                    PropertyInfo[] propertyInfo;
+                    propertyInfo = type.GetProperties();
+                    FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
+                    l2.AppConfig = dataRecords[0].AppConfig;
+
+                    foreach (List<object> alert in alertList)
+                    {
+                        string alertId = alert[0].ToString();
+                        AlertConditionLogic acLoader = new AlertConditionLogic();
+                        acLoader.SetDependencies(AppConfig, UserSession);
+                        acLoader.AlertId = alertId;
+                        BrowseRequest request = new BrowseRequest();
+                        IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                        uniqueIds.Add("AlertId", alertId);
+                        request.uniqueids = uniqueIds;
+                        List<AlertConditionLogic> alertConditions = acLoader.SelectAsync<AlertConditionLogic>(request).Result;
+
+                        foreach (AlertConditionLogic condition in alertConditions)
+                        {
+                            string acFieldName = condition.FieldName;
+                            string acCondition = condition.Condition;
+                            string acValue = condition.Value;
+
+                            bool propertyFound = false;
+                            if (!propertyFound)
+                            {
+                                foreach (PropertyInfo property in propertyInfo)
+                                {
+                                    if (property.Name.Equals(acFieldName))
+                                    {
+                                        propertyFound = true;
+                                        object value = this.GetType().GetProperty(property.Name).GetValue(this);
+                                        object valueToCompare = null;
+
+                                        if (value != null)
+                                        {
+                                            valueToCompare = value;
+                                        }
+                                        else
+                                        {
+                                            if (saveMode == TDataRecordSaveMode.smUpdate)
+                                            {
+                                                bool b = l2.LoadAsync<Type>(ids).Result;
+                                                valueToCompare = l2.GetType().GetProperty(property.Name).GetValue(l2);
+                                            }
+                                        }
+
+                                        switch (acCondition)
+                                        {
+                                            case "CONTAINS":
+                                                if (valueToCompare.ToString().Contains(acValue))
+                                                {
+
+                                                }
+                                                break;
+                                            case "STARTSWITH":
+                                                if (valueToCompare.ToString().StartsWith(acValue))
+                                                {
+
+                                                }
+                                                break;
+                                            case "ENDSWITH":
+                                                if (valueToCompare.ToString().EndsWith(acValue))
+                                                {
+
+                                                }
+                                                break;
+                                            case "EQUALS":
+                                                if (string.Equals(valueToCompare.ToString(), acValue))
+                                                {
+
+                                                }
+                                                break;
+                                            case "DOESNOTCONTAIN":
+                                                if (!valueToCompare.ToString().Contains(acValue))
+                                                {
+
+                                                }
+                                                break;
+                                            case "DOESNOTEQUAL":
+                                                if (!string.Equals(valueToCompare.ToString(), acValue))
+                                                {
+
+                                                }
+                                                break;
+                                            case "CHANGEDBY":
+                                               
+                                                break;
+                                        }
+
+                                    }
+                                }
+                            }
+
+                            //if (!propertyFound)  // property not found, check Custom Fields
+                            //{
+                            //    LoadCustomFields();
+
+                            //    foreach (FwCustomField customField in _Custom.CustomFields)
+                            //    {
+                            //        if (customField.FieldName.Equals(fieldName))
+                            //        {
+                            //            propertyFound = true;
+
+                            //            string value = null;
+                            //            for (int customFieldIndex = 0; customFieldIndex < _Custom.Count; customFieldIndex++)
+                            //            {
+                            //                if (_Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                            //                {
+                            //                    value = _Custom[customFieldIndex].FieldValue;
+                            //                }
+                            //            }
+
+                            //            if (value != null)
+                            //            {
+                            //                searchFieldVals.Add(value.ToString());
+                            //                searchOperators.Add("=");
+                            //                int datatypeIndex = Array.IndexOf(fields, fieldName);
+                            //                searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
+                            //            }
+                            //            else
+                            //            {
+                            //                if (saveMode == TDataRecordSaveMode.smUpdate)
+                            //                {
+                            //                    bool b = l2.LoadAsync<Type>(ids).Result;
+                            //                    var databaseValue = "";
+                            //                    for (int customFieldIndex = 0; customFieldIndex < l2._Custom.Count; customFieldIndex++)
+                            //                    {
+                            //                        if (l2._Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                            //                        {
+                            //                            databaseValue = l2._Custom[customFieldIndex].FieldValue;
+                            //                        }
+                            //                    }
+                            //                    searchFieldVals.Add(databaseValue.ToString());
+                            //                }
+                            //                else
+                            //                {
+                            //                    searchFieldVals.Add("");
+                            //                    searchOperators.Add("=");
+                            //                }
+                            //            }
+
+                            //            break;
+                            //        }
+                            //    }
+                            //}
+                        }
+                    }
+                }
+            }
+        }
         protected virtual bool IsValidStringValue(PropertyInfo property, string[] acceptableValues, ref string validateMsg, bool nullAcceptable = true)
         {
             bool isValidValue = false;
@@ -1188,6 +1384,8 @@ namespace FwStandard.BusinessLogic
                         {
                             rowsAffected = afterSaveArgs.RecordsAffected;
                         }
+
+                        CheckAlerts(saveMode);
                     }
                 }
                 success = true;
