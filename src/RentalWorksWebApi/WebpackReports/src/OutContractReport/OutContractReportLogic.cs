@@ -42,9 +42,10 @@ namespace WebApi.Modules.Reports.OutContractReport
                 qry1.Add("  ContractNumber = c.contractno,");
                 qry1.Add("  ContractDate = c.contractdate,");
                 qry1.Add("  ContractTime = c.contracttime,");
-                qry1.Add("  LocationName = (select company ");
-                qry1.Add("                  from control");
-                qry1.Add("                  where controlid = '1'),");
+                //qry1.Add("  LocationName = (select company ");
+                //qry1.Add("                  from control");
+                //qry1.Add("                  where controlid = '1'),");
+                qry1.Add("  LocationName = l.company,");  //jh 06/10/2019 use location company name here
                 qry1.Add("  LocationAddress1 = l.add1,");
                 qry1.Add("  LocationAddress2 = l.add2,");
                 qry1.Add("  LocationCity = l.city,");
