@@ -184,11 +184,15 @@ class Alert {
             const $this = jQuery(e.currentTarget);
             const $conditionRow = $this.closest('.condition-row');
             const id = FwFormField.getValue2($conditionRow.find('[data-datafield="AlertConditionId"]'));
-            FwAppData.apiMethod(true, 'DELETE', `api/v1/alertcondition/${id}`, null, FwServices.defaultTimeout,
-                response => {
-                    $form.find($conditionRow).remove();
-                  },
-            ex => FwFunc.showError(ex), $form);
+            if (id != '') {
+                FwAppData.apiMethod(true, 'DELETE', `api/v1/alertcondition/${id}`, null, FwServices.defaultTimeout,
+                    response => {
+                        $form.find($conditionRow).remove();
+                    },
+                    ex => FwFunc.showError(ex), $form);
+            } else {
+                $form.find($conditionRow).remove();
+            }
         });
         //enable save button when conditions are changed
         $form.on('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])', e => {
@@ -325,7 +329,6 @@ class Alert {
                 });
             }
         }
-
         return conditionList;
     }
     //----------------------------------------------------------------------------------------------

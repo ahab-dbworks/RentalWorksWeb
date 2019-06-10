@@ -6,6 +6,8 @@ using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApi.Controllers;
+using FwStandard.Modules.Administrator.AlertCondition;
+
 namespace WebApi.Modules.Administrator.AlertCondition
 {
     [Route("api/v1/[controller]")]
@@ -17,7 +19,7 @@ namespace WebApi.Modules.Administrator.AlertCondition
         //------------------------------------------------------------------------------------ 
         // POST api/v1/alertcondition/browse 
         [HttpPost("browse")]
-        [FwControllerMethod(Id: "vULlOXxRd1O3 ")]
+        [FwControllerMethod(Id: "vULlOXxRd1O3")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
@@ -41,7 +43,7 @@ namespace WebApi.Modules.Administrator.AlertCondition
         //------------------------------------------------------------------------------------ 
         // GET api/v1/alertcondition/A0000001 
         [HttpGet("{id}")]
-        [FwControllerMethod(Id: "j71dzpZqLusE ")]
+        [FwControllerMethod(Id: "j71dzpZqLusE")]
         public async Task<ActionResult<AlertConditionLogic>> GetOneAsync([FromRoute]string id)
         {
             return await DoGetAsync<AlertConditionLogic>(id);
