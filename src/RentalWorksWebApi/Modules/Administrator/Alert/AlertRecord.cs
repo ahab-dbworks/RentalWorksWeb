@@ -16,6 +16,12 @@ namespace WebApi.Modules.Administrator.Alert
         [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string ModuleName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "alertsubject", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        public string AlertSubject { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "alertbody", modeltype: FwDataTypes.Text, sqltype: "text")]
+        public string AlertBody { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
