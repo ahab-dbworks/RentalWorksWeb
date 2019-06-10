@@ -778,6 +778,9 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                     int i = 0;
+                    int totalItemsAddedToSession = 0;
+                    int totalRequestItems = availRequestItems.Count;
+                    const int MAX_ITEMS_PER_ITERATION = 300;
                     foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
                     {
                         qry.Add("if (not exists (select * ");
@@ -793,6 +796,15 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
                         qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
                         qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
                         i++;
+                        totalItemsAddedToSession++;
+
+                        if ((i >= MAX_ITEMS_PER_ITERATION) && (totalItemsAddedToSession < totalRequestItems))   // if we have already created a query with 300 items to add, and there are still more to do, then process the 300 and start a new query for the next group. this avoids exceeding the parameter limit on sql server
+                        {
+                            qry.AddParameter("@sessionid", sessionId);
+                            await qry.ExecuteNonQueryAsync();
+                            i = 0;
+                            qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                        }
                     }
                     qry.AddParameter("@sessionid", sessionId);
                     await qry.ExecuteNonQueryAsync();
