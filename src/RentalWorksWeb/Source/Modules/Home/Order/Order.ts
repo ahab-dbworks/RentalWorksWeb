@@ -1881,6 +1881,7 @@ class Order extends OrderBase {
         $yes.on('click', putOnRemoveHold);
         let $confirmationbox = jQuery('.fwconfirmationbox');
         function putOnRemoveHold() {
+            FwConfirmation.destroyConfirmation($confirmation);
             FwAppData.apiMethod(true, 'POST', `api/v1/order/onhold/${orderId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 if (response.success === true) {
                     if (status === 'HOLD') {
@@ -1889,9 +1890,10 @@ class Order extends OrderBase {
                         FwNotification.renderNotification('SUCCESS', 'Order Is Now On Hold');
                     }
                     FwModule.refreshForm($form, OrderController)
-                    FwConfirmation.destroyConfirmation($confirmation);
-                } 
-            }, null, $confirmationbox);
+                } else if (response.success === false) {
+                    FwNotification.renderNotification('ERROR', `${response.msg}`);
+                }
+            }, null, $form);
         }
     };
 
