@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Modules.Reports.GlDistributionReport
 {
-    [FwSqlTable("dbo.funcglsummaryrpt(@fromdate, @todate)")]
+    [FwSqlTable("dbo.funcglsummaryrpt(@fromdate, @todate, @dealid)")]
     public class GlDistributionReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -68,7 +68,7 @@ namespace WebApi.Modules.Reports.GlDistributionReport
                     
                     if (request.IsSummary.GetValueOrDefault(false))
                     {
-                        this.OverrideTableName = "dbo.funcglsummaryrpt(@fromdate, @todate)";
+                        this.OverrideTableName = "dbo.funcglsummaryrpt(@fromdate, @todate, @dealid)";
                     }
                     else
                     {
@@ -81,10 +81,17 @@ namespace WebApi.Modules.Reports.GlDistributionReport
 
                     select.AddWhereIn("locationid", request.OfficeLocationId);
                     select.AddWhereIn("glaccountid", request.GlAccountId);
-                    select.AddWhereIn("dealid", request.DealId);
+                    if (request.IsSummary.GetValueOrDefault(false))
+                    {
+                        select.AddParameter("@dealid", request.DealId);
+                    }
+                    else
+                    {
+                        select.AddWhereIn("dealid", request.DealId);
+                    }
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
-                    select.AddOrderBy("location,groupheading,glno,glacctdesc");
+                    select.AddOrderBy("location,groupheadingorder,glno,glacctdesc");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
