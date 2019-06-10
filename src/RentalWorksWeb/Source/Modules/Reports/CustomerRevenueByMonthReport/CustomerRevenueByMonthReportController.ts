@@ -60,9 +60,6 @@ const customerRevenueMonthTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-formbeforevalidate="beforeValidate" data-validationname="DealValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="CategoryValidation" style="float:left;min-width:400px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-formbeforevalidate="beforeValidate" data-validationname="InventoryTypeValidation" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
@@ -120,7 +117,7 @@ class CustomerRevenueByMonthReport extends FwWebApiReport {
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        const inventoryTypeId = FwFormField.getValueByDataField($form, 'InventoryTypeId');
+        const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
 
         request.uniqueids = {};
 
@@ -129,12 +126,10 @@ class CustomerRevenueByMonthReport extends FwWebApiReport {
                 if (customerId !== "") {
                     request.uniqueids.CustomerId = customerId;
                 }
-                break;
-            case 'CategoryValidation':
-                if (inventoryTypeId !== "") {
-                    request.uniqueids.InventoryTypeId = inventoryTypeId;
-                    break;
+                if (dealTypeId !== "") {
+                    request.uniqueids.DealTypeId = dealTypeId;
                 }
+                break;
         };
     };
     //----------------------------------------------------------------------------------------------
