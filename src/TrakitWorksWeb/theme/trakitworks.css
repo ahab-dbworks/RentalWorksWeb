@@ -175,7 +175,7 @@ html.theme-material .fwform-section {
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Quantity"] {flex:0 0 90px;margin-right:10px;position:relative;text-align:center;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Type"] {flex:1 0 100px;margin-right:10px;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
-#itemsearch #itemlist[data-view="LIST"] div[data-column="SubCategory"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="LIST"] div[data-column="SubCategory"] {flex:1 0 110px;margin-right:10px;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="AllWh"] {flex:0 0 120px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="LIST"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;text-align:right;}
@@ -197,7 +197,7 @@ html.theme-material .fwform-section {
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Quantity"] {flex:0 0 90px;margin-right:10px;position:relative;text-align:center;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Type"] {flex:1 0 100px;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Category"] {flex:1 0 100px;margin-right:10px;}
-#itemsearch #itemlist[data-view="HYBRID"] div[data-column="SubCategory"] {flex:1 0 100px;margin-right:10px;}
+#itemsearch #itemlist[data-view="HYBRID"] div[data-column="SubCategory"] {flex:1 0 110px;margin-right:10px;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="Available"] {flex:0 0 100px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="AllWh"] {flex:0 0 120px;margin-right:10px;text-align:right;}
 #itemsearch #itemlist[data-view="HYBRID"] div[data-column="ConflictDate"] {flex:0 0 120px;margin-right:10px;text-align:right;}
