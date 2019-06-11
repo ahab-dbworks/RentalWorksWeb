@@ -134,8 +134,14 @@
                                     }
                                 });
 
+                                const promiseGetControlDefaults = FwAjax.callWebApi<any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/control/1`,
+                                    $elementToBlock: $loginWindow
+                                });
+
                                 // wait for all the queries to finish
-                                await Promise.all([promiseGetUserSettings, promiseGetCustomFields, promiseGetCustomForms])
+                                await Promise.all([promiseGetUserSettings, promiseGetCustomFields, promiseGetCustomForms, promiseGetControlDefaults])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
                                         let sounds: any = {}, homePage: any = {};
@@ -171,6 +177,22 @@
                                             sessionStorage.setItem('customForms', JSON.stringify(activeCustomForms));
                                         }
 
+                                        const responseGetControlDefaults = values[3];
+                                        let controlDefaults = {
+                                            defaultdealstatusid: responseGetControlDefaults.DefaultDealStatusId
+                                            , defaultdealstatus: responseGetControlDefaults.DefaultDealStatus
+                                            , defaultcustomerstatusid: responseGetControlDefaults.DefaultCustomerStatusId
+                                            , defaultcustomerstatus: responseGetControlDefaults.DefaultCustomerStatus
+                                            , defaultdealbillingcycleid: responseGetControlDefaults.DefaultDealBillingCycleId
+                                            , defaultdealbillingcycle: responseGetControlDefaults.DefaultDealBillingCycle
+                                            , defaultunitid: responseGetControlDefaults.DefaultUnitId
+                                            , defaultunit: responseGetControlDefaults.DefaultUnit
+                                            , defaulticodemask: responseGetControlDefaults.ICodeMask
+                                            , systemname: responseGetControlDefaults.SystemName
+                                            , companyname: responseGetControlDefaults.CompanyName
+                                        }
+                                        sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
+
                                         // set redirectPath to navigate user to default home page, still need to go to the home page to run startup code if the user refreshes the browser
                                         let homePagePath = JSON.parse(sessionStorage.getItem('homePage')).path;
                                         if (homePagePath !== null && homePagePath !== '') {
@@ -179,7 +201,6 @@
                                         program.navigate('home');
                                     });
                             }
-                            
                         } else if (responseJwt.statuscode !== 0) {
                             $loginWindow.find('.errormessage').html('').html(responseJwt.statusmessage).show();
                         }

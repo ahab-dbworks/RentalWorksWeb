@@ -12,7 +12,7 @@ namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Settings
             // Browse
             var nodeBrowse        = tree.AddBrowse ("{36237606-AA65-4F69-9D08-7476AEF95BED}", MODULEID);
             var nodeBrowseMenuBar = tree.AddMenuBar("{78139F92-C71A-4BDB-8921-54079289EE6A}", nodeBrowse.Id);
-            var nodeBrowseSubMenu = tree.AddSubMenu("{E13080B0-0773-4B43-ABD8-16391C255914}", nodeBrowseMenuBar.Id);
+            //var nodeBrowseSubMenu = tree.AddSubMenu("{E13080B0-0773-4B43-ABD8-16391C255914}", nodeBrowseMenuBar.Id);
                   tree.AddNewMenuBarButton     ("{E2F3A3CB-F777-4E22-AB98-1CE62F694EA3}", nodeBrowseMenuBar.Id);
                   tree.AddViewMenuBarButton    ("{F680D7EA-92AC-4F7C-8538-68B4D8BD27A5}", nodeBrowseMenuBar.Id);
                   tree.AddEditMenuBarButton    ("{E2F9A774-E60E-44BE-AE29-D7E4C5534F2E}", nodeBrowseMenuBar.Id);

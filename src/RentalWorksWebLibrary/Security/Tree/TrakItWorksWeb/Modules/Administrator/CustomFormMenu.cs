@@ -22,8 +22,8 @@ namespace WebLibrary.Security.Tree.TrakitWorksWeb.Modules.Administrator
             // Form
             var nodeForm = tree.AddForm("{F33353D8-57A9-4058-BD52-5143BF8845D0}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{2B819EF3-C577-4A26-89D1-C02F9606A62B}", nodeForm.Id);
-            var nodeFormSubMenu = tree.AddSubMenu("{7477797A-2773-4E01-81C4-D00A58AF29CD}", nodeFormMenuBar.Id);
-            var nodeFormOptions = tree.AddSubMenuGroup("Options", "{ACCAE2DB-077B-4696-9D12-ED66AE1A9791}", nodeFormSubMenu.Id);
+            //var nodeFormSubMenu = tree.AddSubMenu("{7477797A-2773-4E01-81C4-D00A58AF29CD}", nodeFormMenuBar.Id);
+            //var nodeFormOptions = tree.AddSubMenuGroup("Options", "{ACCAE2DB-077B-4696-9D12-ED66AE1A9791}", nodeFormSubMenu.Id);
             tree.AddSaveMenuBarButton("{EB966F57-A6C4-452A-BC97-0ACD1636ED10}", nodeFormMenuBar.Id);
             
         }

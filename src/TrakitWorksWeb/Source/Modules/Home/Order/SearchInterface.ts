@@ -81,7 +81,6 @@ class SearchInterface {
                                       <div class="columnorder hideColumns" data-column="AllWh">All Warehouse</div>
                                       <div class="columnorder hideColumns" data-column="In">In</div>
                                       <div class="columnorder hideColumns" data-column="QC">QC</div>
-                                      <div class="columnorder" data-column="Rate">Rate</div>
                                     </div>
                                     <div id="inventory"></div>
                                   </div>
@@ -301,7 +300,6 @@ class SearchInterface {
             quantityIn                = response.ColumnIndex.QuantityIn,
             quantityQcRequired        = response.ColumnIndex.QuantityQcRequired,
             quantity                  = response.ColumnIndex.Quantity,
-            dailyRate                 = response.ColumnIndex.DailyRate,
             inventoryId               = response.ColumnIndex.InventoryId,
             thumbnail                 = response.ColumnIndex.Thumbnail,
             appImageId                = response.ColumnIndex.ImageId,
@@ -321,7 +319,6 @@ class SearchInterface {
         for (let i = 0; i < response.Rows.length; i++) {
             let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
             let imageId        = response.Rows[i][appImageId] ? response.Rows[i][appImageId] : '';
-            let rate           = Number(response.Rows[i][dailyRate]).toFixed(2);
             let conflictdate   = response.Rows[i][conflictDate] ? moment(response.Rows[i][conflictDate]).format('L') : "";
 
             let itemhtml = `<div class="item-container" data-classification=="${response.Rows[i][classificationIndex]}">
@@ -336,7 +333,6 @@ class SearchInterface {
                                 <div data-column="AllWh" class="columnorder hideColumns">&#160;</div>
                                 <div data-column="In" class="columnorder hideColumns"><div class="gridcaption">In</div><div class="value">${response.Rows[i][quantityIn]}</div></div>
                                 <div data-column="QC" class="columnorder hideColumns"><div class="gridcaption">QC</div><div class="value">${response.Rows[i][quantityQcRequired]}</div></div>
-                                <div data-column="Rate" class="columnorder rate"><div class="gridcaption">Rate</div><div class="value">${rate}</div> </div>
                                 <div data-column="Quantity" class="columnorder">
                                   <div class="gridcaption">Qty</div>
                                   <div style="float:left; border:1px solid #bdbdbd;">
@@ -401,8 +397,7 @@ class SearchInterface {
             { value: 'ConflictDate', text: 'Conflict Date',                       selected: 'T' },
             { value: 'AllWh',        text: 'Available Quantity (All Warehouses)', selected: 'T' },
             { value: 'In',           text: 'In Quantity',                         selected: 'T' },
-            { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' },
-            { value: 'Rate',         text: 'Rate',                                selected: 'T' }
+            { value: 'QC',           text: 'QC Required Quantity',                selected: 'T' }
         ]);
     
         FwFormField.setValueByDataField($popup, 'DisableAccessoryAutoExpand', false);
@@ -1148,7 +1143,6 @@ class SearchInterface {
                                            <div class="columnorder hideColumns" data-column="AllWh"></div>
                                            <div class="columnorder hideColumns" data-column="In">In</div>
                                            <div class="columnorder hideColumns" data-column="QC"></div>
-                                           <div class="columnorder" data-column="Rate"></div>
                                          </div>`;
             accessoryContainer.append(jQuery(accessorycolumnshtml));
         }
@@ -1198,7 +1192,6 @@ class SearchInterface {
                                        <div class="columnorder" data-column="Type"></div>
                                        <div class="columnorder" data-column="Category"></div>
                                        <div class="columnorder" data-column="SubCategory"></div>
-                                       <div class="columnorder" data-column="Rate"></div>
                                        <div class="columnorder" data-column="QC"></div>
                                        <div class="columnorder" data-column="AllWh"></div>
                                      </div>`;
