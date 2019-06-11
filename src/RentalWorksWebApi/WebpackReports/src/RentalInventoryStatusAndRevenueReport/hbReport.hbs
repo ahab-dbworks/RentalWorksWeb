@@ -1,0 +1,86 @@
+﻿<!--Rental Inventory Status and Revenue Report-->
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">As Of: {{Today}}</span>
+    <span class="rpt-header-center">Revenue Period: {{FromDate}} - {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead class="main-header">
+      <tr>
+        <th>I-Code</th>
+        <th colspan="5">Description</th>
+        <th>Warehouse</th>
+        <th class="number">Owned</th>
+        <th class="number">In</th>
+        <th class="number">Staged</th>
+        <th class="number">Out</th>
+        <th class="number">In Container</th>
+        <th class="number">In Repair</th>
+        <th class="number">On PO</th>
+        <th class="number">Sub-Rented</th>
+        <th>Last Date Rented</th>
+        <th class="number">Revenue</th>
+      </tr>
+    </thead>
+  <tbody>
+    {{#each this}}
+      {{#ifEquals RowType "detail"}}
+          {{#ifEquals RecordType "inventory"}}
+          <tr data-recordtype="{{RecordType}}">
+            <td data-value="{{ICode}}"></td>
+            <td colspan="5" data-value="{{Description}}"></td>
+            <td data-value="{{Warehouse}}"></td>
+            <td class="number" data-value="{{Quantity}}"></td>
+            <td class="number" data-value="{{QuantityIn}}"></td>
+            <td class="number" data-value="{{QuantityStaged}}"></td>
+            <td class="number" data-value="{{QuantityOut}}"></td>
+            <td class="number" data-value="{{QuantityInContainer}}"></td>
+            <td class="number" data-value="{{QuantityInRepair}}"></td>
+            <td class="number" data-value="{{QuantityOnPo}}"></td>
+            <td class="number" data-value="{{QuantitySubbed}}"></td>
+            <td data-value="{{LastRentedDate}}"></td>
+            <td class="number" data-value="{{Revenue}}"></td>
+          </tr>
+          {{/ifEquals}}
+          {{#if ../ShowStagedAndOut}}
+              {{#checkLength InventoryId 0 }}
+              <tr>
+                <th colspan="2"></th>
+                <th class="subHeaders">Bar Code</th>
+                <th class="subHeaders">Qty.</th>
+                <th class="subHeaders">Status</th>
+                <th class="subHeaders" colspan="3">Deal</th>
+                <th class="subHeaders" colspan="4">Vendor</th>
+                <th class="subHeaders">As Of Date</th>
+                <th class="subHeaders">Order No.</th>
+                <th class="subHeaders" colspan="4">Order Description</th>
+              </tr>
+                  {{#ifEquals RecordType "stagedout"}}
+                  <tr class="subValues">
+                    <td colspan="2"></td>
+                    <td>{{StagedOutBarCode}}</td>
+                    <td>{{StagedOutQuantity}}</td>
+                    <td>{{StagedOutStatus}}</td>
+                    <td colspan="3">{{StagedOutDeal}}</td>
+                    <td colspan="4">{{StagedOutVendor}}</td>
+                    <td>{{StagedOutAsOf}}</td>
+                    <td>{{StagedOutOrderNumber}}</td>
+                    <td colspan="4">{{StagedOutOrderDescription}}</td>
+                  </tr>
+                  {{/ifEquals}}
+              {{/checkLength}}
+          {{/if}}
+    {{/ifEquals}}
+    {{/each}}
+  </tbody>
+  </table>
+</div>
