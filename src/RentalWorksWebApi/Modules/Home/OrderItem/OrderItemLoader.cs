@@ -6,7 +6,7 @@ using WebApi.Data;
 using WebApi.Logic;
 using System.Collections.Generic;
 using System.Text;
-using WebApi.Modules.Home.InventoryAvailabilityFunc;
+using WebApi.Modules.Home.InventoryAvailability;
 using System;
 using WebLibrary;
 
@@ -918,7 +918,7 @@ namespace WebApi.Modules.Home.OrderItem
                         availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                     }
 
-                    TAvailabilityCache availCache = InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, _refreshAvailability).Result;
+                    TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, _refreshAvailability).Result;
 
                     foreach (List<object> row in dt.Rows)
                     {

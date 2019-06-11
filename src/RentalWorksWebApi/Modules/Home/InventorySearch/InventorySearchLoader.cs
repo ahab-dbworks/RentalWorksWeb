@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
 using System;
-using WebApi.Modules.Home.InventoryAvailabilityFunc;
+using WebApi.Modules.Home.InventoryAvailability;
 using System.Collections.Generic;
 using WebLibrary;
 
@@ -157,7 +157,7 @@ namespace WebApi.Modules.Home.InventorySearch
                             availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
                         }
 
-                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshAvailability);
+                        TAvailabilityCache availCache = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshAvailability);
 
                         foreach (List<object> row in dtOut.Rows)
                         {

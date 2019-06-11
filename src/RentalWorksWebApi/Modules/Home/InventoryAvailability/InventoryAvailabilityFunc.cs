@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 using WebLibrary;
 using WebApi.Logic;
 
-namespace WebApi.Modules.Home.InventoryAvailabilityFunc
+namespace WebApi.Modules.Home.InventoryAvailability
 {
     //-------------------------------------------------------------------------------------------------------
     public class AvailabilityInventoryWarehouseRequest
@@ -26,6 +26,46 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         public string OrderId { get; set; }
         public bool RefreshIfNeeded { get; set; }
     }
+    //-------------------------------------------------------------------------------------------------------
+    public class AvailabilityConflictRequest
+    {
+        public string AvailableFor { get; set; }  // R, S, blank
+        public string ConflictType { get; set; }  // P, N, blank
+        public string WarehouseId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
+        public string Description { get; set; }
+        public string OrderId { get; set; }
+        public string DealId { get; set; }
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+    }
+    //-------------------------------------------------------------------------------------------------------
+    public class AvailabilityConflictResponseItem
+    {
+        public string Warehouse { get; set; }
+        public string WarehouseCode { get; set; }
+        public string InventoryType { get; set; }
+        public string Category { get; set; }
+        public string SubCategory { get; set; }
+        public string ICode { get; set; }
+        public string ItemDesription { get; set; }
+        public string OrderNumber { get; set; }
+        public string OrderDescription { get; set; }
+        public string Deal { get; set; }
+        public decimal? QuantityOrdered { get; set; }
+        public decimal? QuantitySub { get; set; }
+        public decimal? QuantityAvailable { get; set; }
+        public decimal? QuantityLate { get; set; }
+        public decimal? QuantityIn { get; set; }
+        public decimal? QuantityQc { get; set; }
+        public decimal? QuantityInRepair { get; set; }
+        public DateTime? FromDateTime { get; set; }
+        public DateTime? ToDateTime { get; set; }
+    }
+    //-------------------------------------------------------------------------------------------------------
+    public class AvailabilityConflictResponse : List<AvailabilityConflictResponseItem> { }
     //-------------------------------------------------------------------------------------------------------
     public class TAvailabilityProgress
     {
@@ -339,8 +379,11 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
         //-------------------------------------------------------------------------------------------------------
         private static Dictionary<string, TAvailabilityProgress> AvailabilitySessions = new Dictionary<string, TAvailabilityProgress>();
         public static List<TInventoryWarehouseAvailabilityKey> AvailabilityNeedRecalc = new List<TInventoryWarehouseAvailabilityKey>();
-        //private static int LastNeedRecalcId = 0;
+        public static List<TInventoryWarehouseAvailabilityKey> InventoryNeedingAvail = new List<TInventoryWarehouseAvailabilityKey>();
+        private static int LastNeedRecalcId = 0;
         private static TAvailabilityCache AvailabilityCache = new TAvailabilityCache();
+        private const int AVAILABILITY_DAYS_TO_CACHE = 90;
+        private static DateTime AvailabilityThroughDate;
         //-------------------------------------------------------------------------------------------------------
         public static TAvailabilityProgress GetAvailabilityProgress(string sessionId)
         {
@@ -361,40 +404,95 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             AvailabilitySessions.Remove(sessionId);
         }
         //-------------------------------------------------------------------------------------------------------
-        private static async Task<bool> CheckNeedRecalc(FwApplicationConfig appConfig, FwUserSession userSession)
+        public static async Task<bool> InitializeService(FwApplicationConfig appConfig)
+        {
+            bool success = true;
+            AvailabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select needrecalcid = max(a.id)");
+                qry.Add(" from  tmpavailneedrecalc a");
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+                LastNeedRecalcId = FwConvert.ToInt32(dt.Rows[0][dt.GetColumnNo("needrecalcid")]);
+            }
+
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------        
+        private static async Task<bool> CheckNeedRecalc(FwApplicationConfig appConfig)
         {
             bool success = true;
 
-            //temporary
-            await Task.CompletedTask; // get rid of the no async call warning
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select a.masterid, a.warehouseid, a.id");
+                qry.Add(" from  tmpavailneedrecalc a");
+                qry.Add(" where a.id > @lastneedrecalcid");
+                qry.Add("order by a.id");
+                qry.AddParameter("@lastneedrecalcid", LastNeedRecalcId);
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
-            //using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-            //{
-            //    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-            //    qry.Add("select a.masterid, a.warehouseid, a.id");
-            //    qry.Add(" from  tmpavailneedrecalc a");
-            //    qry.Add(" where a.id > @lastneedrecalcid");
-            //    qry.Add("order by a.id");
-            //    qry.AddParameter("@lastneedrecalcid", LastNeedRecalcId);
-            //    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-
-            //    int needRecalcId = 0;
-            //    foreach (List<object> row in dt.Rows)
-            //    {
-            //        string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
-            //        string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-            //        needRecalcId = FwConvert.ToInt32(row[dt.GetColumnNo("id")]);
-            //        AvailabilityNeedRecalc.Add(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId));
-            //    }
-            //    if (needRecalcId > 0)
-            //    {
-            //        LastNeedRecalcId = needRecalcId;
-            //    }
-            //}
+                int needRecalcId = 0;
+                foreach (List<object> row in dt.Rows)
+                {
+                    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                    needRecalcId = FwConvert.ToInt32(row[dt.GetColumnNo("id")]);
+                    AvailabilityNeedRecalc.Add(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId));
+                }
+                if (needRecalcId > 0)
+                {
+                    LastNeedRecalcId = needRecalcId;
+                }
+            }
 
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+
+        private static async Task<bool> CheckInventoryNeedingAvail(FwApplicationConfig appConfig)
+        {
+            bool success = true;
+            AvailabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select masterid, warehouseid");
+                qry.Add(" from  masterwhforavailview");
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                InventoryNeedingAvail.Clear();
+                foreach (List<object> row in dt.Rows)
+                {
+                    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                    bool foundInCache = false;
+                    bool dataIsCached = false;
+                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+
+                    TInventoryWarehouseAvailability availData = null;
+                    if (AvailabilityCache.TryGetValue(availKey, out availData))
+                    {
+                        foundInCache = true;
+                        dataIsCached = (availData.AvailDataToDateTime >= AvailabilityThroughDate);
+                    }
+
+                    if ((!foundInCache) || (!dataIsCached))
+                    {
+                        InventoryNeedingAvail.Add(availKey);
+                    }
+                }
+            }
+
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
         public static bool DumpAvailabilityToFile(string inventoryId = "", string warehouseId = "")
         {
             bool success = true;
@@ -986,12 +1084,84 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             AvailabilityCache.Remove(availKey);
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<bool> KeepFresh(FwApplicationConfig appConfig)
+        {
+            const int AVAILABILITY_REQUEST_BATCH_SIZE = 1000;
+            bool success = true;
+            Console.WriteLine("keeping availabiltiy fresh");
+            DateTime fromDate = DateTime.Today;
+            AvailabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
+
+            // initialize an empty request
+            TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+
+            // update the list of known items needed recalc
+            Console.WriteLine("checking the need recalc table");
+            await CheckNeedRecalc(appConfig);
+
+            // loop through this list in batches 
+            Console.WriteLine(AvailabilityNeedRecalc.Count.ToString() + " master/warehouse records need recalc");
+            while (AvailabilityNeedRecalc.Count > 0)
+            {
+                // build up a request containing all known items needing recalc
+                availRequestItems.Clear();
+                foreach (TInventoryWarehouseAvailabilityKey key in AvailabilityNeedRecalc)
+                {
+                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(key.InventoryId, key.WarehouseId, fromDate, AvailabilityThroughDate));
+
+                    if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
+                    {
+                        break; // break out of this foreach loop
+                    }
+                }
+
+                // update the static cache of availability data
+                await GetAvailability(appConfig, null, availRequestItems, true);
+
+                Console.WriteLine(AvailabilityNeedRecalc.Count.ToString() + " master/warehouse records need recalc");
+            }
+
+            // update the list of inventory that either has no availability data in cache, or the cache is not far enough out in the future
+            Console.WriteLine("checking inventory that needs availability data in cache");
+            await CheckInventoryNeedingAvail(appConfig);
+
+            // loop through this list in batches 
+            Console.WriteLine(InventoryNeedingAvail.Count.ToString() + " master/warehouse records needs availability data in cache");
+            while (InventoryNeedingAvail.Count > 0)
+            {
+                // build up a request containing all items that need availability
+                availRequestItems.Clear();
+                foreach (TInventoryWarehouseAvailabilityKey key in InventoryNeedingAvail)
+                {
+                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(key.InventoryId, key.WarehouseId, fromDate, AvailabilityThroughDate));
+
+                    if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
+                    {
+                        break; // break out of this foreach loop
+                    }
+                }
+
+                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+                {
+                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId);
+                    InventoryNeedingAvail.RemoveAll(k => k.Equals(availKey));
+                }
+
+                // update the static cache of availability data
+                await GetAvailability(appConfig, null, availRequestItems, true);
+
+                Console.WriteLine(InventoryNeedingAvail.Count.ToString() + " master/warehouse records needs availability data in cache");
+            }
+
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static async Task<TAvailabilityCache> GetAvailability(FwApplicationConfig appConfig, FwUserSession userSession, TInventoryWarehouseAvailabilityRequestItems availRequestItems, bool refreshIfNeeded)
         {
             TAvailabilityCache availCache = new TAvailabilityCache();
             TInventoryWarehouseAvailabilityRequestItems availRequestToRefresh = new TInventoryWarehouseAvailabilityRequestItems();
 
-            await CheckNeedRecalc(appConfig, userSession);
+            await CheckNeedRecalc(appConfig);
 
             foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
             {
@@ -1363,5 +1533,48 @@ namespace WebApi.Modules.Home.InventoryAvailabilityFunc
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+
+        //public static async Task<AvailabilityConflictResponse> GetConflicts (FwApplicationConfig appConfig, FwUserSession userSession, AvailabilityConflictRequest request)
+        public static AvailabilityConflictResponse GetConflicts(FwApplicationConfig appConfig, FwUserSession userSession, AvailabilityConflictRequest request)
+        {
+            AvailabilityConflictResponse response = new AvailabilityConflictResponse();
+
+            int i = 0;
+            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in AvailabilityCache)
+            {
+                TInventoryWarehouseAvailability inventoryWarehouseAvailability = (TInventoryWarehouseAvailability)availEntry.Value;
+
+                if (inventoryWarehouseAvailability.Reservations.Count > 0)
+                {
+                    foreach (TInventoryWarehouseAvailabilityReservation reservation in inventoryWarehouseAvailability.Reservations)
+                    {
+                        AvailabilityConflictResponseItem responseItem = new AvailabilityConflictResponseItem();
+                        responseItem.Warehouse = inventoryWarehouseAvailability.Warehouse;
+                        responseItem.WarehouseCode = inventoryWarehouseAvailability.WarehouseCode;
+                        responseItem.ICode = inventoryWarehouseAvailability.ICode;
+                        responseItem.ItemDesription = inventoryWarehouseAvailability.Description;
+                        responseItem.QuantityIn = inventoryWarehouseAvailability.In.Total;
+                        responseItem.QuantityInRepair = inventoryWarehouseAvailability.InRepair.Total;
+                        responseItem.OrderNumber = reservation.OrderNumber;
+                        responseItem.OrderDescription = reservation.OrderDescription;
+                        responseItem.Deal = reservation.Deal;
+                        responseItem.QuantityOrdered = reservation.QuantityOrdered;
+                        responseItem.QuantitySub= reservation.QuantitySub;
+                        responseItem.FromDateTime = reservation.FromDateTime;
+                        responseItem.ToDateTime = reservation.ToDateTime;
+                        response.Add(responseItem);
+                    }
+                    i++;
+                    if (i >= 10) { break; }
+                }
+
+
+            }
+
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+
+
     }
 }

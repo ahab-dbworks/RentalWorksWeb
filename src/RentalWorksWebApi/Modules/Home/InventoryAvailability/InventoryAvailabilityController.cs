@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
 using System;
-using WebApi.Modules.Home.InventoryAvailabilityFunc;
 
 namespace WebApi.Modules.Home.InventoryAvailability
 {
@@ -22,7 +21,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public async Task<ActionResult<bool>> DumpToFile(string inventoryId, string warehouseId)  // inventoryId and warehouseId are optional filters here
         {
             await Task.CompletedTask; // get rid of the no async call warning
-            return InventoryAvailabilityFunc.InventoryAvailabilityFunc.DumpAvailabilityToFile(inventoryId, warehouseId);
+            return InventoryAvailabilityFunc.DumpAvailabilityToFile(inventoryId, warehouseId);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/inventoryavailability/getinventoryavailability
@@ -36,7 +35,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                TInventoryWarehouseAvailability availData = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.InventoryId, request.WarehouseId, request.FromDate, request.ToDate, request.RefreshIfNeeded);
+                TInventoryWarehouseAvailability availData = await InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, request.InventoryId, request.WarehouseId, request.FromDate, request.ToDate, request.RefreshIfNeeded);
                 return new OkObjectResult(availData);
             }
             catch (Exception ex)
@@ -68,8 +67,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         //    }
         //}
         ////------------------------------------------------------------------------------------       
-        // GET api/v1/inventoryavailability/getcalendarandscheduledata?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
-        [HttpGet("getcalendarandscheduledata")]
+        // GET api/v1/inventoryavailability/calendarandscheduledata?InventoryId=F010F3BN&WarehouseId=B0029AY5&FromDate=11/01/2018&Todate=11/30/2018
+        [HttpGet("calendarandscheduledata")]
         [FwControllerMethod(Id: "bi563cSFahD")]
         public async Task<ActionResult<TInventoryAvailabilityCalendarAndScheduleResponse>> GetCalendarDataAsync(string InventoryId, string WarehouseId, DateTime FromDate, DateTime ToDate)
         {
@@ -79,7 +78,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                TInventoryAvailabilityCalendarAndScheduleResponse response = await InventoryAvailabilityFunc.InventoryAvailabilityFunc.GetCalendarAndScheduleData(AppConfig, UserSession, InventoryId, WarehouseId, FromDate, ToDate);
+                TInventoryAvailabilityCalendarAndScheduleResponse response = await InventoryAvailabilityFunc.GetCalendarAndScheduleData(AppConfig, UserSession, InventoryId, WarehouseId, FromDate, ToDate);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -88,6 +87,31 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
         }
         //------------------------------------------------------------------------------------ 
+
+
+        // GET api/v1/inventoryavailability/conflicts
+        [HttpGet("conflicts")]
+        [FwControllerMethod(Id: "tU8RitXRpyZLw")]
+        public async Task<ActionResult<AvailabilityConflictResponse>> GetConflictsAsync([FromBody] AvailabilityConflictRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                //AvailabilityConflictResponse response = await InventoryAvailabilityFunc.GetConflicts(AppConfig, UserSession, request);
+                AvailabilityConflictResponse response = InventoryAvailabilityFunc.GetConflicts(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+
+
         // DELETE api/v1/inventoryavailability
         [HttpDelete()]
         [FwControllerMethod(Id: "FcTkG3wwcgwQQ")]
@@ -99,7 +123,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                InventoryAvailabilityFunc.InventoryAvailabilityFunc.DeleteAvailability(AppConfig, UserSession, inventoryId, warehouseId);
+                InventoryAvailabilityFunc.DeleteAvailability(AppConfig, UserSession, inventoryId, warehouseId);
                 await Task.CompletedTask; // get rid of the no async call warning
                 return new OkObjectResult(true);
             }
