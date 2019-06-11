@@ -78,6 +78,19 @@
                     }
                     screen.moduleCaptions[caption][moduleName].push($field);
                 }
+                //add section headings to search
+                const $sectionHeadings = $form.find('.fwform-section[data-caption]');
+                for (let l = 0; l < $sectionHeadings.length; l++) {
+                    const $section = $sectionHeadings.eq(l);
+                    const sectionCaption = $section.attr('data-caption').toUpperCase();
+                    if (typeof screen.moduleCaptions[sectionCaption] === 'undefined') {
+                        screen.moduleCaptions[sectionCaption] = {};
+                    }
+                    if (typeof screen.moduleCaptions[sectionCaption][moduleName] === 'undefined') {
+                        screen.moduleCaptions[sectionCaption][moduleName] = [];
+                    }
+                    screen.moduleCaptions[sectionCaption][moduleName].push($section);
+                }
             }
         }
     }
@@ -201,7 +214,10 @@
                 jQuery(this).closest('.fwreports').find('.data-panel:parent').empty();
                 jQuery(this).parent().find('.input-group-clear').css('display', 'table-cell');
 
-                me.getCaptions(screen);
+                if (Object.keys(screen.moduleCaptions).length === 0 && screen.moduleCaptions.constructor === Object) {
+                    me.getCaptions(screen);
+                }
+
                 filter = [];
                 const $reportDescriptions = jQuery('small#description');
                 const $reportTitles = jQuery('a#title');
@@ -287,7 +303,7 @@
                             }
                         }
 
-                         //check descriptions for match
+                        //check descriptions for match
                         const matchedDescription = $reportDescriptions.filter(function () {
                             return -1 != jQuery(this).text().toUpperCase().indexOf(results[i]);
                         }).closest('div.panel-group');
