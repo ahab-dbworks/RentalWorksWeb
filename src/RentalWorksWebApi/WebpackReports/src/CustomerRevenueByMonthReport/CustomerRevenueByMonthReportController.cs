@@ -1,4 +1,3 @@
-using FwStandard.AppManager;
 using FwStandard.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -10,35 +9,33 @@ using PuppeteerSharp;
 using PuppeteerSharp.Media;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Http;
+using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
-
-namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
+namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
 {
-
-    public class CustomerRevenueByTypeReportRequest : AppReportRequest
+    public class CustomerRevenueByMonthReportRequest : AppReportRequest
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public string DateType { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
+        public string CustomerTypeId { get; set; }
         public string CustomerId { get; set; }
         public string DealTypeId { get; set; }
         public string DealId { get; set; }
-        public string OrderTypeId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public bool? IsSummary { get; set; }
+        public SelectedCheckBoxListItems InventoryTypes { get; set; } = new SelectedCheckBoxListItems();
     }
-
-
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
-    [FwController(Id: "mIieqY1nHrJP")]
-    public class CustomerRevenueByTypeReportController : AppReportController
+    [FwController(Id: "40SdfVGkZPtA6")]
+    public class CustomerRevenueByMonthReportController : AppReportController
     {
-        public CustomerRevenueByTypeReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "CustomerRevenueByTypeReport"; }
+        public CustomerRevenueByMonthReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "CustomerRevenueByMonthReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Customer Revenue By Type Report"; }
+        protected override string GetReportFriendlyName() { return "Customer Revenue By Month Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -51,12 +48,12 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "CustomerRevenueByTypeReport";
+            return "CustomerRevenueByMonthReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/customerrevenuebytypereport/render 
+        // POST api/v1/customerrevenuebymonthreport/render 
         [HttpPost("render")]
-        [FwControllerMethod(Id: "Vn78OJzbD0kJ")]
+        [FwControllerMethod(Id: "y0XR4t6KrO077")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
         {
             if (!this.ModelState.IsValid) return BadRequest();
@@ -64,20 +61,20 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/modulename/exportexcelxlsx/filedownloadname 
+        // POST api/v1/customerrevenuebymonthreport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
-        [FwControllerMethod(Id: "fMRmiMRlY7mR")]
-        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]CustomerRevenueByTypeReportRequest request)
+        [FwControllerMethod(Id: "watIKCwBjv70t")]
+        public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]CustomerRevenueByMonthReportRequest request)
         {
             ActionResult<FwJsonDataTable> actionResult = await RunReportAsync(request);
             FwJsonDataTable dt = (FwJsonDataTable)((OkObjectResult)(actionResult.Result)).Value;
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/customerrevenuebytypereport/runreport 
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/customerrevenuebymonthreport/runreport 
         [HttpPost("runreport")]
-        [FwControllerMethod(Id: "YbGP2l61lTkk")]
-        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CustomerRevenueByTypeReportRequest request)
+        [FwControllerMethod(Id: "V1ccd7hozdm1G")]
+        public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]CustomerRevenueByMonthReportRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +82,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByTypeReport
             }
             try
             {
-                CustomerRevenueByTypeReportLoader l = new CustomerRevenueByTypeReportLoader();
+                CustomerRevenueByMonthReportLoader l = new CustomerRevenueByMonthReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);

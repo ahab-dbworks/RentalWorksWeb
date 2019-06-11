@@ -140,7 +140,7 @@ class CustomerRevenueByMonthReport extends FwWebApiReport {
             { value: "PARTS", text: "Parts", selected: "T" },
             { value: "MISC", text: "Misc / Facilities", selected: "T" },
             { value: "LABOR", text: "Labor", selected: "T" },
-            { value: "FLD", text: "Final L&D" },
+            { value: "FINALLD", text: "Final L&D" },
             { value: "RENTALSALE", text: "Rental Sale" }
         ]);
     }
