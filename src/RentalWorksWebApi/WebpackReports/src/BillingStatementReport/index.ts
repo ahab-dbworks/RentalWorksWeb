@@ -26,8 +26,19 @@ export class BillingStatementReport extends WebpackReport {
                             data.ToDate = parameters.ToDate;
                             data.Report = 'Billing Statement Report';
                             data.System = 'RENTALWORKS';
+                            data.Today = moment().format('MM/DD/YYYY')
                             if (controlObject.ReportLogoImage != '') {
                                 data.Logosrc = controlObject.ReportLogoImage;
+                            }
+                            if (data[2]) {
+                                const firstDetail = data[2];
+                                data.OfficeLocationCompany = firstDetail.OfficeLocationCompany;
+                                data.OfficeLocationAddress1 = firstDetail.OfficeLocationAddress1;
+                                data.OfficeLocationAddress2 = firstDetail.OfficeLocationAddress2;
+                                data.OfficeLocationCity = firstDetail.OfficeLocationCity;
+                                data.OfficeLocationState = firstDetail.OfficeLocationState;
+                                data.OfficeLocationZipCode = firstDetail.OfficeLocationZipCode;
+                                data.OfficeLocationCountry = firstDetail.OfficeLocationCountry;
                             }
                             console.log('rpt', data)
                             this.renderFooterHtml(data);

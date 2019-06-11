@@ -1,23 +1,69 @@
 ﻿<!--BillingStatementReport-->
-<div class="rpt-flexrow" style="width:1400px;">
-  <style type="text/css" media="print">
-    @page {
-      size: landscape;
-      margin: 10px 10px 10px 10px;
-    }
-  </style>
-  <div class="rpt-flexcolumn">
-    <span class="rpt-header-left">{{System}}</span>
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+  <div class="rpt-flexcolumn" style="border-bottom: 2px solid #027cc5;padding-bottom:5px;">
+    {{#if Logosrc}}
+    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+    {{else}}
+    <div></div>
+    {{/if}}
+    <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
+    <span class="header-left">{{OfficeLocationAddress1}}</span>
+    <span class="header-left">{{OfficeLocationAddress2}}</span>
+    <span class="header-left">{{OfficeLocationCity}}, {{OfficeLocationState}} {{OfficeLocationZipCode}} {{OfficeLocationCountry}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">Retired From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
-    <span class="rpt-header-right">{{Company}}</span>
+    <span style="font-size:18px;" class="header-right"><span style="font-weight:600;padding-right:50px;">Date: </span><span style="color:black;">{{Today}}</span></span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width:1400px;">
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="sub text" style="text-align:left;">Issued To</th>
+        <th class="sub text" style="text-align:left;"></th>
+        <th class="sub text" style="text-align:left;">Statement Period: </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="issuedTo" style="text-align:left;width:33.3%;">
+          <div>
+            <span style="font-weight:600;">Issued To: </span><span class="blue">{{IssuedToCompany}}</span>
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAttention1}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAttention2}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAddress1}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAddress2}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:23px;">Phone: </span><span class="blue">{{IssuedToPhone}}</span>
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:43px;">Fax: </span><span class="blue">{{IssuedToFax}}</span>
+          </div>
+        </td>
+        <td id="outgoing" style="text-align:left;width:33.3%;">
+        </td>
+        <td id="incoming" style="text-align:left;width:33.3%">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     <thead class="main-header">
       <tr>
@@ -32,7 +78,7 @@
     </thead>
     {{#each this}}
     {{#ifEquals RowType "Dealheader"}}
-    <thead data-rowtype="{{RowType}}">
+    <thead class="page-break" data-rowtype="{{RowType}}">
       <tr>
         <th class="header-row" colspan="4">Deal: {{Deal}}</th>
       </tr>

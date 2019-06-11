@@ -40,3 +40,16 @@ table {
 .top {
     vertical-align: top;
 }
+
+tr {
+    page-break-inside: avoid;
+    page-break-after: auto
+}
+.page-break {
+    page-break-before: always !important;
+}
+.sub {
+    border-top: 2px solid #027cc5;
+    border-bottom: 2px solid #027cc5;
+    background-color: #DCDCDC;
+}
