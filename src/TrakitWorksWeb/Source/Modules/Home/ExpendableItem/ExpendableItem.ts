@@ -88,7 +88,7 @@ class ExpendableItem {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], self.yearlyEvents);
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
@@ -132,7 +132,7 @@ class ExpendableItem {
                 var start = moment(request.start.value).format('MM/DD/YYYY');
                 var end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
 
-                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/getcalendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (var i = 0; i < schedulerEvents.length; i++) {
                         if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
