@@ -1,4 +1,5 @@
-﻿using FwStandard.Models;
+﻿using FwStandard.AppManager;
+using FwStandard.Models;
 using FwStandard.Security;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ namespace WebApi.Modules.AccountServices
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "accountservices-v1")]
+    [FwController(Id: "R6UM7U78W2dB")]
     public class AccountController : AppController
     {
         public AccountController(IOptions<FwApplicationConfig> appConfig) : base(appConfig)
@@ -36,6 +38,7 @@ namespace WebApi.Modules.AccountServices
 
         // GET api/v1/account/sessioninfo
         [HttpGet("session")]
+        [FwControllerMethod(Id: "hC5MXcjWFqjb", ValidateSecurityGroup: false)]
         public async Task<ActionResult<GetSessionResponse>> GetSession([FromQuery]string applicationId)
         {
             var response = new GetSessionResponse();
@@ -117,6 +120,7 @@ namespace WebApi.Modules.AccountServices
         
         // GET api/v1/account/locationinfo?locationid=value&warehouseid=value&departmentid=value
         [HttpGet("officelocation")]
+        [FwControllerMethod(Id: "d22TgeY4ersd", ValidateSecurityGroup: false)]
         public async Task<ActionResult<GetOfficeLocationResponse>> GetOfficeLocation([FromQuery]string locationid, [FromQuery]string warehouseid, [FromQuery]string departmentid)
         {
             // run all the queries in parallel
