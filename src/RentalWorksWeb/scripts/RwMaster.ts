@@ -39,7 +39,8 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.Container,
                     Constants.Modules.Home.Repair,
                     Constants.Modules.Home.CompleteQc,
-                    Constants.Modules.Home.PhysicalInventory
+                    Constants.Modules.Home.PhysicalInventory,
+                    Constants.Modules.Home.AvailabilityConflicts
                 ]
             };
             this.navigation.push(menuInventory);

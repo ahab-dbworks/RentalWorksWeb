@@ -481,6 +481,7 @@
     <TypeScriptCompile Include="Source\Modules\Administrator\EmailHistory\EmailHistory.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Billing\BillingMessage.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\EmptyContainer\EmptyContainer.ts" />
+    <TypeScriptCompile Include="Source\Modules\Home\AvailabilityConflicts\AvailabilityConflicts.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\RemoveFromContainer\RemoveFromContainer.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\DealCredit\DealCredit.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\CustomerCredit\CustomerCredit.ts" />
@@ -585,6 +586,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\Order\SearchInterface.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Quote\Quote.ts" />
     <TypeScriptCompile Include="Source\Modules\Home\Repair\Repair.ts" />
+    <Content Include="Source\Modules\Home\AvailabilityConflicts\AvailabilityConflictsForm.htm" />
     <Content Include="Source\Modules\Home\CompleteQc\CompleteQcForm.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryBrowse.htm" />
     <Content Include="Source\Modules\Home\PhysicalInventory\PhysicalInventoryForm.htm" />

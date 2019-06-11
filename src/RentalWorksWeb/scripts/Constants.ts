@@ -24,6 +24,7 @@
         Home: {
             Asset: { id: '1C45299E-F8DB-4AE4-966F-BE142295E3D6', caption: 'Asset', nav: 'module/item' },
             AssignBarCodes: { id: '4B9C17DE-7FC0-4C33-B953-26FC90F32EA0', caption: 'Assign Bar Codes', nav: 'module/assignbarcodes' },
+            AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts'},
             Billing: { id: '34E0472E-9057-4C66-8CC2-1938B3222569', caption: 'Billing', nav: 'module/billing' },
             BillingMessage: { id: 'B232DF4D-462A-4810-952D-73F8DE66800C', caption: 'Billing Message', nav: 'module/billingmessage' },
             CheckIn: { id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin' },

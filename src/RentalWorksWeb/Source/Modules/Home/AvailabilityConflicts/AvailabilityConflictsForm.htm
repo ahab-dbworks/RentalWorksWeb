@@ -1,0 +1,40 @@
+<div id="availabilityconflictsform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Availability Conflicts" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="AvailabilityConflictsController">
+  <div class="flexpage">
+    <div class="flexrow">
+      <div class="flexcolumn">
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Inventory" data-datafield="AvailableFor" style="flex:0 1 350px;">
+            <div data-value="R" data-caption="Rental" style="float:left;"></div>
+            <div data-value="S" data-caption="Sales" style="float:left; margin:0px 25px;"></div>
+            <div data-value="" data-caption="All" style="float:left;"></div>
+          </div>
+          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="Conflict Type" data-datafield="ConflictType" style="flex:1 1 150px;">
+            <div data-value="P" data-caption="Positive" style="float:left;"></div>
+            <div data-value="N" data-caption="Negative" style="float:left; margin:0px 25px;"></div>
+            <div data-value="" data-caption="All" style="float:left;"></div>
+          </div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="flex:1 1 200px;"></div>
+          <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 200px;"></div>
+          <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="CategoryValidation" style="flex:1 1 200px;"></div>
+          <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="flex:1 1 200px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:1 1 200px; max-width:250px;"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 400px; max-width:505px;"></div>
+        </div>
+        <div class="flexrow">
+          <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 200px; max-width:250px;"></div>
+          <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 200px; max-width:250px;"></div>
+        </div>
+      </div>
+      <div class="flexcolumn" style="max-width:90px;">
+        <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="Rank" data-datafield="Rank" style="float:left;margin:20px;"></div>
+      </div>
+      <div class="flexcolumn" style="max-width:105px; margin:20px 0px;">
+        <div class="fwformcontrol refresh" data-type="button" style="max-width:72px; margin:5px 0 15px 10px;">Refresh</div>
+      </div>
+    </div>
+  </div>
+</div>
