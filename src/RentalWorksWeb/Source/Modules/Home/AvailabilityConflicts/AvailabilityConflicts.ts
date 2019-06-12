@@ -42,7 +42,7 @@ class AvailabilityConflicts {
         FwFormField.setValueByDataField($form, 'ConflictType', 'N');
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-        FwFormField.setValueByDataField($form, 'Warehouse', warehouse.warehouseid, warehouse.warehouse);
+        FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
 
         this.events($form);
         return $form;
@@ -65,11 +65,71 @@ class AvailabilityConflicts {
 
             FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryavailability/conflicts', request, FwServices.defaultTimeout,
                 response => {
-               
+                    this.loadAvailabilityTable($form, response);
                 },
                 ex => FwFunc.showError(ex), $form);
         });
     }
+    //----------------------------------------------------------------------------------------------
+    loadAvailabilityTable($form, data) {
+        const html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Warehouse</th>
+                            <th>Type</th>
+                            <th>Category</th>
+                            <th>Sub Category</th>
+                            <th>I-Code</th>
+                            <th>Item Description</th>
+                            <th>Order No.</th>
+                            <th>Order Description</th>
+                            <th>Deal</th>
+                            <th>Ordered</th>
+                            <th>Sub</th>
+                            <th>Available</th>
+                            <th>Late</th>
+                            <th>In</th>
+                            <th>QC</th>
+                            <th>From</th>
+                            <th>To</th>
+                        <tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>`;
+
+        $form.find('#availabilityTable').append(html);
+
+        const $rows: any = [];
+        for (let i = 0; i < data.length; i++) {
+            const row = `
+                    <tr>
+                        <td>${data[i].Warehouse}</td>
+                        <td>${data[i].InventoryType}</td>
+                        <td>${data[i].Category}</td>
+                        <td>${data[i].SubCategory}</td>
+                        <td>${data[i].ICode}</td>
+                        <td>${data[i].ItemDescription}</td>
+                        <td>${data[i].OrderNumber}</td>
+                        <td>${data[i].OrderDescription}</td>
+                        <td>${data[i].Deal}</td>
+                        <td>${data[i].QuantityOrdered}</td>
+                        <td>${data[i].QuantitySub}</td>
+                        <td>${data[i].QuantityAvailable}</td>
+                        <td>${data[i].QuantityLate}</td>
+                        <td>${data[i].QuantityIn}</td>
+                        <td>${data[i].QuantityQc}</td>
+                        <td>${data[i].FromDateTime}</td>
+                        <td>${data[i].ToDateTime}</td>
+                    </tr>
+                    `;
+            $rows.push(row);
+        }
+
+        $form.find('tbody').append($rows);
+    }
+    //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {
         //const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         //request.uniqueids = {
