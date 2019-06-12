@@ -12,6 +12,8 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -908,7 +910,7 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        protected virtual void CheckAlerts(TDataRecordSaveMode saveMode)
+        protected async void CheckAlertsAsync(TDataRecordSaveMode saveMode)
         {
             if (alerts == null)
             {
@@ -948,8 +950,13 @@ namespace FwStandard.BusinessLogic
                         request.uniqueids = uniqueIds;
                         List<AlertConditionLogic> alertConditions = acLoader.SelectAsync<AlertConditionLogic>(request).Result;
 
+                        bool conditionsMet = true;
                         foreach (AlertConditionLogic condition in alertConditions)
                         {
+                            if (!conditionsMet)
+                            {
+                                break;
+                            }
                             string acFieldName = condition.FieldName;
                             string acCondition = condition.Condition;
                             string acValue = condition.Value;
@@ -981,46 +988,28 @@ namespace FwStandard.BusinessLogic
                                         switch (acCondition)
                                         {
                                             case "CONTAINS":
-                                                if (valueToCompare.ToString().Contains(acValue))
-                                                {
-
-                                                }
+                                                conditionsMet = valueToCompare.ToString().Contains(acValue);
                                                 break;
                                             case "STARTSWITH":
-                                                if (valueToCompare.ToString().StartsWith(acValue))
-                                                {
-
-                                                }
+                                                conditionsMet = valueToCompare.ToString().StartsWith(acValue);
                                                 break;
                                             case "ENDSWITH":
-                                                if (valueToCompare.ToString().EndsWith(acValue))
-                                                {
-
-                                                }
+                                                conditionsMet = valueToCompare.ToString().EndsWith(acValue);
                                                 break;
                                             case "EQUALS":
-                                                if (string.Equals(valueToCompare.ToString(), acValue))
-                                                {
-
-                                                }
+                                                conditionsMet = string.Equals(valueToCompare.ToString(), acValue);
                                                 break;
                                             case "DOESNOTCONTAIN":
-                                                if (!valueToCompare.ToString().Contains(acValue))
-                                                {
-
-                                                }
+                                                conditionsMet = !valueToCompare.ToString().Contains(acValue);
                                                 break;
                                             case "DOESNOTEQUAL":
-                                                if (!string.Equals(valueToCompare.ToString(), acValue))
-                                                {
-
-                                                }
+                                                conditionsMet = !string.Equals(valueToCompare.ToString(), acValue);
                                                 break;
                                             case "CHANGEDBY":
-                                               
+                                                //conditionsMet =
                                                 break;
                                         }
-
+                                        break;
                                     }
                                 }
                             }
@@ -1031,11 +1020,11 @@ namespace FwStandard.BusinessLogic
 
                             //    foreach (FwCustomField customField in _Custom.CustomFields)
                             //    {
-                            //        if (customField.FieldName.Equals(fieldName))
+                            //        if (customField.FieldName.Equals(acFieldName))
                             //        {
                             //            propertyFound = true;
-
                             //            string value = null;
+                            //            object valueToCompare = null;
                             //            for (int customFieldIndex = 0; customFieldIndex < _Custom.Count; customFieldIndex++)
                             //            {
                             //                if (_Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
@@ -1046,10 +1035,7 @@ namespace FwStandard.BusinessLogic
 
                             //            if (value != null)
                             //            {
-                            //                searchFieldVals.Add(value.ToString());
-                            //                searchOperators.Add("=");
-                            //                int datatypeIndex = Array.IndexOf(fields, fieldName);
-                            //                searchFieldTypes.Add(datatypes[datatypeIndex].ToLower());
+                            //                valueToCompare = value;
                             //            }
                             //            else
                             //            {
@@ -1064,24 +1050,54 @@ namespace FwStandard.BusinessLogic
                             //                            databaseValue = l2._Custom[customFieldIndex].FieldValue;
                             //                        }
                             //                    }
-                            //                    searchFieldVals.Add(databaseValue.ToString());
-                            //                }
-                            //                else
-                            //                {
-                            //                    searchFieldVals.Add("");
-                            //                    searchOperators.Add("=");
+                            //                    valueToCompare = databaseValue;
                             //                }
                             //            }
-
                             //            break;
                             //        }
                             //    }
                             //}
                         }
+
+                        if (conditionsMet)
+                        {
+                            string alertSubject = alert[3].ToString();
+                            string alertBody = alert[4].ToString();
+                            //find and replace variables
+
+                           bool sent = await SendEmailAsync("jhoang@4wall.com", "jhoang@4wall.com", alertSubject, alertBody, dataRecords[0].AppConfig);
+                        }
                     }
                 }
             }
         }
+        //------------------------------------------------------------------------------------ 
+       static async Task<bool> SendEmailAsync(string from, string to, string subject, string body, FwApplicationConfig appConfig)
+        {
+            var message = new MailMessage(from, to, subject, body);
+            message.IsBodyHtml = true;
+            string accountname = string.Empty, accountpassword = string.Empty, authtype = string.Empty, host = string.Empty, domain = "";
+            int port = 25;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 *");
+                    qry.Add("from emailreportcontrol with (nolock)");
+                    await qry.ExecuteAsync();
+                    accountname = qry.GetField("accountname").ToString().TrimEnd();
+                    accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
+                    authtype = qry.GetField("authtype").ToString().TrimEnd();
+                    host = qry.GetField("host").ToString().TrimEnd();
+                    port = qry.GetField("port").ToInt32();
+                }
+            }
+            var client = new SmtpClient(host, port);
+            client.Credentials = new NetworkCredential(accountname, accountpassword, domain);
+            await client.SendMailAsync(message);
+            return true;
+        }
+        //------------------------------------------------------------------------------------ 
         protected virtual bool IsValidStringValue(PropertyInfo property, string[] acceptableValues, ref string validateMsg, bool nullAcceptable = true)
         {
             bool isValidValue = false;
@@ -1385,7 +1401,7 @@ namespace FwStandard.BusinessLogic
                             rowsAffected = afterSaveArgs.RecordsAffected;
                         }
 
-                        CheckAlerts(saveMode);
+                        CheckAlertsAsync(saveMode);
                     }
                 }
                 success = true;
