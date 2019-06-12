@@ -385,6 +385,7 @@
     <Content Include="Source\Validations\PaymentTermsValidation\PaymentTermsValidationBrowse.htm" />
     <Content Include="Source\Validations\PaymentTypeValidation\PaymentTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\PersonValidation\PersonValidationBrowse.htm" />
+    <Content Include="Source\Validations\PickListValidation\PickListValidationBrowse.htm" />
     <Content Include="Source\Validations\POClassificationValidation\POClassificationValidationBrowse.htm" />
     <Content Include="Source\Validations\POTypeValidation\POTypeValidationBrowse.htm" />
     <Content Include="Source\Validations\ProductionTypeValidation\ProductionTypeValidationBrowse.htm" />

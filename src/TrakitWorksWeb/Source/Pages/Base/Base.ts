@@ -148,8 +148,8 @@
                                         sounds.successSoundFileName      = responseGetUserSettings.SuccessSoundFileName;
                                         sounds.errorSoundFileName        = responseGetUserSettings.ErrorSoundFileName;
                                         sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
-                                        homePage.guid = responseGetUserSettings.HomeMenuGuid;
-                                        homePage.path = responseGetUserSettings.HomeMenuPath;
+                                        homePage.guid                    = responseGetUserSettings.HomeMenuGuid;
+                                        homePage.path                    = responseGetUserSettings.HomeMenuPath;
                                         sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                         sessionStorage.setItem('homePage', JSON.stringify(homePage));
 
@@ -163,13 +163,13 @@
                                         sessionStorage.setItem('customFields', JSON.stringify(customFields));
 
                                         const responseGetCustomForms = values[2];
-                                        let baseFormIndex = responseGetCustomForms.ColumnIndex.BaseForm;
+                                        let baseFormIndex     = responseGetCustomForms.ColumnIndex.BaseForm;
                                         let customFormIdIndex = responseGetCustomForms.ColumnIndex.CustomFormId;
-                                        let htmlIndex = responseGetCustomForms.ColumnIndex.Html;
+                                        let htmlIndex         = responseGetCustomForms.ColumnIndex.Html;
                                         let activeCustomForms: any = [];
                                         for (let i = 0; i < responseGetCustomForms.Rows.length; i++) {
                                             let customForm = responseGetCustomForms.Rows[i];
-                                            let baseform = customForm[baseFormIndex];
+                                            let baseform   = customForm[baseFormIndex];
                                             activeCustomForms.push({ 'BaseForm': baseform, 'CustomFormId': customForm[customFormIdIndex] });
                                             jQuery('head').append(`<template id="tmpl-custom-${baseform}">${customForm[htmlIndex]}</template>`);
                                         }
@@ -179,17 +179,17 @@
 
                                         const responseGetControlDefaults = values[3];
                                         let controlDefaults = {
-                                            defaultdealstatusid: responseGetControlDefaults.DefaultDealStatusId
-                                            , defaultdealstatus: responseGetControlDefaults.DefaultDealStatus
-                                            , defaultcustomerstatusid: responseGetControlDefaults.DefaultCustomerStatusId
-                                            , defaultcustomerstatus: responseGetControlDefaults.DefaultCustomerStatus
-                                            , defaultdealbillingcycleid: responseGetControlDefaults.DefaultDealBillingCycleId
-                                            , defaultdealbillingcycle: responseGetControlDefaults.DefaultDealBillingCycle
-                                            , defaultunitid: responseGetControlDefaults.DefaultUnitId
-                                            , defaultunit: responseGetControlDefaults.DefaultUnit
-                                            , defaulticodemask: responseGetControlDefaults.ICodeMask
-                                            , systemname: responseGetControlDefaults.SystemName
-                                            , companyname: responseGetControlDefaults.CompanyName
+                                            defaultdealstatusid:       responseGetControlDefaults.DefaultDealStatusId,
+                                            defaultdealstatus:         responseGetControlDefaults.DefaultDealStatus,
+                                            defaultcustomerstatusid:   responseGetControlDefaults.DefaultCustomerStatusId,
+                                            defaultcustomerstatus:     responseGetControlDefaults.DefaultCustomerStatus,
+                                            defaultdealbillingcycleid: responseGetControlDefaults.DefaultDealBillingCycleId,
+                                            defaultdealbillingcycle:   responseGetControlDefaults.DefaultDealBillingCycle,
+                                            defaultunitid:             responseGetControlDefaults.DefaultUnitId,
+                                            defaultunit:               responseGetControlDefaults.DefaultUnit,
+                                            defaulticodemask:          responseGetControlDefaults.ICodeMask,
+                                            systemname:                responseGetControlDefaults.SystemName,
+                                            companyname:               responseGetControlDefaults.CompanyName
                                         }
                                         sessionStorage.setItem('controldefaults', JSON.stringify(controlDefaults));
 
