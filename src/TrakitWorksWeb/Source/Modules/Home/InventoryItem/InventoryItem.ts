@@ -143,6 +143,11 @@ class InventoryItem {
             {value:'QUANTITY',   text:'Quantity'}
         ], false);
 
+        FwFormField.loadItems($form.find('div[data-datafield="weightselector"]'), [
+            { value: 'IMPERIAL', caption: 'Imperial', checked: true },
+            { value: 'METRIC', caption: 'Metric' }
+        ]);
+
         //Click Event on tabs to load grids/browses
         $form.on('click', '[data-type="tab"]', e => {
             if ($form.data('mode') !== 'NEW') {
@@ -612,6 +617,7 @@ class InventoryItem {
         } else {
             FwFormField.disable($form.find('.subcategory'));
         }
+
     }
     //----------------------------------------------------------------------------------------------
     addAssetTab($form: any): void {
