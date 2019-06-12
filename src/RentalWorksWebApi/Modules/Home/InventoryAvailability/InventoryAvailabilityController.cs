@@ -89,8 +89,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         //------------------------------------------------------------------------------------ 
 
 
-        // GET api/v1/inventoryavailability/conflicts
-        [HttpGet("conflicts")]
+        // POST api/v1/inventoryavailability/conflicts
+        [HttpPost("conflicts")]
         [FwControllerMethod(Id: "tU8RitXRpyZLw")]
         public async Task<ActionResult<AvailabilityConflictResponse>> GetConflictsAsync([FromBody] AvailabilityConflictRequest request)
         {
