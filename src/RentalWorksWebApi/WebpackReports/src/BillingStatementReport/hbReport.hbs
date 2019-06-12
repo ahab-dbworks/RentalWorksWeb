@@ -15,7 +15,7 @@
     <span class="rpt-title">{{Report}}</span>
   </div>
   <div class="rpt-flexcolumn">
-    <span style="font-size:18px;" class="header-right"><span style="font-weight:600;padding-right:50px;">Date: </span><span style="color:black;">{{Today}}</span></span>
+    <span style="font-size:18px;" class="rpt-header-right"><span style="font-weight:600;">Date: </span><span style="color:black;">{{Today}}</span></span>
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:25px;">
@@ -78,9 +78,9 @@
     </thead>
     {{#each this}}
     {{#ifEquals RowType "Dealheader"}}
-    <thead class="page-break" data-rowtype="{{RowType}}">
+    <thead data-rowtype="{{RowType}}">
       <tr>
-        <th class="header-row" colspan="4">Deal: {{Deal}}</th>
+        <th class="header-row" colspan="4">Deal: {{Deal}}<div class="page-break"></div></th>
       </tr>
     </thead>
     {{/ifEquals}}

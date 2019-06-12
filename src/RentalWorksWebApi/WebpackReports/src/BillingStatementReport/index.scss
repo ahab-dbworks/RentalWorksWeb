@@ -41,10 +41,6 @@ table {
     vertical-align: top;
 }
 
-tr {
-    page-break-inside: avoid;
-    page-break-after: auto
-}
 .page-break {
     page-break-before: always !important;
 }
