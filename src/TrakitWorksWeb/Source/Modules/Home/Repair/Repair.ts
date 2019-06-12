@@ -103,21 +103,27 @@ class Repair {
             FwFormField.enable($form.find('div[data-displayfield="ICode"]'));
         }
 
-        FwFormField.loadItems($form.find('div[data-datafield="Priority"]'), [
-            { value: 'HIG', text: 'High' },
-            { value: 'MED', text: 'Medium', selected:true },
-            { value: 'LOW', text: 'Low' }
-        ], true);
+        //FwFormField.loadItems($form.find('div[data-datafield="Priority"]'), [
+        //    { value: 'HIG', text: 'High' },
+        //    { value: 'MED', text: 'Medium', selected:true },
+        //    { value: 'LOW', text: 'Low' }
+        //], true);
 
         FwFormField.loadItems($form.find('div[data-datafield="AvailFor"]'), [
-            { value: 'R', text: 'Rent' },
-            { value: 'S', text: 'Sell' }
+            { value: 'R', caption: 'Rent' },
+            { value: 'S', caption: 'Sell' }
         ], true);
 
         FwFormField.loadItems($form.find('div[data-datafield="RepairType"]'), [
-            { value: 'OWNED',   text: 'Owned' },
-            { value: 'OUTSIDE', text: 'Not Owned' }
+            { value: 'OWNED',   caption: 'Owned' },
+            { value: 'OUTSIDE', caption: 'Not Owned' }
         ], true);
+
+        FwFormField.loadItems($form.find('div[data-datafield="Priority"]'), [
+            { value: 'LOW', caption: 'Low',},
+            { value: 'MED', caption: 'Medium', checked:true },
+            { value: 'HIG', caption: 'High' }
+        ]);
 
         this.events($form);
 
