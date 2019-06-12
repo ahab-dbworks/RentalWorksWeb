@@ -13,7 +13,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
-        public string Rowtype { get; set; }
+        public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "locationid", modeltype: FwDataTypes.Text)]
         public string OfficeLocationId { get; set; }
@@ -145,7 +145,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
                     qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, request.DealTypeId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
-                    // qry.AddParameter("@inventorytypes", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypes.ToString()); unsure of implemntation
+                    // qry.AddParameter("@inventorytypes", SqlDbType.Text, ParameterDirection.Input, request.RevenueTypes.ToString()); unsure of implemntation
                     qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
 
                     AddPropertiesAsQueryColumns(qry);
@@ -155,9 +155,11 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
+                string[] totalFields = new string[] { "Month01", "Month02", "Month03", "Month04", "Month05", "Month06", "Month07", "Month08", "Month09", "Month10", "Month11", "Month12", "AllMonths" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

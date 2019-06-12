@@ -25,7 +25,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
         public string DealId { get; set; }
         public string InventoryTypeId { get; set; }
         public bool? IsSummary { get; set; }
-        public SelectedCheckBoxListItems InventoryTypes { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems RevenueTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]

@@ -6,7 +6,7 @@
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
     <span class="rpt-header-center">Calendar Months From: {{FromDate}} To: {{ToDate}}</span>
-    <span class="rpt-header-center">Revenue Types: {{RevenueTypes}}</span>
+    <span style="width:500px;" class="rpt-header-center">Revenue Types: {{RevenueTypes}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -16,38 +16,32 @@
   <!--SUMMARY VIEW TABLE-->
   {{#ifEquals IsSummary true}}
   <table>
-    <thead>
+    <thead class="summary-header">
       <tr>
-        <th>G/L No.</th>
-        <th>Account Description</th>
-        <th class="number">Debit</th>
-        <th class="number">Credit</th>
       </tr>
     </thead>
     <tbody>
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "Locationheader"}}
-        <td colspan="5" class="header-row">Location: {{Location}}</td>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "GroupHeadingheader"}}
-        <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
+        {{#ifEquals RowType "Customerheader"}}
+        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
+        {{/ifEquals}}
+            {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-        <td data-value="{{AccountNumber}}"></td>
-        <td data-value="{{AccountDescription}}"></td>
-        <td class="number" data-value="{{Debit}}"></td>
-        <td class="number" data-value="{{Credit}}"></td>
         {{/ifEquals}}
-        {{#ifEquals RowType "GroupHeadingfooter"}}
-        <td colspan="2" class="total-name">{{GroupHeading}}&nbsp;</td>
-        <td class="total-val" data-value="{{Debit}}"></td>
-        <td class="total-val" data-value="{{Credit}}"></td>
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Locationfooter"}}
-        <td colspan="2" class="total-name">{{Location}}&nbsp;</td>
-        <td class="total-val" data-value="{{Debit}}"></td>
-        <td class="total-val" data-value="{{Credit}}"></td>
+        {{#ifEquals RowType "Customerfooter"}}
+        <td colspan="2" class="total-name">{{Customer}}&nbsp;</td>
+        {{/ifEquals}}
+                {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="2" class="total-name">{{Department}}&nbsp;</td>
         {{/ifEquals}}
       </tr>
       {{/each}}
@@ -72,11 +66,17 @@
     <tbody>
       {{#each this}}
       <tr data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "Locationheader"}}
-        <td colspan="5" class="header-row">Location: {{Location}}</td>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "GroupHeadingheader"}}
-        <td class="GroupHeadingHeader" colspan="4">{{GroupHeading}}</td>
+        {{#ifEquals RowType "Customerheader"}}
+        <td colspan="5" class="header-row">Customer: {{Customer}}</td>
+        {{/ifEquals}}
+            {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="5" class="header-row">Department: {{Department}}</td>
+        {{/ifEquals}}
+                 {{#ifEquals RowType "Dealheader"}}
+        <td colspan="5" class="header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{AccountNumber}}"></td>

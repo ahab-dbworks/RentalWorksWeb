@@ -35,7 +35,7 @@ const customerRevenueMonthTemplate = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Type">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryTypes" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="RevenueTypes" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
@@ -134,14 +134,14 @@ class CustomerRevenueByMonthReport extends FwWebApiReport {
     };
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="InventoryTypes"]'), [
-            { value: "RENTAL", text: "Rental", selected: "T" },
-            { value: "SALES", text: "Sales", selected: "T" },
-            { value: "PARTS", text: "Parts", selected: "T" },
-            { value: "MISC", text: "Misc / Facilities", selected: "T" },
-            { value: "LABOR", text: "Labor", selected: "T" },
-            { value: "FINALLD", text: "Final L&D" },
-            { value: "RENTALSALE", text: "Rental Sale" }
+        FwFormField.loadItems($form.find('div[data-datafield="RevenueTypes"]'), [
+            { value: "Rental", text: "Rental", selected: "T" },
+            { value: "Sales", text: "Sales", selected: "T" },
+            { value: "Parts", text: "Parts", selected: "T" },
+            { value: "Miscellaneous", text: "Misc / Facilities", selected: "T" },
+            { value: "Labor", text: "Labor", selected: "T" },
+            { value: "L&D", text: "Final L&D" },
+            { value: "Rental Sale", text: "Rental Sale" }
         ]);
     }
     //----------------------------------------------------------------------------------------------
