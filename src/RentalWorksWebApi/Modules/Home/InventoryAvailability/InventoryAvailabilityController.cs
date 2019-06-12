@@ -18,7 +18,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         // POST api/v1/inventoryavailability/dumptofile
         [HttpPost("dumptofile")]
         [FwControllerMethod(Id: "VFmuS509if2Vc")]
-        public async Task<ActionResult<bool>> DumpToFile(string inventoryId, string warehouseId)  // inventoryId and warehouseId are optional filters here
+        public async Task<ActionResult<bool>> DumpToFile([FromRoute] string inventoryId, string warehouseId)  // inventoryId and warehouseId are optional filters here
         {
             await Task.CompletedTask; // get rid of the no async call warning
             return InventoryAvailabilityFunc.DumpAvailabilityToFile(inventoryId, warehouseId);

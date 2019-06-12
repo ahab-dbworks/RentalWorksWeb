@@ -203,7 +203,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
                             {
                                 TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
 
-                                qtyAvailable = minAvail.MinimumAvailable;
+                                qtyAvailable = minAvail.MinimumAvailable.Total;
                                 conflictDate = minAvail.FirstConfict;
                                 isStale = minAvail.IsStale;
                                 availColor = minAvail.Color;

@@ -347,6 +347,7 @@
 
         public const int AVAILABILITY_COLOR_ORDER = 15101961; //blue TEMPORARY
 
+        public const string AVAILABILITY_STATE_NO_AVAILABILITY_CHECK = "noavailcheck";
         public const string AVAILABILITY_STATE_STALE = "stale";
         public const string AVAILABILITY_STATE_NEGATIVE = "negative";
         public const string AVAILABILITY_STATE_ZERO = "zero";

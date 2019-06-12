@@ -492,6 +492,7 @@ Form tables
 .item-container div[data-column="Available"][data-state="negative"] .available-color {background-color:#f44336;color:#ffffff;}
 .item-container div[data-column="Available"][data-state="stale"] .available-color {background-color:#1565C0;color:#ffffff;}
 .item-container div[data-column="Available"][data-state="low"] .available-color {background-color:#ffeb3b;}
+.item-container div[data-column="Available"][data-state="noavailcheck"] .available-color {background-color:#00ffff;}
 
 .item-container .item-accessories {}
 .item-container .item-accessories .item-accessory-info {display:flex;align-items:center;padding:5px;position:relative;border-bottom: 1px solid #BDBDBD;background-color:#EEEEEE;}

@@ -69,9 +69,6 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "qtyavailable", modeltype: FwDataTypes.Decimal)]
         public decimal? QuantityAvailable { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "availcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        public string QuantityAvailableColor { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "availisstale", modeltype: FwDataTypes.Boolean)]
         public bool? QuantityAvailableIsStale { get; set; } = true;
         //------------------------------------------------------------------------------------ 
@@ -167,24 +164,34 @@ namespace WebApi.Modules.Home.InventorySearch
 
                             decimal qtyAvailable = 0;
                             bool isStale = true;
+                            bool noAvailabilityCheck = false;
                             DateTime? conflictDate = null;
-                            string availColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
                             string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
                             TInventoryWarehouseAvailability availData = null;
                             if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
                             {
-                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
-
-                                qtyAvailable = minAvail.MinimumAvailable;
-                                conflictDate = minAvail.FirstConfict;
-                                isStale = minAvail.IsStale;
-                                availColor = minAvail.Color;
+                                if (availData.InventoryWarehouse.NoAvailabilityCheck)
+                                {
+                                    noAvailabilityCheck = true;
+                                    isStale = false;
+                                }
+                                else
+                                {
+                                    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
+                                    qtyAvailable = minAvail.MinimumAvailable.Total;
+                                    conflictDate = minAvail.FirstConfict;
+                                    isStale = minAvail.IsStale;
+                                }
                             }
 
                             //qtyAvailable -= qty; // not sure on this yet
 
-                            if (isStale)
+                            if (noAvailabilityCheck)
+                            {
+                                availabilityState = RwConstants.AVAILABILITY_STATE_NO_AVAILABILITY_CHECK;
+                            }
+                            else if (isStale)
                             {
                                 availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
                             }
@@ -204,7 +211,6 @@ namespace WebApi.Modules.Home.InventorySearch
 
                             row[dtOut.GetColumnNo("QuantityAvailable")] = qtyAvailable;
                             row[dtOut.GetColumnNo("ConflictDate")] = conflictDate;
-                            row[dtOut.GetColumnNo("QuantityAvailableColor")] = availColor;
                             row[dtOut.GetColumnNo("QuantityAvailableIsStale")] = isStale;
                             row[dtOut.GetColumnNo("AvailabilityState")] = availabilityState;
 

@@ -933,7 +933,7 @@ namespace WebApi.Modules.Home.OrderItem
                         {
                             row[dt.GetColumnNo("AvailableQuantityColor")] = null;
                             TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(availFromDateTime, availToDateTime);
-                            row[dt.GetColumnNo("AvailableQuantity")] = minAvail.MinimumAvailable;
+                            row[dt.GetColumnNo("AvailableQuantity")] = minAvail.MinimumAvailable.Total;
                             row[dt.GetColumnNo("AvailableQuantityColor")] = minAvail.Color;
                         }
                         row[dt.GetColumnNo("ICodeColor")] = getICodeColor(row[dt.GetColumnNo("ItemClass")].ToString());
