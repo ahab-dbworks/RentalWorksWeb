@@ -1,146 +1,196 @@
 ﻿<!--ReturnReceiptReport-->
-  <div class="rpt-flexrow" style="width:1400px;">
-    <div class="rpt-flexcolumn">
-      <span class="rpt-header-left">{{System}}</span>
-    </div>
-    <div class="rpt-flexcolumn">
-      <span class="rpt-title">{{Report}}</span>
-      <span class="rpt-header-center">Retired From: {{FromDate}} To: {{ToDate}}</span>
-    </div>
-    <div class="rpt-flexcolumn">
-      <span class="rpt-header-right">{{Company}}</span>
-    </div>
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
   </div>
-  <div class="rpt-flexrow" style="margin-top:40px;width:1400px;">
-    <table>
-      <thead class="main-header">
-        <tr>
-          <th class="top">I-Code</th>
-          <th class="top">Description</th>
-          <th class="top number">Qty</th>
-          <th class="top">Bar Code</th>
-          <th class="top">Purch. Date</th>
-          <th class="top">Receive Date</th>
-          <th class="top">PO No.</th>
-          <th class="top number">Purch. Price</th>
-          <th>
-            <div>Retire Date</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire Date</div>
-            {{/if}}
-          </th>
-          <th>
-            <div>Retire By</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire By</div>
-            {{/if}}
-          </th>
-          <th>
-            <div>Retire Reason</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire Reason</div>
-            {{/if}}
-          </th>
-        </tr>
-      </thead>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-title">Department: needs field{{Report}}</span>
+    <span class="rpt-header-center">Retired From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <!--UNASSIGNED VIEW-->
+  {{#ifEquals reportView "RETURN_RECEIPT"}}
+  <table>
+    <thead>
+      <tr>
+        <th class="number">Quantity</th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Vendor</th>
+        <th>Deal</th>
+        <th>Contract No.</th>
+        <th>Received</th>
+      </tr>
+    </thead>
+    <tbody>
       {{#each this}}
-      {{#ifEquals RowType "Warehouseheader"}}
-      <thead data-rowtype="{{RowType}}">
-        <tr>
-          <th class="header-row" colspan="4">Warehouse: {{Warehouse}}</th>
-        </tr>
-      </thead>
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "OfficeLocationheader"}}
+        <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="number" data-value="{{Quantity}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{Vendor}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td data-value="{{InContractNumber}}"></td>
+        <td data-value="{{RecorderDate}}"></td>
+        {{/ifEquals}}
+      </tr>
+        {{#ifEquals RowType "OfficeLocationfooter"}}
+      <tr>
+        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
       {{/ifEquals}}
-      {{#ifEquals RowType "InventoryTypeheader"}}
-      <thead data-rowtype="{{RowType}}">
-        <tr>
-          <th class="header-row lower" colspan="4">Inventory Type: {{InventoryType}}</th>
-        </tr>
-      </thead>
-      {{/ifEquals}}
-      {{#ifEquals RowType "detail"}}
-      <tbody data-rowtype="{{RowType}}">
-        <tr>
-          <td class="nowrap">{{ICode}}</td>
-          <td>{{Description}}</td>
-          <td class="number">{{Quantity}}</td>
-          <td>{{BarCode}}</td>
-          <td>{{PurchaseDate}}</td>
-          <td>{{ReceiveDate}}</td>
-          <td>{{PurchasePurchaseOrderNumber}}</td>
-          <td class="number">{{PurchaseAmount}}</td>
-          <td>
-            <div>{{RetireDate}}</div>
-            {{#if ../IncludeUnretired}}
-            <div>{{UnretireDate}}</div>
-            {{/if}}
-          </td>
-          <td>
-            <div><nobr>{{RetiredBy}}</nobr></div>
-            {{#if ../IncludeUnretired}}
-            <div><nobr>{{UnretiredBy}}</nobr></div>
-            {{/if}}
-          </td>
-          <td>
-            <div>{{RetiredReason}}</div>
-            {{#if ../IncludeUnretired}}
-            <div>{{UnretiredReason}}</div>
-            {{/if}}
-          </td>
-        </tr>
-        {{#if RetiredNotes}}
-        <tr>
-          <td></td>
-          <td class="note" colspan="7">Retire Note: <span>{{RetiredNotes}}</span></td>
-          <td colspan="3"></td>
-        </tr>
-        {{/if}}
-        {{#ifEquals ../ShowSellInformation true}}
-        {{#checkLength SoldToCustomer 0}}
-        <tr>
-          <th></th>
-          <th class="subHeaders">Sold To Customer</th>
-          <th class="subHeaders" colspan="2">Deal</th>
-          <th class="subHeaders">Order No.</th>
-          <th class="subHeaders">L&D No.</th>
-          <th class="subHeaders">Inv. No.</th>
-          <th class="subHeaders number">Price</th>
-          <th colspan="3"></th>
-        </tr>
-        <tr class="subValues">
-          <td></td>
-          <td>{{SoldToCustomer}}</td>
-          <td colspan="2">{{SoldToDeal}}</td>
-          <td>{{SoldToOrderNumber}}</td>
-          <td>{{BilledToOrderNumber}}</td>
-          <td>{{BilledToInvoiceNumber}}</td>
-          <td class="number">{{BilledAmount}}</td>
-          <th colspan="3"></th>
-        </tr>
-        {{/checkLength}}
-        {{/ifEquals}}
-      </tbody>
-      {{/ifEquals}}
-      <tfoot data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <tr>
-          <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <tr>
-          <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <tr>
-          <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
-        {{/ifEquals}}
-      </tfoot>
       {{/each}}
-    </table>
-  </div>
+    </tbody>
+  </table>
+  {{/ifEquals}}
+  <!--ASSIGNED VIEW-->
+  {{#ifEquals reportView "ASSIGNED"}}
+  <table>
+    <thead class="main-header">
+      <tr>
+        <th class="number">Quantity</th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Vendor</th>
+        <th>Deal</th>
+        <th>Contract No.</th>
+        <th>Received</th>
+      </tr>
+    </thead>
+    {{#each this}}
+    {{#ifEquals RowType "OfficeLocationheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="header-row" colspan="4">Office: {{OfficeLocation}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td class="number" data-value="{{Quantity}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{Vendor}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td data-value="{{InContractNumber}}"></td>
+        <td data-value="{{RecorderDate}}"></td>
+      </tr>
+      <tr>
+        <th>Assigned:</th>
+        <th class="subHeaders">Order No.</th>
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders">Contract No.</th>
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders number">Applied</th>
+        <th colspan="3"></th>
+      </tr>
+      <tr class="subValues">
+        <td></td>
+        <td>{{ReconciledOrderNumber}}</td>
+        <td>{{ReconciledOrderDate}}</td>
+        <td>{{ReconciledContractNumber}}</td>
+        <td>{{ReconciledContractDate}}</td>
+        <td>{{ReconciledAppliedQuantity}}</td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    <tfoot data-rowtype="{{RowType}}">
+      {{#ifEquals RowType "OrderItemIdfooter"}}
+      <tr>
+        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr>
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "OrderItemIdfooter"}}
+      <tr>
+        <td colspan="2" class="total-name">Total:&nbsp;</td>
+        <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
+        <td class="total-val"> Unassigned: {{ReconciledAppliedQuantity}}</td>
+      </tr>
+      {{/ifEquals}}
+    </tfoot>
+    {{/each}}
+  </table>
+  {{/ifEquals}}
+  <!--ALL VIEW-->
+  {{#ifEquals reportView "ASSIGNED"}}
+  <table>
+    <thead class="main-header">
+      <tr>
+        <th class="number">Quantity</th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th>Vendor</th>
+        <th>Deal</th>
+        <th>Contract No.</th>
+        <th>Received</th>
+      </tr>
+    </thead>
+    {{#each this}}
+    {{#ifEquals RowType "OfficeLocationheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="header-row" colspan="4">Office: {{OfficeLocation}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td class="number" data-value="{{Quantity}}"></td>
+        <td data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        <td data-value="{{Vendor}}"></td>
+        <td data-value="{{Deal}}"></td>
+        <td data-value="{{InContractNumber}}"></td>
+        <td data-value="{{RecorderDate}}"></td>
+      </tr>
+      {{#ifEquals RecordType "ASSIGNED"}}
+      <tr>
+        <th>Assigned:</th>
+        <th class="subHeaders">Order No.</th>
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders">Contract No.</th>
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders number">Applied</th>
+        <th colspan="3"></th>
+      </tr>
+      <tr class="subValues">
+        <td></td>
+        <td>{{ReconciledOrderNumber}}</td>
+        <td>{{ReconciledOrderDate}}</td>
+        <td>{{ReconciledContractNumber}}</td>
+        <td>{{ReconciledContractDate}}</td>
+        <td>{{ReconciledAppliedQuantity}}</td>
+      </tr>
+      {{#ifEquals RowType "OrderItemIdfooter"}}
+      <tr>
+        <td colspan="2" class="total-name">Total:&nbsp;</td>
+        <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
+        <td class="total-val"> Unassigned: {{ReconciledAppliedQuantity}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{/ifEquals}}
+    </tbody>
+    {{/ifEquals}}
+    {{/each}}
+  </table>
+  {{/ifEquals}}
+</div>

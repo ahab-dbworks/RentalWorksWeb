@@ -49,7 +49,7 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
         public string Deal { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "incontractid", modeltype: FwDataTypes.Text)]
-        public string IncontractId { get; set; }
+        public string InContractId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "incontractno", modeltype: FwDataTypes.Text)]
         public string InContractNumber { get; set; }
@@ -91,22 +91,22 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "recorderid", modeltype: FwDataTypes.Text)]
-        public string RecorderId { get; set; }
+        public string ReconciledOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "recorderno", modeltype: FwDataTypes.Text)]
-        public string RecorderNumber { get; set; }
+        public string ReconciledOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "recorderdate", modeltype: FwDataTypes.Date)]
-        public string RecorderDate { get; set; }
+        public string ReconciledOrderDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reccontractno", modeltype: FwDataTypes.Text)]
-        public string RecContractNumber { get; set; }
+        public string ReconciledContractNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "reccontractdate", modeltype: FwDataTypes.Date)]
-        public string RecContractDate { get; set; }
+        public string ReconciledContractDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "recappliedqty", modeltype: FwDataTypes.Decimal)]
-        public decimal? RecAppliedQuantity { get; set; }
+        public decimal? ReconciledAppliedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(ReturnReceiptReportRequest request)
         {
@@ -146,9 +146,10 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
+                string[] totalFields = new string[] { "Quantity", "ReconciledAppliedQuantity" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-                dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderItemId", "RowType", totalFields);
+
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

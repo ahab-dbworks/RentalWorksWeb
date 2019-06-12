@@ -23,8 +23,10 @@ export class ReturnReceiptReport extends WebpackReport {
                     data.Report = 'Return Receipt Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    data.ShowSellInformation = parameters.ShowSellInformation;
-                    data.IncludeUnretired = parameters.IncludeUnretired;
+                    data.Department = parameters.
+                    data.reportView = parameters.RecordType
+                    //data.ShowSellInformation = parameters.ShowSellInformation;
+                    //data.IncludeUnretired = parameters.IncludeUnretired;
                     this.renderFooterHtml(data);
                     console.log('rpt', data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
