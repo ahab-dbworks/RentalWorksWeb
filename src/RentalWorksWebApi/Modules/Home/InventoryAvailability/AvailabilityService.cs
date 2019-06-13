@@ -21,21 +21,31 @@ namespace WebApi.Modules.Home.InventoryAvailability
         //-------------------------------------------------------------------------------------------------------
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            keepFreshTimer = new Timer(DoWork, null, TimeSpan.FromSeconds(delayStartSeconds), TimeSpan.FromSeconds(keepFreshSeconds));
+            keepFreshTimer = new Timer(KeepFresh, null, TimeSpan.FromSeconds(delayStartSeconds), TimeSpan.FromSeconds(keepFreshSeconds));
             bool b = InventoryAvailabilityFunc.InitializeService(appConfig).Result;
             return Task.CompletedTask;
         }
         //-------------------------------------------------------------------------------------------------------
-        private void DoWork(object state)
+        private void DisableKeepFreshTimer()
         {
-            keepFreshTimer?.Change(Timeout.Infinite, 0);
+            keepFreshTimer?.Change(Timeout.Infinite, 0);  
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private void EnableKeepFreshTimer()
+        {
+            keepFreshTimer?.Change(TimeSpan.FromSeconds(keepFreshSeconds), TimeSpan.FromSeconds(keepFreshSeconds)); 
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private void KeepFresh(object state)
+        {
+            DisableKeepFreshTimer();
             bool b = InventoryAvailabilityFunc.KeepFresh(appConfig).Result;
-            keepFreshTimer?.Change(TimeSpan.FromSeconds(keepFreshSeconds), TimeSpan.FromSeconds(keepFreshSeconds));
+            EnableKeepFreshTimer();
         }
         //-------------------------------------------------------------------------------------------------------
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            keepFreshTimer?.Change(Timeout.Infinite, 0);
+            DisableKeepFreshTimer();
             return Task.CompletedTask;
         }
         //-------------------------------------------------------------------------------------------------------
