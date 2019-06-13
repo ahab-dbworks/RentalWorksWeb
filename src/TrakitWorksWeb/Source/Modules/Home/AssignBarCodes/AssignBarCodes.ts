@@ -150,7 +150,7 @@ class AssignBarCodes {
           <div class="formpage">
             <div class="formpage">
               <div class="flexrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Barcodes / Serial Numbers">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase Order">
                   <div class="flexrow">
                     <div class="flexcolumn" style="flex:1 1 325px;">
                       <div class="flexrow">
