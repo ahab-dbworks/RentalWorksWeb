@@ -15,6 +15,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -1063,9 +1064,27 @@ namespace FwStandard.BusinessLogic
                         {
                             string alertSubject = alert[3].ToString();
                             string alertBody = alert[4].ToString();
-                            //find and replace variables
 
-                           bool sent = await SendEmailAsync("jhoang@4wall.com", "jhoang@4wall.com", alertSubject, alertBody, dataRecords[0].AppConfig);
+                            //var pattern = @"\[(.*?)\]";
+                            var pattern = @"(?<=\[)[^[]*(?=\])";
+                            var subjectMatches = Regex.Matches(alertSubject, pattern);
+                            var bodyMatches = Regex.Matches(alertBody, pattern);
+
+                            foreach (Match sm in subjectMatches)
+                            {
+                                string field = sm.ToString();
+                                string value = this.GetType().GetProperty(field).GetValue(this).ToString();
+                                alertSubject.Replace("[" + field + "]", value);
+                            }
+
+                            foreach (Match bm in bodyMatches)
+                            {
+                                string field = bm.ToString();
+                                string value = this.GetType().GetProperty(field).GetValue(this).ToString();
+                                alertBody.Replace("[" + field + "]", value);
+                            }
+
+                            bool sent = await SendEmailAsync("jhoang@4wall.com", "jhoang@4wall.com", alertSubject, alertBody, dataRecords[0].AppConfig);
                         }
                     }
                 }
