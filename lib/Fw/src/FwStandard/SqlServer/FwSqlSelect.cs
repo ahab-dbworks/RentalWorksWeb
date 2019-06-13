@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FwStandard.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -397,6 +398,11 @@ namespace FwStandard.SqlServer
             sb.Append(")");
 
             return sb.ToString();
+        }
+        //---------------------------------------------------------------------------------------------
+        public void AddWhereIn(string column, SelectedCheckBoxListItems items)
+        {
+            AddWhereIn("and", column, items.ToString(), true);
         }
         //---------------------------------------------------------------------------------------------
         public void AddWhereIn(string column, string parameterList)
