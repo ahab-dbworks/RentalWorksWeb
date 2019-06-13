@@ -1054,6 +1054,16 @@ namespace WebApi.Modules.Home.InventoryAvailability
         {
             bool success = false;
             string sessionId = AppFunc.GetNextIdAsync(appConfig).Result;
+            DateTime fromDateTime = DateTime.Today;
+            DateTime toDateTime = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
+
+            foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+            {
+                if (availRequestItem.ToDateTime > toDateTime)
+                {
+                    toDateTime = availRequestItem.ToDateTime;
+                }
+            }
 
             TAvailabilityCache availCache = new TAvailabilityCache();
             if (availRequestItems.Count > 0)
@@ -1180,6 +1190,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                         TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
 
+                        availData.AvailDataFromDateTime = fromDateTime;
+                        availData.AvailDataToDateTime = toDateTime;
+
                         availData.InventoryWarehouse.ICode = row[dt.GetColumnNo("masterno")].ToString();
                         availData.InventoryWarehouse.Description = row[dt.GetColumnNo("master")].ToString();
                         availData.InventoryWarehouse.WarehouseCode = row[dt.GetColumnNo("whcode")].ToString();
@@ -1225,7 +1238,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         availData.InContainer.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyincontainer")].ToString());
                         availData.InContainer.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyincontainer")].ToString());
 
-                        availCache[availKey] = availData;
+                        //availCache[availKey] = availData;
+                        availCache.AddOrUpdate(availKey, availData, (key, existingValue) => {
+                            existingValue.CloneFrom(availData);
+                            return existingValue;
+                        });
                     }
                 }
 
@@ -1316,15 +1333,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 }
                 // copy the loop above for Completes and Kits, joining on parentid.  This will give a list of reservations that reference these packages
                 //qry.Add("             join tmpsearchsession t on (a.parentid = t.masterid and a.warehouseid = t.warehouseid)");
-
-
-                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                {
-                    // in case of duplicates, may need to use min/max here
-                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId);
-                    availCache[availKey].AvailDataFromDateTime = availRequestItem.FromDateTime;
-                    availCache[availKey].AvailDataToDateTime = availRequestItem.ToDateTime;
-                }
 
                 ProjectFutureAvailability(ref availCache);
 
@@ -1417,7 +1425,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                 foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
                 {
-                    //inventoryNeedingAvail.RemoveAll(k => k.Equals(new TInventoryWarehouse(availRequestItem.InventoryId, availRequestItem.WarehouseId)));
                     inventoryNeedingAvail.Remove(new TInventoryWarehouse(availRequestItem.InventoryId, availRequestItem.WarehouseId));
                 }
 
@@ -1486,7 +1493,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                 foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
                 {
-                    //inventoryNeedingAvail.RemoveAll(k => k.Equals(new TInventoryWarehouse(availRequestItem.InventoryId, availRequestItem.WarehouseId)));
                     inventoryNeedingAvail.Remove(new TInventoryWarehouse(availRequestItem.InventoryId, availRequestItem.WarehouseId));
                 }
 
