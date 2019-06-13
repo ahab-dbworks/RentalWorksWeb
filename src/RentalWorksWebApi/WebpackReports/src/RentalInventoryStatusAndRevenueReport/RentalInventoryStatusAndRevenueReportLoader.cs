@@ -142,12 +142,11 @@ namespace WebApi.Modules.Reports.RentalInventoryStatusAndRevenueReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                //string[] totalFields = new string[] { "Revenue" };
-                //string[] headerFieldsICode = new string[] { "ICode", "Description", "Warehouse", "Quantity", "QuantityIn", "QuantityStaged", "QuantityOut", "QuantityInContainer", "QuantityInRepair", "QuantityOnPo", "QuantitySubbed", "LastRentedDate",  };
-                //dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-                //dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-                //dt.InsertSubTotalRows("Category", "RowType", totalFields);
-                //dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+                string[] totalFields = new string[] { "Quantity", "QuantityIn", "QuantityStaged", "QuantityOut", "QuantityInContainer", "QuantityInRepair", "QuantityOnPo", "QuantitySubbed", "Revenue" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
         }
