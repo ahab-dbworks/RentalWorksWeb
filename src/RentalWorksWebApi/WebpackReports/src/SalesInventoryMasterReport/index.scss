@@ -1,6 +1,16 @@
 ﻿/*Sales Inventory Master Report*/
 tbody {
-    tr.subValues:nth-child(odd) {
+    tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
+    }
+}
+
+thead {
+    th {
+        border-top: 2px solid #000000;
+        border-bottom: 2px solid #000000;
+        font-weight:bold;
+        white-space: nowrap;
+        padding: 5px;
     }
 }

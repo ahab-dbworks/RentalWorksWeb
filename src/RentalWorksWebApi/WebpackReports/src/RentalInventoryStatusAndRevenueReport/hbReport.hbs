@@ -16,6 +16,21 @@
   <table>
     <thead class="main-header">
       <tr>
+        <th></th>
+        <th colspan="5"></th>
+        <th></th>
+        <th class="number"></th>
+        <th class="number"></th>
+        <th class="number"></th>
+        <th class="number"></th>
+        <th class="number">In</th>
+        <th class="number">In</th>
+        <th class="number">On</th>
+        <th class="number">Sub-</th>
+        <th>Last Date</th>
+        <th class="number"></th>
+      </tr>
+      <tr>
         <th>I-Code</th>
         <th colspan="5">Description</th>
         <th>Warehouse</th>
@@ -23,11 +38,11 @@
         <th class="number">In</th>
         <th class="number">Staged</th>
         <th class="number">Out</th>
-        <th class="number">In Container</th>
-        <th class="number">In Repair</th>
-        <th class="number">On PO</th>
-        <th class="number">Sub-Rented</th>
-        <th>Last Date Rented</th>
+        <th class="number">Container</th>
+        <th class="number">Repair</th>
+        <th class="number">PO</th>
+        <th class="number">Rented</th>
+        <th>Rented</th>
         <th class="number">Revenue</th>
       </tr>
     </thead>
@@ -66,7 +81,8 @@
         <td class="number" data-value="{{Revenue}}"></td>
       </tr>
       {{#if ../ShowStagedAndOut}}
-      {{#checkLength InventoryId 0 }}
+      {{#ifNotEquals QuantityOut 0 }}
+      {{#ifNotEquals QuantityStaged 0 }}
       <tr>
         <th colspan="2"></th>
         <th class="subHeaders">Bar Code</th>
@@ -78,14 +94,15 @@
         <th class="subHeaders">Order No.</th>
         <th class="subHeaders" colspan="4">Order Description</th>
       </tr>
-      {{/checkLength}}
+      {{/ifNotEquals}}
+      {{/ifNotEquals}}
       {{/if}}
       {{/ifEquals}}
       {{#ifEquals RecordType "stagedout"}}
       <tr class="subValues">
         <td colspan="2"></td>
         <td>{{StagedOutBarCode}}</td>
-        <td>{{StagedOutQuantity}}</td>
+        <td class="number">{{StagedOutQuantity}}</td>
         <td>{{StagedOutStatus}}</td>
         <td colspan="3">{{StagedOutDeal}}</td>
         <td colspan="4">{{StagedOutVendor}}</td>
