@@ -289,6 +289,40 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public DateTime AvailDataToDateTime { get; set; }
         public List<TInventoryWarehouseAvailabilityReservation> Reservations { get; set; } = new List<TInventoryWarehouseAvailabilityReservation>();
         public ConcurrentDictionary<DateTime, TInventoryWarehouseAvailabilityDate> Dates { get; set; } = new ConcurrentDictionary<DateTime, TInventoryWarehouseAvailabilityDate>();
+        //-------------------------------------------------------------------------------------------------------
+        public void CloneFrom(TInventoryWarehouseAvailability source)
+        {
+            this.InventoryWarehouse = source.InventoryWarehouse;
+            this.AvailDataFromDateTime = source.AvailDataFromDateTime;
+            this.AvailDataToDateTime = source.AvailDataToDateTime;
+            this.Total = source.Total;
+            this.In = source.In;
+            this.Staged = source.Staged;
+            this.Out = source.Out;
+            this.InRepair = source.InRepair;
+            this.InTransit = source.InTransit;
+            this.InContainer = source.InContainer;
+            this.OnTruck = source.OnTruck;
+            this.CalculatedDateTime = source.CalculatedDateTime;
+            this.Reservations.Clear();
+            foreach (TInventoryWarehouseAvailabilityReservation reservation in source.Reservations)
+            {
+                this.Reservations.Add(reservation);
+            }
+            this.Dates.Clear();
+            foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> date in source.Dates)
+            {
+                this.Dates.AddOrUpdate(date.Key, date.Value, (key, existingValue) =>
+                {
+                    existingValue.AvailabilityDate = date.Value.AvailabilityDate;
+                    existingValue.Available = date.Value.Available;
+                    existingValue.Reserved = date.Value.Reserved;
+                    existingValue.Returning = date.Value.Returning;
+                    return existingValue;
+                });
+            }
+        }
+        //-------------------------------------------------------------------------------------------------------
         public TInventoryWarehouseAvailabilityMinimum GetMinimumAvailableQuantity(DateTime fromDateTime, DateTime toDateTime)
         {
             TInventoryWarehouseAvailabilityMinimum minAvail = new TInventoryWarehouseAvailabilityMinimum();
@@ -317,6 +351,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             else
             {
+                //#jhtodo rewrite this without the foreach. create a for loop for each date in the range. perform individual specific reads from "Dates" dictionary using the key
                 foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDate in Dates)
                 {
                     DateTime theDate = availDate.Key;
@@ -953,8 +988,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             }
 
                             //round the package available numbers to the next whole number (important when spare accessories are used)
-                                packageAvailable.Owned = Math.Floor(packageAvailable.Owned);
-                                packageAvailable.Consigned = Math.Floor(packageAvailable.Consigned);
+                            packageAvailable.Owned = Math.Floor(packageAvailable.Owned);
+                            packageAvailable.Consigned = Math.Floor(packageAvailable.Consigned);
 
                             if (accessoryAvailabilityDataExists)
                             {
@@ -1163,8 +1198,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             }
                         }
 
-
-
                         availData.InventoryWarehouse.HourlyAvailability = FwConvert.ToBoolean(row[dt.GetColumnNo("availbyhour")].ToString());
                         availData.InventoryWarehouse.NoAvailabilityCheck = FwConvert.ToBoolean(row[dt.GetColumnNo("noavail")].ToString());
 
@@ -1297,38 +1330,17 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                 foreach (TInventoryWarehouseAvailabilityKey availKey in availCache.Keys)
                 {
-                    //AvailabilityCache[availKey] = availCache[availKey];
-                    //#jhtodo - need exclusive access to the AvailabilityCache object before adding/updating below
-                    //if (!AvailabilityCache.TryAdd(availKey, availCache[availKey]))  // try to add the value.  if not allowed, then update it below
-                    //{
-                    //    AvailabilityCache[availKey] = availCache[availKey];
-                    //}
-
-                    //Console.WriteLine("about to add " + availKey.CombinedKey);
-
                     AvailabilityCache.AddOrUpdate(availKey, availCache[availKey], (key, existingValue) =>
                     {
-                        existingValue.AvailDataFromDateTime = availCache[availKey].AvailDataFromDateTime;
-                        //#jhtodo add all fields here
+                        existingValue.CloneFrom(availCache[availKey]);
                         return existingValue;
                     });
-
-                    //Console.WriteLine("added " + availKey.CombinedKey);
-
-
                 }
 
                 success = true;
 
             }
             return success;
-        }
-        //-------------------------------------------------------------------------------------------------------
-        public static void DeleteAvailability(FwApplicationConfig appConfig, FwUserSession userSession, string inventoryId, string warehouseId)
-        {
-            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-            TInventoryWarehouseAvailability availData = null;
-            AvailabilityCache.TryRemove(availKey, out availData);
         }
         //-------------------------------------------------------------------------------------------------------
         public static async Task<bool> KeepFresh(FwApplicationConfig appConfig)
@@ -1353,7 +1365,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             availNeedRecalc.Clear();
             while (AvailabilityNeedRecalc.Count > 0)
             {
-                foreach (TInventoryWarehouse inventoryWarehouse in AvailabilityNeedRecalc)
+                foreach (TInventoryWarehouse inventoryWarehouse in AvailabilityNeedRecalc)  //#jhtodo remove foreach enumerator here
                 {
                     if (inventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ITEM) || inventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY))
                     {
@@ -1368,7 +1380,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 // build up a request containing all known items needing recalc
                 availRequestItems.Clear();
-                foreach (TInventoryWarehouse inventoryWarehouse in availNeedRecalc)
+                foreach (TInventoryWarehouse inventoryWarehouse in availNeedRecalc)  
                 {
                     availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryWarehouse.InventoryId, inventoryWarehouse.WarehouseId, fromDate, AvailabilityThroughDate));
                     if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
@@ -1421,7 +1433,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             availNeedRecalc.Clear();
             while (AvailabilityNeedRecalc.Count > 0)
             {
-                foreach (TInventoryWarehouse inventoryWarehouse in AvailabilityNeedRecalc)
+                foreach (TInventoryWarehouse inventoryWarehouse in AvailabilityNeedRecalc) //#jhtodo remove foreach enumerator here
                 {
                     if (inventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || inventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT))
                     {

@@ -110,29 +110,5 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
         }
         //------------------------------------------------------------------------------------ 
-
-
-        // DELETE api/v1/inventoryavailability
-        [HttpDelete()]
-        [FwControllerMethod(Id: "FcTkG3wwcgwQQ")]
-        public async Task<ActionResult<bool>> DeleteAvailability(string inventoryId, string warehouseId)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                InventoryAvailabilityFunc.DeleteAvailability(AppConfig, UserSession, inventoryId, warehouseId);
-                await Task.CompletedTask; // get rid of the no async call warning
-                return new OkObjectResult(true);
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
-
-        //------------------------------------------------------------------------------------       
     }
 }
