@@ -132,7 +132,7 @@ namespace WebApi.Modules.Reports.SalesInventoryMasterReport
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
-                    select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
+                    select.AddWhereIn("rank", request.Ranks);
 
                     if (request.RevenueFilterMode.Equals("LT"))
                     {

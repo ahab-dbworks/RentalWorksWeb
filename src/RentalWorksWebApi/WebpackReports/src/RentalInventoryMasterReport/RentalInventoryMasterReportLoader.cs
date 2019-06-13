@@ -187,9 +187,9 @@ namespace WebApi.Modules.Reports.RentalInventoryMasterReport
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
-                    select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
-                    select.AddWhereIn("and", "ownership", request.Ownerships.ToString(), false);
-                    select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
+                    select.AddWhereIn("rank", request.Ranks);
+                    select.AddWhereIn("ownership", request.Ownerships);
+                    select.AddWhereIn("trackedby", request.TrackedBys);
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, barcode, mfgserial");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

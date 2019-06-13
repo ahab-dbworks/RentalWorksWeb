@@ -152,9 +152,9 @@ namespace WebApi.Modules.Reports.InventoryCatalogReport
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
 
-                    select.AddWhereIn("and", "class", request.Classifications.ToString(), false);
-                    select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
-                    select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
+                    select.AddWhereIn("class", request.Classifications);
+                    select.AddWhereIn("trackedby", request.TrackedBys);
+                    select.AddWhereIn("rank", request.Ranks);
 
                     if (!request.IncludeZeroQuantity.GetValueOrDefault(false))
                     {

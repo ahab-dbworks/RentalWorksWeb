@@ -101,7 +101,7 @@ namespace WebApi.Modules.Reports.ContractRevisionReport
                     select.AddWhereIn("dealid", request.DealId);
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
-                    select.AddWhereIn("and", "revisiontype", request.RevisionTypes.ToString(), false);
+                    select.AddWhereIn("revisiontype", request.RevisionTypes);
                     if (request.FilterDates.GetValueOrDefault(false))
                     {
                         select.AddWhere($"(dayschanged < 0 or dayschanged >= {request.DaysChanged})");

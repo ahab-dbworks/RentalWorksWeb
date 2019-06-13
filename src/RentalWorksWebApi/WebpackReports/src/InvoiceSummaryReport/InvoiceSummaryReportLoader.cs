@@ -140,7 +140,7 @@ namespace WebApi.Modules.Reports.InvoiceSummaryReport
                     {
                         select.AddWhere("nocharge <> 'T'");
                     }
-                    select.AddWhereIn("and", "status", request.Statuses.ToString(), false);
+                    select.AddWhereIn("status", request.Statuses);
                     select.AddOrderBy("location, department, customer, deal, invoiceno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

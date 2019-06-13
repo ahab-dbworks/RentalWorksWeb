@@ -122,8 +122,8 @@ namespace WebApi.Modules.Reports.ValueOfOutRentalInventoryReport
 
                     select.AddWhereIn("warehouseid", request.WarehouseId); 
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
-                    select.AddWhereIn("ownership", request.OwnerShips.ToString());
-                    select.AddWhereIn("trackedby", request.TrackedBys.ToString());
+                    select.AddWhereIn("ownership", request.OwnerShips);
+                    select.AddWhereIn("trackedby", request.TrackedBys);
 
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, master");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

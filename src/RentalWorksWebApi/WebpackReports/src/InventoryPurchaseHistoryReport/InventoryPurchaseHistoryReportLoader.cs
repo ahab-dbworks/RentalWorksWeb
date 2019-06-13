@@ -145,8 +145,8 @@ namespace WebApi.Modules.Reports.InventoryPurchaseHistoryReport
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
 
-                    select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
-                    select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
+                    select.AddWhereIn("trackedby", request.TrackedBys);
+                    select.AddWhereIn("rank", request.Ranks);
 
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, purchasedate, receivedate");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

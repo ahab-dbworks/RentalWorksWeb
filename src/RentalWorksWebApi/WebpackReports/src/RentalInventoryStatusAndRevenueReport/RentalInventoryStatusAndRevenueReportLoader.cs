@@ -126,8 +126,8 @@ namespace WebApi.Modules.Reports.RentalInventoryStatusAndRevenueReport
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
-                    select.AddWhereIn("and", "rank", request.Ranks.ToString(), false);
-                    select.AddWhereIn("and", "trackedby", request.TrackedBys.ToString(), false);
+                    select.AddWhereIn("rank", request.Ranks);
+                    select.AddWhereIn("trackedby", request.TrackedBys);
                     if (!request.IncludeZeroOwned.GetValueOrDefault(false))
                     {
                         select.AddWhere("qty <> 0");

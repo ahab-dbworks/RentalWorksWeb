@@ -146,8 +146,8 @@ namespace WebApi.Modules.Reports.ReturnOnAssetReport
                     select.AddWhereIn("SubCategoryKey", request.SubCategoryId);
                     select.AddWhereIn("InventoryKey", request.InventoryId);
 
-                    select.AddWhereIn("TrackedBy", request.TrackedBys.ToString());
-                    select.AddWhereIn("ICodeRank", request.Ranks.ToString());
+                    select.AddWhereIn("TrackedBy", request.TrackedBys);
+                    select.AddWhereIn("ICodeRank", request.Ranks);
 
                     if (!request.IncludeZeroCurrentOwned.GetValueOrDefault(false))
                     {

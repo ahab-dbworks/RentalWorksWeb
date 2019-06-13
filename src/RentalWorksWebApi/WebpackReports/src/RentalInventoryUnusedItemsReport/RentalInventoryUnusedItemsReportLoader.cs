@@ -125,7 +125,7 @@ namespace WebApi.Modules.Reports.RentalInventoryUnusedItemsReport
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterno", request.InventoryId);
-                    select.AddWhereIn("trackedby", request.TrackedBys.ToString());
+                    select.AddWhereIn("trackedby", request.TrackedBys);
                     select.AddOrderBy("warehouse,inventorydepartment,category,masterno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

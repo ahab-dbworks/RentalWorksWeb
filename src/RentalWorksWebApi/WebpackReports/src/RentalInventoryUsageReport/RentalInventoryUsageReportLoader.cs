@@ -131,8 +131,8 @@ namespace WebApi.Modules.Reports.RentalInventoryUsageReport
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
-                    select.AddWhereIn("rank", request.Ranks.ToString(), false);
-                    select.AddWhereIn("trackedby", request.TrackedBys.ToString());
+                    select.AddWhereIn("rank", request.Ranks);
+                    select.AddWhereIn("trackedby", request.TrackedBys);
                     if (request.FilterDatesByUtilizationPercent.GetValueOrDefault(true))
                     {
                         if (request.UtilizationFilterMode.Equals("LT"))

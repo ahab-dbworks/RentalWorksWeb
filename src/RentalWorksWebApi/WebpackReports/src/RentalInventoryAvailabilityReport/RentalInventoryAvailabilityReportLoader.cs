@@ -151,9 +151,9 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                     select.AddWhereIn("categoryid", request.CategoryId); 
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
-                    select.AddWhereIn("class", request.Classifications.ToString());
-                    select.AddWhereIn("trackedby", request.TrackedBys.ToString());
-                    select.AddWhereIn("rank", request.Ranks.ToString());
+                    select.AddWhereIn("class", request.Classifications);
+                    select.AddWhereIn("trackedby", request.TrackedBys);
+                    select.AddWhereIn("rank", request.Ranks);
 
 
                     //if (!request.BooleanField.GetValueOrDefault(false)) 

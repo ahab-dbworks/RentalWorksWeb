@@ -101,7 +101,7 @@ namespace WebApi.Modules.Reports.PurchaseOrderReport
                     select.AddWhereIn("vendorid", request.VendorId);
                     select.AddWhereIn("departmentid", request.DepartmentId);
                     select.AddWhereIn("poapprovalstatusid", request.PoApprovalStatusId);
-                    select.AddWhereIn("and", "status", request.Status.ToString(), true);
+                    select.AddWhereIn("status", request.Status);
 
                     addDateFilterToSelect("podate", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("podate", request.ToDate, select, "<=", "todate");

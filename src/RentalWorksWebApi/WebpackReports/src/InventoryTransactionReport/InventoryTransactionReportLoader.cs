@@ -111,7 +111,7 @@ namespace WebApi.Modules.Reports.InventoryTransactionReport
                     addDateFilterToSelect("transdate", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("transdate", request.ToDate, select, "<=", "todate");
 
-                    select.AddWhereIn("and", "transtype", request.TransactionTypes.ToString(), false);
+                    select.AddWhereIn("transtype", request.TransactionTypes);
                     select.AddOrderBy("whcode, masterno, transdate, orderby");
 
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

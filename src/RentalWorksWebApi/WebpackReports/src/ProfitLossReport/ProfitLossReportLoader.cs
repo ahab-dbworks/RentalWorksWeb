@@ -109,7 +109,7 @@ namespace WebApi.Modules.Reports.ProfitLossReport
                     select.AddWhereIn("orderid", request.OrderId);
                     select.AddParameter("@fromdate", request.FromDate);
                     select.AddParameter("@todate", request.ToDate);
-                    select.AddWhereIn("and", "orderstatus", request.Statuses.ToString(), false);
+                    select.AddWhereIn("orderstatus", request.Statuses);
                     select.AddOrderBy("location, department, customer, deal, agent");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }

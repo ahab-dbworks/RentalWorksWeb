@@ -108,8 +108,8 @@ namespace WebApi.Modules.Reports.RentalInventoryChangeReport
                     select.AddWhereIn("SubCategoryKey", request.SubCategoryId);
                     select.AddWhereIn("InventoryKey", request.InventoryId);
 
-                    select.AddWhereIn("TrackedBy", request.TrackedBys.ToString());
-                    select.AddWhereIn("ICodeRank", request.Ranks.ToString());
+                    select.AddWhereIn("TrackedBy", request.TrackedBys);
+                    select.AddWhereIn("ICodeRank", request.Ranks);
 
                     select.AddOrderBy("Warehouse, Department, CategoryOrderBy, SubCategoryOrderBy, ICodeRank, ICode, ICodeDescription, TransactionDate, TransactionSequence");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

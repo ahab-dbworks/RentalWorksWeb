@@ -175,7 +175,7 @@ namespace WebApi.Modules.Reports.VendorInvoiceSummaryReport
                     }
                     addDateFilterToSelect(dateField, request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect(dateField, request.ToDate, select, "<=", "todate");
-                    select.AddWhereIn("and", "status", request.Statuses.ToString(), false);
+                    select.AddWhereIn("status", request.Statuses);
 
                     //accruals
                     if (request.IncludeAccruals.GetValueOrDefault(false))

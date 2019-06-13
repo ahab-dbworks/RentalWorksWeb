@@ -314,7 +314,7 @@ namespace WebApi.Modules.Reports.BillingAnalysisReport
                     select.AddWhereIn("dealid", request.DealId);
                     select.AddWhereIn("projectid", request.ProjectId);
                     select.AddWhereIn("agentid", request.AgentId);
-                    select.AddWhereIn("status", request.Status.ToString());
+                    select.AddWhereIn("status", request.Status);
                     addDateFilterToSelect("orderdate", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("orderdate", request.ToDate, select, "<=", "todate");
 
