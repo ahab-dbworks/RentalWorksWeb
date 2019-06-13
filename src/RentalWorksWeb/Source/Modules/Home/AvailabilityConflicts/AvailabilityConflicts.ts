@@ -85,12 +85,12 @@ class AvailabilityConflicts {
                             <th>Order No.</th>
                             <th>Order Description</th>
                             <th>Deal</th>
-                            <th>Ordered</th>
-                            <th>Sub</th>
-                            <th>Available</th>
-                            <th>Late</th>
-                            <th>In</th>
-                            <th>QC</th>
+                            <th class="number">Ordered</th>
+                            <th class="number">Sub</th>
+                            <th class="number">Available</th>
+                            <th class="number">Late</th>
+                            <th class="number">In</th>
+                            <th class="number">QC</th>
                             <th>From</th>
                             <th>To</th>
                         <tr>
@@ -99,27 +99,27 @@ class AvailabilityConflicts {
                     </tbody>
                 </table>`;
 
-        $form.find('#availabilityTable').append(html);
+        $form.find('#availabilityTable').empty().append(html);
 
         const $rows: any = [];
         for (let i = 0; i < data.length; i++) {
             const row = `
-                    <tr>
+                    <tr class="data-row">
                         <td>${data[i].Warehouse}</td>
                         <td>${data[i].InventoryType}</td>
                         <td>${data[i].Category}</td>
                         <td>${data[i].SubCategory}</td>
-                        <td>${data[i].ICode}</td>
+                        <td class="nowrap">${data[i].ICode}</td>
                         <td>${data[i].ItemDescription}</td>
                         <td>${data[i].OrderNumber}</td>
                         <td>${data[i].OrderDescription}</td>
                         <td>${data[i].Deal}</td>
-                        <td>${data[i].QuantityOrdered}</td>
-                        <td>${data[i].QuantitySub}</td>
-                        <td>${data[i].QuantityAvailable}</td>
-                        <td>${data[i].QuantityLate}</td>
-                        <td>${data[i].QuantityIn}</td>
-                        <td>${data[i].QuantityQc}</td>
+                        <td class="number">${data[i].QuantityOrdered}</td>
+                        <td class="number">${data[i].QuantitySub}</td>
+                        <td class="number">${data[i].QuantityAvailable}</td>
+                        <td class="number">${data[i].QuantityLate}</td>
+                        <td class="number">${data[i].QuantityIn}</td>
+                        <td class="number">${data[i].QuantityQc}</td>
                         <td>${data[i].FromDateTime}</td>
                         <td>${data[i].ToDateTime}</td>
                     </tr>
@@ -127,7 +127,7 @@ class AvailabilityConflicts {
             $rows.push(row);
         }
 
-        $form.find('tbody').append($rows);
+        $form.find('tbody').empty().append($rows);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {

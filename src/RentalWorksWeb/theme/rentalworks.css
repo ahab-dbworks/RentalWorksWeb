@@ -593,3 +593,10 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
     border-style: solid;
 }
 
+/* Availability Conflicts */
+#availabilityTable table {border-collapse:collapse;}
+#availabilityTable table thead tr {text-align:left; background-color:lightgray; border: 2px solid #989898;}
+#availabilityTable table td, #availabilityTable th {padding:5px;}
+#availabilityTable table .number {text-align:right;}
+#availabilityTable table .nowrap {white-space: nowrap;}
+#availabilityTable table tr.data-row {border-bottom: 2px solid #989898}
