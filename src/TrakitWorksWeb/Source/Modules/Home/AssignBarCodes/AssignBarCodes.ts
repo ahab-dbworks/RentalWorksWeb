@@ -29,7 +29,6 @@ class AssignBarCodes {
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentmoduleinfo?) {
         let $form = jQuery(this.getFormTemplate());
-
         $form = FwModule.openForm($form, mode);
 
         //disables asterisk and save prompt
@@ -148,41 +147,39 @@ class AssignBarCodes {
         return `
         <div id="assignbarcodesform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-caption="Assign Bar Codes" data-hasaudit="false" data-controller="AssignBarCodesController">
           <div class="formpage">
-            <div class="formpage">
-              <div class="flexrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase Order">
-                  <div class="flexrow">
-                    <div class="flexcolumn" style="flex:1 1 325px;">
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-    validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidatePONumber" style="flex:1 1 150px;"></div>
-                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PODate" style="flex:1 1 150px;" data-enabled="false"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
-                      </div>
+            <div class="flexrow">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Purchase Order">
+                <div class="flexrow">
+                  <div class="flexcolumn" style="flex:1 1 325px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="PO No." data-datafield="PurchaseOrderId" data-displayfield="PurchaseOrderNumber" data-validationname="PurchaseOrderValidation" data-formbeforevalidate="beforeValidatePONumber" style="flex:1 1 150px;"></div>
+                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="PO Date" data-datafield="PODate" style="flex:1 1 150px;" data-enabled="false"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:1 1 325px;">
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:1 1     300px;" data-enabled="false"></div>
-                      </div>
-                      <div class="flexrow">
-                        <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation"     style="flex:1 1 300px;" data-enabled="false"></div>
-                      </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
                     </div>
-                    <div class="flexcolumn" style="flex:0 1 125px;">
-                      <div class="flexrow">
-                        <div class="fwformcontrol assignbarcodes" data-type="button" style="flex:1 1 100px;margin:18px 5px 0px 5px;margin-left:5px;margin-right:5px;">Assign Barcodes</div>
-                      </div>
-                      <div class="flexrow">
-                        <div class="fwformcontrol additems" data-type="button" style="flex:1 1 100px;margin:15px 5px 0px 5px;">Add Items</div>
-                      </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:1 1 325px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="flex:1 1 300px;" data-enabled="false"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 300px;" data-enabled="false"></div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:0 1 125px;">
+                    <div class="flexrow">
+                      <div class="fwformcontrol assignbarcodes" data-type="button" style="flex:1 1 100px;margin:18px 5px 0px 5px;margin-left:5px;margin-right:5px;">Assign Barcodes</div>
+                    </div>
+                    <div class="flexrow">
+                      <div class="fwformcontrol additems" data-type="button" style="flex:1 1 100px;margin:15px 5px 0px 5px;">Add Items</div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="flexrow">
-                <div data-control="FwGrid" data-grid="POReceiveBarCodeGrid" data-securitycaption="Purchase Order Receive Bar Code" style="margin:0px 8px 0px 8px;"></div>
-              </div>
+            </div>
+            <div class="flexrow">
+              <div data-control="FwGrid" data-grid="POReceiveBarCodeGrid" data-securitycaption="Purchase Order Receive Bar Code" style="margin:0px 8px 0px 8px;"></div>
             </div>
           </div>
         </div>`;
