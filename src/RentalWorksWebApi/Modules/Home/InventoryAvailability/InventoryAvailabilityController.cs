@@ -100,8 +100,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             }
             try
             {
-                //AvailabilityConflictResponse response = await InventoryAvailabilityFunc.GetConflicts(AppConfig, UserSession, request);
-                AvailabilityConflictResponse response = InventoryAvailabilityFunc.GetConflicts(AppConfig, UserSession, request);
+                AvailabilityConflictResponse response = await InventoryAvailabilityFunc.GetConflicts(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)

@@ -51,7 +51,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string Category { get; set; }
         public string SubCategory { get; set; }
         public string ICode { get; set; }
-        public string ItemDesription { get; set; }
+        public string ItemDescription { get; set; }
         public string OrderNumber { get; set; }
         public string OrderDescription { get; set; }
         public string Deal { get; set; }
@@ -1239,7 +1239,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         availData.InContainer.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyincontainer")].ToString());
 
                         //availCache[availKey] = availData;
-                        availCache.AddOrUpdate(availKey, availData, (key, existingValue) => {
+                        availCache.AddOrUpdate(availKey, availData, (key, existingValue) =>
+                        {
                             existingValue.CloneFrom(availData);
                             return existingValue;
                         });
@@ -1388,7 +1389,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 // build up a request containing all known items needing recalc
                 availRequestItems.Clear();
-                foreach (TInventoryWarehouse inventoryWarehouse in availNeedRecalc)  
+                foreach (TInventoryWarehouse inventoryWarehouse in availNeedRecalc)
                 {
                     availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryWarehouse.InventoryId, inventoryWarehouse.WarehouseId, fromDate, AvailabilityThroughDate));
                     if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
@@ -1767,41 +1768,88 @@ namespace WebApi.Modules.Home.InventoryAvailability
         }
         //-------------------------------------------------------------------------------------------------------
 
-        //public static async Task<AvailabilityConflictResponse> GetConflicts (FwApplicationConfig appConfig, FwUserSession userSession, AvailabilityConflictRequest request)
-        public static AvailabilityConflictResponse GetConflicts(FwApplicationConfig appConfig, FwUserSession userSession, AvailabilityConflictRequest request)
+        public static async Task<AvailabilityConflictResponse> GetConflicts (FwApplicationConfig appConfig, FwUserSession userSession, AvailabilityConflictRequest request)
         {
             AvailabilityConflictResponse response = new AvailabilityConflictResponse();
+            FwJsonDataTable dt = null;
 
-            int i = 0;
-            foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in AvailabilityCache)
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                TInventoryWarehouseAvailability inventoryWarehouseAvailability = (TInventoryWarehouseAvailability)availEntry.Value;
-
-                if (inventoryWarehouseAvailability.Reservations.Count > 0)
+                FwSqlSelect select = new FwSqlSelect();
+                select.EnablePaging = false;
+                select.UseOptionRecompile = true;
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
                 {
-                    foreach (TInventoryWarehouseAvailabilityReservation reservation in inventoryWarehouseAvailability.Reservations)
-                    {
-                        AvailabilityConflictResponseItem responseItem = new AvailabilityConflictResponseItem();
-                        responseItem.Warehouse = inventoryWarehouseAvailability.InventoryWarehouse.Warehouse;
-                        responseItem.WarehouseCode = inventoryWarehouseAvailability.InventoryWarehouse.WarehouseCode;
-                        responseItem.ICode = inventoryWarehouseAvailability.InventoryWarehouse.ICode;
-                        responseItem.ItemDesription = inventoryWarehouseAvailability.InventoryWarehouse.Description;
-                        responseItem.QuantityIn = inventoryWarehouseAvailability.In.Total;
-                        responseItem.QuantityInRepair = inventoryWarehouseAvailability.InRepair.Total;
-                        responseItem.OrderNumber = reservation.OrderNumber;
-                        responseItem.OrderDescription = reservation.OrderDescription;
-                        responseItem.Deal = reservation.Deal;
-                        responseItem.QuantityOrdered = reservation.QuantityOrdered;
-                        responseItem.QuantitySub = reservation.QuantitySub;
-                        responseItem.FromDateTime = reservation.FromDateTime;
-                        responseItem.ToDateTime = reservation.ToDateTime;
-                        response.Add(responseItem);
-                    }
-                    i++;
-                    if (i >= 10) { break; }
+                    qry.AddColumn("masterid");
+                    qry.AddColumn("warehouseid");
+                    qry.AddColumn("inventorydepartment");
+                    qry.AddColumn("category");
+                    qry.AddColumn("subcategory");
+
+                    select.Add("select a.masterid, a.warehouseid, a.inventorydepartment, a.category, a.subcategory   ");
+                    select.Add(" from  availabilitymasterwhview a with (nolock)                                      ");
+
+                    select.Parse();
+
+                    select.AddWhere("a.availfor = @availfor");
+                    select.AddParameter("@availfor", request.AvailableFor);
+
+                    select.AddWhereIn("warehouseid", request.WarehouseId);
+                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
+                    select.AddWhereIn("categoryid", request.CategoryId);
+                    select.AddWhereIn("subcategoryid", request.SubCategoryId);
+                    select.AddWhereIn("masterid", request.InventoryId);
+                    select.AddWhereIn("rank", request.Ranks);
+
+
+                    //if (!request.BooleanField.GetValueOrDefault(false)) 
+                    //{ 
+                    //    select.AddWhere("somefield ^<^> 'T'"); 
+                    //} 
+                    dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
 
+            }
 
+            foreach (List<object> row in dt.Rows)
+            {
+                string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                string inventoryType = row[dt.GetColumnNo("inventorydepartment")].ToString();
+                string category = row[dt.GetColumnNo("category")].ToString();
+                string subCategory = row[dt.GetColumnNo("subcategory")].ToString();
+
+
+                TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+
+                TInventoryWarehouseAvailability availData = null;
+                if (AvailabilityCache.TryGetValue(availKey, out availData))
+                {
+                    if (availData.Reservations.Count > 0)
+                    { 
+                        foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
+                        {
+                            AvailabilityConflictResponseItem responseItem = new AvailabilityConflictResponseItem();
+                            responseItem.Warehouse = availData.InventoryWarehouse.Warehouse;
+                            responseItem.WarehouseCode = availData.InventoryWarehouse.WarehouseCode;
+                            responseItem.InventoryType = inventoryType;
+                            responseItem.Category = category;
+                            responseItem.SubCategory = subCategory;
+                            responseItem.ICode = availData.InventoryWarehouse.ICode;
+                            responseItem.ItemDescription = availData.InventoryWarehouse.Description;
+                            responseItem.QuantityIn = availData.In.Total;
+                            responseItem.QuantityInRepair = availData.InRepair.Total;
+                            responseItem.OrderNumber = reservation.OrderNumber;
+                            responseItem.OrderDescription = reservation.OrderDescription;
+                            responseItem.Deal = reservation.Deal;
+                            responseItem.QuantityOrdered = reservation.QuantityOrdered;
+                            responseItem.QuantitySub = reservation.QuantitySub;
+                            responseItem.FromDateTime = reservation.FromDateTime;
+                            responseItem.ToDateTime = reservation.ToDateTime;
+                            response.Add(responseItem);
+                        }
+                    }
+                }
             }
 
             return response;
