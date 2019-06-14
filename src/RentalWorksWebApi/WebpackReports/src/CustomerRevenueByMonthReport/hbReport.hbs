@@ -1,5 +1,6 @@
 ﻿<!--CustomerRevenueByMonth-->
-<div class="rpt-flexrow">
+<div class="rpt-flexrow" style="width:1500px;">
+  <style type="text/css" media="print"> @page { size: landscape; margin: 10px 10px 10px 10px; } </style>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -12,13 +13,12 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;">
+<div class="rpt-flexrow" style="margin-top:40px;width:1500px;">
   <!--SUMMARY VIEW TABLE-->
   {{#ifEquals IsSummary true}}
   <table>
-    <thead class="summary-header">
-      <tr>
-      </tr>
+    <thead>
+      <tr id="summaryHeaderRow"></tr>
     </thead>
     <tbody>
       {{#each this}}
@@ -29,19 +29,58 @@
         {{#ifEquals RowType "Customerheader"}}
         <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
-            {{#ifEquals RowType "Departmentheader"}}
+        {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val">{{Month01}}</td>
+        <td class="total-val">{{Month02}}</td>
+        <td class="total-val">{{Month03}}</td>
+        <td class="total-val">{{Month04}}</td>
+        <td class="total-val">{{Month05}}</td>
+        <td class="total-val">{{Month06}}</td>
+        <td class="total-val">{{Month07}}</td>
+        <td class="total-val">{{Month08}}</td>
+        <td class="total-val">{{Month09}}</td>
+        <td class="total-val">{{Month10}}</td>
+        <td class="total-val">{{Month11}}</td>
+        <td class="total-val">{{Month12}}</td>
+        <td class="total-val">{{AllMonths}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="2" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val">{{Month01}}</td>
+        <td class="total-val">{{Month02}}</td>
+        <td class="total-val">{{Month03}}</td>
+        <td class="total-val">{{Month04}}</td>
+        <td class="total-val">{{Month05}}</td>
+        <td class="total-val">{{Month06}}</td>
+        <td class="total-val">{{Month07}}</td>
+        <td class="total-val">{{Month08}}</td>
+        <td class="total-val">{{Month09}}</td>
+        <td class="total-val">{{Month10}}</td>
+        <td class="total-val">{{Month11}}</td>
+        <td class="total-val">{{Month12}}</td>
+        <td class="total-val">{{AllMonths}}</td>
         {{/ifEquals}}
-                {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="2" class="total-name">{{Department}}&nbsp;</td>
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val">{{Month01}}</td>
+        <td class="total-val">{{Month02}}</td>
+        <td class="total-val">{{Month03}}</td>
+        <td class="total-val">{{Month04}}</td>
+        <td class="total-val">{{Month05}}</td>
+        <td class="total-val">{{Month06}}</td>
+        <td class="total-val">{{Month07}}</td>
+        <td class="total-val">{{Month08}}</td>
+        <td class="total-val">{{Month09}}</td>
+        <td class="total-val">{{Month10}}</td>
+        <td class="total-val">{{Month11}}</td>
+        <td class="total-val">{{Month12}}</td>
+        <td class="total-val">{{AllMonths}}</td>
         {{/ifEquals}}
       </tr>
       {{/each}}
@@ -72,10 +111,10 @@
         {{#ifEquals RowType "Customerheader"}}
         <td colspan="5" class="header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
-            {{#ifEquals RowType "Departmentheader"}}
+        {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="header-row">Department: {{Department}}</td>
         {{/ifEquals}}
-                 {{#ifEquals RowType "Dealheader"}}
+        {{#ifEquals RowType "Dealheader"}}
         <td colspan="5" class="header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}

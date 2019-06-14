@@ -3,20 +3,6 @@ tbody {
     tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
-
-    tr[data-rowtype="GroupHeadingheader"] td {
-        padding-bottom: .8em;
-        font-weight: bold;
-        text-decoration: underline;
-    }
-
-    td:after {
-        content: attr(data-value);
-    }
-
-    td {
-        padding: 3px;
-    }
 }
 
 thead {
@@ -28,3 +14,9 @@ thead {
         white-space: nowrap;
     }
 }
+
+@page {
+    size: landscape;
+    margin: 10px 10px 10px 10px; // Adds margin on the pdf
+}
+

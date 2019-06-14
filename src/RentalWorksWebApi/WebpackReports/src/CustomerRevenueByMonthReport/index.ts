@@ -16,8 +16,9 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
             Ajax.post<DataTable>(`${apiUrl}/api/v1/CustomerRevenueByMonthReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     let types: any = [];
+                    // Revenue Types for header
                     for (let i = 0; i < parameters.RevenueTypes.length; i++) {
-                        types.push(parameters.RevenueTypes[i].value)
+                        types.push(parameters.RevenueTypes[i].value);
                     }
                     types = types.join(', ')
                     const data: any = DataTable.toObjectList(response);
@@ -34,52 +35,49 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     } else {
                         data.IsSummary = false;
                     }
-
-                    let headerNames = []
+                    HandlebarsHelpers.registerHelpers
+                    const headerNames = [];
+                    //const rowNames = [];
                     let headerCount = 0;
-                    let rowNames = [];
-
-
-
 
                     for (let i = 0; i < data.length; i++) {
                         const el = data[i];
-                        if (el.RowType === 'detail') {
-                            for (let key in el) {
-                                if (key.endsWith('Name')) {
-                                    console.log('keyVal', el[key])
-                                    if (el[key] !== '') {
-                                        headerCount++
-                                        headerNames.push(el[key])
-                                    }
-                                }
-                            }
-                            for (let key in el) {
-                                if (!key.endsWith('Name')) {
-                                    console.log('vals', el[key])
-                                    if (key.startsWith('Month')) { // move this up into one loop
+                        if (el) {
+                            if (el.RowType === 'detail') {
+                                for (let key in el) {
+                                    if (key.endsWith('Name')) {
                                         if (el[key] !== '') {
-                                            while (headerCount > 0) {
-                                                rowNames.push(key)
-                                                headerCount--
-                                            }
+                                            headerNames.push(el[key]);
+                                            headerCount++
+                                            //rowNames.push(key.substring(0, 7));
                                         }
-
                                     }
                                 }
+                                break;
                             }
                         }
                     }
-
-                    console.log('headerNames', headerNames)
-                    console.log('rowNames', rowNames)
-                  
+                    //JQuery(document).find('.summary-row').app
+                    //console.log('rowNames', rowNames)
                     console.log('rpt: ', data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
+
                     document.getElementById('pageBody').innerHTML = hbReport(data);
+                    let mappedHeader = headerNames.map(el => `<th>${el}</th>`).join('');
+                    mappedHeader = `<th></th>` + mappedHeader;
+                    if (headerCount < 12) {
+                        const intialColspan = (12 - headerCount);
+                        //headerNames.unshift(`<th colspan="${colspan}"></th>`);
+                        mappedHeader = mappedHeader + `<th colspan="${intialColspan}"></th><th class="number">All Months</th>`;
+                    } else if (headerCount === 12) {
+                        mappedHeader = mappedHeader + `</th><th class="number">All Months</th>`;
+                    }
+                    document.getElementById('summaryHeaderRow').innerHTML = mappedHeader;
+                    console.log('headerNames', mappedHeader)
+                    //document.querySelector('tr[data-rowtype="detail"]').innerHTML = rowNames.map(el => `<td>{{${el}}}</td>`).join('');
 
                     this.onRenderReportCompleted();
                 })
