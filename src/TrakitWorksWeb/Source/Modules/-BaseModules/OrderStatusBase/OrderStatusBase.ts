@@ -47,6 +47,20 @@
         $form.find('div[data-datafield="TaxOptionId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield=""]', $tr.find('.field[data-browsedatafield="RentalTaxRate1"]').attr('data-originalvalue'));
         });
+
+        FwFormField.loadItems($form.find('div[data-datafield="gridViewSelector"]'), [
+            { value: 'All',             caption: 'All', checked: true },
+            { value: 'StagedOnly',      caption: 'Staged Only' },
+            { value: 'NotYetStaged',    caption: 'Not Yet Staged' },
+            { value: 'StillOut',        caption: 'Still Out' },
+            { value: 'InOnly',          caption: 'In Only' }
+        ]);
+
+        FwFormField.loadItems($form.find('div[data-datafield="completeKitViewSelector"]'), [
+            { value: 'Summary', caption: 'Summary'},
+            { value: 'Detail',  caption: 'Detail', checked: true  }
+        ]);
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -416,120 +430,143 @@
         switch (this.Type) {
             case 'Order':
                 caption = 'Order Status';
-                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>`;
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 175px;"></div>`;
                 break;
             case 'Transfer':
                 caption = 'Transfer Status';
-                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>`;
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:1 1 175px;"></div>`;
                 break;
             case 'ContainerItem':
                 caption = 'Container Status';
-                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
+                typeFieldHtml = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Container No." data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerItemValidation" style="flex:1 1 175px;"></div>`;
                 break;
         }
         return `
         <div id="orderstatusform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
-            <div class="flexpage">
+          <div class="flexpage">
+            <!-- Status section -->
             <div class="flexrow">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${caption}">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${caption}">
                 <div class="flexrow">
-                    <div class="flexcolumn" style="flex:1 1 850px;">
+                  <div class="flexcolumn" style="flex:1 1 300px;">
                     <div class="flexrow">
-                        ${typeFieldHtml}
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
-                        ${this.Type === 'Order' ?
-            `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Home.Deal.caption}" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>`
-            : ''}
-                        ${this.Type === 'ContainerItem' ?
-            '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Status" data-datafield="ContainerStatus" style="flex:1 1 300px;" data-enabled="false"></div>'
-            : ''}
+                      ${typeFieldHtml}
                     </div>
-                    </div>
-                    <div class="flexcolumn hide-on-container" style="flex:1 1 150px;">
                     <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" style="flex:1 1 125px;" data-enabled="false"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 300px;" data-enabled="false"></div>
+                    </div>  
+                    <div class="flexrow">
+                      ${this.Type === 'Order' ?
+                      `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Home.Deal.caption}" data-datafield="Deal" style="flex:1 1 300px;" data-enabled="false"></div>`
+                      : ''}
+                                  ${this.Type === 'ContainerItem' ?
+                      '<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Container Status" data-datafield="ContainerStatus" style="flex:1 1 300px;" data-enabled="false"></div>'
+                      : ''}
+                    </div>  
+                  </div>
+                  <div class="flexcolumn" style="flex:1 1 300px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="PickDate" style="flex:1 1 150px;" data-enabled="false"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Time" data-datafield="PickTime" style="flex:1 1 100px;" data-enabled="false"></div>
                     </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Estimated Start Date" data-datafield="EstimatedStartDate" style="flex:1 1 150px;" data-enabled="false"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Time" data-datafield="EstimatedStartTime" style="flex:1 1 100px;" data-enabled="false"></div>
                     </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Estimated Stop Date" data-datafield="EstimatedStopDate" style="flex:1 1 150px;" data-enabled="false"></div>
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Time" data-datafield="EstimatedStopTime" style="flex:1 1 100px;" data-enabled="false"></div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:1 1 250px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" style="flex:1 1 125px;" data-enabled="false"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" style="flex:1 1 125px;" data-enabled="false"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div class="fwformcontrol optionsbutton" data-type="button" style="flex:1 1 100px;margin:16px 5px 0px 5px;">Filter Items Grid &#8675;</div>
+                    </div>
+                  </div>
                 </div>
-                <div class="flexrow hide-on-container">
-                    <div class="flexcolumn" style="flex:1 1 850px;">
-                    <div class="flexrow">
-                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Pick Date" data-datafield="PickDate" style="flex:1 1 150px;" data-enabled="false"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Time" data-datafield="PickTime" style="flex:1 1 100px;" data-enabled="false"></div>
-                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Estimated Start Date" data-datafield="EstimatedStartDate" style="flex:1 1 150px;" data-enabled="false"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Time" data-datafield="EstimatedStartTime" style="flex:1 1 100px;" data-enabled="false"></div>
-                        <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Estimated Stop Date" data-datafield="EstimatedStopDate" style="flex:1 1 150px;" data-enabled="false"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Time" data-datafield="EstimatedStopTime" style="flex:1 1 100px;" data-enabled="false"></div>
-                    </div>
-                    </div>
-                    <div class="flexcolumn" style="flex:1 1 150px;">
-                    <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="Warehouse" style="flex:1 1 125px;" data-enabled="false"></div>
-                    </div>
-                    </div>
-                </div>
-                </div>
+              </div>
             </div>
+
+            <!-- Filter Items Grid section -->
+<!-- #################### #################### #################### #################### 
+     unhide section once "Filter Items Grid" button change event is programmed 
+     #################### #################### #################### #################### 
             <div class="flexrow">
-                <div class="flexcolumn" style="flex:0 1 350px;">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View">
-                    <div class="flexrow">
-                    <div class="flexcolumn">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield filter" data-caption="" data-datafield="" style="flex:1 1 150px;">
-                        <div data-value="All" data-caption="All"></div>
-                        <div data-value="StagedOnly" data-caption="Staged Only"></div>
-                        <div data-value="NotYetStaged" data-caption="Not Yet Staged"></div>
-                        <div data-value="StillOut" data-caption="Still Out"></div>
-                        <div data-value="InOnly" data-caption="In Only"></div>
-                        </div>
-                    </div>
-                    <div class="flexcolumn">
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield toggle" data-caption="" data-datafield="" style="flex:0 1 125px;margin-left:15px; max-height:75px;">
-                        <div data-value="Summary" data-caption="Summary"></div>
-                        <div data-value="Details" data-caption="Detail"></div>
-                        </div>
-                        <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield show-all-history" data-caption="" data-datafield="" style="display:none; flex:0 1 125px;margin-left:15px;">
-                                <div data-value="Current" data-caption="Current Status"></div>
-                                <div data-value="ShowAll" data-caption="Show All History"></div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-                <div class="flexcolumn" style="flex:1 1 775px;">
-                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter">
-                    <div class="flexrow">
-                    <div id="filters" class="flexcolumn">
-                        <div class="flexrow">
-                        <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="RentalCategoryValidation" style="flex:1 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="flex:1 1 200px;"></div>
-                        </div>
-                        <div class="flexrow">
-                        <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:1 1 200px;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Description" data-datafield="FilterDescription" style="flex:1 1 400px;"></div>
-                        </div>
-                        <div class="flexrow">
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Bar Code No." data-datafield="FilterBarCode" style="flex:1 1 250px;"></div>
-                        <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="flex:1 1 225px;"></div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="flexrow" style="max-width:1400px;">
-                <div class="flexcolumn summaryview">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter Items Grid">
                 <div class="flexrow">
-                    <div data-control="FwGrid" data-grid="OrderStatusSummaryGrid" data-securitycaption="Order Status Summary"></div>
+                  <div class="flexcolumn" style="flex:1 1 200px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="flex:1 1 200px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Category" data-datafield="CategoryId" data-displayfield="Category" data-validationname="RentalCategoryValidation" style="flex:1 1 200px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Sub-Category" data-datafield="SubCategoryId" data-displayfield="SubCategory" data-validationname="SubCategoryValidation" data-validationpeek="false" style="flex:1 1 200px;"></div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:1 1 200px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="flex:1 1 200px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Description" data-datafield="FilterDescription" style="flex:1 1 400px;"></div>
+                    </div>
+                  </div>
+                  <div class="flexcolumn" style="flex:1 1 200px;">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield textfilter" data-caption="Bar Code No." data-datafield="FilterBarCode" style="flex:1 1 250px;"></div>
+                    </div>
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="flex:1 1 225px;"></div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+            </div>
+     #################### #################### #################### ####################  
+--> 
+            <!-- View Items | Complete/Kit View section -->
+            <div class="flexrow">
+              <div class="flexcolumn" style="flex:1 1 500px">
+                <div class="flexrow">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="View Items">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="gridViewSelector"></div>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div class="flexcolumn" style="flex:1 1 350px">
+                <div class="flexrow">
+                  <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Complete/Kit View">
+                    <div class="flexrow">
+                      <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="completeKitViewSelector"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="flexrow rentalview details" style="max-width:1800px;">
-                <div data-control="FwGrid" data-grid="OrderStatusRentalDetailGrid" data-securitycaption="Rental Detail"></div>
+            
+            <!-- Status Grids -->
+            <div class="wideflexrow">
+              <div class="flexcolumn summaryview">
+                <div class="wideflexrow" style="margin:0px 8px 0px 8px;">
+                  <div data-control="FwGrid" data-grid="OrderStatusSummaryGrid" data-securitycaption="Order Status Summary"></div>
+                </div>
+              </div>
             </div>
-            <div class="flexrow salesview details hide-on-container" style="max-width:1800px;">
-                <div data-control="FwGrid" data-grid="OrderStatusSalesDetailGrid" data-securitycaption="Sales Detail"></div>
+            <div class="wideflexrow rentalview details" style="max-width:1800px;">
+              <div data-control="FwGrid" data-grid="OrderStatusRentalDetailGrid" data-securitycaption="Rental Detail"></div>
+            </div>
+            <div class="wideflexrow salesview details hide-on-container" style="max-width:1800px;">
+              <div data-control="FwGrid" data-grid="OrderStatusSalesDetailGrid" data-securitycaption="Sales Detail"></div>
             </div>
           </div>
         </div>`;
