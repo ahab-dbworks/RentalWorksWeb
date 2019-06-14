@@ -490,9 +490,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
             return success;
         }
         //-------------------------------------------------------------------------------------------------------        
-        private static async Task<bool> CheckNeedRecalc(FwApplicationConfig appConfig)
+        public static async Task<bool> CheckNeedRecalc(FwApplicationConfig appConfig)
         {
             bool success = true;
+
+            Console.WriteLine("about to query the availneedrecalc table");
 
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
@@ -503,6 +505,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.Add("order by a.id");
                 qry.AddParameter("@lastneedrecalcid", LastNeedRecalcId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                Console.WriteLine("found " + dt.TotalRows.ToString() + " records in the availneedrecalc table");
 
                 int needRecalcId = 0;
                 foreach (List<object> row in dt.Rows)
@@ -520,6 +524,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     LastNeedRecalcId = needRecalcId;
                 }
             }
+
+            Console.WriteLine("AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
+
 
             return success;
         }
@@ -1363,9 +1370,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
             // initialize an empty request
             TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
 
-            // update the list of known items needed recalc
-            Console.WriteLine("checking the need recalc table");
-            await CheckNeedRecalc(appConfig);
+            //// update the list of known items needed recalc
+            //Console.WriteLine("checking the need recalc table");
+            //await CheckNeedRecalc(appConfig);
 
 
             // build up a list of Items and Accessories only from the global AvailabilityNeedRecalc list
@@ -1513,7 +1520,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             TAvailabilityCache availCache = new TAvailabilityCache();
             TInventoryWarehouseAvailabilityRequestItems availRequestToRefresh = new TInventoryWarehouseAvailabilityRequestItems();
 
-            await CheckNeedRecalc(appConfig);
+            //await CheckNeedRecalc(appConfig);
 
             foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
             {
