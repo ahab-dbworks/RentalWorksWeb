@@ -203,6 +203,12 @@ class Alert {
             $form.attr('data-modified', 'true');
             $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
         });
+
+        $form.on('click', '.field-name', e => {
+            const textToInject = `[${jQuery(e.currentTarget).text()}]`;
+            const $messageBody = $form.find('[data-datafield="AlertBody"] textarea');
+            $messageBody.val(jQuery($messageBody).val() + textToInject);
+        });
     }
     //----------------------------------------------------------------------------------------------
     getFields($form: JQuery): void {
@@ -225,7 +231,7 @@ class Alert {
                     const $fieldListSection = $form.find('.field-list');
                     $fieldListSection.empty();
                     for (let i = 0; i < fieldsList.length; i++) {
-                        $fieldListSection.append(`<p>${fieldsList[i].text}</p>`);
+                        $fieldListSection.append(`<div class="field-name" style="cursor:pointer">${fieldsList[i].text}</div>`);
                     }
                     this.addConditionRow($form);
                 },
