@@ -656,6 +656,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 TInventoryWarehouseAvailability availData = availEntry.Value;
                 DateTime fromDateTime = DateTime.Today; //daily availability  //#jhtodo
                 DateTime toDateTime = availData.AvailDataToDateTime;
+                availData.Dates.Clear();
                 if (!availData.InventoryWarehouse.NoAvailabilityCheck)
                 {
                     if (AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))
@@ -1285,14 +1286,16 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     TInventoryWarehouseAvailability availData = null;
                     if (AvailabilityCache.TryGetValue(availKey, out availData))
                     {
+                        TInventoryWarehouseAvailability tmpAvailData = new TInventoryWarehouseAvailability(availKey.InventoryId, availKey.WarehouseId);
+                        tmpAvailData.CloneFrom(availData);
                         foundInCache = true;
-                        DateTime theDate = availData.AvailDataFromDateTime;
-                        while (theDate <= availData.AvailDataToDateTime)
+                        DateTime theDate = tmpAvailData.AvailDataFromDateTime;
+                        while (theDate <= tmpAvailData.AvailDataToDateTime)
                         {
                             if ((theDate < fromDate) || (toDate < theDate))
                             {
                                 TInventoryWarehouseAvailabilityDate availDate = null;
-                                availData.Dates.TryRemove(theDate, out availDate);
+                                tmpAvailData.Dates.TryRemove(theDate, out availDate);
                             }
                             theDate = theDate.AddDays(1);
                         }
@@ -1300,14 +1303,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         theDate = fromDate;
                         while (theDate <= toDate)
                         {
-                            if (!availData.Dates.ContainsKey(theDate))
+                            if (!tmpAvailData.Dates.ContainsKey(theDate))
                             {
                                 foundInCache = false;
                                 break;
                             }
                             theDate = theDate.AddDays(1);
                         }
-                        availCache[availKey] = availData;
+                        availCache[availKey] = tmpAvailData;
                     }
 
                     if ((stale) || (!foundInCache))
