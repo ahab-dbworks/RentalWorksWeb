@@ -24,6 +24,29 @@ namespace WebApi.Modules.Home.InventoryAvailability
             return InventoryAvailabilityFunc.DumpAvailabilityToFile(inventoryId, warehouseId);
         }
         //------------------------------------------------------------------------------------ 
+
+
+        // POST api/v1/inventoryavailability/requestrecalc
+        [HttpPost("requestrecalc")]
+        [FwControllerMethod(Id: "Iu0qJbYjk1chs")]
+        public async Task<ActionResult<bool>> RequestRecalc (AvailabilityRecalcRequest request) 
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                bool b = InventoryAvailabilityFunc.RequestRecalc(request.InventoryId, request.WarehouseId, request.Classification);
+                return new OkObjectResult(b);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+
         // POST api/v1/inventoryavailability/getinventoryavailability
         [HttpPost("getinventoryavailability")]
         [FwControllerMethod(Id: "48MUJoECV6L9f")]

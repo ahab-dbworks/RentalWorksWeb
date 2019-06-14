@@ -413,6 +413,16 @@ namespace WebApi.Logic
             return recTypeColor;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static bool InventoryClassIsPackage(string classification)
+        {
+            bool isPackage = false;
+            if (!string.IsNullOrEmpty(classification))
+            {
+                isPackage = (classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT));
+            }
+            return isPackage;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public class SessionLocation
         {
             public string locationid { get; set; } = string.Empty;
