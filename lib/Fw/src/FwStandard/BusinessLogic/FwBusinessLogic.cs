@@ -4,6 +4,7 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.Alert;
 using FwStandard.Modules.Administrator.AlertCondition;
+using FwStandard.Modules.Administrator.AlertWebUsers;
 using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
@@ -1119,10 +1120,23 @@ namespace FwStandard.BusinessLogic
                                         break;
                                     }
                                 }
-
                             }
 
-                            bool sent = await SendEmailAsync("jhoang@4wall.com", "jhoang@4wall.com", alertSubject, alertBody, dataRecords[0].AppConfig);
+                            AlertWebUsersLogic awuLoader = new AlertWebUsersLogic();
+                            awuLoader.SetDependencies(AppConfig, UserSession);
+                            awuLoader.AlertId = alertId;
+                            BrowseRequest awuRequest = new BrowseRequest();
+                            awuRequest.uniqueids = uniqueIds;
+                            List<AlertWebUsersLogic> alertWebUsers = awuLoader.SelectAsync<AlertWebUsersLogic>(awuRequest).Result;
+
+                            List<string> toEmails = new List<string>(); 
+                            foreach (AlertWebUsersLogic user in alertWebUsers)
+                            {
+                                toEmails.Add(user.Email);
+                            }
+
+                            string to = String.Join(";", toEmails);
+                            bool sent = await SendEmailAsync("jhoang@4wall.com", to, alertSubject, alertBody, AppConfig);
                         }
                     }
                 }

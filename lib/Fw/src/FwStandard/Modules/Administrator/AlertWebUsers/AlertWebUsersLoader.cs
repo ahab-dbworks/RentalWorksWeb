@@ -2,11 +2,10 @@ using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
-namespace WebApi.Modules.Administrator.AlertWebUsers
+namespace FwStandard.Modules.Administrator.AlertWebUsers
 {
     [FwSqlTable("webalertwebusersview")]
-    public class AlertWebUsersLoader : AppDataLoadRecord
+    public class AlertWebUsersLoader : FwDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webalertwebusersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]

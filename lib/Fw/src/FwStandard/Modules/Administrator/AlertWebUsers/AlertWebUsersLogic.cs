@@ -1,10 +1,11 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
-using WebApi.Logic;
-namespace WebApi.Modules.Administrator.AlertWebUsers
+using FwStandard.SqlServer;
+
+namespace FwStandard.Modules.Administrator.AlertWebUsers
 {
     [FwLogic(Id: "ffGajJFtaGnS")]
-    public class AlertWebUsersLogic : AppBusinessLogic
+    public class AlertWebUsersLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         AlertWebUsersRecord alertWebUsers = new AlertWebUsersRecord();
@@ -37,7 +38,10 @@ namespace WebApi.Modules.Administrator.AlertWebUsers
         {
             if ((string.IsNullOrEmpty(WebUserId)) && (!string.IsNullOrEmpty(UserId)))
             {
-                WebUserId = AppFunc.GetStringDataAsync(AppConfig, "webusers", "usersid", UserId, "webusersid").Result;
+                using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                {
+                    WebUserId = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "webusers", "usersid", UserId, "webusersid").Result;
+                }
             }
         }
         //------------------------------------------------------------------------------------ 
