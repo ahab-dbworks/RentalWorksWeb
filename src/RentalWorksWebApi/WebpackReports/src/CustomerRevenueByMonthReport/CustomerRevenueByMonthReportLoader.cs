@@ -1,14 +1,10 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
-using System.Reflection;
 namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
 {
-    [FwSqlTable("tmpreporttable")]
     public class CustomerRevenueByMonthReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -54,80 +50,119 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
         [FwSqlDataField(column: "categoryorder", modeltype: FwDataTypes.Decimal)]
         public decimal? CategoryOrder { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month01", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month01 { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month01name", modeltype: FwDataTypes.Text)]
         public string Month01Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month02", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month02 { get; set; }
+        [FwSqlDataField(column: "month01dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month01RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month01str", modeltype: FwDataTypes.Text)]
+        public string Month01RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month02name", modeltype: FwDataTypes.Text)]
         public string Month02Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month03", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month03 { get; set; }
+        [FwSqlDataField(column: "month02dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month02RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month02str", modeltype: FwDataTypes.Text)]
+        public string Month02RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month03name", modeltype: FwDataTypes.Text)]
         public string Month03Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month04", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month04 { get; set; }
+        [FwSqlDataField(column: "month03dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month03RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month03str", modeltype: FwDataTypes.Text)]
+        public string Month03RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month04name", modeltype: FwDataTypes.Text)]
         public string Month04Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month05", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month05 { get; set; }
+        [FwSqlDataField(column: "month04dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month04RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month04str", modeltype: FwDataTypes.Text)]
+        public string Month04RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month05name", modeltype: FwDataTypes.Text)]
         public string Month05Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month06", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month06 { get; set; }
+        [FwSqlDataField(column: "month05dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month05RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month05str", modeltype: FwDataTypes.Text)]
+        public string Month05RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month06name", modeltype: FwDataTypes.Text)]
         public string Month06Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month07", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month07 { get; set; }
+        [FwSqlDataField(column: "month06dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month06RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month06str", modeltype: FwDataTypes.Text)]
+        public string Month06RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month07name", modeltype: FwDataTypes.Text)]
         public string Month07Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month08", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month08 { get; set; }
+        [FwSqlDataField(column: "month07dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month07RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month07str", modeltype: FwDataTypes.Text)]
+        public string Month07RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month08name", modeltype: FwDataTypes.Text)]
         public string Month08Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month09", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month09 { get; set; }
+        [FwSqlDataField(column: "month08dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month08RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month08str", modeltype: FwDataTypes.Text)]
+        public string Month08RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month09name", modeltype: FwDataTypes.Text)]
         public string Month09Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month10", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month10 { get; set; }
+        [FwSqlDataField(column: "month09dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month09RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month09str", modeltype: FwDataTypes.Text)]
+        public string Month09RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month10name", modeltype: FwDataTypes.Text)]
         public string Month10Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month11", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month11 { get; set; }
+        [FwSqlDataField(column: "month10dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month10RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month10str", modeltype: FwDataTypes.Text)]
+        public string Month10RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month11name", modeltype: FwDataTypes.Text)]
         public string Month11Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "month12", modeltype: FwDataTypes.Decimal)]
-        public decimal? Month12 { get; set; }
+        [FwSqlDataField(column: "month11dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month11RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month11str", modeltype: FwDataTypes.Text)]
+        public string Month11RevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "month12name", modeltype: FwDataTypes.Text)]
         public string Month12Name { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "allmonths", modeltype: FwDataTypes.Decimal)]
-        public decimal? AllMonths { get; set; }
+        [FwSqlDataField(column: "month12dec", modeltype: FwDataTypes.Decimal)]
+        public decimal? Month12RevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "month12str", modeltype: FwDataTypes.Text)]
+        public string Month12RevenueAsText { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allmonthsdec", modeltype: FwDataTypes.Decimal)]
+        public decimal? AllMonthsRevenueAsDecimal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "allmonthsstr", modeltype: FwDataTypes.Text)]
+        public string AllMonthsRevenueAsText { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(CustomerRevenueByMonthReportRequest request)
         {
@@ -155,7 +190,7 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Month01", "Month02", "Month03", "Month04", "Month05", "Month06", "Month07", "Month08", "Month09", "Month10", "Month11", "Month12", "AllMonths" };
+                string[] totalFields = new string[] { "Month01RevenueAsDecimal", "Month02RevenueAsDecimal", "Month03RevenueAsDecimal", "Month04RevenueAsDecimal", "Month05RevenueAsDecimal", "Month06RevenueAsDecimal", "Month07RevenueAsDecimal", "Month08RevenueAsDecimal", "Month09RevenueAsDecimal", "Month10RevenueAsDecimal", "Month11RevenueAsDecimal", "Month12RevenueAsDecimal", "AllMonthsRevenueAsDecimal" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
