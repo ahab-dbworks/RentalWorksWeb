@@ -71,6 +71,24 @@ class Alert {
         FwModule.saveForm(this.Module, $form, parameters);
     }
     //----------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        let $alertWebUserGrid;
+        let $alertWebUserGridControl;
+        $alertWebUserGrid = $form.find('div[data-grid="AlertWebUsersGrid"]');
+        $alertWebUserGridControl = FwBrowse.loadGridFromTemplate('AlertWebUsersGrid');
+        $alertWebUserGrid.empty().append($alertWebUserGridControl);
+        $alertWebUserGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+            };
+        });
+        $alertWebUserGridControl.data('beforesave', function (request) {
+            request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
+        });
+        FwBrowse.init($alertWebUserGridControl);
+        FwBrowse.renderRuntimeHtml($alertWebUserGridControl);
+    }
+    //----------------------------------------------------------------------------------------------
     loadModules($form) {
         //load modules
         const node = FwApplicationTree.getNodeById(FwApplicationTree.tree, '0A5F2584-D239-480F-8312-7C2B552A30BA');
@@ -356,6 +374,9 @@ class Alert {
         $tab.find('.modified').html('');
         $form.attr('data-modified', 'false');
         $form.find('.btn[data-type="SaveMenuBarButton"]').addClass('disabled');
+
+        const $alertWebUsersGrid = $form.find('[data-name="AlertWebUsersGrid"]');
+        FwBrowse.search($alertWebUsersGrid);
     }
     //----------------------------------------------------------------------------------------------
     compare(a, b) {

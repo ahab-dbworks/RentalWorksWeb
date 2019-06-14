@@ -356,6 +356,7 @@ namespace WebLibrary.Security
 
             // Add Grids
             AddGrid("Additional Items",                       "{C9AAA0E7-466E-47F1-973D-61555FFCA6B8}", lv1menuGrids.Id, "AdditionalItemsGridController");
+            AddGrid("Alert Web Users",                        "{774142FC-246D-453C-8B62-66FE5FFC1A8B}", lv1menuGrids.Id, "AlertWebUsersGridController");
             AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
             AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "AuditHistoryGridController");
             AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");
