@@ -292,6 +292,7 @@ class SearchInterface {
     }
     //----------------------------------------------------------------------------------------------
     renderInventory($popup, response) {
+        let $inventoryContainer       = $popup.find('#inventory');
         let descriptionIndex          = response.ColumnIndex.Description,
             quantityAvailable         = response.ColumnIndex.QuantityAvailable,
             conflictDate              = response.ColumnIndex.ConflictDate,
@@ -308,9 +309,12 @@ class SearchInterface {
             typeIndex                 = response.ColumnIndex.InventoryType,
             categoryIndex             = response.ColumnIndex.Category,
             subCategoryIndex          = response.ColumnIndex.SubCategory,
-            availabilityStateIndex    = response.ColumnIndex.AvailabilityState;
+            availabilityStateIndex    = response.ColumnIndex.AvailabilityState,
+            qtyIsStaleIndex           = response.ColumnIndex.QuantityAvailableIsStale;
 
-        let $inventoryContainer = $popup.find('#inventory');
+        $inventoryContainer.empty();
+        $popup.find('.refresh-availability').hide();
+
         if (response.Rows.length == 0) {
             $inventoryContainer.append('<div style="font-weight: bold; font-size:1.3em;text-align: center;padding-top: 50px;">0 Items Found</div>');
         }
@@ -358,6 +362,10 @@ class SearchInterface {
                 $itemcontainer.find('.classdescription').css({ 'background-color': response.Rows[i][classificationColor] });
                 $itemcontainer.find('div[data-column="Description"]').append('<div class="toggleaccessories">Show Accessories</div>');
                 $itemcontainer.append(`<div class="item-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;"></div>`);
+            }
+
+            if (response.Rows[i][qtyIsStaleIndex] === true) {
+                $popup.find('.refresh-availability').show();
             }
         }
 
@@ -490,7 +498,14 @@ class SearchInterface {
         let $searchpopup   = $popup.find('#searchpopup');
 
         $popup
+            .on('change', 'div[data-datafield="FromDate"], div[data-datafield="ToDate"]', function () {
+                if ($popup.find('#inventory').children().length > 0) {
+                    self.getInventory($popup, false);
+                }
+            })
             .on('click', '#breadcrumbs .basetype', e => {
+                FwFormField.setValueByDataField($popup, 'SearchBox', '');
+                $popup.find('.refresh-availability').hide();
                 self.populateTypeMenu($popup);
             })
             .on('click', '#breadcrumbs .type', e => {
@@ -502,10 +517,14 @@ class SearchInterface {
                 $popup.find(`#category ul[data-value="${categoryid}"]`).click();
             })
             .on('click', '#baseType ul', e => {
+                FwFormField.setValueByDataField($popup, 'SearchBox', '');
+                $popup.find('.refresh-availability').hide();
                 self.populateTypeMenu($popup);
             })
             .on('click', '#inventoryType ul', e => {
                 const $this = jQuery(e.currentTarget);
+                FwFormField.setValueByDataField($popup, 'SearchBox', '');
+                $popup.find('.refresh-availability').hide();
                 $popup.find('#inventoryType ul').removeClass('selected');
                 $this.addClass('selected');
                 $popup.find('#inventoryType ul').not('.selected').hide();
@@ -589,34 +608,7 @@ class SearchInterface {
 
                     //Load the Inventory items if selected category doesn't have any sub-categories
                     if (response.Rows.length == 0) {
-                        let parentFormId = $popup.find('#itemsearch').data('parentformid');
-                        let request: any = {
-                            OrderId:                       parentFormId,
-                            SessionId:                     parentFormId,
-                            CategoryId:                    $this.attr('data-value'),
-                            InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
-                            AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                            WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
-                            ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                            SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                            Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                            HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
-                            ShowImages:                    true,
-                            FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                            ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
-                        }
-
-                        FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                            $popup.find('#inventory').empty();
-                            if (response.Rows.length > 0) {
-                                const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                                let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                                if (typeof obj != 'undefined') {
-                                    $popup.find('.refresh-availability').show();
-                                }
-                            }
-                            SearchInterfaceController.renderInventory($popup, response);
-                        }, null, $searchpopup);
+                       self.getInventory($popup, false);
                     } else {
                         $popup.find('#inventory').empty();
                         $popup.find('#category ul').not('.selected').hide();
@@ -642,7 +634,6 @@ class SearchInterface {
 
                 $popup.find('#subCategory ul').removeClass('selected');
                 $this.addClass('selected');
-                let parentFormId = $popup.find('#itemsearch').data('parentformid');
 
                 //Clear and set breadcrumbs
                 let $breadcrumbs = $popup.find('#breadcrumbs');
@@ -650,35 +641,7 @@ class SearchInterface {
                 $breadcrumbs.append(`<div class="subcategory breadcrumb"><div class="value">${$this.attr('data-caption')}</div></div>`);
 
                 $popup.find('#itemsearch').attr('data-subcategoryid', $this.attr('data-value'));
-
-                let request: any = {
-                    OrderId:                       parentFormId,
-                    SessionId:                     parentFormId,
-                    CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid'),
-                    SubCategoryId:                 $this.attr('data-value'),
-                    InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid'),
-                    AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                    WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
-                    ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                    SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                    Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                    HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) === 'T' ? true : false,
-                    ShowImages:                    true,
-                    FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                    ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
-                }
-
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                    $popup.find('#inventory').empty();
-                    if (response.Rows.length > 0) {
-                        const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                        let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                        if (typeof obj != 'undefined') {
-                            $popup.find('.refresh-availability').show();
-                        }
-                    }
-                    SearchInterfaceController.renderInventory($popup, response);
-                }, null, $searchpopup);
+                self.getInventory($popup, false);
             })
         ;
 
@@ -724,35 +687,9 @@ class SearchInterface {
                 $popup.find('.options .optionsmenu').css('z-index', '0');
     
                 //perform search again with new settings
-                let searchrequest: any = {
-                    OrderId:                       id,
-                    SessionId:                     id,
-                    AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                    WarehouseId:                   warehouseId,
-                    ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                    ShowImages:                    true,
-                    SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                    Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                    HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
-                    SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
-                    ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-                    FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                    CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
-                    SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
-                    InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined
+                if ($popup.find('#inventory').children().length > 0) {
+                    self.getInventory($popup, false);
                 }
-    
-                FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", searchrequest, FwServices.defaultTimeout, function onSuccess(response) {
-                    $popup.find('#inventory').empty();
-                    if (response.Rows.length > 0) {
-                        const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                        let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                        if (typeof obj != 'undefined') {
-                            $popup.find('.refresh-availability').show();
-                        }
-                    }
-                    SearchInterfaceController.renderInventory($popup, response);
-                }, null, $searchpopup);
             })
             .on('click', '.options .restoreDefaults', e => {
                 self.setDefaultViewSettings($popup);
@@ -778,34 +715,8 @@ class SearchInterface {
             let code = e.keyCode || e.which;
             try {
                 if (code === 13) { //Enter Key
-                    e.preventDefault();
-                    let request: any = {
-                        OrderId:                       id,
-                        SessionId:                     id,
-                        AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                        WarehouseId:                   warehouseId,
-                        ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                        ShowImages:                    true,
-                        SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                        Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                        HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
-                        SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
-                        FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                        ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined
-                    };
-
-                    FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                        $popup.find('#inventory').empty();
-                        $popup.find('#breadcrumbs').find('.type, .category, .subcategory').remove();
-                        if (response.Rows.length > 0) {
-                            const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                            let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                            if (typeof obj != 'undefined') {
-                                $popup.find('.refresh-availability').show();
-                            }
-                        }
-                        SearchInterfaceController.renderInventory($popup, response);
-                    }, null, $searchpopup);
+                    self.populateTypeMenu($popup);
+                    self.getInventory($popup, false);
                 }
             } catch (ex) {
                 FwFunc.showError(ex);
@@ -939,13 +850,13 @@ class SearchInterface {
                 $popup.off('click', '.addToOrder');
                 FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/addto", request, FwServices.defaultTimeout, function onSuccess(response) {
                     FwPopup.destroyPopup(jQuery(document).find('.fwpopup'));
-                    let $combinedGrid = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridRental = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridSales = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridLabor = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
-                        $orderItemGridMisc = $form.find('.miscgrid [data-name="OrderItemGrid"]');
+                    let $combinedGrid           = $form.find('.combinedgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridRental    = $form.find('.rentalgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridSales     = $form.find('.salesgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridLabor     = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
+                        $orderItemGridMisc      = $form.find('.miscgrid [data-name="OrderItemGrid"]');
                     let $transferItemGridRental = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
-                    let $transferItemGridSales = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
+                    let $transferItemGridSales  = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
                     if ($form.find('.combinedtab').css('display') != 'none') {
                         FwBrowse.search($combinedGrid);
                     }
@@ -973,63 +884,12 @@ class SearchInterface {
 
         //Sorting option events
         $popup.on('change', 'div[data-datafield="Select"], div[data-datafield="SortBy"]', e => {
-            let request: any = {
-                OrderId:                       id,
-                SessionId:                     id,
-                AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                WarehouseId:                   warehouseId,
-                ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
-                ShowImages:                    true,
-                FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-                InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
-                CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
-                SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
-                SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined
-            }
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                $popup.find('#inventory').empty();
-                if (response.Rows.length > 0) {
-                    const qtyIsStaleIndex = response.ColumnIndex.QuantityAvailableIsStale;
-                    let obj = response.Rows.find(x => x[qtyIsStaleIndex] == true);
-                    if (typeof obj != 'undefined') {
-                        $popup.find('.refresh-availability').show();
-                    }
-                }
-                self.renderInventory($popup, response);
-            }, null, $searchpopup);
+            self.getInventory($popup, false);
         });
 
         //Refresh Availability button
         $popup.on('click', '.refresh-availability', e => {
-            let request: any = {
-                OrderId:                       id,
-                SessionId:                     id,
-                AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
-                WarehouseId:                   warehouseId,
-                ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
-                ShowImages:                    true,
-                SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
-                Classification:                FwFormField.getValueByDataField($popup, 'Select'),
-                HideInventoryWithZeroQuantity: FwFormField.getValue2($popup.find('[data-datafield="HideZeroQuantity"]')) == "T" ? true : false,
-                SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox'),
-                FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
-                ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
-                InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
-                CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
-                SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
-                RefreshAvailability:           true
-            }
-
-            FwAppData.apiMethod(true, 'POST', "api/v1/inventorysearch/search", request, FwServices.defaultTimeout, function onSuccess(response) {
-                $popup.find('#inventory').empty();
-                $popup.find('.refresh-availability').hide();
-                SearchInterfaceController.renderInventory($popup, response);
-            }, null, $searchpopup);
+            self.getInventory($popup, true);
         });
 
         $popup.on('click', '.acc-refresh-avail', e => {
@@ -1113,9 +973,36 @@ class SearchInterface {
                         FwNotification.renderNotification('WARNING', 'There are items from a previous Search session that have not been added.  Click the Preview tab to view.');
                     }
                 }
-            },
-            ex => FwFunc.showError(ex)
-            , null);
+            }, ex => FwFunc.showError(ex), null);
+    }
+    //----------------------------------------------------------------------------------------------
+     getInventory($popup, refreshAvailability) {
+        var self         = this;
+        let $searchpopup = $popup.find('#searchpopup');
+        let parentFormId = $popup.find('#itemsearch').data('parentformid');
+
+        let request: any = {
+            OrderId:                       parentFormId,
+            SessionId:                     parentFormId,
+            ShowAvailability:              $popup.find('[data-datafield="Columns"] li[data-value="Available"]').attr('data-selected') === 'T' ? true : false,
+            ShowImages:                    true,
+            SortBy:                        FwFormField.getValueByDataField($popup, 'SortBy'),
+            Classification:                FwFormField.getValueByDataField($popup, 'Select'),
+            AvailableFor:                  FwFormField.getValueByDataField($popup, 'InventoryType'),
+            HideInventoryWithZeroQuantity: FwFormField.getValueByDataField($popup, 'HideZeroQuantity') == "T" ? true : false,
+            WarehouseId:                   $popup.find('#itemsearch').data('warehouseid'),
+            FromDate:                      FwFormField.getValueByDataField($popup, 'FromDate') || undefined,
+            ToDate:                        FwFormField.getValueByDataField($popup, 'ToDate') || undefined,
+            InventoryTypeId:               $popup.find('#itemsearch').attr('data-inventorytypeid') || undefined,
+            CategoryId:                    $popup.find('#itemsearch').attr('data-categoryid') || undefined,
+            SubCategoryId:                 $popup.find('#itemsearch').attr('data-subcategoryid') || undefined,
+            SearchText:                    FwFormField.getValueByDataField($popup, 'SearchBox') || undefined,
+            RefreshAvailability:           refreshAvailability
+        }
+
+        FwAppData.apiMethod(true, 'POST', 'api/v1/inventorysearch/search', request, FwServices.defaultTimeout, function onSuccess(response) {
+            self.renderInventory($popup, response);
+        }, null, $searchpopup);
     }
     //----------------------------------------------------------------------------------------------
     refreshPreviewGrid($popup, id) {
