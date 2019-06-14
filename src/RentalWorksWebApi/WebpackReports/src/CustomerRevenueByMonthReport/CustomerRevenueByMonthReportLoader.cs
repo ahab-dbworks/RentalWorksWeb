@@ -3,6 +3,9 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
+using FwStandard.Models;
+using WebLibrary;
+
 namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
 {
     public class CustomerRevenueByMonthReportLoader : AppDataLoadRecord
@@ -171,8 +174,50 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getcustomerrevenuebymonthrptweb", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
+
+                    bool Rental = false;
+                    bool Sales = false;
+                    bool Parts = false;
+                    bool Misc = false;
+                    bool Labor = false;
+                    bool FinalLd = false;
+                    bool RentalSale = false;
+
+                    foreach (SelectedCheckBoxListItem rt in request.RevenueTypes)
+                    {
+                        if (rt.value.Equals(RwConstants.RECTYPE_RENTAL))
+                        {
+                            Rental = true;
+                        }
+                        else if (rt.value.Equals(RwConstants.RECTYPE_SALE))
+                        {
+                            Sales = true;
+                        }
+                        else if (rt.value.Equals(RwConstants.RECTYPE_PARTS))
+                        {
+                            Parts = true;
+                        }
+                        else if (rt.value.Equals(RwConstants.RECTYPE_MISCELLANEOUS))
+                        {
+                            Misc = true;
+                        }
+                        else if (rt.value.Equals(RwConstants.RECTYPE_LABOR))
+                        {
+                            Labor = true;
+                        }
+                        else if (rt.value.Equals(RwConstants.RECTYPE_LOSS_AND_DAMAGE))
+                        {
+                            FinalLd = true;
+                        }
+                        else if (rt.value.Equals(RwConstants.RECTYPE_USED_SALE))
+                        {
+                            RentalSale = true;
+                        }
+                    }
+
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
                     qry.AddParameter("@customertypeid", SqlDbType.Text, ParameterDirection.Input, request.CustomerTypeId);
@@ -180,8 +225,13 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
                     qry.AddParameter("@dealtypeid", SqlDbType.Text, ParameterDirection.Input, request.DealTypeId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
-                    // qry.AddParameter("@inventorytypes", SqlDbType.Text, ParameterDirection.Input, request.RevenueTypes.ToString()); unsure of implemntation
-                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
+                    qry.AddParameter("@rental", SqlDbType.Text, ParameterDirection.Input, Rental);
+                    qry.AddParameter("@sales", SqlDbType.Text, ParameterDirection.Input, Sales);
+                    qry.AddParameter("@parts", SqlDbType.Text, ParameterDirection.Input, Parts);
+                    qry.AddParameter("@misc", SqlDbType.Text, ParameterDirection.Input, Misc);
+                    qry.AddParameter("@labor", SqlDbType.Text, ParameterDirection.Input, Labor);
+                    qry.AddParameter("@finalld", SqlDbType.Text, ParameterDirection.Input, FinalLd);
+                    qry.AddParameter("@rentalsale", SqlDbType.Text, ParameterDirection.Input, RentalSale);
 
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);

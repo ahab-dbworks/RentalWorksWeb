@@ -135,13 +135,13 @@ class CustomerRevenueByMonthReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="RevenueTypes"]'), [
-            { value: "Rental", text: "Rental", selected: "T" },
-            { value: "Sales", text: "Sales", selected: "T" },
-            { value: "Parts", text: "Parts", selected: "T" },
-            { value: "Miscellaneous", text: "Misc / Facilities", selected: "T" },
-            { value: "Labor", text: "Labor", selected: "T" },
-            { value: "L&D", text: "Final L&D" },
-            { value: "Rental Sale", text: "Rental Sale" }
+            { value: "R", text: "Rental", selected: "T" },
+            { value: "S", text: "Sales", selected: "T" },
+            { value: "P", text: "Parts", selected: "T" },
+            { value: "M", text: "Misc / Facilities", selected: "T" },
+            { value: "L", text: "Labor", selected: "T" },
+            { value: "F", text: "Final L&D" },
+            { value: "RS", text: "Rental Sale" }
         ]);
     }
     //----------------------------------------------------------------------------------------------
