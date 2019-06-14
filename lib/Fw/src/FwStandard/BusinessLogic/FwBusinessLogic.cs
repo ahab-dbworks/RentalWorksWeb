@@ -1073,15 +1073,53 @@ namespace FwStandard.BusinessLogic
                             foreach (Match sm in subjectMatches)
                             {
                                 string field = sm.ToString();
-                                string value = this.GetType().GetProperty(field).GetValue(this).ToString();
-                                alertSubject.Replace("[" + field + "]", value);
+                                object value = null;
+                                foreach (PropertyInfo property in propertyInfo)
+                                {
+                                    if (property.Name.Equals(field))
+                                    {
+                                        value = this.GetType().GetProperty(field).GetValue(this);
+
+                                        if (value != null)
+                                        {
+                                            alertSubject = alertSubject.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        else if (saveMode == TDataRecordSaveMode.smUpdate)
+                                        {
+                                            bool b = l2.LoadAsync<Type>(ids).Result;
+                                            value = l2.GetType().GetProperty(property.Name).GetValue(l2);
+                                            alertSubject = alertSubject.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        break;
+                                    }
+                                }
+
                             }
 
                             foreach (Match bm in bodyMatches)
                             {
                                 string field = bm.ToString();
-                                string value = this.GetType().GetProperty(field).GetValue(this).ToString();
-                                alertBody.Replace("[" + field + "]", value);
+                                object value = null;
+                                foreach (PropertyInfo property in propertyInfo)
+                                {
+                                    if (property.Name.Equals(field))
+                                    {
+                                        value = this.GetType().GetProperty(field).GetValue(this);
+
+                                        if (value != null)
+                                        {
+                                            alertBody = alertBody.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        else if (saveMode == TDataRecordSaveMode.smUpdate)
+                                        {
+                                            bool b = l2.LoadAsync<Type>(ids).Result;
+                                            value = l2.GetType().GetProperty(property.Name).GetValue(l2);
+                                            alertBody = alertBody.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        break;
+                                    }
+                                }
+
                             }
 
                             bool sent = await SendEmailAsync("jhoang@4wall.com", "jhoang@4wall.com", alertSubject, alertBody, dataRecords[0].AppConfig);
@@ -1091,7 +1129,7 @@ namespace FwStandard.BusinessLogic
             }
         }
         //------------------------------------------------------------------------------------ 
-       static async Task<bool> SendEmailAsync(string from, string to, string subject, string body, FwApplicationConfig appConfig)
+        static async Task<bool> SendEmailAsync(string from, string to, string subject, string body, FwApplicationConfig appConfig)
         {
             var message = new MailMessage(from, to, subject, body);
             message.IsBodyHtml = true;
