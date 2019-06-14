@@ -123,6 +123,12 @@ namespace WebApi.Modules.Home.InventorySearch
         [FwSqlDataField(column: "imagewidth", modeltype: FwDataTypes.Integer)]
         public int? ImageWidth { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "isoption", modeltype: FwDataTypes.Boolean)]
+        public bool? IsOption { get; set; } = true;
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal)]
+        public decimal? DefaultQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
 
         //------------------------------------------------------------------------------------ 
         private async Task<FwJsonDataTable> AddAvailabilityData(FwJsonDataTable dt, bool showAvailability, DateTime? fromDate, DateTime? toDate, string sessionId, bool refreshAvailability)
