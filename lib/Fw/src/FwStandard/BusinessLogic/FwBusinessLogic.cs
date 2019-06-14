@@ -1135,8 +1135,14 @@ namespace FwStandard.BusinessLogic
                                 toEmails.Add(user.Email);
                             }
 
+                            string from;
+                            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                            {
+                                from = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", UserSession.WebUsersId, "email").Result;
+                            }
+
                             string to = String.Join(";", toEmails);
-                            bool sent = await SendEmailAsync("jhoang@4wall.com", to, alertSubject, alertBody, AppConfig);
+                            bool sent = await SendEmailAsync(from, to, alertSubject, alertBody, AppConfig);
                         }
                     }
                 }
