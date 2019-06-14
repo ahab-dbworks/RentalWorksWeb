@@ -525,20 +525,32 @@ class CheckIn {
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.caption}">
                       <div class="flexrow">
-                        <div class="flexcolumn" style="flex:1 1 450px;">
+                        <div class="flexcolumn" style="flex:1 1 325px;">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none;flex:1 1 325px;"></div>
                             ${this.Module == 'CheckIn' ?
-                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-formbeforevalidate="beforeValidate" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>'
-                : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>'}
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 250px;" data-enabled="false"></div>
+                            '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="OrderId" data-formbeforevalidate="beforeValidate" data-displayfield="OrderNumber" data-validationname="OrderValidation" style="flex:1 1 325px;"></div>'
+                            : '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-validationname="TransferOrderValidation" style="flex:1 1 325px;"></div>'}
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:1 1 325px;" data-enabled="false"></div>
                           </div>
                         </div>
-                        <div class="flexcolumn" style="flex:1 1 450px;">
+                        <div class="flexcolumn" style="flex:1 1 325px;">
                           <div class="flexrow">
                             ${this.Module == 'CheckIn' ?
-                `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Home.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:0 1 350px;"></div>` : ''}
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:0 1 200px;" data-enabled="false"></div>
+                            `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="${Constants.Modules.Home.Deal.caption}" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" style="flex:1 1 325px;"></div>` : ''}
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="flex:1 1 325px;" data-enabled="false"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn" style="flex:0 1 200px;">
+                          <div class="flexrow">
+                            <div class="fwformcontrol orderstatus" data-type="button" style="flex:1 1 100px;margin:18px 10px 0px 10px;">${this.Module == 'CheckIn' ? 'Order' : 'Transfer'} Status</div>
+                          </div>
+                          <div class="flexrow">
+                            <div class="fwformcontrol createcontract" data-type="button" style="flex:1 1 100px;margin:15px 10px 0px 10px;">Create ${this.Module == 'CheckIn' ? 'Contract' : 'Manifest'}</div>
                           </div>
                         </div>
                       </div>
@@ -547,39 +559,61 @@ class CheckIn {
                   <div class="flexrow">
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Items">
                       <div class="flexrow">
-                        <div class="flexcolumn" style="flex:1 1 850px;">
+                        <div class="flexcolumn" style="flex:1 1 300px;">
                           <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Bar Code / I-Code" data-datafield="BarCode" style="flex:1 1 300px;"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="flex:1 1 100px;"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn" style="flex:1 1 300px;">
+                          <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="ICode" style="flex:1 1 300px;" data-enabled="false"></div>
+                          </div>
+                          <div class="flexrow">
                             <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="InventoryDescription" style="flex:1 1 400px;" data-enabled="false"></div>
                           </div>
                         </div>
-                        <div class="flexcolumn" style="flex:1 1 850px;">
+                        <div class="flexcolumn" style="flex:1 1 250px;">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Quantity" data-datafield="Quantity" style="flex:0 1 100px; margin-right:256px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="QuantityOrdered" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sub" data-datafield="QuantitySub" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Out" data-datafield="QuantityOut" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Staged" data-datafield="QuantityStaged" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="In" data-datafield="QuantityIn" style="flex:0 1 100px;" data-enabled="false"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="QuantityRemaining" style="flex:0 1 100px;" data-enabled="false"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Ordered" data-datafield="QuantityOrdered" style="flex:1 1 75px;" data-enabled="false"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Sub" data-datafield="QuantitySub" style="flex:1 1 75px;" data-enabled="false"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Staged" data-datafield="QuantityStaged" style="flex:1 1 75px;" data-enabled="false"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Out" data-datafield="QuantityOut" style="flex:1 1 75px;" data-enabled="false"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="In" data-datafield="QuantityIn" style="flex:1 1 75px;" data-enabled="false"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Remaining" data-datafield="QuantityRemaining" style="flex:1 1 75px;" data-enabled="false"></div>
                           </div>
                         </div>
                       </div>
-                      <div class="error-msg" style="margin-top:8px;"></div>
-                      <div class="fwformcontrol addordertocontract" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Add Order To Contract</div>
-                      <div class="fwformcontrol swapitem" data-type="button" style="display:none; flex:0 1 150px;margin:15px 0 0 10px;text-align:center;">Swap Item</div>
+                      <div class="flexrow">
+                        <div class="flexcolumn" style="flex:1 1 500px;">
+                          <div class="flexrow">
+                            <div class="error-msg" style="flex:1 1 275px;margin:20px 8px 0px 8px;color:red;"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn" style="flex:0 1 225px;">
+                          <div class="flexrow">
+                            <div class="fwformcontrol addordertocontract" data-type="button" style="display:none;flex:1 1 200px;margin:15px 5px 0px 5px;">Add Order to Session</div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn" style="flex:0 1 125px;">
+                          <div class="flexrow">
+                            <div class="fwformcontrol swapitem" data-type="button" style="display:none;flex:1 1 100px;margin:15px 5px 0px 5px;">Swap Item</div>
+                          </div>
+                        </div>
+                      </div>
                       <div class="flexrow">
                         <div data-control="FwGrid" data-grid="CheckedInItemGrid" data-securitycaption=""></div>
-                      </div>
-                      <div class="formrow">
-                        <div class="fwformcontrol orderstatus" data-type="button" style="float:left; margin-left:10px;">${this.Module == 'CheckIn' ? 'Order' : 'Transfer'} Status</div>
-                        <div class="fwformcontrol createcontract" data-type="button" style="float:right;">Create ${this.Module == 'CheckIn' ? 'Contract' : 'Manifest'}</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <!-- ORDERS tab -->
               <div data-type="tabpage" id="orderstabpage" class="tabpage" data-tabid="orderstab">
                 <div class="flexpage">
                   <div class="flexrow">
@@ -587,27 +621,31 @@ class CheckIn {
                   </div>
                 </div>
               </div>
+
+              <!-- QUANTITY ITEMS tab -->
               <div data-type="tabpage" id="quantityitemstabpage" class="tabpage" data-tabid="quantityitemstab">
                 <div class="flexpage">
                   <div class="flexrow">
-                    <div data-control="FwGrid" data-grid="CheckInQuantityItemsGrid" data-securitycaption=""></div>
-                  </div>
-                  <div class="formrow">
-                    <div class="fwformcontrol optionsbutton" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
+                    <div class="fwformcontrol optionsbutton" data-type="button" style="flex:1 1 100px;margin:10px 0px 0px 10px;">Options &#8675;</div>
+                    <div class="fwformcontrol selectall" data-type="button" style="flex:1 1 100px; margin:10px 0px 0px 10px;">Select All</div>
+                    <div class="fwformcontrol selectnone" data-type="button" style="flex:1 1 100px; margin:10px 10px 0px 10px;">Select None</div>
                   </div>
                   <div class="flexrow optionlist" style="display:none;">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show all ACTIVE Orders for this ${Constants.Modules.Home.Deal.caption}" data-datafield="AllOrdersForDeal" style="flex:0 1 350px;"></div>
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Specific Order" data-datafield="SpecificOrder" style="flex:0 1 150px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show all ACTIVE Orders for this ${Constants.Modules.Home.Deal.caption}" data-datafield="AllOrdersForDeal" style="flex:0 1 350px;margin:10px 0px 0px 10px;"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Specific Order" data-datafield="SpecificOrder" style="flex:0 1 150px;margin:10px 0px 0px 0px;"></div>
                     <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Order No." data-datafield="SpecificOrderId" data-displayfield="SpecificOrderNumber" data-validationname="OrderValidation" data-formbeforevalidate="beforeValidateSpecificOrder" style="flex:0 1 175px;" data-enabled="false"></div>
-                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="SpecificDescription" style="flex:1 1 250px;" data-enabled="false"></div>
+                    <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="SpecificDescription" style="flex:1 1 250px;margin-right:8px;" data-enabled="false"></div>
                   </div>
                   <div class="flexrow optionlist" style="display:none;">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only show items with Quantity Out" data-datafield="ShowQuantityOut"></div>
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only show items with Quantity Out" data-datafield="ShowQuantityOut" style="margin:-15px 0px 0px 10px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div data-control="FwGrid" data-grid="CheckInQuantityItemsGrid" data-securitycaption=""></div>
                   </div>
                 </div>
               </div>
+
+              <!-- SWAP ITEMS tab -->
               <div data-type="tabpage" id="swapitemtabpage" class="tabpage" data-tabid="swapitemtab">
                 <div class="flexpage">
                   <div class="flexrow">
@@ -615,6 +653,8 @@ class CheckIn {
                   </div>
                 </div>
               </div>
+
+              <!-- EXCEPTIONS tab -->
               <div data-type="tabpage" id="exceptionstabpage" class="tabpage" data-tabid="exceptionstab">
                 <div class="flexpage">
                   <div class="flexrow">
