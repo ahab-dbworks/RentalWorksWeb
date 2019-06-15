@@ -17,7 +17,7 @@
 <div class="rpt-flexrow" style="margin-top:40px;">
   <!--UNASSIGNED VIEW-->
   {{#ifEquals reportView "RETURN_RECEIPT"}}
-  <table>
+  <table id="unassigned">
     <thead class="main-header">
       <tr>
         <th>I-Code</th>
@@ -45,7 +45,7 @@
         <td data-value="{{InContractDate}}"></td>
         {{/ifEquals}}
       </tr>
-        {{#ifEquals RowType "OfficeLocationfooter"}}
+      {{#ifEquals RowType "OfficeLocationfooter"}}
       <tr>
         <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
         <td class="total-val" data-value="{{InQuantity}}"></td>
@@ -82,49 +82,40 @@
       <tr>
         <td data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
+        <td class="number" data-value="{{InQuantity}}"></td>
         <td data-value="{{Vendor}}"></td>
         <td data-value="{{Deal}}"></td>
         <td data-value="{{InContractNumber}}"></td>
         <td data-value="{{InContractDate}}"></td>
       </tr>
       <tr>
-        <th>Assigned:</th>
-        <th class="subHeaders">Order No.</th>
-        <th class="subHeaders">Date</th>
+        <th style="text-align:right;">Assigned:&nbsp;</th>
+        <th class="subHeaders">Order No.&nbsp;&nbsp;Date</th>
+        <!--<th class="subHeaders">Date</th>-->
         <th class="subHeaders">Contract No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders number">Applied</th>
+        <th class="subHeaders">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applied</th>
+        <!--<th class="subHeaders">Date</th>
+        <th class="subHeaders number">Applied</th>-->
         <th colspan="3"></th>
       </tr>
       <tr class="subValues">
         <td></td>
-        <td>{{ReconciledOrderNumber}}</td>
-        <td>{{ReconciledOrderDate}}</td>
+        <td>{{ReconciledOrderNumber}}&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledOrderDate}}</td>
+        <!--<td>{{ReconciledOrderDate}}</td>-->
         <td>{{ReconciledContractNumber}}</td>
-        <td>{{ReconciledContractDate}}</td>
-        <td>{{ReconciledAppliedQuantity}}</td>
+        <td>{{ReconciledContractDate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledAppliedQuantity}}</td>
+        <!--<td>{{ReconciledContractDate}}</td>
+        <td class="number">{{ReconciledAppliedQuantity}}</td>-->
+        <td colspan="3"></td>
       </tr>
     </tbody>
     {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
       {{#ifEquals RowType "OrderItemIdfooter"}}
       <tr>
-        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "Warehousefooter"}}
-      <tr>
-        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "OrderItemIdfooter"}}
-      <tr>
-        <td colspan="2" class="total-name">Total:&nbsp;</td>
+        <td colspan="3" class="total-name">Total:&nbsp;</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
-        <td class="total-val"> Unassigned: {{ReconciledAppliedQuantity}}</td>
+        <td class="total-val"> Unassigned: [need field]</td>
       </tr>
       {{/ifEquals}}
     </tfoot>
@@ -132,13 +123,13 @@
   </table>
   {{/ifEquals}}
   <!--ALL VIEW-->
-  {{#ifEquals reportView "ASSIGNED"}}
+  {{#ifEquals reportView "ALL"}}
   <table>
     <thead class="main-header">
       <tr>
-        <th class="number">Quantity</th>
         <th>I-Code</th>
         <th>Description</th>
+        <th class="number">Quantity</th>
         <th>Vendor</th>
         <th>Deal</th>
         <th>Contract No.</th>
@@ -156,42 +147,47 @@
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr>
-        <td class="number" data-value="{{Quantity}}"></td>
         <td data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
+        <td class="number" data-value="{{InQuantity}}"></td>
         <td data-value="{{Vendor}}"></td>
         <td data-value="{{Deal}}"></td>
         <td data-value="{{InContractNumber}}"></td>
-        <td data-value="{{RecorderDate}}"></td>
+        <td data-value="{{InContractDate}}"></td>
       </tr>
       {{#ifEquals RecordType "ASSIGNED"}}
       <tr>
-        <th>Assigned:</th>
-        <th class="subHeaders">Order No.</th>
-        <th class="subHeaders">Date</th>
+        <th style="text-align:right;">Assigned:&nbsp;</th>
+        <th class="subHeaders">Order No.&nbsp;&nbsp;Date</th>
+        <!--<th class="subHeaders">Date</th>-->
         <th class="subHeaders">Contract No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders number">Applied</th>
+        <th class="subHeaders">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applied</th>
+        <!--<th class="subHeaders">Date</th>
+        <th class="subHeaders number">Applied</th>-->
         <th colspan="3"></th>
       </tr>
       <tr class="subValues">
         <td></td>
-        <td>{{ReconciledOrderNumber}}</td>
-        <td>{{ReconciledOrderDate}}</td>
+        <td>{{ReconciledOrderNumber}}&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledOrderDate}}</td>
+        <!--<td>{{ReconciledOrderDate}}</td>-->
         <td>{{ReconciledContractNumber}}</td>
-        <td>{{ReconciledContractDate}}</td>
-        <td>{{ReconciledAppliedQuantity}}</td>
+        <td>{{ReconciledContractDate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledAppliedQuantity}}</td>
+        <!--<td>{{ReconciledContractDate}}</td>
+        <td class="number">{{ReconciledAppliedQuantity}}</td>-->
+        <td colspan="3"></td>
       </tr>
-      {{#ifEquals RowType "OrderItemIdfooter"}}
-      <tr>
-        <td colspan="2" class="total-name">Total:&nbsp;</td>
-        <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
-        <td class="total-val"> Unassigned: {{ReconciledAppliedQuantity}}</td>
-      </tr>
-      {{/ifEquals}}
-      {{/ifEquals}}
     </tbody>
     {{/ifEquals}}
+    <tfoot data-rowtype="{{RowType}}">
+      {{#ifEquals RowType "OrderItemIdfooter"}}
+      <tr>
+        <td colspan="3" class="total-name">Total:&nbsp;</td>
+        <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
+        <td class="total-val"> Unassigned: [need field]</td>
+      </tr>
+      {{/ifEquals}}
+      {{/ifEquals}}
+    </tfoot>
     {{/each}}
   </table>
   {{/ifEquals}}

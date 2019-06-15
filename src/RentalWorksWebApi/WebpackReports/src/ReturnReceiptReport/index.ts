@@ -23,12 +23,9 @@ export class ReturnReceiptReport extends WebpackReport {
                     data.Report = 'Return Receipt Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    //data.Department = parameters.
                     data.reportView = parameters.RecordType
-                    //data.ShowSellInformation = parameters.ShowSellInformation;
-                    //data.IncludeUnretired = parameters.IncludeUnretired;
+
                     this.renderFooterHtml(data);
-                    console.log('rpt', data);
 
                     for (let i = 0; i < data.length; i++) {
                         const el = data[i];
@@ -39,6 +36,7 @@ export class ReturnReceiptReport extends WebpackReport {
                             }
                         }
                     }
+                    console.log('rpt', data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }

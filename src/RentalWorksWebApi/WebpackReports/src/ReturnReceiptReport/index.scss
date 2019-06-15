@@ -1,5 +1,11 @@
 ﻿/*ReturnReceiptReport*/
 
+#unassigned {
+    tr[data-rowtype="detail"]:nth-child(odd) {
+        background-color: #DCDCDC;
+    }
+}
+
 table {
     thead.main-header {
         th {
@@ -10,6 +16,7 @@ table {
             white-space: nowrap;
         }
     }
+
 
     tbody[data-rowtype="detail"]:nth-of-type(even) {
         background-color: #DCDCDC;
@@ -28,16 +35,4 @@ table {
             padding-left: 3px;
         }
     }
-}
-
-.note {
-    font-weight: bold;
-
-    span {
-        font-weight: normal;
-    }
-}
-
-.top {
-    vertical-align: top;
 }
