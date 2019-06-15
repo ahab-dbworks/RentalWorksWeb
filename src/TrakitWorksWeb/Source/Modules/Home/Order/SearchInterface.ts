@@ -24,10 +24,7 @@ class SearchInterface {
                             <div class="flexpage">
                               <div class="fwmenu default"></div>
                               <div style="display:flex;flex:0 0 auto;align-items:center;">
-                                <div data-control="FwFormField" class="fwcontrol fwformfield fwformcontrol" data-caption="" data-datafield="InventoryType" data-type="radio">
-                                  <div data-value="R" data-caption="Rental"></div>
-                                  <div data-value="P" data-caption="Parts"></div>
-                                </div>
+                                <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryType"></div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Start" data-datafield="FromDate" style="flex: 0 1 135px;"></div>
                                 <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield fwformcontrol" data-caption="Est. Stop" data-datafield="ToDate" style="flex: 0 1 135px;"></div>
                                 <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield fwformcontrol" data-caption="Select" data-datafield="Select" style="flex: 0 1 150px;"></div>
@@ -117,6 +114,12 @@ class SearchInterface {
             { value: 'DESCRIPTION', text: 'Description' },
             { value: 'PARTNO',      text: 'Part No.' }
         ], true);
+
+        var inventoryTypes = [{ value: 'R', caption: 'Rental' }];
+        if (type === 'PurchaseOrder') {
+            inventoryTypes.push({value: 'P', caption: 'Parts'});
+        }
+        FwFormField.loadItems($popup.find('div[data-datafield="InventoryType"]'), inventoryTypes);
 
         let startDate;
         let stopDate;

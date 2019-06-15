@@ -370,11 +370,6 @@ Form tables
 #itemsearch {height:100%;}
 #itemsearch .flexpage {height:100%;position:relative;display:flex;flex-direction:column;}
 
-#itemsearch div[data-datafield="InventoryType"] {margin: 5px 0px 0px 10px;display:flex;flex: 0 0 430px;}
-#itemsearch div[data-datafield="InventoryType"] > .fwformfield-control {display:flex;}
-#itemsearch div[data-datafield="InventoryType"] .fwformfield-control > div {padding-top: 5px;flex: 0 0 85px;}
-#itemsearch:not([data-moduletype="PurchaseOrder"]) div[data-datafield="InventoryType"] div[data-value="P"] {display:none;}
-
 #itemsearch .addToOrder[data-type="button"] {margin: 16px 7px 0px 7px;}
 #itemsearch .refresh-availability[data-type="button"] {margin: 16px 7px 0px 7px;}
 
