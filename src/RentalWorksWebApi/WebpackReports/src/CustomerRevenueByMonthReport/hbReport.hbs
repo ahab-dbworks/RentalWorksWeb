@@ -1,13 +1,18 @@
 ﻿<!--CustomerRevenueByMonth-->
 <div class="rpt-flexrow" style="width:1500px;">
-  <style type="text/css" media="print"> @page { size: landscape; margin: 10px 10px 10px 10px; } </style>
+  <style type="text/css" media="print">
+    @page {
+      size: landscape;
+      margin: 10px 10px 10px 10px;
+    }
+  </style>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
     <span class="rpt-header-center">Calendar Months From: {{FromDate}} To: {{ToDate}}</span>
-    <span style="width:500px;" class="rpt-header-center">Revenue Types: {{RevenueTypes}}</span>
+    <span class="rpt-header-center">Revenue Types: {{RevenueTypes}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -36,51 +41,51 @@
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
         <td class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val">{{Month01}}</td>
-        <td class="total-val">{{Month02}}</td>
-        <td class="total-val">{{Month03}}</td>
-        <td class="total-val">{{Month04}}</td>
-        <td class="total-val">{{Month05}}</td>
-        <td class="total-val">{{Month06}}</td>
-        <td class="total-val">{{Month07}}</td>
-        <td class="total-val">{{Month08}}</td>
-        <td class="total-val">{{Month09}}</td>
-        <td class="total-val">{{Month10}}</td>
-        <td class="total-val">{{Month11}}</td>
-        <td class="total-val">{{Month12}}</td>
-        <td class="total-val">{{AllMonths}}</td>
+        <td class="total-val">{{Month01RevenueAsText}}</td>
+        <td class="total-val">{{Month02RevenueAsText}}</td>
+        <td class="total-val">{{Month03RevenueAsText}}</td>
+        <td class="total-val">{{Month04RevenueAsText}}</td>
+        <td class="total-val">{{Month05RevenueAsText}}</td>
+        <td class="total-val">{{Month06RevenueAsText}}</td>
+        <td class="total-val">{{Month07RevenueAsText}}</td>
+        <td class="total-val">{{Month08RevenueAsText}}</td>
+        <td class="total-val">{{Month09RevenueAsText}}</td>
+        <td class="total-val">{{Month10RevenueAsText}}</td>
+        <td class="total-val">{{Month11RevenueAsText}}</td>
+        <td class="total-val">{{Month12RevenueAsText}}</td>
+        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
         <td class="total-name">{{Customer}}&nbsp;</td>
-        <td class="total-val">{{Month01}}</td>
-        <td class="total-val">{{Month02}}</td>
-        <td class="total-val">{{Month03}}</td>
-        <td class="total-val">{{Month04}}</td>
-        <td class="total-val">{{Month05}}</td>
-        <td class="total-val">{{Month06}}</td>
-        <td class="total-val">{{Month07}}</td>
-        <td class="total-val">{{Month08}}</td>
-        <td class="total-val">{{Month09}}</td>
-        <td class="total-val">{{Month10}}</td>
-        <td class="total-val">{{Month11}}</td>
-        <td class="total-val">{{Month12}}</td>
-        <td class="total-val">{{AllMonths}}</td>
+        <td class="total-val">{{Month01RevenueAsText}}</td>
+        <td class="total-val">{{Month02RevenueAsText}}</td>
+        <td class="total-val">{{Month03RevenueAsText}}</td>
+        <td class="total-val">{{Month04RevenueAsText}}</td>
+        <td class="total-val">{{Month05RevenueAsText}}</td>
+        <td class="total-val">{{Month06RevenueAsText}}</td>
+        <td class="total-val">{{Month07RevenueAsText}}</td>
+        <td class="total-val">{{Month08RevenueAsText}}</td>
+        <td class="total-val">{{Month09RevenueAsText}}</td>
+        <td class="total-val">{{Month10RevenueAsText}}</td>
+        <td class="total-val">{{Month11RevenueAsText}}</td>
+        <td class="total-val">{{Month12RevenueAsText}}</td>
+        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
         <td class="total-name">{{Department}}&nbsp;</td>
-        <td class="total-val">{{Month01}}</td>
-        <td class="total-val">{{Month02}}</td>
-        <td class="total-val">{{Month03}}</td>
-        <td class="total-val">{{Month04}}</td>
-        <td class="total-val">{{Month05}}</td>
-        <td class="total-val">{{Month06}}</td>
-        <td class="total-val">{{Month07}}</td>
-        <td class="total-val">{{Month08}}</td>
-        <td class="total-val">{{Month09}}</td>
-        <td class="total-val">{{Month10}}</td>
-        <td class="total-val">{{Month11}}</td>
-        <td class="total-val">{{Month12}}</td>
-        <td class="total-val">{{AllMonths}}</td>
+        <td class="total-val">{{Month01RevenueAsText}}</td>
+        <td class="total-val">{{Month02RevenueAsText}}</td>
+        <td class="total-val">{{Month03RevenueAsText}}</td>
+        <td class="total-val">{{Month04RevenueAsText}}</td>
+        <td class="total-val">{{Month05RevenueAsText}}</td>
+        <td class="total-val">{{Month06RevenueAsText}}</td>
+        <td class="total-val">{{Month07RevenueAsText}}</td>
+        <td class="total-val">{{Month08RevenueAsText}}</td>
+        <td class="total-val">{{Month09RevenueAsText}}</td>
+        <td class="total-val">{{Month10RevenueAsText}}</td>
+        <td class="total-val">{{Month11RevenueAsText}}</td>
+        <td class="total-val">{{Month12RevenueAsText}}</td>
+        <td class="total-val">{{AllMonthsRevenueAsText}}</td>
         {{/ifEquals}}
       </tr>
       {{/each}}

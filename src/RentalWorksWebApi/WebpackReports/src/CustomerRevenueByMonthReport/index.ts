@@ -18,8 +18,30 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     let types: any = [];
                     // Revenue Types for header
                     for (let i = 0; i < parameters.RevenueTypes.length; i++) {
-                        types.push(parameters.RevenueTypes[i].value);
+                        const el = parameters.RevenueTypes[i].value;
+                        if (el === 'R') {
+                            types.push('Rental');
+                        }
+                        if (el === 'S') {
+                            types.push('Sales');
+                        }
+                        if (el === 'P') {
+                            types.push('Parts');
+                        }
+                        if (el === 'M') {
+                            types.push('Misc');
+                        }
+                        if (el === 'L') {
+                            types.push('Labor');
+                        }
+                        if (el === 'F') {
+                            types.push('L&D');
+                        }
+                        if (el === 'RS') {
+                            types.push('Rental Sale');
+                        }
                     }
+
                     types = types.join(', ')
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
@@ -35,9 +57,7 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     } else {
                         data.IsSummary = false;
                     }
-                    HandlebarsHelpers.registerHelpers
                     const headerNames = [];
-                    //const rowNames = [];
                     let headerCount = 0;
 
                     for (let i = 0; i < data.length; i++) {
@@ -49,7 +69,6 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                                         if (el[key] !== '') {
                                             headerNames.push(el[key]);
                                             headerCount++
-                                            //rowNames.push(key.substring(0, 7));
                                         }
                                     }
                                 }
@@ -57,8 +76,7 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                             }
                         }
                     }
-                    //JQuery(document).find('.summary-row').app
-                    //console.log('rowNames', rowNames)
+
                     console.log('rpt: ', data);
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -70,14 +88,11 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     mappedHeader = `<th></th>` + mappedHeader;
                     if (headerCount < 12) {
                         const intialColspan = (12 - headerCount);
-                        //headerNames.unshift(`<th colspan="${colspan}"></th>`);
                         mappedHeader = mappedHeader + `<th colspan="${intialColspan}"></th><th class="number">All Months</th>`;
                     } else if (headerCount === 12) {
                         mappedHeader = mappedHeader + `</th><th class="number">All Months</th>`;
                     }
                     document.getElementById('summaryHeaderRow').innerHTML = mappedHeader;
-                    console.log('headerNames', mappedHeader)
-                    //document.querySelector('tr[data-rowtype="detail"]').innerHTML = rowNames.map(el => `<td>{{${el}}}</td>`).join('');
 
                     this.onRenderReportCompleted();
                 })
