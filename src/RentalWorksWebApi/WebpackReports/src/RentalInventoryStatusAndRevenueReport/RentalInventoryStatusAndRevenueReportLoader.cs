@@ -35,8 +35,8 @@ namespace WebApi.Modules.Reports.RentalInventoryStatusAndRevenueReport
         [FwSqlDataField(column: "trackedby", modeltype: FwDataTypes.Text)]
         public string TrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
-        public bool? Rank { get; set; }
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inventorydepartmentid", modeltype: FwDataTypes.Text)]
         public string InventoryTypeId { get; set; }
@@ -106,6 +106,9 @@ namespace WebApi.Modules.Reports.RentalInventoryStatusAndRevenueReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "stagedoutorderdesc", modeltype: FwDataTypes.Text)]
         public string StagedOutOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "hasstagedoutdetails", modeltype: FwDataTypes.Boolean)]
+        public bool? HasStagedOutDetails { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryStatusAndRevenueReportRequest request)
         {
