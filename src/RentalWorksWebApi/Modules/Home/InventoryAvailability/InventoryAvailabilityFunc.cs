@@ -66,6 +66,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public decimal? QuantityOrdered { get; set; }
         public decimal? QuantitySub { get; set; }
         public decimal? QuantityAvailable { get; set; }
+        public string AvailabilityState { get; set; } = RwConstants.AVAILABILITY_STATE_STALE;
+        public bool AvailabilityIsStale { get; set; }
         public decimal? QuantityLate { get; set; }
         public decimal? QuantityIn { get; set; }
         public decimal? QuantityQc { get; set; }
@@ -187,17 +189,20 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public TInventoryWarehouseAvailabilityQuantity QuantityStaged { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity QuantityOut { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity QuantityIn { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        //public TInventoryWarehouseAvailabilityQuantity QuantityAvailable { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public bool IsPositiveConflict { get; set; } = false;
+        public bool IsNegativeConflict { get; set; } = false;
         [JsonIgnore]
         public bool countedReserved = false;  // used only while projecting future availability
     }
     //-------------------------------------------------------------------------------------------------------
-    public class TInventoryWarehouseAvailabilityDate
+    public class TInventoryWarehouseAvailabilityDateTime
     {
-        public TInventoryWarehouseAvailabilityDate(DateTime availabilityDate)
+        public TInventoryWarehouseAvailabilityDateTime(DateTime availabilityDateTime)
         {
-            this.AvailabilityDate = availabilityDate;
+            this.AvailabilityDateTime = availabilityDateTime;
         }
-        public DateTime AvailabilityDate { get; set; }
+        public DateTime AvailabilityDateTime { get; set; }
         public TInventoryWarehouseAvailabilityQuantity Available { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity Reserved { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity Returning { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
@@ -296,7 +301,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public DateTime AvailDataFromDateTime { get; set; }
         public DateTime AvailDataToDateTime { get; set; }
         public List<TInventoryWarehouseAvailabilityReservation> Reservations { get; set; } = new List<TInventoryWarehouseAvailabilityReservation>();
-        public ConcurrentDictionary<DateTime, TInventoryWarehouseAvailabilityDate> Dates { get; set; } = new ConcurrentDictionary<DateTime, TInventoryWarehouseAvailabilityDate>();
+        public ConcurrentDictionary<DateTime, TInventoryWarehouseAvailabilityDateTime> AvailabilityDatesAndTimes { get; set; } = new ConcurrentDictionary<DateTime, TInventoryWarehouseAvailabilityDateTime>();
+        public bool HasPositiveConflict { get; set; } = false;
+        public bool HasNegativeConflict { get; set; } = false;
+
         //-------------------------------------------------------------------------------------------------------
         public void CloneFrom(TInventoryWarehouseAvailability source)
         {
@@ -317,18 +325,20 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 this.Reservations.Add(reservation);
             }
-            this.Dates.Clear();
-            foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> date in source.Dates)
+            this.AvailabilityDatesAndTimes.Clear();
+            foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDateTime> date in source.AvailabilityDatesAndTimes)
             {
-                this.Dates.AddOrUpdate(date.Key, date.Value, (key, existingValue) =>
+                this.AvailabilityDatesAndTimes.AddOrUpdate(date.Key, date.Value, (key, existingValue) =>
                 {
-                    existingValue.AvailabilityDate = date.Value.AvailabilityDate;
+                    existingValue.AvailabilityDateTime = date.Value.AvailabilityDateTime;
                     existingValue.Available = date.Value.Available;
                     existingValue.Reserved = date.Value.Reserved;
                     existingValue.Returning = date.Value.Returning;
                     return existingValue;
                 });
             }
+            this.HasNegativeConflict = source.HasNegativeConflict;
+            this.HasPositiveConflict = source.HasPositiveConflict;
         }
         //-------------------------------------------------------------------------------------------------------
         public TInventoryWarehouseAvailabilityMinimum GetMinimumAvailableQuantity(DateTime fromDateTime, DateTime toDateTime)
@@ -360,25 +370,25 @@ namespace WebApi.Modules.Home.InventoryAvailability
             else
             {
                 //#jhtodo rewrite this without the foreach. create a for loop for each date in the range. perform individual specific reads from "Dates" dictionary using the key
-                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDate in Dates)
+                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDateTime> availDate in AvailabilityDatesAndTimes)
                 {
-                    DateTime theDate = availDate.Key;
-                    TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = availDate.Value;
-                    if ((fromDateTime <= theDate) && (theDate <= toDateTime))
+                    DateTime theDateTime = availDate.Key;
+                    TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = availDate.Value;
+                    if ((fromDateTime <= theDateTime) && (theDateTime <= toDateTime))
                     {
-                        if (theDate.Equals(fromDateTime))
+                        if (theDateTime.Equals(fromDateTime))
                         {
                             firstDateFound = true;
-                            minAvail.MinimumAvailable = inventoryWarehouseAvailabilityDate.Available;
+                            minAvail.MinimumAvailable = inventoryWarehouseAvailabilityDateTime.Available;
                         }
-                        minAvail.MinimumAvailable = (minAvail.MinimumAvailable.Total < inventoryWarehouseAvailabilityDate.Available.Total) ? minAvail.MinimumAvailable : inventoryWarehouseAvailabilityDate.Available;
+                        minAvail.MinimumAvailable = (minAvail.MinimumAvailable.Total < inventoryWarehouseAvailabilityDateTime.Available.Total) ? minAvail.MinimumAvailable : inventoryWarehouseAvailabilityDateTime.Available;
 
                         if ((minAvail.FirstConfict == null) && (minAvail.MinimumAvailable.Total < 0))
                         {
-                            minAvail.FirstConfict = theDate;
+                            minAvail.FirstConfict = theDateTime;
                         }
 
-                        if (theDate.Equals(toDateTime))
+                        if (theDateTime.Equals(toDateTime))
                         {
                             lastDateFound = true;
                         }
@@ -525,6 +535,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public static bool RequestRecalc(string inventoryId, string warehouseId, string classification)
         {
             bool b = true;
+            Console.WriteLine("adding to AvailabilityNeedRecalc - " + inventoryId + ", " + warehouseId + ", " + classification);
             AvailabilityNeedRecalc.AddOrUpdate(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), classification, (key, existingValue) =>
             {
                 existingValue = classification;
@@ -533,13 +544,61 @@ namespace WebApi.Modules.Home.InventoryAvailability
             return b;
         }
         //-------------------------------------------------------------------------------------------------------        
+        public static async Task<bool> InvalidateHourly(FwApplicationConfig appConfig)
+        {
+            bool success = true;
+            Console.WriteLine("invalidating cache for all inventory tracked by hourly availbility");
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select masterid, warehouseid, class   ");
+                qry.Add(" from  masterwhforavailview           ");
+                qry.Add(" where availbyhour = 'T'              ");
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                    string classification = row[dt.GetColumnNo("class")].ToString();
+                    RequestRecalc(inventoryId, warehouseId, classification);
+                }
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------        
+        public static async Task<bool> InvalidateDaily(FwApplicationConfig appConfig)
+        {
+            bool success = true;
+            Console.WriteLine("invalidating cache for all inventory tracked by daily availbility");
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select masterid, warehouseid, class   ");
+                qry.Add(" from  masterwhforavailview           ");
+                qry.Add(" where availbyhour <> 'T'             ");
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                    string classification = row[dt.GetColumnNo("class")].ToString();
+                    RequestRecalc(inventoryId, warehouseId, classification);
+                }
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------        
         public static async Task<bool> CheckNeedRecalc(FwApplicationConfig appConfig)
         {
             bool success = true;
 
-            //Console.WriteLine("about to query the availneedrecalc table");
+            Console.WriteLine("about to query the availneedrecalc table");
 
-            //Console.WriteLine("  before: AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
+            Console.WriteLine("  before: AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
@@ -550,7 +609,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.AddParameter("@lastneedrecalcid", LastNeedRecalcId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
-                //Console.WriteLine("          found " + dt.TotalRows.ToString() + " records in the availneedrecalc table");
+                Console.WriteLine("          found " + dt.TotalRows.ToString() + " records in the availneedrecalc table");
 
                 string needRecalcId = string.Empty;
                 foreach (List<object> row in dt.Rows)
@@ -567,96 +626,96 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 }
             }
 
-            //Console.WriteLine("  after:  AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
+            Console.WriteLine("  after:  AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
 
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        private static async Task<TInventoryNeedingAvailDictionary> GetInventoryNeedingAvail(FwApplicationConfig appConfig, List<string> classifications)
-        {
-            TInventoryNeedingAvailDictionary inventoryNeedingAvail = new TInventoryNeedingAvailDictionary();
+        //private static async Task<TInventoryNeedingAvailDictionary> GetInventoryNeedingAvail(FwApplicationConfig appConfig, List<string> classifications)
+        //{
+        //    TInventoryNeedingAvailDictionary inventoryNeedingAvail = new TInventoryNeedingAvailDictionary();
 
-            DateTime availabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
+        //    DateTime availabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
 
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-            {
+        //    using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+        //    {
 
-                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select masterid, warehouseid, class");
-                qry.Add(" from  masterwhforavailview");
-                if (classifications.Count > 0)
-                {
-                    qry.Add(" where class in (");
-                    int c = 0;
-                    foreach (string classification in classifications)
-                    {
-                        c++;
-                        qry.Add("'" + classification + "'");
-                        if (c < classifications.Count)
-                        {
-                            qry.Add(",");
-                        }
-                    }
-                    qry.Add(")");
-                }
-                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+        //        FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+        //        qry.Add("select masterid, warehouseid, class");
+        //        qry.Add(" from  masterwhforavailview");
+        //        if (classifications.Count > 0)
+        //        {
+        //            qry.Add(" where class in (");
+        //            int c = 0;
+        //            foreach (string classification in classifications)
+        //            {
+        //                c++;
+        //                qry.Add("'" + classification + "'");
+        //                if (c < classifications.Count)
+        //                {
+        //                    qry.Add(",");
+        //                }
+        //            }
+        //            qry.Add(")");
+        //        }
+        //        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
-                inventoryNeedingAvail.Clear();
-                foreach (List<object> row in dt.Rows)
-                {
-                    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
-                    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-                    string classification = row[dt.GetColumnNo("class")].ToString();
-                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-                    bool foundInCache = false;
-                    bool dataIsCached = false;
+        //        inventoryNeedingAvail.Clear();
+        //        foreach (List<object> row in dt.Rows)
+        //        {
+        //            string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+        //            string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+        //            string classification = row[dt.GetColumnNo("class")].ToString();
+        //            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+        //            bool foundInCache = false;
+        //            bool dataIsCached = false;
 
-                    TInventoryWarehouseAvailability availData = null;
-                    if (AvailabilityCache.TryGetValue(availKey, out availData))
-                    {
-                        foundInCache = true;
-                        dataIsCached = (availData.AvailDataToDateTime >= availabilityThroughDate);
-                    }
+        //            TInventoryWarehouseAvailability availData = null;
+        //            if (AvailabilityCache.TryGetValue(availKey, out availData))
+        //            {
+        //                foundInCache = true;
+        //                dataIsCached = (availData.AvailDataToDateTime >= availabilityThroughDate);
+        //            }
 
-                    if ((!foundInCache) || (!dataIsCached))
-                    {
-                        inventoryNeedingAvail.AddOrUpdate(availKey, classification, (key, existingItem) =>
-                        {
-                            existingItem = classification;
-                            return existingItem;
-                        });
-                    }
-                }
-            }
+        //            if ((!foundInCache) || (!dataIsCached))
+        //            {
+        //                inventoryNeedingAvail.AddOrUpdate(availKey, classification, (key, existingItem) =>
+        //                {
+        //                    existingItem = classification;
+        //                    return existingItem;
+        //                });
+        //            }
+        //        }
+        //    }
 
-            return inventoryNeedingAvail;
-        }
-        //-------------------------------------------------------------------------------------------------------
-        private static async Task<TInventoryNeedingAvailDictionary> GetItemsAccessoriesNeedingAvail(FwApplicationConfig appConfig)
-        {
-            List<string> classifications = new List<string>();
-            classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_ITEM);
-            classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY);
-            return await GetInventoryNeedingAvail(appConfig, classifications);
-        }
-        //-------------------------------------------------------------------------------------------------------
-        private static async Task<TInventoryNeedingAvailDictionary> GetPackageNeedingAvail(FwApplicationConfig appConfig)
-        {
-            List<string> classifications = new List<string>();
-            classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE);
-            classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_KIT);
-            return await GetInventoryNeedingAvail(appConfig, classifications);
-        }
-        //-------------------------------------------------------------------------------------------------------
+        //    return inventoryNeedingAvail;
+        //}
+        ////-------------------------------------------------------------------------------------------------------
+        //private static async Task<TInventoryNeedingAvailDictionary> GetItemsAccessoriesNeedingAvail(FwApplicationConfig appConfig)
+        //{
+        //    List<string> classifications = new List<string>();
+        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_ITEM);
+        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY);
+        //    return await GetInventoryNeedingAvail(appConfig, classifications);
+        //}
+        ////-------------------------------------------------------------------------------------------------------
+        //private static async Task<TInventoryNeedingAvailDictionary> GetPackageNeedingAvail(FwApplicationConfig appConfig)
+        //{
+        //    List<string> classifications = new List<string>();
+        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE);
+        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_KIT);
+        //    return await GetInventoryNeedingAvail(appConfig, classifications);
+        //}
+        ////-------------------------------------------------------------------------------------------------------
         private static void ProjectFutureAvailability(ref TAvailabilityCache availCache)
         {
             foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
             {
                 TInventoryWarehouseAvailabilityKey availKey = availEntry.Key;
                 TInventoryWarehouseAvailability availData = availEntry.Value;
-                DateTime fromDateTime = DateTime.Today; //daily availability  //#jhtodo
+                DateTime fromDateTime = DateTime.Today;
                 DateTime toDateTime = availData.AvailDataToDateTime;
-                availData.Dates.Clear();
+                availData.AvailabilityDatesAndTimes.Clear();
                 if (!availData.InventoryWarehouse.NoAvailabilityCheck)
                 {
                     if (AppFunc.InventoryClassIsPackage(availData.InventoryWarehouse.Classification))
@@ -676,10 +735,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                     TInventoryWarehouseAvailability accAvailCache = null;
                                     if (AvailabilityCache.TryGetValue(accKey, out accAvailCache))
                                     {
-                                        TInventoryWarehouseAvailabilityDate accAvailableDate = null;
-                                        if (accAvailCache.Dates.TryGetValue(theDateTime, out accAvailableDate))
+                                        TInventoryWarehouseAvailabilityDateTime accAvailableDateTime = null;
+                                        if (accAvailCache.AvailabilityDatesAndTimes.TryGetValue(theDateTime, out accAvailableDateTime))
                                         {
-                                            TInventoryWarehouseAvailabilityQuantity accAvailable = accAvailableDate.Available;
+                                            TInventoryWarehouseAvailabilityQuantity accAvailable = accAvailableDateTime.Available;
                                             if (initialPackageAvailableDetermined)
                                             {
                                                 //Compare with available calculation based on other accessories already looked at
@@ -715,11 +774,17 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                             if (accessoryAvailabilityDataExists)
                             {
-                                TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = new TInventoryWarehouseAvailabilityDate(theDateTime);
-                                inventoryWarehouseAvailabilityDate.Available = packageAvailable;
-                                availData.Dates.TryAdd(theDateTime, inventoryWarehouseAvailabilityDate);
-                                theDateTime = theDateTime.AddDays(1); //daily availability   //#jhtodo
-                                                                      //hourly availability?
+                                TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = new TInventoryWarehouseAvailabilityDateTime(theDateTime);
+                                inventoryWarehouseAvailabilityDateTime.Available = packageAvailable;
+                                availData.AvailabilityDatesAndTimes.TryAdd(theDateTime, inventoryWarehouseAvailabilityDateTime);
+                                if (availData.InventoryWarehouse.HourlyAvailability)
+                                {
+                                    theDateTime = theDateTime.AddHours(1);
+                                }
+                                else
+                                {
+                                    theDateTime = theDateTime.AddDays(1);
+                                }
                             }
                             else
                             {
@@ -737,13 +802,13 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         DateTime theDateTime = fromDateTime;
                         while (theDateTime <= toDateTime)
                         {
-                            TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = new TInventoryWarehouseAvailabilityDate(theDateTime);
+                            TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = new TInventoryWarehouseAvailabilityDateTime(theDateTime);
 
                             foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
                             {
                                 if ((reservation.FromDateTime <= theDateTime) && (theDateTime <= reservation.ToDateTime))
                                 {
-                                    inventoryWarehouseAvailabilityDate.Reserved += reservation.QuantityReserved;
+                                    inventoryWarehouseAvailabilityDateTime.Reserved += reservation.QuantityReserved;
                                     if (!reservation.countedReserved)
                                     {
                                         available -= reservation.QuantityReserved;
@@ -752,20 +817,35 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 }
                                 if (reservation.ToDateTime == theDateTime)
                                 {
-                                    inventoryWarehouseAvailabilityDate.Returning += reservation.QuantityReserved + reservation.QuantityStaged + reservation.QuantityOut;
+                                    inventoryWarehouseAvailabilityDateTime.Returning += reservation.QuantityReserved + reservation.QuantityStaged + reservation.QuantityOut;
+                                }
+                                if (available.Total < 0)
+                                {
+                                    reservation.IsNegativeConflict = true;
+                                    availData.HasNegativeConflict = true;
+                                }
+                                else if (available.Total >= reservation.QuantitySub)
+                                {
+                                    reservation.IsPositiveConflict = true;
+                                    availData.HasPositiveConflict = true;
                                 }
                             }
 
-                            inventoryWarehouseAvailabilityDate.Available = available;
-                            available += inventoryWarehouseAvailabilityDate.Returning;  // the amount returning in this date/hour slot will become available for the next date/hour slot
+                            inventoryWarehouseAvailabilityDateTime.Available = available;
+                            available += inventoryWarehouseAvailabilityDateTime.Returning;  // the amount returning in this date/hour slot will become available for the next date/hour slot
 
-                            availData.Dates.TryAdd(theDateTime, inventoryWarehouseAvailabilityDate);
+                            availData.AvailabilityDatesAndTimes.TryAdd(theDateTime, inventoryWarehouseAvailabilityDateTime);
 
-                            theDateTime = theDateTime.AddDays(1); //daily availability   //#jhtodo
-                                                                  //hourly availability?
+                            if (availData.InventoryWarehouse.HourlyAvailability)
+                            {
+                                theDateTime = theDateTime.AddHours(1);
+                            }
+                            else
+                            {
+                                theDateTime = theDateTime.AddDays(1);
+                            }
                         }
                     }
-
                     availData.CalculatedDateTime = DateTime.Now;
                 }
             }
@@ -918,7 +998,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                         availData.AvailDataFromDateTime = fromDateTime;
                         availData.AvailDataToDateTime = toDateTime;
-
                         availData.InventoryWarehouse.ICode = row[dt.GetColumnNo("masterno")].ToString();
                         availData.InventoryWarehouse.Description = row[dt.GetColumnNo("master")].ToString();
                         availData.InventoryWarehouse.WarehouseCode = row[dt.GetColumnNo("whcode")].ToString();
@@ -1080,7 +1159,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         {
             const int AVAILABILITY_REQUEST_BATCH_SIZE = 5000;
             bool success = true;
-            //Console.WriteLine("keeping availability fresh");
+            Console.WriteLine("keeping availability fresh");
             DateTime fromDate = DateTime.Today;
             DateTime availabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
 
@@ -1088,20 +1167,20 @@ namespace WebApi.Modules.Home.InventoryAvailability
             TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
 
             // build up a list of Items and Accessories only from the global AvailabilityNeedRecalc list
-            //Console.WriteLine("checking AvailabilityNeedRecalc");
+            Console.WriteLine("checking AvailabilityNeedRecalc");
             TAvailabilityNeedRecalcDictionary availNeedRecalcItem = new TAvailabilityNeedRecalcDictionary();
             TAvailabilityNeedRecalcDictionary availNeedRecalcPackage = new TAvailabilityNeedRecalcDictionary();
 
             lock (AvailabilityNeedRecalc)  // no external adds or deletes of the global AvailabilityNeedRecalc dictonary during this scope. We are emptying the entire dictionary to a local copy
             {
-                //Console.WriteLine("locked AvailabilityNeedRecalc");
+                Console.WriteLine("locked AvailabilityNeedRecalc");
                 if (AvailabilityNeedRecalc.IsEmpty)
                 {
-                    //Console.WriteLine("no records in AvailabilityNeedRecalc");
+                    Console.WriteLine("no records in AvailabilityNeedRecalc");
                 }
                 else
                 {
-                    //Console.WriteLine("pulling " + AvailabilityNeedRecalc.Count.ToString() + " records from AvailabilityNeedRecalc");
+                    Console.WriteLine("pulling " + AvailabilityNeedRecalc.Count.ToString() + " records from AvailabilityNeedRecalc");
                     foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> anc in AvailabilityNeedRecalc)
                     {
                         if (AppFunc.InventoryClassIsPackage(anc.Value))
@@ -1120,15 +1199,16 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 return existingValue;
                             });
                         }
-                        string classification = "";
-                        AvailabilityNeedRecalc.TryRemove(anc.Key, out classification);
+                        //string classification = "";
+                        //AvailabilityNeedRecalc.TryRemove(anc.Key, out classification);
                     }
+                    AvailabilityNeedRecalc.Clear();
                 }
-                //Console.WriteLine("unlocking AvailabilityNeedRecalc");
+                Console.WriteLine("unlocking AvailabilityNeedRecalc");
             }
 
             // loop through this local list of Items and Accessories in batches
-            //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
+            Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
             while (availNeedRecalcItem.Count > 0)
             {
                 // build up a request containing all known items needing recalc
@@ -1151,44 +1231,44 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 // update the global cache of availability data
                 await GetAvailability(appConfig, null, availRequestItems, true);
 
-                //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
+                Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
             }
 
-            // get the list of inventory items and accessories that either have no availability data in cache, or the cache is not far enough out in the future
+            //// get the list of inventory items and accessories that either have no availability data in cache, or the cache is not far enough out in the future
             //Console.WriteLine("checking item/accessory inventory that needs availability data in cache");
-            TInventoryNeedingAvailDictionary inventoryNeedingAvail = await GetItemsAccessoriesNeedingAvail(appConfig);
+            //TInventoryNeedingAvailDictionary inventoryNeedingAvail = await GetItemsAccessoriesNeedingAvail(appConfig);
 
-            // loop through this list in batches 
+            //// loop through this list in batches 
             //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
-            while (inventoryNeedingAvail.Count > 0)
-            {
-                // build up a request containing all items that need availability
-                availRequestItems.Clear();
-                foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> ina in inventoryNeedingAvail)
-                {
-                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(ina.Key.InventoryId, ina.Key.WarehouseId, fromDate, availabilityThroughDate));
+            //while (inventoryNeedingAvail.Count > 0)
+            //{
+            //    // build up a request containing all items that need availability
+            //    availRequestItems.Clear();
+            //    foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> ina in inventoryNeedingAvail)
+            //    {
+            //        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(ina.Key.InventoryId, ina.Key.WarehouseId, fromDate, availabilityThroughDate));
 
-                    if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
-                    {
-                        break; // break out of this foreach loop
-                    }
-                }
+            //        if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
+            //        {
+            //            break; // break out of this foreach loop
+            //        }
+            //    }
 
-                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                {
-                    string classification = "";
-                    inventoryNeedingAvail.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
-                }
+            //    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+            //    {
+            //        string classification = "";
+            //        inventoryNeedingAvail.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
+            //    }
 
-                // update the static cache of availability data
-                await GetAvailability(appConfig, null, availRequestItems, true);
+            //    // update the static cache of availability data
+            //    await GetAvailability(appConfig, null, availRequestItems, true);
 
-                //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
-            }
+            //    Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
+            //}
 
-            
+
             // loop through this local list of Completes and Kits in batches
-            //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
+            Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
             while (availNeedRecalcPackage.Count > 0)
             {
                 // build up a request containing all known items needing recalc
@@ -1212,41 +1292,41 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 // update the static cache of availability data
                 await GetAvailability(appConfig, null, availRequestItems, true);
 
-                //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
+                Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
             }
 
 
-            // get the list of inventory Completes and Kits that either have no availability data in cache, or the cache is not far enough out in the future
+            //// get the list of inventory Completes and Kits that either have no availability data in cache, or the cache is not far enough out in the future
             //Console.WriteLine("checking complete/kit inventory that needs availability data in cache");
-            inventoryNeedingAvail = await GetPackageNeedingAvail(appConfig);
+            //inventoryNeedingAvail = await GetPackageNeedingAvail(appConfig);
 
-            // loop through this list in batches 
+            //// loop through this list in batches 
             //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
-            while (inventoryNeedingAvail.Count > 0)
-            {
-                // build up a request containing all items that need availability
-                availRequestItems.Clear();
-                foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> ina in inventoryNeedingAvail)
-                {
-                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(ina.Key.InventoryId, ina.Key.WarehouseId, fromDate, availabilityThroughDate));
+            //while (inventoryNeedingAvail.Count > 0)
+            //{
+            //    // build up a request containing all items that need availability
+            //    availRequestItems.Clear();
+            //    foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> ina in inventoryNeedingAvail)
+            //    {
+            //        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(ina.Key.InventoryId, ina.Key.WarehouseId, fromDate, availabilityThroughDate));
 
-                    if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
-                    {
-                        break; // break out of this foreach loop
-                    }
-                }
+            //        if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
+            //        {
+            //            break; // break out of this foreach loop
+            //        }
+            //    }
 
-                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                {
-                    string classification = "";
-                    inventoryNeedingAvail.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
-                }
+            //    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+            //    {
+            //        string classification = "";
+            //        inventoryNeedingAvail.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
+            //    }
 
-                // update the static cache of availability data
-                await GetAvailability(appConfig, null, availRequestItems, true);
+            //    // update the static cache of availability data
+            //    await GetAvailability(appConfig, null, availRequestItems, true);
 
-                //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
-            }
+            //    Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
+            //}
 
 
 
@@ -1264,8 +1344,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 {
                     bool foundInCache = false;
                     bool stale = false;
-                    DateTime fromDate = availRequestItem.FromDateTime;
-                    DateTime toDate = availRequestItem.ToDateTime;
+                    DateTime fromDateTime = availRequestItem.FromDateTime;
+                    DateTime toDateTime = availRequestItem.ToDateTime;
                     TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId);
 
                     if (InventoryWarehouseNeedsRecalc(availKey))
@@ -1273,14 +1353,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         stale = true;
                     }
 
-                    if (fromDate < DateTime.Today)
+                    if (fromDateTime < DateTime.Today)
                     {
-                        fromDate = DateTime.Today;
+                        fromDateTime = DateTime.Today;
                     }
 
-                    if (toDate < DateTime.Today)
+                    if (toDateTime < DateTime.Today)
                     {
-                        toDate = DateTime.Today;
+                        toDateTime = DateTime.Today;
                     }
 
                     TInventoryWarehouseAvailability availData = null;
@@ -1289,26 +1369,43 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         TInventoryWarehouseAvailability tmpAvailData = new TInventoryWarehouseAvailability(availKey.InventoryId, availKey.WarehouseId);
                         tmpAvailData.CloneFrom(availData);
                         foundInCache = true;
-                        DateTime theDate = tmpAvailData.AvailDataFromDateTime;
-                        while (theDate <= tmpAvailData.AvailDataToDateTime)
+                        DateTime theDateTime = tmpAvailData.AvailDataFromDateTime;
+                        while (theDateTime <= tmpAvailData.AvailDataToDateTime)
                         {
-                            if ((theDate < fromDate) || (toDate < theDate))
+                            if ((theDateTime < fromDateTime) || (toDateTime < theDateTime))
                             {
-                                TInventoryWarehouseAvailabilityDate availDate = null;
-                                tmpAvailData.Dates.TryRemove(theDate, out availDate);
+                                TInventoryWarehouseAvailabilityDateTime availDateTime = null;
+                                tmpAvailData.AvailabilityDatesAndTimes.TryRemove(theDateTime, out availDateTime);
                             }
-                            theDate = theDate.AddDays(1);
+
+                            if (tmpAvailData.InventoryWarehouse.HourlyAvailability)
+                            {
+                                theDateTime = theDateTime.AddHours(1);
+                            }
+                            else
+                            {
+                                theDateTime = theDateTime.AddDays(1);
+                            }
+
+
                         }
 
-                        theDate = fromDate;
-                        while (theDate <= toDate)
+                        theDateTime = fromDateTime;
+                        while (theDateTime <= toDateTime)
                         {
-                            if (!tmpAvailData.Dates.ContainsKey(theDate))
+                            if (!tmpAvailData.AvailabilityDatesAndTimes.ContainsKey(theDateTime))
                             {
                                 foundInCache = false;
                                 break;
                             }
-                            theDate = theDate.AddDays(1);
+                            if (tmpAvailData.InventoryWarehouse.HourlyAvailability)
+                            {
+                                theDateTime = theDateTime.AddHours(1);
+                            }
+                            else
+                            {
+                                theDateTime = theDateTime.AddDays(1);
+                            }
                         }
                         availCache[availKey] = tmpAvailData;
                     }
@@ -1365,10 +1462,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 // build up the calendar events
                 //currently hard-coded for "daily" availability.  will need mods to work for "hourly"  //#jhtodo
-                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> d in availData.Dates)
+                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDateTime> dt in availData.AvailabilityDatesAndTimes)
                 {
-                    DateTime startDateTime = d.Key;
-                    DateTime endDateTime = d.Key;
+                    DateTime startDateTime = dt.Key;
+                    DateTime endDateTime = dt.Key;
 
                     startDateTime = startDateTime.AddMinutes(1);
                     endDateTime = endDateTime.AddDays(1).AddMinutes(-1);
@@ -1380,8 +1477,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     iAvail.WarehouseId = WarehouseId;
                     iAvail.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     iAvail.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    iAvail.text = "Available " + ((int)d.Value.Available.Total).ToString();
-                    if (d.Value.Available.Total < 0)
+                    iAvail.text = "Available " + ((int)dt.Value.Available.Total).ToString();
+                    if (dt.Value.Available.Total < 0)
                     {
                         iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
                         iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
@@ -1394,7 +1491,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     response.InventoryAvailabilityCalendarEvents.Add(iAvail);
 
                     //reserved
-                    if (d.Value.Reserved.Total != 0)
+                    if (dt.Value.Reserved.Total != 0)
                     {
                         eventId++;
                         TInventoryAvailabilityCalendarEvent iReserve = new TInventoryAvailabilityCalendarEvent();
@@ -1403,14 +1500,14 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         iReserve.WarehouseId = WarehouseId;
                         iReserve.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                         iReserve.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                        iReserve.text = "Reserved " + ((int)d.Value.Reserved.Total).ToString();
+                        iReserve.text = "Reserved " + ((int)dt.Value.Reserved.Total).ToString();
                         iReserve.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
                         iReserve.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
                         response.InventoryAvailabilityCalendarEvents.Add(iReserve);
                     }
 
                     //returning
-                    if (d.Value.Returning.Total != 0)
+                    if (dt.Value.Returning.Total != 0)
                     {
                         eventId++;
                         TInventoryAvailabilityCalendarEvent iReturn = new TInventoryAvailabilityCalendarEvent();
@@ -1419,7 +1516,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         iReturn.WarehouseId = WarehouseId;
                         iReturn.start = startDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                         iReturn.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                        iReturn.text = "Returning " + ((int)d.Value.Returning.Total).ToString();
+                        iReturn.text = "Returning " + ((int)dt.Value.Returning.Total).ToString();
                         iReturn.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING);
                         iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
                         response.InventoryAvailabilityCalendarEvents.Add(iReturn);
@@ -1441,8 +1538,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
             DateTime theDate = FromDate;
             while (theDate <= ToDate)
             {
-                TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = null;
-                if (availData.Dates.TryGetValue(theDate, out inventoryWarehouseAvailabilityDate))
+                TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = null;
+                if (availData.AvailabilityDatesAndTimes.TryGetValue(theDate, out inventoryWarehouseAvailabilityDateTime))
                 {
                     eventId++;
                     TInventoryAvailabilityScheduleEvent availEvent = new TInventoryAvailabilityScheduleEvent();
@@ -1452,8 +1549,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     availEvent.WarehouseId = WarehouseId;
                     availEvent.start = theDate.ToString("yyyy-MM-ddTHH:mm:ss tt");   //"2019-02-28 12:00:00 AM"
                     availEvent.end = theDate.ToString("yyyy-MM-ddTHH:mm:ss tt");
-                    availEvent.text = ((int)inventoryWarehouseAvailabilityDate.Available.Total).ToString();
-                    if (inventoryWarehouseAvailabilityDate.Available.Total < 0)
+                    availEvent.text = ((int)inventoryWarehouseAvailabilityDateTime.Available.Total).ToString();
+                    if (inventoryWarehouseAvailabilityDateTime.Available.Total < 0)
                     {
                         availEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
                         availEvent.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
@@ -1569,28 +1666,71 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 TInventoryWarehouseAvailability availData = null;
                 if (AvailabilityCache.TryGetValue(availKey, out availData))
                 {
-                    if (availData.Reservations.Count > 0)
+                    bool hasConflict = ((string.IsNullOrEmpty(request.ConflictType) && (availData.HasNegativeConflict || availData.HasPositiveConflict)) ||
+                                        (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && availData.HasNegativeConflict) ||
+                                        (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && availData.HasPositiveConflict));
+
+                    if (hasConflict)
                     {
-                        foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
+                        if (availData.Reservations.Count > 0)
                         {
-                            AvailabilityConflictResponseItem responseItem = new AvailabilityConflictResponseItem();
-                            responseItem.Warehouse = availData.InventoryWarehouse.Warehouse;
-                            responseItem.WarehouseCode = availData.InventoryWarehouse.WarehouseCode;
-                            responseItem.InventoryType = inventoryType;
-                            responseItem.Category = category;
-                            responseItem.SubCategory = subCategory;
-                            responseItem.ICode = availData.InventoryWarehouse.ICode;
-                            responseItem.ItemDescription = availData.InventoryWarehouse.Description;
-                            responseItem.QuantityIn = availData.In.Total;
-                            responseItem.QuantityInRepair = availData.InRepair.Total;
-                            responseItem.OrderNumber = reservation.OrderNumber;
-                            responseItem.OrderDescription = reservation.OrderDescription;
-                            responseItem.Deal = reservation.Deal;
-                            responseItem.QuantityOrdered = reservation.QuantityOrdered;
-                            responseItem.QuantitySub = reservation.QuantitySub;
-                            responseItem.FromDateTime = reservation.FromDateTime;
-                            responseItem.ToDateTime = reservation.ToDateTime;
-                            response.Add(responseItem);
+                            foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
+                            {
+                                bool isConflict = ((string.IsNullOrEmpty(request.ConflictType) && (reservation.IsNegativeConflict || reservation.IsPositiveConflict)) ||
+                                                   (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && reservation.IsNegativeConflict) ||
+                                                   (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && reservation.IsPositiveConflict));
+
+                                if (isConflict)
+                                {
+                                    AvailabilityConflictResponseItem responseItem = new AvailabilityConflictResponseItem();
+                                    responseItem.Warehouse = availData.InventoryWarehouse.Warehouse;
+                                    responseItem.WarehouseCode = availData.InventoryWarehouse.WarehouseCode;
+                                    responseItem.InventoryType = inventoryType;
+                                    responseItem.Category = category;
+                                    responseItem.SubCategory = subCategory;
+                                    responseItem.ICode = availData.InventoryWarehouse.ICode;
+                                    responseItem.ItemDescription = availData.InventoryWarehouse.Description;
+                                    responseItem.QuantityIn = availData.In.Total;
+                                    responseItem.QuantityInRepair = availData.InRepair.Total;
+                                    responseItem.OrderNumber = reservation.OrderNumber;
+                                    responseItem.OrderDescription = reservation.OrderDescription;
+                                    responseItem.Deal = reservation.Deal;
+                                    responseItem.QuantityOrdered = reservation.QuantityOrdered;
+                                    responseItem.QuantitySub = reservation.QuantitySub;
+                                    responseItem.FromDateTime = reservation.FromDateTime;
+                                    responseItem.ToDateTime = reservation.ToDateTime;
+
+                                    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(reservation.FromDateTime, reservation.ToDateTime);
+
+                                    responseItem.QuantityAvailable = minAvail.MinimumAvailable.Total;
+                                    responseItem.AvailabilityIsStale = minAvail.IsStale;
+
+                                    if (minAvail.NoAvailabilityCheck)
+                                    {
+                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_NO_AVAILABILITY_CHECK;
+                                    }
+                                    else if (minAvail.IsStale)
+                                    {
+                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_STALE;
+                                    }
+                                    else if (minAvail.MinimumAvailable.Total < 0)
+                                    {
+                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_NEGATIVE;
+                                    }
+                                    else if (minAvail.MinimumAvailable.Total == 0)
+                                    {
+                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_ZERO;
+                                    }
+                                    else if (minAvail.MinimumAvailable.Total > 0)
+                                    {
+                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_ENOUGH;
+                                    }
+
+                                    responseItem.QuantityLate = null;
+                                    responseItem.QuantityQc = null;
+                                    response.Add(responseItem);
+                                }
+                            }
                         }
                     }
                 }
@@ -1830,12 +1970,12 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 sb1.AppendLine();
                 sb1.AppendLine("--------------------------------------------");
                 sb1.AppendLine();
-                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDate> availDateEntry in inventoryWarehouseAvailability.Dates)
+                foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDateTime> availDateEntry in inventoryWarehouseAvailability.AvailabilityDatesAndTimes)
                 {
-                    TInventoryWarehouseAvailabilityDate inventoryWarehouseAvailabilityDate = (TInventoryWarehouseAvailabilityDate)availDateEntry.Value;
+                    TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDate = (TInventoryWarehouseAvailabilityDateTime)availDateEntry.Value;
                     sb1.Append("   ");
-                    sb1.Append("Date: ");
-                    sb1.Append(inventoryWarehouseAvailabilityDate.AvailabilityDate.ToString().PadLeft(26));
+                    sb1.Append("Date/Time: ");
+                    sb1.Append(inventoryWarehouseAvailabilityDate.AvailabilityDateTime.ToString().PadLeft(26));
                     sb1.AppendLine();
 
                     sb1.Append("      ");

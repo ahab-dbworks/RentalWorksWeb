@@ -274,6 +274,10 @@
         public const string INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_REPLACEMENT_COST = "REPLACEMENT";
         public const string INVENTORY_PACKAGE_REVENUE_CALCULATION_FORMULA_USE_UNIT_VALUE = "COST";
 
+        public const string INVENTORY_CONFLICT_TYPE_POSITIVE = "P";
+        public const string INVENTORY_CONFLICT_TYPE_NEGATIVE = "N";
+
+
 
         // ORDERTRAN
         public const string ORDERTRAN_ITEMSTATUS_STAGED = "S";
