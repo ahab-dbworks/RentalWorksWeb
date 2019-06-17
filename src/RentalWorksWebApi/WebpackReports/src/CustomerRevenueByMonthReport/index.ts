@@ -84,15 +84,15 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     }
 
                     document.getElementById('pageBody').innerHTML = hbReport(data);
-                    let mappedHeader = headerNames.map(el => `<th>${el}</th>`).join('');
+                    let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
                     mappedHeader = `<th></th>` + mappedHeader;
                     if (headerCount < 12) {
                         const intialColspan = (12 - headerCount);
                         mappedHeader = mappedHeader + `<th colspan="${intialColspan}"></th><th class="number">All Months</th>`;
                     } else if (headerCount === 12) {
-                        mappedHeader = mappedHeader + `</th><th class="number">All Months</th>`;
+                        mappedHeader = mappedHeader + `<th class="number">All Months</th>`;
                     }
-                    document.getElementById('summaryHeaderRow').innerHTML = mappedHeader;
+                    document.getElementById('HeaderRow').innerHTML = mappedHeader;
 
                     this.onRenderReportCompleted();
                 })
