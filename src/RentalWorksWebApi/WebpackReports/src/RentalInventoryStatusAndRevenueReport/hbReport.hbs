@@ -65,7 +65,7 @@
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
       {{#ifEquals RecordType "inventory"}}
-      <tr data-recordtype="{{RecordType}}">
+      <tr class="subValues" data-recordtype="{{RecordType}}">
         <td class="nowrap" data-value="{{ICode}}"></td>
         <td colspan="5" data-value="{{Description}}"></td>
         <td data-value="{{Warehouse}}"></td>
@@ -81,8 +81,7 @@
         <td class="number" data-value="{{Revenue}}"></td>
       </tr>
       {{#if ../ShowStagedAndOut}}
-      {{#ifNotEquals QuantityOut 0 }}
-      {{#ifNotEquals QuantityStaged 0 }}
+      {{#if HasStagedOutDetails}}
       <tr>
         <th colspan="2"></th>
         <th class="subHeaders">Bar Code</th>
@@ -94,8 +93,7 @@
         <th class="subHeaders">Order No.</th>
         <th class="subHeaders" colspan="4">Order Description</th>
       </tr>
-      {{/ifNotEquals}}
-      {{/ifNotEquals}}
+      {{/if}}
       {{/if}}
       {{/ifEquals}}
       {{#ifEquals RecordType "stagedout"}}
