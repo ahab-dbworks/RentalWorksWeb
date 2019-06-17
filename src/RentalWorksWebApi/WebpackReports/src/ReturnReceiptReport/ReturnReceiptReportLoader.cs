@@ -121,16 +121,23 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    if (request.RecordType.Equals("RETURN_RECEIPT"))
-                    {
-                        select.AddWhereIn("recordtype", request.RecordType);
-                        select.AddWhere("(unassignedqty > 0)");
+                    //if (request.RecordType.Equals("RETURN_RECEIPT"))   //unassigned only
+                    //{
+                    //    select.AddWhereIn("recordtype", request.RecordType);
+                    //    select.AddWhere("(unassignedqty > 0)");
+ 
+                    //}
+                    //else if (request.RecordType.Equals("ASSIGNED"))   // assigned only
+                    //{
+                    //    select.AddWhereIn("recordtype", request.RecordType);
+                    //}
 
-                    } else if (request.RecordType.Equals("ASSIGNED"))
+                    if (request.OnlyIncludeItemsStillUnassigned.GetValueOrDefault(false))
                     {
-                        select.AddWhereIn("recordtype", request.RecordType);
+                        select.AddWhere("(unassignedqty > 0)");
                     }
-                   
+
+
                     addDateFilterToSelect("incontractdate", request.FromDate, select, ">=", "fromdate");
                     addDateFilterToSelect("incontractdate", request.ToDate, select, "<=", "todate");
                     select.AddWhereIn("locationid", request.OfficeLocationId);
@@ -148,7 +155,8 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
             {
                 string[] totalFields = new string[] { "InQuantity", "ReconciledAppliedQuantity", "UnassignedQuantity" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-                dt.InsertSubTotalRows("OrderItemId", "RowType", totalFields);
+                string[] orderItemHeaderFields = new string[] { "OrderItemId", "ICode" };
+                dt.InsertSubTotalRows("OrderItemId", "RowType", totalFields, nameHeaderColumns: orderItemHeaderFields);
 
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }

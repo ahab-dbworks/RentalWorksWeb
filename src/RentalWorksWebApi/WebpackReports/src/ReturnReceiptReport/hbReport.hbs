@@ -8,7 +8,7 @@
     {{#ifNotEquals Department ""}}
     <span class="rpt-title">Department: {{Department}}</span>
     {{/ifNotEquals}}
-    <span class="rpt-header-center">Retired From: {{FromDate}} To: {{ToDate}}</span>
+    <span class="rpt-header-center">Checked-In From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -26,7 +26,7 @@
         <th>Vendor</th>
         <th>Deal</th>
         <th>Contract No.</th>
-        <th>Received</th>
+        <th>Checked In</th>
       </tr>
     </thead>
     <tbody>
@@ -66,7 +66,7 @@
         <th colspan="2">Vendor</th>
         <th>Deal</th>
         <th>Contract No.</th>
-        <th>Received</th>
+        <th>Checked In</th>
       </tr>
     </thead>
     {{#each this}}
@@ -111,7 +111,7 @@
     <tfoot data-rowtype="{{RowType}}">
       {{#ifEquals RowType "OrderItemIdfooter"}}
       <tr>
-        <td colspan="5" class="total-name">{{OrderItemId}}</td>
+        <td colspan="5" class="total-name">{{ICode}}</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
         <td style="border-top:none;" class="total-val"> Unassigned: {{UnassignedQuantity}}</td>
         <td></td>
@@ -132,7 +132,7 @@
         <th colspan="2">Vendor</th>
         <th>Deal</th>
         <th>Contract No.</th>
-        <th>Received</th>
+        <th>Checked In</th>
       </tr>
     </thead>
     {{#each this}}

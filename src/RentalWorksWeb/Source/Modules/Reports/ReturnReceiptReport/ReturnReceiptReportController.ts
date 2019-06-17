@@ -24,14 +24,10 @@ const returnReceiptTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
-              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Include">
+            <div class="flexcolumn" style="max-width:250px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-caption="" data-datafield="RecordType" style="float:left;max-width:200px;">
-                    <div data-value="RETURN_RECEIPT" data-caption="Unassigned"></div>
-                    <div data-value="ASSIGNED" data-caption="Assigned"></div>
-                    <div data-value="ALL" data-caption="All"></div>
-                  </div>
+                  <div data-datafield="OnlyIncludeItemsStillUnassigned" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Only Include Items Still Unassigned" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>

@@ -17,7 +17,7 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public string RecordType { get; set; }
+        public bool? OnlyIncludeItemsStillUnassigned { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public string CustomerId { get; set; }
