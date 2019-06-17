@@ -5,9 +5,6 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    {{#ifNotEquals Department ""}}
-    <span class="rpt-title">Department: {{Department}}</span>
-    {{/ifNotEquals}}
     <span class="rpt-header-center">Checked-In From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
@@ -15,55 +12,13 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-  <!--UNASSIGNED VIEW-->
-  {{#ifEquals reportView "RETURN_RECEIPT"}}
-  <table id="unassigned">
-    <thead class="main-header">
-      <tr>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th class="number">Quantity</th>
-        <th>Vendor</th>
-        <th>Deal</th>
-        <th>Contract No.</th>
-        <th>Checked In</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
-        <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
-        <td class="number" data-value="{{InQuantity}}"></td>
-        <td data-value="{{Vendor}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{InContractNumber}}"></td>
-        <td data-value="{{InContractDate}}"></td>
-        {{/ifEquals}}
-      </tr>
-      {{#ifEquals RowType "OfficeLocationfooter"}}
-      <tr>
-        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{InQuantity}}"></td>
-      </tr>
-      {{/ifEquals}}
-      {{/each}}
-    </tbody>
-  </table>
-  {{/ifEquals}}
-  <!--ASSIGNED VIEW-->
-  {{#ifEquals reportView "ASSIGNED"}}
   <table>
     <thead class="main-header">
       <tr>
         <th>I-Code</th>
         <th colspan="2">Description</th>
-        <th class="number">Quantity</th>
         <th colspan="2">Vendor</th>
+        <th class="number">Quantity</th>
         <th>Deal</th>
         <th>Contract No.</th>
         <th>Checked In</th>
@@ -77,83 +32,26 @@
       </tr>
     </thead>
     {{/ifEquals}}
-    {{#ifEquals RowType "detail"}}
-    <tbody data-rowtype="{{RowType}}">
-      <tr>
-        <td data-value="{{ICode}}"></td>
-        <td colspan="2" data-value="{{Description}}"></td>
-        <td class="number" data-value="{{InQuantity}}"></td>
-        <td colspan="2" data-value="{{Vendor}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{InContractNumber}}"></td>
-        <td data-value="{{InContractDate}}"></td>
-      </tr>
-      <tr>
-        <th style="text-align:right;">Assigned:&nbsp;</th>
-        <th class="subHeaders">Order No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders">Contract No.</th>
-        <th class="subHeaders">Date</th>
-        <th class="subHeaders number">Applied</th>
-        <th colspan="3"></th>
-      </tr>
-      <tr class="subValues">
-        <td></td>
-        <td>{{ReconciledOrderNumber}}</td>
-        <td>{{ReconciledOrderDate}}</td>
-        <td>{{ReconciledContractNumber}}</td>
-        <td>{{ReconciledContractDate}}</td>
-        <td class="number">{{ReconciledAppliedQuantity}}</td>
-        <td colspan="3"></td>
-      </tr>
-    </tbody>
-    {{/ifEquals}}
-    <tfoot data-rowtype="{{RowType}}">
-      {{#ifEquals RowType "OrderItemIdfooter"}}
-      <tr>
-        <td colspan="5" class="total-name">{{ICode}}</td>
-        <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
-        <td style="border-top:none;" class="total-val"> Unassigned: {{UnassignedQuantity}}</td>
-        <td></td>
-      </tr>
-      {{/ifEquals}}
-    </tfoot>
-    {{/each}}
-  </table>
-  {{/ifEquals}}
-  <!--ALL VIEW-->
-  {{#ifEquals reportView "ALL"}}
-  <table>
-    <thead class="main-header">
-      <tr>
-        <th>I-Code</th>
-        <th colspan="2">Description</th>
-        <th class="number">Quantity</th>
-        <th colspan="2">Vendor</th>
-        <th>Deal</th>
-        <th>Contract No.</th>
-        <th>Checked In</th>
-      </tr>
-    </thead>
-    {{#each this}}
-    {{#ifEquals RowType "OfficeLocationheader"}}
+    {{#ifEquals RowType "Departmentheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <th class="header-row" colspan="4">Office: {{OfficeLocation}}</th>
+        <th class="lower header-row" colspan="4">Department: {{Department}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
+      {{#ifNotEquals RecordType "ASSIGNED"}}
       <tr>
         <td data-value="{{ICode}}"></td>
         <td colspan="2" data-value="{{Description}}"></td>
-        <td class="number" data-value="{{InQuantity}}"></td>
         <td colspan="2" data-value="{{Vendor}}"></td>
+        <td class="number" data-value="{{InQuantity}}"></td>
         <td data-value="{{Deal}}"></td>
         <td data-value="{{InContractNumber}}"></td>
         <td data-value="{{InContractDate}}"></td>
       </tr>
+      {{/ifNotEquals}}
       {{#ifEquals RecordType "ASSIGNED"}}
       <tr>
         <th style="text-align:right;">Assigned:&nbsp;</th>
@@ -175,17 +73,18 @@
       </tr>
     </tbody>
     {{/ifEquals}}
-      {{/ifEquals}}
+    {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
       {{#ifEquals RowType "OrderItemIdfooter"}}
+      {{#gt AssignedQuantity 0}}
       <tr>
-        <td colspan="5" class="total-name">{{OrderItemId}}</td>
+        <td colspan="5" class="total-name">{{ICode}}</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
         <td style="border-top:none;" class="total-val"> Unassigned: {{UnassignedQuantity}}</td>
       </tr>
+      {{/gt}}
       {{/ifEquals}}
     </tfoot>
     {{/each}}
   </table>
-  {{/ifEquals}}
 </div>
