@@ -590,8 +590,14 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 
 /* Availability Conflicts */
 #availabilityTable table {border-collapse:collapse;}
-#availabilityTable table thead tr {text-align:left; background-color:lightgray; border: 2px solid #989898;}
-#availabilityTable table td, #availabilityTable th {padding:5px;}
 #availabilityTable table .number {text-align:right;}
 #availabilityTable table .nowrap {white-space: nowrap;}
-#availabilityTable table tr.data-row {border-bottom: 2px solid #989898}
+#availabilityTable table thead tr {text-align:left; background-color:lightgray; border: 2px solid #989898;}
+#availabilityTable table tr td, #availabilityTable tr th {padding:5px;}
+#availabilityTable table tr.data-row {border-bottom: 2px solid #989898;}
+#availabilityTable table tr td div.available-color {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
+#availabilityTable table tr td div[data-state="stale"] {background-color:#1565C0;color:#ffffff;}
+#availabilityTable table tr td div[data-state="enough"]{background-color:#7CB342;color:#ffffff;}
+#availabilityTable table tr td div[data-state="negative"]{background-color:#f44336;color:#ffffff;}
+#availabilityTable table tr td div[data-state="low"]  {background-color:#ffeb3b;}
+#availabilityTable table tr td div[data-state="noavailcheck"] {background-color:#00ffff;}
