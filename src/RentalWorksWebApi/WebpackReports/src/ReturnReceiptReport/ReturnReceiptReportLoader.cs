@@ -146,7 +146,7 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "InQuantity", "ReconciledAppliedQuantity" };
+                string[] totalFields = new string[] { "InQuantity", "ReconciledAppliedQuantity", "UnassignedQuantity" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("OrderItemId", "RowType", totalFields);
 

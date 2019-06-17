@@ -61,9 +61,9 @@
     <thead class="main-header">
       <tr>
         <th>I-Code</th>
-        <th>Description</th>
+        <th colspan="2">Description</th>
         <th class="number">Quantity</th>
-        <th>Vendor</th>
+        <th colspan="2">Vendor</th>
         <th>Deal</th>
         <th>Contract No.</th>
         <th>Received</th>
@@ -81,31 +81,29 @@
     <tbody data-rowtype="{{RowType}}">
       <tr>
         <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
+        <td colspan="2" data-value="{{Description}}"></td>
         <td class="number" data-value="{{InQuantity}}"></td>
-        <td data-value="{{Vendor}}"></td>
+        <td colspan="2" data-value="{{Vendor}}"></td>
         <td data-value="{{Deal}}"></td>
         <td data-value="{{InContractNumber}}"></td>
         <td data-value="{{InContractDate}}"></td>
       </tr>
       <tr>
         <th style="text-align:right;">Assigned:&nbsp;</th>
-        <th class="subHeaders">Order No.&nbsp;&nbsp;Date</th>
-        <!--<th class="subHeaders">Date</th>-->
+        <th class="subHeaders">Order No.</th>
+        <th class="subHeaders">Date</th>
         <th class="subHeaders">Contract No.</th>
-        <th class="subHeaders">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applied</th>
-        <!--<th class="subHeaders">Date</th>
-        <th class="subHeaders number">Applied</th>-->
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders number">Applied</th>
         <th colspan="3"></th>
       </tr>
       <tr class="subValues">
         <td></td>
-        <td>{{ReconciledOrderNumber}}&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledOrderDate}}</td>
-        <!--<td>{{ReconciledOrderDate}}</td>-->
+        <td>{{ReconciledOrderNumber}}</td>
+        <td>{{ReconciledOrderDate}}</td>
         <td>{{ReconciledContractNumber}}</td>
-        <td>{{ReconciledContractDate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledAppliedQuantity}}</td>
-        <!--<td>{{ReconciledContractDate}}</td>
-        <td class="number">{{ReconciledAppliedQuantity}}</td>-->
+        <td>{{ReconciledContractDate}}</td>
+        <td class="number">{{ReconciledAppliedQuantity}}</td>
         <td colspan="3"></td>
       </tr>
     </tbody>
@@ -113,9 +111,10 @@
     <tfoot data-rowtype="{{RowType}}">
       {{#ifEquals RowType "OrderItemIdfooter"}}
       <tr>
-        <td colspan="3" class="total-name">Total:&nbsp;</td>
+        <td colspan="5" class="total-name">{{OrderItemId}}</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
-        <td class="total-val"> Unassigned: [need field]</td>
+        <td style="border-top:none;" class="total-val"> Unassigned: {{UnassignedQuantity}}</td>
+        <td></td>
       </tr>
       {{/ifEquals}}
     </tfoot>
@@ -128,9 +127,9 @@
     <thead class="main-header">
       <tr>
         <th>I-Code</th>
-        <th>Description</th>
+        <th colspan="2">Description</th>
         <th class="number">Quantity</th>
-        <th>Vendor</th>
+        <th colspan="2">Vendor</th>
         <th>Deal</th>
         <th>Contract No.</th>
         <th>Received</th>
@@ -148,9 +147,9 @@
     <tbody data-rowtype="{{RowType}}">
       <tr>
         <td data-value="{{ICode}}"></td>
-        <td data-value="{{Description}}"></td>
+        <td colspan="2" data-value="{{Description}}"></td>
         <td class="number" data-value="{{InQuantity}}"></td>
-        <td data-value="{{Vendor}}"></td>
+        <td colspan="2" data-value="{{Vendor}}"></td>
         <td data-value="{{Deal}}"></td>
         <td data-value="{{InContractNumber}}"></td>
         <td data-value="{{InContractDate}}"></td>
@@ -158,34 +157,32 @@
       {{#ifEquals RecordType "ASSIGNED"}}
       <tr>
         <th style="text-align:right;">Assigned:&nbsp;</th>
-        <th class="subHeaders">Order No.&nbsp;&nbsp;Date</th>
-        <!--<th class="subHeaders">Date</th>-->
+        <th class="subHeaders">Order No.</th>
+        <th class="subHeaders">Date</th>
         <th class="subHeaders">Contract No.</th>
-        <th class="subHeaders">Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Applied</th>
-        <!--<th class="subHeaders">Date</th>
-        <th class="subHeaders number">Applied</th>-->
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders number">Applied</th>
         <th colspan="3"></th>
       </tr>
       <tr class="subValues">
         <td></td>
-        <td>{{ReconciledOrderNumber}}&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledOrderDate}}</td>
-        <!--<td>{{ReconciledOrderDate}}</td>-->
+        <td>{{ReconciledOrderNumber}}</td>
+        <td>{{ReconciledOrderDate}}</td>
         <td>{{ReconciledContractNumber}}</td>
-        <td>{{ReconciledContractDate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ReconciledAppliedQuantity}}</td>
-        <!--<td>{{ReconciledContractDate}}</td>
-        <td class="number">{{ReconciledAppliedQuantity}}</td>-->
+        <td>{{ReconciledContractDate}}</td>
+        <td class="number">{{ReconciledAppliedQuantity}}</td>
         <td colspan="3"></td>
       </tr>
     </tbody>
     {{/ifEquals}}
+      {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
       {{#ifEquals RowType "OrderItemIdfooter"}}
       <tr>
-        <td colspan="3" class="total-name">Total:&nbsp;</td>
+        <td colspan="5" class="total-name">{{OrderItemId}}</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
-        <td class="total-val"> Unassigned: [need field]</td>
+        <td style="border-top:none;" class="total-val"> Unassigned: {{UnassignedQuantity}}</td>
       </tr>
-      {{/ifEquals}}
       {{/ifEquals}}
     </tfoot>
     {{/each}}
