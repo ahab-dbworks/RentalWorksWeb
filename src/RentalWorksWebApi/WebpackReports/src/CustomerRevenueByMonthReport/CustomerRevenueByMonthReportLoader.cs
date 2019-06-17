@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Data;
 using FwStandard.Models;
 using WebLibrary;
+using System.Collections.Generic;
 
 namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
 {
@@ -246,6 +247,40 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    string revenueAsText = string.Empty;
+                    object revenueObj = null;
+                    decimal? revenueAsDecimal = 0;
+                    for (int x = 1; x <= 12; x++)  // months 1 through 12
+                    {
+                        revenueAsText = string.Empty;
+                        revenueObj = row[dt.GetColumnNo("Month" + x.ToString().PadLeft(2, '0') + "RevenueAsDecimal")];
+                        if (revenueObj != null)
+                        {
+                            revenueAsDecimal = FwConvert.ToDecimal(revenueObj.ToString());
+                            if (revenueAsDecimal != 0)
+                            {
+                                revenueAsText = FwConvert.ToCurrencyStringNoDollarSign(revenueAsDecimal.GetValueOrDefault(0));
+                            }
+                        }
+                        row[dt.GetColumnNo("Month" + x.ToString().PadLeft(2, '0') + "RevenueAsText")] = revenueAsText;
+                    }
+
+                    // "allmonths"
+                    revenueAsText = string.Empty;
+                    revenueObj = row[dt.GetColumnNo("AllMonthsRevenueAsDecimal")];
+                    if (revenueObj != null)
+                    {
+                        revenueAsDecimal = FwConvert.ToDecimal(revenueObj.ToString());
+                        if (revenueAsDecimal != 0)
+                        {
+                            revenueAsText = FwConvert.ToCurrencyStringNoDollarSign(revenueAsDecimal.GetValueOrDefault(0));
+                        }
+                    }
+                    row[dt.GetColumnNo("AllMonthsRevenueAsText")] = revenueAsText;
+                }
             }
             return dt;
         }
