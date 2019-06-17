@@ -18,6 +18,7 @@ namespace WebApi.Modules.Reports.AgentBillingReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public bool? IsSummary { get; set; }
         public string DateType { get; set; }
         public bool? IncludeNoCharge { get; set; }
         public string OfficeLocationId { get; set; }

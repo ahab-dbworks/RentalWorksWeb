@@ -3,6 +3,7 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using WebLibrary;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace WebApi.Modules.Reports.AgentBillingReport
 {
@@ -137,10 +138,35 @@ namespace WebApi.Modules.Reports.AgentBillingReport
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    SetBaseSelectQuery(select, qry);
+
+                    if (request.IsSummary.GetValueOrDefault(false))
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("select [t].[rowtype]           as [RowType],                 ");
+                        sb.Append("       [t].[agent]             as [Agent],                   ");
+                        sb.Append("       [t].[agentid]           as [AgentId],                 ");
+                        sb.Append("       sum([t].[rentaltotal] ) as [RentalTotal],             ");
+                        sb.Append("       sum([t].[metertotal]  ) as [MeterTotal],              ");
+                        sb.Append("       sum([t].[salestotal]  ) as [SalesTotal],              ");
+                        sb.Append("       sum([t].[spacetotal]  ) as [FacilitiesTotal],         ");
+                        sb.Append("       sum([t].[misctotal]   ) as [MiscellaneousTotal],      ");
+                        sb.Append("       sum([t].[labortotal]  ) as [LaborTotal],              ");
+                        sb.Append("       sum([t].[partstotal]  ) as [PartsTotal],              ");
+                        sb.Append("       sum([t].[assettotal]  ) as [AssetTotal],              ");
+                        sb.Append("       sum([t].[invoicetax]  ) as [InvoiceTax],              ");
+                        sb.Append("       sum([t].[invoicetotal]) as [InvoiceTotal]             ");
+                        sb.Append("from agentbillingview [t] with (nolock)                      ");
+                        select.Add(sb.ToString());
+                        AddPropertiesAsQueryColumns(qry);
+                    }
+                    else
+                    {
+                        SetBaseSelectQuery(select, qry);
+                    }
+
                     select.Parse();
                     select.AddWhere("(agentid > '')");
                     select.AddWhereIn("locationid", request.OfficeLocationId);
@@ -160,7 +186,16 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                     {
                         select.AddWhere("nocharge <> 'T'");
                     }
-                    select.AddOrderBy("agent,location,department,deal,orderno,invoicedate");
+
+                    if (request.IsSummary.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("", "group by rowtype, agentid, agent");  //#jhtodo: need to be able to do select.AddGroupBy
+                        select.AddOrderBy("agent");
+                    }
+                    else
+                    {
+                        select.AddOrderBy("agent,location,department,deal,orderno,invoicedate");
+                    }
 
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
@@ -170,7 +205,10 @@ namespace WebApi.Modules.Reports.AgentBillingReport
             {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
-                dt.InsertSubTotalRows("Agent", "RowType", totalFields);
+                if (!request.IsSummary.GetValueOrDefault(false))
+                {
+                    dt.InsertSubTotalRows("Agent", "RowType", totalFields);
+                }
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
 
