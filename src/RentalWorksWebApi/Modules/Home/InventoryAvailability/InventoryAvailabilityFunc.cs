@@ -535,7 +535,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public static bool RequestRecalc(string inventoryId, string warehouseId, string classification)
         {
             bool b = true;
-            Console.WriteLine("adding to AvailabilityNeedRecalc - " + inventoryId + ", " + warehouseId + ", " + classification);
+            //Console.WriteLine("adding to AvailabilityNeedRecalc - " + inventoryId + ", " + warehouseId + ", " + classification);
             AvailabilityNeedRecalc.AddOrUpdate(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), classification, (key, existingValue) =>
             {
                 existingValue = classification;
@@ -547,7 +547,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public static async Task<bool> InvalidateHourly(FwApplicationConfig appConfig)
         {
             bool success = true;
-            Console.WriteLine("invalidating cache for all inventory tracked by hourly availbility");
+            //Console.WriteLine("invalidating cache for all inventory tracked by hourly availbility");
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
 
@@ -571,7 +571,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public static async Task<bool> InvalidateDaily(FwApplicationConfig appConfig)
         {
             bool success = true;
-            Console.WriteLine("invalidating cache for all inventory tracked by daily availbility");
+            //Console.WriteLine("invalidating cache for all inventory tracked by daily availbility");
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
 
@@ -596,9 +596,9 @@ namespace WebApi.Modules.Home.InventoryAvailability
         {
             bool success = true;
 
-            Console.WriteLine("about to query the availneedrecalc table");
+            //Console.WriteLine("about to query the availneedrecalc table");
 
-            Console.WriteLine("  before: AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
+            //Console.WriteLine("  before: AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
@@ -609,7 +609,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 qry.AddParameter("@lastneedrecalcid", LastNeedRecalcId);
                 FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
-                Console.WriteLine("          found " + dt.TotalRows.ToString() + " records in the availneedrecalc table");
+                //Console.WriteLine("          found " + dt.TotalRows.ToString() + " records in the availneedrecalc table");
 
                 string needRecalcId = string.Empty;
                 foreach (List<object> row in dt.Rows)
@@ -626,7 +626,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 }
             }
 
-            Console.WriteLine("  after:  AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
+            //Console.WriteLine("  after:  AvailabilityNeedRecalc has " + AvailabilityNeedRecalc.Count.ToString() + " items");
 
             return success;
         }
@@ -1159,7 +1159,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         {
             const int AVAILABILITY_REQUEST_BATCH_SIZE = 5000;
             bool success = true;
-            Console.WriteLine("keeping availability fresh");
+            //Console.WriteLine("keeping availability fresh");
             DateTime fromDate = DateTime.Today;
             DateTime availabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
 
@@ -1167,20 +1167,20 @@ namespace WebApi.Modules.Home.InventoryAvailability
             TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
 
             // build up a list of Items and Accessories only from the global AvailabilityNeedRecalc list
-            Console.WriteLine("checking AvailabilityNeedRecalc");
+            //Console.WriteLine("checking AvailabilityNeedRecalc");
             TAvailabilityNeedRecalcDictionary availNeedRecalcItem = new TAvailabilityNeedRecalcDictionary();
             TAvailabilityNeedRecalcDictionary availNeedRecalcPackage = new TAvailabilityNeedRecalcDictionary();
 
             lock (AvailabilityNeedRecalc)  // no external adds or deletes of the global AvailabilityNeedRecalc dictonary during this scope. We are emptying the entire dictionary to a local copy
             {
-                Console.WriteLine("locked AvailabilityNeedRecalc");
+                //Console.WriteLine("locked AvailabilityNeedRecalc");
                 if (AvailabilityNeedRecalc.IsEmpty)
                 {
-                    Console.WriteLine("no records in AvailabilityNeedRecalc");
+                    //Console.WriteLine("no records in AvailabilityNeedRecalc");
                 }
                 else
                 {
-                    Console.WriteLine("pulling " + AvailabilityNeedRecalc.Count.ToString() + " records from AvailabilityNeedRecalc");
+                    //Console.WriteLine("pulling " + AvailabilityNeedRecalc.Count.ToString() + " records from AvailabilityNeedRecalc");
                     foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> anc in AvailabilityNeedRecalc)
                     {
                         if (AppFunc.InventoryClassIsPackage(anc.Value))
@@ -1204,11 +1204,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     }
                     AvailabilityNeedRecalc.Clear();
                 }
-                Console.WriteLine("unlocking AvailabilityNeedRecalc");
+                //Console.WriteLine("unlocking AvailabilityNeedRecalc");
             }
 
             // loop through this local list of Items and Accessories in batches
-            Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
+            //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
             while (availNeedRecalcItem.Count > 0)
             {
                 // build up a request containing all known items needing recalc
@@ -1231,15 +1231,15 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 // update the global cache of availability data
                 await GetAvailability(appConfig, null, availRequestItems, true);
 
-                Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
+                //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
             }
 
             //// get the list of inventory items and accessories that either have no availability data in cache, or the cache is not far enough out in the future
-            //Console.WriteLine("checking item/accessory inventory that needs availability data in cache");
+            ////Console.WriteLine("checking item/accessory inventory that needs availability data in cache");
             //TInventoryNeedingAvailDictionary inventoryNeedingAvail = await GetItemsAccessoriesNeedingAvail(appConfig);
 
             //// loop through this list in batches 
-            //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
+            ////Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
             //while (inventoryNeedingAvail.Count > 0)
             //{
             //    // build up a request containing all items that need availability
@@ -1263,12 +1263,12 @@ namespace WebApi.Modules.Home.InventoryAvailability
             //    // update the static cache of availability data
             //    await GetAvailability(appConfig, null, availRequestItems, true);
 
-            //    Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
+            //    //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
             //}
 
 
             // loop through this local list of Completes and Kits in batches
-            Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
+            //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
             while (availNeedRecalcPackage.Count > 0)
             {
                 // build up a request containing all known items needing recalc
@@ -1292,16 +1292,16 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 // update the static cache of availability data
                 await GetAvailability(appConfig, null, availRequestItems, true);
 
-                Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
+                //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
             }
 
 
             //// get the list of inventory Completes and Kits that either have no availability data in cache, or the cache is not far enough out in the future
-            //Console.WriteLine("checking complete/kit inventory that needs availability data in cache");
+            ////Console.WriteLine("checking complete/kit inventory that needs availability data in cache");
             //inventoryNeedingAvail = await GetPackageNeedingAvail(appConfig);
 
             //// loop through this list in batches 
-            //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
+            ////Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
             //while (inventoryNeedingAvail.Count > 0)
             //{
             //    // build up a request containing all items that need availability
@@ -1325,7 +1325,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             //    // update the static cache of availability data
             //    await GetAvailability(appConfig, null, availRequestItems, true);
 
-            //    Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
+            //    //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
             //}
 
 
