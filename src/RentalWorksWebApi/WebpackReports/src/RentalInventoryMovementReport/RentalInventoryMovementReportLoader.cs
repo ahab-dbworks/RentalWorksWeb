@@ -60,13 +60,13 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
         [FwSqlDataField(column: "lastpurchase", modeltype: FwDataTypes.Decimal)]
         public decimal? LastPurchase { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ownedfromdate", modeltype: FwDataTypes.Integer)]
         public int? OwnedFromDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcostfromdate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "replacementcostfromdate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCostFromDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "purchased", modeltype: FwDataTypes.Integer)]
@@ -87,10 +87,10 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
         [FwSqlDataField(column: "ownedtodate", modeltype: FwDataTypes.Integer)]
         public int? OwnedToDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcosttodate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "replacementcosttodate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCostToDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcostchange", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "replacementcostchange", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCostChange { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "retiredreason001", modeltype: FwDataTypes.Integer)]
@@ -339,15 +339,15 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "procedurename", this.AppConfig.DatabaseSettings.ReportTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getinventorymovementrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@includezeroowned", SqlDbType.Text, ParameterDirection.Input, request.IncludeZeroOwned);
                     qry.AddParameter("@value", SqlDbType.Text, ParameterDirection.Input, request.Value);
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
-                    qry.AddParameter("@rank", SqlDbType.Text, ParameterDirection.Input, request.Ranks);
-                    qry.AddParameter("@trackedby", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys);
+                    qry.AddParameter("@rank", SqlDbType.Text, ParameterDirection.Input, request.Ranks.ToString());
+                    qry.AddParameter("@trackedby", SqlDbType.Text, ParameterDirection.Input, request.TrackedBys.ToString());
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
@@ -359,9 +359,10 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-                dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                string[] totalFields = new string[] { "OwnedFromDate", "ReplacementCostFromDate", "Purchased", "Retired", "Unretired", "TransferredOut", "TransferredIn", "OwnedToDate", "ReplacementCostToDate" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

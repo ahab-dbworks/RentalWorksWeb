@@ -16,7 +16,6 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public bool? IncludeZeroOwned { get; set; }
-
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
         public string CategoryId { get; set; }
