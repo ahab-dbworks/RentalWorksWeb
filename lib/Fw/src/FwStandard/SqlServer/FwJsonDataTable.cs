@@ -360,6 +360,16 @@ namespace FwStandard.SqlServer
                 if ((!isHeaderRow) && (isLastDetailRow || isNextRowNewGroup))
                 {
                     row = NewRow();
+
+                    //justin 06/18/2019 add the headertext to the footer row cells as well
+                    if (indexHeaderColumns != null)
+                    {
+                        for (int fieldno = 0; fieldno < indexHeaderColumns.Length; fieldno++)
+                        {
+                            row[indexHeaderColumns[fieldno]] = Rows[rowno][indexHeaderColumns[fieldno]];
+                        }
+                    }
+
                     row[indexRowTypeColumn] = nameGroupbyColumn + "footer";
                     //row[indexGroupByColumn] = "Subtotal";
                     if (includeGroupColumnValueInFooter)
