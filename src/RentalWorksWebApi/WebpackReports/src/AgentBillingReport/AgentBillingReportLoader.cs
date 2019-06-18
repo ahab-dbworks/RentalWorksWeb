@@ -207,8 +207,8 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                 string[] totalFields = new string[] { "RentalTotal", "MeterTotal", "SalesTotal", "FacilitiesTotal", "MiscellaneousTotal", "LaborTotal", "PartsTotal", "AssetTotal", "InvoiceTax", "InvoiceTotal" };
                 if (!request.IsSummary.GetValueOrDefault(false))
                 {
-                }
                     dt.InsertSubTotalRows("Agent", "RowType", totalFields);
+                }
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
 
