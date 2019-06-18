@@ -238,3 +238,27 @@ html.theme-material .fwform-section {
   border-left: 1px solid silver;
   border-right: 1px solid silver;
 }
+
+/* Styling for error message text */
+.fwform .error-msg span {
+  /*background-color: red;*/
+  color: #f44336;
+  font-size: 1em;
+  padding: 0px 4px 3px 10px;
+  border-radius: 2px;
+}
+
+.fwform .error-msg div {
+  margin-left: 8px;
+}
+
+
+.original-buttons .material-icons {
+  margin-left: 10px;
+  padding: 4.5px;
+  cursor: pointer;
+}
+
+  .original-buttons .material-icons:hover {
+    background-color: #BDBDBD;
+  }
