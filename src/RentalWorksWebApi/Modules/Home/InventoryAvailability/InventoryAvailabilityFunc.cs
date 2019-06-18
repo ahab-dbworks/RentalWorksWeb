@@ -178,6 +178,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string OrderNumber { get; set; }
         public string OrderDescription { get; set; }
         public string OrderStatus { get; set; }
+        public string DepartmentId { get; set; }
+        public string Department { get; set; }
         public string DealId { get; set; }
         public string Deal { get; set; }
         public DateTime FromDateTime { get; set; }
@@ -236,6 +238,12 @@ namespace WebApi.Modules.Home.InventoryAvailability
             this.InventoryId = inventoryId;
             this.WarehouseId = warehouseId;
         }
+        public string InventoryTypeId { get; set; } = "";
+        public string InventoryType { get; set; } = "";
+        public string CategoryId { get; set; } = "";
+        public string Category { get; set; } = "";
+        public string SubCategoryId { get; set; } = "";
+        public string SubCategory { get; set; } = "";
         public string InventoryId { get; set; } = "";
         public string WarehouseId { get; set; } = "";
         public string ICode { get; set; } = "";
@@ -975,16 +983,17 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
                 {
                     FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("select a.masterid, a.warehouseid,                                                                          ");
-                    qry.Add("       a.masterno, a.master, a.whcode, a.noavail, a.warehouse, a.class, a.availbyhour,                     ");
-                    qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit,                     ");
-                    qry.Add("       a.ownedqtyinrepair, a.ownedqtyontruck, a.ownedqtyincontainer,                                       ");
-                    qry.Add("       a.consignedqty, a.consignedqtyin, a.consignedqtystaged, a.consignedqtyout,                          ");
-                    qry.Add("       a.consignedqtyintransit, a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer   ");
-                    qry.Add(" from  availabilitymasterwhview a with (nolock)                                                            ");
-                    qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid and                         ");
-                    qry.Add("                                                       a.warehouseid = t.warehouseid)                      ");
-                    qry.Add(" where t.sessionid = @sessionid                                                                            ");
+                    qry.Add("select a.masterid, a.warehouseid,                                                                                     ");
+                    qry.Add("       a.masterno, a.master, a.whcode, a.noavail, a.warehouse, a.class, a.availbyhour,                                ");
+                    qry.Add("       a.inventorydepartmentid, a.inventorydepartment, a.categoryid, a.category, a.subcategoryid, a.subcategory,      ");
+                    qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit,                                ");
+                    qry.Add("       a.ownedqtyinrepair, a.ownedqtyontruck, a.ownedqtyincontainer,                                                  ");
+                    qry.Add("       a.consignedqty, a.consignedqtyin, a.consignedqtystaged, a.consignedqtyout,                                     ");
+                    qry.Add("       a.consignedqtyintransit, a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer              ");
+                    qry.Add(" from  availabilitymasterwhview a with (nolock)                                                                       ");
+                    qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid and                                    ");
+                    qry.Add("                                                       a.warehouseid = t.warehouseid)                                 ");
+                    qry.Add(" where t.sessionid = @sessionid                                                                                       ");
                     qry.AddParameter("@sessionid", sessionId);
                     FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
 
@@ -1003,6 +1012,12 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         availData.InventoryWarehouse.WarehouseCode = row[dt.GetColumnNo("whcode")].ToString();
                         availData.InventoryWarehouse.Warehouse = row[dt.GetColumnNo("warehouse")].ToString();
                         availData.InventoryWarehouse.Classification = row[dt.GetColumnNo("class")].ToString();
+                        availData.InventoryWarehouse.InventoryTypeId = row[dt.GetColumnNo("inventorydepartmentid")].ToString();
+                        availData.InventoryWarehouse.InventoryType = row[dt.GetColumnNo("inventorydepartment")].ToString();
+                        availData.InventoryWarehouse.CategoryId = row[dt.GetColumnNo("categoryid")].ToString();
+                        availData.InventoryWarehouse.Category = row[dt.GetColumnNo("category")].ToString();
+                        availData.InventoryWarehouse.SubCategoryId = row[dt.GetColumnNo("subcategoryid")].ToString();
+                        availData.InventoryWarehouse.SubCategory = row[dt.GetColumnNo("subcategory")].ToString();
 
                         if (availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT))
                         {
@@ -1070,6 +1085,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     qry.Add("select a.masterid, a.warehouseid,                                                      ");
                     qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime,              ");
                     qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
+                    qry.Add("       a.departmentid, a.department,                                                   ");
                     qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
                     qry.Add("       a.subqty, a.qtystagedsub, a.qtyoutsub, a.qtyinsub,                              ");
                     if (hasConsignment)
@@ -1102,6 +1118,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         reservation.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
                         reservation.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
                         reservation.OrderStatus = row[dt.GetColumnNo("orderstatus")].ToString();
+                        reservation.DepartmentId = row[dt.GetColumnNo("departmentid")].ToString();
+                        reservation.Department = row[dt.GetColumnNo("department")].ToString();
                         reservation.DealId = row[dt.GetColumnNo("dealid")].ToString();
                         reservation.Deal = row[dt.GetColumnNo("deal")].ToString();
                         reservation.FromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availfromdatetime")].ToString());
@@ -1623,17 +1641,17 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 {
                     qry.AddColumn("masterid");
                     qry.AddColumn("warehouseid");
-                    qry.AddColumn("inventorydepartment");
-                    qry.AddColumn("category");
-                    qry.AddColumn("subcategory");
 
-                    select.Add("select a.masterid, a.warehouseid, a.inventorydepartment, a.category, a.subcategory   ");
-                    select.Add(" from  availabilitymasterwhview a with (nolock)                                      ");
+                    select.Add("select a.masterid, a.warehouseid                    ");
+                    select.Add(" from  availabilitymasterwhview a with (nolock)     ");
 
                     select.Parse();
 
-                    select.AddWhere("a.availfor = @availfor");
-                    select.AddParameter("@availfor", request.AvailableFor);
+                    if (!string.IsNullOrEmpty(request.AvailableFor))
+                    {
+                        select.AddWhere("a.availfor = @availfor");
+                        select.AddParameter("@availfor", request.AvailableFor);
+                    }
 
                     select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
@@ -1641,7 +1659,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterid", request.InventoryId);
                     select.AddWhereIn("rank", request.Ranks);
-
 
                     //if (!request.BooleanField.GetValueOrDefault(false)) 
                     //{ 
@@ -1656,10 +1673,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
                 string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-                string inventoryType = row[dt.GetColumnNo("inventorydepartment")].ToString();
-                string category = row[dt.GetColumnNo("category")].ToString();
-                string subCategory = row[dt.GetColumnNo("subcategory")].ToString();
-
 
                 TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
 
@@ -1667,8 +1680,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 if (AvailabilityCache.TryGetValue(availKey, out availData))
                 {
                     bool hasConflict = ((string.IsNullOrEmpty(request.ConflictType) && (availData.HasNegativeConflict || availData.HasPositiveConflict)) ||
-                                        (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && availData.HasNegativeConflict) ||
-                                        (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && availData.HasPositiveConflict));
+                                       (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && availData.HasNegativeConflict) ||
+                                       (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && availData.HasPositiveConflict));
 
                     if (hasConflict)
                     {
@@ -1677,17 +1690,17 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
                             {
                                 bool isConflict = ((string.IsNullOrEmpty(request.ConflictType) && (reservation.IsNegativeConflict || reservation.IsPositiveConflict)) ||
-                                                   (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && reservation.IsNegativeConflict) ||
-                                                   (request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && reservation.IsPositiveConflict));
+                                                  (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && reservation.IsNegativeConflict) ||
+                                                  (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && reservation.IsPositiveConflict));
 
                                 if (isConflict)
                                 {
                                     AvailabilityConflictResponseItem responseItem = new AvailabilityConflictResponseItem();
                                     responseItem.Warehouse = availData.InventoryWarehouse.Warehouse;
                                     responseItem.WarehouseCode = availData.InventoryWarehouse.WarehouseCode;
-                                    responseItem.InventoryType = inventoryType;
-                                    responseItem.Category = category;
-                                    responseItem.SubCategory = subCategory;
+                                    responseItem.InventoryType = availData.InventoryWarehouse.InventoryType;
+                                    responseItem.Category = availData.InventoryWarehouse.Category;
+                                    responseItem.SubCategory = availData.InventoryWarehouse.SubCategory;
                                     responseItem.ICode = availData.InventoryWarehouse.ICode;
                                     responseItem.ItemDescription = availData.InventoryWarehouse.Description;
                                     responseItem.QuantityIn = availData.In.Total;
