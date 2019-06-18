@@ -34,6 +34,14 @@ const agentBillingTemplate = `
                 </div>
               </div>
             </div>
+            <div class="flexcolumn" style="max-width:400px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
+                <div data-datafield="IsSummary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                  <div data-value="true" data-caption="Summary"></div>
+                  <div data-value="false" data-caption="Detail"></div>
+                </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:250px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">

@@ -24,6 +24,12 @@ export class AgentBillingReport extends WebpackReport {
                     data.Report = 'Agent Billing Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+                    // Determine Summary or Detail View
+                    if (parameters.IsSummary === 'true') {
+                        data.IsSummary = true;
+                    } else {
+                        data.IsSummary = false;
+                    }
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
