@@ -13,7 +13,6 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-            console.log(parameters);
             Ajax.post<DataTable>(`${apiUrl}/api/v1/RentalInventoryAvailabilityReport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
@@ -21,7 +20,34 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                     data.Report = 'Rental Inventory Availability Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    data.Today = moment().format('LL');
+                    data.FromDate = parameters.FromDate;
+                    data.ToDate = parameters.ToDate;
+
+                    // Determine Summary or Detail View
+                    if (parameters.IsSummary === 'true') {
+                        data.IsSummary = true;
+                    } else {
+                        data.IsSummary = false;
+                    }
+                    const headerNames = [];
+                    //let headerCount = 0;
+
+                    //for (let i = 0; i < data.length; i++) {
+                    //    const el = data[i];
+                    //    if (el) {
+                    //        if (el.RowType === 'detail') {
+                    //            for (let key in el) {
+                    //                if (key.endsWith('Name')) {
+                    //                    if (el[key] !== '') {
+                    //                        headerNames.push(el[key]);
+                    //                        headerCount++
+                    //                    }
+                    //                }
+                    //            }
+                    //            break;
+                    //        }
+                    //    }
+                    //}
         
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);
@@ -29,6 +55,17 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(data);
+                    const staticHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Qty Owned</th><th class="number">On Truck</th><th class="number">Transfer Out</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
+                    // let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
+                    let mappedHeader = '';
+                    mappedHeader = staticHeader + mappedHeader;
+                    //if (headerCount < 12) {
+                    //    const intialColspan = (12 - headerCount);
+                    //    mappedHeader = mappedHeader + `<th colspan="${intialColspan}"></th><th class="number">All Months</th>`;
+                    //} else if (headerCount === 12) {
+                    //    mappedHeader = mappedHeader + `<th class="number">All Months</th>`;
+                    //}
+                    document.getElementById('HeaderRow').innerHTML = mappedHeader;
                     this.onRenderReportCompleted();
                 })
                 .catch((ex) => {
