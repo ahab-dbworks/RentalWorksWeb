@@ -71,14 +71,34 @@
         <td class="number">{{ReconciledAppliedQuantity}}</td>
         <td colspan="3"></td>
       </tr>
-    </tbody>
     {{/ifEquals}}
+     {{#ifEquals RecordType "RETURNED_TO_INVENTORY"}}
+      <tr>
+        <th style="text-align:right;">Assigned:&nbsp;</th>
+        <th class="subHeaders">Order No.</th>
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders">Contract No.</th>
+        <th class="subHeaders">Date</th>
+        <th class="subHeaders number">Applied</th>
+        <th colspan="3"></th>
+      </tr>
+      <tr class="subValues">
+        <td></td>
+        <td>{{ReconciledOrderNumber}}</td>
+        <td>{{ReconciledOrderDate}}</td>
+        <td>{{ReconciledContractNumber}}</td>
+        <td>{{ReconciledContractDate}}</td>
+        <td class="number">{{ReconciledAppliedQuantity}}</td>
+        <td colspan="3"></td>
+      </tr>
+    {{/ifEquals}}
+    </tbody>
     {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
       {{#ifEquals RowType "OrderItemIdfooter"}}
       {{#gt AssignedQuantity 0}}
       <tr>
-        <td colspan="5" class="total-name">{{ICode}}</td>
+        <td colspan="5" class="total-name">Total for {{ICode}}</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
         <td style="border-top:none;" class="total-val"> Unassigned: {{UnassignedQuantity}}</td>
       </tr>
