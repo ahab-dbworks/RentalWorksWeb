@@ -336,7 +336,8 @@ class ReceiveFromVendor {
                   </div>
                   <div class="flexcolumn" style="flex:1 0 175px; padding:10px 10px 10px 10px;">
                     <div class="flexrow">
-                      <div class="createcontract fwformcontrol" data-type="button" style="flex:1 0 150px;">Create Contract</div>
+                      <div class="createcontract fwformcontrol" data-type="button" style="float:right;">Create Contract</div>
+                      <div class="createcontract fwformcontrol" data-type="btnmenu" style="display:none; float:right;" data-caption="Create Contract"></div>
                     </div>
                   </div>
                 </div>

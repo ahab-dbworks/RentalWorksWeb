@@ -60,6 +60,11 @@
             $form.attr('data-showsuspendedsessions', 'false');
         }
 
+        FwFormField.loadItems($form.find('div[data-datafield="GridView"]'), [
+            { value: 'STAGE',   caption: 'View Staged', checked: true },
+            { value: 'PENDING', caption: 'View Pending' }
+        ], true);
+
         $form.find(`div[data-datafield="${this.Type}Id"] input`).focus();
         this.getSuspendedSessions($form);
         this.events($form);
@@ -71,7 +76,7 @@
         // ----------
         const $stagedItemGrid = $form.find('div[data-grid="StagedItemGrid"]');
         const $stagedItemGridControl = FwBrowse.loadGridFromTemplate('StagedItemGrid');
-        $stagedItemGridControl.attr('data-tableheight', '735px');
+        $stagedItemGridControl.attr('data-tableheight', '500px');                                   //735px default
         $stagedItemGrid.empty().append($stagedItemGridControl);
         $stagedItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
@@ -85,7 +90,7 @@
         // ----------
         const $checkedOutItemGrid = $form.find('div[data-grid="CheckedOutItemGrid"]');
         const $checkedOutItemGridControl = FwBrowse.loadGridFromTemplate('CheckedOutItemGrid');
-        $checkedOutItemGridControl.attr('data-tableheight', '735px');
+        $checkedOutItemGridControl.attr('data-tableheight', '500px');                               //735px default
 
         $checkedOutItemGrid.empty().append($checkedOutItemGridControl);
         $checkedOutItemGridControl.data('ondatabind', request => {
@@ -348,6 +353,7 @@
         menuOptions.push($createContract, $createPartialContract);
 
         const $buttonmenu = $form.find('.createcontract[data-type="btnmenu"]');
+
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
     };
     //----------------------------------------------------------------------------------------------
@@ -373,7 +379,7 @@
                     this.contractId = response.ContractId;
                     const $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
                     $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-                    $checkedOutItemGridControl.attr('data-tableheight', '735px');
+                    $checkedOutItemGridControl.attr('data-tableheight', '500px');   //735px default
                     $checkedOutItemGridControl.data('ondatabind', request => {
                         request.uniqueids = {
                             ContractId: this.contractId
@@ -385,7 +391,7 @@
 
                     const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
                     $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-                    $stagedItemGridControl.attr('data-tableheight', '735px');
+                    $stagedItemGridControl.attr('data-tableheight', '500px');   //735px default
                     $stagedItemGridControl.data('ondatabind', request => {
                         request.orderby = "ItemOrder";
                         request.uniqueids = {
@@ -421,7 +427,7 @@
 
         const $stagedItemGridControl = $form.find('[data-name="StagedItemGrid"]');
         $stagedItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
-        $stagedItemGridControl.attr('data-tableheight', '735px');
+        $stagedItemGridControl.attr('data-tableheight', '500px');   //735px default
         $stagedItemGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 OrderId: FwFormField.getValueByDataField($form, `${this.Type}Id`),
@@ -798,16 +804,16 @@
                         this.showAddItemToOrder = true;
                         this.addItemFieldValues($form, response);
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
-                        $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
+                        $form.find('div.AddItemToOrder').html(`<div class="flexrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="max-width:175px;margin:0px 15px 0px 15px;">Add Item To Order</div>`)
                     } if (response.ShowAddCompleteToOrder === true) {
                         this.addItemFieldValues($form, response);
-                        $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                        $form.find('div.AddItemToOrder').html(`<div class="flexrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="flex:1 0 175px;margin:5px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="flex:1 0 200px;margin:5px;">Add Complete To Order</div></div>`)
                     } if (response.ShowUnstage === true) {
                         errorSound.play();
                         this.showAddItemToOrder = true;
                         this.addItemFieldValues($form, response);
                         errorMsg.html(`<div><span>${response.msg}</span></div>`);
-                        $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.unstageItem(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Unstage Item</div>`)
+                        $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.unstageItem(this)" data-type="button" style="flex:1 0 175px;margin:5px;">Unstage Item</div>`)
                     } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                         errorSound.play();
                         this.addItemFieldValues($form, response);
@@ -855,10 +861,10 @@
                             this.addItemFieldValues($form, response);
                             this.showAddItemToOrder = true;
                             errorMsg.html(`<div><span>${response.msg}</span></div>`);
-                            $form.find('div.AddItemToOrder').html(`<div class="formrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
+                            $form.find('div.AddItemToOrder').html(`<div class="flexrow fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="max-width:175px; margin:6px 0px 0px 8px;">Add Item To Order</div>`)
                         } if (response.ShowAddCompleteToOrder === true) {
                             this.addItemFieldValues($form, response);
-                            $form.find('div.AddItemToOrder').html(`<div class="formrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="float:left; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
+                            $form.find('div.AddItemToOrder').html(`<div class="flexrow"><div class="fwformcontrol" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="max-width:175px; margin:6px 0px 0px 8px;">Add Item To Order</div><div class="fwformcontrol add-complete" onclick="StagingCheckoutController.addItemToOrder(this)" data-type="button" style="max-width:175px; margin:6px 0px 0px 4px;">Add Complete To Order</div></div>`)
                         } if (response.success === false && response.ShowAddCompleteToOrder === false && response.ShowAddItemToOrder === false) {
                             errorSound.play();
                             this.addItemFieldValues($form, response);
@@ -1167,20 +1173,20 @@
         switch (this.Module) {
             case 'StagingCheckout':
                 tabCaption = 'Staging';
-                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:0 1 175px;"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Order No." data-datafield="OrderId" data-displayfield="OrderNumber" data-formbeforevalidate="beforeValidate" data-validationname="OrderValidation" style="flex:1 1 275px;"></div>`;
                 statusBtnCaption = 'Order Status';
                 createBtnCaption = 'Create Contract';
                 break;
             case 'TransferOut':
                 tabCaption = this.caption;
-                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-formbeforevalidate="beforeValidate" data-validationname="TransferOrderValidation" style="flex:0 1 175px;"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Transfer No." data-datafield="TransferId" data-displayfield="TransferNumber" data-formbeforevalidate="beforeValidate" data-validationname="TransferOrderValidation" style="flex:1 1 275px;"></div>`;
                 statusBtnCaption = 'Transfer Status';
                 createBtnCaption = 'Create Manifest';
                 break;
             case 'FillContainer':
                 tabCaption = this.caption;
-                //typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerItemValidation" style="flex:0 1 175px;"></div>`;
-                typeHTML = `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="BarCode" style="flex:0 1 175px;"></div>
+                //typeHTML = `<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="ContainerItemId" data-displayfield="BarCode" data-formbeforevalidate="beforeValidate" data-validationname="ContainerItemValidation" style="flex:1 1 275px;"></div>`;
+                typeHTML = `<div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Container Item" data-datafield="BarCode" style="flex:1 1 275px;"></div>
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-datafield="ContainerItemId" data-displayfield="BarCode" data-validationname="ContainerItemValidation" style="display:none;"></div>`;
                 statusBtnCaption = 'Container Status';
                 createBtnCaption = 'Fill Container';
@@ -1201,166 +1207,239 @@
             <div class="tabpages">
               <div data-type="tabpage" id="stagingtabpage" class="tabpage" data-tabid="stagingtab">
                 <div class="flexpage">
+                  <!-- Staging / Check-Out section -->
                   <div class="flexrow">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.caption}">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="${this.caption}" style="flex:0 1 1200px;">
                       <div class="flexrow">
-                        <div class="flexcolumn" style="flex:1 1 850px;">
+                        <div class="flexcolumn" style="flex:1 1 300px;">
                           <div class="flexrow">
                             ${typeHTML}
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 250px;"></div>
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 300px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ContractId" data-datafield="ContractId" style="display:none; flex:1 1 275px;"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:1 1 275px;"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn" style="flex:1 1 300px;">
+                          <div class="flexrow">
                             ${this.Module == 'StagingCheckout' ?
-                '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 300px;"></div>' : ''}
-                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Location" data-datafield="Location" data-enabled="false" style="flex:1 1 300px;"></div>
+                            '<div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Deal" data-datafield="DealId" data-displayfield="Deal" data-validationname="DealValidation" data-enabled="false" style="flex:1 1 275px;"></div>' : ''}
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Location" data-datafield="Location" data-enabled="false" style="flex:1 1 275px;"></div>
                             <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield clearable" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" data-visible="false" data-enabled="false" style="flex:1 1 175px;"></div>
                           </div>
                         </div>
-                      </div>
-                      <div class="fwcontrol fwcontainer" data-control="FwContainer" data-type="section" data-caption="Items">
-                        <div class="flexrow">
-                          <div class="flexcolumn" style="flex:1 1 300px;">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Bar Code / I-Code" data-datafield="Code" style="flex:0 1 320px;"></div>
-                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield quantity clearable" data-caption="Quantity" data-datafield="Quantity" style="flex:0 1 100px;"></div>
-                            </div>
+                        <div class="flexcolumn" style="flex:1 0 250px;">
+                          <div class="flexrow original-buttons">
+                            <div class="orderstatus fwformcontrol" data-type="button" style="flex:1 0 200px;margin:16px 10px 0px 10px;">${statusBtnCaption}</div>
                           </div>
-                          <div class="flexcolumn" style="flex:1 1 850px;">
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="I-Code" data-enabled="false" data-datafield="ICode" style="flex:1 1 300px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Description" data-enabled="false" data-datafield="InventoryDescription" style="flex:1 1 400px;"></div>
-                            </div>
-                            <div class="flexrow">
-                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Ordered" data-enabled="false" data-datafield="QuantityOrdered" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Sub" data-enabled="false" data-datafield="QuantitySub" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Out" data-enabled="false" data-datafield="QuantityOut" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Staged" data-enabled="false" data-datafield="QuantityStaged" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Remaining" data-enabled="false" data-datafield="QuantityRemaining" style="flex:0 1 100px;"></div>
-                              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield grid-view-radio" data-caption="" data-datafield="GridView" style="flex:1 1 250px;">
-                                <div data-value="STAGE" data-caption="View Staged" style="margin-top:15px;"></div>
-                                <div data-value="PENDING" data-caption="View Pending Items" style="margin-top:-4px;"></div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="flexrow error-msg"></div>
-                      <div class="formrow AddItemToOrder"></div>
-                      <div class="flexrow">
-                        <div class="flexcolumn summaryview">
-                          <div class="flexrow staged-item-grid">
-                            <div data-control="FwGrid" data-grid="StagedItemGrid" data-securitycaption="Staged Items"></div>
-                          </div>
-                          <div class="flexrow pending-item-grid">
-                            <div class="pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid" data-securitycaption=""></div>
-                          </div>
-                          <div class="flexrow original-buttons" style="display:flex;justify-content:space-between;">
-                            <div class="orderstatus fwformcontrol" data-type="button" style="flex:0 1 145px; margin-left:8px; text-align:center;">${statusBtnCaption}</div>
-                            <div class="createcontract" data-type="btnmenu" style="flex:0 1 200px;margin-right:7px;" data-caption="${createBtnCaption}"></div>
-                          </div>
-                          <div class="fwformcontrol abort-checkout-contract" data-type="button" style="max-width:157px;display:none;"><< Back to Staging</div>
-                        </div>
-                        <div class="flexcolumn partial-contract" style="max-width:125px;justify-content:center;">
-                          <button type="submit" class="dbl-angle right-arrow"><img src="theme/images/icons/integration/dbl-angle-right.svg" alt="Add" /></button>
-                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield partial-contract-inputs partial-contract-barcode clearable" data-caption="Bar Code / I-Code" data-datafield="" style="margin-top:30px;"></div>
-                          <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield partial-contract-inputs partial-contract-quantity clearable" data-caption="Quantity" data-datafield="" style="max-width:72px;"></div>
-                          <button type="submit" class="dbl-angle left-arrow" style="margin-top:40px;"><img src="theme/images/icons/integration/dbl-angle-left.svg" alt="Remove" /></button>
-                        </div>
-                        <div class="flexcolumn partial-contract">
-                          <div class="flexrow">
-                            <div data-control="FwGrid" data-grid="CheckedOutItemGrid" data-securitycaption="Contract Items"></div>
-                          </div>
-                          <div class="flexrow" style="align-items:space-between;">
-                            <div class="fwformcontrol complete-checkout-contract" data-type="button" style="max-width:140px;">${createBtnCaption}</div>
+                          <div class="flexrow original-buttons">
+                            <div class="createcontract" data-type="btnmenu" style="margin:16px 10px 0px 10px;" data-caption="${createBtnCaption}"></div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+                  <!-- Items section -->
+                  <div class="flexrow">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Items">
+                      <div class="flexrow">
+                        <div class="flexcolumn" style="flex:1 1 125px;">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Bar Code / I-Code" data-datafield="Code" style="flex:1 1 125px;"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield quantity clearable" data-caption="Quantity" data-datafield="Quantity" style="flex:1 1 125px;"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn" style="flex:1 1 350px;">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="I-Code" data-enabled="false" data-datafield="ICode" style="flex:1 1 325px;"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield clearable" data-caption="Description" data-enabled="false" data-datafield="InventoryDescription" style="flex:1 1 325px;"></div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn" style="flex:1 1 375px;">
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Ordered" data-enabled="false" data-datafield="QuantityOrdered" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Sub" data-enabled="false" data-datafield="QuantitySub" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Staged" data-enabled="false" data-datafield="QuantityStaged" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Out" data-enabled="false" data-datafield="QuantityOut" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield clearable" data-caption="Remaining" data-enabled="false" data-datafield="QuantityRemaining" style="flex:1 1 75px;"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield grid-view-radio" data-caption="Item View" data-datafield="GridView"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Error Message / Add Item to Order button / Add Complete to Order button / Unstage Item button -->
+                  <div class="flexrow">
+                    <div class="flexcolumn" style="flex:1 0 375px;">
+                      <div class="flexrow error-msg"></div>
+                    </div>
+                    <div class="flexcolumn" style="flex:1 0 375px;">
+                      <div class="flexrow AddItemToOrder"></div>
+                    </div>
+                  </div>
+                  <!-- Staged Grid -->
+                  <div class="flexrow summaryview">
+                    <div class="flexcolumn">
+                      <!-- Staged Items Move to Contract row  -->
+                      <div class="flexrow">
+                        <div class="flexcolumn partial-contract" style="flex:0 1 325px;">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Partial Contract">
+                            <div class="flexrow">
+                              <div class="fwformcontrol abort-checkout-contract" data-type="button" style="flex:1 0 225px;display:none;margin:15px 10px 0px 10px;">Cancel</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn partial-contract" style="flex:0 1 525px;">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Move Partial to Contract">                   
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield partial-contract-inputs partial-contract-barcode clearable" data-caption="Bar Code / I-Code" data-datafield="" style="flex:1 0 150px;"></div>
+                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield partial-contract-inputs partial-contract-quantity clearable" data-caption="Quantity" data-datafield="" style="flex:1 0 75px;"></div>
+                              <div class="fwformcontrol dbl-angle right-arrow" data-type="button" style="flex:1 0 175px;margin:15px 10px 0px 10px;">Move to Contract</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Staged Items Grid -->
+                      <div class="flexrow staged-item-grid">
+                        <div data-control="FwGrid" data-grid="StagedItemGrid" data-securitycaption="Staged Items"></div>
+                      </div>
+                      <!-- Pending Items Grid -->
+                      <div class="flexrow pending-item-grid">
+                        <div class="pending-item-grid" data-control="FwGrid" data-grid="CheckOutPendingItemGrid" data-securitycaption=""></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Contract grid -->
+                  <div class="flexrow partial-contract">
+                    <div class="flexcolumn">
+                      <!-- Contract Items Return to Staged row -->
+                      <div class="flexrow">
+                        <div class="flexcolumn partial-contract" style="flex:0 1 325px;">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Partial Contract">
+                            <div class="flexrow" style="align-items:space-between;">
+                              <div class="fwformcontrol complete-checkout-contract" data-type="button" style="flex:1 0 225px;margin:15px 10px 0px 10px;">${createBtnCaption}</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="flexcolumn partial-contract" style="flex:0 1 525px;">
+                          <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Return Partial to Staged">
+                            <div class="flexrow">
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield partial-contract-inputs partial-contract-barcode clearable" data-caption="Bar Code / I-Code" data-datafield="" style="flex:1 0 150px;"></div>
+                              <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield partial-contract-inputs partial-contract-quantity clearable" data-caption="Quantity" data-datafield="" style="flex:1 0 75px;"></div>
+                              <div class="fwformcontrol dbl-angle left-arrow" data-type="button" style="flex:1 0 175px;margin:15px 10px 0px 10px;">Return to Staged</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flexrow partial-contract">
+                        <div data-control="FwGrid" data-grid="CheckedOutItemGrid" data-securitycaption="Contract Items"></div>
+                      </div>
+                    </div> 
+                  </div>
                 </div>
               </div>
+
               <!--QUANTITY ITEM  PAGE-->
               <div data-type="tabpage" id="quantityitemtabpage" class="tabpage" data-tabid="quantityitemtab">
                 <div class="flexpage">
-                  <div class="flexrow error-msg qty"></div>
-                  <div class="formrow add-item-qty"></div>
+                  <div class="flexrow">
+                    <div class="fwformcontrol options-button" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Options &#8675;</div>
+                    <div class="fwformcontrol selectall" data-type="button" style="flex:1 1 100px; margin:10px 0px 5px 10px;">Select All</div>
+                    <div class="fwformcontrol selectnone" data-type="button" style="flex:1 1 100px; margin:10px 10px 5px 10px;">Select None</div>
+                  </div>
+                  <div class="flexrow option-list" style="display:none;">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="IncludeZeroRemaining" style="margin:5px 0px 0px 10px;"></div>
+                  </div>
+                  <div class="flexrow">
+                    <div class="flexcolumn" style="flex:1 0 375px;">
+                      <div class="flexrow error-msg qty"></div>
+                    </div>
+                    <div class="flexcolumn" style="flex:1 0 375px;">
+                      <div class="formrow add-item-qty"></div>
+                    </div>
+                  </div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>
                   </div>
-                  <div class="formrow">
-                    <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
-                  </div>
-                  <div class="formrow option-list" style="display:none;">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="IncludeZeroRemaining"></div>
-                  </div>
                 </div>
               </div>
+
               <!--HOLDING PAGE-->
               <div data-type="tabpage" id="holdingitemtabpage" class="tabpage" data-tabid="holdingitemtab">
                 <div class="flexpage">
+                  <div class="flexrow">
+                    <div class="fwformcontrol options-button-holding" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Options &#8675;</div>
+                    <div class="fwformcontrol selectall-holding" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select All</div>
+                    <div class="fwformcontrol selectnone-holding" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select None</div>
+                  </div>
+                  <div class="flexrow option-list-holding" style="display:none;">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show ..." data-datafield=""></div>
+                  </div>
                   <div class="flexrow error-msg holding"></div>
                   <div class="flexrow">
                     <div data-control="FwGrid" data-grid="StageHoldingItemGrid" data-securitycaption=""></div>
                   </div>
-                  <div class="formrow">
-                    <div class="fwformcontrol options-button-holding" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall-holding" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone-holding" data-type="button" style="float:left; margin-left:10px;">Select None</div>
-                  </div>
-                  <div class="formrow option-list-holding" style="display:none;">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show ..." data-datafield=""></div>
-                  </div>
                 </div>
               </div>
+
               <!--SERIAL ITEM PAGE-->
               <div data-type="tabpage" id="serialitemtabpage" class="tabpage" data-tabid="serialitemtab">
                 <div class="flexpage">
+                  <div class="flexrow">
+                    <div class="fwformcontrol options-button" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Options &#8675;</div>
+                    <div class="fwformcontrol selectall" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select All</div>
+                    <div class="fwformcontrol selectnone" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select None</div>
+                  </div>
+                  <div class="flexrow option-list" style="display:none;">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="" style="margin:5px 0px 0px 10px;"></div>
+                  </div>
                   <!--<div class="flexrow error-msg serial"></div>-->
                   <div class="flexrow">
                     <!--<div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>-->
                   </div>
-                  <div class="formrow">
-                    <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
-                  </div>
-                  <div class="formrow option-list" style="display:none;">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield=""></div>
-                  </div>
                 </div>
               </div>
+
               <!--USAGE PAGE-->
               <div data-type="tabpage" id="usagetabpage" class="tabpage" data-tabid="usagetab">
                 <div class="flexpage">
+                  <div class="flexrow">
+                    <div class="fwformcontrol options-button" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Options &#8675;</div>
+                    <div class="fwformcontrol selectall" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select All</div>
+                    <div class="fwformcontrol selectnone" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select None</div>
+                  </div>
+                  <div class="flexrow option-list" style="display:none;">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="" style="margin:5px 0px 0px 10px;"></div>
+                  </div>
                   <!--<div class="flexrow error-msg usage"></div>-->
                   <div class="flexrow">
                     <!--<div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>-->
                   </div>
-                  <div class="formrow">
-                    <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
-                  </div>
-                  <div class="formrow option-list" style="display:none;">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield=""></div>
-                  </div>
                 </div>
               </div>
+
               <!--CONSIGNMENT PAGE-->
               <div data-type="tabpage" id="consignmenttabpage" class="tabpage" data-tabid="consignmenttab">
                 <div class="flexpage">
+                  <div class="flexrow">
+                    <div class="fwformcontrol options-button" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Options &#8675;</div>
+                    <div class="fwformcontrol selectall" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select All</div>
+                    <div class="fwformcontrol selectnone" data-type="button" style="flex:1 1 100px;margin:10px 0px 5px 10px;">Select None</div>
+                  </div>
+                  <div class="flexrow option-list" style="display:none;">
+                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield="" style="margin:5px 0px 0px 10px;"></div>
+                  </div>
                   <!--<div class="flexrow error-msg consign"></div>-->
                   <div class="flexrow">
                     <!--<div data-control="FwGrid" data-grid="StageQuantityItemGrid" data-securitycaption=""></div>-->
-                  </div>
-                  <div class="formrow">
-                    <div class="fwformcontrol options-button" data-type="button" style="float:left; margin-left:10px;">Options &#8675;</div>
-                    <div class="fwformcontrol selectall" data-type="button" style="float:left; margin-left:10px;">Select All</div>
-                    <div class="fwformcontrol selectnone" data-type="button" style="float:left; margin-left:10px;">Select None</div>
-                  </div>
-                  <div class="formrow option-list" style="display:none;">
-                    <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show items with zero Remaining" data-datafield=""></div>
                   </div>
                 </div>
               </div>
