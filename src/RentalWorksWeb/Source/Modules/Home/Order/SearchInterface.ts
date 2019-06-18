@@ -69,6 +69,7 @@ class SearchInterface {
                                     <div class="columnDescriptions">
                                       <div data-column="ItemImage"></div>
                                       <div class="columnorder" data-column="Description">Description</div>
+                                      <div class="columnorder" data-column="Tags">Tags</div>
                                       <div class="columnorder" data-column="Quantity">Qty</div>
                                       <div class="columnorder showOnSearch" data-column="Type">Type</div> 
                                       <div class="columnorder showOnSearch" data-column="Category">Category</div>
@@ -332,6 +333,7 @@ class SearchInterface {
                               <div class="item-info" data-inventoryid="${response.Rows[i][inventoryId]}">
                                 <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
                                 <div data-column="Description" class="columnorder"><div class="descriptionrow"><div class="description">${response.Rows[i][descriptionIndex]}</div></div></div>
+                                <div data-column="Tags" class="columnorder"></div>
                                 <div data-column="Type" class="columnorder showOnSearch">${response.Rows[i][typeIndex]}</div>
                                 <div data-column="Category" class="columnorder showOnSearch">${response.Rows[i][categoryIndex]}</div>
                                 <div data-column="SubCategory" class="columnorder showOnSearch">${response.Rows[i][subCategoryIndex]}</div>
@@ -361,8 +363,10 @@ class SearchInterface {
             $itemcontainer.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
 
             if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-                $itemcontainer.find('div[data-column="Description"] .descriptionrow').append(`<div class="classdescription">${response.Rows[i][classificationDescription]}</div>`)
-                $itemcontainer.find('.classdescription').css({ 'background-color': response.Rows[i][classificationColor] });
+                var $tag = jQuery('<div>').addClass('tag')
+                                          .html(response.Rows[i][classificationDescription])
+                                          .css({ 'background-color': response.Rows[i][classificationColor] });
+                $itemcontainer.find('div[data-column="Tags"]').append($tag);
                 $itemcontainer.find('div[data-column="Description"]').append('<div class="toggleaccessories">Show Accessories</div>');
                 $itemcontainer.append(`<div class="item-accessories" data-classification="${response.Rows[i][classificationIndex]}" style="display:none;"></div>`);
             }
@@ -401,6 +405,7 @@ class SearchInterface {
     setDefaultViewSettings($popup) {
         FwFormField.loadItems($popup.find('div[data-datafield="Columns"]'), [
             { value: 'Description',  text: 'Description',                         selected: 'T' },
+            { value: 'Tags',         text: 'Tags',                                selected: 'T' },
             { value: 'Quantity',     text: 'Quantity',                            selected: 'T' },
             { value: 'Type',         text: 'Type',                                selected: 'F' },
             { value: 'Category',     text: 'Category',                            selected: 'F' },
@@ -1045,6 +1050,7 @@ class SearchInterface {
         if (!(accessoryContainer.find('.accColumns').length)) {
             let accessorycolumnshtml =  `<div class="accColumns" style="width:100%; display:none">
                                            <div class="columnorder" data-column="Description">Description</div>
+                                           <div class="columnorder" data-column="Tags">Tags</div>
                                            <div class="columnorder" data-column="Quantity">Qty</div>
                                            <div class="columnorder showOnSearch" data-column="Type"></div> 
                                            <div class="columnorder showOnSearch" data-column="Category"></div>
@@ -1082,6 +1088,8 @@ class SearchInterface {
             const thumbnail                      = response.ColumnIndex.Thumbnail;
             const appImageId                     = response.ColumnIndex.ImageId;
             const availabilityStateIndex         = response.ColumnIndex.AvailabilityState;
+            const isOptionIndex                  = response.ColumnIndex.IsOption;
+            const defaultQuantityIndex           = response.ColumnIndex.DefaultQuantity;
 
             for (var i = 0; i < response.Rows.length; i++) {
                 let imageThumbnail = response.Rows[i][thumbnail]  ? response.Rows[i][thumbnail]  : './theme/images/no-image.jpg';
@@ -1091,6 +1099,7 @@ class SearchInterface {
                 let accessoryhtml = `<div class="item-accessory-info" data-inventoryid="${response.Rows[i][inventoryIdIndex]}">
                                        <div data-column="ItemImage"><img src="${imageThumbnail}" data-value="${imageId}" alt="Image" class="image"></div>
                                        <div data-column="Description" class="columnorder"><div class="descriptionrow">${response.Rows[i][descriptionIndex]}</div></div>
+                                       <div data-column="Tags" class="columnorder"></div>
                                        <div data-column="Quantity" class="columnorder">
                                          <div style="float:left; border:1px solid #bdbdbd;">
                                            <button class="decrementQuantity" tabindex="-1" style="padding: 5px 0px; float:left; width:25%; border:none;">-</button>
@@ -1115,23 +1124,33 @@ class SearchInterface {
                     $itemaccessoryinfo.find('[data-column="Quantity"] input').css('background-color', '#c5eefb');
                 }
 
-                let $qty = $itemaccessoryinfo.find('[data-column="Quantity"]');
-                $qty.append('<div class="quantityColor"></div>');
-                let $quantityColorDiv = $qty.find('.quantityColor');
-
-                let qtycolor;
-                if (response.Rows[i][quantityColorIndex] == "" || response.Rows[i][quantityColorIndex] == null) {
-                    qtycolor = 'transparent';
-                } else {
-                    qtycolor = response.Rows[i][quantityColorIndex];
-                }
-                $quantityColorDiv.css('border-left-color', qtycolor);
-
                 $itemaccessoryinfo.find('div[data-column="Available"]').attr('data-state', response.Rows[i][availabilityStateIndex]);
 
                 if (response.Rows[i][classificationIndex] == "K" || response.Rows[i][classificationIndex] == "C") {
-                    $itemaccessoryinfo.find('div[data-column="Description"] .descriptionrow').append(`<div class="classdescription">${response.Rows[i][classificationDescriptionIndex]}</div>`)
-                    $itemaccessoryinfo.find('.classdescription').css({ 'background-color': response.Rows[i][classificationColorIndex] });
+                    var $tag = jQuery('<div>').addClass('tag')
+                                              .html(response.Rows[i][classificationDescriptionIndex])
+                                              .css({ 'background-color': response.Rows[i][classificationColorIndex] });
+                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                }
+
+                if (response.Rows[i][isOptionIndex] === true) {
+                    var $tag = jQuery('<div>').addClass('tag')
+                                              .html('Optional')
+                                              .css({ 'background-color': response.Rows[i][quantityColorIndex], 'color': '#000000' });
+                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                }
+
+                if (response.Rows[i][defaultQuantityIndex] > 1) {
+                    var $tag = jQuery('<div>').addClass('tag')
+                                              .html(`x${response.Rows[i][defaultQuantityIndex]}`)
+                                              .css({ 'background-color': '#FF9800', 'color': '#000000' });
+                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
+                } else if (response.Rows[i][defaultQuantityIndex] < 1) {
+                    var percentage = response.Rows[i][defaultQuantityIndex] * 100;
+                    var $tag = jQuery('<div>').addClass('tag')
+                                              .html(`${percentage}%`)
+                                              .css({ 'background-color': '#FF9800', 'color': '#000000' });
+                    $itemaccessoryinfo.find('div[data-column="Tags"]').append($tag);
                 }
 
                 let type = $popup.find('#itemsearch').attr('data-moduletype');
