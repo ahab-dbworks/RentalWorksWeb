@@ -170,50 +170,18 @@ namespace WebApi.Modules.Home.InventorySearch
 
                             decimal qtyAvailable = 0;
                             bool isStale = true;
-                            bool noAvailabilityCheck = false;
                             DateTime? conflictDate = null;
                             string availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
                             TInventoryWarehouseAvailability availData = null;
                             if (availCache.TryGetValue(new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId), out availData))
                             {
-                                if (availData.InventoryWarehouse.NoAvailabilityCheck)
-                                {
-                                    noAvailabilityCheck = true;
-                                    isStale = false;
-                                }
-                                else
-                                {
-                                    TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime);
-                                    qtyAvailable = minAvail.MinimumAvailable.Total;
-                                    conflictDate = minAvail.FirstConfict;
-                                    isStale = minAvail.IsStale;
-                                }
+                                TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(fromDateTime, toDateTime, qty);
+                                qtyAvailable = minAvail.MinimumAvailable.Total;
+                                conflictDate = minAvail.FirstConfict;
+                                isStale = minAvail.IsStale;
+                                availabilityState = minAvail.AvailabilityState;
                             }
-
-                            //qtyAvailable -= qty; // not sure on this yet
-
-                            if (noAvailabilityCheck)
-                            {
-                                availabilityState = RwConstants.AVAILABILITY_STATE_NO_AVAILABILITY_CHECK;
-                            }
-                            else if (isStale)
-                            {
-                                availabilityState = RwConstants.AVAILABILITY_STATE_STALE;
-                            }
-                            else if (qtyAvailable < 0)
-                            {
-                                availabilityState = RwConstants.AVAILABILITY_STATE_NEGATIVE;
-                            }
-                            else if (qtyAvailable == 0)
-                            {
-                                availabilityState = RwConstants.AVAILABILITY_STATE_ZERO;
-                            }
-                            else if (qtyAvailable > 0)
-                            {
-                                availabilityState = RwConstants.AVAILABILITY_STATE_ENOUGH;
-                            }
-
 
                             row[dtOut.GetColumnNo("QuantityAvailable")] = qtyAvailable;
                             row[dtOut.GetColumnNo("ConflictDate")] = conflictDate;

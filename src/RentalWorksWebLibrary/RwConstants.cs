@@ -358,6 +358,8 @@
         public const string AVAILABILITY_STATE_NEGATIVE = "negative";
         public const string AVAILABILITY_STATE_ZERO = "zero";
         public const string AVAILABILITY_STATE_ENOUGH = "enough";
+        public const string AVAILABILITY_STATE_HISTORY = "history";
+        public const string AVAILABILITY_STATE_POSITIVE_CONFLICT = "positiveconflict";
 
 
         //CONTACTS / COMPANY

@@ -191,7 +191,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public TInventoryWarehouseAvailabilityQuantity QuantityStaged { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity QuantityOut { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity QuantityIn { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
-        //public TInventoryWarehouseAvailabilityQuantity QuantityAvailable { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public bool IsPositiveConflict { get; set; } = false;
         public bool IsNegativeConflict { get; set; } = false;
         [JsonIgnore]
@@ -216,6 +215,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public DateTime? FirstConfict { get; set; }
         public bool NoAvailabilityCheck { get; set; }
         public bool IsStale { get; set; }
+        public string AvailabilityState { get; set; } = RwConstants.AVAILABILITY_STATE_STALE;
         public string Color { get; set; }
         public string TextColor { get; set; }
     }
@@ -349,13 +349,12 @@ namespace WebApi.Modules.Home.InventoryAvailability
             this.HasPositiveConflict = source.HasPositiveConflict;
         }
         //-------------------------------------------------------------------------------------------------------
-        public TInventoryWarehouseAvailabilityMinimum GetMinimumAvailableQuantity(DateTime fromDateTime, DateTime toDateTime)
+        public TInventoryWarehouseAvailabilityMinimum GetMinimumAvailableQuantity(DateTime fromDateTime, DateTime toDateTime, decimal additionalQuantity = 0)
         {
             TInventoryWarehouseAvailabilityMinimum minAvail = new TInventoryWarehouseAvailabilityMinimum();
-            bool firstDateFound = false;
-            bool lastDateFound = false;
             bool isStale = false;
             bool isHistory = false;
+            minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_STALE;
 
             minAvail.NoAvailabilityCheck = InventoryWarehouse.NoAvailabilityCheck;
 
@@ -370,26 +369,41 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 isHistory = true;
             }
 
-            if (isHistory)
+            if (minAvail.NoAvailabilityCheck)
+            {
+                minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_NO_AVAILABILITY_CHECK;
+                minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
+                minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
+            }
+            else if (isHistory)
             {
                 minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_HISTORICAL_DATE);
                 minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE);
+                minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_HISTORY;
             }
             else
             {
+                bool firstDateFound = false;
+                bool lastDateFound = false;
                 //#jhtodo rewrite this without the foreach. create a for loop for each date in the range. perform individual specific reads from "Dates" dictionary using the key
                 foreach (KeyValuePair<DateTime, TInventoryWarehouseAvailabilityDateTime> availDate in AvailabilityDatesAndTimes)
                 {
                     DateTime theDateTime = availDate.Key;
                     TInventoryWarehouseAvailabilityDateTime inventoryWarehouseAvailabilityDateTime = availDate.Value;
+
+                    TInventoryWarehouseAvailabilityQuantity avail = new TInventoryWarehouseAvailabilityQuantity();
+                    avail.Owned = inventoryWarehouseAvailabilityDateTime.Available.Owned;
+                    avail.Consigned = inventoryWarehouseAvailabilityDateTime.Available.Consigned;
+
                     if ((fromDateTime <= theDateTime) && (theDateTime <= toDateTime))
                     {
+                        avail.Owned = avail.Owned - additionalQuantity;
                         if (theDateTime.Equals(fromDateTime))
                         {
                             firstDateFound = true;
-                            minAvail.MinimumAvailable = inventoryWarehouseAvailabilityDateTime.Available;
+                            minAvail.MinimumAvailable = avail;
                         }
-                        minAvail.MinimumAvailable = (minAvail.MinimumAvailable.Total < inventoryWarehouseAvailabilityDateTime.Available.Total) ? minAvail.MinimumAvailable : inventoryWarehouseAvailabilityDateTime.Available;
+                        minAvail.MinimumAvailable = (minAvail.MinimumAvailable.Total < avail.Total) ? minAvail.MinimumAvailable : avail;
 
                         if ((minAvail.FirstConfict == null) && (minAvail.MinimumAvailable.Total < 0))
                         {
@@ -420,20 +434,25 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 minAvail.Color = null;
                 minAvail.TextColor = FwConvert.OleColorToHtmlColor(0); //black
 
-                if (minAvail.NoAvailabilityCheck)
+                if (minAvail.IsStale)
                 {
-                    minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NO_AVAILABILITY);
-                    minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
-                }
-                else if (minAvail.IsStale)
-                {
+                    minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_STALE;
                     minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEEDRECALC);
                     minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEEDRECALC);
                 }
                 else if (minAvail.MinimumAvailable.Total < 0)
                 {
+                    minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_NEGATIVE;
                     minAvail.Color = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
                     minAvail.TextColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
+                }
+                else if (minAvail.MinimumAvailable.Total == 0)
+                {
+                    minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_ZERO;
+                }
+                else if (minAvail.MinimumAvailable.Total > 0)
+                {
+                    minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_ENOUGH;
                 }
             }
 
@@ -639,83 +658,305 @@ namespace WebApi.Modules.Home.InventoryAvailability
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        //private static async Task<TInventoryNeedingAvailDictionary> GetInventoryNeedingAvail(FwApplicationConfig appConfig, List<string> classifications)
-        //{
-        //    TInventoryNeedingAvailDictionary inventoryNeedingAvail = new TInventoryNeedingAvailDictionary();
+        private static async Task<TAvailabilityCache> BuildAvailabilityCache(FwApplicationConfig appConfig, FwUserSession userSession, TInventoryWarehouseAvailabilityRequestItems availRequestItems)
+        {
+            TAvailabilityCache availCache = new TAvailabilityCache();
+            string sessionId = AppFunc.GetNextIdAsync(appConfig).Result;
+            DateTime fromDateTime = DateTime.Today;
+            DateTime toDateTime = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
 
-        //    DateTime availabilityThroughDate = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
+            foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+            {
+                TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId);
+                string classification = "";
+                AvailabilityNeedRecalc.TryRemove(availKey, out classification);
 
-        //    using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-        //    {
+                if (availRequestItem.ToDateTime > toDateTime)
+                {
+                    toDateTime = availRequestItem.ToDateTime;
+                }
+            }
 
-        //        FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-        //        qry.Add("select masterid, warehouseid, class");
-        //        qry.Add(" from  masterwhforavailview");
-        //        if (classifications.Count > 0)
-        //        {
-        //            qry.Add(" where class in (");
-        //            int c = 0;
-        //            foreach (string classification in classifications)
-        //            {
-        //                c++;
-        //                qry.Add("'" + classification + "'");
-        //                if (c < classifications.Count)
-        //                {
-        //                    qry.Add(",");
-        //                }
-        //            }
-        //            qry.Add(")");
-        //        }
-        //        FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("delete                        ");
+                qry.Add(" from  tmpsearchsession       ");
+                qry.Add(" where sessionid = @sessionid ");
+                qry.AddParameter("@sessionid", sessionId);
+                await qry.ExecuteNonQueryAsync();
+            }
 
-        //        inventoryNeedingAvail.Clear();
-        //        foreach (List<object> row in dt.Rows)
-        //        {
-        //            string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
-        //            string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-        //            string classification = row[dt.GetColumnNo("class")].ToString();
-        //            TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-        //            bool foundInCache = false;
-        //            bool dataIsCached = false;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                int i = 0;
+                int totalItemsAddedToSession = 0;
+                int totalRequestItems = availRequestItems.Count;
+                const int MAX_ITEMS_PER_ITERATION = 300;
+                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+                {
+                    qry.Add("if (not exists (select *                                                                ");
+                    qry.Add("                 from  tmpsearchsession t                                               ");
+                    qry.Add("                 where t.sessionid   = @sessionid                                       ");
+                    qry.Add("                 and   t.masterid    = @masterid" + i.ToString() + "                    ");
+                    qry.Add("                 and   t.warehouseid = @warehouseid" + i.ToString() + "))               ");
+                    qry.Add("begin                                                                                   ");
+                    qry.Add("   insert into tmpsearchsession (sessionid, masterid, warehouseid)                      ");
+                    qry.Add("    values (@sessionid, @masterid" + i.ToString() + ", @warehouseid" + i.ToString() + ")");
+                    qry.Add("end                                                                                     ");
+                    qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
+                    qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
+                    i++;
+                    totalItemsAddedToSession++;
 
-        //            TInventoryWarehouseAvailability availData = null;
-        //            if (AvailabilityCache.TryGetValue(availKey, out availData))
-        //            {
-        //                foundInCache = true;
-        //                dataIsCached = (availData.AvailDataToDateTime >= availabilityThroughDate);
-        //            }
+                    if ((i >= MAX_ITEMS_PER_ITERATION) && (totalItemsAddedToSession < totalRequestItems))   // if we have already created a query with 300 items to add, and there are still more to do, then process the 300 and start a new query for the next group. this avoids exceeding the parameter limit on sql server
+                    {
+                        qry.AddParameter("@sessionid", sessionId);
+                        await qry.ExecuteNonQueryAsync();
+                        i = 0;
+                        qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                    }
+                }
+                qry.AddParameter("@sessionid", sessionId);
+                await qry.ExecuteNonQueryAsync();
+            }
 
-        //            if ((!foundInCache) || (!dataIsCached))
-        //            {
-        //                inventoryNeedingAvail.AddOrUpdate(availKey, classification, (key, existingItem) =>
-        //                {
-        //                    existingItem = classification;
-        //                    return existingItem;
-        //                });
-        //            }
-        //        }
-        //    }
+            Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouse> packages = new Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouse>();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
 
-        //    return inventoryNeedingAvail;
-        //}
-        ////-------------------------------------------------------------------------------------------------------
-        //private static async Task<TInventoryNeedingAvailDictionary> GetItemsAccessoriesNeedingAvail(FwApplicationConfig appConfig)
-        //{
-        //    List<string> classifications = new List<string>();
-        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_ITEM);
-        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_ACCESSORY);
-        //    return await GetInventoryNeedingAvail(appConfig, classifications);
-        //}
-        ////-------------------------------------------------------------------------------------------------------
-        //private static async Task<TInventoryNeedingAvailDictionary> GetPackageNeedingAvail(FwApplicationConfig appConfig)
-        //{
-        //    List<string> classifications = new List<string>();
-        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE);
-        //    classifications.Add(RwConstants.INVENTORY_CLASSIFICATION_KIT);
-        //    return await GetInventoryNeedingAvail(appConfig, classifications);
-        //}
-        ////-------------------------------------------------------------------------------------------------------
-        private static void ProjectFutureAvailability(ref TAvailabilityCache availCache)
+                FwSqlCommand qryAcc = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qryAcc.Add("select p.packageid, p.warehouseid, p.masterid, p.defaultqty              ");
+                qryAcc.Add(" from  packagemasterwhforavailview p                                     ");
+                qryAcc.Add("              join tmpsearchsession a on (p.packageid   = a.masterid and ");
+                qryAcc.Add("                                          p.warehouseid = a.warehouseid) ");
+                qryAcc.Add(" where a.sessionid = @sessionid                                          ");
+                qryAcc.Add("order by p.packageid, p.warehouseid                                      ");
+                qryAcc.AddParameter("@sessionid", sessionId);
+                FwJsonDataTable dtAcc = await qryAcc.QueryToFwJsonTableAsync();
+
+                if (dtAcc.Rows.Count > 0)
+                {
+                    string prevPackageId = string.Empty;
+                    string prevWarehouseId = string.Empty;
+                    string packageId = string.Empty;
+                    string warehouseId = string.Empty;
+                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(packageId, warehouseId);
+                    TInventoryWarehouse inventoryWarehouse = new TInventoryWarehouse(packageId, warehouseId);
+
+                    foreach (List<object> rowAcc in dtAcc.Rows)
+                    {
+                        packageId = rowAcc[dtAcc.GetColumnNo("packageid")].ToString();
+                        warehouseId = rowAcc[dtAcc.GetColumnNo("warehouseid")].ToString();
+                        if ((!packageId.Equals(prevPackageId)) || (!warehouseId.Equals(prevWarehouseId)))
+                        {
+                            if (!prevPackageId.Equals(string.Empty))
+                            {
+                                packages.Add(availKey, inventoryWarehouse);
+                            }
+                            availKey = new TInventoryWarehouseAvailabilityKey(packageId, warehouseId);
+                            inventoryWarehouse = new TInventoryWarehouse(packageId, warehouseId);
+                        }
+
+                        string accInventoryId = rowAcc[dtAcc.GetColumnNo("masterid")].ToString();
+                        decimal accDefaultQuantity = FwConvert.ToDecimal(rowAcc[dtAcc.GetColumnNo("defaultqty")].ToString());
+                        inventoryWarehouse.Accessories.Add(new TPackageAccessory(accInventoryId, accDefaultQuantity));
+
+                        prevPackageId = packageId;
+                        prevWarehouseId = warehouseId;
+                    }
+
+                    if (!packageId.Equals(string.Empty))
+                    {
+                        packages.Add(availKey, inventoryWarehouse);
+                    }
+                }
+            }
+
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select a.masterid, a.warehouseid,                                                                                     ");
+                qry.Add("       a.masterno, a.master, a.whcode, a.noavail, a.warehouse, a.class, a.availbyhour,                                ");
+                qry.Add("       a.inventorydepartmentid, a.inventorydepartment, a.categoryid, a.category, a.subcategoryid, a.subcategory,      ");
+                qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit,                                ");
+                qry.Add("       a.ownedqtyinrepair, a.ownedqtyontruck, a.ownedqtyincontainer,                                                  ");
+                qry.Add("       a.consignedqty, a.consignedqtyin, a.consignedqtystaged, a.consignedqtyout,                                     ");
+                qry.Add("       a.consignedqtyintransit, a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer              ");
+                qry.Add(" from  availabilitymasterwhview a with (nolock)                                                                       ");
+                qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid and                                    ");
+                qry.Add("                                                       a.warehouseid = t.warehouseid)                                 ");
+                qry.Add(" where t.sessionid = @sessionid                                                                                       ");
+                qry.AddParameter("@sessionid", sessionId);
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+
+                    TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
+
+                    availData.AvailDataFromDateTime = fromDateTime;
+                    availData.AvailDataToDateTime = toDateTime;
+                    availData.InventoryWarehouse.ICode = row[dt.GetColumnNo("masterno")].ToString();
+                    availData.InventoryWarehouse.Description = row[dt.GetColumnNo("master")].ToString();
+                    availData.InventoryWarehouse.WarehouseCode = row[dt.GetColumnNo("whcode")].ToString();
+                    availData.InventoryWarehouse.Warehouse = row[dt.GetColumnNo("warehouse")].ToString();
+                    availData.InventoryWarehouse.Classification = row[dt.GetColumnNo("class")].ToString();
+                    availData.InventoryWarehouse.InventoryTypeId = row[dt.GetColumnNo("inventorydepartmentid")].ToString();
+                    availData.InventoryWarehouse.InventoryType = row[dt.GetColumnNo("inventorydepartment")].ToString();
+                    availData.InventoryWarehouse.CategoryId = row[dt.GetColumnNo("categoryid")].ToString();
+                    availData.InventoryWarehouse.Category = row[dt.GetColumnNo("category")].ToString();
+                    availData.InventoryWarehouse.SubCategoryId = row[dt.GetColumnNo("subcategoryid")].ToString();
+                    availData.InventoryWarehouse.SubCategory = row[dt.GetColumnNo("subcategory")].ToString();
+
+                    if (availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT))
+                    {
+                        TInventoryWarehouse package = null;
+                        if (packages.TryGetValue(availKey, out package))
+                        {
+                            foreach (TPackageAccessory accessory in package.Accessories)
+                            {
+                                availData.InventoryWarehouse.Accessories.Add(new TPackageAccessory(accessory.InventoryId, accessory.DefaultQuantity));
+                            }
+                        }
+                    }
+
+                    availData.InventoryWarehouse.HourlyAvailability = FwConvert.ToBoolean(row[dt.GetColumnNo("availbyhour")].ToString());
+                    availData.InventoryWarehouse.NoAvailabilityCheck = FwConvert.ToBoolean(row[dt.GetColumnNo("noavail")].ToString());
+
+                    availData.Total.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqty")].ToString());
+                    availData.Total.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqty")].ToString());
+
+                    availData.In.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyin")].ToString());
+                    availData.In.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyin")].ToString());
+
+                    availData.Staged.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtystaged")].ToString());
+                    availData.Staged.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtystaged")].ToString());
+
+                    availData.Out.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyout")].ToString());
+                    availData.Out.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyout")].ToString());
+
+                    availData.InTransit.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyintransit")].ToString());
+                    availData.InTransit.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyintransit")].ToString());
+
+                    availData.InRepair.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyinrepair")].ToString());
+                    availData.InRepair.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyinrepair")].ToString());
+
+                    availData.OnTruck.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyontruck")].ToString());
+                    availData.OnTruck.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyontruck")].ToString());
+
+                    availData.InContainer.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyincontainer")].ToString());
+                    availData.InContainer.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyincontainer")].ToString());
+
+                    availCache.AddOrUpdate(availKey, availData, (key, existingValue) =>
+                    {
+                        existingValue.CloneFrom(availData);
+                        return existingValue;
+                    });
+                }
+            }
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("delete t                                                                ");
+                qry.Add(" from  tmpsearchsession t                                               ");
+                qry.Add("           join master m with (nolock) on (t.masterid = m.masterid)     ");
+                qry.Add(" where t.sessionid = @sessionid                                         ");
+                qry.Add(" and   m.noavail   = 'T'                                                ");
+                qry.AddParameter("@sessionid", sessionId);
+                await qry.ExecuteNonQueryAsync();
+            }
+
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                bool hasConsignment = false;  //jh 02/28/2019 place-holder.  will add system-wide option for consignment here
+                FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                qry.Add("select a.masterid, a.warehouseid,                                                      ");
+                qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime,              ");
+                qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
+                qry.Add("       a.departmentid, a.department,                                                   ");
+                qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
+                qry.Add("       a.subqty, a.qtystagedsub, a.qtyoutsub, a.qtyinsub,                              ");
+                if (hasConsignment)
+                {
+                    //jh 02/28/2019 this is a bottleneck as the query must join in ordertranextended to get the consignorid.  Consider moving consignorid to the ordetran table
+                    qry.Add("       a.consignqty, a.qtystagedconsigned, a.qtyoutconsigned, a.qtyinconsigned ");
+                }
+                else
+                {
+                    qry.Add("       consignqty = 0, qtystagedconsigned = 0, qtyoutconsigned = 0, qtyinconsigned = 0 ");
+                }
+                qry.Add(" from  availabilityitemview a with (nolock)                                             ");
+                qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid    = t.masterid and   ");
+                qry.Add("                                                       a.warehouseid = t.warehouseid)   ");
+                qry.Add(" where t.sessionid = @sessionid                                                         ");
+                qry.AddParameter("@sessionid", sessionId);
+                FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
+
+                // load dt into availData.Reservations
+                foreach (List<object> row in dt.Rows)
+                {
+                    string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                    string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+
+                    TInventoryWarehouseAvailabilityReservation reservation = new TInventoryWarehouseAvailabilityReservation();
+                    reservation.OrderId = row[dt.GetColumnNo("orderid")].ToString();
+                    reservation.OrderItemId = row[dt.GetColumnNo("masteritemid")].ToString();
+                    reservation.OrderType = row[dt.GetColumnNo("ordertype")].ToString();
+                    reservation.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
+                    reservation.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
+                    reservation.OrderStatus = row[dt.GetColumnNo("orderstatus")].ToString();
+                    reservation.DepartmentId = row[dt.GetColumnNo("departmentid")].ToString();
+                    reservation.Department = row[dt.GetColumnNo("department")].ToString();
+                    reservation.DealId = row[dt.GetColumnNo("dealid")].ToString();
+                    reservation.Deal = row[dt.GetColumnNo("deal")].ToString();
+                    reservation.FromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availfromdatetime")].ToString());
+                    reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
+                    reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
+                    reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
+                    reservation.QuantityConsigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignqty")].ToString());
+
+                    TInventoryWarehouseAvailabilityQuantity reservationStaged = new TInventoryWarehouseAvailabilityQuantity();
+                    TInventoryWarehouseAvailabilityQuantity reservationOut = new TInventoryWarehouseAvailabilityQuantity();
+                    TInventoryWarehouseAvailabilityQuantity reservationIn = new TInventoryWarehouseAvailabilityQuantity();
+
+                    reservationStaged.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedowned")].ToString());
+                    reservationStaged.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedconsigned")].ToString());
+
+                    reservationOut.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutowned")].ToString());
+                    reservationOut.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutconsigned")].ToString());
+
+                    reservationIn.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinowned")].ToString());
+                    reservationIn.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinconsigned")].ToString());
+
+                    reservation.QuantityStaged = reservationStaged;
+                    reservation.QuantityOut = reservationOut;
+                    reservation.QuantityIn = reservationIn;
+
+                    reservation.QuantityReserved.Owned = (reservation.QuantityOrdered - reservation.QuantitySub - reservation.QuantityConsigned - reservation.QuantityStaged.Owned - reservation.QuantityOut.Owned - reservation.QuantityIn.Owned);
+                    reservation.QuantityReserved.Consigned = (reservation.QuantityConsigned - reservation.QuantityOut.Consigned - reservation.QuantityIn.Consigned);
+
+                    TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
+                    if (availCache.TryGetValue(availKey, out availData))
+                    {
+                        availData.Reservations.Add(reservation);
+                    }
+                }
+            }
+            //#jhtodo copy the loop above for Completes and Kits, joining on parentid.  This will give a list of reservations that reference these packages
+            //qry.Add("             join tmpsearchsession t on (a.parentid = t.masterid and a.warehouseid = t.warehouseid)");
+
+            return availCache;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        private static void CalculateFutureAvailability(ref TAvailabilityCache availCache)
         {
             foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, TInventoryWarehouseAvailability> availEntry in availCache)
             {
@@ -864,302 +1105,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
             bool success = true;
             if (availRequestItems.Count > 0)
             {
-                string sessionId = AppFunc.GetNextIdAsync(appConfig).Result;
-                DateTime fromDateTime = DateTime.Today;
-                DateTime toDateTime = DateTime.Today.AddDays(AVAILABILITY_DAYS_TO_CACHE);
-
-                TAvailabilityCache availCache = new TAvailabilityCache();
-
-                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                {
-                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId);
-                    string classification = "";
-                    AvailabilityNeedRecalc.TryRemove(availKey, out classification);
-
-                    if (availRequestItem.ToDateTime > toDateTime)
-                    {
-                        toDateTime = availRequestItem.ToDateTime;
-                    }
-                }
-
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("delete                        ");
-                    qry.Add(" from  tmpsearchsession       ");
-                    qry.Add(" where sessionid = @sessionid ");
-                    qry.AddParameter("@sessionid", sessionId);
-                    await qry.ExecuteNonQueryAsync();
-                }
-
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    int i = 0;
-                    int totalItemsAddedToSession = 0;
-                    int totalRequestItems = availRequestItems.Count;
-                    const int MAX_ITEMS_PER_ITERATION = 300;
-                    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                    {
-                        qry.Add("if (not exists (select *                                                                ");
-                        qry.Add("                 from  tmpsearchsession t                                               ");
-                        qry.Add("                 where t.sessionid   = @sessionid                                       ");
-                        qry.Add("                 and   t.masterid    = @masterid" + i.ToString() + "                    ");
-                        qry.Add("                 and   t.warehouseid = @warehouseid" + i.ToString() + "))               ");
-                        qry.Add("begin                                                                                   ");
-                        qry.Add("   insert into tmpsearchsession (sessionid, masterid, warehouseid)                      ");
-                        qry.Add("    values (@sessionid, @masterid" + i.ToString() + ", @warehouseid" + i.ToString() + ")");
-                        qry.Add("end                                                                                     ");
-                        qry.AddParameter("@masterid" + i.ToString(), availRequestItem.InventoryId);
-                        qry.AddParameter("@warehouseid" + i.ToString(), availRequestItem.WarehouseId);
-                        i++;
-                        totalItemsAddedToSession++;
-
-                        if ((i >= MAX_ITEMS_PER_ITERATION) && (totalItemsAddedToSession < totalRequestItems))   // if we have already created a query with 300 items to add, and there are still more to do, then process the 300 and start a new query for the next group. this avoids exceeding the parameter limit on sql server
-                        {
-                            qry.AddParameter("@sessionid", sessionId);
-                            await qry.ExecuteNonQueryAsync();
-                            i = 0;
-                            qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                        }
-                    }
-                    qry.AddParameter("@sessionid", sessionId);
-                    await qry.ExecuteNonQueryAsync();
-                }
-
-                Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouse> packages = new Dictionary<TInventoryWarehouseAvailabilityKey, TInventoryWarehouse>();
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-
-                    FwSqlCommand qryAcc = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qryAcc.Add("select p.packageid, p.warehouseid, p.masterid, p.defaultqty              ");
-                    qryAcc.Add(" from  packagemasterwhforavailview p                                     ");
-                    qryAcc.Add("              join tmpsearchsession a on (p.packageid   = a.masterid and ");
-                    qryAcc.Add("                                          p.warehouseid = a.warehouseid) ");
-                    qryAcc.Add(" where a.sessionid = @sessionid                                          ");
-                    qryAcc.Add("order by p.packageid, p.warehouseid                                      ");
-                    qryAcc.AddParameter("@sessionid", sessionId);
-                    FwJsonDataTable dtAcc = await qryAcc.QueryToFwJsonTableAsync();
-
-                    if (dtAcc.Rows.Count > 0)
-                    {
-                        string prevPackageId = string.Empty;
-                        string prevWarehouseId = string.Empty;
-                        string packageId = string.Empty;
-                        string warehouseId = string.Empty;
-                        TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(packageId, warehouseId);
-                        TInventoryWarehouse inventoryWarehouse = new TInventoryWarehouse(packageId, warehouseId);
-
-                        foreach (List<object> rowAcc in dtAcc.Rows)
-                        {
-                            packageId = rowAcc[dtAcc.GetColumnNo("packageid")].ToString();
-                            warehouseId = rowAcc[dtAcc.GetColumnNo("warehouseid")].ToString();
-                            if ((!packageId.Equals(prevPackageId)) || (!warehouseId.Equals(prevWarehouseId)))
-                            {
-                                if (!prevPackageId.Equals(string.Empty))
-                                {
-                                    packages.Add(availKey, inventoryWarehouse);
-                                }
-                                availKey = new TInventoryWarehouseAvailabilityKey(packageId, warehouseId);
-                                inventoryWarehouse = new TInventoryWarehouse(packageId, warehouseId);
-                            }
-
-                            string accInventoryId = rowAcc[dtAcc.GetColumnNo("masterid")].ToString();
-                            decimal accDefaultQuantity = FwConvert.ToDecimal(rowAcc[dtAcc.GetColumnNo("defaultqty")].ToString());
-                            inventoryWarehouse.Accessories.Add(new TPackageAccessory(accInventoryId, accDefaultQuantity));
-
-                            prevPackageId = packageId;
-                            prevWarehouseId = warehouseId;
-                        }
-
-                        if (!packageId.Equals(string.Empty))
-                        {
-                            packages.Add(availKey, inventoryWarehouse);
-                        }
-                    }
-                }
-
-
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("select a.masterid, a.warehouseid,                                                                                     ");
-                    qry.Add("       a.masterno, a.master, a.whcode, a.noavail, a.warehouse, a.class, a.availbyhour,                                ");
-                    qry.Add("       a.inventorydepartmentid, a.inventorydepartment, a.categoryid, a.category, a.subcategoryid, a.subcategory,      ");
-                    qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit,                                ");
-                    qry.Add("       a.ownedqtyinrepair, a.ownedqtyontruck, a.ownedqtyincontainer,                                                  ");
-                    qry.Add("       a.consignedqty, a.consignedqtyin, a.consignedqtystaged, a.consignedqtyout,                                     ");
-                    qry.Add("       a.consignedqtyintransit, a.consignedqtyinrepair, a.consignedqtyontruck, a.consignedqtyincontainer              ");
-                    qry.Add(" from  availabilitymasterwhview a with (nolock)                                                                       ");
-                    qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid = t.masterid and                                    ");
-                    qry.Add("                                                       a.warehouseid = t.warehouseid)                                 ");
-                    qry.Add(" where t.sessionid = @sessionid                                                                                       ");
-                    qry.AddParameter("@sessionid", sessionId);
-                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-
-                    foreach (List<object> row in dt.Rows)
-                    {
-                        string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
-                        string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-                        TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-
-                        TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
-
-                        availData.AvailDataFromDateTime = fromDateTime;
-                        availData.AvailDataToDateTime = toDateTime;
-                        availData.InventoryWarehouse.ICode = row[dt.GetColumnNo("masterno")].ToString();
-                        availData.InventoryWarehouse.Description = row[dt.GetColumnNo("master")].ToString();
-                        availData.InventoryWarehouse.WarehouseCode = row[dt.GetColumnNo("whcode")].ToString();
-                        availData.InventoryWarehouse.Warehouse = row[dt.GetColumnNo("warehouse")].ToString();
-                        availData.InventoryWarehouse.Classification = row[dt.GetColumnNo("class")].ToString();
-                        availData.InventoryWarehouse.InventoryTypeId = row[dt.GetColumnNo("inventorydepartmentid")].ToString();
-                        availData.InventoryWarehouse.InventoryType = row[dt.GetColumnNo("inventorydepartment")].ToString();
-                        availData.InventoryWarehouse.CategoryId = row[dt.GetColumnNo("categoryid")].ToString();
-                        availData.InventoryWarehouse.Category = row[dt.GetColumnNo("category")].ToString();
-                        availData.InventoryWarehouse.SubCategoryId = row[dt.GetColumnNo("subcategoryid")].ToString();
-                        availData.InventoryWarehouse.SubCategory = row[dt.GetColumnNo("subcategory")].ToString();
-
-                        if (availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT))
-                        {
-                            TInventoryWarehouse package = null;
-                            if (packages.TryGetValue(availKey, out package))
-                            {
-                                foreach (TPackageAccessory accessory in package.Accessories)
-                                {
-                                    availData.InventoryWarehouse.Accessories.Add(new TPackageAccessory(accessory.InventoryId, accessory.DefaultQuantity));
-                                }
-                            }
-                        }
-
-                        availData.InventoryWarehouse.HourlyAvailability = FwConvert.ToBoolean(row[dt.GetColumnNo("availbyhour")].ToString());
-                        availData.InventoryWarehouse.NoAvailabilityCheck = FwConvert.ToBoolean(row[dt.GetColumnNo("noavail")].ToString());
-
-                        availData.Total.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqty")].ToString());
-                        availData.Total.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqty")].ToString());
-
-                        availData.In.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyin")].ToString());
-                        availData.In.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyin")].ToString());
-
-                        availData.Staged.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtystaged")].ToString());
-                        availData.Staged.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtystaged")].ToString());
-
-                        availData.Out.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyout")].ToString());
-                        availData.Out.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyout")].ToString());
-
-                        availData.InTransit.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyintransit")].ToString());
-                        availData.InTransit.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyintransit")].ToString());
-
-                        availData.InRepair.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyinrepair")].ToString());
-                        availData.InRepair.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyinrepair")].ToString());
-
-                        availData.OnTruck.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyontruck")].ToString());
-                        availData.OnTruck.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyontruck")].ToString());
-
-                        availData.InContainer.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyincontainer")].ToString());
-                        availData.InContainer.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyincontainer")].ToString());
-
-                        availCache.AddOrUpdate(availKey, availData, (key, existingValue) =>
-                        {
-                            existingValue.CloneFrom(availData);
-                            return existingValue;
-                        });
-                    }
-                }
-
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("delete t                                                                ");
-                    qry.Add(" from  tmpsearchsession t                                               ");
-                    qry.Add("           join master m with (nolock) on (t.masterid = m.masterid)     ");
-                    qry.Add(" where t.sessionid = @sessionid                                         ");
-                    qry.Add(" and   m.noavail   = 'T'                                                ");
-                    qry.AddParameter("@sessionid", sessionId);
-                    await qry.ExecuteNonQueryAsync();
-                }
-
-                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                {
-                    bool hasConsignment = false;  //jh 02/28/2019 place-holder.  will add system-wide option for consignment here
-                    FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                    qry.Add("select a.masterid, a.warehouseid,                                                      ");
-                    qry.Add("       a.orderid, a.masteritemid, a.availfromdatetime, a.availtodatetime,              ");
-                    qry.Add("       a.ordertype, a.orderno, a.orderdesc, a.orderstatus, a.dealid, a.deal,           ");
-                    qry.Add("       a.departmentid, a.department,                                                   ");
-                    qry.Add("       a.qtyordered, a.qtystagedowned, a.qtyoutowned, a.qtyinowned,                    ");
-                    qry.Add("       a.subqty, a.qtystagedsub, a.qtyoutsub, a.qtyinsub,                              ");
-                    if (hasConsignment)
-                    {
-                        //jh 02/28/2019 this is a bottleneck as the query must join in ordertranextended to get the consignorid.  Consider moving consignorid to the ordetran table
-                        qry.Add("       a.consignqty, a.qtystagedconsigned, a.qtyoutconsigned, a.qtyinconsigned ");
-                    }
-                    else
-                    {
-                        qry.Add("       consignqty = 0, qtystagedconsigned = 0, qtyoutconsigned = 0, qtyinconsigned = 0 ");
-                    }
-                    qry.Add(" from  availabilityitemview a with (nolock)                                             ");
-                    qry.Add("             join tmpsearchsession t with (nolock) on (a.masterid    = t.masterid and   ");
-                    qry.Add("                                                       a.warehouseid = t.warehouseid)   ");
-                    qry.Add(" where t.sessionid = @sessionid                                                         ");
-                    qry.AddParameter("@sessionid", sessionId);
-                    FwJsonDataTable dt = await qry.QueryToFwJsonTableAsync();
-
-                    // load dt into availData.Reservations
-                    foreach (List<object> row in dt.Rows)
-                    {
-                        string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
-                        string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
-                        TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-
-                        TInventoryWarehouseAvailabilityReservation reservation = new TInventoryWarehouseAvailabilityReservation();
-                        reservation.OrderId = row[dt.GetColumnNo("orderid")].ToString();
-                        reservation.OrderItemId = row[dt.GetColumnNo("masteritemid")].ToString();
-                        reservation.OrderType = row[dt.GetColumnNo("ordertype")].ToString();
-                        reservation.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
-                        reservation.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
-                        reservation.OrderStatus = row[dt.GetColumnNo("orderstatus")].ToString();
-                        reservation.DepartmentId = row[dt.GetColumnNo("departmentid")].ToString();
-                        reservation.Department = row[dt.GetColumnNo("department")].ToString();
-                        reservation.DealId = row[dt.GetColumnNo("dealid")].ToString();
-                        reservation.Deal = row[dt.GetColumnNo("deal")].ToString();
-                        reservation.FromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availfromdatetime")].ToString());
-                        reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
-                        reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
-                        reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
-                        reservation.QuantityConsigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignqty")].ToString());
-
-                        TInventoryWarehouseAvailabilityQuantity reservationStaged = new TInventoryWarehouseAvailabilityQuantity();
-                        TInventoryWarehouseAvailabilityQuantity reservationOut = new TInventoryWarehouseAvailabilityQuantity();
-                        TInventoryWarehouseAvailabilityQuantity reservationIn = new TInventoryWarehouseAvailabilityQuantity();
-
-                        reservationStaged.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedowned")].ToString());
-                        reservationStaged.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedconsigned")].ToString());
-
-                        reservationOut.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutowned")].ToString());
-                        reservationOut.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutconsigned")].ToString());
-
-                        reservationIn.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinowned")].ToString());
-                        reservationIn.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinconsigned")].ToString());
-
-                        reservation.QuantityStaged = reservationStaged;
-                        reservation.QuantityOut = reservationOut;
-                        reservation.QuantityIn = reservationIn;
-
-                        reservation.QuantityReserved.Owned = (reservation.QuantityOrdered - reservation.QuantitySub - reservation.QuantityConsigned - reservation.QuantityStaged.Owned - reservation.QuantityOut.Owned - reservation.QuantityIn.Owned);
-                        reservation.QuantityReserved.Consigned = (reservation.QuantityConsigned - reservation.QuantityOut.Consigned - reservation.QuantityIn.Consigned);
-
-                        TInventoryWarehouseAvailability availData = new TInventoryWarehouseAvailability(inventoryId, warehouseId);
-                        if (availCache.TryGetValue(availKey, out availData))
-                        {
-                            availData.Reservations.Add(reservation);
-                        }
-                    }
-                }
-                //#jhtodo copy the loop above for Completes and Kits, joining on parentid.  This will give a list of reservations that reference these packages
-                //qry.Add("             join tmpsearchsession t on (a.parentid = t.masterid and a.warehouseid = t.warehouseid)");
-
-                ProjectFutureAvailability(ref availCache);
-
+                TAvailabilityCache availCache = await BuildAvailabilityCache(appConfig, userSession, availRequestItems);
+                CalculateFutureAvailability(ref availCache);
                 foreach (TInventoryWarehouseAvailabilityKey availKey in availCache.Keys)
                 {
                     AvailabilityCache.AddOrUpdate(availKey, availCache[availKey], (key, existingValue) =>
@@ -1168,12 +1115,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                         return existingValue;
                     });
                 }
-
             }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
-        public static async Task<bool> KeepFresh(FwApplicationConfig appConfig)
+        public static async Task<bool> KeepAvailabilityCacheFresh(FwApplicationConfig appConfig)
         {
             const int AVAILABILITY_REQUEST_BATCH_SIZE = 5000;
             bool success = true;
@@ -1217,8 +1163,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 return existingValue;
                             });
                         }
-                        //string classification = "";
-                        //AvailabilityNeedRecalc.TryRemove(anc.Key, out classification);
                     }
                     AvailabilityNeedRecalc.Clear();
                 }
@@ -1252,39 +1196,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
             }
 
-            //// get the list of inventory items and accessories that either have no availability data in cache, or the cache is not far enough out in the future
-            ////Console.WriteLine("checking item/accessory inventory that needs availability data in cache");
-            //TInventoryNeedingAvailDictionary inventoryNeedingAvail = await GetItemsAccessoriesNeedingAvail(appConfig);
-
-            //// loop through this list in batches 
-            ////Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
-            //while (inventoryNeedingAvail.Count > 0)
-            //{
-            //    // build up a request containing all items that need availability
-            //    availRequestItems.Clear();
-            //    foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> ina in inventoryNeedingAvail)
-            //    {
-            //        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(ina.Key.InventoryId, ina.Key.WarehouseId, fromDate, availabilityThroughDate));
-
-            //        if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
-            //        {
-            //            break; // break out of this foreach loop
-            //        }
-            //    }
-
-            //    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-            //    {
-            //        string classification = "";
-            //        inventoryNeedingAvail.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
-            //    }
-
-            //    // update the static cache of availability data
-            //    await GetAvailability(appConfig, null, availRequestItems, true);
-
-            //    //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need availability data in cache");
-            //}
-
-
             // loop through this local list of Completes and Kits in batches
             //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
             while (availNeedRecalcPackage.Count > 0)
@@ -1306,46 +1217,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     availNeedRecalcPackage.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
                 }
 
-
                 // update the static cache of availability data
                 await GetAvailability(appConfig, null, availRequestItems, true);
 
                 //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
             }
-
-
-            //// get the list of inventory Completes and Kits that either have no availability data in cache, or the cache is not far enough out in the future
-            ////Console.WriteLine("checking complete/kit inventory that needs availability data in cache");
-            //inventoryNeedingAvail = await GetPackageNeedingAvail(appConfig);
-
-            //// loop through this list in batches 
-            ////Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
-            //while (inventoryNeedingAvail.Count > 0)
-            //{
-            //    // build up a request containing all items that need availability
-            //    availRequestItems.Clear();
-            //    foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> ina in inventoryNeedingAvail)
-            //    {
-            //        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(ina.Key.InventoryId, ina.Key.WarehouseId, fromDate, availabilityThroughDate));
-
-            //        if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
-            //        {
-            //            break; // break out of this foreach loop
-            //        }
-            //    }
-
-            //    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-            //    {
-            //        string classification = "";
-            //        inventoryNeedingAvail.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
-            //    }
-
-            //    // update the static cache of availability data
-            //    await GetAvailability(appConfig, null, availRequestItems, true);
-
-            //    //Console.WriteLine(inventoryNeedingAvail.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need availability data in cache");
-            //}
-
 
 
             return success;
@@ -1717,28 +1593,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                                     responseItem.QuantityAvailable = minAvail.MinimumAvailable.Total;
                                     responseItem.AvailabilityIsStale = minAvail.IsStale;
-
-                                    if (minAvail.NoAvailabilityCheck)
-                                    {
-                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_NO_AVAILABILITY_CHECK;
-                                    }
-                                    else if (minAvail.IsStale)
-                                    {
-                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_STALE;
-                                    }
-                                    else if (minAvail.MinimumAvailable.Total < 0)
-                                    {
-                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_NEGATIVE;
-                                    }
-                                    else if (minAvail.MinimumAvailable.Total == 0)
-                                    {
-                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_ZERO;
-                                    }
-                                    else if (minAvail.MinimumAvailable.Total > 0)
-                                    {
-                                        responseItem.AvailabilityState = RwConstants.AVAILABILITY_STATE_ENOUGH;
-                                    }
-
+                                    responseItem.AvailabilityState = minAvail.AvailabilityState;
                                     responseItem.QuantityLate = null;
                                     responseItem.QuantityQc = null;
                                     response.Add(responseItem);

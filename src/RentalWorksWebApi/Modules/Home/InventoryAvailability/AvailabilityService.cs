@@ -83,7 +83,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         private void KeepFresh(object state)
         {
             DisableKeepFreshTimer();
-            bool b = InventoryAvailabilityFunc.KeepFresh(appConfig).Result;
+            bool b = InventoryAvailabilityFunc.KeepAvailabilityCacheFresh(appConfig).Result;
             EnableKeepFreshTimer();
         }
         //-------------------------------------------------------------------------------------------------------
