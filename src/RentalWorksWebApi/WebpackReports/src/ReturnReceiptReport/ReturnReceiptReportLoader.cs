@@ -157,7 +157,7 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 string[] orderItemHeaderFields = new string[] { "OrderItemId", "ICode" };
-                dt.InsertSubTotalRows("OrderItemId", "RowType", totalFields, nameHeaderColumns: orderItemHeaderFields);
+                dt.InsertSubTotalRows("OrderItemId", "RowType", totalFields, nameHeaderColumns: orderItemHeaderFields, totalFor: "Total for");
 
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
