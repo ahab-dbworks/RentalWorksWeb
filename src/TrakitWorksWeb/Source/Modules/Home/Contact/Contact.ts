@@ -82,7 +82,34 @@ class Contact {
         $form.find('div.fwformfield[data-datafield="ContactId"] input').val(uniqueids.ContactId);
         FwModule.loadForm(this.Module, $form);
 
+        $form.find('.orderSubModule').append(this.openOrderBrowse($form));
+        $form.find('.quoteSubModule').append(this.openQuoteBrowse($form));
+
         return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    openOrderBrowse($form) {
+        const contactId = FwFormField.getValueByDataField($form, 'ContactId');
+        const $browse = OrderController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = OrderController.ActiveViewFields;
+            request.uniqueids = {
+                ContactId: contactId
+            };
+        });
+        return $browse;
+    }
+    //----------------------------------------------------------------------------------------------
+    openQuoteBrowse($form) {
+        const contactId = FwFormField.getValueByDataField($form, 'ContactId');
+        const $browse = QuoteController.openBrowse();
+        $browse.data('ondatabind', function (request) {
+            request.activeviewfields = QuoteController.ActiveViewFields;
+            request.uniqueids = {
+                ContactId: contactId
+            };
+        });
+        return $browse;
     }
     //----------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
