@@ -357,14 +357,14 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
                 }
                 //--------------------------------------------------------------------------------- 
             }
-            if (request.IncludeSubHeadingsAndSubTotals)
-            {
-                string[] totalFields = new string[] { "OwnedFromDate", "ReplacementCostFromDate", "Purchased", "Retired", "Unretired", "TransferredOut", "TransferredIn", "OwnedToDate", "ReplacementCostToDate" };
-                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-                dt.InsertSubTotalRows("Category", "RowType", totalFields);
-                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            }
+            //if (request.IncludeSubHeadingsAndSubTotals)
+            //{
+            //    string[] totalFields = new string[] { "OwnedFromDate", "ReplacementCostFromDate", "Purchased", "Retired", "Unretired", "TransferredOut", "TransferredIn", "OwnedToDate", "ReplacementCostToDate" };
+            //    dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+            //    dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+            //    dt.InsertSubTotalRows("Category", "RowType", totalFields);
+            //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            //}
             return dt;
         }
         //------------------------------------------------------------------------------------ 
