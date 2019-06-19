@@ -12,18 +12,23 @@ class RwMaster extends WebMaster {
             id: '91D2F0CF-2063-4EC8-B38D-454297E136A8',
             children: []
         };
+        if (userType == 'USER') {
+            menuAgent.children.push(Constants.Modules.Home.Contact);
+            menuAgent.children.push(Constants.Modules.Home.Customer);
+            menuAgent.children.push(Constants.Modules.Home.Deal);
+            menuAgent.children.push(Constants.Modules.Home.Order);
+            menuAgent.children.push(Constants.Modules.Home.Project);
+            menuAgent.children.push(Constants.Modules.Home.PurchaseOrder);
+        }
+
         if (userType == 'USER' || userType == 'CONTACT') {
             menuAgent.children.push(Constants.Modules.Home.Quote);
         }
+
         if (userType == 'USER') {
-            menuAgent.children.push(Constants.Modules.Home.Order);
-            menuAgent.children.push(Constants.Modules.Home.Customer);
-            menuAgent.children.push(Constants.Modules.Home.Deal);
             menuAgent.children.push(Constants.Modules.Home.Vendor);
-            menuAgent.children.push(Constants.Modules.Home.Contact);
-            menuAgent.children.push(Constants.Modules.Home.PurchaseOrder);
-            menuAgent.children.push(Constants.Modules.Home.Project);
         }
+
         this.navigation.push(menuAgent);
         
         if (userType == 'USER') {
@@ -32,15 +37,15 @@ class RwMaster extends WebMaster {
                 caption: 'Inventory',
                 id: '8AA0C4A4-B583-44CD-BB47-09C43961CE99',
                 children: [
-                    Constants.Modules.Home.RentalInventory,
-                    Constants.Modules.Home.SalesInventory,
-                    Constants.Modules.Home.PartsInventory,
                     Constants.Modules.Home.Asset,
-                    Constants.Modules.Home.Container,
-                    Constants.Modules.Home.Repair,
+                    Constants.Modules.Home.AvailabilityConflicts,
                     Constants.Modules.Home.CompleteQc,
+                    Constants.Modules.Home.Container,
+                    Constants.Modules.Home.PartsInventory,
                     Constants.Modules.Home.PhysicalInventory,
-                    Constants.Modules.Home.AvailabilityConflicts
+                    Constants.Modules.Home.RentalInventory,
+                    Constants.Modules.Home.Repair,
+                    Constants.Modules.Home.SalesInventory
                 ]
             };
             this.navigation.push(menuInventory);
@@ -50,25 +55,25 @@ class RwMaster extends WebMaster {
                 caption: 'Warehouse',
                 id: '22D67715-9C24-4A06-A009-CB10A1EC746B',
                 children: [
+                    Constants.Modules.Home.AssignBarCodes,
+                    Constants.Modules.Home.CheckIn,
+                    Constants.Modules.Home.ContainerStatus,
+                    Constants.Modules.Home.Contract,
+                    Constants.Modules.Home.EmptyContainer,
+                    Constants.Modules.Home.Exchange,
+                    Constants.Modules.Home.FillContainer,
+                    Constants.Modules.Home.Manifest,
                     Constants.Modules.Home.OrderStatus,
                     Constants.Modules.Home.PickList,
-                    Constants.Modules.Home.Contract,
-                    Constants.Modules.Home.StagingCheckout,
-                    Constants.Modules.Home.Exchange,
-                    Constants.Modules.Home.CheckIn,
                     Constants.Modules.Home.ReceiveFromVendor,
+                    Constants.Modules.Home.RemoveFromContainer,
                     Constants.Modules.Home.ReturnToVendor,
-                    Constants.Modules.Home.AssignBarCodes,
-                    Constants.Modules.Home.TransferStatus,
-                    Constants.Modules.Home.TransferOrder,
-                    Constants.Modules.Home.Manifest,
-                    Constants.Modules.Home.TransferReceipt,
-                    Constants.Modules.Home.TransferOut,
+                    Constants.Modules.Home.StagingCheckout,
                     Constants.Modules.Home.TransferIn,
-                    Constants.Modules.Home.ContainerStatus,
-                    Constants.Modules.Home.FillContainer,
-                    Constants.Modules.Home.EmptyContainer,
-                    Constants.Modules.Home.RemoveFromContainer
+                    Constants.Modules.Home.TransferOrder,
+                    Constants.Modules.Home.TransferOut,
+                    Constants.Modules.Home.TransferReceipt,
+                    Constants.Modules.Home.TransferStatus
                 ]
             };
             this.navigation.push(menuWarehouse);
@@ -113,9 +118,9 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Administrator.EmailHistory,
                     Constants.Modules.Administrator.Group,
                     Constants.Modules.Administrator.Hotfix,
-                    Constants.Modules.Administrator.User,
+                    Constants.Modules.Administrator.Reports,
                     Constants.Modules.Administrator.Settings,
-                    Constants.Modules.Administrator.Reports
+                    Constants.Modules.Administrator.User
                 ]
             };
             this.navigation.push(menuAdministrator);
