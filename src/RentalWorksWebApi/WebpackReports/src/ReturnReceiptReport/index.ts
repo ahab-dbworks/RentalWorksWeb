@@ -23,16 +23,16 @@ export class ReturnReceiptReport extends WebpackReport {
                     data.Report = 'Return Receipt Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
-                    this.renderFooterHtml(data);
-
+                    // to prevent repeating headers for these rows
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].RecordType === 'ASSIGNED' || data[i].RecordType === 'RETURNED_TO_INVENTORY') {
                             if (data[i + 1].RecordType === 'ASSIGNED' || data[i + 1].RecordType === 'RETURNED_TO_INVENTORY') {
                                 data[i + 1].RepeatHeader = false;
                             }
-
                         }
                     }
+
+                    this.renderFooterHtml(data);
                     console.log('rpt', data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

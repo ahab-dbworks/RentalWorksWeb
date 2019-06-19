@@ -86,7 +86,7 @@ export class CustomerRevenueByMonthReport extends WebpackReport {
                     document.getElementById('pageBody').innerHTML = hbReport(data);
                     let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
                     if (data.IsSummary) {
-                        mappedHeader = `<th></th>` + mappedHeader;
+                        mappedHeader = `<th>Deal</th>` + mappedHeader;
                     } else {
                         mappedHeader = `<th>Category</th>` + mappedHeader;
                     }

@@ -31,14 +31,27 @@
         {{#ifEquals RowType "OfficeLocationheader"}}
         <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Customerheader"}}
-        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
-        {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
         <td colspan="5" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
+        {{#ifEquals RowType "Customerheader"}}
+        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td>{{Deal}}</td>
+        <td class="number">{{Month01RevenueAsText}}</td>
+        <td class="number">{{Month02RevenueAsText}}</td>
+        <td class="number">{{Month03RevenueAsText}}</td>
+        <td class="number">{{Month04RevenueAsText}}</td>
+        <td class="number">{{Month05RevenueAsText}}</td>
+        <td class="number">{{Month06RevenueAsText}}</td>
+        <td class="number">{{Month07RevenueAsText}}</td>
+        <td class="number">{{Month08RevenueAsText}}</td>
+        <td class="number">{{Month09RevenueAsText}}</td>
+        <td class="number">{{Month10RevenueAsText}}</td>
+        <td class="number">{{Month11RevenueAsText}}</td>
+        <td class="number">{{Month12RevenueAsText}}</td>
+        <td class="number">{{AllMonthsRevenueAsText}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
         <td class="total-name">{{OfficeLocation}}&nbsp;</td>
@@ -56,8 +69,8 @@
         <td class="total-val">{{Month12RevenueAsText}}</td>
         <td class="total-val">{{AllMonthsRevenueAsText}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Customerfooter"}}
-        <td class="total-name">{{Customer}}&nbsp;</td>
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td class="total-name">{{Department}}&nbsp;</td>
         <td class="total-val">{{Month01RevenueAsText}}</td>
         <td class="total-val">{{Month02RevenueAsText}}</td>
         <td class="total-val">{{Month03RevenueAsText}}</td>
@@ -72,8 +85,8 @@
         <td class="total-val">{{Month12RevenueAsText}}</td>
         <td class="total-val">{{AllMonthsRevenueAsText}}</td>
         {{/ifEquals}}
-        {{#ifEquals RowType "Departmentfooter"}}
-        <td class="total-name">{{Department}}&nbsp;</td>
+        {{#ifEquals RowType "Customerfooter"}}
+        <td class="total-name">{{Customer}}&nbsp;</td>
         <td class="total-val">{{Month01RevenueAsText}}</td>
         <td class="total-val">{{Month02RevenueAsText}}</td>
         <td class="total-val">{{Month03RevenueAsText}}</td>
