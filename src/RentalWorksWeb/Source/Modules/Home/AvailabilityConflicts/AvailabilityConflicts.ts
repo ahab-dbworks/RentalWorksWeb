@@ -120,8 +120,8 @@ class AvailabilityConflicts {
                         <td class="number">${data[i].QuantityLate}</td>
                         <td class="number">${data[i].QuantityIn}</td>
                         <td class="number">${data[i].QuantityQc}</td>
-                        <td>${data[i].FromDateTime}</td>
-                        <td>${data[i].ToDateTime}</td>
+                        <td>${data[i].FromDateTimeString}</td>
+                        <td>${data[i].ToDateTimeString}</td>
                     </tr>
                     `;
             $rows.push(row);

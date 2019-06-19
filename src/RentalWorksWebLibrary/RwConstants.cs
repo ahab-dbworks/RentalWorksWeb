@@ -336,6 +336,7 @@
         public const string DATA_EXPORT_SETTINGS_TYPE_VENDOR_INVOICE_TAX = "VENDOR INVOICE TAX";
 
         //AVAILABILITY
+        public const string NO_AVAILABILITY_CAPTION = "No Availability";
         public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 16772044;      //aqua
         public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0;        //black
         public const int AVAILABILITY_COLOR_NEGATIVE = 255;                  //red
@@ -350,6 +351,8 @@
         public const int AVAILABILITY_TEXT_COLOR_NEEDRECALC = 16777215;      //white
         public const int AVAILABILITY_COLOR_HISTORICAL_DATE = 15132390;      //gray
         public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0;        //black
+        public const int AVAILABILITY_COLOR_LATE = 4227327;                  //orange
+        public const int AVAILABILITY_TEXT_COLOR_LATE = 0;                   //black
 
         public const int AVAILABILITY_COLOR_ORDER = 15101961; //blue TEMPORARY
 
