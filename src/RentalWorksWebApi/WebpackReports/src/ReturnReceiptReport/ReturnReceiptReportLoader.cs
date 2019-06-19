@@ -108,6 +108,9 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
         [FwSqlDataField(column: "recappliedqty", modeltype: FwDataTypes.Decimal)]
         public decimal? ReconciledAppliedQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "reportrowid", modeltype: FwDataTypes.Text)]
+        public string ReportRowId { get; set; }
+        //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(ReturnReceiptReportRequest request)
         {
             useWithNoLock = false;
@@ -156,8 +159,9 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
                 string[] totalFields = new string[] { "InQuantity", "ReconciledAppliedQuantity", "UnassignedQuantity", "AssignedQuantity" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
-                string[] orderItemHeaderFields = new string[] { "OrderItemId", "ICode" };
-                dt.InsertSubTotalRows("OrderItemId", "RowType", totalFields, nameHeaderColumns: orderItemHeaderFields, totalFor: "Total for");
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                string[] orderItemHeaderFields = new string[] { "ReportRowId", "ICode" };
+                dt.InsertSubTotalRows("ReportRowId", "RowType", totalFields, nameHeaderColumns: orderItemHeaderFields, totalFor: "Total for");
 
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
