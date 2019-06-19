@@ -53,6 +53,7 @@
       </tr>
       {{/ifNotEquals}}
       {{#ifEquals RecordType "ASSIGNED"}}
+      {{#ifNotEquals RepeatHeader false}}
       <tr>
         <th style="text-align:right;">Assigned:&nbsp;</th>
         <th class="subHeaders">Order No.</th>
@@ -62,6 +63,7 @@
         <th class="subHeaders number">Applied</th>
         <th colspan="3"></th>
       </tr>
+      {{/ifNotEquals}}
       <tr class="subValues">
         <td></td>
         <td>{{ReconciledOrderNumber}}</td>
@@ -71,8 +73,9 @@
         <td class="number">{{ReconciledAppliedQuantity}}</td>
         <td colspan="3"></td>
       </tr>
-    {{/ifEquals}}
-     {{#ifEquals RecordType "RETURNED_TO_INVENTORY"}}
+      {{/ifEquals}}
+      {{#ifEquals RecordType "RETURNED_TO_INVENTORY"}}
+      {{#ifNotEquals RepeatHeader false}}
       <tr>
         <th style="text-align:right;">Assigned:&nbsp;</th>
         <th class="subHeaders">Order No.</th>
@@ -82,6 +85,7 @@
         <th class="subHeaders number">Applied</th>
         <th colspan="3"></th>
       </tr>
+      {{/ifNotEquals}}
       <tr class="subValues">
         <td></td>
         <td>{{ReconciledOrderNumber}}</td>
@@ -91,7 +95,7 @@
         <td class="number">{{ReconciledAppliedQuantity}}</td>
         <td colspan="3"></td>
       </tr>
-    {{/ifEquals}}
+      {{/ifEquals}}
     </tbody>
     {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
