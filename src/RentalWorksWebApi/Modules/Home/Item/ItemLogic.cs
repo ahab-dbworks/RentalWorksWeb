@@ -1,6 +1,7 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebApi.Logic;
+using WebApi.Modules.Home.Purchase;
 using static FwStandard.DataLayer.FwDataReadWriteRecord;
 
 namespace WebApi.Modules.Home.Item
@@ -10,14 +11,21 @@ namespace WebApi.Modules.Home.Item
     {
         //------------------------------------------------------------------------------------ 
         protected ItemRecord item = new ItemRecord();
+        protected PurchaseRecord purchase = new PurchaseRecord();
         protected ItemLoader itemLoader = new ItemLoader();
         protected ItemBrowseLoader itemBrowseLoader = new ItemBrowseLoader();
+
         public ItemLogic()
         {
             dataRecords.Add(item);
+            dataRecords.Add(purchase);
             dataLoader = itemLoader;
             browseLoader = itemBrowseLoader;
+
+            BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
+
+            UseTransactionToSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id:"ow9igbdLMgEw", IsPrimaryKey:true)]
@@ -150,7 +158,7 @@ namespace WebApi.Modules.Home.Item
         public string ManufacturerModelNumber { get { return item.ManufacturerModelNumber; } set { item.ManufacturerModelNumber = value; } }
 
         [FwLogicProperty(Id:"V7cnfr29t4OL")]
-        public string PurchaseId { get { return item.PurchaseId; } set { item.PurchaseId = value; } }
+        public string PurchaseId { get { return item.PurchaseId; } set { item.PurchaseId = value; purchase.PurchaseId = value; } }
 
         [FwLogicProperty(Id:"PHULh5L5WYWc")]
         public string AisleLocation { get { return item.AisleLocation; } set { item.AisleLocation = value; } }
@@ -237,7 +245,7 @@ namespace WebApi.Modules.Home.Item
         public string PurchaseVendor { get; set; }
 
         [FwLogicProperty(Id:"zf42tuOKRU4W", IsReadOnly:true)]
-        public string OutsidePoNumber { get; set; }
+        public string OutsidePurchaseOrderNumber { get { return purchase.OutsidePurchaseOrderNumber; } set { purchase.OutsidePurchaseOrderNumber = value; } }
 
         [FwLogicProperty(Id:"drb91EWQr4tk", IsReadOnly:true)]
         public string PurchasePoId { get; set; }
@@ -507,6 +515,18 @@ namespace WebApi.Modules.Home.Item
         public string DateStamp { get { return item.DateStamp; } set { item.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
+        public virtual void OnBeforeSave(object sender, BeforeSaveEventArgs e)
+        {
+            if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                if (e.Original != null)
+                {
+                    ItemLogic orig = ((ItemLogic)e.Original);
+                    PurchaseId = orig.PurchaseId;
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
             bool doSaveNote = false;

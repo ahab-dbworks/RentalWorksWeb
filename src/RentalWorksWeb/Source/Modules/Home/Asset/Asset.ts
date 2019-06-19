@@ -403,13 +403,14 @@ class RwAsset {
                       <div class="flexrow">
                         <div class="flexcolumn" style="flex:1 1 650px;">
                           <div class="flexrow">
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 200px;"></div>
-                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="PurchaseVendorId" data-enabled="false" data-displayfield="PurchaseVendor" data-validationname="VendorValidation" style="flex:1 1 300px;"></div>
-                          </div>
-                          <div class="flexrow">
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Purchase Date" data-datafield="PurchaseDate" data-enabled="false" style="flex:1 1 100px;"></div>
                             <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Receive Date" data-datafield="ReceiveDate" data-enabled="false" style="flex:1 1 100px;"></div>
-                            <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="PoCost" data-enabled="false" style="flex:1 1 75px;"></div>
+                            <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Unit Cost" data-datafield="PoCost" data-enabled="false" style="flex:1 1 75px;"></div>
+                          </div>
+                          <div class="flexrow">
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="PurchaseVendorId" data-enabled="false" data-displayfield="PurchaseVendor" data-validationname="VendorValidation" style="flex:1 1 300px;"></div>
+                            <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Purchase PO Number" data-datafield="PurchasePoId" data-enabled="false" data-displayfield="PurchasePoNumber" data-validationname="PurchaseOrderValidation" style="flex:1 1 150px;"></div>
+                            <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Outside PO Number" data-datafield="OutsidePurchaseOrderNumber" data-enabled="true" style="flex:1 1 150px;"></div>
                           </div>
                         </div>
                       </div>
