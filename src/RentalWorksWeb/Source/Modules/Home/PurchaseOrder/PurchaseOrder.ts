@@ -148,7 +148,7 @@ class PurchaseOrder {
 
         this.events($form);
         this.activityCheckboxEvents($form, mode);
-
+        this.renderSearchButton($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
@@ -201,6 +201,28 @@ class PurchaseOrder {
     saveForm($form: JQuery, parameters: any): void {
         FwModule.saveForm(this.Module, $form, parameters);
     };
+    //----------------------------------------------------------------------------------------------
+    renderSearchButton($form: any) {
+        var self = this;
+        var $search = FwMenu.addStandardBtn($form.find('.fwmenu:first'), 'QuikSearch', 'searchbtn');
+        $search.prepend('<i class="material-icons">search</i>');
+        $search.on('click', function () {
+            try {
+                let $form = jQuery(this).closest('.fwform');
+                let orderId = FwFormField.getValueByDataField($form, `${self.Module}Id`);
+
+                if (orderId == "") {
+                    FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+                } else if (!jQuery(this).hasClass('disabled')) {
+                    let search = new SearchInterface();
+                    search.renderSearchPopup($form, orderId, self.Module);
+                }
+            }
+            catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+    }
     //----------------------------------------------------------------------------------------------
     renderGrids($form: JQuery): void {
         // ----------
@@ -699,6 +721,7 @@ class PurchaseOrder {
 
         if (status === 'VOID' || status === 'CLOSED' || status === 'SNAPSHOT') {
             FwModule.setFormReadOnly($form);
+            $form.find('.btn[data-securityid="searchbtn"]').addClass('disabled');
         }
 
         if (!FwFormField.getValueByDataField($form, 'Rental')) { $form.find('[data-type="tab"][data-caption="Rental"]').hide() }
