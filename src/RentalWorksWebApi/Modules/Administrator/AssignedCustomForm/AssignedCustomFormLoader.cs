@@ -24,14 +24,14 @@ namespace WebApi.Modules.Administrator.AssignedCustomForm
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;
-            string webUsersId = GetUniqueIdAsString("WebUsersId", request) ?? ""; 
+            string webUserId = GetUniqueIdAsString("WebUserId", request) ?? ""; 
             //DateTime paramDate = GetUniqueIdAsDateTime("ParamDate", request) ?? DateTime.MinValue; 
             //bool paramBoolean = GetUniqueIdAsBoolean("ParamBoolean", request) ?? false; 
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             //addFilterToSelect("UniqueId", "uniqueid", select, request); 
-            select.AddParameter("@webusersid", webUsersId); 
+            select.AddParameter("@webusersid", webUserId); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
         }
