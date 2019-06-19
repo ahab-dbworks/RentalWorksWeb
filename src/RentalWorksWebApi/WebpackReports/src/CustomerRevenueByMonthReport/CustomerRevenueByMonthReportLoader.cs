@@ -245,7 +245,10 @@ namespace WebApi.Modules.Reports.CustomerRevenueByMonthReport
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
-                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                if (!request.IsSummary.GetValueOrDefault(false))
+                {
+                    dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                }
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
 
                 foreach (List<object> row in dt.Rows)
