@@ -30,25 +30,25 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                         data.IsSummary = false;
                     }
                     const headerNames = [];
-                    //let headerCount = 0;
+                    let headerCount = 0;
 
-                    //for (let i = 0; i < data.length; i++) {
-                    //    const el = data[i];
-                    //    if (el) {
-                    //        if (el.RowType === 'detail') {
-                    //            for (let key in el) {
-                    //                if (key.endsWith('Name')) {
-                    //                    if (el[key] !== '') {
-                    //                        headerNames.push(el[key]);
-                    //                        headerCount++
-                    //                    }
-                    //                }
-                    //            }
-                    //            break;
-                    //        }
-                    //    }
-                    //}
-        
+                    for (let i = 0; i < data.length; i++) {
+                        const el = data[i];
+                        if (el) {
+                            if (el.RowType === 'detail') {
+                                for (let key in el) {
+                                    if (key.startsWith('Date')) {
+                                        if (el[key] !== '') {
+                                            headerNames.push(el[key].substring(0, 5));
+                                            headerCount++
+                                        }
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                    }
+
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
@@ -56,8 +56,8 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(data);
                     const staticHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Qty Owned</th><th class="number">On Truck</th><th class="number">Transfer Out</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
-                    // let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
-                    let mappedHeader = '';
+                    let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
+                    //let mappedHeader = '';
                     mappedHeader = staticHeader + mappedHeader;
                     //if (headerCount < 12) {
                     //    const intialColspan = (12 - headerCount);

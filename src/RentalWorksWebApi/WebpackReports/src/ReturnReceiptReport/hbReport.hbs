@@ -39,6 +39,13 @@
       </tr>
     </thead>
     {{/ifEquals}}
+    {{#ifEquals RowType "Dealheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="lower header-row" colspan="4">Deal: {{Deal}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       {{#ifNotEquals RecordType "ASSIGNED"}}
@@ -99,12 +106,12 @@
     </tbody>
     {{/ifEquals}}
     <tfoot data-rowtype="{{RowType}}">
-      {{#ifEquals RowType "OrderItemIdfooter"}}
+      {{#ifEquals RowType "ReportRowIdfooter"}}
       {{#gt AssignedQuantity 0}}
       <tr>
         <td colspan="5" class="total-name">Total for {{ICode}}</td>
         <td class="total-val" data-value="{{ReconciledAppliedQuantity}}"></td>
-        <td style="border-top:none;" class="total-val"> Unassigned: {{UnassignedQuantity}}</td>
+        <td style="text-align:left;border-top:none;" class="total-val">Unassigned: {{UnassignedQuantity}}</td>
       </tr>
       {{/gt}}
       {{/ifEquals}}

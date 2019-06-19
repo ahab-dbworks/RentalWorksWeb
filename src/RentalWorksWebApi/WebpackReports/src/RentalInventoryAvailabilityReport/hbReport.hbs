@@ -1,5 +1,5 @@
 ﻿<!--RentalInventoryAvailabilityReport-->
-<div class="rpt-flexrow" style="width:1525px;">
+<div class="rpt-flexrow" style="width:1725px;">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -11,21 +11,12 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width:1525px;">
+<div class="rpt-flexrow" style="margin-top:40px;width:1725px;">
   <!--SUMMARY VIEW TABLE-->
   {{#ifEquals IsSummary true}}
   <table>
     <thead>
-      <tr id="HeaderRow">
-        <!--<th class="nowrap">I-Code</th>
-        <th>Description</th>
-        <th class="number">Qty Owned</th>
-        <th class="number">On Truck</th>
-        <th class="number">Transfer Out</th>
-        <th class="number">In Repair</th>
-        <th class="number">Sub-Rent</th>
-        <th class="number">Late</th>-->
-      </tr>
+      <tr id="HeaderRow"></tr>
     </thead>
     <tbody>
       {{#each this}}
