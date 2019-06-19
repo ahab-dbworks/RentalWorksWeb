@@ -142,6 +142,21 @@ class RwAsset {
         FwBrowse.init($itemQcGridControl);
         FwBrowse.renderRuntimeHtml($itemQcGridControl);
         // ----------
+        const $vendorItemGrid: JQuery = $form.find(`div[data-grid="PurchaseVendorInvoiceItemGrid"]`);
+        const $vendorItemGridControl: JQuery = FwBrowse.loadGridFromTemplate('PurchaseVendorInvoiceItemGrid');
+        $vendorItemGrid.empty().append($vendorItemGridControl);
+        $vendorItemGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                PurchaseId: FwFormField.getValueByDataField($form, 'PurchaseId')
+            };
+            request.totalfields = ['Quantity', 'Extended'];
+        })
+        FwBrowse.addEventHandler($vendorItemGridControl, 'afterdatabindcallback', ($control, dt) => {
+            FwFormField.setValueByDataField($form, 'VendorInvoiceTotalQuantity', dt.Totals.Quantity);
+            FwFormField.setValueByDataField($form, 'VendorInvoiceTotalExtended', dt.Totals.Extended);
+        });
+        FwBrowse.init($vendorItemGridControl);
+        FwBrowse.renderRuntimeHtml($vendorItemGridControl);
     };
     //---------------------------------------------------------------------------------------------
     afterLoad($form: JQuery) {
@@ -163,6 +178,9 @@ class RwAsset {
 
         const $itemQcGrid: JQuery = $form.find(`[data-name="${this.nameItemQcGrid}"]`);
         FwBrowse.search($itemQcGrid);
+
+        const $vendorInvoiceItemGrid: JQuery = $form.find(`[data-name="PurchaseVendorInvoiceItemGrid"]`);
+        FwBrowse.search($vendorInvoiceItemGrid);
 
         var status: string = FwFormField.getValueByDataField($form, 'InventoryStatus');
         if (status === "IN") {
@@ -240,6 +258,7 @@ class RwAsset {
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Asset">
                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Available For" data-datafield="AvailFor" data-enabled="false" style="display:none;"></div>
+                          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-datafield="PurchaseId" data-enabled="false" style="display:none;"></div>
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-validationname="RentalInventoryValidation" data-displayfield="ICode" data-enabled="false" style="float:left;width:150px;"></div>
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="float:left;width:500px;"></div>
                         </div>
@@ -414,6 +433,19 @@ class RwAsset {
                           </div>
                         </div>
                       </div>
+                        <div class="flexrow">
+                         <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                           <div data-control="FwGrid" data-grid="PurchaseVendorInvoiceItemGrid" data-securitycaption="Purchase Vendor Invoice Item"></div>
+                         </div>
+                       </div>
+                      <div class="flexrow">
+                         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Totals">
+                         <div class="flexrow">
+                           <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-caption="Qty" data-datafield="VendorInvoiceTotalQuantity" data-enabled="false" style="flex:1 1 100px;"></div>
+                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Extended" data-datafield="VendorInvoiceTotalExtended" data-enabled="false" style="flex:1 1 100px;"></div>
+                         </div>
+                        </div>
+                       </div>
                     </div>
                   </div>
                 </div>
