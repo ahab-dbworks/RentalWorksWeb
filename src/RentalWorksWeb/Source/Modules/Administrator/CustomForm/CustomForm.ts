@@ -109,10 +109,16 @@ class CustomForm {
             case 'GROUPS':
                 $form.find('.groupGrid').show();
                 $form.find('.userGrid').hide();
+
+                const $groupGrid = $form.find('[data-name="CustomFormGroupGrid"]');
+                FwBrowse.search($groupGrid);
                 break;
             case 'USERS':
                 $form.find('.groupGrid').hide();
                 $form.find('.userGrid').show();
+
+                const $userGrid = $form.find('[data-name="CustomFormUserGrid"]');
+                FwBrowse.search($userGrid);
                 break;
             case 'ALL':
                 $form.find('.groupGrid').hide();
