@@ -469,6 +469,7 @@ namespace WebLibrary.Security
             AddGrid("Presentation Layer Form",                "{88985C09-65AD-4480-830A-EFCE95C3940B}", lv1menuGrids.Id, "PresentationLayerFormGridController");
             AddGrid("Project Contact",                        "{F0D3B8C2-1CEC-41B6-81E4-D7B9C821684B}", lv1menuGrids.Id, "ProjectContactGridController");
             AddGrid("Project Note",                           "{686240FE-8276-4715-A7ED-44B4D4A7DC86}", lv1menuGrids.Id, "ProjectNoteGridController");
+            AddGrid("Purchase Vendor Invoice Item",           "{0658B954-7791-4C85-8782-2AA0C5BF6CEC}", lv1menuGrids.Id, "PurchaseVendorInvoiceItemGridController");
             AddGrid("Quik Entry Accessories Options",         "{27317105-BA68-417A-A592-86EEB977CA32}", lv1menuGrids.Id, "RwQuikEntryAccessoriesOptionsGridController");
             AddGrid("Quik Entry Category",                    "{01604AEC-2127-4756-BF92-3A340EF000E1}", lv1menuGrids.Id, "RwQuikEntryCategoryGridController");
             AddGrid("Quik Entry Department",                  "{2AC10F3D-FC50-4454-87C2-54ABBCCD08AB}", lv1menuGrids.Id, "RwQuikEntryDepartmentGridController");
