@@ -1,6 +1,8 @@
+using FwStandard.DataLayer;
+using FwStandard.Models;
 using FwStandard.SqlServer; 
 using FwStandard.SqlServer.Attributes; 
-using WebApi.Data; 
+using WebApi.Data;
 namespace WebApi.Modules.Home.MasterWarehouse
 {
     [FwSqlTable("masterwhview")]
@@ -21,6 +23,9 @@ namespace WebApi.Modules.Home.MasterWarehouse
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(case when (warehouseid = @userwarehouseid) then 0 else 1 end)", modeltype: FwDataTypes.Integer)]
+        public string WarehouseOrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "categoryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string CategoryId { get; set; }
@@ -178,5 +183,14 @@ namespace WebApi.Modules.Home.MasterWarehouse
         [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
+        protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
+        {
+            base.SetBaseSelectQuery(select, qry, customFields, request);
+            //select.Parse();
+            string userWarehouseId = GetMiscFieldAsString("UserWarehouseId", request) ?? "";
+            select.AddParameter("@userwarehouseid", userWarehouseId);
+        }
+        //------------------------------------------------------------------------------------ 
+
     }
 }
