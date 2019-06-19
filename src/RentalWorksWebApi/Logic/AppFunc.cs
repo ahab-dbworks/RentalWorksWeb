@@ -302,6 +302,33 @@ namespace WebApi.Logic
             return isDbWorks;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static string GetOrderTypeDescription (string orderType)
+        {
+            string orderTypeDescription = orderType;
+            switch (orderType)
+            {
+                case RwConstants.ORDER_TYPE_QUOTE:
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_QUOTE; 
+                    break;
+                case RwConstants.ORDER_TYPE_ORDER:
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_ORDER; 
+                    break;
+                case RwConstants.ORDER_TYPE_PROJECT:
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_PROJECT;
+                    break;
+                case RwConstants.ORDER_TYPE_PURCHASE_ORDER:
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_PURCHASE_ORDER;
+                    break;
+                case RwConstants.ORDER_TYPE_TRANSFER:
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_TRANSFER;
+                    break;
+                case RwConstants.ORDER_TYPE_CONTAINER:
+                    orderTypeDescription = RwConstants.ORDER_TYPE_DESCRIPTION_CONTAINER;
+                    break;
+            }
+            return orderTypeDescription;
+        }
+        //-------------------------------------------------------------------------------------------------------
         public static string GetCompanyTypeColor(string companyType)
         {
             string companyTypeColor = null;

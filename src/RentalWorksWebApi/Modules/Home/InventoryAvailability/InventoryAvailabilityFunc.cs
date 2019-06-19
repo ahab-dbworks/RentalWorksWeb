@@ -60,6 +60,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string SubCategory { get; set; }
         public string ICode { get; set; }
         public string ItemDescription { get; set; }
+        public string OrderType { get; set; }
+        public string OrderTypeDescription { get { return AppFunc.GetOrderTypeDescription(OrderType); } }
         public string OrderNumber { get; set; }
         public string OrderDescription { get; set; }
         public string Deal { get; set; }
@@ -187,6 +189,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string OrderId { get; set; }
         public string OrderItemId { get; set; }
         public string OrderType { get; set; }
+        public string OrderTypeDescription { get { return AppFunc.GetOrderTypeDescription(OrderType); } }
         public string OrderNumber { get; set; }
         public string OrderDescription { get; set; }
         public string OrderStatus { get; set; }
@@ -381,7 +384,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 fromDateTime = DateTime.Today;
             }
 
-            if (toDateTime < DateTime.Today)
+            if (toDateTime.Equals(InventoryAvailabilityFunc.LateDateTime))
+            {
+                toDateTime = AvailDataToDateTime;
+            }
+            else if (toDateTime < DateTime.Today)
             {
                 toDateTime = DateTime.Today;
                 isHistory = true;
@@ -548,7 +555,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         //-------------------------------------------------------------------------------------------------------
         private static TAvailabilityNeedRecalcDictionary AvailabilityNeedRecalc = new TAvailabilityNeedRecalcDictionary();
         private static int LastNeedRecalcId = 0;
-        private static DateTime LateDateTime = DateTime.MaxValue;  // temporary value 
+        public static DateTime LateDateTime = DateTime.MaxValue;  // This is a temporary value.  Actual value gets set in InitializeService
         private static TAvailabilityCache AvailabilityCache = new TAvailabilityCache();
         //-------------------------------------------------------------------------------------------------------
         public static async Task<bool> InitializeService(FwApplicationConfig appConfig)
@@ -1808,6 +1815,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                     responseItem.ItemDescription = availData.InventoryWarehouse.Description;
                                     responseItem.QuantityIn = availData.In.Total;
                                     responseItem.QuantityInRepair = availData.InRepair.Total;
+                                    responseItem.OrderType = reservation.OrderType;
                                     responseItem.OrderNumber = reservation.OrderNumber;
                                     responseItem.OrderDescription = reservation.OrderDescription;
                                     responseItem.Deal = reservation.Deal;

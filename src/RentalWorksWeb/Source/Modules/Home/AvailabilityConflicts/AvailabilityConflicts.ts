@@ -77,11 +77,12 @@ class AvailabilityConflicts {
                     <thead>
                         <tr>
                             <th>Warehouse</th>
-                            <th>Type</th>
+                            <th>Inventory Type</th>
                             <th>Category</th>
                             <th>Sub Category</th>
                             <th>I-Code</th>
                             <th>Item Description</th>
+                            <th>Order Type</th>
                             <th>Order No.</th>
                             <th>Order Description</th>
                             <th>Deal</th>
@@ -111,6 +112,7 @@ class AvailabilityConflicts {
                         <td>${data[i].SubCategory}</td>
                         <td class="nowrap">${data[i].ICode}</td>
                         <td>${data[i].ItemDescription}</td>
+                        <td>${data[i].OrderTypeDescription}</td>
                         <td>${data[i].OrderNumber}</td>
                         <td>${data[i].OrderDescription}</td>
                         <td>${data[i].Deal}</td>
