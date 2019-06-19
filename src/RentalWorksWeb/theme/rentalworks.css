@@ -590,3 +590,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #availabilityTable table tr td div[data-state="negative"]{background-color:#f44336;color:#ffffff;}
 #availabilityTable table tr td div[data-state="low"]  {background-color:#ffeb3b;}
 #availabilityTable table tr td div[data-state="noavailcheck"] {background-color:#00ffff;}
+
+.rwSubModule {
+  margin: 10px;
+  border-left: 1px solid silver;
+  border-right: 1px solid silver;
+}
