@@ -9,7 +9,9 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
     public class RentalInventoryMovementReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        //[FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        //public string RowType { get; set; }
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
@@ -54,10 +56,10 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Boolean)]
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public bool? Rank { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "lastpurchase", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "lastpurchase", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? LastPurchase { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
@@ -357,14 +359,14 @@ namespace WebApi.Modules.Reports.RentalInventoryMovementReport
                 }
                 //--------------------------------------------------------------------------------- 
             }
-            //if (request.IncludeSubHeadingsAndSubTotals)
-            //{
-            //    string[] totalFields = new string[] { "OwnedFromDate", "ReplacementCostFromDate", "Purchased", "Retired", "Unretired", "TransferredOut", "TransferredIn", "OwnedToDate", "ReplacementCostToDate" };
-            //    dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
-            //    dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
-            //    dt.InsertSubTotalRows("Category", "RowType", totalFields);
-            //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //}
+            if (request.IncludeSubHeadingsAndSubTotals)
+            {
+                string[] totalFields = new string[] { "OwnedFromDate", "ReplacementCostFromDate", "Purchased", "Retired", "Unretired", "TransferredOut", "TransferredIn", "OwnedToDate", "ReplacementCostToDate" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
+                dt.InsertSubTotalRows("Category", "RowType", totalFields);
+                dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
             return dt;
         }
         //------------------------------------------------------------------------------------ 

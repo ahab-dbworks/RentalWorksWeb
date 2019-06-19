@@ -5,8 +5,7 @@
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
-    <span class="rpt-header-center">As Of: {{Today}}</span>
-    <span class="rpt-header-center">Revenue Period: {{FromDate}} - {{ToDate}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-right">{{Company}}</span>
@@ -16,34 +15,19 @@
   <table>
     <thead class="main-header">
       <tr>
-        <th></th>
-        <th colspan="5"></th>
-        <th></th>
-        <th class="number"></th>
-        <th class="number"></th>
-        <th class="number"></th>
-        <th class="number"></th>
-        <th class="number">In</th>
-        <th class="number">In</th>
-        <th class="number">On</th>
-        <th class="number">Sub-</th>
-        <th>Last Date</th>
-        <th class="number"></th>
-      </tr>
-      <tr>
         <th>I-Code</th>
-        <th colspan="5">Description</th>
-        <th>Warehouse</th>
-        <th class="number">Owned</th>
-        <th class="number">In</th>
-        <th class="number">Staged</th>
-        <th class="number">Out</th>
-        <th class="number">Container</th>
-        <th class="number">Repair</th>
-        <th class="number">PO</th>
-        <th class="number">Rented</th>
-        <th>Rented</th>
-        <th class="number">Revenue</th>
+        <th>Description</th>
+        <th>Rank</th>
+        <th class="number">From Date Owned</th>
+        <th class="number">From Date Value</th>
+        <th class="number">Purchased</th>
+        <th class="number">Retired</th>
+        <th class="number">Unretired</th>
+        <th class="number">Transferred Out</th>
+        <th class="number">Transferred In</th>
+        <th class="number">To Date Owned</th>
+        <th class="number">To Date Value</th>
+        <th class="number">Last Purchase</th>
       </tr>
     </thead>
     <tbody>
@@ -64,111 +48,81 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "detail"}}
-      {{#ifEquals RecordType "inventory"}}
-      <tr class="subValues" data-recordtype="{{RecordType}}">
-        <td class="nowrap" data-value="{{ICode}}"></td>
-        <td colspan="5" data-value="{{Description}}"></td>
-        <td data-value="{{Warehouse}}"></td>
-        <td class="number" data-value="{{Quantity}}"></td>
-        <td class="number" data-value="{{QuantityIn}}"></td>
-        <td class="number" data-value="{{QuantityStaged}}"></td>
-        <td class="number" data-value="{{QuantityOut}}"></td>
-        <td class="number" data-value="{{QuantityInContainer}}"></td>
-        <td class="number" data-value="{{QuantityInRepair}}"></td>
-        <td class="number" data-value="{{QuantityOnPo}}"></td>
-        <td class="number" data-value="{{QuantitySubbed}}"></td>
-        <td data-value="{{LastRentedDate}}"></td>
-        <td class="number" data-value="{{Revenue}}"></td>
-      </tr>
-      {{#if ../ShowStagedAndOut}}
-      {{#if HasStagedOutDetails}}
-      <tr>
-        <th colspan="2"></th>
-        <th class="subHeaders">Bar Code</th>
-        <th class="subHeaders">Qty.</th>
-        <th class="subHeaders">Status</th>
-        <th class="subHeaders" colspan="3">Deal</th>
-        <th class="subHeaders" colspan="4">Vendor</th>
-        <th class="subHeaders">As Of Date</th>
-        <th class="subHeaders">Order No.</th>
-        <th class="subHeaders" colspan="4">Order Description</th>
-      </tr>
-      {{/if}}
-      {{/if}}
-      {{/ifEquals}}
-      {{#ifEquals RecordType "stagedout"}}
-      <tr class="subValues">
-        <td colspan="2"></td>
-        <td>{{StagedOutBarCode}}</td>
-        <td class="number">{{StagedOutQuantity}}</td>
-        <td>{{StagedOutStatus}}</td>
-        <td colspan="3">{{StagedOutDeal}}</td>
-        <td colspan="4">{{StagedOutVendor}}</td>
-        <td>{{StagedOutAsOf}}</td>
-        <td>{{StagedOutOrderNumber}}</td>
-        <td colspan="4">{{StagedOutOrderDescription}}</td>
-      </tr>
-      {{/ifEquals}}
+    <tr data-rowtype="{{RowType}}">
+      <td class="nowrap" data-value="{{ICode}}"></td>
+      <td data-value="{{Description}}"></td>
+      <td data-value="{{Rank}}"></td>
+      <td class="number" data-value="{{OwnedFromDate}}"></td>
+      <td class="number" data-value="{{ReplacementCostFromDate}}"></td>
+      <td class="number" data-value="{{Purchased}}"></td>
+      <td class="number" data-value="{{Retired}}"></td>
+      <td class="number" data-value="{{Unretired}}"></td>
+      <td class="number" data-value="{{TransferredOut}}"></td>
+      <td class="number" data-value="{{TransferredIn}}"></td>
+      <td class="number" data-value="{{OwnedToDate}}"></td>
+      <td class="number" data-value="{{ReplacementCostToDate}}"></td>
+      <td class="number" data-value="{{LastPurchase}}"></td>
+    </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Categoryfooter"}}
-      <tr>
-        <td colspan="7" class="total-name">{{Category}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-      </tr>
+    <tr>
+      <td colspan="3" class="total-name">{{Category}}:&nbsp;</td>
+      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+      <td class="total-val" data-value="{{Purchased}}"></td>
+      <td class="total-val" data-value="{{Retired}}"></td>
+      <td class="total-val" data-value="{{Unretired}}"></td>
+      <td class="total-val" data-value="{{TransferredOut}}"></td>
+      <td class="total-val" data-value="{{TransferredIn}}"></td>
+      <td class="total-val" data-value="{{OwnedToDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+      <td class="total-val" data-value="{{LastPurchase}}"></td>
+    </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InventoryTypefooter"}}
-      <tr>
-        <td colspan="7" class="total-name">{{InventoryType}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-      </tr>
+    <tr>
+      <td colspan="3" class="total-name">{{InventoryType}}:&nbsp;</td>
+      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+      <td class="total-val" data-value="{{Purchased}}"></td>
+      <td class="total-val" data-value="{{Retired}}"></td>
+      <td class="total-val" data-value="{{Unretired}}"></td>
+      <td class="total-val" data-value="{{TransferredOut}}"></td>
+      <td class="total-val" data-value="{{TransferredIn}}"></td>
+      <td class="total-val" data-value="{{OwnedToDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+      <td class="total-val" data-value="{{LastPurchase}}"></td>
+    </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Warehousefooter"}}
-      <tr>
-        <td colspan="7" class="total-name">{{Warehouse}}:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-      </tr>
+    <tr>
+      <td colspan="3" class="total-name">{{Warehouse}}:&nbsp;</td>
+      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+      <td class="total-val" data-value="{{Purchased}}"></td>
+      <td class="total-val" data-value="{{Retired}}"></td>
+      <td class="total-val" data-value="{{Unretired}}"></td>
+      <td class="total-val" data-value="{{TransferredOut}}"></td>
+      <td class="total-val" data-value="{{TransferredIn}}"></td>
+      <td class="total-val" data-value="{{OwnedToDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+      <td class="total-val" data-value="{{LastPurchase}}"></td>
+    </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "grandtotal"}}
-      <tr>
-        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Quantity}}"></td>
-        <td class="total-val" data-value="{{QuantityIn}}"></td>
-        <td class="total-val" data-value="{{QuantityStaged}}"></td>
-        <td class="total-val" data-value="{{QuantityOut}}"></td>
-        <td class="total-val" data-value="{{QuantityInContainer}}"></td>
-        <td class="total-val" data-value="{{QuantityInRepair}}"></td>
-        <td class="total-val" data-value="{{QuantityOnPo}}"></td>
-        <td class="total-val" data-value="{{QuantitySubbed}}"></td>
-        <td class="total-val"></td>
-        <td class="total-val" data-value="{{Revenue}}"></td>
-      </tr>
+    <tr>
+      <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
+      <td class="total-val" data-value="{{OwnedFromDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostFromDate}}"></td>
+      <td class="total-val" data-value="{{Purchased}}"></td>
+      <td class="total-val" data-value="{{Retired}}"></td>
+      <td class="total-val" data-value="{{Unretired}}"></td>
+      <td class="total-val" data-value="{{TransferredOut}}"></td>
+      <td class="total-val" data-value="{{TransferredIn}}"></td>
+      <td class="total-val" data-value="{{OwnedToDate}}"></td>
+      <td class="total-val" data-value="{{ReplacementCostToDate}}"></td>
+      <td class="total-val" data-value="{{LastPurchase}}"></td>
+    </tr>
       {{/ifEquals}}
       {{/each}}
     </tbody>
