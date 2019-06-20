@@ -28,10 +28,13 @@ const rentalUnusedItemsTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:175px;">
+            <div class="flexcolumn" style="max-width:285px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="DaysUnused" data-control="FwFormField" data-type="number" class="fwcontrol fwformfield" data-required="true" data-caption="Days Unused" style="float:left;max-width:300px;"></div>
+                </div>
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-datafield="IncludeZeroQuantity" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Items with Zero Quantity" style="float:left;max-width:420px;"></div>
                 </div>
               </div>
             </div>

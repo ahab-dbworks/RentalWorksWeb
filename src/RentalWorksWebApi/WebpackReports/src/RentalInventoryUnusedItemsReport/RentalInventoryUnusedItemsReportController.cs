@@ -16,8 +16,8 @@ namespace WebApi.Modules.Reports.RentalInventoryUnusedItemsReport
     public class RentalInventoryUnusedItemsReportRequest : AppReportRequest
     {
         public DateTime AsOfDate { get; set; }
-        public DateTime ToDate { get; set; }
-        public string DaysUnused { get; set; }
+        public bool? IncludeZeroQuantity { get; set; }
+        public int? DaysUnused { get; set; }
         public string WarehouseId { get; set; }
         public string DepartmentId { get; set; }
         public string DealId { get; set; }

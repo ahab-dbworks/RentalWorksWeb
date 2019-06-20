@@ -108,8 +108,6 @@ namespace WebApi.Modules.Reports.RentalInventoryUnusedItemsReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                //--------------------------------------------------------------------------------- 
-                // below uses a "select" query to populate the FwJsonDataTable 
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
                 select.UseOptionRecompile = true;
@@ -126,10 +124,18 @@ namespace WebApi.Modules.Reports.RentalInventoryUnusedItemsReport
                     select.AddWhereIn("subcategoryid", request.SubCategoryId);
                     select.AddWhereIn("masterno", request.InventoryId);
                     select.AddWhereIn("trackedby", request.TrackedBys);
+                    if (!request.IncludeZeroQuantity.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("totalqty <> 0");
+                    }
+
+                    select.AddWhere("daysunused >= " + request.DaysUnused.GetValueOrDefault(0).ToString());
+
+                    
+
                     select.AddOrderBy("warehouse,inventorydepartment,category,masterno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
-                //------------------------------------------------------------------------------------
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
