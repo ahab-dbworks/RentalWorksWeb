@@ -50,7 +50,7 @@ const quikActivityReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Inventory Type" data-datafield="InventoryTypeId" data-displayfield="InventoryType" data-validationname="InventoryTypeValidation" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="" data-displayfield="" data-validationname="" style="min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Activity" data-datafield="ActivityType" data-displayfield="ActivityType" data-formbeforevalidate="beforeValidate" data-validationname="OrderActivityTypeValidation" style="min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" style="min-width:400px;"></div>
@@ -107,10 +107,14 @@ class QuikActivityReport extends FwWebApiReport {
         FwFormField.loadItems($form.find('div[data-datafield="OrderType"]'), [
             { value: "RESERVED", text: "Reserved Quotes", selected: "T" },
             { value: "ORDER", text: "Orders", selected: "T" },
-            { value: "PO", text: "Transfers", selected: "T" },
-            { value: "TRANSFER", text: "Purchase Orders", selected: "T" },
+            { value: "TRANSFER", text: "Transfers", selected: "T" },
+            { value: "PO", text: "Purchase Orders", selected: "T" },
             { value: "REPAIR", text: "Repair Orders", selected: "T" }
         ]);
+    }
+    //----------------------------------------------------------------------------------------------
+    beforeValidate = function ($browse, $form, request) {
+        request.IsSystemType = "T";
     }
 };
 

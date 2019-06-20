@@ -30,7 +30,7 @@ namespace WebApi.Modules.Utilities.OrderActivityType
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
             //select.AddWhere("(xxxtype = 'ABCDEF')"); 
-            //addFilterToSelect("UniqueId", "uniqueid", select, request); 
+            addFilterToSelect("IsSystemType", "systemtype", select, request);
             //select.AddParameter("@paramstring", paramString); 
             //select.AddParameter("@paramdate", paramDate); 
             //select.AddParameter("@paramboolean", paramBoolean); 
