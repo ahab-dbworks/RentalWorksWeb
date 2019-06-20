@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using WebLibrary;
 using WebApi.Logic;
 using System.Collections.Concurrent;
+using WebApi.Modules.Settings.AvailabilityKeepFreshLog;
 
 namespace WebApi.Modules.Home.InventoryAvailability
 {
@@ -1229,58 +1230,71 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 //Console.WriteLine("unlocking AvailabilityNeedRecalc");
             }
 
-            // loop through this local list of Items and Accessories in batches
-            //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
-            while (availNeedRecalcItem.Count > 0)
+            if (availNeedRecalcItem.Count > 0)
             {
-                // build up a request containing all known items needing recalc
-                availRequestItems.Clear();
-                foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> anc in availNeedRecalcItem)
-                {
-                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(anc.Key.InventoryId, anc.Key.WarehouseId, fromDate, availabilityThroughDate));
-                    if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
-                    {
-                        break; // break out of this foreach loop
-                    }
-                }
+                AvailabilityKeepFreshLogLogic log = new AvailabilityKeepFreshLogLogic();
+                log.SetDependencies(appConfig, null);
+                log.StartDateTime = DateTime.Now;
+                //log.EndDateTime = DateTime.MaxValue;
+                log.BatchSize = availNeedRecalcItem.Count;
+                int x = await log.SaveAsync(null);
 
-                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                {
-                    string classification = "";
-                    availNeedRecalcItem.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
-                }
-
-                // update the global cache of availability data
-                await GetAvailability(appConfig, null, availRequestItems, true);
-
+                // loop through this local list of Items and Accessories in batches
                 //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
-            }
-
-            // loop through this local list of Completes and Kits in batches
-            //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
-            while (availNeedRecalcPackage.Count > 0)
-            {
-                // build up a request containing all known items needing recalc
-                availRequestItems.Clear();
-                foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> anc in availNeedRecalcPackage)
+                while (availNeedRecalcItem.Count > 0)
                 {
-                    availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(anc.Key.InventoryId, anc.Key.WarehouseId, fromDate, availabilityThroughDate));
-                    if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
+                    // build up a request containing all known items needing recalc
+                    availRequestItems.Clear();
+                    foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> anc in availNeedRecalcItem)
                     {
-                        break; // break out of this foreach loop
+                        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(anc.Key.InventoryId, anc.Key.WarehouseId, fromDate, availabilityThroughDate));
+                        if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
+                        {
+                            break; // break out of this foreach loop
+                        }
                     }
+
+                    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+                    {
+                        string classification = "";
+                        availNeedRecalcItem.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
+                    }
+
+                    // update the global cache of availability data
+                    await GetAvailability(appConfig, null, availRequestItems, true);
+
+                    //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
                 }
 
-                foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
-                {
-                    string classification = "";
-                    availNeedRecalcPackage.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
-                }
-
-                // update the static cache of availability data
-                await GetAvailability(appConfig, null, availRequestItems, true);
-
+                // loop through this local list of Completes and Kits in batches
                 //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
+                while (availNeedRecalcPackage.Count > 0)
+                {
+                    // build up a request containing all known items needing recalc
+                    availRequestItems.Clear();
+                    foreach (KeyValuePair<TInventoryWarehouseAvailabilityKey, string> anc in availNeedRecalcPackage)
+                    {
+                        availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(anc.Key.InventoryId, anc.Key.WarehouseId, fromDate, availabilityThroughDate));
+                        if (availRequestItems.Count >= AVAILABILITY_REQUEST_BATCH_SIZE)
+                        {
+                            break; // break out of this foreach loop
+                        }
+                    }
+
+                    foreach (TInventoryWarehouseAvailabilityRequestItem availRequestItem in availRequestItems)
+                    {
+                        string classification = "";
+                        availNeedRecalcPackage.TryRemove(new TInventoryWarehouseAvailabilityKey(availRequestItem.InventoryId, availRequestItem.WarehouseId), out classification);
+                    }
+
+                    // update the static cache of availability data
+                    await GetAvailability(appConfig, null, availRequestItems, true);
+
+                    //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
+                }
+
+                log.EndDateTime = DateTime.Now;
+                x = await log.SaveAsync(null);
             }
 
 
