@@ -2,6 +2,9 @@
 using FwStandard.AppManager;
 using FwStandard.DataLayer;
 using FwStandard.Models;
+using FwStandard.Modules.Administrator.Alert;
+using FwStandard.Modules.Administrator.AlertCondition;
+using FwStandard.Modules.Administrator.AlertWebUsers;
 using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
@@ -10,7 +13,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -177,6 +183,9 @@ namespace FwStandard.BusinessLogic
 
         [JsonIgnore]
         protected static FwJsonDataTable duplicateRules = null;
+
+        [JsonIgnore]
+        protected static FwJsonDataTable alerts = null;
 
         [JsonIgnore]
         public static FwCustomFields customFields = null;
@@ -634,6 +643,23 @@ namespace FwStandard.BusinessLogic
             return rulesLoaded;
         }
         //------------------------------------------------------------------------------------
+        protected virtual bool refreshAlerts()
+        {
+            bool alertsLoaded = false;
+
+            BrowseRequest browseRequest = new BrowseRequest();
+            browseRequest.module = "Alert";
+            AlertLogic l = new AlertLogic();
+            if (dataRecords.Count > 0)
+            {
+                l.AppConfig = dataRecords[0].AppConfig;
+                alerts = l.BrowseAsync(browseRequest).Result;
+                alertsLoaded = true;
+            }
+
+            return alertsLoaded;
+        }
+        //------------------------------------------------------------------------------------
         public bool refreshCustomFields()
         {
             bool customFieldsLoaded = false;
@@ -886,6 +912,269 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        protected async void CheckAlertsAsync(TDataRecordSaveMode saveMode)
+        {
+            if (alerts == null)
+            {
+                refreshAlerts();
+            }
+            if (alerts != null)
+            {
+                object[] ids = GetPrimaryKeys();
+                var alertRows = alerts.Rows;
+                List<object> alertList = new List<object>();
+
+                foreach (var row in alertRows)
+                {
+                    if (row[2].ToString().Equals(this.BusinessLogicModuleName))
+                    {
+                        alertList.Add(row);
+                    }
+                }
+
+                if (alertList.Count > 0)
+                {
+                    Type type = this.GetType();
+                    PropertyInfo[] propertyInfo;
+                    propertyInfo = type.GetProperties();
+                    FwBusinessLogic l2 = (FwBusinessLogic)Activator.CreateInstance(type);
+                    l2.AppConfig = dataRecords[0].AppConfig;
+
+                    foreach (List<object> alert in alertList)
+                    {
+                        string alertId = alert[0].ToString();
+                        AlertConditionLogic acLoader = new AlertConditionLogic();
+                        acLoader.SetDependencies(AppConfig, UserSession);
+                        acLoader.AlertId = alertId;
+                        BrowseRequest request = new BrowseRequest();
+                        IDictionary<string, object> uniqueIds = ((IDictionary<string, object>)request.uniqueids);
+                        uniqueIds.Add("AlertId", alertId);
+                        request.uniqueids = uniqueIds;
+                        List<AlertConditionLogic> alertConditions = acLoader.SelectAsync<AlertConditionLogic>(request).Result;
+
+                        bool conditionsMet = true;
+                        foreach (AlertConditionLogic condition in alertConditions)
+                        {
+                            if (!conditionsMet)
+                            {
+                                break;
+                            }
+                            string acFieldName = condition.FieldName;
+                            string acCondition = condition.Condition;
+                            string acValue = condition.Value;
+
+                            bool propertyFound = false;
+                            if (!propertyFound)
+                            {
+                                foreach (PropertyInfo property in propertyInfo)
+                                {
+                                    if (property.Name.Equals(acFieldName))
+                                    {
+                                        propertyFound = true;
+                                        object value = this.GetType().GetProperty(property.Name).GetValue(this);
+                                        object valueToCompare = null;
+
+                                        if (value != null)
+                                        {
+                                            valueToCompare = value;
+                                        }
+                                        else
+                                        {
+                                            if (saveMode == TDataRecordSaveMode.smUpdate)
+                                            {
+                                                bool b = l2.LoadAsync<Type>(ids).Result;
+                                                valueToCompare = l2.GetType().GetProperty(property.Name).GetValue(l2);
+                                            }
+                                        }
+
+                                        switch (acCondition)
+                                        {
+                                            case "CONTAINS":
+                                                conditionsMet = valueToCompare.ToString().Contains(acValue);
+                                                break;
+                                            case "STARTSWITH":
+                                                conditionsMet = valueToCompare.ToString().StartsWith(acValue);
+                                                break;
+                                            case "ENDSWITH":
+                                                conditionsMet = valueToCompare.ToString().EndsWith(acValue);
+                                                break;
+                                            case "EQUALS":
+                                                conditionsMet = string.Equals(valueToCompare.ToString(), acValue);
+                                                break;
+                                            case "DOESNOTCONTAIN":
+                                                conditionsMet = !valueToCompare.ToString().Contains(acValue);
+                                                break;
+                                            case "DOESNOTEQUAL":
+                                                conditionsMet = !string.Equals(valueToCompare.ToString(), acValue);
+                                                break;
+                                            case "CHANGEDBY":
+                                                //conditionsMet =
+                                                break;
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+
+                            //if (!propertyFound)  // property not found, check Custom Fields
+                            //{
+                            //    LoadCustomFields();
+
+                            //    foreach (FwCustomField customField in _Custom.CustomFields)
+                            //    {
+                            //        if (customField.FieldName.Equals(acFieldName))
+                            //        {
+                            //            propertyFound = true;
+                            //            string value = null;
+                            //            object valueToCompare = null;
+                            //            for (int customFieldIndex = 0; customFieldIndex < _Custom.Count; customFieldIndex++)
+                            //            {
+                            //                if (_Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                            //                {
+                            //                    value = _Custom[customFieldIndex].FieldValue;
+                            //                }
+                            //            }
+
+                            //            if (value != null)
+                            //            {
+                            //                valueToCompare = value;
+                            //            }
+                            //            else
+                            //            {
+                            //                if (saveMode == TDataRecordSaveMode.smUpdate)
+                            //                {
+                            //                    bool b = l2.LoadAsync<Type>(ids).Result;
+                            //                    var databaseValue = "";
+                            //                    for (int customFieldIndex = 0; customFieldIndex < l2._Custom.Count; customFieldIndex++)
+                            //                    {
+                            //                        if (l2._Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                            //                        {
+                            //                            databaseValue = l2._Custom[customFieldIndex].FieldValue;
+                            //                        }
+                            //                    }
+                            //                    valueToCompare = databaseValue;
+                            //                }
+                            //            }
+                            //            break;
+                            //        }
+                            //    }
+                            //}
+                        }
+
+                        if (conditionsMet)
+                        {
+                            string alertSubject = alert[3].ToString();
+                            string alertBody = alert[4].ToString();
+
+                            //var pattern = @"\[(.*?)\]";
+                            var pattern = @"(?<=\[)[^[]*(?=\])";
+                            var subjectMatches = Regex.Matches(alertSubject, pattern);
+                            var bodyMatches = Regex.Matches(alertBody, pattern);
+
+                            foreach (Match sm in subjectMatches)
+                            {
+                                string field = sm.ToString();
+                                object value = null;
+                                foreach (PropertyInfo property in propertyInfo)
+                                {
+                                    if (property.Name.Equals(field))
+                                    {
+                                        value = this.GetType().GetProperty(field).GetValue(this);
+
+                                        if (value != null)
+                                        {
+                                            alertSubject = alertSubject.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        else if (saveMode == TDataRecordSaveMode.smUpdate)
+                                        {
+                                            bool b = l2.LoadAsync<Type>(ids).Result;
+                                            value = l2.GetType().GetProperty(property.Name).GetValue(l2);
+                                            alertSubject = alertSubject.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        break;
+                                    }
+                                }
+
+                            }
+
+                            foreach (Match bm in bodyMatches)
+                            {
+                                string field = bm.ToString();
+                                object value = null;
+                                foreach (PropertyInfo property in propertyInfo)
+                                {
+                                    if (property.Name.Equals(field))
+                                    {
+                                        value = this.GetType().GetProperty(field).GetValue(this);
+
+                                        if (value != null)
+                                        {
+                                            alertBody = alertBody.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        else if (saveMode == TDataRecordSaveMode.smUpdate)
+                                        {
+                                            bool b = l2.LoadAsync<Type>(ids).Result;
+                                            value = l2.GetType().GetProperty(property.Name).GetValue(l2);
+                                            alertBody = alertBody.Replace("[" + field + "]", value.ToString());
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
+
+                            AlertWebUsersLogic awuLoader = new AlertWebUsersLogic();
+                            awuLoader.SetDependencies(AppConfig, UserSession);
+                            awuLoader.AlertId = alertId;
+                            BrowseRequest awuRequest = new BrowseRequest();
+                            awuRequest.uniqueids = uniqueIds;
+                            List<AlertWebUsersLogic> alertWebUsers = awuLoader.SelectAsync<AlertWebUsersLogic>(awuRequest).Result;
+
+                            List<string> toEmails = new List<string>(); 
+                            foreach (AlertWebUsersLogic user in alertWebUsers)
+                            {
+                                toEmails.Add(user.Email);
+                            }
+
+                            string from;
+                            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+                            {
+                                from = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", UserSession.WebUsersId, "email").Result;
+                            }
+
+                            string to = String.Join(";", toEmails);
+                            bool sent = await SendEmailAsync(from, to, alertSubject, alertBody, AppConfig);
+                        }
+                    }
+                }
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        static async Task<bool> SendEmailAsync(string from, string to, string subject, string body, FwApplicationConfig appConfig)
+        {
+            var message = new MailMessage(from, to, subject, body);
+            message.IsBodyHtml = true;
+            string accountname = string.Empty, accountpassword = string.Empty, authtype = string.Empty, host = string.Empty, domain = "";
+            int port = 25;
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
+                {
+                    qry.Add("select top 1 *");
+                    qry.Add("from emailreportcontrol with (nolock)");
+                    await qry.ExecuteAsync();
+                    accountname = qry.GetField("accountname").ToString().TrimEnd();
+                    accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
+                    authtype = qry.GetField("authtype").ToString().TrimEnd();
+                    host = qry.GetField("host").ToString().TrimEnd();
+                    port = qry.GetField("port").ToInt32();
+                }
+            }
+            var client = new SmtpClient(host, port);
+            client.Credentials = new NetworkCredential(accountname, accountpassword, domain);
+            await client.SendMailAsync(message);
+            return true;
+        }
+        //------------------------------------------------------------------------------------ 
         protected virtual bool IsValidStringValue(PropertyInfo property, string[] acceptableValues, ref string validateMsg, bool nullAcceptable = true)
         {
             bool isValidValue = false;
@@ -1188,6 +1477,8 @@ namespace FwStandard.BusinessLogic
                         {
                             rowsAffected = afterSaveArgs.RecordsAffected;
                         }
+
+                        CheckAlertsAsync(saveMode);
                     }
                 }
                 success = true;

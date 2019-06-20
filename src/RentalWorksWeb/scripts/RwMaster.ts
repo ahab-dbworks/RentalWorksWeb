@@ -111,6 +111,7 @@ class RwMaster extends WebMaster {
                 caption: 'Administrator',
                 id: 'F188CB01-F627-4DD3-9B91-B6486F0977DC',
                 children: [
+                    Constants.Modules.Administrator.Alert,
                     Constants.Modules.Administrator.Control,
                     Constants.Modules.Administrator.CustomField,
                     Constants.Modules.Administrator.CustomForm,

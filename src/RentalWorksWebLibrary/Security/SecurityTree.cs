@@ -344,6 +344,7 @@ namespace WebLibrary.Security
             AddModule("QuikActivity Calendar",         "{897BCF55-6CE7-412C-82CB-557B045F8C0A}", lv1menuUtilities.Id, "QuikActivityCalendarController");
 
             // Add Administrator 
+            AddModule("Alerts",              "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
             AddModule("Control",             "{B3ADDF49-64EB-4740-AB41-4327E6E56242}", lv1menuAdministrator.Id, "ControlController");
             AddModule("Custom Field",        "{C98C4CB4-2036-4D70-BC29-8F5A2874B178}", lv1menuAdministrator.Id, "CustomFieldController");
             AddModule("Custom Forms",        "{CB2EF8FF-2E8D-4AD0-B880-07037B839C5E}", lv1menuAdministrator.Id, "CustomFormController");
@@ -363,6 +364,7 @@ namespace WebLibrary.Security
 
             // Add Grids
             AddGrid("Additional Items",                       "{C9AAA0E7-466E-47F1-973D-61555FFCA6B8}", lv1menuGrids.Id, "AdditionalItemsGridController");
+            AddGrid("Alert Web Users",                        "{774142FC-246D-453C-8B62-66FE5FFC1A8B}", lv1menuGrids.Id, "AlertWebUsersGridController");
             AddGrid("Attribute Value",                        "{C11904A1-D612-469C-BFA6-E14534FC8E31}", lv1menuGrids.Id, "AttributeValueGridController");
             AddGrid("Audit History",                          "{FA958D9E-7863-4B03-94FE-A2D2B9599FAB}", lv1menuGrids.Id, "AuditHistoryGridController");
             AddGrid("Billing Cycle Events",                   "{8AAD752A-74B8-410D-992F-08398131EBA7}", lv1menuGrids.Id, "BillingCycleEventsGridController");

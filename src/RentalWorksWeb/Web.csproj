@@ -185,6 +185,7 @@
     <Content Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\AdditionalItemsGrid\AdditionalItemsGridBrowse.htm" />
     <Content Include="Source\Grids\PurchaseVendorInvoiceItemGrid\PurchaseVendorInvoiceItemGridBrowse.htm" />
+    <Content Include="Source\Grids\AlertWebUsersGrid\AlertWebUsersGridBrowse.htm" />
     <Content Include="Source\Grids\WidgetGroupGrid\WidgetGroupGridBrowse.htm" />
     <Content Include="Source\Grids\WidgetUserGrid\WidgetUserGridBrowse.htm" />
     <Content Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridBrowse.htm" />
@@ -327,6 +328,7 @@
     <TypeScriptCompile Include="Source\Grids\AuditHistoryGrid\AuditHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\AdditionalItemsGrid\AdditionalItemsGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PurchaseVendorInvoiceItemGrid\PurchaseVendorInvoiceItemGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\AlertWebUsersGrid\AlertWebUsersGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WidgetGroupGrid\WidgetGroupGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WidgetUserGrid\WidgetUserGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CustomFormUserGrid\CustomFormUserGridController.ts" />
@@ -463,7 +465,10 @@
     <Content Include="Backup\OrderNote\RwOrderNoteGridController.js" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\OrderStatusBase\OrderStatusBase.ts" />
     <TypeScriptCompile Include="Source\Modules\-BaseModules\StagingCheckoutBase\StagingCheckoutBase.ts" />
+    <TypeScriptCompile Include="Source\Modules\Administrator\Alert\Alert.ts" />
     <TypeScriptCompile Include="Source\Modules\Administrator\Integration\IntegrationController.ts" />
+    <Content Include="Source\Modules\Administrator\Alert\AlertBrowse.htm" />
+    <Content Include="Source\Modules\Administrator\Alert\AlertForm.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormBrowse.htm" />
     <Content Include="Source\Modules\Administrator\CustomForm\CustomFormForm.htm" />
     <Content Include="Source\Modules\Administrator\Hotfix\HotfixBrowse.htm" />
