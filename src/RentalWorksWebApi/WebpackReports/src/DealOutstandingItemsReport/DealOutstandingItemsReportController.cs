@@ -19,9 +19,11 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
         public DateTime? FromDate { get; set; }
         public DateTime? ToDate { get; set; }
         public string DateType { get; set; }  //B-Billing Stop Date E-Estimated Rental Stop Date
-        public bool? IncludeBlankPages { get; set; }
+        //public bool? IncludeBlankPages { get; set; }
         public bool? IncludeFullImages { get; set; }
         public bool? IncludeThumbnailImages { get; set; }
+        public bool? ExcludePendingExchanges{ get; set; }
+        public bool? IncludeContainersOnly { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public string CustomerId { get; set; }
