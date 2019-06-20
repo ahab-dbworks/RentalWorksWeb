@@ -30,17 +30,14 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                         data.IsSummary = false;
                     }
                     const headerNames = [];
-                    let headerCount = 0;
-
                     for (let i = 0; i < data.length; i++) {
                         const el = data[i];
                         if (el) {
                             if (el.RowType === 'detail') {
                                 for (let key in el) {
-                                    if (key.startsWith('Date')) {
+                                    if (key.startsWith('AvailabilityDate')) {
                                         if (el[key] !== '') {
-                                            headerNames.push(el[key].substring(0, 5));
-                                            headerCount++
+                                            headerNames.push(el[key]);
                                         }
                                     }
                                 }
@@ -55,16 +52,9 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(data);
-                    const staticHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Owned</th><th class="number">On Truck</th><th class="number">Trans Out</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
+                    const staticHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Owned</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
                     let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
-                    //let mappedHeader = '';
                     mappedHeader = staticHeader + mappedHeader;
-                    //if (headerCount < 12) {
-                    //    const intialColspan = (12 - headerCount);
-                    //    mappedHeader = mappedHeader + `<th colspan="${intialColspan}"></th><th class="number">All Months</th>`;
-                    //} else if (headerCount === 12) {
-                    //    mappedHeader = mappedHeader + `<th class="number">All Months</th>`;
-                    //}
                     document.getElementById('HeaderRow').innerHTML = mappedHeader;
                     this.onRenderReportCompleted();
                 })
