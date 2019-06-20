@@ -233,10 +233,10 @@ html.theme-material .fwform-section {
 #previewHtml {height:100%;}
 /*#endregion*/
 
-.twSubModule {
+.twSubModule > div {
   margin: 10px;
-  border-left: 1px solid silver;
-  border-right: 1px solid silver;
+  border-left: 1px solid #9e9e9e;
+  border-right: 1px solid #9e9e9e;
 }
 
 /* Styling for error message text */
