@@ -20,6 +20,7 @@
       <tr>
         <th>I-Code</th>
         <th>Description</th>
+        <th>Rank</th>
         <th>Date</th>
         <th class="number">Quantity</th>
         <th class="number">Avg. Unit Value</th>
@@ -44,33 +45,34 @@
         {{#ifEquals RowType "detail"}}
         <td data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
+        <td data-value="{{Rank}}"></td>
         <td data-value="{{ChangeDate}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
         <td class="number" data-value="{{UnitValue}}"></td>
         <td class="number" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="3" class="total-name">{{Category}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{Category}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "SubCategoryfooter"}}
-        <td colspan="3" class="total-name">{{SubCategory}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{SubCategory}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="3" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{InventoryType}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="3" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td colspan="4" class="total-name">{{Warehouse}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="3" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
@@ -87,6 +89,7 @@
       <tr>
         <th>I-Code</th>
         <th>Description</th>
+        <th>Rank</th>
         <th>Date</th>
         <th>Type</th>
         <th>Change Description</th>
@@ -116,6 +119,7 @@
         {{#ifEquals RowType "detail"}}
         <td data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
+        <td data-value="{{Rank}}"></td>
         <td data-value="{{ChangeDate}}"></td>
         <td data-value="{{ChangeType}}"></td>
         <td data-value="{{ChangeDescription}}"></td>
@@ -124,32 +128,32 @@
         <td class="number" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "ICodefooter"}}
-        <td colspan="5" class="total-name">{{ICode}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{ICode}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "SubCategoryfooter"}}
-        <td colspan="5" class="total-name">{{SubCategory}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{SubCategory}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="5" class="total-name">{{Category}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{Category}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="5" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{InventoryType}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="5" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td colspan="6" class="total-name">{{Warehouse}}&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{Quantity}}"></td>
         <td colspan="2" class="total-val" data-value="{{ExtendedValue}}"></td>
         {{/ifEquals}}

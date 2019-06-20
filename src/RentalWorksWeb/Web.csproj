@@ -571,7 +571,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\QuoteReport\QuoteReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrderReport\OrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PickListReport\PickListReportController.ts" />
-    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryValueReport\RentalInventoryValueReport Controller.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryValueReport\RentalInventoryValueReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryAttributesReport\RentalInventoryAttributesReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesInventoryTransaction\SalesInventoryTransactionReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\InvoiceSummaryReport\InvoiceSummaryReportController.ts" />
