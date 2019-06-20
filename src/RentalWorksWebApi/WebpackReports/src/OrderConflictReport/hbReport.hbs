@@ -35,8 +35,6 @@
       </tr>
     </thead>
     {{/ifEquals}}
-    {{#ifEquals RowType "PurchaseOrderNumberheader"}}
-
     {{#ifEquals RowType "OrderNumberheader"}}
     <thead>
       <tr data-rowtype={{RowType}}>
@@ -87,7 +85,6 @@
       </tr>
     </tbody>
     {{/ifEquals}}
-
     {{#ifEquals RowType "PurchaseOrderNumberfooter"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="7" class="total-name">{{PurchaseOrderNumber}}:&nbsp;</td>
