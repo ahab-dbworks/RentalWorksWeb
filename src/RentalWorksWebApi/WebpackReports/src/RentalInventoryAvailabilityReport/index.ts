@@ -55,7 +55,7 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(data);
-                    const staticHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Qty Owned</th><th class="number">On Truck</th><th class="number">Transfer Out</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
+                    const staticHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Owned</th><th class="number">On Truck</th><th class="number">Trans Out</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
                     let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
                     //let mappedHeader = '';
                     mappedHeader = staticHeader + mappedHeader;
