@@ -2119,8 +2119,20 @@ namespace FwStandard.SqlServer
                     data = ((string)propertyValue).Trim();
                     break;
                 case FwDataTypes.DateTime:
-                    if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
-                    data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
+                    //if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
+                    //data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
+                    if (propertyValue.GetType().Equals(typeof(DateTime)))
+                    {
+                        data = propertyValue;
+                    }
+                    else if (propertyValue.GetType().Equals(typeof(string)))
+                    {
+                        data = FwConvert.ToDateTime(((string)propertyValue).Trim()).ToString("yyyy-MM-dd hh:mm:ss tt");
+                    }
+                    else
+                    {
+                        throw new Exception("Expected DateTime or string for " + propertyName + ".  Found " + propertyValue.GetType().ToString());
+                    }
                     break;
                 case FwDataTypes.DateTimeOffset:
                     if (propertyValue.GetType() != typeof(string)) throw new Exception("Expected string for " + propertyName);
