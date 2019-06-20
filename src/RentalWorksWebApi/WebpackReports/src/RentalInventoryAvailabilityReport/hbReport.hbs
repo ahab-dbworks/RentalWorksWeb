@@ -1,5 +1,5 @@
 ﻿<!--RentalInventoryAvailabilityReport-->
-<div class="rpt-flexrow" style="width:1590px;">
+<div class="rpt-flexrow" style="width:1555px;">
   <style media="print">
     @page {
       size: landscape;
@@ -17,7 +17,7 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width:1590px;">
+<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
   <!--SUMMARY VIEW TABLE-->
   {{#ifEquals IsSummary true}}
   <table>
@@ -75,11 +75,7 @@
         <td class="number" data-value="{{AvailableInt30}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="2" class="total-name">{{Warehouse}}:&nbsp;</td>
-        <td class="number" data-value="{{OwnedQuantity}}"></td>
-        <td class="number" data-value="{{OwnedQuantityInRepair}}"></td>
-        <td class="number" data-value="{{TotalQuantityInContainer}}"></td>
-        <td class="number" data-value="{{TotalQuantityStaged}}"></td>
+        <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
         <td class="total-val" data-value="{{AvailableInt01}}"></td>
         <td class="total-val" data-value="{{AvailableInt02}}"></td>
         <td class="total-val" data-value="{{AvailableInt03}}"></td>
@@ -112,11 +108,7 @@
         <td class="total-val" data-value="{{AvailableInt30}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="2" class="total-name">{{InventoryType}}:&nbsp;</td>
-        <td class="number" data-value="{{OwnedQuantity}}"></td>
-        <td class="number" data-value="{{OwnedQuantityInRepair}}"></td>
-        <td class="number" data-value="{{TotalQuantityInContainer}}"></td>
-        <td class="number" data-value="{{TotalQuantityStaged}}"></td>
+        <td colspan="6" class="total-name">{{InventoryType}}:&nbsp;</td>
         <td class="total-val" data-value="{{AvailableInt01}}"></td>
         <td class="total-val" data-value="{{AvailableInt02}}"></td>
         <td class="total-val" data-value="{{AvailableInt03}}"></td>
@@ -149,11 +141,7 @@
         <td class="total-val" data-value="{{AvailableInt30}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="2" class="total-name">{{Category}}:&nbsp;</td>
-        <td class="number" data-value="{{OwnedQuantity}}"></td>
-        <td class="number" data-value="{{OwnedQuantityInRepair}}"></td>
-        <td class="number" data-value="{{TotalQuantityInContainer}}"></td>
-        <td class="number" data-value="{{TotalQuantityStaged}}"></td>
+        <td colspan="6" class="total-name">{{Category}}:&nbsp;</td>
         <td class="total-val" data-value="{{AvailableInt01}}"></td>
         <td class="total-val" data-value="{{AvailableInt02}}"></td>
         <td class="total-val" data-value="{{AvailableInt03}}"></td>
@@ -186,11 +174,7 @@
         <td class="total-val" data-value="{{AvailableInt30}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-        <td class="number" data-value="{{OwnedQuantity}}"></td>
-        <td class="number" data-value="{{OwnedQuantityInRepair}}"></td>
-        <td class="number" data-value="{{TotalQuantityInContainer}}"></td>
-        <td class="number" data-value="{{TotalQuantityStaged}}"></td>
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{AvailableInt01}}"></td>
         <td class="total-val" data-value="{{AvailableInt02}}"></td>
         <td class="total-val" data-value="{{AvailableInt03}}"></td>

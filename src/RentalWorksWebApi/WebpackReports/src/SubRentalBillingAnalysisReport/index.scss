@@ -1,14 +1,4 @@
 ﻿/*Sub-Rental Billing Analysis Report*/
-tbody {
-    td:after {
-        content: attr(data-value);
-    }
-
-    td {
-        padding: 3px;
-    }
-}
-
 tbody[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
     background-color: #DCDCDC;
 }
