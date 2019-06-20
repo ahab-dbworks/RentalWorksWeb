@@ -1,11 +1,7 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
-using System.Data;
-using System.Reflection;
 using WebApi.Modules.Home.InventoryAvailability;
 using System.Collections.Generic;
 using System;
@@ -136,186 +132,277 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
         [FwSqlDataField(column: "consignedqtyincontainer", modeltype: FwDataTypes.Decimal)]
         public decimal? ConsignedQuantityInContainer { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date01 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate01 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available01 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt01 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date02 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString01 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available02 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate02 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date03 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt02 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available03 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString02 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date04 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate03 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available04 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt03 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date05 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString03 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available05 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate04 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date06 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt04 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available06 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString04 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date07 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate05 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available07 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt05 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date08 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString05 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available08 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate06 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date09 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt06 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available09 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString06 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date10 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate07 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available10 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt07 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date11 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString07 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available11 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate08 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date12 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt08 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available12 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString08 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date13 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate09 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available13 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt09 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date14 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString09 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available14 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate10 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date15 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt10 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available15 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString10 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date16 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate11 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available16 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt11 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date17 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString11 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available17 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate12 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date18 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt12 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available18 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString12 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date19 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate13 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available19 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt13 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date20 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString13 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available20 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate14 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date21 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt14 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available21 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString14 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date22 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate15 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available22 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt15 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date23 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString15 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available23 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate16 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date24 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt16 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available24 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString16 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date25 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate17 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available25 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt17 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date26 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString17 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available26 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate18 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date27 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt18 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available27 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString18 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date28 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate19 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available28 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt19 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date29 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString19 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available29 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate20 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Date30 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt20 { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
-        public string Available30 { get; set; }
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString20 { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate21 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt21 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString21 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate22 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt22 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString22 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate23 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt23 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString23 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate24 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt24 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString24 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate25 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt25 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString25 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate26 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt26 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString26 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate27 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt27 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString27 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate28 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt28 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString28 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate29 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt29 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString29 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailabilityDate30 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? AvailableInt30 { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "'", modeltype: FwDataTypes.Text)]
+        public string AvailableString30 { get; set; }
+        //------------------------------------------------------------------------------------ 
+
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryAvailabilityReportRequest request)
         {
             useWithNoLock = false;
@@ -329,7 +416,6 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
                     select.AddWhereIn("warehouseid", request.WarehouseId);
                     select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
                     select.AddWhereIn("categoryid", request.CategoryId);
@@ -338,12 +424,10 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                     select.AddWhereIn("class", request.Classifications);
                     select.AddWhereIn("trackedby", request.TrackedBys);
                     select.AddWhereIn("rank", request.Ranks);
-
-
-                    //if (!request.BooleanField.GetValueOrDefault(false)) 
-                    //{ 
-                    //    select.AddWhere("somefield ^<^> 'T'"); 
-                    //} 
+                    if (!request.IncludeZeroQuantity.GetValueOrDefault(false))
+                    {
+                        select.AddWhere("totalqty <> 0");
+                    }
                     select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, master");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
@@ -359,6 +443,9 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
             bool refreshIfNeeded = true; // user may want to make this true/false in some cases
             TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded).Result;
 
+            List<object> rowsToDelete = new List<object>();
+
+            //populate the Availability Date column headings and the AvailableInt columns
             foreach (List<object> row in dt.Rows)
             {
                 string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
@@ -368,26 +455,38 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 if (availCache.TryGetValue(availKey, out availData))
                 {
                     DateTime theDate = request.FromDate;
+                    bool hasNegative = false;
                     for (int x = 1; x <= 30; x++)  // date slots
                     {
-                        string availQtyAsString = "";
+                        row[dt.GetColumnNo("AvailabilityDate" + x.ToString().PadLeft(2, '0'))] = theDate.Month.ToString() + "/" + theDate.Day.ToString();
                         TInventoryWarehouseAvailabilityDateTime availDateTime = null;
                         if (availData.AvailabilityDatesAndTimes.TryGetValue(theDate, out availDateTime))
                         {
-                            availQtyAsString = availDateTime.Available.Total.ToString();
+                            //int availQtyAsInt = ((int)availDateTime.Available.Total);
+                            int availQtyAsInt = (int)Math.Floor(availDateTime.Available.Total);
+                            row[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))] = availQtyAsInt;
+
+                            if (availQtyAsInt < 0)
+                            {
+                                hasNegative = true;
+                            }
                         }
-                        row[dt.GetColumnNo("Date" + x.ToString().PadLeft(2, '0'))] = FwConvert.ToString(theDate);
-                        row[dt.GetColumnNo("Available" + x.ToString().PadLeft(2, '0'))] = availQtyAsString;
-                        theDate = theDate.AddDays(1);  // daily inventory
+                        theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
                     }
+
+                    if ((request.OnlyIncludeNegative.GetValueOrDefault(false)) && (!hasNegative))
+                    {
+                        rowsToDelete.Add(row);
+                    }
+                    //public bool? OnlyIncludeLowAndNegative { get; set; }   //#jhtodo
                 }
             }
 
-
+            dt.Rows.Remove(rowsToDelete);
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Available01", "Available02", "Available03", "Available04", "Available05", "Available06", "Available07", "Available08", "Available09", "Available10", "Available11", "Available12", "Available13", "Available14", "Available15", "Available16", "Available17", "Available18", "Available19", "Available20", "Available21", "Available22", "Available23", "Available24", "Available25", "Available26", "Available27", "Available28", "Available29", "Available30" };
+                string[] totalFields = new string[] { "AvailableInt01", "AvailableInt02", "AvailableInt03", "AvailableInt04", "AvailableInt05", "AvailableInt06", "AvailableInt07", "AvailableInt08", "AvailableInt09", "AvailableInt10", "AvailableInt11", "AvailableInt12", "AvailableInt13", "AvailableInt14", "AvailableInt15", "AvailableInt16", "AvailableInt17", "AvailableInt18", "AvailableInt19", "AvailableInt20", "AvailableInt21", "AvailableInt22", "AvailableInt23", "AvailableInt24", "AvailableInt25", "AvailableInt26", "AvailableInt27", "AvailableInt28", "AvailableInt29", "AvailableInt30" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
@@ -397,6 +496,22 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 }
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
+
+            //populate AvailableString columns
+            foreach (List<object> row in dt.Rows)
+            {
+                for (int x = 1; x <= 30; x++)  // date slots
+                {
+                    string availQtyAsString = "";
+                    object availQtyAsObj = row[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))];
+                    if (availQtyAsObj != null)
+                    {
+                        availQtyAsString = availQtyAsObj.ToString();
+                    }
+                    row[dt.GetColumnNo("AvailableString" + x.ToString().PadLeft(2, '0'))] = availQtyAsString;
+                }
+            }
+
             return dt;
         }
         //------------------------------------------------------------------------------------ 
