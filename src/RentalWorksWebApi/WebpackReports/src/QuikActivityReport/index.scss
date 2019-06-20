@@ -1,19 +1,19 @@
 ﻿/*QuikActivity Report*/
 tbody {
-    tr.subValues:nth-child(odd) {
+    tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
 }
 
 thead.main-header {
-    border-top:2px solid black;
-    border-bottom:2px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
-th {
-    padding: 0px 5px;
+.sub-rent {
+    min-width: 65px;
 }
 
-th.subHeaders{
-    border-bottom:2px solid black;
+.activity-date {
+    min-width: 100px;
 }

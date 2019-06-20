@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using WebApi.Data;
 namespace WebApi.Modules.Reports.QuikActivityReport
 {
-    [FwSqlTable("getquikactivityrptweb")]
+    [FwSqlTable("getquikactivityrptweb(@fromdate, @todate)")]
     public class QuikActivityReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
@@ -130,12 +130,12 @@ namespace WebApi.Modules.Reports.QuikActivityReport
                 {
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
-                    //qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.Summary);
-                    //qry.AddParameter("@ordertype", SqlDbType.Text, ParameterDirection.Input, request.OrderType);
-                    //qry.AddParameter("@activitytype", SqlDbType.Text, ParameterDirection.Input, request.ActivityType);
-                    //qry.AddParameter("@includeinuse", SqlDbType.Text, ParameterDirection.Input, request.IncludeInUse);
-                    //qry.AddParameter("@onlysubs", SqlDbType.Text, ParameterDirection.Input, request.OnlySubs);
-                    //qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, request.RecType);
+                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
+                    qry.AddParameter("@ordertype", SqlDbType.Text, ParameterDirection.Input, request.OrderTypes.ToString());
+                    qry.AddParameter("@activitytype", SqlDbType.Text, ParameterDirection.Input, request.ActivityType);
+                    qry.AddParameter("@includeinuse", SqlDbType.Text, ParameterDirection.Input, request.IncludeInUse);
+                    qry.AddParameter("@onlysubs", SqlDbType.Text, ParameterDirection.Input, request.OnlySubs);
+                    qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, request.RecType);
                     qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
                     qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
@@ -147,9 +147,9 @@ namespace WebApi.Modules.Reports.QuikActivityReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
-                dt.InsertSubTotalRows("GroupField1", "RowType", totalFields);
-                dt.InsertSubTotalRows("GroupField2", "RowType", totalFields);
+                string[] totalFields = new string[] { "ItemCount", "SubItemCount" };
+                dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
+                dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

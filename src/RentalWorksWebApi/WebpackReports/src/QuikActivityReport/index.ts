@@ -24,6 +24,7 @@ export class QuikActivityReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     data.Today = moment().format('LL');
+                    data.IsSummary = parameters.IsSummary;
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

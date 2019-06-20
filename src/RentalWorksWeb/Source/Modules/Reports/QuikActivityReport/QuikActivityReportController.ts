@@ -22,6 +22,14 @@ const quikActivityReportTemplate = `
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="ToDate" data-required="true"></div>
                 </div>
               </div>
+            <div class="row" style="display:flex;flex-wrap:wrap;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
+                <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="IsSummary">
+                  <div data-value="T" data-caption="Summary"></div>
+                  <div data-value="F" data-caption="Detail"></div>
+                </div>
+              </div>
+            </div>
             </div>
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Type">
@@ -47,14 +55,6 @@ const quikActivityReportTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Agent" data-datafield="AgentId" data-displayfield="Agent" data-validationname="UserValidation" style="min-width:400px;"></div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="row" style="display:flex;flex-wrap:wrap;">
-            <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
-              <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="">
-                <div data-value="" data-caption="Summary"></div>
-                <div data-value="" data-caption="Detail"></div>
               </div>
             </div>
           </div>
@@ -105,10 +105,11 @@ class QuikActivityReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="OrderType"]'), [
-            { value: "BARCODE", text: "Bar Code", selected: "T" },
-            { value: "QUANTITY", text: "Quantity", selected: "T" },
-            { value: "SERIALNO", text: "Serial No.", selected: "T" },
-            { value: "RFID", text: "RFID", selected: "F" }
+            { value: "RESERVED", text: "Reserved Quotes", selected: "T" },
+            { value: "ORDER", text: "Orders", selected: "T" },
+            { value: "PO", text: "Transfers", selected: "T" },
+            { value: "TRANSFER", text: "Purchase Orders", selected: "T" },
+            { value: "REPAIR", text: "Repair Orders", selected: "T" }
         ]);
     }
 };

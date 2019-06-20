@@ -15,22 +15,16 @@ namespace WebApi.Modules.Reports.QuikActivityReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public string DateType { get; set; }
-        public bool? IncludeNoCharge { get; set; }
-        // for office/transaction reports 
-        public string OfficeLocationId { get; set; }
+        public bool? IncludeInUse { get; set; }
+        public bool? OnlySubs { get; set; }
+        public string IsSummary { get; set; }
+        public string RecType { get; set; }
         public string DepartmentId { get; set; }
         public string AgentId { get; set; }
-        public string CustomerId { get; set; }
-        public string DealId { get; set; }
-        // for inventory reports 
         public string WarehouseId { get; set; }
         public string InventoryTypeId { get; set; }
-        public string CategoryId { get; set; }
-        public string SubCategoryId { get; set; }
-        public string InventoryId { get; set; }
-        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
-        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+        public string ActivityType { get; set; }
+        public SelectedCheckBoxListItems OrderTypes { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
