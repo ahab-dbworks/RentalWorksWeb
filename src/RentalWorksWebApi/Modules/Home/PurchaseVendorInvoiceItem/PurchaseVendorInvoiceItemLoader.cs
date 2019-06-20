@@ -19,10 +19,10 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         public string VendorInvoiceItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
-        public string OrderId { get; set; }
+        public string PurchaseOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
-        public string OrderItemId { get; set; }
+        public string PurchaseOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "invno", modeltype: FwDataTypes.Text)]
         public string InvoiceNumber { get; set; }
@@ -34,7 +34,7 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         public int? Quantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
-        public decimal? Cost { get; set; }
+        public decimal? UnitCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "extended", modeltype: FwDataTypes.Decimal)]
         public decimal? Extended { get; set; }

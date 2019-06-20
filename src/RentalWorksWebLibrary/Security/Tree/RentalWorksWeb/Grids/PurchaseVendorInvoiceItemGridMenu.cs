@@ -13,7 +13,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
             var nodeGridSubMenu = tree.AddSubMenu("{36DACEEF-D85C-4ABE-AFC7-29F99A81363E}", nodeGridMenuBar.Id);
             var nodeBrowseOptions = tree.AddSubMenuGroup("Options", "{94EE9E08-302E-48F0-B77A-CCDE68D78906}", nodeGridSubMenu.Id);
             tree.AddDownloadExcelSubMenuItem("{500A8256-DB97-43BE-9E5F-E4732F4F6C16}", nodeBrowseOptions.Id);
-            tree.AddEditMenuBarButton("{3DD93CEC-0AE4-4962-8CF0-949123603E9D}", nodeGridMenuBar.Id);
+            //tree.AddEditMenuBarButton("{3DD93CEC-0AE4-4962-8CF0-949123603E9D}", nodeGridMenuBar.Id);
         }
         //--------------------------------------------------------------------------------------------- 
     }

@@ -47,21 +47,21 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
             return await DoGetAsync<PurchaseVendorInvoiceItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/purchasevendorinvoiceitem 
-        [HttpPost]
-        [FwControllerMethod(Id: "fLRniDeeCQzz")]
-        public async Task<ActionResult<PurchaseVendorInvoiceItemLogic>> PostAsync([FromBody]PurchaseVendorInvoiceItemLogic l)
-        {
-            return await DoPostAsync<PurchaseVendorInvoiceItemLogic>(l);
-        }
-        //------------------------------------------------------------------------------------ 
-        // DELETE api/v1/purchasevendorinvoiceitem/A0000001 
-        [HttpDelete("{id}")]
-        [FwControllerMethod(Id: "eJAHVCH4hZoU")]
-        public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
-        {
-            return await DoDeleteAsync(id);
-        }
-        //------------------------------------------------------------------------------------ 
+        //// POST api/v1/purchasevendorinvoiceitem 
+        //[HttpPost]
+        //[FwControllerMethod(Id: "fLRniDeeCQzz")]
+        //public async Task<ActionResult<PurchaseVendorInvoiceItemLogic>> PostAsync([FromBody]PurchaseVendorInvoiceItemLogic l)
+        //{
+        //    return await DoPostAsync<PurchaseVendorInvoiceItemLogic>(l);
+        //}
+        ////------------------------------------------------------------------------------------ 
+        //// DELETE api/v1/purchasevendorinvoiceitem/A0000001 
+        //[HttpDelete("{id}")]
+        //[FwControllerMethod(Id: "eJAHVCH4hZoU")]
+        //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
+        //{
+        //    return await DoDeleteAsync(id);
+        //}
+        ////------------------------------------------------------------------------------------ 
     }
 }

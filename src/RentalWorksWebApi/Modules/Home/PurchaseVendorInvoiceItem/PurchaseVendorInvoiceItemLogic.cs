@@ -21,17 +21,17 @@ namespace WebApi.Modules.Home.PurchaseVendorInvoiceItem
         [FwLogicProperty(Id: "cJfJdgJknbze")]
         public string VendorInvoiceItemId { get { return purchaseVendorInvoiceItem.VendorInvoiceItemId; } set { purchaseVendorInvoiceItem.VendorInvoiceItemId = value; } }
         [FwLogicProperty(Id: "b9J0JMzpmUtr", IsReadOnly: true)]
-        public string OrderId { get; set; }
+        public string PurchaseOrderId { get; set; }
         [FwLogicProperty(Id: "NwSYkSwLslDHB", IsReadOnly: true)]
-        public string OrderItemId { get; set; }
+        public string PurchaseOrderItemId { get; set; }
         [FwLogicProperty(Id: "ZAk4uwhcpvST", IsReadOnly: true)]
-        public string Invno { get; set; }
+        public string InvoiceNumber { get; set; }
         [FwLogicProperty(Id: "STgYSQ78Norh", IsReadOnly: true)]
-        public string Invdate { get; set; }
+        public string InvoiceDate { get; set; }
         [FwLogicProperty(Id: "yH6kp9nYiAMu")]
         public int? Quantity { get { return purchaseVendorInvoiceItem.Quantity; } set { purchaseVendorInvoiceItem.Quantity = value; } }
         [FwLogicProperty(Id: "oHZTnoI4D3PU", IsReadOnly: true)]
-        public decimal? Cost { get; set; }
+        public decimal? UnitCost { get; set; }
         [FwLogicProperty(Id: "i9cLuFcoIGZA", IsReadOnly: true)]
         public decimal? Extended { get; set; }
         //------------------------------------------------------------------------------------ 
