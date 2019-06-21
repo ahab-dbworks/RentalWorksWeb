@@ -48,7 +48,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
-      {{#ifNotEquals RecordType "ASSIGNED"}}
+      {{#ifEquals RecordType "RETURN_RECEIPT"}}
       <tr>
         <td data-value="{{ICode}}"></td>
         <td colspan="2" data-value="{{Description}}"></td>
@@ -58,9 +58,9 @@
         <td data-value="{{InContractNumber}}"></td>
         <td data-value="{{InContractDate}}"></td>
       </tr>
-      {{/ifNotEquals}}
+      {{/ifEquals}}
       {{#ifEquals RecordType "ASSIGNED"}}
-      {{#ifNotEquals RepeatHeader false}}
+      {{#ifNotEquals RenderHeader false}}
       <tr>
         <th style="text-align:right;">Assigned:&nbsp;</th>
         <th class="subHeaders">Order No.</th>
@@ -82,7 +82,7 @@
       </tr>
       {{/ifEquals}}
       {{#ifEquals RecordType "RETURNED_TO_INVENTORY"}}
-      {{#ifNotEquals RepeatHeader false}}
+      {{#ifNotEquals RenderHeader false}}
       <tr>
         <th style="text-align:right;">Assigned:&nbsp;</th>
         <th class="subHeaders">Order No.</th>

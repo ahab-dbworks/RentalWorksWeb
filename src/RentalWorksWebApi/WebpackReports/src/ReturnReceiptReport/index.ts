@@ -27,8 +27,8 @@ export class ReturnReceiptReport extends WebpackReport {
                     for (let i = 0; i < data.length; i++) {
                         if (data[i].RecordType === 'ASSIGNED' || data[i].RecordType === 'RETURNED_TO_INVENTORY') {
                             if (data[i + 1].RecordType === 'ASSIGNED' || data[i + 1].RecordType === 'RETURNED_TO_INVENTORY') {
-                                data[i + 1].RepeatHeader = false;
-                            }
+                                data[i + 1].RenderHeader = false;
+                            } 
                         }
                     }
 
@@ -44,6 +44,7 @@ export class ReturnReceiptReport extends WebpackReport {
                     this.onRenderReportFailed(ex);
                 });
         } catch (ex) {
+
             this.onRenderReportFailed(ex);
         }
     }
