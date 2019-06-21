@@ -11,6 +11,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
     [FwSqlTable("availabilitymasterwhview")]
     public class RentalInventoryAvailabilityReportLoader : AppDataLoadRecord
     {
+        const int MAX_AVAILABILITY_DATE_COLUMNS = 30;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
@@ -456,7 +457,8 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 {
                     DateTime theDate = request.FromDate;
                     bool hasNegative = false;
-                    for (int x = 1; x <= 30; x++)  // date slots
+                    int x = 1;
+                    while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
                     {
                         row[dt.GetColumnNo("AvailabilityDate" + x.ToString().PadLeft(2, '0'))] = theDate.Month.ToString() + "/" + theDate.Day.ToString();
                         TInventoryWarehouseAvailabilityDateTime availDateTime = null;
@@ -472,6 +474,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                             }
                         }
                         theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
+                        x++;
                     }
 
                     if ((request.OnlyIncludeNegative.GetValueOrDefault(false)) && (!hasNegative))
@@ -500,7 +503,9 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
             //populate AvailableString columns
             foreach (List<object> row in dt.Rows)
             {
-                for (int x = 1; x <= 30; x++)  // date slots
+                DateTime theDate = request.FromDate;
+                int x = 1;
+                while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
                 {
                     string availQtyAsString = "";
                     object availQtyAsObj = row[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))];
@@ -509,6 +514,8 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                         availQtyAsString = availQtyAsObj.ToString();
                     }
                     row[dt.GetColumnNo("AvailableString" + x.ToString().PadLeft(2, '0'))] = availQtyAsString;
+                    theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
+                    x++;
                 }
             }
 
