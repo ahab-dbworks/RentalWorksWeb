@@ -435,6 +435,38 @@
         $form.find('[data-datafield="Code"] input').focus();
     }
     //----------------------------------------------------------------------------------------------
+    unstageItems($form: JQuery, event): void {
+        const $element = jQuery(event.currentTarget);
+        const $grid = jQuery($element.closest('[data-type="Grid"]'));
+        const $selectedCheckBoxes = $grid.find('.cbselectrow:checked');
+
+        if ($selectedCheckBoxes.length !== 0) {
+            let responseCount = 0;
+            for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+                const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                const request = {
+                    OrderId: orderId,
+                    Code: barCode,
+                    UnstageItem: true,
+                }
+       
+                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
+                    responseCount++;
+                    if (responseCount === $selectedCheckBoxes.length) {
+                        setTimeout(() => {
+                            FwBrowse.search($grid);
+                        }, 0);
+                    }
+                }, function onError(response) {
+                    FwFunc.showError(response);
+                }, null);
+            }
+        } else {
+            FwNotification.renderNotification('WARNING', 'Select rows to unstage in order to perform this function.');
+        }
+    }
+    //----------------------------------------------------------------------------------------------
     // There are corresponding double click events in the Staged Item Grid controller
     moveStagedItemToOut($form: JQuery): void {
         const successSound = new Audio(this.successSoundFileName);
@@ -1158,6 +1190,7 @@
         FwBrowse.addLegend($grid, 'Not Yet Staged or Still Out', '#ff0000');
         FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
     };
+
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         let tabCaption;
@@ -1369,3 +1402,23 @@
         </div>`;
     }
 }
+//---------------------------------------------------------------------------------
+FwApplicationTree.clickEvents[Constants.Grids.StagedItemGrid.menuItems.UnstageItems.id] = function (event: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(this).closest('.fwform');
+        StagingCheckoutController.unstageItems($form, event);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//---------------------------------------------------------------------------------
+FwApplicationTree.clickEvents[Constants.Grids.StagedQuantityItemGrid.menuItems.UnstageItems.id] = function (event: JQuery.ClickEvent) {
+    try {
+        let $form = jQuery(this).closest('.fwform');
+        StagingCheckoutController.unstageItems($form, event);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};

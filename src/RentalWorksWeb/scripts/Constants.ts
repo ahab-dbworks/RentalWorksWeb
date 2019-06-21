@@ -297,6 +297,16 @@
                 RefreshAvailability: { id: '{3756AF3A-1611-4BCD-BBD9-E3233F5A772E}' }
             }
         },
+        StagedItemGrid: {
+            menuItems: {
+                UnstageItems: { id: '{43010EEE-85B8-4444-9FA7-A0A4A0ABC8CF}' }
+            }
+        },
+        StagedQuantityItemGrid: {
+            menuItems: {
+                UnstageItems: { id: '{FECB5FC0-4E01-4F99-8D29-2F9CE446846B}' }
+            }
+        },
         TransferOrderItemGrid: {
             menuItems: {
                 Search: { id: '{16CD0101-28D7-49E2-A3ED-43C03152FEE6}' },
