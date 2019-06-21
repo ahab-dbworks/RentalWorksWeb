@@ -150,6 +150,7 @@ namespace WebApi.Modules.Reports.QuikActivityReport
                 string[] totalFields = new string[] { "ItemCount", "SubItemCount" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
+                dt.InsertSubTotalRows("ActivityDate", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;

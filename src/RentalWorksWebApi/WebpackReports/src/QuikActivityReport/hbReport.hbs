@@ -46,26 +46,42 @@
         <td colspan="5" class="lower header-row">Department: {{"Department"}}</td>
       </tr>
       {{/ifEquals}}
-      {{#ifEquals RowType "detail"}}
-    <tr rowspan="2" data-rowtype="{{RowType}}">
-      <td><div>{{ActivityDate}}</div>{{ActivityTime}}</td>
-      <td data-value="{{ActivityType}}"></td>
-      <td data-value="{{OrderType}}"></td>
-      <td data-value="{{Agent}}"></td>
-      <td data-value="{{OrderNumber}}"></td>
-      <td data-value="{{OrderDescription}}"></td>
-      <td data-value="{{PurchaseOrderNumber}}"></td>
-      <td data-value="{{DealVendor}}"></td>
-      {{#ifEquals ../IsSummary "T"}}
-      <td data-value="{{OrderType2}}"></td>
-      {{else}}
-      <td data-value="{{InventoryType}}"></td>
-      <td class="nowrap" data-value="{{ICode}}"></td>
-      <td data-value="{{Description}}"></td>
+      {{#ifEquals RowType "ActivityDateheader"}}
+      <tr>
+        <td colspan="5" class="lower header-row">Activity Date: {{"ActivityDate"}}</td>
+      </tr>
       {{/ifEquals}}
-      <td class="number" data-value="{{ItemCount}}"></td>
-      <td class="number" data-value="{{SubItemCount}}"></td>
-    </tr>
+      {{#ifEquals RowType "detail"}}
+      <tr rowspan="2" data-rowtype="{{RowType}}">
+        <td><div>{{ActivityDate}}</div>{{ActivityTime}}</td>
+        <td data-value="{{ActivityType}}"></td>
+        <td data-value="{{OrderType}}"></td>
+        <td data-value="{{Agent}}"></td>
+        <td data-value="{{OrderNumber}}"></td>
+        <td data-value="{{OrderDescription}}"></td>
+        <td data-value="{{PurchaseOrderNumber}}"></td>
+        <td data-value="{{DealVendor}}"></td>
+        {{#ifEquals ../IsSummary "T"}}
+        <td data-value="{{OrderType2}}"></td>
+        {{else}}
+        <td data-value="{{InventoryType}}"></td>
+        <td class="nowrap" data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        {{/ifEquals}}
+        <td class="number" data-value="{{ItemCount}}"></td>
+        <td class="number" data-value="{{SubItemCount}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "ActivityDatefooter"}}
+      <tr>
+        {{#ifEquals ../IsSummary "T"}}
+        <td colspan="9" class="total-name">{{ActivityDate}}:&nbsp;</td>
+        {{else}}
+        <td colspan="11" class="total-name">{{ActivityDate}}:&nbsp;</td>
+        {{/ifEquals}}
+        <td class="total-val" data-value="{{ItemCount}}"></td>
+        <td class="total-val" data-value="{{SubItemCount}}"></td>
+      </tr>
       {{/ifEquals}}
       {{#ifEquals RowType "Departmentfooter"}}
       <tr>
