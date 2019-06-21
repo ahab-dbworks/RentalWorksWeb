@@ -11,30 +11,29 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="width:1555px;margin-top:40px;">
-{{#ifEquals ShowImages true}}
-{{#ifEquals IncludeFullImages true}}
+  {{#ifEquals ShowImages true}}
+  {{#ifEquals IncludeFullImages true}}
   <table>
     <thead>
       <tr>
-        <th>Order No.&nbsp;&nbsp;Order Date</th>
-        <th>Order Description</th>
+        <th>Date</th>
         <th>I-Code</th>
         <th>Item Description</th>
+        {{#ifEquals ShowVendors true}}
+        <th>Vendor</th>
+        {{/ifEquals}}
         <th>Contract No.</th>
         <th>PO No.</th>
         <th class="number">Quantity</th>
-        {{#ifEquals IncludeValue true}}
-          <th class="number">Unit Value</th>
-          <th class="number">Extended</th>
-        {{/ifEquals}}
         {{#ifEquals ShowBarcodes true}}
-          <th>Bar Code</th>
+        <th>Bar Code</th>
         {{/ifEquals}}
-        {{#ifEquals ShowVendors true}}
-          <th>Vendor</th>
+        {{#ifEquals IncludeValue true}}
+        <th class="number">Unit Value</th>
+        <th class="number">Extended</th>
         {{/ifEquals}}
         {{#ifEquals ShowResponsiblePerson true}}
-          <th>Responsible</th>
+        <th>Responsible</th>
         {{/ifEquals}}
       </tr>
     </thead>
@@ -42,151 +41,151 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
-         <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberheader"}}
-          <td colspan="5" class="lower header-row">Order No: {{OrderNumber}}</td>
+        <td colspan="5" class="lower header-row">Order No: {{OrderNumber}}</td>
+        <td class="tax-option">Date: {{OrderDate}}</td>
+        <td class="tax-option">Description: {{OrderDescription}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerheader"}}
-          <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
+        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-          <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
+        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-         {{#if Image}}
-           <td><div>{{OrderNumber}}&nbsp;&nbsp;{{OrderDate}}</div><div colspan="3" style="width:170px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;"/></div></td>
-         {{else}}
-          <td class="text top"><div>{{OrderNumber}}&nbsp;&nbsp;{{OrderDate}}</div>
-         {{/if}}
-          <td class="text top" data-value="{{OrderDescription}}"></td>
-          <td class="text top" data-value="{{ICode}}"></td>
-          <td class="text top" data-value="{{Description}}"></td>
-          <td class="text top" data-value="{{ContractNumber}}"></td>
-          <td class="text top" data-value="{{PoNumber}}"></td>
-          <td class="number top" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td class="number top" data-value="{{ReplacementCost}}"></td>
-            <td class="number top" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td class="number top" data-value="{{UnitValue}}"></td>
-            <td class="number top" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td class="number top" data-value="{{PurchaseAmount}}"></td>
-            <td class="number top" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../ShowBarcodes true}}
-            <td class="text top" data-value="{{BarCode}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../ShowVendors true}}
-            <td class="text top" data-value="{{Vendor}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../ShowResponsiblePerson true}}
-            <td class="text top" data-value="{{ResponsiblePerson}}"></td>
-          {{/ifEquals}}
+        {{#if Image}}
+        <td><div>{{OrderDate}}</div><div colspan="3" style="width:170px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;" /></div></td>
+        {{else}}
+        <td class="top">
+          <div>{{OrderDate}}</div>
+          {{/if}}
+        <td class="top nowrap" data-value="{{ICode}}"></td>
+        <td class="top" data-value="{{Description}}"></td>
+        {{#ifEquals ../ShowVendors true}}
+        <td class="top" data-value="{{Vendor}}"></td>
+        {{/ifEquals}}
+        <td class="top" data-value="{{ContractNumber}}"></td>
+        <td class="top" data-value="{{PoNumber}}"></td>
+        <td class="number top" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../ShowBarcodes true}}
+        <td class="top" data-value="{{BarCode}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td class="number top" data-value="{{ReplacementCost}}"></td>
+        <td class="number top" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td class="number top" data-value="{{UnitValue}}"></td>
+        <td class="number top" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td class="number top" data-value="{{PurchaseAmount}}"></td>
+        <td class="number top" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ShowResponsiblePerson true}}
+        <td class="top" data-value="{{ResponsiblePerson}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-          <td colspan="6" class="total-name">{{Deal}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="6" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-          <td colspan="6" class="total-name">{{Customer}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="6" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberfooter"}}
-          <td colspan="6" class="total-name">{{OrderNumber}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="6" class="total-name">{{OrderNumber}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-          <td colspan="6" class="total-name">{{OfficeLocation}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="6" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-          <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
       </tr>
       {{/each}}
     </tbody>
   </table>
-{{/ifEquals}}
-{{/ifEquals}}
+  {{/ifEquals}}
+  {{/ifEquals}}
   {{#ifEquals IncludeFullImages false}}
   <table>
     <thead>
       <tr>
-        <th>Order No.</th>
         <th>Order Date</th>
-        <th>Order Description</th>
         <th>I-Code</th>
         <th>Item Description</th>
+        {{#ifEquals ShowVendors true}}
+        <th>Vendor</th>
+        {{/ifEquals}}
         <th>Contract No.</th>
         <th style="width:55px;">PO No.</th>
         <th class="number">Quantity</th>
-        {{#ifEquals IncludeValue true}}
-          <th class="number">Unit Value</th>
-          <th class="number">Extended</th>
-        {{/ifEquals}}
         {{#ifEquals ShowBarcodes true}}
-          <th>Bar Code</th>
+        <th>Bar Code</th>
         {{/ifEquals}}
-        {{#ifEquals ShowVendors true}}
-          <th>Vendor</th>
+        {{#ifEquals IncludeValue true}}
+        <th class="number">Unit Value</th>
+        <th class="number">Extended</th>
         {{/ifEquals}}
         {{#ifEquals ShowResponsiblePerson true}}
-          <th>Responsible</th>
+        <th>Responsible</th>
         {{/ifEquals}}
         {{#ifEquals ShowImages true}}
-         {{#ifEquals IncludeThumbnailImages true}}
-          <th>Image</th>
-         {{/ifEquals}}
+        {{#ifEquals IncludeThumbnailImages true}}
+        <th>Image</th>
+        {{/ifEquals}}
         {{/ifEquals}}
       </tr>
     </thead>
@@ -194,121 +193,121 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
-         <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberheader"}}
-          <td colspan="5" class="lower header-row">Order No: {{OrderNumber}}</td>
+        <td colspan="5" class="lower header-row">Order No: {{OrderNumber}}</td>
+        <td class="tax-option">Date: {{OrderDate}}</td>
+        <td class="tax-option">Description: {{OrderDescription}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerheader"}}
-          <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
+        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-          <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
+        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
-          <td data-value="{{OrderNumber}}"></td>
-          <td data-value="{{OrderDate}}"></td>
-          <td data-value="{{OrderDescription}}"></td>
-          <td data-value="{{ICode}}"></td>
-          <td data-value="{{Description}}"></td>
-          <td data-value="{{ContractNumber}}"></td>
-          <td data-value="{{PoNumber}}"></td>
-          <td class="number" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td class="number" data-value="{{ReplacementCost}}"></td>
-            <td class="number" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td class="number" data-value="{{UnitValue}}"></td>
-            <td class="number" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td class="number" data-value="{{PurchaseAmount}}"></td>
-            <td class="number" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../ShowBarcodes true}}
-            <td data-value="{{BarCode}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../ShowVendors true}}
-            <td data-value="{{Vendor}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../ShowResponsiblePerson true}}
-            <td data-value="{{ResponsiblePerson}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../ShowImages true}}
-            {{#ifEquals ../IncludeThumbnailImages true}}
-              {{#if Image}}
-                <td><div style="width:50px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;"/></div></td>
-              {{else}}
-                <td></td>
-              {{/if}}
-            {{/ifEquals}}
-          {{/ifEquals}}
+        <td data-value="{{OrderDate}}"></td>
+        <td class="nowrap" data-value="{{ICode}}"></td>
+        <td data-value="{{Description}}"></td>
+        {{#ifEquals ../ShowVendors true}}
+        <td data-value="{{Vendor}}"></td>
+        {{/ifEquals}}
+        <td data-value="{{ContractNumber}}"></td>
+        <td data-value="{{PoNumber}}"></td>
+        <td class="number" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../ShowBarcodes true}}
+        <td data-value="{{BarCode}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td class="number" data-value="{{ReplacementCost}}"></td>
+        <td class="number" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td class="number" data-value="{{UnitValue}}"></td>
+        <td class="number" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td class="number" data-value="{{PurchaseAmount}}"></td>
+        <td class="number" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ShowResponsiblePerson true}}
+        <td data-value="{{ResponsiblePerson}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../ShowImages true}}
+        {{#ifEquals ../IncludeThumbnailImages true}}
+        {{#if Image}}
+        <td><div style="width:50px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;" /></div></td>
+        {{else}}
+        <td></td>
+        {{/if}}
+        {{/ifEquals}}
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-          <td colspan="7" class="total-name">{{Deal}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="7" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "Customerfooter"}}
-          <td colspan="7" class="total-name">{{Customer}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="7" class="total-name">{{Customer}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OrderNumberfooter"}}
-          <td colspan="7" class="total-name">{{OrderNumber}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="7" class="total-name">{{OrderNumber}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-          <td colspan="7" class="total-name">{{OfficeLocation}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="7" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-          <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-          {{#ifEquals ../IncludeValueCost "R"}}
-            <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "U"}}
-            <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
-          {{/ifEquals}}
-          {{#ifEquals ../IncludeValueCost "P"}}
-            <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
-          {{/ifEquals}}
+        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{#ifEquals ../IncludeValueCost "R"}}
+        <td colspan="2" class="total-val" data-value="{{ReplacementCostExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "U"}}
+        <td colspan="2" class="total-val" data-value="{{UnitValueExtended}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals ../IncludeValueCost "P"}}
+        <td colspan="2" class="total-val" data-value="{{PurchaseAmountExtended}}"></td>
+        {{/ifEquals}}
         {{/ifEquals}}
       </tr>
       {{/each}}

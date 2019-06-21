@@ -228,10 +228,11 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
             {
                 dt.Columns[dt.GetColumnNo("RowType")].IsVisible = true;
                 string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended" };
+                string[] headerFieldsOrderNumber = new string[] { "OrderDate", "OrderDescription" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields, headerFieldsOrderNumber, totalFor: "Total for");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
 
