@@ -18,7 +18,7 @@ namespace WebApi.Modules.Settings.AvailabilitySettings
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "MYekyvdKkYNtj", IsPrimaryKey: true)]
         public string ControlId { get { return availabilitySettings.ControlId; } set { availabilitySettings.ControlId = value; } }
-        [FwLogicProperty(Id: "QOFoP6kCZrMGX")]
+        [FwLogicProperty(Id: "QOFoP6kCZrMGX", IsRecordTitle: true)]
         public int? PollForStaleAvailabilitySeconds { get { return availabilitySettings.PollForStaleAvailabilitySeconds; } set { availabilitySettings.PollForStaleAvailabilitySeconds = value; } }
         [FwLogicProperty(Id: "P13cxcyt5ET2T")]
         public bool? KeepAvailabilityCacheCurrent { get { return availabilitySettings.KeepAvailabilityCacheCurrent; } set { availabilitySettings.KeepAvailabilityCacheCurrent = value; } }

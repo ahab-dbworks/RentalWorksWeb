@@ -216,6 +216,7 @@ namespace WebLibrary.Security
                                                      AddSettingsModule("Tax Option",                  "{5895CA39-5EF8-405B-9E97-2FEB83939EE5}", lv1menuSettings.Id,             "TaxOptionController",                   description: "");
                                                      AddSettingsModule("Template",                    "{BDDB1439-F128-4AB7-9657-B1CDFFA12721}", lv1menuSettings.Id,             "TemplateController",                    description: "");
             var lv2menuSystemSettings       = AddSettingsMenu("System Settings",                      "{EF0A0F0D-F76B-4F25-8AF4-10F7934CFDC0}", lv1menuSettings.Id);
+                                                     AddSettingsModule("Availability Settings",       "{E1C62A69-05B0-4657-AAF0-703F8BDEBC5C}", lv2menuSystemSettings.Id,       "AvailabilitySettingsController",        description: "");
                                                      AddSettingsModule("Email Settings",              "{8C9613E0-E7E5-4242-9DF6-4F57F59CE2B9}", lv2menuSystemSettings.Id,       "EmailSettingsController",               description: "");
             var lv2menuUserSettings         = AddSettingsMenu("User Settings",                        "{13E1A9A9-1096-447E-B4AE-E538BEF5BCB5}", lv1menuSettings.Id);
                                                      AddSettingsModule("User Status",                 "{E19916C6-A844-4BD1-A338-FAB0F278122C}", lv2menuUserSettings.Id,         "UserStatusController",                  description: "");
