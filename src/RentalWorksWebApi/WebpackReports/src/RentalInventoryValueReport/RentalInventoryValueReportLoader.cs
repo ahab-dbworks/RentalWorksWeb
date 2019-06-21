@@ -51,6 +51,9 @@ namespace WebApi.Modules.Reports.RentalInventoryValueReport
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
+        public string Rank { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "changedate", modeltype: FwDataTypes.Date)]
         public string ChangeDate { get; set; }
         //------------------------------------------------------------------------------------ 
