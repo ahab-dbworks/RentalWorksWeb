@@ -66,7 +66,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string OrderNumber { get; set; }
         public string OrderDescription { get; set; }
         public string Deal { get; set; }
-        public decimal? QuantityOrdered { get; set; }
+        public decimal? QuantityReserved { get; set; }
         public decimal? QuantitySub { get; set; }
         public decimal? QuantityAvailable { get; set; }
         public string AvailabilityState { get; set; } = RwConstants.AVAILABILITY_STATE_STALE;
@@ -1133,7 +1133,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                     reservation.IsNegativeConflict = true;
                                     availData.HasNegativeConflict = true;
                                 }
-                                else if (available.Total >= reservation.QuantitySub)
+                                else if ((reservation.QuantitySub > 0) && (available.Total >= reservation.QuantitySub))
                                 {
                                     reservation.IsPositiveConflict = true;
                                     availData.HasPositiveConflict = true;
@@ -1749,7 +1749,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                     select.Parse();
 
-                    if (!string.IsNullOrEmpty(request.AvailableFor))
+                    if ((!string.IsNullOrEmpty(request.AvailableFor)) && (!request.AvailableFor.Equals("ALL")))
                     {
                         select.AddWhere("a.availfor = @availfor");
                         select.AddParameter("@availfor", request.AvailableFor);
@@ -1771,6 +1771,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     //{ 
                     //    select.AddWhere("somefield ^<^> 'T'"); 
                     //} 
+                    select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno, master");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
 
@@ -1786,7 +1787,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 TInventoryWarehouseAvailability availData = null;
                 if (AvailabilityCache.TryGetValue(availKey, out availData))
                 {
-                    bool hasConflict = ((string.IsNullOrEmpty(request.ConflictType) && (availData.HasNegativeConflict || availData.HasPositiveConflict)) ||
+                    bool hasConflict = (((string.IsNullOrEmpty(request.ConflictType) || (request.ConflictType.Equals("ALL"))) && (availData.HasNegativeConflict || availData.HasPositiveConflict)) ||
                                        (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && availData.HasNegativeConflict) ||
                                        (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && availData.HasPositiveConflict));
 
@@ -1797,7 +1798,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             if (reservation.QuantityReserved.Total != 0)
                             {
 
-                                bool isConflict = ((string.IsNullOrEmpty(request.ConflictType) && (reservation.IsNegativeConflict || reservation.IsPositiveConflict)) ||
+                                bool isConflict = (((string.IsNullOrEmpty(request.ConflictType) || (request.ConflictType.Equals("ALL"))) && (reservation.IsNegativeConflict || reservation.IsPositiveConflict)) ||
                                                    (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && reservation.IsNegativeConflict) ||
                                                    (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_POSITIVE) && reservation.IsPositiveConflict));
 
@@ -1833,7 +1834,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                     responseItem.OrderNumber = reservation.OrderNumber;
                                     responseItem.OrderDescription = reservation.OrderDescription;
                                     responseItem.Deal = reservation.Deal;
-                                    responseItem.QuantityOrdered = reservation.QuantityOrdered;
+                                    responseItem.QuantityReserved = reservation.QuantityReserved.Total;
                                     responseItem.QuantitySub = reservation.QuantitySub;
                                     responseItem.FromDateTime = reservation.FromDateTime;
                                     responseItem.ToDateTime = reservation.ToDateTime;
@@ -1842,6 +1843,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                     responseItem.ToDateTimeString = (reservation.ToDateTime.Equals(LateDateTime) ? "LATE" : FwConvert.ToString(reservation.ToDateTime));
 
                                     TInventoryWarehouseAvailabilityMinimum minAvail = availData.GetMinimumAvailableQuantity(reservation.FromDateTime, reservation.ToDateTime);
+                                    if ((!minAvail.IsStale) && (reservation.QuantitySub > 0) && (minAvail.MinimumAvailable.Total > reservation.QuantitySub))
+                                    {
+                                        minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_POSITIVE_CONFLICT;
+                                    }
 
                                     responseItem.QuantityAvailable = minAvail.MinimumAvailable.Total;
                                     responseItem.AvailabilityIsStale = minAvail.IsStale;

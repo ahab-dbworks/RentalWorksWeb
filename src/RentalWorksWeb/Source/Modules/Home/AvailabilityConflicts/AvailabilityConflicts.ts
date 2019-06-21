@@ -86,7 +86,7 @@ class AvailabilityConflicts {
                             <th>Order No.</th>
                             <th>Order Description</th>
                             <th>Deal</th>
-                            <th class="number">Ordered</th>
+                            <th class="number">Reserved</th>
                             <th class="number">Sub</th>
                             <th class="number">Available</th>
                             <th class="number">Late</th>
@@ -116,7 +116,7 @@ class AvailabilityConflicts {
                         <td>${data[i].OrderNumber}</td>
                         <td>${data[i].OrderDescription}</td>
                         <td>${data[i].Deal}</td>
-                        <td class="number">${data[i].QuantityOrdered}</td>
+                        <td class="number">${data[i].QuantityReserved}</td>
                         <td class="number">${data[i].QuantitySub}</td>
                         <td class="number"><div class="available-color" data-state=${data[i].AvailabilityState}>${data[i].QuantityAvailable}</div></td>
                         <td class="number">${data[i].QuantityLate}</td>
