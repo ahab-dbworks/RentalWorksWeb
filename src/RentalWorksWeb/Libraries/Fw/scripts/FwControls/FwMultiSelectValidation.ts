@@ -64,7 +64,7 @@
         }
         $browse.find('.btnViewSelection').css('display', 'inline-block');
 
-        $popup = FwPopup.attach($browse);
+        $popup = FwPopup.renderPopup($browse, { 'ismodal': true });
 
         $searchfield.on('change', function () {
             try {
@@ -89,6 +89,7 @@
                 FwFunc.showError(ex);
             }
         });
+
         $btnvalidate.on('click', function () {
             try {
                 if ((typeof $control.attr('data-enabled') !== 'undefined') && ($control.attr('data-enabled') !== 'false')) {
@@ -104,6 +105,7 @@
                 FwFunc.showError(ex);
             }
         });
+
         $browse
             .on('click', '.validationbuttons .btnSelect', function () {
                 let $selectedrows, $tr, $selectedTrs, uniqueid;
@@ -161,7 +163,7 @@
             })
             .on('click', '.validationbuttons .btnCancel', function () {
                 try {
-                    FwPopup.hide($popup);
+                    FwPopup.detachPopup($popup);
                 } catch (ex) {
                     FwFunc.showError(ex);
                 }
@@ -171,7 +173,7 @@
                 try {
                     switch (code) {
                         case 27: //ESC key
-                            FwPopup.hide($popup);
+                            FwPopup.detachPopup($popup);
                             this.setCaret($control);
                             break;
                     }
@@ -348,7 +350,6 @@
         $btnvalidate.hide();
         $browse.data('$control').find('.validation-loader').show();
         FwBrowse.search($browse);
-        FwPopup.show($popup);
     };
     //---------------------------------------------------------------------------------
     getUniqueIds($tr: JQuery): Array<string> {
@@ -421,7 +422,7 @@
         if (typeof $control.data('onchange') === 'function') {
             $control.data('onchange')($selectedRows);
         }
-        FwPopup.hide($popup);
+        FwPopup.detachPopup($popup);
         FwMultiSelectValidation.setCaret($control);
     };
     //---------------------------------------------------------------------------------
@@ -457,7 +458,7 @@
         $searchfield.val('');
         multiselectfield.append($inputField);
         $inputField.text('');
-        FwPopup.hide($popup);
+        FwPopup.detachPopup($popup);
         FwMultiSelectValidation.setCaret($control);
     };
     //---------------------------------------------------------------------------------
@@ -467,7 +468,6 @@
         $valuefield.val('').change();
         $searchfield.val('');
         $browse.find('tbody tr').removeClass('selected');
-        //FwPopup.hide($popup);
     };
     //---------------------------------------------------------------------------------
     viewSelection(validationName: string, $valuefield: JQuery, $searchfield: JQuery, $btnvalidate: JQuery, $popup, $browse: JQuery, controller: string): void {
