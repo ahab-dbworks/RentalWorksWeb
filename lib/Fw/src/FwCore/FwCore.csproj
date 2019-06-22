@@ -7,7 +7,6 @@
 
   <ItemGroup>
     <Compile Remove="Api\FwAppManagerAuthorizationHandler.cs" />
-    <Compile Remove="Controllers\FwAppImageController.cs" />
   </ItemGroup>
 
   <ItemGroup>

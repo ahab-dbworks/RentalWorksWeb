@@ -2,11 +2,6 @@
     blankDataUrl = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
     //---------------------------------------------------------------------------------
     init = function ($control) {
-        //$control.on('click', '> .runtime > .image > img', function(event) {
-        //    var appimageid = jQuery(this).attr('data-appimageid');
-        //    window.open('fwappimage.ashx?method=GetAppImage&appimageid=' + appimageid + '&thumbnail=false');
-        //});
-
         $control
             .on('click', '.btnAdd', function (event) {
                 var $confirmation;
@@ -65,7 +60,6 @@
                                             if ((typeof window.screen !== 'undefined') && (typeof (<any>window).screen.lockOrientation === 'function')) {
                                                 (<any>window).screen.lockOrientation('portrait-primary');
                                             }
-                                            //FwFunc.showError('Failed because: ' + message);
                                         } catch (ex) {
                                             FwFunc.showError(ex);
                                         }
@@ -85,48 +79,6 @@
                                 FwFunc.showError(ex);
                             }
                         });
-                        //var $btnChoosePicture = FwConfirmation.addButton($confirmation, 'Choose from Gallery', false);
-                        //$btnChoosePicture.on('click', function () {
-                        //    try {
-                        //        navigator.camera.getPicture(
-                        //            //success
-                        //            function (imageUri) {
-                        //                var img, request, $images, i;
-                        //                try {
-                        //                    if ((typeof window.screen !== 'undefined') && (typeof window.screen.lockOrientation === 'function')) {
-                        //                        window.screen.lockOrientation('portrait-primary');
-                        //                    };
-                        //                    $confirmation.find('imagetoadd').attr('src', 'data:image/jpeg;base64,' + imageUri);
-                        //                } catch (ex) {
-                        //                    FwFunc.showError(ex);
-                        //                }
-                        //            }
-                        //            //error
-                        //            , function (message) {
-                        //                try {
-                        //                    if ((typeof window.screen !== 'undefined') && (typeof window.screen.lockOrientation === 'function')) {
-                        //                        window.screen.lockOrientation('portrait-primary');
-                        //                    }
-                        //                    //FwFunc.showError('Failed because: ' + message);
-                        //                } catch (ex) {
-                        //                    FwFunc.showError(ex);
-                        //                }
-                        //            }
-                        //            , {
-                        //                destinationType: Camera.DestinationType.DATA_URL
-                        //                , sourceType: Camera.PictureSourceType.PHOTOLIBRARY
-                        //                , allowEdit: false
-                        //                , correctOrientation: true
-                        //                , encodingType: Camera.EncodingType.JPEG
-                        //                , quality: applicationConfig.photoQuality
-                        //                , targetWidth: applicationConfig.photoWidth
-                        //                , targetHeight: applicationConfig.photoHeight
-                        //            }
-                        //        );
-                        //    } catch (ex) {
-                        //        FwFunc.showError(ex);
-                        //    }
-                        //});
                     } else {
                         var $btnSelectFile = FwConfirmation.addButton($confirmation, 'or Select File...', false);
                         $btnSelectFile.on('click', function () {
@@ -236,10 +188,8 @@
             .on('click', '.image', function (event) {
                 try {
                     var appimageid = jQuery(this).attr('data-appimageid');
-                    //var win = window.open('');
-                    //win.document.write('<img src="' + 'fwappimage.ashx?method=GetAppImage&appimageid=' + appimageid + '&thumbnail=false' + '\" >');
                     var html = [];
-                    html.push('<img style="max-width:100%;" src="' + applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + appimageid + '&thumbnail=false' + '\" >');
+                    html.push('<img style="max-width:100%;" src="' + applicationConfig.apiurl + 'api/v1/appimage/getimage?appimageid=' + appimageid + '&thumbnail=false' + '\" >');
                     let htmlString = html.join('\n');
                     var $confirmation = FwConfirmation.renderConfirmation('Image Viewer', htmlString);
                     $confirmation.find('.message').css({
@@ -373,7 +323,6 @@
         html.push('</div>');
         html = html.join('');
         $control.html(html);
-        //$control.find('.addimage').html(FwAppImage.getAddImageHtml($control, 'NEW', null));
         $control.find('.FwAppImage').data('$control', $control);
         var $fwmenu = $control.find('.fwmenu');
         FwControl.renderRuntimeHtml($fwmenu);
@@ -384,30 +333,30 @@
         var html = [], url = FwAppImage.blankDataUrl, btnClearDisplay = 'none';
         if (mode === 'NEW') {
             image = {
-                appimageid: '',
-                datestamp: '',
-                description: '',
-                extension: '',
-                mimetype: '',
-                width: 0,
-                height: 0,
-                rectype: '',
-                orderby: 0
+                AppImageId: '',
+                DateStamp: '',
+                Description: '',
+                Extension: '',
+                MimeType: '',
+                Width: 0,
+                Height: 0,
+                RecType: '',
+                OrderBy: 0
             };
         } else {
-            url = applicationConfig.appbaseurl + applicationConfig.appvirtualdirectory + 'fwappimage.ashx?method=GetAppImage&appimageid=' + image.appimageid;
+            url = `${applicationConfig.apiurl}api/v1/appimage/getimage?appimageid=${image.AppImageId}`;
         }
-        html.push('  <div class="image" data-mode="' + mode + '" data-appimageid="' + image.appimageid + '">');
+        html.push('  <div class="image" data-mode="' + mode + '" data-appimageid="' + image.AppImageId + '">');
         html.push('    <div class="pastecontrol">');
         html.push('      <div class="pastedimagecontainer">');
         if ($control.attr('data-hasdelete') !== 'false') {
             html.push('        <div class="btnDelete" title="Delete">X</div>');
         }
-        html.push('        <img class="pastedimage" data-mimetype="' + image.mimetype + '" src="' + url + '" data-appimageid="' + image.appimageid + '" />');
+        html.push('        <img class="pastedimage" data-mimetype="' + image.MimeType + '" src="' + url + '" data-appimageid="' + image.AppImageId + '" />');
         html.push('      </div>');
         html.push('    </div>');
         html.push('    <div class="datestamp">');
-        html.push('      ' + image.datestamp);
+        html.push('      ' + image.DateStamp);
         html.push('    </div>');
         html.push('  </div>');
         let htmlString = html.join('');
@@ -584,12 +533,30 @@
     }
     //---------------------------------------------------------------------------------
     getAppImages($control) {
-        var request;
-        request = {};
+        var request: any = {};
         FwAppImage.setGetAppImagesRequest($control, request);
-        FwAppData.jsonPost(false, 'fwappimage.ashx?method=GetAppImages', request, FwServices.defaultTimeout, function (response) {
-            FwAppImage.getAppImagesCallback($control, response);
-        }, null, $control);
+        let url: string = `api/v1/appimage/getimages?`;
+        let first: boolean = true;
+        for (let key in request) {
+            if (!first) {
+                url += '&';
+            } else {
+                first = false;
+            }
+            url += `${key}=${request[key]}`;
+        }
+        FwAppData.apiMethod(true, 'GET', url, request, applicationConfig.ajaxTimeoutSeconds, 
+            (response: any) => {
+                try {
+                    FwAppImage.getAppImagesCallback($control, response);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            (error: any) => {
+                FwFunc.showError(error);
+            }, $control
+        );
     }
     //---------------------------------------------------------------------------------
     setGetAppImagesRequest($control, request) {
@@ -631,7 +598,7 @@
         }
     }
     //---------------------------------------------------------------------------------
-    getAppImagesCallback($control, response) {
+    getAppImagesCallback($control, images) {
         var $divimages, image, $image, $addimage, html, thumbnails;
         try {
             $divimages = $control.find('div.images');
@@ -641,7 +608,7 @@
 
             html.push('<section class="gallery"><div class="carousel">');
 
-            for (var i = 0; i < response.images.length; i++) {
+            for (var i = 0; i < images.length; i++) {
                 if (i === 0) {
                     html.push('<input type="radio" id="image1" name="gallery-control" checked>');
                 } else {
@@ -651,8 +618,8 @@
 
             html.push('<input type="checkbox" id="fullscreen" name="gallery-fullscreen-control"/><div class="wrap">');
 
-            for (var imageno = 0; imageno < response.images.length; imageno++) {
-                image = response.images[imageno];
+            for (var imageno = 0; imageno < images.length; imageno++) {
+                image = images[imageno];
                 $image = FwAppImage.getImageHtml($control, 'VIEW', image);
                 html.push('<figure class="image' + (imageno + 1) + '">');
                 html.push($image);
@@ -664,10 +631,6 @@
             html.push('</div></div></section>');
             html = html.join('');
             $divimages.append(html);
-            //if ($control.attr('data-hasadd') !== 'false') {
-            //    $addimage = jQuery(FwAppImage.getAddImageHtml($control));
-            //    $divimages.append($addimage);
-            //}
             if (typeof $control.data('recenterpopup') === 'function') {
                 $control.data('recenterpopup')();
             }
@@ -692,19 +655,25 @@
         description = $control.is('[data-description]') ? $control.attr('data-description') : '';
         rectype = $control.is('[data-rectype]') ? $control.attr('data-rectype') : '';
         request = {
-            description: description,
-            extension: extension,
-            imagedataurl: imagedataurl,
-            rectype: rectype,
-            filename: filename,
-            mimetype: mimetype
+            Description: description,
+            Extension: extension,
+            ImageDataUrl: imagedataurl,
+            Rectype: rectype,
+            Filename: filename,
+            MimeType: mimetype
         };
         FwAppImage.setGetAppImagesRequest($control, request);
-        FwAppData.jsonPost(false, 'fwappimage.ashx?method=AddImage', request, FwServices.defaultTimeout,
-            // onsuccess
-            function (response) {
-                FwAppImage.getAppImagesCallback($control, response);
-            }, null, $control
+        FwAppData.apiMethod(true, 'POST', `api/v1/appimage`, request, applicationConfig.ajaxTimeoutSeconds, 
+            (response: any) => {
+                try {
+                    FwAppImage.getAppImages($control);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+            },
+            (error: any) => {
+                FwFunc.showError(error);
+            }, $control
         );
     }
     //---------------------------------------------------------------------------------
@@ -712,19 +681,24 @@
         var request, appimageid;
         appimageid = $image.attr('data-appimageid');
         request = {
-            appimageid: appimageid
+            AppImageId: appimageid
         };
         FwAppImage.setGetAppImagesRequest($control, request);
-        FwAppData.jsonPost(false, 'fwappimage.ashx?method=DeleteImage', request, FwServices.defaultTimeout, function (response) {
-            try {
-                $image.remove();
-                if (typeof $control.data('recenterpopup') === 'function') {
-                    $control.data('recenterpopup')();
+        FwAppData.apiMethod(true, 'DELETE', `api/v1/appimage`, request, applicationConfig.ajaxTimeoutSeconds, 
+            (response: any) => {
+                try {
+                    $image.remove();
+                    if (typeof $control.data('recenterpopup') === 'function') {
+                        $control.data('recenterpopup')();
+                    }
+                } catch (ex) {
+                    FwFunc.showError(ex);
                 }
-            } catch (ex) {
-                FwFunc.showError(ex);
-            }
-        }, null, $control);
+            },
+            (error: any) => {
+                FwFunc.showError(error);
+            }, $control
+        );
     }
     //---------------------------------------------------------------------------------
 }

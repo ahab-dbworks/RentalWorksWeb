@@ -1129,7 +1129,7 @@ namespace FwStandard.BusinessLogic
                             awuRequest.uniqueids = uniqueIds;
                             List<AlertWebUsersLogic> alertWebUsers = awuLoader.SelectAsync<AlertWebUsersLogic>(awuRequest).Result;
 
-                            List<string> toEmails = new List<string>(); 
+                            List<string> toEmails = new List<string>();
                             foreach (AlertWebUsersLogic user in alertWebUsers)
                             {
                                 toEmails.Add(user.Email);

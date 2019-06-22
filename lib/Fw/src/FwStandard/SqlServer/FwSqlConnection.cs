@@ -44,11 +44,12 @@ namespace FwStandard.SqlServer
             return (this.sqlConnection.State != ConnectionState.Closed);
         }
         //---------------------------------------------------------------------------------------------
-        public void BeginTransaction()
+        public SqlTransaction BeginTransaction()
         {
             activeTransaction = this.sqlConnection.BeginTransaction();
             FwSqlLogEntry sqlLogEntry = new FwSqlLogEntry();
             sqlLogEntry.WriteToConsole("BEGIN TRANSACTION");
+            return activeTransaction;
         }
         //---------------------------------------------------------------------------------------------
         public SqlTransaction GetActiveTransaction()

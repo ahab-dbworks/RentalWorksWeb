@@ -1,55 +1,50 @@
 ﻿using FwStandard.Models;
+using FwStandard.SqlServer;
+using FwStandard.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace FwCore.Controllers
 {
-    [Route("api/v1/[controller]")]
-    public class AttributeController : Controller
+    public class FwAppImageController : FwController
     {
-        public AttributeController(IOptions<ApplicationConfig> appConfig) : base(appConfig) { }
+        FwApplicationConfig appConfig;
         //------------------------------------------------------------------------------------
-        // POST api/v1/attribute/browse
-        [HttpPost("browse")]
-        public async Task<IActionResult> BrowseAsync([FromBody]BrowseRequest browseRequest)
+        public FwAppImageController(IOptions<FwApplicationConfig> appConfig) : base(appConfig)
         {
-            return await DoBrowseAsync(browseRequest, typeof(AttributeLogic));
+            this.appConfig = appConfig.Value;
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/attribute
-        [HttpGet]
-        public async Task<IActionResult> GetAsync([FromQuery]int pageno, [FromQuery]int pagesize, [FromQuery]string sort)
+        public async Task<ActionResult<List<FwAppImageModel>>> DoGetManyAsync(string uniqueid1, string uniqueid2, string uniqueid3, string description, string rectype)
         {
-            return await DoGetAsync<AttributeLogic>(pageno, pagesize, sort, typeof(AttributeLogic));
+            var appImageLogic = new FwAppImageLogic(this.AppConfig);
+            var getAppImagesResult = await appImageLogic.GetManyAsync(uniqueid1, uniqueid2, uniqueid3, description, rectype);
+            return new OkObjectResult(getAppImagesResult);
         }
         //------------------------------------------------------------------------------------
-        // GET api/v1/attribute/A0000001
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAsync([FromRoute]string id)
+        public async Task<ActionResult<List<FwAppImageModel>>> DoGetOneAsync(string appimageid, string thumbnail, string uniqueid1, string uniqueid2, string uniqueid3, string orderby)
         {
-            return await DoGetAsync<AttributeLogic>(id, typeof(AttributeLogic));
+            var appImageLogic = new FwAppImageLogic(this.AppConfig);
+            var getAppImagesResult = await appImageLogic.GetOneAsync(appimageid, thumbnail, uniqueid1, uniqueid2, uniqueid3, orderby);
+            return new FileContentResult(getAppImagesResult.Image, getAppImagesResult.MimeType);
         }
         //------------------------------------------------------------------------------------
-        // POST api/v1/attribute
-        [HttpPost]
-        public async Task<IActionResult> PostAsync([FromBody]AttributeLogic l)
+        public async Task<ActionResult> DoAddAsync(string uniqueid1, string uniqueid2, string uniqueid3, string description, string extension, string rectype, string imagedataurl)
         {
-            return await DoPostAsync<AttributeLogic>(l);
+            var appImageLogic = new FwAppImageLogic(this.AppConfig);
+            await appImageLogic.AddAsync(uniqueid1, uniqueid2, uniqueid3, description, extension, rectype, imagedataurl);
+            return new OkObjectResult(new object());
         }
         //------------------------------------------------------------------------------------
-        // DELETE api/v1/attribute/A0000001
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync([FromRoute]string id)
+        public async Task<ActionResult> DoDeleteAsync(string appimageid)
         {
-            return await DoDeleteAsync(id, typeof(AttributeLogic));
-        }
-        //------------------------------------------------------------------------------------
-        // POST api/v1/attribute/validateduplicate
-        [HttpPost("validateduplicate")]
-        public async Task<IActionResult> ValidateDuplicateAsync([FromBody]ValidateDuplicateRequest request)
-        {
-            return await DoValidateDuplicateAsync(request);
+            var appImageLogic = new FwAppImageLogic(this.AppConfig);
+            await appImageLogic.DeleteAsync(appimageid);
+            return new OkObjectResult(new object());
         }
         //------------------------------------------------------------------------------------
     }
