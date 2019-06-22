@@ -280,7 +280,8 @@ namespace FwStandard.BusinessLogic
                 _Custom.CustomFields.Clear();
                 foreach (FwCustomField f in customFields)
                 {
-                    if (f.ModuleName.Equals(this.BusinessLogicModuleName))
+                    //if (f.ModuleName.Equals(this.BusinessLogicModuleName))
+                    if (String.Compare(f.ModuleName, this.BusinessLogicModuleName, true) == 0)
                     {
                         _Custom.CustomFields.Add(f);
                     }

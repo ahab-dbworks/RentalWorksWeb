@@ -201,18 +201,13 @@ class CustomForm {
         //Get valid field names and sort them
         const modulefields = $form.find('.modulefields');
         let moduleType = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-type');
-        let moduleNav = controller.slice(0, -10);
         let apiurl = $form.find('[data-datafield="BaseForm"] option:selected').attr('data-apiurl');
         modulefields.empty();
         switch (moduleType) {
             case 'Grid':
             case 'Browse':
-                //let request: any = {};
-                //request = {
-                //    emptyobject: true
-                //};
                 if (apiurl !== "undefined") {
-                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, /*request*/null, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwAppData.apiMethod(true, 'GET', `${apiurl}/emptyobject`, null, FwServices.defaultTimeout, function onSuccess(response) {
                         let columnNames = Object.keys(response);
                         let customFields = response._Custom.map(obj => ({ fieldname: obj.FieldName, fieldtype: obj.FieldType }));
                         let allValidFields: any = [];
