@@ -340,9 +340,11 @@
 
         FwBrowse.addEventHandler($browse, 'afterdatabindcallback', function () {
             let values: any = $valuefield.val();
-            let valueArray = values.split(',');
-            for (var i = 0; i < valueArray.length; i++) {
-                $browse.find(`div[data-originalvalue="${valueArray[i].trim()}"]`).closest('tr').addClass('selected');
+            if (values.length > 0) {
+                let valueArray = values.split(',');
+                for (var i = 0; i < valueArray.length; i++) {
+                    $browse.find(`div[data-originalvalue="${valueArray[i].trim()}"]`).closest('tr').addClass('selected');
+                }
             }
         })
 
