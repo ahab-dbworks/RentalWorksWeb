@@ -148,7 +148,7 @@ namespace WebApi.Modules.Reports.ReturnReceiptReport
                     select.AddWhereIn("customerid", request.CustomerId);
                     select.AddWhereIn("dealid", request.DealId);
                     select.AddWhereIn("categoryid", request.CategoryId);
-                    select.AddWhereIn("masterno", request.InventoryId);
+                    select.AddWhereIn("masterid", request.InventoryId);
                     select.AddOrderBy("location,department,deal,masterno,incontractdate desc,masteritemid,recordtypeorderby");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
