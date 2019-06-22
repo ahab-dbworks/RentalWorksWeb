@@ -36,8 +36,10 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                             if (el.RowType === 'detail') {
                                 for (let key in el) {
                                     if (key.startsWith('AvailabilityDate')) {
-                                        if (el[key] !== '') {
+                                        if (el[key] !== '' && el[key] != null) {
                                             headerNames.push(el[key]);
+                                        } else {
+                                            headerNames.push('');
                                         }
                                     }
                                 }
@@ -46,7 +48,7 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                         }
                     }
 
-                    console.log('rpt: ', data)
+                    console.log('report: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
