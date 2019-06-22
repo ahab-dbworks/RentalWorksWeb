@@ -111,7 +111,7 @@ namespace WebApi.Modules.Reports.OrderConflictReport
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
+        public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
@@ -234,7 +234,7 @@ namespace WebApi.Modules.Reports.OrderConflictReport
                                     conflictRow[dt.GetColumnNo("SubCategory")] = availData.InventoryWarehouse.SubCategory;
                                     conflictRow[dt.GetColumnNo("InventoryId")] = availData.InventoryWarehouse.InventoryId;
                                     conflictRow[dt.GetColumnNo("ICode")] = availData.InventoryWarehouse.ICode;
-                                    conflictRow[dt.GetColumnNo("Description")] = availData.InventoryWarehouse.Description;
+                                    conflictRow[dt.GetColumnNo("ItemDescription")] = availData.InventoryWarehouse.Description;
                                     conflictRow[dt.GetColumnNo("Classification")] = availData.InventoryWarehouse.Classification;
                                     conflictRow[dt.GetColumnNo("AvailabilityByHour")] = availData.InventoryWarehouse.HourlyAvailability;
                                     conflictRow[dt.GetColumnNo("NoAvailabilityCheck")] = availData.InventoryWarehouse.NoAvailabilityCheck;
