@@ -3,6 +3,7 @@ using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using System.Reflection;
 using WebLibrary;
+using WebApi.Modules.Home.InventoryAvailability;
 
 namespace WebApi.Modules.Settings.AvailabilitySettings
 {
@@ -18,7 +19,9 @@ namespace WebApi.Modules.Settings.AvailabilitySettings
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "MYekyvdKkYNtj", IsPrimaryKey: true)]
         public string ControlId { get { return availabilitySettings.ControlId; } set { availabilitySettings.ControlId = value; } }
-        [FwLogicProperty(Id: "QOFoP6kCZrMGX", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "AX82wGx541Aro", IsReadOnly: true, IsRecordTitle: true)]
+        public string AvailabilitySettings { get { return "Availability Settings"; } }
+        [FwLogicProperty(Id: "QOFoP6kCZrMGX")]
         public int? PollForStaleAvailabilitySeconds { get { return availabilitySettings.PollForStaleAvailabilitySeconds; } set { availabilitySettings.PollForStaleAvailabilitySeconds = value; } }
         [FwLogicProperty(Id: "P13cxcyt5ET2T")]
         public bool? KeepAvailabilityCacheCurrent { get { return availabilitySettings.KeepAvailabilityCacheCurrent; } set { availabilitySettings.KeepAvailabilityCacheCurrent = value; } }
@@ -49,7 +52,8 @@ namespace WebApi.Modules.Settings.AvailabilitySettings
             if (isValid)
             {
                 PropertyInfo property = typeof(AvailabilitySettingsLogic).GetProperty(nameof(AvailabilitySettingsLogic.PollForStaleAvailabilitySeconds));
-                isValid = (PollForStaleAvailabilitySeconds > 0);
+                int? pollForStaleAvailabilitySeconds = PollForStaleAvailabilitySeconds ?? orig.PollForStaleAvailabilitySeconds;
+                isValid = (pollForStaleAvailabilitySeconds.GetValueOrDefault(0) > 0);
                 if (!isValid)
                 {
                     validateMsg = "Invalid " + property.Name + ": " + PollForStaleAvailabilitySeconds.ToString() + ".  Value must be greater than zero.";
@@ -62,7 +66,8 @@ namespace WebApi.Modules.Settings.AvailabilitySettings
                 if (keepCacheCurrent)
                 {
                     PropertyInfo property = typeof(AvailabilitySettingsLogic).GetProperty(nameof(AvailabilitySettingsLogic.KeepCurrentSeconds));
-                    isValid = (KeepCurrentSeconds > 0);
+                    int? keepCurrentSeconds = KeepCurrentSeconds ?? orig.KeepCurrentSeconds;
+                    isValid = (keepCurrentSeconds.GetValueOrDefault(0) > 0);
                     if (!isValid)
                     {
                         validateMsg = "Invalid " + property.Name + ": " + KeepCurrentSeconds.ToString() + ".  Value must be greater than zero.";
