@@ -1,5 +1,6 @@
 ﻿<!--BillingStatementReport-->
-<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+{{#each this}}
+<div class="rpt-flexrow page-break" style="margin:5px 0px 0px 4px;">
   <div class="rpt-flexcolumn" style="border-bottom: 2px solid #027cc5;padding-bottom:5px;">
     {{#if Logosrc}}
     <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
@@ -55,10 +56,8 @@
             <span style="font-weight:600;padding-right:43px;">Fax: </span><span class="blue">{{IssuedToFax}}</span>
           </div>
         </td>
-        <td id="outgoing" style="text-align:left;width:33.3%;">
-        </td>
-        <td id="incoming" style="text-align:left;width:33.3%">
-        </td>
+        <td id="outgoing" style="text-align:left;width:33.3%;"></td>
+        <td id="incoming" style="text-align:left;width:33.3%"></td>
       </tr>
     </tbody>
   </table>
@@ -76,11 +75,10 @@
         <th class="top number">Balance</th>
       </tr>
     </thead>
-    {{#each this}}
     {{#ifEquals RowType "Dealheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <th class="header-row" colspan="4">Deal: {{Deal}}<div class="page-break"></div></th>
+        <th class="header-row" colspan="4">Deal: {{Deal}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
@@ -149,6 +147,6 @@
       </tr>
       {{/ifEquals}}
     </tfoot>
-    {{/each}}
   </table>
 </div>
+{{/each}}

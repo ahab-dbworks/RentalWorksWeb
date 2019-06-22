@@ -27,6 +27,9 @@ export class DealOutstandingReport extends WebpackReport {
                     }
                     if (parameters.ShowVendors === true) {
                         data.ShowVendors = true;
+                        data.FooterColspan = 5;
+                    } else {
+                        data.FooterColspan = 4;
                     }
                     if (parameters.IncludeFullImages === true || parameters.IncludeThumbnailImages === true) {
                         data.ShowImages = true;
@@ -58,6 +61,8 @@ export class DealOutstandingReport extends WebpackReport {
                     data.Report = 'Deal Outstanding Items Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+
+                    console.log('rpt', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
