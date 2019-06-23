@@ -2,6 +2,9 @@ using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
+using FwStandard.Models;
+using System.Text;
+
 namespace WebApi.Modules.Reports.DailyReceiptsReport
 {
     [FwSqlTable("dailyreceiptview")]
@@ -88,7 +91,34 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
                     select.AddWhereIn("paytypeid", request.PaymentTypeId); 
                     addDateFilterToSelect("ardate", request.FromDate, select, ">=", "fromdate"); 
                     addDateFilterToSelect("ardate", request.ToDate, select, "<=", "todate"); 
-                    select.AddOrderBy("location, ardate, name, arid, invoiceid");
+                    //select.AddOrderBy("location, ardate, name, arid, invoiceid");
+
+                    StringBuilder orderBy = new StringBuilder();
+                    if ((request.SortBy == null) || (request.SortBy.Count.Equals(0)))
+                    {
+                        orderBy.Append("location, ardate, name, arid, invoiceid");
+                    }
+                    else
+                    {
+                        foreach (CheckBoxListItem item in request.SortBy)
+                        {
+                            if (item.selected.GetValueOrDefault(false))
+                            {
+                                if (!orderBy.ToString().Equals(string.Empty))
+                                {
+                                    orderBy.Append(",");
+                                }
+                                orderBy.Append(item.value.Equals("OfficeLocation") ? "location" : "");
+                                orderBy.Append(item.value.Equals("Customer") ? "customer" : "");
+                                orderBy.Append(item.value.Equals("Deal") ? "deal" : "");
+                                orderBy.Append(item.value.Equals("PaymentType") ? "paytype" : "");
+                                //orderBy.Append(item.value.Equals("ATTRIBUTE") ? "attribute,attributevalue" : "");
+                            }
+                        }
+
+                    }
+                    select.AddOrderBy(orderBy.ToString());
+
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
