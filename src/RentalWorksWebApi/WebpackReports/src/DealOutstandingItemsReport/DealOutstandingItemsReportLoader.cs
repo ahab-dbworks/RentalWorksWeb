@@ -204,7 +204,7 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@datetouse", SqlDbType.Text, ParameterDirection.Input, request.DateType);
-                    qry.AddParameter("@returnimagemode", SqlDbType.Text, ParameterDirection.Input, request.IncludeFullImages.GetValueOrDefault(false) ? "F" : request.IncludeThumbnailImages.GetValueOrDefault(false) ? "T" : "");
+                    qry.AddParameter("@returnimagemode", SqlDbType.Text, ParameterDirection.Input, request.IncludeFullImages.GetValueOrDefault(false) ? "FULL" : request.IncludeThumbnailImages.GetValueOrDefault(false) ? "THUMBNAIL" : "");
                     qry.AddParameter("@excludepending", SqlDbType.Text, ParameterDirection.Input, request.ExcludePendingExchanges);
                     qry.AddParameter("@containersonly", SqlDbType.Text, ParameterDirection.Input, request.IncludeContainersOnly);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
