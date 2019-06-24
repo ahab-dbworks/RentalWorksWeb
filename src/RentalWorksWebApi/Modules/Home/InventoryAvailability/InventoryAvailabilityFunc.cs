@@ -271,6 +271,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string Classification { get; set; } = "";
         public bool HourlyAvailability { get; set; } = false;
         public bool NoAvailabilityCheck { get; set; } = false;
+        public int LowAvailabilityPercent { get; set; } = 0;
+        public int LowAvailabilityQuantity { get; set; } = 0;
         public List<TPackageAccessory> Accessories { get; set; } = new List<TPackageAccessory>();
 
         public string CombinedKey { get { return InventoryId + "-" + WarehouseId; } }
@@ -474,6 +476,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 else if (minAvail.MinimumAvailable.Total == 0)
                 {
                     minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_ZERO;
+                }
+                else if ((minAvail.MinimumAvailable.Total >= 0) && (InventoryWarehouse.LowAvailabilityPercent != 0) && (minAvail.MinimumAvailable.Total <= InventoryWarehouse.LowAvailabilityQuantity))
+                {
+                    minAvail.AvailabilityState = RwConstants.AVAILABILITY_STATE_LOW;
                 }
                 else if (minAvail.MinimumAvailable.Total > 0)
                 {
@@ -813,7 +819,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
                 qry.Add("select a.masterid, a.warehouseid,                                                                                     ");
-                qry.Add("       a.masterno, a.master, a.whcode, a.noavail, a.warehouse, a.class, a.availbyhour,                                ");
+                qry.Add("       a.masterno, a.master, a.whcode, a.noavail, a.warehouse, a.class, a.availbyhour, a.availabilitygrace,           ");
                 qry.Add("       a.inventorydepartmentid, a.inventorydepartment, a.categoryid, a.category, a.subcategoryid, a.subcategory,      ");
                 qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit,                                ");
                 qry.Add("       a.ownedqtyinrepair, a.ownedqtyontruck, a.ownedqtyincontainer, a.ownedqtyqcrequired,                            ");
@@ -889,6 +895,10 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
                     availData.QcRequired.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("ownedqtyqcrequired")].ToString());
                     availData.QcRequired.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignedqtyqcrequired")].ToString());
+
+                    availData.InventoryWarehouse.LowAvailabilityPercent = FwConvert.ToInt32(row[dt.GetColumnNo("availabilitygrace")].ToString());
+                    availData.InventoryWarehouse.LowAvailabilityQuantity = (int)Math.Floor(((double)availData.Total.Total * (((double)availData.InventoryWarehouse.LowAvailabilityPercent) / 100.00)));
+
 
                     availCache.AddOrUpdate(availKey, availData, (key, existingValue) =>
                     {
@@ -1508,6 +1518,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
                                 iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
                             }
+                            else if ((inventoryWarehouseAvailabilityDateTime.Available.Total > 0) && (availData.InventoryWarehouse.LowAvailabilityPercent > 0) && (inventoryWarehouseAvailabilityDateTime.Available.Total <= availData.InventoryWarehouse.LowAvailabilityQuantity))
+                            {
+                                iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LOW);
+                                iAvail.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_LOW);
+                            }
                             else
                             {
                                 iAvail.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_POSITIVE);
@@ -1598,6 +1613,11 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             {
                                 availEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_NEGATIVE);
                                 availEvent.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_NEGATIVE);
+                            }
+                            else if ((inventoryWarehouseAvailabilityDateTime.Available.Total > 0) && (availData.InventoryWarehouse.LowAvailabilityPercent > 0) && (inventoryWarehouseAvailabilityDateTime.Available.Total <= availData.InventoryWarehouse.LowAvailabilityQuantity))
+                            {
+                                availEvent.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LOW);
+                                availEvent.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_LOW);
                             }
                             else
                             {

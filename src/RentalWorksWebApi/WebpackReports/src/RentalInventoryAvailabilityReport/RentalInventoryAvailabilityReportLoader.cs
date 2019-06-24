@@ -445,8 +445,8 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
             bool refreshIfNeeded = true; // user may want to make this true/false in some cases
             TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded).Result;
 
-            List<object> rowsToDelete = new List<object>();
-
+            List<int> rowsToDelete = new List<int>();
+            int rowIndex = 0;
             //populate the Availability Date column headings and the AvailableInt columns
             foreach (List<object> row in dt.Rows)
             {
@@ -458,6 +458,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 {
                     DateTime theDate = request.FromDate;
                     bool hasNegative = false;
+                    bool hasLow = false;
                     int x = 1;
                     while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
                     {
@@ -465,13 +466,16 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                         TInventoryWarehouseAvailabilityDateTime availDateTime = null;
                         if (availData.AvailabilityDatesAndTimes.TryGetValue(theDate, out availDateTime))
                         {
-                            //int availQtyAsInt = ((int)availDateTime.Available.Total);
                             int availQtyAsInt = (int)Math.Floor(availDateTime.Available.Total);
                             row[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))] = availQtyAsInt;
 
                             if (availQtyAsInt < 0)
                             {
                                 hasNegative = true;
+                            }
+                            else if ((availQtyAsInt >= 0) && (availData.InventoryWarehouse.LowAvailabilityPercent != 0) && (availQtyAsInt <= availData.InventoryWarehouse.LowAvailabilityQuantity))
+                            {
+                                hasLow = true;
                             }
                         }
                         theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
@@ -480,13 +484,27 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
 
                     if ((request.OnlyIncludeNegative.GetValueOrDefault(false)) && (!hasNegative))
                     {
-                        rowsToDelete.Add(row);
+                        rowsToDelete.Add(rowIndex);
                     }
-                    //public bool? OnlyIncludeLowAndNegative { get; set; }   //#jhtodo
+                    else if ((request.OnlyIncludeLowAndNegative.GetValueOrDefault(false)) && (!hasLow))
+                    {
+                        rowsToDelete.Add(rowIndex);
+                    }
                 }
+                rowIndex++;
             }
 
-            dt.Rows.Remove(rowsToDelete);
+            if (rowsToDelete.Count > 0)
+            {
+                //traverse dt.Rows in reverse to remove items
+                for (int x = dt.Rows.Count - 1; x >= 0; x--)
+                {
+                    if (rowsToDelete.Contains(x))
+                    {
+                        dt.Rows.RemoveAt(x);
+                    }
+                }
+            }
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {

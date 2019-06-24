@@ -348,8 +348,10 @@
         public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0;        //black
         public const int AVAILABILITY_COLOR_NEGATIVE = 255;                  //red
         public const int AVAILABILITY_COLOR_POSITIVE = 1176137;              //green
+        public const int AVAILABILITY_COLOR_LOW = 65535;                     //yellow
         public const int AVAILABILITY_TEXT_COLOR_NEGATIVE = 16777215;        //white
         public const int AVAILABILITY_TEXT_COLOR_POSITIVE = 0;               //black
+        public const int AVAILABILITY_TEXT_COLOR_LOW = 0;                    //black
         public const int AVAILABILITY_COLOR_RESERVED = 15132390;             //gray
         public const int AVAILABILITY_TEXT_COLOR_RESERVED = 0;               //black
         public const int AVAILABILITY_COLOR_RETURNING = 15101961;            //blue
@@ -366,6 +368,7 @@
         public const string AVAILABILITY_STATE_NO_AVAILABILITY_CHECK = "noavailcheck";
         public const string AVAILABILITY_STATE_STALE = "stale";
         public const string AVAILABILITY_STATE_NEGATIVE = "negative";
+        public const string AVAILABILITY_STATE_LOW = "low";
         public const string AVAILABILITY_STATE_ZERO = "zero";
         public const string AVAILABILITY_STATE_ENOUGH = "enough";
         public const string AVAILABILITY_STATE_HISTORY = "history";
