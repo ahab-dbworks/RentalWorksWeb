@@ -124,6 +124,18 @@ class SearchInterface {
         if (type === 'PurchaseOrder') {
             inventoryTypes.push({value: 'P', caption: 'Parts'});
         }
+
+        if (type === 'Complete' || type === 'Kit') {
+            if (gridInventoryType === 'Sales') {
+                inventoryTypes = [{
+                    value: 'S', caption: 'Sales'
+                }]
+            } else if (gridInventoryType === 'Rental') {
+                inventoryTypes = [{
+                    value: 'R', caption: 'Rental'
+                }]
+            }
+        }
         FwFormField.loadItems($popup.find('div[data-datafield="InventoryType"]'), inventoryTypes);
 
         let startDate;
@@ -155,7 +167,7 @@ class SearchInterface {
         }
 
         $popup.find('#itemsearch').data('parentformid', id);
-        let warehouseId = (type === 'Transfer') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
+        let warehouseId = (type === 'Transfer' || type === 'Complete' || type === 'Kit') ? JSON.parse(sessionStorage.getItem('warehouse')).warehouseid : FwFormField.getValueByDataField($form, 'WarehouseId');
         $popup.find('#itemsearch').data('warehouseid', warehouseId);
 
         this.getViewSettings($popup);

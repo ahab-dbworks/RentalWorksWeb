@@ -16,6 +16,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
             tree.AddEditMenuBarButton("{D47D414B-4D5F-4D43-A0BC-D3811F1E7988}", nodeGridMenuBar.Id);
             tree.AddNewMenuBarButton("{FF784C95-8B5F-448C-806A-ED7270FE1E34}", nodeGridMenuBar.Id);
             tree.AddDeleteMenuBarButton("{28E1988B-455D-4A99-852B-47D02402C5CA}", nodeGridMenuBar.Id);
+            tree.AddSubMenuItem("QuikSearch", "{B599B514-30BD-49B3-A08A-7863693D979C}", nodeBrowseOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

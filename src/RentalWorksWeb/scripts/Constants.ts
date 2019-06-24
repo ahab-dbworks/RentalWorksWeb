@@ -267,6 +267,16 @@
         }
     },
     Grids: {
+        InventoryCompleteGrid: {
+            menuItems: {
+                QuikSearch: { id: '{A3EEC381-6D45-485D-8E12-5DA6B38BB71A}'}
+            }
+        },
+        InventoryKitGrid: {
+            menuItems: {
+                QuikSearch: { id: '{B599B514-30BD-49B3-A08A-7863693D979C}' }
+            }
+        },
         InvoiceItemGrid: {
             menuItems: {
                 ToggleOrderItemView: { id: '{46D27E42-9C66-42F5-922C-CAE617856F63}' }
