@@ -1172,7 +1172,11 @@ namespace FwStandard.BusinessLogic
             }
             var client = new SmtpClient(host, port);
             client.Credentials = new NetworkCredential(accountname, accountpassword, domain);
-            await client.SendMailAsync(message);
+            try
+            {
+                await client.SendMailAsync(message);
+            }
+            catch (SmtpException ex) { }
             return true;
         }
         //------------------------------------------------------------------------------------ 
