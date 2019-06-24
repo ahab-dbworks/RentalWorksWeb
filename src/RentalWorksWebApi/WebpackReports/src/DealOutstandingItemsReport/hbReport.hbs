@@ -54,14 +54,14 @@
         <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
+        <td class="top nowrap" data-value="{{ICode}}"></td>
         {{#if Image}}
-        <td><div class="nowrap">{{ICode}}</div><div colspan="3" style="width:170px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;" /></div></td>
+        <td><div>{{Description}}</div><div colspan="3" style="width:170px;"><img id="base64img" src="{{Image}}" alt="image" style="display:block;width:100%;height:auto;" /></div></td>
         {{else}}
         <td class="top">
-          <div></div>
+          <div>{{Description}}</div>
         </td>
         {{/if}}
-        <td class="top" data-value="{{Description}}"></td>
         {{#ifEquals ../ShowVendors true}}
         <td class="top" data-value="{{Vendor}}"></td>
         {{/ifEquals}}

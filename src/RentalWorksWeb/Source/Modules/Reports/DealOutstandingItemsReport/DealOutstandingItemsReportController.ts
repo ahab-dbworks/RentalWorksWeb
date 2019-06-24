@@ -30,7 +30,7 @@ const dealOutstandingItemsTemplate = `
             <div class="flexcolumn" style="max-width:375px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="ShowBarcodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Barcodes / Serial No" style="float:left;max-width:420px;"></div>
+                  <div data-datafield="ShowBarcodes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Barcode / Serial Number" style="float:left;max-width:420px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="ShowVendors" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Show Vendors" style="float:left;max-width:420px;"></div>
