@@ -556,49 +556,53 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 {
                     rowsWithDetail.Add(row);
 
-                    string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
-                    string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
-                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
-                    TInventoryWarehouseAvailability availData = null;
-                    if (availCache.TryGetValue(availKey, out availData))
+                    if ((row[dt.GetColumnNo("InventoryId")] != null) && (row[dt.GetColumnNo("WarehouseId")] != null))
                     {
-                        foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
+                        string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                        string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                        TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                        TInventoryWarehouseAvailability availData = null;
+                        if (availCache.TryGetValue(availKey, out availData))
                         {
-                            if ((reservation.FromDateTime <= request.ToDate) && (reservation.ToDateTime >= request.FromDate))
+                            foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
                             {
-                                List<object> reservationRow = new List<object>();
-
-                                //copy the entire row
-                                foreach (object obj in row)
+                                if ((reservation.FromDateTime <= request.ToDate) && (reservation.ToDateTime >= request.FromDate))
                                 {
-                                    reservationRow.Add(obj);
-                                }
-                                reservationRow[dt.GetColumnNo("OrderId")] = reservation.OrderId;
-                                reservationRow[dt.GetColumnNo("OrderType")] = reservation.OrderType;
-                                reservationRow[dt.GetColumnNo("OrderTypeDescription")] = reservation.OrderTypeDescription;
-                                reservationRow[dt.GetColumnNo("OrderNumber")] = reservation.OrderNumber;
-                                reservationRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
-                                reservationRow[dt.GetColumnNo("Deal")] = reservation.Deal;
-                                reservationRow[dt.GetColumnNo("FromDate")] = reservation.FromDateTime;
-                                reservationRow[dt.GetColumnNo("ToDate")] = reservation.ToDateTime;
-                                reservationRow[dt.GetColumnNo("SubRentQuantity")] = reservation.QuantitySub;
-                                reservationRow[dt.GetColumnNo("LateQuantity")] = reservation.QuantityLate.Total;
+                                    List<object> reservationRow = new List<object>();
 
-                                DateTime theDate = request.FromDate;
-                                int x = 1;
-                                while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
-                                {
-
-                                    if ((reservation.FromDateTime <= theDate) && (theDate <= reservation.ToDateTime))
+                                    //copy the entire row
+                                    foreach (object obj in row)
                                     {
-                                        int reservedQtyAsInt = (int)Math.Floor(reservation.QuantityReserved.Owned);
-                                        reservationRow[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))] = reservedQtyAsInt;
+                                        reservationRow.Add(obj);
                                     }
-                                    theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
-                                    x++;
-                                }
+                                    reservationRow[dt.GetColumnNo("RowType")] = "reservation";
+                                    reservationRow[dt.GetColumnNo("OrderId")] = reservation.OrderId;
+                                    reservationRow[dt.GetColumnNo("OrderType")] = reservation.OrderType;
+                                    reservationRow[dt.GetColumnNo("OrderTypeDescription")] = reservation.OrderTypeDescription;
+                                    reservationRow[dt.GetColumnNo("OrderNumber")] = reservation.OrderNumber;
+                                    reservationRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
+                                    reservationRow[dt.GetColumnNo("Deal")] = reservation.Deal;
+                                    reservationRow[dt.GetColumnNo("FromDate")] = reservation.FromDateTime;
+                                    reservationRow[dt.GetColumnNo("ToDate")] = reservation.ToDateTime;
+                                    reservationRow[dt.GetColumnNo("SubRentQuantity")] = reservation.QuantitySub;
+                                    reservationRow[dt.GetColumnNo("LateQuantity")] = reservation.QuantityLate.Total;
 
-                                rowsWithDetail.Add(reservationRow);
+                                    DateTime theDate = request.FromDate;
+                                    int x = 1;
+                                    while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
+                                    {
+
+                                        if ((reservation.FromDateTime <= theDate) && (theDate <= reservation.ToDateTime))
+                                        {
+                                            int reservedQtyAsInt = (int)Math.Floor(reservation.QuantityReserved.Owned);
+                                            reservationRow[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))] = reservedQtyAsInt;
+                                        }
+                                        theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
+                                        x++;
+                                    }
+
+                                    rowsWithDetail.Add(reservationRow);
+                                }
                             }
                         }
                     }
