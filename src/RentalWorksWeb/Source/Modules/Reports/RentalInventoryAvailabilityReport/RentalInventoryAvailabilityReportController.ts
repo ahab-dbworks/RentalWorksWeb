@@ -17,10 +17,10 @@ const rentalInventoryAvailTemplate = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Date Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From:" data-datafield="FromDate" data-required="true" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield date-field" data-caption="From:" data-datafield="FromDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To:" data-datafield="ToDate" data-required="true" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield date-field" data-caption="To:" data-datafield="ToDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
               </div><span style="color:red;padding-left:15px;font-size:.8em;">30 Day Max Will Be Returned</span>
             </div>
@@ -128,6 +128,7 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
                 $form.find('div[data-datafield="OnlyIncludeLowAndNegative"] input').prop('checked', false);
             }
         });
+
         return $form;
     }
     //----------------------------------------------------------------------------------------------
@@ -136,6 +137,10 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
 
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+
+        $form.find('.date-field').on('changeDate', event => {
+            this.dateValidation($form, event);
+        });
 
         this.loadLists($form);
     }
@@ -188,6 +193,26 @@ class RentalInventoryAvailabilityReport extends FwWebApiReport {
                     };
                     break;
             }
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    dateValidation = function ($form, event) {
+        const $element = jQuery(event.currentTarget);
+        const todayParsed = Date.parse(FwFunc.getDate());
+        const parsedFromDate = Date.parse(FwFormField.getValueByDataField($form, 'FromDate'));
+        const parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'ToDate'));
+
+        if ($element.attr('data-datafield') === 'FromDate' && parsedFromDate < todayParsed) {
+            $form.find('div[data-datafield="FromDate"]').addClass('error date-validation');
+            FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is before Today's Date.");
+        }
+        else if (parsedToDate < parsedFromDate) {
+            $form.find('div[data-datafield="ToDate"]').addClass('error date-validation');
+            FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
+        }
+        else {
+            $form.find('div[data-datafield="FromDate"]').removeClass('error date-validation');
+            $form.find('div[data-datafield="ToDate"]').removeClass('error date-validation');
         }
     }
     //----------------------------------------------------------------------------------------------

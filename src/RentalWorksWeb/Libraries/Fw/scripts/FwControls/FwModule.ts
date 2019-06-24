@@ -845,7 +845,7 @@
                 $this = jQuery(this);
                 value = FwFormField.getValue2($this);
                 errorTab = $this.closest('.tabpage').attr('data-tabid');
-                if (value != '') {
+                if (value != '' && !$this.hasClass('date-validation')) {
                     $this.removeClass('error');
                     if ($this.closest('.tabpage.active').has('.error').length === 0) {
                         $this.parents('.fwcontrol .fwtabs').find('#' + errorTab).removeClass('error');

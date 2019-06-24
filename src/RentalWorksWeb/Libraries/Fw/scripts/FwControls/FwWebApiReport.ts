@@ -31,10 +31,10 @@ abstract class FwWebApiReport {
     getFrontEnd() {
         const $form = jQuery(this.frontEndHtml);
         $form.attr('data-reportname', this.reportName);
-        $form.on('change', '.fwformfield[data-required="true"].error:not(.date-validation)', function () {
+        $form.on('change', '.fwformfield[data-required="true"].error', function () {
             const $this = jQuery(this);
             const value = FwFormField.getValue2($this);
-            if (value !== '') {
+            if (value !== '' && !$this.hasClass('date-validation')) {
                 $this.removeClass('error');
                 if ($this.closest('.tabpage.active').has('.error').length === 0) {
                     const errorTab = $this.closest('.tabpage').attr('data-tabid');
