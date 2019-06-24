@@ -31,7 +31,7 @@ abstract class FwWebApiReport {
     getFrontEnd() {
         const $form = jQuery(this.frontEndHtml);
         $form.attr('data-reportname', this.reportName);
-        $form.on('change', '.fwformfield[data-required="true"].error', function () {
+        $form.on('change', '.fwformfield[data-required="true"].error:not(.date-validation)', function () {
             const $this = jQuery(this);
             const value = FwFormField.getValue2($this);
             if (value !== '') {

@@ -134,16 +134,16 @@ class OrderConflictReport extends FwWebApiReport {
         const parsedToDate = Date.parse(FwFormField.getValueByDataField($form, 'ToDate'));
 
         if ($element.attr('data-datafield') === 'FromDate' && parsedFromDate < todayParsed) {
-            $form.find('div[data-datafield="FromDate"]').addClass('error');
+            $form.find('div[data-datafield="FromDate"]').addClass('error date-validation');
             FwNotification.renderNotification('WARNING', "Your chosen 'From Date' is before Today's Date.");
         }
         else if (parsedToDate < parsedFromDate) {
-            $form.find('div[data-datafield="ToDate"]').addClass('error');
+            $form.find('div[data-datafield="ToDate"]').addClass('error date-validation');
             FwNotification.renderNotification('WARNING', "Your chosen 'To Date' is before 'From Date'.");
         }
         else {
-            $form.find('div[data-datafield="FromDate"]').removeClass('error');
-            $form.find('div[data-datafield="ToDate"]').removeClass('error');
+            $form.find('div[data-datafield="FromDate"]').removeClass('error date-validation');
+            $form.find('div[data-datafield="ToDate"]').removeClass('error date-validation');
         }
     }
     //----------------------------------------------------------------------------------------------
