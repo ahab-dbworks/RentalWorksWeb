@@ -486,7 +486,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                     {
                         rowsToDelete.Add(rowIndex);
                     }
-                    else if ((request.OnlyIncludeLowAndNegative.GetValueOrDefault(false)) && (!hasLow))
+                    else if ((request.OnlyIncludeLowAndNegative.GetValueOrDefault(false)) && (!hasLow) && (!hasNegative))
                     {
                         rowsToDelete.Add(rowIndex);
                     }
