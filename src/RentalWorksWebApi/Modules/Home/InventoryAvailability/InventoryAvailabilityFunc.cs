@@ -56,15 +56,21 @@ namespace WebApi.Modules.Home.InventoryAvailability
     {
         public string Warehouse { get; set; }
         public string WarehouseCode { get; set; }
+        public string InventoryTypeId { get; set; }
         public string InventoryType { get; set; }
+        public string CategoryId { get; set; }
         public string Category { get; set; }
+        public string SubCategoryId { get; set; }
         public string SubCategory { get; set; }
+        public string InventoryId { get; set; }
         public string ICode { get; set; }
         public string ItemDescription { get; set; }
+        public string OrderId { get; set; }
         public string OrderType { get; set; }
         public string OrderTypeDescription { get { return AppFunc.GetOrderTypeDescription(OrderType); } }
         public string OrderNumber { get; set; }
         public string OrderDescription { get; set; }
+        public string DealId { get; set; }
         public string Deal { get; set; }
         public decimal? QuantityReserved { get; set; }
         public decimal? QuantitySub { get; set; }
@@ -1845,16 +1851,22 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                     AvailabilityConflictResponseItem responseItem = new AvailabilityConflictResponseItem();
                                     responseItem.Warehouse = availData.InventoryWarehouse.Warehouse;
                                     responseItem.WarehouseCode = availData.InventoryWarehouse.WarehouseCode;
+                                    responseItem.InventoryTypeId = availData.InventoryWarehouse.InventoryTypeId;
                                     responseItem.InventoryType = availData.InventoryWarehouse.InventoryType;
+                                    responseItem.CategoryId = availData.InventoryWarehouse.CategoryId;
                                     responseItem.Category = availData.InventoryWarehouse.Category;
+                                    responseItem.SubCategoryId = availData.InventoryWarehouse.SubCategoryId;
                                     responseItem.SubCategory = availData.InventoryWarehouse.SubCategory;
+                                    responseItem.InventoryId = availData.InventoryWarehouse.InventoryId;
                                     responseItem.ICode = availData.InventoryWarehouse.ICode;
                                     responseItem.ItemDescription = availData.InventoryWarehouse.Description;
                                     responseItem.QuantityIn = availData.In.Total;
                                     responseItem.QuantityInRepair = availData.InRepair.Total;
+                                    responseItem.OrderId = reservation.OrderId;
                                     responseItem.OrderType = reservation.OrderType;
                                     responseItem.OrderNumber = reservation.OrderNumber;
                                     responseItem.OrderDescription = reservation.OrderDescription;
+                                    responseItem.DealId = reservation.DealId;
                                     responseItem.Deal = reservation.Deal;
                                     responseItem.QuantityReserved = reservation.QuantityReserved.Total;
                                     responseItem.QuantitySub = reservation.QuantitySub;
