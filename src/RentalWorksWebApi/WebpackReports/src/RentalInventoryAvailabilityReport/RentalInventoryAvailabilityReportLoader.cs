@@ -50,7 +50,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
         public string ICode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "master", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
+        public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
         public string Classification { get; set; }
@@ -132,6 +132,36 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "consignedqtyincontainer", modeltype: FwDataTypes.Decimal)]
         public decimal? ConsignedQuantityInContainer { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string OrderId { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string OrderType { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string OrderTypeDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string OrderNumber { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string OrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
+        public string Deal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.DateTime)]
+        public string FromDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.DateTime)]
+        public string ToDate { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? SubRentQuantity { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.Integer)]
+        public int? LateQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "''", modeltype: FwDataTypes.Text)]
         public string AvailabilityDate01 { get; set; }
@@ -456,6 +486,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 TInventoryWarehouseAvailability availData = null;
                 if (availCache.TryGetValue(availKey, out availData))
                 {
+                    row[dt.GetColumnNo("LateQuantity")] = availData.Late.Total;
                     DateTime theDate = request.FromDate;
                     bool hasNegative = false;
                     bool hasLow = false;
@@ -512,11 +543,67 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);
                 dt.InsertSubTotalRows("Category", "RowType", totalFields);
-                if (!request.IsSummary.GetValueOrDefault(false))
-                {
-                    dt.InsertSubTotalRows("ICode", "RowType", totalFields);
-                }
+                //dt.InsertSubTotalRows("ICode", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
+            }
+
+            // if detail mode, add orders here
+            if (request.IsDetail.GetValueOrDefault(false))
+            {
+                List<List<object>> rowsWithDetail = new List<List<object>>();  // create a new rows list to copy into
+
+                foreach (List<object> row in dt.Rows)
+                {
+                    rowsWithDetail.Add(row);
+
+                    string inventoryId = row[dt.GetColumnNo("InventoryId")].ToString();
+                    string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
+                    TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
+                    TInventoryWarehouseAvailability availData = null;
+                    if (availCache.TryGetValue(availKey, out availData))
+                    {
+                        foreach (TInventoryWarehouseAvailabilityReservation reservation in availData.Reservations)
+                        {
+                            if ((reservation.FromDateTime <= request.ToDate) && (reservation.ToDateTime >= request.FromDate))
+                            {
+                                List<object> reservationRow = new List<object>();
+
+                                //copy the entire row
+                                foreach (object obj in row)
+                                {
+                                    reservationRow.Add(obj);
+                                }
+                                reservationRow[dt.GetColumnNo("OrderId")] = reservation.OrderId;
+                                reservationRow[dt.GetColumnNo("OrderType")] = reservation.OrderType;
+                                reservationRow[dt.GetColumnNo("OrderTypeDescription")] = reservation.OrderTypeDescription;
+                                reservationRow[dt.GetColumnNo("OrderNumber")] = reservation.OrderNumber;
+                                reservationRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
+                                reservationRow[dt.GetColumnNo("Deal")] = reservation.Deal;
+                                reservationRow[dt.GetColumnNo("FromDate")] = reservation.FromDateTime;
+                                reservationRow[dt.GetColumnNo("ToDate")] = reservation.ToDateTime;
+                                reservationRow[dt.GetColumnNo("SubRentQuantity")] = reservation.QuantitySub;
+                                reservationRow[dt.GetColumnNo("LateQuantity")] = reservation.QuantityLate.Total;
+
+                                DateTime theDate = request.FromDate;
+                                int x = 1;
+                                while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
+                                {
+
+                                    if ((reservation.FromDateTime <= theDate) && (theDate <= reservation.ToDateTime))
+                                    {
+                                        int reservedQtyAsInt = (int)Math.Floor(reservation.QuantityReserved.Owned);
+                                        reservationRow[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))] = reservedQtyAsInt;
+                                    }
+                                    theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
+                                    x++;
+                                }
+
+                                rowsWithDetail.Add(reservationRow);
+                            }
+                        }
+                    }
+                }
+                dt.Rows = rowsWithDetail;
             }
 
             //populate AvailableString columns

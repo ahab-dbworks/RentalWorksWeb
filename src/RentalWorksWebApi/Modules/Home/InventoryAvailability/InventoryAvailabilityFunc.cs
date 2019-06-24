@@ -207,6 +207,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public TInventoryWarehouseAvailabilityQuantity QuantityStaged { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity QuantityOut { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public TInventoryWarehouseAvailabilityQuantity QuantityIn { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
+        public TInventoryWarehouseAvailabilityQuantity QuantityLate { get; set; } = new TInventoryWarehouseAvailabilityQuantity();
         public bool IsPositiveConflict { get; set; } = false;
         public bool IsNegativeConflict { get; set; } = false;
         [JsonIgnore]
@@ -1128,7 +1129,8 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 {
                                     if (!reservation.countedLate)
                                     {
-                                        late += reservation.QuantityStaged + reservation.QuantityOut;
+                                        reservation.QuantityLate = reservation.QuantityStaged + reservation.QuantityOut;
+                                        late += reservation.QuantityLate;
                                     }
                                     reservation.countedLate = true;
                                 }

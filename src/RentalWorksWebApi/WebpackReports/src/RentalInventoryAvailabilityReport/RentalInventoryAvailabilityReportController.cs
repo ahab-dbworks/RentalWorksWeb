@@ -17,7 +17,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public bool? IsSummary { get; set; }
+        public bool? IsDetail { get; set; }
         public bool? IncludeZeroQuantity { get; set; }
         public bool? OnlyIncludeLowAndNegative { get; set; }
         public bool? OnlyIncludeNegative { get; set; }
