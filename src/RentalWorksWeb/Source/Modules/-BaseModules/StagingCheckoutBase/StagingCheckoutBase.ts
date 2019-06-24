@@ -444,11 +444,13 @@
             let responseCount = 0;
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
                 const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+                const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
                 const request = {
                     OrderId: orderId,
                     Code: barCode,
                     UnstageItem: true,
+                    OrderItemId: orderItemId
                 }
        
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
