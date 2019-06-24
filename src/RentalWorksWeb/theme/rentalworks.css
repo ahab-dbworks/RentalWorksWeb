@@ -585,6 +585,9 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #availabilityTable table thead tr {text-align:left; background-color:lightgray; border: 2px solid #989898;}
 #availabilityTable table tr td, #availabilityTable tr th {padding:5px;}
 #availabilityTable table tr.data-row {border-bottom: 2px solid #989898;}
+#availabilityTable table tr.data-row:nth-of-type(2n+1) {background-color:#EFEFEF;}
+#availabilityTable table tr td i.btnpeek {cursor: pointer; transition: all 0.3s; color: #616161;padding: 2px;/*position: fixed;*/}
+#availabilityTable table tr td.quantity-available {cursor:pointer;}
 #availabilityTable table tr td div.available-color {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
 #availabilityTable table tr td div[data-state="stale"] {background-color:#1565C0;color:#ffffff;}
 #availabilityTable table tr td div[data-state="enough"]{background-color:#7CB342;color:#ffffff;}

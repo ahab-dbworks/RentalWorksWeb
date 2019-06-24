@@ -110,26 +110,109 @@ class AvailabilityConflicts {
                         <td>${data[i].InventoryType}</td>
                         <td>${data[i].Category}</td>
                         <td>${data[i].SubCategory}</td>
-                        <td class="nowrap">${data[i].ICode}</td>
+                        <td class="nowrap inventory-number" data-id="${data[i].InventoryId}"><span>${data[i].ICode}</span><i class="material-icons btnpeek">more_horiz</i></td>
                         <td>${data[i].ItemDescription}</td>
                         <td>${data[i].OrderTypeDescription}</td>
-                        <td>${data[i].OrderNumber}</td>
+                        <td class="order-number" data-id="${data[i].OrderId}" data-ordertype="${data[i].OrderType}"><span>${data[i].OrderNumber}</span><i class="material-icons btnpeek">more_horiz</i></td>
                         <td>${data[i].OrderDescription}</td>
-                        <td>${data[i].Deal}</td>
+                        <td data-id="${data[i].DealId}"><span>${data[i].Deal}</span><i class="material-icons btnpeek">more_horiz</i></td>
                         <td class="number">${data[i].QuantityReserved}</td>
                         <td class="number">${data[i].QuantitySub}</td>
-                        <td class="number"><div class="available-color" data-state=${data[i].AvailabilityState}>${data[i].QuantityAvailable}</div></td>
+                        <td class="number quantity-available"><div class="available-color" data-state=${data[i].AvailabilityState}>${data[i].QuantityAvailable}</div></td>
                         <td class="number">${data[i].QuantityLate}</td>
                         <td class="number">${data[i].QuantityIn}</td>
                         <td class="number">${data[i].QuantityQc}</td>
                         <td>${data[i].FromDateTimeString}</td>
                         <td>${data[i].ToDateTimeString}</td>
                     </tr>
+                    <tr class="avail-calendar" style="display:none;"><tr>
                     `;
             $rows.push(row);
         }
 
         $form.find('tbody').empty().append($rows);
+
+        this.availabilityTableEvents($form);
+    }
+    //----------------------------------------------------------------------------------------------
+    availabilityTableEvents($form) {
+        //add validation peeks
+        $form.find('#availabilityTable table tr td i.btnpeek')
+            .off('click')
+            .on('click', e => {
+            try {
+                //$control.find('.btnpeek').hide();
+                //$validationbrowse.data('$control').find('.validation-loader').show();
+                //setTimeout(function () {
+                const $control = jQuery(e.currentTarget).closest('td');
+                const validationId = $control.attr('data-id');
+                let datafield;
+                let validationPeekFormName;
+                if ($control.hasClass('order-number')) {
+                    const orderType = $control.attr('data-ordertype');
+                    switch (orderType) {
+                        case 'O':
+                            datafield = 'OrderId';
+                            validationPeekFormName = 'Order';
+                            break;
+                        case 'Q':
+                            datafield = 'QuoteId';
+                            validationPeekFormName = 'Quote';
+                            break;
+                        case 'R':
+                            datafield = 'RepairId';
+                            validationPeekFormName = 'Repair';
+                            break;
+                        //
+                    }
+                } else if ($control.hasClass('inventory-number')) {
+                    datafield = 'InventoryId';
+                    validationPeekFormName = 'RentalInventory';
+                } else {
+                    datafield = 'DealId';
+                    validationPeekFormName = 'Deal';
+                }
+                const title = $control.find('span').text();
+
+                FwValidation.validationPeek($control, validationPeekFormName, validationId, datafield, null, title);
+                //$validationbrowse.data('$control').find('.validation-loader').hide();
+                //$control.find('.btnpeek').show()
+                //})
+            } catch (ex) {
+                FwFunc.showError(ex);
+            }
+        });
+
+        //add availability calendar and schedule
+        $form.find('#availabilityTable table tr td.quantity-available')
+            .off('click')
+            .on('click', e => {
+                $form.find('.avail-calendar').hide();
+                const $row = jQuery(e.currentTarget).parent('tr.data-row');
+                const $availRow = $row.next('.avail-calendar');
+                $availRow.show();
+                const html = `<div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
+            <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>`;
+                $availRow.empty().append(`<td colspan="10">${html}</td>`);
+                const $calendar = $availRow.find('.calendar');
+                const $scheduler = $availRow.find('.realscheduler');
+                const inventoryId = jQuery($row.find('.inventory-number')).attr('data-id');
+
+                FwScheduler.renderRuntimeHtml($calendar);
+                FwScheduler.init($calendar);
+                FwScheduler.loadControl($calendar);
+                RentalInventoryController.addCalendarEvents($form, $calendar, inventoryId);
+                const schddate = FwScheduler.getTodaysDate();
+                FwScheduler.navigate($calendar, schddate);
+                FwScheduler.refresh($calendar);
+
+                FwSchedulerDetailed.renderRuntimeHtml($scheduler);
+                FwSchedulerDetailed.init($scheduler);
+                FwSchedulerDetailed.loadControl($scheduler);
+                RentalInventoryController.addSchedulerEvents($form, $scheduler, inventoryId);
+                FwSchedulerDetailed.navigate($scheduler, schddate, 35);
+                FwSchedulerDetailed.refresh($scheduler);
+        });
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $grid, request) {

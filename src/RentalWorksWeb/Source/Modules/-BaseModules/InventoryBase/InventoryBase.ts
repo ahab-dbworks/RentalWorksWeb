@@ -72,9 +72,6 @@
             }
         }
 
-        let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
-        let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
-
         if (typeof uniqueids !== 'undefined') {
             inventoryId = uniqueids.InventoryId;
         }
@@ -83,15 +80,37 @@
         FwFormField.setValue($form, '.warehousefilter', warehouse.warehouseid, warehouse.warehouse);
 
         this.calculateYearly();
+
         const $calendar = $form.find('.calendar');
-        $calendar
+        this.addCalendarEvents($form, $calendar, inventoryId);
+
+        const $realScheduler = $form.find('.realscheduler');
+        this.addSchedulerEvents($form, $realScheduler, inventoryId);
+
+        if (mode === 'NEW') {
+            this.setupNewMode($form);
+        }
+
+        const controller = $form.attr('data-controller');
+        if (typeof window[controller]['openFormInventory'] === 'function') {
+            window[controller]['openFormInventory']($form);
+        }
+
+        this.events($form);
+        return $form;
+    };
+    //----------------------------------------------------------------------------------------------
+    addCalendarEvents($form, $control, inventoryId) {
+        let startOfMonth = moment().startOf('month').format('MM/DD/YYYY');
+        let endOfMonth = moment().endOf('month').format('MM/DD/YYYY');
+        $control
             .data('ongetevents', calendarRequest => {
                 startOfMonth = moment(calendarRequest.start.value).format('MM/DD/YYYY');
                 endOfMonth = moment(calendarRequest.start.value).add(calendarRequest.days, 'd').format('MM/DD/YYYY');
                 let warehouseId = FwFormField.getValue($form, '.warehousefilter');   //justin 11/11/2018 fixing build error
 
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${startOfMonth}&ToDate=${endOfMonth}`, null, FwServices.defaultTimeout, response => {
-                    FwScheduler.loadYearEventsCallback($calendar, [{ id: '1', name: '' }], this.yearlyEvents);
+                    FwScheduler.loadYearEventsCallback($control, [{ id: '1', name: '' }], this.yearlyEvents);
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < calendarevents.length; i++) {
@@ -105,10 +124,10 @@
                     //    }
                     //}
                     //self.loadScheduler($form, response.InventoryAvailabilityScheduleEvents, response.InventoryAvailabilityScheduleResources);
-                    FwScheduler.loadEventsCallback($calendar, [{ id: '1', name: '' }], calendarevents);
+                    FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, $calendar)
+                }, $control)
 
                 //FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailabilitydate?InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${moment().startOf('year').format('MM/DD/YYYY')}&ToDate=${moment().endOf('year').format('MM/DD/YYYY')}`, null, FwServices.defaultTimeout, function onSuccess(response) {
 
@@ -119,7 +138,7 @@
             .data('ontimerangedoubleclicked', function (event) {
                 try {
                     const date = event.start.toString('MM/dd/yyyy');
-                    FwScheduler.setSelectedDay($calendar, date);
+                    FwScheduler.setSelectedDay($control, date);
                     //DriverController.openTicket($form);
                     $form.find('div[data-type="Browse"][data-name="Schedule"] .browseDate .fwformfield-value').val(date).change();
                     $form.find('div.tab.schedule').click();
@@ -127,8 +146,10 @@
                     FwFunc.showError(ex);
                 }
             });
-        const $realScheduler = $form.find('.realscheduler');
-        $realScheduler
+    }
+    //----------------------------------------------------------------------------------------------
+    addSchedulerEvents($form, $control, inventoryId) {
+        $control
             .data('ongetevents', function (request) {
                 var start = moment(request.start.value).format('MM/DD/YYYY');
                 var end = moment(request.start.value).add(31, 'days').format('MM/DD/YYYY')
@@ -141,23 +162,12 @@
                             schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
                         }
                     }
-                    FwSchedulerDetailed.loadEventsCallback($realScheduler, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);
+                    FwSchedulerDetailed.loadEventsCallback($control, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);
                 }, function onError(response) {
                     FwFunc.showError(response);
-                }, $calendar)
+                }, $control)
             })
-        if (mode === 'NEW') {
-            this.setupNewMode($form);
-        }
-
-        const controller = $form.attr('data-controller');
-        if (typeof window[controller]['openFormInventory'] === 'function') {
-            window[controller]['openFormInventory']($form);
-        }
-
-        this.events($form);
-        return $form;
-    };
+    }
     //----------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form, $calendar, schddate, $realScheduler;
