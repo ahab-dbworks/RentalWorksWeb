@@ -24,11 +24,20 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                     data.ToDate = parameters.ToDate;
 
                     // Determine Summary or Detail View
-                    if (parameters.IsSummary === 'true') {
-                        data.IsSummary = true;
+                    if (parameters.IsDetail === 'true') {
+                        data.IsDetail = true;
                     } else {
-                        data.IsSummary = false;
+                        data.IsDetail = false;
                     }
+                    // to prevent repeating headers for these rows
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].RowType === 'reservation') {
+                            if (data[i - 1].RowType !== 'reservation') {
+                                data[i].RenderHeader = true;
+                            }
+                        }
+                    }
+
                     const headerNames = [];
                     for (let i = 0; i < data.length; i++) {
                         const el = data[i];
@@ -54,9 +63,15 @@ export class RentalInventoryAvailabilityReport extends WebpackReport {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
                     document.getElementById('pageBody').innerHTML = hbReport(data);
-                    const staticHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Owned</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
+                    const staticDetailHeader = '<th class="nowrap">I-Code</th><th colspan="2">Description</th><th class="number">Owned</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
+                    const staticSummaryHeader = '<th class="nowrap">I-Code</th><th>Description</th><th class="number">Owned</th><th class="number">In Repair</th><th class="number">Sub-Rent</th><th class="number">Late</th>';
                     let mappedHeader = headerNames.map(el => `<th class="number">${el}</th>`).join('');
-                    mappedHeader = staticHeader + mappedHeader;
+                    if (parameters.IsDetail === 'true') {
+                        mappedHeader = staticDetailHeader + mappedHeader;
+                    } else {
+                        mappedHeader = staticSummaryHeader + mappedHeader;
+                    }
+
                     document.getElementById('HeaderRow').innerHTML = mappedHeader;
                     this.onRenderReportCompleted();
                 })

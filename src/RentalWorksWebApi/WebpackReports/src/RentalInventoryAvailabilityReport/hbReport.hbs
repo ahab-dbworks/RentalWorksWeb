@@ -5,7 +5,7 @@
       size: landscape;
       margin: 10px 10px 10px 10px;
     }
-</style>
+  </style>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -19,7 +19,7 @@
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
   <!--SUMMARY VIEW TABLE-->
-  {{#ifEquals IsSummary true}}
+  {{#ifEquals IsDetail false}}
   <table>
     <thead>
       <tr id="HeaderRow"></tr>
@@ -212,26 +212,38 @@
   </table>
   {{/ifEquals}}
   <!--DETAIL VIEW TABLE-->
-  {{#ifEquals IsSummary false}}
-  <table>
+  {{#ifEquals IsDetail true}}
+  <table id="detail">
     <thead>
       <tr id="HeaderRow"></tr>
     </thead>
-    <tbody>
-      {{#each this}}
-      <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "Warehouseheader"}}
+    {{#each this}}
+    {{#ifEquals RowType "Warehouseheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
         <td colspan="5" class="header-row">Warehouse: {{Warehouse}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypeheader"}}
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "InventoryTypeheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
         <td colspan="5" class="lower header-row">Inventory Type: {{InventoryType}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryheader"}}
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "Categoryheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
         <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
         <td class="nowrap" data-value="{{ICode}}"></td>
-        <td data-value="{{ItemDescription}}"></td>
+        <td colspan="2" data-value="{{ItemDescription}}"></td>
         <td class="number" data-value="{{OwnedQuantity}}"></td>
         <td class="number" data-value="{{OwnedQuantityInRepair}}"></td>
         <td class="number" data-value="{{TotalQuantityInContainer}}"></td>
@@ -266,142 +278,205 @@
         <td class="number" data-value="{{AvailableString28}}"></td>
         <td class="number" data-value="{{AvailableString29}}"></td>
         <td class="number" data-value="{{AvailableString30}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
-        <td class="total-val" data-value="{{AvailableString01}}"></td>
-        <td class="total-val" data-value="{{AvailableString02}}"></td>
-        <td class="total-val" data-value="{{AvailableString03}}"></td>
-        <td class="total-val" data-value="{{AvailableString04}}"></td>
-        <td class="total-val" data-value="{{AvailableString05}}"></td>
-        <td class="total-val" data-value="{{AvailableString06}}"></td>
-        <td class="total-val" data-value="{{AvailableString07}}"></td>
-        <td class="total-val" data-value="{{AvailableString08}}"></td>
-        <td class="total-val" data-value="{{AvailableString09}}"></td>
-        <td class="total-val" data-value="{{AvailableString10}}"></td>
-        <td class="total-val" data-value="{{AvailableString11}}"></td>
-        <td class="total-val" data-value="{{AvailableString12}}"></td>
-        <td class="total-val" data-value="{{AvailableString13}}"></td>
-        <td class="total-val" data-value="{{AvailableString14}}"></td>
-        <td class="total-val" data-value="{{AvailableString15}}"></td>
-        <td class="total-val" data-value="{{AvailableString16}}"></td>
-        <td class="total-val" data-value="{{AvailableString17}}"></td>
-        <td class="total-val" data-value="{{AvailableString18}}"></td>
-        <td class="total-val" data-value="{{AvailableString19}}"></td>
-        <td class="total-val" data-value="{{AvailableString20}}"></td>
-        <td class="total-val" data-value="{{AvailableString21}}"></td>
-        <td class="total-val" data-value="{{AvailableString22}}"></td>
-        <td class="total-val" data-value="{{AvailableString23}}"></td>
-        <td class="total-val" data-value="{{AvailableString24}}"></td>
-        <td class="total-val" data-value="{{AvailableString25}}"></td>
-        <td class="total-val" data-value="{{AvailableString26}}"></td>
-        <td class="total-val" data-value="{{AvailableString27}}"></td>
-        <td class="total-val" data-value="{{AvailableString28}}"></td>
-        <td class="total-val" data-value="{{AvailableString29}}"></td>
-        <td class="total-val" data-value="{{AvailableString30}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <td colspan="6" class="total-name">{{InventoryType}}:&nbsp;</td>
-        <td class="total-val" data-value="{{AvailableString01}}"></td>
-        <td class="total-val" data-value="{{AvailableString02}}"></td>
-        <td class="total-val" data-value="{{AvailableString03}}"></td>
-        <td class="total-val" data-value="{{AvailableString04}}"></td>
-        <td class="total-val" data-value="{{AvailableString05}}"></td>
-        <td class="total-val" data-value="{{AvailableString06}}"></td>
-        <td class="total-val" data-value="{{AvailableString07}}"></td>
-        <td class="total-val" data-value="{{AvailableString08}}"></td>
-        <td class="total-val" data-value="{{AvailableString09}}"></td>
-        <td class="total-val" data-value="{{AvailableString10}}"></td>
-        <td class="total-val" data-value="{{AvailableString11}}"></td>
-        <td class="total-val" data-value="{{AvailableString12}}"></td>
-        <td class="total-val" data-value="{{AvailableString13}}"></td>
-        <td class="total-val" data-value="{{AvailableString14}}"></td>
-        <td class="total-val" data-value="{{AvailableString15}}"></td>
-        <td class="total-val" data-value="{{AvailableString16}}"></td>
-        <td class="total-val" data-value="{{AvailableString17}}"></td>
-        <td class="total-val" data-value="{{AvailableString18}}"></td>
-        <td class="total-val" data-value="{{AvailableString19}}"></td>
-        <td class="total-val" data-value="{{AvailableString20}}"></td>
-        <td class="total-val" data-value="{{AvailableString21}}"></td>
-        <td class="total-val" data-value="{{AvailableString22}}"></td>
-        <td class="total-val" data-value="{{AvailableString23}}"></td>
-        <td class="total-val" data-value="{{AvailableString24}}"></td>
-        <td class="total-val" data-value="{{AvailableString25}}"></td>
-        <td class="total-val" data-value="{{AvailableString26}}"></td>
-        <td class="total-val" data-value="{{AvailableString27}}"></td>
-        <td class="total-val" data-value="{{AvailableString28}}"></td>
-        <td class="total-val" data-value="{{AvailableString29}}"></td>
-        <td class="total-val" data-value="{{AvailableString30}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "Categoryfooter"}}
-        <td colspan="6" class="total-name">{{Category}}:&nbsp;</td>
-        <td class="total-val" data-value="{{AvailableString01}}"></td>
-        <td class="total-val" data-value="{{AvailableString02}}"></td>
-        <td class="total-val" data-value="{{AvailableString03}}"></td>
-        <td class="total-val" data-value="{{AvailableString04}}"></td>
-        <td class="total-val" data-value="{{AvailableString05}}"></td>
-        <td class="total-val" data-value="{{AvailableString06}}"></td>
-        <td class="total-val" data-value="{{AvailableString07}}"></td>
-        <td class="total-val" data-value="{{AvailableString08}}"></td>
-        <td class="total-val" data-value="{{AvailableString09}}"></td>
-        <td class="total-val" data-value="{{AvailableString10}}"></td>
-        <td class="total-val" data-value="{{AvailableString11}}"></td>
-        <td class="total-val" data-value="{{AvailableString12}}"></td>
-        <td class="total-val" data-value="{{AvailableString13}}"></td>
-        <td class="total-val" data-value="{{AvailableString14}}"></td>
-        <td class="total-val" data-value="{{AvailableString15}}"></td>
-        <td class="total-val" data-value="{{AvailableString16}}"></td>
-        <td class="total-val" data-value="{{AvailableString17}}"></td>
-        <td class="total-val" data-value="{{AvailableString18}}"></td>
-        <td class="total-val" data-value="{{AvailableString19}}"></td>
-        <td class="total-val" data-value="{{AvailableString20}}"></td>
-        <td class="total-val" data-value="{{AvailableString21}}"></td>
-        <td class="total-val" data-value="{{AvailableString22}}"></td>
-        <td class="total-val" data-value="{{AvailableString23}}"></td>
-        <td class="total-val" data-value="{{AvailableString24}}"></td>
-        <td class="total-val" data-value="{{AvailableString25}}"></td>
-        <td class="total-val" data-value="{{AvailableString26}}"></td>
-        <td class="total-val" data-value="{{AvailableString27}}"></td>
-        <td class="total-val" data-value="{{AvailableString28}}"></td>
-        <td class="total-val" data-value="{{AvailableString29}}"></td>
-        <td class="total-val" data-value="{{AvailableString30}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{AvailableString01}}"></td>
-        <td class="total-val" data-value="{{AvailableString02}}"></td>
-        <td class="total-val" data-value="{{AvailableString03}}"></td>
-        <td class="total-val" data-value="{{AvailableString04}}"></td>
-        <td class="total-val" data-value="{{AvailableString05}}"></td>
-        <td class="total-val" data-value="{{AvailableString06}}"></td>
-        <td class="total-val" data-value="{{AvailableString07}}"></td>
-        <td class="total-val" data-value="{{AvailableString08}}"></td>
-        <td class="total-val" data-value="{{AvailableString09}}"></td>
-        <td class="total-val" data-value="{{AvailableString10}}"></td>
-        <td class="total-val" data-value="{{AvailableString11}}"></td>
-        <td class="total-val" data-value="{{AvailableString12}}"></td>
-        <td class="total-val" data-value="{{AvailableString13}}"></td>
-        <td class="total-val" data-value="{{AvailableString14}}"></td>
-        <td class="total-val" data-value="{{AvailableString15}}"></td>
-        <td class="total-val" data-value="{{AvailableString16}}"></td>
-        <td class="total-val" data-value="{{AvailableString17}}"></td>
-        <td class="total-val" data-value="{{AvailableString18}}"></td>
-        <td class="total-val" data-value="{{AvailableString19}}"></td>
-        <td class="total-val" data-value="{{AvailableString20}}"></td>
-        <td class="total-val" data-value="{{AvailableString21}}"></td>
-        <td class="total-val" data-value="{{AvailableString22}}"></td>
-        <td class="total-val" data-value="{{AvailableString23}}"></td>
-        <td class="total-val" data-value="{{AvailableString24}}"></td>
-        <td class="total-val" data-value="{{AvailableString25}}"></td>
-        <td class="total-val" data-value="{{AvailableString26}}"></td>
-        <td class="total-val" data-value="{{AvailableString27}}"></td>
-        <td class="total-val" data-value="{{AvailableString28}}"></td>
-        <td class="total-val" data-value="{{AvailableString29}}"></td>
-        <td class="total-val" data-value="{{AvailableString30}}"></td>
-        {{/ifEquals}}
       </tr>
-      {{/each}}
     </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "reservation"}}
+    <tbody data-rowtype="{{RowType}}">
+      {{#ifEquals RenderHeader true}}
+      <tr>
+        <th class="subHeaders">Order No.</th>
+        <th class="subHeaders">Description</th>
+        <th class="subHeaders">Deal</th>
+        <th class="subHeaders">Out</th>
+        <th class="subHeaders number">Due Back</th>
+        <th colspan="3"></th>
+      </tr>
+      {{/ifEquals}}
+      <tr class="subValues">
+        <td class="nowrap">{{OrderNumber}}</td>
+        <td>{{OrderDescription}}</td>
+        <td>{{Deal}}</td>
+        <td>{{FromDate}}</td>
+        <td>{{ToDate}}</td>
+        <td class="number">{{SubRentQuantity}}</td>
+        <td class="number">{{SubRentQuantity}}</td>
+        <td class="number" data-value="{{AvailableString01}}"></td>
+        <td class="number" data-value="{{AvailableString02}}"></td>
+        <td class="number" data-value="{{AvailableString03}}"></td>
+        <td class="number" data-value="{{AvailableString04}}"></td>
+        <td class="number" data-value="{{AvailableString05}}"></td>
+        <td class="number" data-value="{{AvailableString06}}"></td>
+        <td class="number" data-value="{{AvailableString07}}"></td>
+        <td class="number" data-value="{{AvailableString08}}"></td>
+        <td class="number" data-value="{{AvailableString09}}"></td>
+        <td class="number" data-value="{{AvailableString10}}"></td>
+        <td class="number" data-value="{{AvailableString11}}"></td>
+        <td class="number" data-value="{{AvailableString12}}"></td>
+        <td class="number" data-value="{{AvailableString13}}"></td>
+        <td class="number" data-value="{{AvailableString14}}"></td>
+        <td class="number" data-value="{{AvailableString15}}"></td>
+        <td class="number" data-value="{{AvailableString16}}"></td>
+        <td class="number" data-value="{{AvailableString17}}"></td>
+        <td class="number" data-value="{{AvailableString18}}"></td>
+        <td class="number" data-value="{{AvailableString19}}"></td>
+        <td class="number" data-value="{{AvailableString20}}"></td>
+        <td class="number" data-value="{{AvailableString21}}"></td>
+        <td class="number" data-value="{{AvailableString22}}"></td>
+        <td class="number" data-value="{{AvailableString23}}"></td>
+        <td class="number" data-value="{{AvailableString24}}"></td>
+        <td class="number" data-value="{{AvailableString25}}"></td>
+        <td class="number" data-value="{{AvailableString26}}"></td>
+        <td class="number" data-value="{{AvailableString27}}"></td>
+        <td class="number" data-value="{{AvailableString28}}"></td>
+        <td class="number" data-value="{{AvailableString29}}"></td>
+        <td class="number" data-value="{{AvailableString30}}"></td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    <tfoot data-rowtype="{{RowType}}">
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr>
+        <td colspan="7" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td class="total-val" data-value="{{AvailableString01}}"></td>
+        <td class="total-val" data-value="{{AvailableString02}}"></td>
+        <td class="total-val" data-value="{{AvailableString03}}"></td>
+        <td class="total-val" data-value="{{AvailableString04}}"></td>
+        <td class="total-val" data-value="{{AvailableString05}}"></td>
+        <td class="total-val" data-value="{{AvailableString06}}"></td>
+        <td class="total-val" data-value="{{AvailableString07}}"></td>
+        <td class="total-val" data-value="{{AvailableString08}}"></td>
+        <td class="total-val" data-value="{{AvailableString09}}"></td>
+        <td class="total-val" data-value="{{AvailableString10}}"></td>
+        <td class="total-val" data-value="{{AvailableString11}}"></td>
+        <td class="total-val" data-value="{{AvailableString12}}"></td>
+        <td class="total-val" data-value="{{AvailableString13}}"></td>
+        <td class="total-val" data-value="{{AvailableString14}}"></td>
+        <td class="total-val" data-value="{{AvailableString15}}"></td>
+        <td class="total-val" data-value="{{AvailableString16}}"></td>
+        <td class="total-val" data-value="{{AvailableString17}}"></td>
+        <td class="total-val" data-value="{{AvailableString18}}"></td>
+        <td class="total-val" data-value="{{AvailableString19}}"></td>
+        <td class="total-val" data-value="{{AvailableString20}}"></td>
+        <td class="total-val" data-value="{{AvailableString21}}"></td>
+        <td class="total-val" data-value="{{AvailableString22}}"></td>
+        <td class="total-val" data-value="{{AvailableString23}}"></td>
+        <td class="total-val" data-value="{{AvailableString24}}"></td>
+        <td class="total-val" data-value="{{AvailableString25}}"></td>
+        <td class="total-val" data-value="{{AvailableString26}}"></td>
+        <td class="total-val" data-value="{{AvailableString27}}"></td>
+        <td class="total-val" data-value="{{AvailableString28}}"></td>
+        <td class="total-val" data-value="{{AvailableString29}}"></td>
+        <td class="total-val" data-value="{{AvailableString30}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr>
+        <td colspan="7" class="total-name">{{InventoryType}}:&nbsp;</td>
+        <td class="total-val" data-value="{{AvailableString01}}"></td>
+        <td class="total-val" data-value="{{AvailableString02}}"></td>
+        <td class="total-val" data-value="{{AvailableString03}}"></td>
+        <td class="total-val" data-value="{{AvailableString04}}"></td>
+        <td class="total-val" data-value="{{AvailableString05}}"></td>
+        <td class="total-val" data-value="{{AvailableString06}}"></td>
+        <td class="total-val" data-value="{{AvailableString07}}"></td>
+        <td class="total-val" data-value="{{AvailableString08}}"></td>
+        <td class="total-val" data-value="{{AvailableString09}}"></td>
+        <td class="total-val" data-value="{{AvailableString10}}"></td>
+        <td class="total-val" data-value="{{AvailableString11}}"></td>
+        <td class="total-val" data-value="{{AvailableString12}}"></td>
+        <td class="total-val" data-value="{{AvailableString13}}"></td>
+        <td class="total-val" data-value="{{AvailableString14}}"></td>
+        <td class="total-val" data-value="{{AvailableString15}}"></td>
+        <td class="total-val" data-value="{{AvailableString16}}"></td>
+        <td class="total-val" data-value="{{AvailableString17}}"></td>
+        <td class="total-val" data-value="{{AvailableString18}}"></td>
+        <td class="total-val" data-value="{{AvailableString19}}"></td>
+        <td class="total-val" data-value="{{AvailableString20}}"></td>
+        <td class="total-val" data-value="{{AvailableString21}}"></td>
+        <td class="total-val" data-value="{{AvailableString22}}"></td>
+        <td class="total-val" data-value="{{AvailableString23}}"></td>
+        <td class="total-val" data-value="{{AvailableString24}}"></td>
+        <td class="total-val" data-value="{{AvailableString25}}"></td>
+        <td class="total-val" data-value="{{AvailableString26}}"></td>
+        <td class="total-val" data-value="{{AvailableString27}}"></td>
+        <td class="total-val" data-value="{{AvailableString28}}"></td>
+        <td class="total-val" data-value="{{AvailableString29}}"></td>
+        <td class="total-val" data-value="{{AvailableString30}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+      <tr>
+        <td colspan="7" class="total-name">{{Category}}:&nbsp;</td>
+        <td class="total-val" data-value="{{AvailableString01}}"></td>
+        <td class="total-val" data-value="{{AvailableString02}}"></td>
+        <td class="total-val" data-value="{{AvailableString03}}"></td>
+        <td class="total-val" data-value="{{AvailableString04}}"></td>
+        <td class="total-val" data-value="{{AvailableString05}}"></td>
+        <td class="total-val" data-value="{{AvailableString06}}"></td>
+        <td class="total-val" data-value="{{AvailableString07}}"></td>
+        <td class="total-val" data-value="{{AvailableString08}}"></td>
+        <td class="total-val" data-value="{{AvailableString09}}"></td>
+        <td class="total-val" data-value="{{AvailableString10}}"></td>
+        <td class="total-val" data-value="{{AvailableString11}}"></td>
+        <td class="total-val" data-value="{{AvailableString12}}"></td>
+        <td class="total-val" data-value="{{AvailableString13}}"></td>
+        <td class="total-val" data-value="{{AvailableString14}}"></td>
+        <td class="total-val" data-value="{{AvailableString15}}"></td>
+        <td class="total-val" data-value="{{AvailableString16}}"></td>
+        <td class="total-val" data-value="{{AvailableString17}}"></td>
+        <td class="total-val" data-value="{{AvailableString18}}"></td>
+        <td class="total-val" data-value="{{AvailableString19}}"></td>
+        <td class="total-val" data-value="{{AvailableString20}}"></td>
+        <td class="total-val" data-value="{{AvailableString21}}"></td>
+        <td class="total-val" data-value="{{AvailableString22}}"></td>
+        <td class="total-val" data-value="{{AvailableString23}}"></td>
+        <td class="total-val" data-value="{{AvailableString24}}"></td>
+        <td class="total-val" data-value="{{AvailableString25}}"></td>
+        <td class="total-val" data-value="{{AvailableString26}}"></td>
+        <td class="total-val" data-value="{{AvailableString27}}"></td>
+        <td class="total-val" data-value="{{AvailableString28}}"></td>
+        <td class="total-val" data-value="{{AvailableString29}}"></td>
+        <td class="total-val" data-value="{{AvailableString30}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr>
+        <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{AvailableString01}}"></td>
+        <td class="total-val" data-value="{{AvailableString02}}"></td>
+        <td class="total-val" data-value="{{AvailableString03}}"></td>
+        <td class="total-val" data-value="{{AvailableString04}}"></td>
+        <td class="total-val" data-value="{{AvailableString05}}"></td>
+        <td class="total-val" data-value="{{AvailableString06}}"></td>
+        <td class="total-val" data-value="{{AvailableString07}}"></td>
+        <td class="total-val" data-value="{{AvailableString08}}"></td>
+        <td class="total-val" data-value="{{AvailableString09}}"></td>
+        <td class="total-val" data-value="{{AvailableString10}}"></td>
+        <td class="total-val" data-value="{{AvailableString11}}"></td>
+        <td class="total-val" data-value="{{AvailableString12}}"></td>
+        <td class="total-val" data-value="{{AvailableString13}}"></td>
+        <td class="total-val" data-value="{{AvailableString14}}"></td>
+        <td class="total-val" data-value="{{AvailableString15}}"></td>
+        <td class="total-val" data-value="{{AvailableString16}}"></td>
+        <td class="total-val" data-value="{{AvailableString17}}"></td>
+        <td class="total-val" data-value="{{AvailableString18}}"></td>
+        <td class="total-val" data-value="{{AvailableString19}}"></td>
+        <td class="total-val" data-value="{{AvailableString20}}"></td>
+        <td class="total-val" data-value="{{AvailableString21}}"></td>
+        <td class="total-val" data-value="{{AvailableString22}}"></td>
+        <td class="total-val" data-value="{{AvailableString23}}"></td>
+        <td class="total-val" data-value="{{AvailableString24}}"></td>
+        <td class="total-val" data-value="{{AvailableString25}}"></td>
+        <td class="total-val" data-value="{{AvailableString26}}"></td>
+        <td class="total-val" data-value="{{AvailableString27}}"></td>
+        <td class="total-val" data-value="{{AvailableString28}}"></td>
+        <td class="total-val" data-value="{{AvailableString29}}"></td>
+        <td class="total-val" data-value="{{AvailableString30}}"></td>
+      </tr>
+      {{/ifEquals}}
+    </tfoot>
+    {{/each}}
   </table>
   {{/ifEquals}}
 </div>

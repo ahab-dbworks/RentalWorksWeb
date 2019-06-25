@@ -15,6 +15,30 @@ thead {
     }
 }
 
+#detail {
+    tbody[data-rowtype="detail"]:nth-of-type(odd) {
+        background-color: #DCDCDC;
+    }
+
+    tr[data-rowtype="detail"] {
+        border-top: 1.1em solid black
+    }
+
+    tbody {
+        tr.subValues {
+            text-align: left;
+            padding-bottom: 2px;
+            padding-left: 3px;
+        }
+
+        th.subHeaders {
+            text-align: left;
+            border-bottom: 2px solid black;
+            padding-left: 3px;
+        }
+    }
+}
+
 @page {
     size: landscape;
     margin: 10px 10px 10px 10px; // Adds margin on the pdf
