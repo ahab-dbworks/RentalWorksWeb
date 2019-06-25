@@ -16,12 +16,12 @@ thead {
 }
 
 #detail {
-    tbody[data-rowtype="detail"]:nth-of-type(odd) {
+    tbody[data-rowtype="reservation"]:nth-of-type(odd) {
         background-color: #DCDCDC;
     }
 
-    tr[data-rowtype="detail"] {
-        border-top: 1.1em solid black
+    tbody[data-rowtype="detail"] {
+        border-top: .1em solid black
     }
 
     tbody {
