@@ -61,8 +61,8 @@
 
         //Toggle Buttons on Billing tab
         FwFormField.loadItems($form.find('div[data-datafield="BillingAddressType"]'), [
-            { value: 'CUSTOMER',    caption: 'Use Customer', checked: true },
-            { value: 'OTHER',       caption: 'Use Other' }
+            { value: 'CUSTOMER',    caption: 'Customer', checked: true },
+            { value: 'OTHER',       caption: 'Other' }
         ]);
 
         //Toggle Buttons on Tax tab
@@ -73,8 +73,8 @@
 
         //Toggle Buttons on Shipping tab
         FwFormField.loadItems($form.find('div[data-datafield="ShippingAddressType"]'), [
-            { value: 'CUSTOMER',    caption: 'Use Customer', checked: true },
-            { value: 'OTHER',       caption: 'Use Other' }
+            { value: 'CUSTOMER',    caption: 'Customer', checked: true },
+            { value: 'OTHER',       caption: 'Other' }
         ]);
         // SUBMODULES
         // Deal  submodule
@@ -415,8 +415,8 @@
               <div data-type="tab" id="dealtab" class="tab submodule" data-tabpageid="dealtabpage" data-caption="Deals"></div>
               <div data-type="tab" id="quotetab" class="tab submodule" data-tabpageid="quotetabpage" data-caption="Quotes"></div>
               <div data-type="tab" id="ordertab" class="tab submodule" data-tabpageid="ordertabpage" data-caption="Orders"></div>
-              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="contracttab" class="tab submodule" data-tabpageid="contracttabpage" data-caption="Contracts"></div>
+              <div data-type="tab" id="invoicetab" class="tab submodule" data-tabpageid="invoicetabpage" data-caption="Invoices"></div>
               <div data-type="tab" id="receipttab" class="tab submodule" data-tabpageid="receipttabpage" data-caption="Receipts"></div>
               <div data-type="tab" id="creditstab" class="tab submodule" data-tabpageid="creditstabpage" data-caption="Credits"></div>
               <div data-type="tab" id="notestab" class="tab" data-tabpageid="notestabpage" data-caption="Notes"></div>
@@ -476,7 +476,7 @@
                         </div>
                       </div>
                       <!-- Contact Numbers section -->
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact Numbers">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Contact">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Main" data-datafield="Phone" style="flex:1 1 125px;"></div>
                           <div data-control="FwFormField" data-type="phone" class="fwcontrol fwformfield" data-caption="Fax" data-datafield="Fax" style="flex:1 1 125px;"></div>
@@ -586,7 +586,7 @@
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Amount" data-digits="0" data-datafield="CreditLimit" style="flex:1 1 175px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Customer Balance" data-datafield="CreditBalance" data-enabled="false" style="flex:1 1 175px;"></div>
+                          <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Customer A/R Balance" data-datafield="CreditBalance" data-enabled="false" style="flex:1 1 175px;"></div>
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="money" class="fwcontrol fwformfield" data-caption="Available" data-datafield="CreditAvailable" data-enabled="false" style="flex:1 1 175px;"></div>
@@ -652,7 +652,7 @@
                           <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Insurance Certification on File" data-datafield="" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
-                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Vehicle Insurance Completed" data-datafield="VehicleInsuranceCertficationOnFile" style="flex:1 1 125px;"></div>
+                          <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Vehicle Insurance on File" data-datafield="VehicleInsuranceCertficationOnFile" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                       <!-- Security Deposits section -->
@@ -704,7 +704,7 @@
                   <div class="flexrow">
                     <div class="flexcolumn" style="flex:1 1 250px;">
                       <!-- Tax Status section -->
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Status">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Option">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="togglebuttons" class="fwcontrol fwformfield" data-caption="" data-datafield="Taxable"></div>
                         </div>
@@ -716,6 +716,8 @@
                         </div>
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Year" data-datafield="NonTaxableYear" data-enabled="false" style="flex:1 1 100px;"></div>
+                        </div>
+                        <div class="flexrow">
                           <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Valid Through" data-datafield="NonTaxableCertificateValidThrough" data-enabled="false" style="flex:1 1 125px;"></div>
                         </div>
                         <div class="flexrow">
@@ -726,13 +728,15 @@
                       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Federal Tax">
                         <div class="flexrow">
                           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="State of Incorporation" data-datafield="TaxStateOfIncorporationId" data-displayfield="TaxStateOfIncorporation" data-validationname="StateValidation" style="flex:1 1 125px;"></div>
+                        </div>
+                        <div class="flexrow">
                           <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Federal Tax No." data-datafield="TaxFederalNo" style="flex:1 1 125px;"></div>
                         </div>
                       </div>
                     </div>
                     <div class="flexcolumn" style="flex:1 1 600px;">
                       <!-- Location Tax Rates section -->
-                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Location Tax Rates">
+                      <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Tax Rates">
                         <div class="flexrow">
                           <div data-control="FwGrid" data-grid="CompanyTaxOptionGrid" data-securitycaption="Tax Option"></div>
                         </div>
@@ -874,16 +878,14 @@
               <!-- ORDER TAB -->
               <div data-type="tabpage" id="ordertabpage" class="tabpage submodule order-page rwSubModule" data-tabid="ordertab"></div>
 
+             <!-- CONTRACT TAB -->
+             <div data-type="tabpage" id="contracttabpage" class="tabpage contractSubModule rwSubModule" data-tabid="contracttab"></div>
+
              <!-- INVOICE TAB -->
              <div data-type="tabpage" id="invoicetabpage" class="tabpage invoiceSubModule rwSubModule" data-tabid="invoicetab"></div>
-
-             <!-- CONTRACT TAB -->
-             <div data-type="tabpage" id="contracttabpage" class="tabpage contractSubModule rwSubModule" data-tabid="contracttab">
-             </div>
              
              <!-- RECEIPT TAB -->
-             <div data-type="tabpage" id="receipttabpage" class="tabpage receiptSubModule rwSubModule" data-tabid="receipttab">
-             </div>
+             <div data-type="tabpage" id="receipttabpage" class="tabpage receiptSubModule rwSubModule" data-tabid="receipttab"></div>
 
               <!-- CREDITS TAB -->
               <div data-type="tabpage" id="creditstabpage" class="tabpage submodule credits-page rwSubModule" data-tabid="creditstab"></div>
