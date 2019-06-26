@@ -79,9 +79,6 @@ const rentalInventoryAvailTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="I-Code" data-datafield="InventoryId" data-formbeforevalidate="beforeValidate" data-displayfield="ICode" data-validationname="RentalInventoryValidation" style="float:left;min-width:400px;"></div>
                 </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Catalog" data-datafield="WarehouseCatalogId" data-displayfield="WarehouseCatalog" data-validationname="WarehouseCatalogValidation" style="float:left;min-width:400px;"></div>
-                </div>
               </div>
             </div>
           </div>
