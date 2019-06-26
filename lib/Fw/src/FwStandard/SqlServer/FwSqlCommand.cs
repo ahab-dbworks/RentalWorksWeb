@@ -876,6 +876,7 @@ namespace FwStandard.SqlServer
                     qryText = new StringBuilder();
                 }
 
+                closeConnection = !sqlConnection.IsOpen();
                 if (closeConnection)
                 {
                     await this.sqlConnection.OpenAsync();
@@ -1134,6 +1135,7 @@ namespace FwStandard.SqlServer
                 this.sqlLogEntry = new FwSqlLogEntry(this.sqlCommand, usefulLinesFromStackTrace);
                 this.sqlLogEntry.Start();
 
+                closeConnection = (!this.sqlConnection.IsOpen());
                 if (closeConnection)
                 {
                     await this.sqlCommand.Connection.OpenAsync();
