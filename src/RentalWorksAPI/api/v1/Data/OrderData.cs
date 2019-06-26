@@ -384,6 +384,60 @@ namespace RentalWorksAPI.api.v1.Data
             return result;
         }
         //----------------------------------------------------------------------------------------------------
+        public static List<OrderItem> GetOrderItems(string orderid, string[] items)
+        {
+            FwSqlCommand qry;
+            FwSqlSelect select     = new FwSqlSelect();
+            List<OrderItem> result = new List<OrderItem>();
+            FwJsonDataTable dt     = new FwJsonDataTable();
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.AddColumn("rentfromdate", false, FwJsonDataTableColumn.DataTypes.Date);
+            qry.AddColumn("renttodate",   false, FwJsonDataTableColumn.DataTypes.Date);
+            select.PageNo   = 0;
+            select.PageSize = 0;
+            select.Add("select *");
+            select.Add("  from apirest_masteritemview");
+            select.Parse();
+            select.AddWhere("orderid = @orderid");
+            select.AddWhereIn("and", "masteritemid", string.Join(",", items), false);
+            select.AddOrderBy("itemorder");
+            select.AddParameter("@orderid", orderid);
+
+            dt = qry.QueryToFwJsonTable(select, true);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                OrderItem orderitem = new OrderItem();
+
+                orderitem.masteritemid         = dt.Rows[i][dt.ColumnIndex["masteritemid"]].ToString().TrimEnd();
+                orderitem.masterid             = dt.Rows[i][dt.ColumnIndex["masterid"]].ToString().TrimEnd();
+                orderitem.description          = dt.Rows[i][dt.ColumnIndex["description"]].ToString().TrimEnd();
+                orderitem.rentfromdate         = dt.Rows[i][dt.ColumnIndex["rentfromdate"]].ToString().TrimEnd();
+                orderitem.rentfromtime         = dt.Rows[i][dt.ColumnIndex["rentfromtime"]].ToString().TrimEnd();
+                orderitem.renttodate           = dt.Rows[i][dt.ColumnIndex["renttodate"]].ToString().TrimEnd();
+                orderitem.renttotime           = dt.Rows[i][dt.ColumnIndex["renttotime"]].ToString().TrimEnd();
+                orderitem.qtyordered           = dt.Rows[i][dt.ColumnIndex["qtyordered"]].ToString().TrimEnd();
+                orderitem.unit                 = dt.Rows[i][dt.ColumnIndex["unit"]].ToString().TrimEnd();
+                orderitem.price                = dt.Rows[i][dt.ColumnIndex["price"]].ToString().TrimEnd();
+                orderitem.daysinwk             = dt.Rows[i][dt.ColumnIndex["daysinwk"]].ToString().TrimEnd();
+                orderitem.notes                = dt.Rows[i][dt.ColumnIndex["notes"]].ToString().TrimEnd();
+                orderitem.parentid             = dt.Rows[i][dt.ColumnIndex["parentid"]].ToString().TrimEnd();
+                orderitem.nestedmasteritemid   = dt.Rows[i][dt.ColumnIndex["nestedmasteritemid"]].ToString().TrimEnd();
+
+                orderitem.unitextended         = dt.Rows[i][dt.ColumnIndex["unitextended"]].ToString().TrimEnd();
+                orderitem.periodextended       = dt.Rows[i][dt.ColumnIndex["periodextended"]].ToString().TrimEnd();
+                orderitem.weeklyextended       = dt.Rows[i][dt.ColumnIndex["weeklyextended"]].ToString().TrimEnd();
+                orderitem.taxable              = dt.Rows[i][dt.ColumnIndex["taxable"]].ToString().TrimEnd();
+                orderitem.inactive             = dt.Rows[i][dt.ColumnIndex["inactive"]].ToString().TrimEnd();
+                orderitem.itemorder            = dt.Rows[i][dt.ColumnIndex["itemorder"]].ToString().TrimEnd();
+
+                result.Add(orderitem);
+            }
+
+            return result;
+        }
+        //----------------------------------------------------------------------------------------------------
         public static dynamic ProcessOrderItem(OrderItem orderitem, string orderid)
         {
             FwSqlCommand sp;
@@ -628,6 +682,19 @@ namespace RentalWorksAPI.api.v1.Data
             response.errmsg     = sp.GetParameter("@errmsg").ToString().TrimEnd();
 
             return response;
+        }
+        //----------------------------------------------------------------------------------------------------
+        public static void UpdateOrderTimeStamp(string orderid)
+        {
+            FwSqlCommand qry;
+
+            qry = new FwSqlCommand(FwSqlConnection.RentalWorks);
+            qry.Add("update dealorder");
+            qry.Add("set datestamp = getutcdate()");
+            qry.Add("where orderid = @orderid");
+            qry.AddParameter("@orderid", orderid);
+
+            qry.Execute();
         }
         //----------------------------------------------------------------------------------------------------
     }

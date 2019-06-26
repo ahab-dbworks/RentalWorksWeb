@@ -37,6 +37,7 @@ namespace RentalWorksAPI.api.v2.Models
         public string createdby             { get; set; }
         public string createddate           { get; set; }
         public string lastmodifieddatetime  { get; set; }
+        public string lastoutcontractdate   { get; set; }
         public string status                { get; set; }
         public string pono                  { get; set; }
         public string orderunitid           { get; set; }
