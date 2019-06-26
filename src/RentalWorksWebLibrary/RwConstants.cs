@@ -283,6 +283,8 @@
 
         public const string INVENTORY_CONFLICT_TYPE_POSITIVE = "P";
         public const string INVENTORY_CONFLICT_TYPE_NEGATIVE = "N";
+        public const string INVENTORY_CONFLICT_TYPE_POSITIVE_DESCRIPTION = "POSITIVE";
+        public const string INVENTORY_CONFLICT_TYPE_NEGATIVE_DESCRIPTION = "NEGATIVE";
 
 
 
