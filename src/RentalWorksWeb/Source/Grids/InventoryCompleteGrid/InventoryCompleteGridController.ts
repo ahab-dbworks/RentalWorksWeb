@@ -1,5 +1,5 @@
 ﻿class InventoryCompleteGrid {
-    Module: string = 'InventoryCompleteGrid';
+    Module: string = 'InventoryPackageInventory';
     apiurl: string = 'api/v1/inventorypackageinventory';
 
     generateRow($control, $generatedtr) {

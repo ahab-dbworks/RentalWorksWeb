@@ -1,5 +1,5 @@
 ﻿class InventoryKitGrid {
-    Module: string = 'InventoryKitGrid';
+    Module: string = 'InventoryPackageInventory';
     apiurl: string = 'api/v1/inventorypackageinventory';
 
     generateRow($control, $generatedtr) {
