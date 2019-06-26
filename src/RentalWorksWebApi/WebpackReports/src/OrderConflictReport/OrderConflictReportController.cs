@@ -23,6 +23,15 @@ namespace WebApi.Modules.Reports.OrderConflictReport
         public string DepartmentId { get; set; }
         public string DealId { get; set; }
         public string OrderId { get; set; }
+        public string InventoryTypeId { get; set; }
+        public string CategoryId { get; set; }
+        public string SubCategoryId { get; set; }
+        public string InventoryId { get; set; }
+        public SelectedCheckBoxListItems Classifications { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems Ranks { get; set; } = new SelectedCheckBoxListItems();
+        public SelectedCheckBoxListItems TrackedBys { get; set; } = new SelectedCheckBoxListItems();
+
+
     }
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
