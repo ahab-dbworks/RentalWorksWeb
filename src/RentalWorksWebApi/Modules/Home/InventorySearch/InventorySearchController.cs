@@ -60,6 +60,7 @@ namespace WebApi.Modules.Home.InventorySearch
     {
         public string SessionId;
         public string OrderId;
+        public string InventoryId;
     }
     //------------------------------------------------------------------------------------ 
 

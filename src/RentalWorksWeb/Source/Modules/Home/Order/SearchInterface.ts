@@ -862,9 +862,13 @@ class SearchInterface {
             }
 
             function addToOrder() {
-                let request = {
+                let request:any = {
                     OrderId: id,
                     SessionId: id
+                }
+                const type = $popup.find('#itemsearch').attr('data-moduletype');
+                if (type === "Complete" || type === "Kit") {
+                    request.InventoryId = FwFormField.getValueByDataField($form, 'InventoryId');
                 }
                 $popup.find('.addToOrder').css('cursor', 'wait');
                 $popup.off('click', '.addToOrder');

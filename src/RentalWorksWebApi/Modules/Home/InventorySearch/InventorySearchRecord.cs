@@ -1,10 +1,12 @@
 using FwStandard.BusinessLogic;
-using FwStandard.SqlServer; 
+using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Data;
 using WebApi.Logic;
+using WebApi.Modules.Home.InventoryPackageInventory;
 
 namespace WebApi.Modules.Home.InventorySearch
 {
@@ -92,6 +94,27 @@ namespace WebApi.Modules.Home.InventorySearch
                 qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
                 int i = await qry.ExecuteNonQueryAsync();
+
+                if (!string.IsNullOrEmpty(request.InventoryId))
+                {
+                    FwSqlCommand qrySessionItems = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout);
+                    qrySessionItems.Add("select masteritemid, masterid, warehouseid, qty");
+                    qrySessionItems.Add(" from  tmpsearchsession                        ");
+                    qrySessionItems.Add(" where sessionid = @sessionid                  ");
+                    qrySessionItems.AddParameter("@sessionid", request.SessionId);
+                    FwJsonDataTable dt = await qrySessionItems.QueryToFwJsonTableAsync();
+                    
+                    foreach (List<object> row in dt.Rows)
+                    {
+                        InventoryPackageInventoryLogic item = new InventoryPackageInventoryLogic();
+                        item.SetDependencies(AppConfig, UserSession);
+                        item.PackageId = request.InventoryId;
+                        item.InventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                        item.DefaultQuantity = FwConvert.ToDecimal(row[dt.GetColumnNo("qty")].ToString());
+                        item.WarehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                        int saveCount = item.SaveAsync(null).Result;
+                    }
+                }
             }
             return b;
         }
