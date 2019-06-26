@@ -10,18 +10,22 @@ thead {
         border-top: 2px solid #000000;
         border-bottom: 2px solid #000000;
         font-weight: bold;
-        padding: 3px;
+        padding: 2px;
         white-space: nowrap;
     }
 }
 
 #detail {
+    td {
+        padding:2px;
+    }
+
     tbody[data-rowtype="reservation"]:nth-of-type(odd) {
         background-color: #DCDCDC;
     }
 
     tbody[data-rowtype="detail"] {
-        border-top: .1em solid black
+        font-weight: 700;
     }
 
     tbody {
@@ -34,7 +38,8 @@ thead {
         th.subHeaders {
             text-align: left;
             border-bottom: 2px solid black;
-            padding-left: 3px;
+            padding-left: 2px;
+            background-color: white
         }
     }
 }
