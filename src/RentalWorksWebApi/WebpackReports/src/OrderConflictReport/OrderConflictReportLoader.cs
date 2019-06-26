@@ -193,7 +193,7 @@ namespace WebApi.Modules.Reports.OrderConflictReport
                 string warehouseId = row[dt.GetColumnNo("WarehouseId")].ToString();
                 availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, request.FromDate, request.ToDate));
             }
-            bool refreshIfNeeded = false; // user may want to make this true in some cases
+            bool refreshIfNeeded = true; // user may want to make this true in some cases
             TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(AppConfig, UserSession, availRequestItems, refreshIfNeeded).Result;
 
             List<OrderConflict> conflictRows = new List<OrderConflict>();
@@ -289,7 +289,7 @@ namespace WebApi.Modules.Reports.OrderConflictReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "QuantityReserved", "QuantityAvailable", "QuantityInRepair" };
+                string[] totalFields = new string[] { "QuantitySub", "QuantityReserved", "QuantityAvailable", "QuantityInRepair" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);

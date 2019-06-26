@@ -59,7 +59,7 @@
         <th>Item Description</th>
         <th>From</th>
         <th>To</th>
-        <th>Sub</th>
+        <th class="number">Sub</th>
         <th class="number">Reserved</th>
         <th class="number">Available</th>
         <th class="number">In Repair</th>
@@ -85,7 +85,8 @@
     {{/ifEquals}}
     {{#ifEquals RowType "OrderNumberfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="7" class="total-name">{{OrderNumber}}:&nbsp;</td>
+      <td colspan="6" class="total-name">{{OrderNumber}}:&nbsp;</td>
+      <td class="total-val" data-value="{{QuantitySub}}"></td>
       <td class="total-val" data-value="{{QuantityReserved}}"></td>
       <td class="total-val" data-value="{{QuantityAvailable}}"></td>
       <td class="total-val" data-value="{{QuantityInRepair}}"></td>
@@ -93,7 +94,8 @@
     {{/ifEquals}}
     {{#ifEquals RowType "Dealfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="7" class="total-name">{{Deal}}:&nbsp;</td>
+      <td colspan="6" class="total-name">{{Deal}}:&nbsp;</td>
+      <td class="total-val" data-value="{{QuantitySub}}"></td>
       <td class="total-val" data-value="{{QuantityReserved}}"></td>
       <td class="total-val" data-value="{{QuantityAvailable}}"></td>
       <td class="total-val" data-value="{{QuantityInRepair}}"></td>
@@ -101,7 +103,8 @@
     {{/ifEquals}}
     {{#ifEquals RowType "Departmentfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="7" class="total-name">{{Department}}:&nbsp;</td>
+      <td colspan="6" class="total-name">{{Department}}:&nbsp;</td>
+      <td class="total-val" data-value="{{QuantitySub}}"></td>
       <td class="total-val" data-value="{{QuantityReserved}}"></td>
       <td class="total-val" data-value="{{QuantityAvailable}}"></td>
       <td class="total-val" data-value="{{QuantityInRepair}}"></td>
@@ -109,15 +112,17 @@
     {{/ifEquals}}
     {{#ifEquals RowType "Warehousefooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="7" class="total-name">{{Warehouse}}:&nbsp;</td>
+      <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
+      <td class="total-val" data-value="{{QuantitySub}}"></td>
       <td class="total-val" data-value="{{QuantityReserved}}"></td>
       <td class="total-val" data-value="{{QuantityAvailable}}"></td>
       <td class="total-val" data-value="{{QuantityInRepair}}"></td>
     </tr>
     {{/ifEquals}}
-    {{#ifEquals RowType "grrandtotalfooter"}}
+    {{#ifEquals RowType "grandtotal"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
+      <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+      <td class="total-val" data-value="{{QuantitySub}}"></td>
       <td class="total-val" data-value="{{QuantityReserved}}"></td>
       <td class="total-val" data-value="{{QuantityAvailable}}"></td>
       <td class="total-val" data-value="{{QuantityInRepair}}"></td>

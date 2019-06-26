@@ -38,7 +38,7 @@ const orderConflictTemplate = `
                 <div data-datafield="ConflictType" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="P" data-caption="Positive"></div>
                   <div data-value="N" data-caption="Negative"></div>
-                  <div data-value="" data-caption="All"></div>
+                  <div data-value="ALL" data-caption="All"></div>
                 </div>
               </div>
             </div>
