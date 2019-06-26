@@ -1796,6 +1796,8 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
                 RwRFID.isConnected = false;
                 screen.toggleRfid();
             });
+            // setup TSL RFID Reader
+            RwRFID.registerEvents(screen.rfidscan);
         }
 
         jQuery(window)
@@ -1817,6 +1819,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getCheckInScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getCheckInScreen');
+            RwRFID.unregisterEvents();
         }
         jQuery(window).off('scroll').off('touchmove');
     };
