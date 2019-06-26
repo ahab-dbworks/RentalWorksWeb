@@ -22,7 +22,7 @@ const rentalInventoryAvailTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield date-field" data-caption="To:" data-datafield="ToDate" data-required="true" style="float:left;max-width:200px;"></div>
                 </div>
-              </div><span style="color:red;padding-left:15px;font-size:.8em;">30 Day Max Will Be Returned</span>
+              </div><span style="color:red;padding-left:15px;font-size:.8em;">(Maximum of 30 Days)</span>
             </div>
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Report Type">
