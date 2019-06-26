@@ -583,7 +583,7 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                                     reservationRow[dt.GetColumnNo("OrderDescription")] = reservation.OrderDescription;
                                     reservationRow[dt.GetColumnNo("Deal")] = reservation.Deal;
                                     reservationRow[dt.GetColumnNo("FromDate")] = FwConvert.ToString(reservation.FromDateTime);
-                                    reservationRow[dt.GetColumnNo("ToDate")] = FwConvert.ToString(reservation.ToDateTime);
+                                    reservationRow[dt.GetColumnNo("ToDate")] = (reservation.ToDateTime.Equals(InventoryAvailabilityFunc.LateDateTime) ? "LATE" : FwConvert.ToString(reservation.ToDateTime));
                                     reservationRow[dt.GetColumnNo("SubRentQuantity")] = reservation.QuantitySub;
                                     reservationRow[dt.GetColumnNo("LateQuantity")] = reservation.QuantityLate.Total;
 
