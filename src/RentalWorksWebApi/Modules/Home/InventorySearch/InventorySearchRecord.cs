@@ -89,12 +89,6 @@ namespace WebApi.Modules.Home.InventorySearch
             bool b = false;
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "tmpsearchsessionaddtoorder", this.AppConfig.DatabaseSettings.QueryTimeout);
-                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
-                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
-                int i = await qry.ExecuteNonQueryAsync();
-
                 if (!string.IsNullOrEmpty(request.InventoryId))
                 {
                     FwSqlCommand qrySessionItems = new FwSqlCommand(conn, this.AppConfig.DatabaseSettings.QueryTimeout);
@@ -103,7 +97,7 @@ namespace WebApi.Modules.Home.InventorySearch
                     qrySessionItems.Add(" where sessionid = @sessionid                  ");
                     qrySessionItems.AddParameter("@sessionid", request.SessionId);
                     FwJsonDataTable dt = await qrySessionItems.QueryToFwJsonTableAsync();
-                    
+
                     foreach (List<object> row in dt.Rows)
                     {
                         InventoryPackageInventoryLogic item = new InventoryPackageInventoryLogic();
@@ -114,6 +108,14 @@ namespace WebApi.Modules.Home.InventorySearch
                         item.WarehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
                         int saveCount = item.SaveAsync(null).Result;
                     }
+                }
+                else
+                { 
+                FwSqlCommand qry = new FwSqlCommand(conn, "tmpsearchsessionaddtoorder", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                int i = await qry.ExecuteNonQueryAsync();
                 }
             }
             return b;

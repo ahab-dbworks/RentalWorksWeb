@@ -880,7 +880,17 @@ class SearchInterface {
                         $orderItemGridLabor     = $form.find('.laborgrid [data-name="OrderItemGrid"]'),
                         $orderItemGridMisc      = $form.find('.miscgrid [data-name="OrderItemGrid"]');
                     let $transferItemGridRental = $form.find('.rentalItemGrid [data-name="TransferOrderItemGrid"]');
-                    let $transferItemGridSales  = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
+                    let $transferItemGridSales = $form.find('.salesItemGrid [data-name="TransferOrderItemGrid"]');
+
+                    if (type === "Complete") {
+                        let $completeGrid = $form.find('[data-name="InventoryCompleteGrid"]');
+                        FwBrowse.search($completeGrid);
+                    }
+                    if (type === "Kit") {
+                        let $kitGrid = $form.find('[data-name="InventoryKitGrid"]');
+                        FwBrowse.search($kitGrid);
+                    }
+
                     if ($form.find('.combinedtab').css('display') != 'none') {
                         FwBrowse.search($combinedGrid);
                     }
