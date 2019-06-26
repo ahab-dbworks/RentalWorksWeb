@@ -41,6 +41,10 @@ class AvailabilityConflicts {
 
         FwFormField.setValueByDataField($form, 'ConflictType', 'N');
 
+
+        const toDate = FwFunc.getDate(new Date().toString(), 30);
+        FwFormField.setValueByDataField($form, 'ToDate', toDate);
+
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValueByDataField($form, 'WarehouseId', warehouse.warehouseid, warehouse.warehouse);
 
@@ -62,6 +66,7 @@ class AvailabilityConflicts {
             request.OrderId = FwFormField.getValueByDataField($form, 'OrderId');
             request.DealId = FwFormField.getValueByDataField($form, 'DealId');
             request.Ranks = FwFormField.getValueByDataField($form, 'Rank');
+            request.ToDate = FwFormField.getValueByDataField($form, 'ToDate');
 
             $form.find('#availabilityTable').empty();
             FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryavailability/conflicts', request, FwServices.defaultTimeout,
