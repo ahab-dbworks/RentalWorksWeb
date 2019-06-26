@@ -63,6 +63,7 @@ class AvailabilityConflicts {
             request.DealId = FwFormField.getValueByDataField($form, 'DealId');
             request.Ranks = FwFormField.getValueByDataField($form, 'Rank');
 
+            $form.find('#availabilityTable').empty();
             FwAppData.apiMethod(true, 'POST', 'api/v1/inventoryavailability/conflicts', request, FwServices.defaultTimeout,
                 response => {
                     this.loadAvailabilityTable($form, response);
@@ -100,7 +101,7 @@ class AvailabilityConflicts {
                     </tbody>
                 </table>`;
 
-        $form.find('#availabilityTable').empty().append(html);
+        $form.find('#availabilityTable').append(html);
 
         const $rows: any = [];
         for (let i = 0; i < data.length; i++) {
