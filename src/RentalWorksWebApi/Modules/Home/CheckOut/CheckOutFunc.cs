@@ -8,7 +8,7 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.CheckOut
 {
-
+    //-------------------------------------------------------------------------------------------------------
     public class StageItemRequest
     {
         public string OrderId { get; set; }
@@ -20,51 +20,6 @@ namespace WebApi.Modules.Home.CheckOut
         public bool? AddItemToOrder { get; set; }
         public bool? AddCompleteToOrder { get; set; }
     }
-
-    public class CheckOutAllStagedRequest
-    {
-        public string OrderId { get; set; }
-    }
-
-    public class CreateOutContractRequest
-    {
-        public string OrderId { get; set; }
-    }
-
-    public class CreateOutContractResponse : TSpStatusResponse
-    {
-        public string ContractId { get; set; }
-    }
-
-
-    public class MoveStagedItemRequest
-    {
-        public string OrderId { get; set; }
-        public string OrderItemId { get; set; }
-        public string VendorId { get; set; }
-        public string ContractId { get; set; }
-        public string Code { get; set; }
-        public float? Quantity { get; set; }
-    }
-
-
-    public class MoveStagedItemResponse : TSpStatusResponse
-    {
-    }
-
-
-    public class OrderInventoryStatusCheckOut
-    {
-        public string ICode { get; set; }
-        public string Description { get; set; }
-        public int QuantityOrdered { get; set; }
-        public int QuantitySub { get; set; }
-        public int QuantityStaged { get; set; }
-        public int QuantityOut { get; set; }
-        public int QuantityIn { get; set; }
-        public int QuantityRemaining { get; set; }
-    }
-
     public class StageItemResponse : TSpStatusResponse
     {
         public string InventoryId { get; set; }
@@ -77,63 +32,85 @@ namespace WebApi.Modules.Home.CheckOut
         public bool ShowAddCompleteToOrder { get; set; }
         public bool ShowUnstage { get; set; }
     }
-
+    //-------------------------------------------------------------------------------------------------------
+    public class UnstageItemRequest
+    {
+        public string OrderId { get; set; }
+        public string OrderItemId { get; set; }
+        public string VendorId { get; set; }
+        public string ConsignorAgreementId { get; set; }
+        public string Code { get; set; }
+        public int? Quantity { get; set; }
+    }
+    public class UnstageItemResponse : TSpStatusResponse
+    {
+        public string InventoryId { get; set; }
+        public string ItemId { get; set; }
+        public string ConsignorId { get; set; }
+        public string ConsignorAgreementId { get; set; }
+    }
+    //-------------------------------------------------------------------------------------------------------
+    public class CheckOutAllStagedRequest
+    {
+        public string OrderId { get; set; }
+    }
     public class CheckOutAllStagedResponse : TSpStatusResponse
     {
         public string ContractId { get; set; }
     }
-
+    //-------------------------------------------------------------------------------------------------------
+    public class CreateOutContractRequest
+    {
+        public string OrderId { get; set; }
+    }
+    public class CreateOutContractResponse : TSpStatusResponse
+    {
+        public string ContractId { get; set; }
+    }
+    //-------------------------------------------------------------------------------------------------------
+    public class MoveStagedItemRequest
+    {
+        public string OrderId { get; set; }
+        public string OrderItemId { get; set; }
+        public string VendorId { get; set; }
+        public string ContractId { get; set; }
+        public string Code { get; set; }
+        public float? Quantity { get; set; }
+    }
+    public class MoveStagedItemResponse : TSpStatusResponse { }
+    //-------------------------------------------------------------------------------------------------------
+    public class OrderInventoryStatusCheckOut
+    {
+        public string ICode { get; set; }
+        public string Description { get; set; }
+        public int QuantityOrdered { get; set; }
+        public int QuantitySub { get; set; }
+        public int QuantityStaged { get; set; }
+        public int QuantityOut { get; set; }
+        public int QuantityIn { get; set; }
+        public int QuantityRemaining { get; set; }
+    }
+    //-------------------------------------------------------------------------------------------------------
     public class SelectAllNoneStageQuantityItemRequest
     {
         [Required]
         public string OrderId { get; set; }
     }
-
-
     public class SelectAllNoneStageQuantityItemResponse : TSpStatusResponse
     {
     }
-
+    //-------------------------------------------------------------------------------------------------------
     public class StagingTabsResponse : TSpStatusResponse
     {
-        public bool QuantityTab = false;
-        public bool HoldingTab = false;
-        public bool SerialTab = false;
-        public bool UsageTab = false;
-        public bool ConsignmentTab = false;
+        public bool QuantityTab { get; set; } = false;
+        public bool HoldingTab { get; set; } = false;
+        public bool SerialTab { get; set; } = false;
+        public bool UsageTab { get; set; } = false;
+        public bool ConsignmentTab { get; set; } = false;
     }
-
-
+    //-------------------------------------------------------------------------------------------------------
     public static class CheckOutFunc
     {
-        /*
-                                       @vendorid                     char(08)      = '',
-                                       @meter                        numeric(11,2) = 0,
-                                       @location                     varchar(255)  = '',
-                                       @spaceid                      char(08)      = '',
-                                       @spacetypeid                  char(08)      = '',
-                                       @facilitiestypeid             char(08)      = '',
-                                       @additemtoorder               char(01)      = 'F',
-                                       @additemtopackagemasteritemid char(08)      = '',
-                                       @addcompletetoorder           char(01)      = 'F',
-                                       @addcontainertoorder          char(01)      = 'F',
-                                       @overridereservation          char(01)      = 'F',
-                                       @stageconsigned               char(01)      = 'F',
-                                       @transferrepair               char(01)      = 'F',
-                                       @removefromcontainer          char(01)      = 'F',
-                                       @releasefromrepair            char(01)      = 'F',       --//jh 06/30/2015 CAS-15904-IVQS
-                                       @autostageacc                 char(01)      = 'F',
-                                       @contractid                   char(08)      = '',  --// only supply a value if item should go out immediately
-                                       @ignoresuspendedin            char(01)      = '',
-                                       @incompletecontainerok        char(01)      = 'F',
-                                       @ignoreassignedcontract       char(01)      = '',
-                                       @rentalitemid                 char(08)      = ''  output,
-                                       @consignorid                  char(08)      = ''  output,   --//also used as an input value for quantity items
-                                       @consignoragreementid         char(08)      = ''  output,   --//also used as an input value for quantity items
-                                       @consignorpoid                char(08)      = ''  output,
-                                       @exceptionbatchid             char(30)      = ''  output,
-
-                     */
         //-------------------------------------------------------------------------------------------------------
         public static async Task<StageItemResponse> StageItem(FwApplicationConfig appConfig, FwUserSession userSession, StageItemRequest request)
         {
@@ -199,9 +176,7 @@ namespace WebApi.Modules.Home.CheckOut
                     response.ShowAddCompleteToOrder = qry.GetParameter("@showaddcompletetoorder").ToString().Equals("T");
                     response.ShowUnstage = qry.GetParameter("@showunstage").ToString().Equals("T");
 
-
                     response.status = qry.GetParameter("@status").ToInt32();
-                    //response.success = ((response.status == 0) || (response.status == 107));
                     response.success = (response.status == 0);
                     response.msg = qry.GetParameter("@msg").ToString();
 
@@ -209,6 +184,52 @@ namespace WebApi.Modules.Home.CheckOut
                     {
                         response.status = 107;
                     }
+                }
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<UnstageItemResponse> UnstageItem(FwApplicationConfig appConfig, FwUserSession userSession, UnstageItemRequest request)
+        {
+            UnstageItemResponse response = new UnstageItemResponse();
+            if (string.IsNullOrEmpty(request.OrderId))
+            {
+                response.msg = "OrderId is required.";
+            }
+            else if ((string.IsNullOrEmpty(request.OrderItemId)) && (string.IsNullOrEmpty(request.Code)))
+            {
+                response.msg = "Must supply a Code or OrderItemId to unstage items.";
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "unstageitem", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@orderid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderId);
+                    qry.AddParameter("@masteritemid", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderItemId);
+                    qry.AddParameter("@code", SqlDbType.NVarChar, ParameterDirection.Input, request.Code);
+                    qry.AddParameter("@vendorid", SqlDbType.NVarChar, ParameterDirection.Input, request.VendorId);
+                    qry.AddParameter("@consignorid", SqlDbType.NVarChar, ParameterDirection.InputOutput, "");  //??
+                    qry.AddParameter("@consignoragreementid", SqlDbType.NVarChar, ParameterDirection.InputOutput, request.ConsignorAgreementId);
+                    if (request.Quantity != null)
+                    {
+                        qry.AddParameter("@qty", SqlDbType.Int, ParameterDirection.Input, request.Quantity);
+                    }
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.ContactId);
+                    qry.AddParameter("@masterid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@rentalitemid", SqlDbType.NVarChar, ParameterDirection.Output);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+
+                    response.InventoryId = qry.GetParameter("@masterid").ToString();
+                    response.ItemId = qry.GetParameter("@rentalitemid").ToString();
+                    response.ConsignorId = qry.GetParameter("@consignorid").ToString();
+                    response.ConsignorAgreementId = qry.GetParameter("@consignoragreementid").ToString();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
                 }
             }
             return response;

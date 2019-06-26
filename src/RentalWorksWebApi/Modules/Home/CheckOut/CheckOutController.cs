@@ -116,6 +116,27 @@ namespace WebApi.Modules.Home.CheckOut
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/checkout/unstageitem
+        [HttpPost("unstageitem")]
+        [FwControllerMethod(Id: "clTIdJRRV1jEy")]
+        public async Task<ActionResult<UnstageItemResponse>> UnstageItem([FromBody]UnstageItemRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                UnstageItemResponse unstageItemResponse = await CheckOutFunc.UnstageItem(AppConfig, UserSession, request);
+                return new OkObjectResult(unstageItemResponse);
+
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/checkout/checkoutallstaged
         [HttpPost("checkoutallstaged")]
         [FwControllerMethod(Id: "3Ocr6r5He3xF")]

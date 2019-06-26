@@ -443,17 +443,21 @@
         if ($selectedCheckBoxes.length !== 0) {
             let responseCount = 0;
             for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-                const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
-                const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
                 const orderId = FwFormField.getValueByDataField($form, `${this.Type}Id`);
+                const orderItemId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="OrderItemId"]').attr('data-originalvalue');
+                const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
+                const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
+                const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
+                const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');  // s/b "QuantityStaged" in the staged item grid
                 const request = {
                     OrderId: orderId,
-                    Code: barCode,
-                    UnstageItem: true,
-                    OrderItemId: orderItemId
+                    OrderItemId: orderItemId,
+                    Code: barCode ? barCode : iCode,
+                    Quantity: quantity,
+                    VendorId: vendorId
                 }
        
-                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/stageitem`, request, FwServices.defaultTimeout, response => {
+                FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
                     responseCount++;
                     if (responseCount === $selectedCheckBoxes.length) {
                         setTimeout(() => {
