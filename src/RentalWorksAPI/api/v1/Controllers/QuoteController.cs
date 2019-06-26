@@ -209,6 +209,9 @@ namespace RentalWorksAPI.api.v1
                     ThrowError("500", orderitemresponse.errmsg);
                 }
             }
+
+            OrderData.UpdateOrderTimeStamp(orderitem.orderid);
+
             result.orderid = orderitem.orderid;
             result.items   = OrderData.GetOrderItems(orderitem.orderid);
             watch.Stop();

@@ -114,6 +114,7 @@ namespace RentalWorksAPI.api.v2.Data
             qry.AddColumn("estrentto",            false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("createddate",          false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.AddColumn("lastmodifieddatetime", false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.DateTime);
+            qry.AddColumn("lastoutcontractdate",  false, Fw.Json.Services.FwJsonDataTableColumn.DataTypes.Date);
             qry.Add("select *");
             qry.Add("  from apirest_ordersfunc(@agentids, @dealid, @departmentid, @locationid, @status, @lastmodifiedfromdate, @lastmodifiedtodate, @orderid)");
             qry.AddParameter("@agentids",               string.Join(",", agentid));
@@ -156,6 +157,7 @@ namespace RentalWorksAPI.api.v2.Data
                 order.createdby            = qryresult[i].createdby;
                 order.createddate          = qryresult[i].createddate;
                 order.lastmodifieddatetime = qryresult[i].lastmodifieddatetime;
+                order.lastoutcontractdate  = qryresult[i].lastoutcontractdate;
                 order.status               = qryresult[i].status;
                 order.pono                 = qryresult[i].pono;
                 order.orderunitid          = qryresult[i].orderunitid;
