@@ -39,6 +39,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
     //-------------------------------------------------------------------------------------------------------
     public class AvailabilityConflictRequest
     {
+        public DateTime? ToDate { get; set; }
         public string AvailableFor { get; set; }  // R, S, blank
         public string ConflictType { get; set; }  // P, N, blank
         public string WarehouseId { get; set; }
@@ -1805,6 +1806,19 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
             }
 
+            DateTime fromDateTime = DateTime.Today;
+            DateTime toDateTime = request.ToDate ?? fromDateTime.AddDays(AVAILABILITY_DAYS_TO_CACHE);
+            TInventoryWarehouseAvailabilityRequestItems availRequestItems = new TInventoryWarehouseAvailabilityRequestItems();
+            foreach (List<object> row in dt.Rows)
+            {
+                string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
+                string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
+                availRequestItems.Add(new TInventoryWarehouseAvailabilityRequestItem(inventoryId, warehouseId, fromDateTime, toDateTime));
+            }
+            bool refreshIfNeeded = true; // user may want to make this true/false in some cases
+            TAvailabilityCache availCache = InventoryAvailabilityFunc.GetAvailability(appConfig, userSession, availRequestItems, refreshIfNeeded).Result;
+
+
             foreach (List<object> row in dt.Rows)
             {
                 string inventoryId = row[dt.GetColumnNo("masterid")].ToString();
@@ -1813,7 +1827,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                 TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
 
                 TInventoryWarehouseAvailability availData = null;
-                if (AvailabilityCache.TryGetValue(availKey, out availData))
+                if (availCache.TryGetValue(availKey, out availData))
                 {
                     bool hasConflict = (((string.IsNullOrEmpty(request.ConflictType) || (request.ConflictType.Equals("ALL"))) && (availData.HasNegativeConflict || availData.HasPositiveConflict)) ||
                                        (!string.IsNullOrEmpty(request.ConflictType) && request.ConflictType.Equals(RwConstants.INVENTORY_CONFLICT_TYPE_NEGATIVE) && availData.HasNegativeConflict) ||
