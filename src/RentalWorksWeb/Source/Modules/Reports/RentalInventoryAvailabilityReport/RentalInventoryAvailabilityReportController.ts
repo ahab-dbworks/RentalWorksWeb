@@ -1,5 +1,5 @@
 ﻿routes.push({
-    pattern: /^reports\/RentalInventoryAvailabilityReport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/rentalinventoryavailabilityreport/, action: function (match: RegExpExecArray) {
         return RentalInventoryAvailabilityReportController.getModuleScreen();
     }
 });
@@ -92,7 +92,7 @@ const rentalInventoryAvailTemplate = `
 class RentalInventoryAvailabilityReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('RentalInventoryAvailabilityReport', 'api/v1/RentalInventoryAvailabilityReport', rentalInventoryAvailTemplate);
+        super('RentalInventoryAvailabilityReport', 'api/v1/rentalinventoryavailabilityreport', rentalInventoryAvailTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

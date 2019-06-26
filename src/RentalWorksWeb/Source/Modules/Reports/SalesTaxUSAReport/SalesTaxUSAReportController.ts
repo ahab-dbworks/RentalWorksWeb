@@ -1,5 +1,5 @@
 ﻿routes.push({
-    pattern: /^reports\/SalesTaxUSAReport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/salestaxusareport/, action: function (match: RegExpExecArray) {
         return SalesTaxUSAReportController.getModuleScreen();
     }
 });
@@ -63,7 +63,7 @@ const salesTaxUSATemplate = `
 class SalesTaxUSAReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('SalesTaxUSAReport', 'api/v1/SalesTaxUSAReport', salesTaxUSATemplate);
+        super('SalesTaxUSAReport', 'api/v1/salestaxusareport', salesTaxUSATemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

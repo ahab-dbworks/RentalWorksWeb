@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/OrderConflictReport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/orderconflictreport/, action: function (match: RegExpExecArray) {
         return OrderConflictReportController.getModuleScreen();
     }
 });
 
 const orderConflictTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderConflictReportController">
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Availability Item Conflict" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="OrderConflictReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" style="display:flex;flex-wrap:wrap;" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -102,7 +102,7 @@ const orderConflictTemplate = `
 class OrderConflictReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('OrderConflictReport', 'api/v1/OrderConflictReport', orderConflictTemplate);
+        super('OrderConflictReport', 'api/v1/orderconflictreport', orderConflictTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -141,7 +141,6 @@ class OrderConflictReport extends FwWebApiReport {
         FwFormField.setValueByDataField($form, 'FromDate', today);
         FwFormField.setValueByDataField($form, 'ToDate', twoWeeks);
 
-        //$form.find('div[data-datafield="FromDate"]').change()
         $form.find('.date-field').on('changeDate', event => {
             this.dateValidation($form, event);
         });

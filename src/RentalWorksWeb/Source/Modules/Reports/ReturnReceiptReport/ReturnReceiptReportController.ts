@@ -1,5 +1,5 @@
 ﻿routes.push({
-    pattern: /^reports\/ReturnReceiptReport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/returnreceiptreport/, action: function (match: RegExpExecArray) {
         return ReturnReceiptReportController.getModuleScreen();
     }
 });
@@ -63,7 +63,7 @@ const returnReceiptTemplate = `
 class ReturnReceiptReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('ReturnReceiptReport', 'api/v1/ReturnReceiptReport', returnReceiptTemplate);
+        super('ReturnReceiptReport', 'api/v1/returnreceiptreport', returnReceiptTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 ﻿routes.push({
-    pattern: /^reports\/CustomerRevenueByMonthReport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/customerrevenuebymonthreport/, action: function (match: RegExpExecArray) {
         return CustomerRevenueByMonthReportController.getModuleScreen();
     }
 });
@@ -75,7 +75,7 @@ const customerRevenueMonthTemplate = `
 class CustomerRevenueByMonthReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('CustomerRevenueByMonthReport', 'api/v1/CustomerRevenueByMonthReport', customerRevenueMonthTemplate);
+        super('CustomerRevenueByMonthReport', 'api/v1/customerrevenuebymonthreport', customerRevenueMonthTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 ﻿routes.push({
-    pattern: /^reports\/BillingStatementReport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/billingstatementreport/, action: function (match: RegExpExecArray) {
         return BillingStatementReportController.getModuleScreen();
     }
 });
@@ -72,7 +72,7 @@ const billingStatmentTemplate = `
 class BillingStatementReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('BillingStatementReport', 'api/v1/BillingStatementReport', billingStatmentTemplate);
+        super('BillingStatementReport', 'api/v1/billingstatementreport', billingStatmentTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
