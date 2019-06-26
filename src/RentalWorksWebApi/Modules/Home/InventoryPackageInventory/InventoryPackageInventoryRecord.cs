@@ -14,11 +14,11 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         [FwSqlDataField(column: "packageid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required:true)]
         public string PackageId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
+        [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255, required: true)]
         public string Description { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "required", modeltype: FwDataTypes.Boolean, sqltype: "char", maxlength: 3)]
-        public bool? Required { get; set; }
+        public bool? IsRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal, sqltype: "numeric", precision: 7, scale: 2)]
         public decimal? DefaultQuantity { get; set; }

@@ -903,7 +903,7 @@ class SearchInterface {
                         FwBrowse.search($transferItemGridRental);
                         FwBrowse.search($transferItemGridSales);
                     }
-                }, null, $searchpopup, id);
+                }, null, $searchpopup, /*id*/ (request.InventoryId ? null: id));
             }
         });
 

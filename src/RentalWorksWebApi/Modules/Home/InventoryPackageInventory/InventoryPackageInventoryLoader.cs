@@ -32,7 +32,7 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         public string InventoryId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "primaryflg", modeltype: FwDataTypes.Boolean)]
-        public bool? isPrimary { get; set; }
+        public bool? IsPrimary { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "defaultqty", modeltype: FwDataTypes.Decimal)]
         public decimal? DefaultQuantity { get; set; }
@@ -44,7 +44,7 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         public bool? Charge { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "required", modeltype: FwDataTypes.Boolean)]
-        public bool? Required { get; set; }
+        public bool? IsRequired { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
         public string OptionColor { get; set; }

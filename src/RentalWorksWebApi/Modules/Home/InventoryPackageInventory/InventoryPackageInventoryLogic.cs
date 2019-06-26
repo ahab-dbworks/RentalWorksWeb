@@ -49,7 +49,7 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
         public bool? Charge { get { return inventoryPackageInventory.Charge; } set { inventoryPackageInventory.Charge = value; } }
 
         [FwLogicProperty(Id:"knTBi4qo5KgB")]
-        public bool? Required { get { return inventoryPackageInventory.Required; } set { inventoryPackageInventory.Required = value; } }
+        public bool? IsRequired { get { return inventoryPackageInventory.IsRequired; } set { inventoryPackageInventory.IsRequired = value; } }
 
         [FwLogicProperty(Id:"K6MSEinNBbdq", IsReadOnly:true)]
         public string OptionColor { get; set; }
@@ -118,11 +118,6 @@ namespace WebApi.Modules.Home.InventoryPackageInventory
 
             if (saveMode == TDataRecordSaveMode.smUpdate)
             {
-                //InventoryPackageInventoryLogic l2 = new InventoryPackageInventoryLogic();
-                //l2.SetDependencies(this.AppConfig, this.UserSession);
-                //object[] pk = GetPrimaryKeys();
-                //bool b = l2.LoadAsync<InventoryPackageInventoryLogic>(pk).Result;
-                //if (l2.IsPrimary.Value)
                 if (((InventoryPackageInventoryLogic)original).IsPrimary.GetValueOrDefault(false))
                 {
                     isValid = false;
