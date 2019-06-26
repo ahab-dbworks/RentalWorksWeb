@@ -3074,6 +3074,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         }
 
         if (typeof window.TslReader !== 'undefined') {
+            // setup TSL RFID Reader
+            RwRFID.registerEvents(screen.rfidscan);
+            
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getStagingScreen', function() {
                 //FwNotification.renderNotification('INFO', 'Staging: RFID Connected');
                 RwRFID.isConnected = true;
@@ -3099,6 +3102,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.unregisterListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getStagingScreen');
             window.TslReader.unregisterListener('deviceDisconnected', 'deviceDisconnected_rwordercontrollerjs_getStagingScreen');
+            RwRFID.unregisterEvents();
         }
         jQuery(window).off('scroll').off('touchmove');
     };
