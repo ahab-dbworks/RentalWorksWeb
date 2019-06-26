@@ -2147,7 +2147,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     };
 
     screen.disableBarcodeField = function () {
-        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true);
+        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true && applicationConfig.allowDisableBarcodeFieldInStaging);
     };
 
     screen.enableBarcodeField = function () {

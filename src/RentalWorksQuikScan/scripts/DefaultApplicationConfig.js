@@ -21,5 +21,6 @@
         enableQuikInSessionSearch: false,
         enableSessionInItemSearch: true,
         enableCancelItem: true
-    }
+    },
+    allowDisableBarcodeFieldInStaging: true
 };
