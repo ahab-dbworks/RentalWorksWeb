@@ -448,12 +448,14 @@
                 const vendorId = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="VendorId"]').attr('data-originalvalue');
                 const barCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="BarCode"]').attr('data-originalvalue');
                 const iCode = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="ICode"]').attr('data-originalvalue');
-                const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');  // s/b "QuantityStaged" in the staged item grid
+                const quantity = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="Quantity"]').attr('data-originalvalue');
+                const quantityStaged = $selectedCheckBoxes.eq(i).closest('tr').find('[data-formdatafield="QuantityStaged"]').attr('data-originalvalue');
+
                 const request = {
                     OrderId: orderId,
                     OrderItemId: orderItemId,
                     Code: barCode ? barCode : iCode,
-                    Quantity: quantity,
+                    Quantity: quantity ? quantity : quantityStaged,
                     VendorId: vendorId
                 }
        
