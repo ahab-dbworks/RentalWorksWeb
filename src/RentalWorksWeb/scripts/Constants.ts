@@ -65,7 +65,7 @@
                     }
                 }
             },
-            Manifest: { id: '1643B4CE-D368-4D64-8C05-6EF7C7D80336', caption: 'Manifest', nav: 'module/manifest',
+            Manifest: { id: '1643B4CE-D368-4D64-8C05-6EF7C7D80336', caption: 'Transfer Manifest', nav: 'module/manifest',
                 form: {
                     menuItems: {
                         Print: { id: '{8FC8A0F2-C016-476F-971B-64CF2ED95E41}' }

@@ -41,7 +41,6 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.Asset,
                     Constants.Modules.Home.AvailabilityConflicts,
                     Constants.Modules.Home.CompleteQc,
-                    Constants.Modules.Home.Container,
                     Constants.Modules.Home.PartsInventory,
                     Constants.Modules.Home.PhysicalInventory,
                     Constants.Modules.Home.RentalInventory,
@@ -72,9 +71,10 @@ class RwMaster extends WebMaster {
                 caption: 'Containers',
                 id: '092ABD7C-A672-4C87-A8E0-107D9CAD5D13',
                 children: [
+                    Constants.Modules.Home.Container,
                     Constants.Modules.Home.ContainerStatus,
-                    Constants.Modules.Home.FillContainer,
                     Constants.Modules.Home.EmptyContainer,
+                    Constants.Modules.Home.FillContainer,
                     Constants.Modules.Home.RemoveFromContainer,
                 ]
             };
@@ -86,12 +86,12 @@ class RwMaster extends WebMaster {
                 caption: 'Transfers',
                 id: '20EF5E2F-DE86-45E2-96A2-C3B6C0C0D43E',
                 children: [
-                    Constants.Modules.Home.TransferStatus,
                     Constants.Modules.Home.TransferIn,
-                    Constants.Modules.Home.TransferOut,
-                    Constants.Modules.Home.TransferOrder,
-                    Constants.Modules.Home.TransferReceipt,
                     Constants.Modules.Home.Manifest,
+                    Constants.Modules.Home.TransferOrder,
+                    Constants.Modules.Home.TransferOut,
+                    Constants.Modules.Home.TransferReceipt,
+                    Constants.Modules.Home.TransferStatus,
                 ]
             };
             if (applicationOptions.multiwarehouse.enabled) {
