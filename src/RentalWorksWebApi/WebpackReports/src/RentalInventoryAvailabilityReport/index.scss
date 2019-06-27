@@ -16,6 +16,7 @@ thead {
 }
 
 #detail {
+    font-size:  11px;
     td {
         padding:2px;
     }
@@ -26,6 +27,10 @@ thead {
 
     tbody[data-rowtype="detail"] {
         font-weight: 700;
+        tr {
+        padding-top:5px;
+
+        }
     }
 
     tbody {
@@ -38,7 +43,6 @@ thead {
         th.subHeaders {
             text-align: left;
             border-bottom: 2px solid black;
-            padding-left: 2px;
             background-color: white
         }
     }

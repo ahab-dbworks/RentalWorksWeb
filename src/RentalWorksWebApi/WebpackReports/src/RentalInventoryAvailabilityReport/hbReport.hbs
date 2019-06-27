@@ -235,7 +235,7 @@
     {{#ifEquals RowType "Categoryheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <td colspan="5" class="lower header-row">Category: {{"Category"}}</td>
+        <td colspan="5" class="lower header-row" style="padding-bottom:5px;">Category: {{"Category"}}</td>
       </tr>
     </thead>
     {{/ifEquals}}
@@ -285,6 +285,7 @@
     <tbody data-rowtype="{{RowType}}">
       {{#ifEquals RenderHeader true}}
       <tr>
+        <th class="subHeaders" style="border:none;"></th>
         <th class="subHeaders">Order No.</th>
         <th class="subHeaders">Description</th>
         <th class="subHeaders">Deal</th>
@@ -294,13 +295,13 @@
       </tr>
       {{/ifEquals}}
       <tr class="subValues">
+        <td style="background-color:white;"></td>
         <td class="nowrap">{{OrderNumber}}</td>
         <td>{{OrderDescription}}</td>
         <td>{{Deal}}</td>
         <td>{{FromDate}}</td>
         <td>{{ToDate}}</td>
-        <td class="number">{{SubRentQuantity}}</td>
-        <td class="number">{{SubRentQuantity}}</td>
+        <td class="number"></td>
         <td class="number" data-value="{{AvailableString01}}"></td>
         <td class="number" data-value="{{AvailableString02}}"></td>
         <td class="number" data-value="{{AvailableString03}}"></td>
