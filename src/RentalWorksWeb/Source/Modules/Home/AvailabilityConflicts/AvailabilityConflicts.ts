@@ -193,10 +193,13 @@ class AvailabilityConflicts {
         $form.find('#availabilityTable table tr td.quantity-available')
             .off('click')
             .on('click', e => {
-                $form.find('.avail-calendar').hide();
                 const $row = jQuery(e.currentTarget).parent('tr.data-row');
                 const $availRow = $row.next('.avail-calendar');
-                $availRow.show();
+                if ($availRow.hasClass('show-quantity')) {
+                    $availRow.removeClass('show-quantity').hide();
+                } else {
+                    $availRow.addClass('show-quantity').show();
+                }
                 const html = `<div data-control="FwScheduler" style="overflow:auto;" class="fwcontrol fwscheduler calendar"></div>
             <div data-control="FwSchedulerDetailed" class="fwcontrol fwscheduler realscheduler"></div>`;
                 $availRow.empty().append(`<td colspan="10">${html}</td>`);
