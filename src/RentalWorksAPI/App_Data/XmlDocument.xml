@@ -585,22 +585,5 @@
             </summary>
             <param name="documentPath">The physical path to XML document.</param>
         </member>
-        <member name="T:RentalWorksAPI.Controllers.EdecsRfidController">
-            <summary>
-            Receives messages from EDECS and broadcasts the data to connected web socket clients.
-            </summary>
-        </member>
-        <member name="M:RentalWorksAPI.Controllers.EdecsRfidController.Get">
-            <summary>
-            Open a web socket connection to the server to listen for EDECS messages.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:RentalWorksAPI.Controllers.EdecsRfidController.EdecsMessage(RentalWorksAPI.Models.EdecsMessage)">
-            <summary>
-            POST messages from EDECS.
-            </summary>
-            <returns></returns>
-        </member>
     </members>
 </doc>

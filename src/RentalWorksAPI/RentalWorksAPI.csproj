@@ -318,7 +318,6 @@
     <Compile Include="api\v1\Controllers\ContactController.cs" />
     <Compile Include="api\v1\Controllers\DealController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\EdecsRfidController.cs" />
     <Compile Include="api\v1\Controllers\CustomerController.cs" />
     <Compile Include="api\v1\Controllers\InvoiceController.cs" />
     <Compile Include="api\v1\Controllers\InventoryController.cs" />
