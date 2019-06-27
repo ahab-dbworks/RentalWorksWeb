@@ -49,21 +49,21 @@ const repairOrderStatusTemplate = `
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:111px;">
+            <div class="flexcolumn" style="max-width:175px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Repair Order Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="RepairOrderStatus" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:200px;"></div>
+                  <div data-datafield="RepairOrderStatus" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:175px;"></div>
                 </div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:97px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Priority">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="Priority" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:75px;"></div>
+                  <div data-datafield="Priority" data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" style="float:left;max-width:96px;"></div>
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:285px;">
+            <div class="flexcolumn" style="max-width:220px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Options">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="IncludeDamageNotes" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Include Damage Notes" style="float:left;max-width:420px;"></div>
@@ -76,10 +76,10 @@ const repairOrderStatusTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="DaysInRepairFilterMode" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield toggle-enable" data-caption="" style="float:left;">
                     <div data-value="ALL" data-caption="All"></div>
-                    <div data-value="LTE" data-caption="Less Than or Equal to"></div>
-                    <div data-value="GT" data-caption="Greater Than"></div>
+                    <div data-value="LTE" data-caption="<="></div>
+                    <div data-value="GT" data-caption=">"></div>
                   </div>
-                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield toggle-enable filter-amount" data-caption="" data-datafield="DaysInRepair" data-required="true" style="float:left; margin-left:20px; width:100px"></div>
+                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield toggle-enable filter-amount" data-caption="" data-datafield="DaysInRepair" data-required="true" style="float:left; margin-left:20px; width:70px"></div>
                 </div>
               </div>
             </div>

@@ -621,7 +621,6 @@
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
-    <Content Include="Source\Modules\Reports\RepairOrderStatusReport\HtmlPage1.html" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsForm.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
