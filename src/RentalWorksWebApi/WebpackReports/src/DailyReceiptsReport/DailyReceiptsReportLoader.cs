@@ -109,7 +109,7 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
                                     orderBy.Append(",");
                                 }
                                 orderBy.Append(item.value.Equals("OfficeLocation") ? "location" : "");
-                                orderBy.Append(item.value.Equals("Customer") ? "customer" : "");
+                                orderBy.Append(item.value.Equals("Customer") ? "name" : "");
                                 orderBy.Append(item.value.Equals("Deal") ? "deal" : "");
                                 orderBy.Append(item.value.Equals("PaymentType") ? "paytype" : "");
                                 //orderBy.Append(item.value.Equals("ATTRIBUTE") ? "attribute,attributevalue" : "");
@@ -125,7 +125,13 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "Amount", "Overpayment", "Applied" };
-                dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
+                foreach (CheckBoxListItem item in request.SortBy)
+                {
+                    if (item.selected.GetValueOrDefault(false))
+                    {
+                        dt.InsertSubTotalRows(item.value, "RowType", totalFields);
+                    }
+                }
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
