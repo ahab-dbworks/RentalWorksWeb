@@ -24,6 +24,7 @@ namespace WebApi.Modules.Reports.RepairOrderStatusReport
         public int? DaysInRepair { get; set; }
         public string DaysInRepairFilterMode { get; set; } = "ALL";  // ALL/LTE/GT
         public bool? IncludeOutsideRepairsOnly { get; set; }
+        public bool? IncludeDamageNotes { get; set; }
         public string WarehouseId { get; set; }
         public string DepartmentId { get; set; }
         public string InventoryTypeId { get; set; }

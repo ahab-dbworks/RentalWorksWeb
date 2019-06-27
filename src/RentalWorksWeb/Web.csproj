@@ -527,6 +527,7 @@
     <TypeScriptCompile Include="Source\Modules\Reports\RentalInventoryStatusAndRevenueReport\RentalInventoryStatusAndRevenueReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\BillingStatementReport\BillingStatementReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\CustomerRevenueByMonthReport\CustomerRevenueByMonthReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\RepairOrderStatusReport\RepairOrderStatusReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ReturnReceiptReport\ReturnReceiptReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\PurchaseOrderReport\PurchaseOrderReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesTaxUSAReport\SalesTaxUSAReportController.ts" />
@@ -620,6 +621,7 @@
     <Content Include="Source\Modules\Home\SubWorksheet\SubWorksheetForm.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectBrowse.htm" />
     <Content Include="Source\Modules\Home\Project\ProjectForm.htm" />
+    <Content Include="Source\Modules\Reports\RepairOrderStatusReport\HtmlPage1.html" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsBrowse.htm" />
     <Content Include="Source\Modules\Settings\AvailabilitySettings\AvailabilitySettingsForm.htm" />
     <Content Include="Source\Modules\Settings\Sound\SoundBrowse.htm" />
