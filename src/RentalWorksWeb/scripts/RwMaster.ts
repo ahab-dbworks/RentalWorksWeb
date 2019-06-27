@@ -4,8 +4,9 @@ class RwMaster extends WebMaster {
     //----------------------------------------------------------------------------------------------
     initMainMenu() {
         let userType = sessionStorage.getItem('userType');
+        const applicationOptions = JSON.parse(sessionStorage.getItem('applicationOptions'));
         this.navigation = [];
-        
+
         // Agent Menu
         let menuAgent = {
             caption: 'Agent',
@@ -30,7 +31,7 @@ class RwMaster extends WebMaster {
         }
 
         this.navigation.push(menuAgent);
-        
+
         if (userType == 'USER') {
             // Inventory Menu
             let menuInventory = {
@@ -49,7 +50,6 @@ class RwMaster extends WebMaster {
                 ]
             };
             this.navigation.push(menuInventory);
-
             // Warehouse Menu
             let menuWarehouse = {
                 caption: 'Warehouse',
@@ -57,27 +57,46 @@ class RwMaster extends WebMaster {
                 children: [
                     Constants.Modules.Home.AssignBarCodes,
                     Constants.Modules.Home.CheckIn,
-                    Constants.Modules.Home.ContainerStatus,
                     Constants.Modules.Home.Contract,
-                    Constants.Modules.Home.EmptyContainer,
                     Constants.Modules.Home.Exchange,
-                    Constants.Modules.Home.FillContainer,
-                    Constants.Modules.Home.Manifest,
                     Constants.Modules.Home.OrderStatus,
                     Constants.Modules.Home.PickList,
                     Constants.Modules.Home.ReceiveFromVendor,
-                    Constants.Modules.Home.RemoveFromContainer,
                     Constants.Modules.Home.ReturnToVendor,
                     Constants.Modules.Home.StagingCheckout,
-                    Constants.Modules.Home.TransferIn,
-                    Constants.Modules.Home.TransferOrder,
-                    Constants.Modules.Home.TransferOut,
-                    Constants.Modules.Home.TransferReceipt,
-                    Constants.Modules.Home.TransferStatus
                 ]
             };
             this.navigation.push(menuWarehouse);
-        
+            // Containers Menu
+            const menuContainer = {
+                caption: 'Containers',
+                id: '092ABD7C-A672-4C87-A8E0-107D9CAD5D13',
+                children: [
+                    Constants.Modules.Home.ContainerStatus,
+                    Constants.Modules.Home.FillContainer,
+                    Constants.Modules.Home.EmptyContainer,
+                    Constants.Modules.Home.RemoveFromContainer,
+                ]
+            };
+            if (applicationOptions.container.enabled) {
+                this.navigation.push(menuContainer);
+            }
+            // Transfers Menu
+            const menuTransfers = {
+                caption: 'Transfers',
+                id: '20EF5E2F-DE86-45E2-96A2-C3B6C0C0D43E',
+                children: [
+                    Constants.Modules.Home.TransferStatus,
+                    Constants.Modules.Home.TransferIn,
+                    Constants.Modules.Home.TransferOut,
+                    Constants.Modules.Home.TransferOrder,
+                    Constants.Modules.Home.TransferReceipt,
+                    Constants.Modules.Home.Manifest,
+                ]
+            };
+            if (applicationOptions.multiwarehouse.enabled) {
+                this.navigation.push(menuTransfers);
+            }
             // Billing Menu
             let menuBilling = {
                 caption: 'Billing',
@@ -90,7 +109,6 @@ class RwMaster extends WebMaster {
                 ]
             };
             this.navigation.push(menuBilling);
-
             // Utilities Menu
             let menuUtilities = {
                 caption: 'Utilities',
@@ -276,8 +294,8 @@ class RwMaster extends WebMaster {
                                        <div class="caption" style="font-size:.8em;color:#b71c1c;flex:0 0 auto; margin:0 .4em 0 0;">Job:</div> 
                                        <div class="value" style="flex:1 1 0;">${deal.deal}<i class="material-icons" style="font-size:inherit;">&#xE5CF</i></div>
                                      </div>`)
-                .css('cursor','pointer')
-                .attr('title', 'Switch Jobs');
+            .css('cursor', 'pointer')
+            .attr('title', 'Switch Jobs');
 
 
         FwFileMenu.UserControl_addSystemBarControl('dealpicker', $btnDealPicker, $usercontrol);
@@ -287,7 +305,7 @@ class RwMaster extends WebMaster {
         }, (e: JQuery.Event) => {
             $btnDealPicker.css('background-color', 'inherit');
         });
-        
+
         $btnDealPicker.on('click', function () {
             try {
                 var $confirmation = FwConfirmation.renderConfirmation('Switch Deals...', '');
@@ -312,7 +330,7 @@ class RwMaster extends WebMaster {
                                 deal: FwFormField.getTextByDataField($confirmation, 'DealId')
                             };
                             sessionStorage.setItem('deal', JSON.stringify(deal));
-                            
+
                             FwConfirmation.destroyConfirmation($confirmation);
                             $btnDealPicker.find('.value').text(deal.deal);
                             window.location.reload(false);

@@ -33,6 +33,8 @@ namespace WebLibrary.Security
             var lv1menuAgent         = AddLv1ModuleMenu("Agent",           "{91D2F0CF-2063-4EC8-B38D-454297E136A8}", application.Id);
             var lv1menuInventory     = AddLv1ModuleMenu("Inventory",       "{8AA0C4A4-B583-44CD-BB47-09C43961CE99}", application.Id);
             var lv1menuWarehouse     = AddLv1ModuleMenu("Warehouse",       "{22D67715-9C24-4A06-A009-CB10A1EC746B}", application.Id);
+            var lv1menuContainers    = AddLv1ModuleMenu("Containers",      "{092ABD7C-A672-4C87-A8E0-107D9CAD5D13}", application.Id);
+            var lv1menuTransfers     = AddLv1ModuleMenu("Transfers",       "{20EF5E2F-DE86-45E2-96A2-C3B6C0C0D43E}", application.Id);
             var lv1menuBilling       = AddLv1ModuleMenu("Billing",         "{9BC99BDA-4C94-4D7D-8C22-31CA5205B1AA}", application.Id);
             var lv1menuReports       = AddLv1ReportsMenu("Reports",        "{7FEC9D55-336E-44FE-AE01-96BF7B74074C}", application.Id);
             var lv1menuUtilities     = AddLv1ModuleMenu("Utilities",       "{81609B0E-4B1F-4C13-8BE0-C1948557B82D}", application.Id);
@@ -50,7 +52,7 @@ namespace WebLibrary.Security
             AddModule("Contact",          "{3F803517-618A-41C0-9F0B-2C96B8BDAFC4}", lv1menuAgent.Id, "ContactController");
             AddModule("Purchase Order",   "{67D8C8BB-CF55-4231-B4A2-BB308ADF18F0}", lv1menuAgent.Id, "PurchaseOrderController");
             AddModule("Project",          "{C6C8167A-C3B5-4915-8290-4520AF7EDB35}", lv1menuAgent.Id, "ProjectController");
-
+            // Inventory
             AddModule("Rental Inventory",       "{FCDB4C86-20E7-489B-A8B7-D22EE6F85C06}", lv1menuInventory.Id, "RentalInventoryController");
             AddModule("Sales Inventory",        "{B0CF2E66-CDF8-4E58-8006-49CA68AE38C2}", lv1menuInventory.Id, "SalesInventoryController");
             AddModule("Parts Inventory",        "{351B8A09-7778-4F06-A6A2-ED0920A5C360}", lv1menuInventory.Id, "PartsInventoryController");
@@ -60,7 +62,7 @@ namespace WebLibrary.Security
             AddModule("Complete Qc",            "{3F20813A-CC21-49D8-A5F8-9930B7F05404}", lv1menuInventory.Id, "CompleteQcController");
             AddModule("Physical Inventory",     "{BABFE80E-8A52-49D4-81D9-6B6EBB518E89}", lv1menuInventory.Id, "PhysicalInventoryController");
             AddModule("Availability Conflicts", "{DF2859D1-3834-42DA-A367-85B168850ED9}", lv1menuInventory.Id, "AvailabilityConflictsController");
-
+            //Warehouse
             AddModule("Order Status",        "{F6AE5BC1-865D-467B-A201-95C93F8E8D0B}", lv1menuWarehouse.Id, "OrderStatusController");
             AddModule("Pick List",           "{7B04E5D4-D079-4F3A-9CB0-844F293569ED}", lv1menuWarehouse.Id, "PickListController");
             AddModule("Contract",            "{6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA}", lv1menuWarehouse.Id, "ContractController");
@@ -70,23 +72,24 @@ namespace WebLibrary.Security
             AddModule("Receive From Vendor", "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController");
             AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController");
             AddModule("Assign Bar Codes",    "{4B9C17DE-7FC0-4C33-B953-26FC90F32EA0}", lv1menuWarehouse.Id, "AssignBarCodesController");
-            AddModule("Transfer Status",     "{58D5D354-136E-40D5-9675-B74FD7807D6F}", lv1menuWarehouse.Id, "TransferStatusController");
-            AddModule("Transfer Order",      "{F089C9A9-554D-40BF-B1FA-015FEDE43591}", lv1menuWarehouse.Id, "TransferOrderController");
-            AddModule("Manifest",            "{1643B4CE-D368-4D64-8C05-6EF7C7D80336}", lv1menuWarehouse.Id, "ManifestController");
-            AddModule("Transfer Receipt",    "{2B60012B-ED6A-430B-B2CB-C1287FD4CE8B}", lv1menuWarehouse.Id, "TransferReceiptController");
-            AddModule("Transfer Out",        "{91E79272-C1CF-4678-A28F-B716907D060C}", lv1menuWarehouse.Id, "TransferOutController");
-            AddModule("Transfer In",         "{D9F487C2-5DC1-45DF-88A2-42A05679376C}", lv1menuWarehouse.Id, "TransferInController");
-            AddModule("Container Status",    "{0CD07ACF-D9A4-42A3-A288-162398683F8A}", lv1menuWarehouse.Id, "ContainerStatusController");
-            AddModule("Fill Container",      "{0F1050FB-48DF-41D7-A969-37300B81B7B5}", lv1menuWarehouse.Id, "FillContainerController");
-            AddModule("Empty Container",     "{60CAE944-DE89-459E-86AC-2F1B68211E07}", lv1menuWarehouse.Id, "EmptyContainerController");
-            AddModule("Remove From Container", "{FB9876B5-165E-486C-9E06-DFB3ACB3CBF0}", lv1menuWarehouse.Id, "RemoveFromContainerController");
-           
+            // Containers
+            AddModule("Container Status",    "{0CD07ACF-D9A4-42A3-A288-162398683F8A}", lv1menuContainers.Id, "ContainerStatusController");
+            AddModule("Fill Container",      "{0F1050FB-48DF-41D7-A969-37300B81B7B5}", lv1menuContainers.Id, "FillContainerController");
+            AddModule("Empty Container",     "{60CAE944-DE89-459E-86AC-2F1B68211E07}", lv1menuContainers.Id, "EmptyContainerController");
+            AddModule("Remove From Container", "{FB9876B5-165E-486C-9E06-DFB3ACB3CBF0}", lv1menuContainers.Id, "RemoveFromContainerController");
+            // Transfers
+            AddModule("Transfer Status",     "{58D5D354-136E-40D5-9675-B74FD7807D6F}", lv1menuTransfers.Id, "TransferStatusController");
+            AddModule("Transfer In",         "{D9F487C2-5DC1-45DF-88A2-42A05679376C}", lv1menuTransfers.Id, "TransferInController");
+            AddModule("Transfer Out",        "{91E79272-C1CF-4678-A28F-B716907D060C}", lv1menuTransfers.Id, "TransferOutController");
+            AddModule("Transfer Order",      "{F089C9A9-554D-40BF-B1FA-015FEDE43591}", lv1menuTransfers.Id, "TransferOrderController");
+            AddModule("Transfer Receipt",    "{2B60012B-ED6A-430B-B2CB-C1287FD4CE8B}", lv1menuTransfers.Id, "TransferReceiptController");
+            AddModule("Transfer Manifest",   "{1643B4CE-D368-4D64-8C05-6EF7C7D80336}", lv1menuTransfers.Id, "ManifestController");
             // Billing
             AddModule("Billing",             "{34E0472E-9057-4C66-8CC2-1938B3222569}", lv1menuBilling.Id, "BillingController");
             AddModule("Invoice",             "{9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F}", lv1menuBilling.Id, "InvoiceController");
             AddModule("Receipts",            "{57E34535-1B9F-4223-AD82-981CA34A6DEC}", lv1menuBilling.Id, "ReceiptController");
             AddModule("Vendor Invoice",      "{854B3C59-7040-47C4-A8A3-8A336FC970FE}", lv1menuBilling.Id, "VendorInvoiceController");
-
+            // Null
             AddModule("Billing Message",         "{B232DF4D-462A-4810-952D-73F8DE66800C}", null, "BillingMessageController");
             AddModule("Create Pick List",        "{5013C4FF-FC42-4EFE-AE9D-AAF6857F17B8}", null, "CreatePickListController");
             AddModule("Suspended Session",       "{5FBE7FF8-3770-48C5-855C-4320C961D95A}", null, "SuspendedSessionController");
