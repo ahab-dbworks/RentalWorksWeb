@@ -25,6 +25,7 @@ namespace FwStandard.Modules.Administrator.Alert
             dataRecords.Add(alert);
             AfterSave += OnAfterSave;
             AfterDelete += OnAfterDeleteAlert;
+            ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "6c9PL4mHxpfO", IsPrimaryKey:true)]

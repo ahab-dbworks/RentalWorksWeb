@@ -1,4 +1,5 @@
 ﻿using FwStandard.BusinessLogic;
+using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.AlertCondition;
 using FwStandard.Modules.Administrator.AlertWebUsers;
@@ -29,7 +30,7 @@ namespace FwStandard.Modules.Administrator.Alert
 
         }
         //-------------------------------------------------------------------------------------------------------        
-        public static async void ProcessAlerts(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, object oldObject, object newObject, TDataRecordSaveMode saveMode)
+        public static async void ProcessAlerts(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, object oldObject, object newObject, TDataRecordSaveMode saveMode, FwCustomValues _Custom)
         {
             if (alerts == null)
             {
@@ -37,8 +38,6 @@ namespace FwStandard.Modules.Administrator.Alert
             }
             if (alerts != null)
             {
-                //object[] ids = GetPrimaryKeys();
-                //var alertRows = alerts.Rows;
                 List<AlertLogic> alertList = new List<AlertLogic>();
 
                 foreach (AlertLogic alert in alerts)
@@ -48,7 +47,6 @@ namespace FwStandard.Modules.Administrator.Alert
                         alertList.Add(alert);
                     }
                 }
-
                 if (alertList.Count > 0)
                 {
                     Type type = oldObject.GetType();
@@ -99,8 +97,6 @@ namespace FwStandard.Modules.Administrator.Alert
                                         {
                                             if (saveMode == TDataRecordSaveMode.smUpdate)
                                             {
-                                                //bool b = l2.LoadAsync<Type>(ids).Result;
-                                                //valueToCompare = l2.GetType().GetProperty(property.Name).GetValue(l2);
                                                 valueToCompare = oldObject.GetType().GetProperty(property.Name).GetValue(oldObject);
                                             }
                                         }
@@ -134,58 +130,56 @@ namespace FwStandard.Modules.Administrator.Alert
                                 }
                             }
 
-                            //if (!propertyFound)  // property not found, check Custom Fields
-                            //{
-                            //    LoadCustomFields();
+                            if (!propertyFound)  // property not found, check Custom Fields
+                            {
+                                //LoadCustomFields();
 
-                            //    foreach (FwCustomField customField in _Custom.CustomFields)
-                            //    {
-                            //        if (customField.FieldName.Equals(acFieldName))
-                            //        {
-                            //            propertyFound = true;
-                            //            string value = null;
-                            //            object valueToCompare = null;
-                            //            for (int customFieldIndex = 0; customFieldIndex < _Custom.Count; customFieldIndex++)
-                            //            {
-                            //                if (_Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
-                            //                {
-                            //                    value = _Custom[customFieldIndex].FieldValue;
-                            //                }
-                            //            }
+                                foreach (FwCustomField customField in _Custom.CustomFields)
+                                {
+                                    if (customField.FieldName.Equals(acFieldName))
+                                    {
+                                        propertyFound = true;
+                                        object value = null;
+                                        object valueToCompare = null;
+                                        for (int customFieldIndex = 0; customFieldIndex < _Custom.Count; customFieldIndex++)
+                                        {
+                                            if (_Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                                            {
+                                                value = _Custom[customFieldIndex].FieldValue;
+                                                break;
+                                            }
+                                        }
 
-                            //            if (value != null)
-                            //            {
-                            //                valueToCompare = value;
-                            //            }
-                            //            else
-                            //            {
-                            //                if (saveMode == TDataRecordSaveMode.smUpdate)
-                            //                {
-                            //                    bool b = l2.LoadAsync<Type>(ids).Result;
-                            //                    var databaseValue = "";
-                            //                    for (int customFieldIndex = 0; customFieldIndex < l2._Custom.Count; customFieldIndex++)
-                            //                    {
-                            //                        if (l2._Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
-                            //                        {
-                            //                            databaseValue = l2._Custom[customFieldIndex].FieldValue;
-                            //                        }
-                            //                    }
-                            //                    valueToCompare = databaseValue;
-                            //                }
-                            //            }
-                            //            break;
-                            //        }
-                            //    }
-                            //}
+                                        if (value != null)
+                                        {
+                                            valueToCompare = value;
+                                        }
+                                        else
+                                        {
+                                            if (saveMode == TDataRecordSaveMode.smUpdate)
+                                            {
+                                                bool b = l2.LoadAsync<Type>().Result;
+                                                var databaseValue = "";
+                                                for (int customFieldIndex = 0; customFieldIndex < l2._Custom.Count; customFieldIndex++)
+                                                {
+                                                    if (l2._Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                                                    {
+                                                        databaseValue = l2._Custom[customFieldIndex].FieldValue;
+                                                    }
+                                                }
+                                                valueToCompare = databaseValue;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                }
+                            }
                         }
 
                         if (conditionsMet)
                         {
-                            //string alertSubject = alert[3].ToString();
-                            //string alertBody = alert[4].ToString();
                             string alertSubject = alert.AlertSubject;
                             string alertBody = alert.AlertBody;
-                            //var pattern = @"\[(.*?)\]";
                             var pattern = @"(?<=\[)[^[]*(?=\])";
                             var subjectMatches = Regex.Matches(alertSubject, pattern);
                             var bodyMatches = Regex.Matches(alertBody, pattern);
@@ -206,8 +200,6 @@ namespace FwStandard.Modules.Administrator.Alert
                                         }
                                         else if (saveMode == TDataRecordSaveMode.smUpdate)
                                         {
-                                            //bool b = l2.LoadAsync<Type>(ids).Result;
-                                            //value = l2.GetType().GetProperty(property.Name).GetValue(l2);
                                             value = oldObject.GetType().GetProperty(field).GetValue(oldObject);
                                             alertSubject = alertSubject.Replace("[" + field + "]", value.ToString());
                                         }
@@ -233,8 +225,6 @@ namespace FwStandard.Modules.Administrator.Alert
                                         }
                                         else if (saveMode == TDataRecordSaveMode.smUpdate)
                                         {
-                                            //bool b = l2.LoadAsync<Type>(ids).Result;
-                                            //value = l2.GetType().GetProperty(property.Name).GetValue(l2);
                                             value = oldObject.GetType().GetProperty(field).GetValue(oldObject);
                                             alertBody = alertBody.Replace("[" + field + "]", value.ToString());
                                         }
@@ -263,6 +253,7 @@ namespace FwStandard.Modules.Administrator.Alert
                             }
 
                             string to = String.Join(";", toEmails);
+                            // add to web alert log w/ status of pending, then update status in try/catch block
                             bool sent = await FwBusinessLogic.SendEmailAsync(from, to, alertSubject, alertBody, appConfig);
                         }
                     }

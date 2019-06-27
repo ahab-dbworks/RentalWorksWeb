@@ -205,7 +205,7 @@ class Alert {
             $this.hide();
             let $conditionRow = this.renderConditionRow($form);
             $conditionRow.find('.delete-condition').hide();
-            $conditionList.prepend($conditionRow);
+            $conditionList.append($conditionRow);
         });
         //delete condition
         $form.on('click', 'i.delete-condition', e => {
@@ -271,13 +271,13 @@ class Alert {
         const $conditionsList = $form.find('.condition-list');
         $conditionsList.empty();
 
-        const $conditionRow = this.renderConditionRow($form);
-        $conditionRow.find('.delete-condition').hide();
-        $conditionsList.append($conditionRow);
-
         const mode = $form.attr('data-mode');
         if (mode === 'EDIT') {
             this.loadConditionRows($form);
+        } else {
+            const $conditionRow = this.renderConditionRow($form);
+            $conditionRow.find('.delete-condition').hide();
+            $conditionsList.append($conditionRow);
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -313,6 +313,7 @@ class Alert {
     //----------------------------------------------------------------------------------------------
     loadConditionRows($form) {
         const request: any = {};
+        const $conditionList = $form.find('.condition-list');
         request.uniqueids = {
             AlertId: FwFormField.getValueByDataField($form, 'AlertId')
         }
@@ -323,7 +324,6 @@ class Alert {
                     const fieldNameIndex = response.ColumnIndex.FieldName;
                     const conditionIndex = response.ColumnIndex.Condition;
                     const valueIndex = response.ColumnIndex.Value;
-                    const $conditionList = $form.find('.condition-list');
                     for (let i = 0; i < response.Rows.length; i++) {
                         const alertConditionId = response.Rows[i][alertConditionIdIndex];
                         const fieldName = response.Rows[i][fieldNameIndex];
@@ -338,6 +338,9 @@ class Alert {
                         $conditionList.append($conditionRow);
                     }
                 }
+                const $addConditionRow = this.renderConditionRow($form);
+                $addConditionRow.find('.delete-condition').hide();
+                $conditionList.append($addConditionRow);
             },
             ex => FwFunc.showError(ex),
             $form);

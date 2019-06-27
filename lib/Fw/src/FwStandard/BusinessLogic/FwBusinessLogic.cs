@@ -1229,7 +1229,7 @@ namespace FwStandard.BusinessLogic
                             rowsAffected = afterSaveArgs.RecordsAffected;
                         }
 
-                        AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, original, this, saveMode);
+                        AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, original, this, saveMode, this._Custom);
                     }
                 }
                 success = true;
