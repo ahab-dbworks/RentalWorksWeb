@@ -39,7 +39,7 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Deleting: ../../build/RentalWorksWebApi');
         await rmfr('../../build/RentalWorksWebApi');
-		}
+    }
     //------------------------------------------------------------------------------------
     async npm_i() {
         console.log('//------------------------------------------------------------------------------------');
@@ -115,7 +115,13 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         await spawn('dotnet', ['publish', '-o', '../../build/RentalWorksWebApi', 'WebApi.csproj', '--configuration', this.dotnetConfiguration, '--self-contained', '-r', 'win-x64'], { stdio: 'inherit' });
         console.log('Deleting: appsettings.json');
-        await fs.unlink('../../build/RentalWorksWebApi/appsettings.json', function(error) { if (error) { throw error; } console.log('Deleted appsettings.json');});
+        await fs.unlink('../../build/RentalWorksWebApi/appsettings.json', function (error) { if (error) { throw error; } console.log('Deleted appsettings.json'); });
+        console.log('Adding: wwwroot/temp/downloads');
+        await process.chdir('../../build/RentalWorksWebApi/wwwroot');
+        await fs.mkdirSync('temp');
+        await process.chdir('temp');
+        await fs.mkdirSync('downloads');
+        console.log('//------------------------------------------------------------------------------------');
     }
     //------------------------------------------------------------------------------------
     async dotnet_run() {
