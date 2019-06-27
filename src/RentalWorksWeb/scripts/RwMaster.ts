@@ -94,7 +94,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.TransferStatus,
                 ]
             };
-            if (applicationOptions.multiwarehouse.enabled) {
+            if (applicationOptions.multiwarehouse.enabled && applicationOptions.multiwarehouse.value !== 1) {
                 this.navigation.push(menuTransfers);
             }
             // Billing Menu
