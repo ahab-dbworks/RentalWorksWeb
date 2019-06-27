@@ -145,20 +145,20 @@ namespace WebApi.Modules.Reports.AgentBillingReport
                     if (request.IsSummary.GetValueOrDefault(false))
                     {
                         StringBuilder sb = new StringBuilder();
-                        sb.Append("select [t].[rowtype]           as [RowType],                 ");
-                        sb.Append("       [t].[agent]             as [Agent],                   ");
-                        sb.Append("       [t].[agentid]           as [AgentId],                 ");
-                        sb.Append("       sum([t].[rentaltotal] ) as [RentalTotal],             ");
-                        sb.Append("       sum([t].[metertotal]  ) as [MeterTotal],              ");
-                        sb.Append("       sum([t].[salestotal]  ) as [SalesTotal],              ");
-                        sb.Append("       sum([t].[spacetotal]  ) as [FacilitiesTotal],         ");
-                        sb.Append("       sum([t].[misctotal]   ) as [MiscellaneousTotal],      ");
-                        sb.Append("       sum([t].[labortotal]  ) as [LaborTotal],              ");
-                        sb.Append("       sum([t].[partstotal]  ) as [PartsTotal],              ");
-                        sb.Append("       sum([t].[assettotal]  ) as [AssetTotal],              ");
-                        sb.Append("       sum([t].[invoicetax]  ) as [InvoiceTax],              ");
-                        sb.Append("       sum([t].[invoicetotal]) as [InvoiceTotal]             ");
-                        sb.Append("from agentbillingview [t] with (nolock)                      ");
+                        sb.Append("select     [" + TableAlias + "].[rowtype]       as [RowType],                 ");
+                        sb.Append("           [" + TableAlias + "].[agent]         as [Agent],                   ");
+                        sb.Append("           [" + TableAlias + "].[agentid]       as [AgentId],                 ");
+                        sb.Append("       sum([" + TableAlias + "].[rentaltotal] ) as [RentalTotal],             ");
+                        sb.Append("       sum([" + TableAlias + "].[metertotal]  ) as [MeterTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[salestotal]  ) as [SalesTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[spacetotal]  ) as [FacilitiesTotal],         ");
+                        sb.Append("       sum([" + TableAlias + "].[misctotal]   ) as [MiscellaneousTotal],      ");
+                        sb.Append("       sum([" + TableAlias + "].[labortotal]  ) as [LaborTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[partstotal]  ) as [PartsTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[assettotal]  ) as [AssetTotal],              ");
+                        sb.Append("       sum([" + TableAlias + "].[invoicetax]  ) as [InvoiceTax],              ");
+                        sb.Append("       sum([" + TableAlias + "].[invoicetotal]) as [InvoiceTotal]             ");
+                        sb.Append("from " + TableName + " [" + TableAlias + "] with (nolock)                     ");
                         select.Add(sb.ToString());
                         AddPropertiesAsQueryColumns(qry);
                     }
