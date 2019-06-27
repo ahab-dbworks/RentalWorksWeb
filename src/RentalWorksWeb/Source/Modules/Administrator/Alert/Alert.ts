@@ -72,21 +72,31 @@ class Alert {
     }
     //----------------------------------------------------------------------------------------------
     renderGrids($form) {
-        let $alertWebUserGrid;
-        let $alertWebUserGridControl;
-        $alertWebUserGrid = $form.find('div[data-grid="AlertWebUsersGrid"]');
-        $alertWebUserGridControl = FwBrowse.loadGridFromTemplate('AlertWebUsersGrid');
+        const $alertWebUserGrid = $form.find('div[data-grid="AlertWebUsersGrid"]');
+        const $alertWebUserGridControl = FwBrowse.loadGridFromTemplate('AlertWebUsersGrid');
         $alertWebUserGrid.empty().append($alertWebUserGridControl);
-        $alertWebUserGridControl.data('ondatabind', function (request) {
+        $alertWebUserGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 AlertId: FwFormField.getValueByDataField($form, 'AlertId')
             };
         });
-        $alertWebUserGridControl.data('beforesave', function (request) {
+        $alertWebUserGridControl.data('beforesave', request => {
             request.AlertId = FwFormField.getValueByDataField($form, 'AlertId')
         });
         FwBrowse.init($alertWebUserGridControl);
         FwBrowse.renderRuntimeHtml($alertWebUserGridControl);
+
+
+        const $alertHistoryGrid = $form.find('div[data-grid="WebAlertLogGrid"]');
+        const $alertHistoryGridControl = FwBrowse.loadGridFromTemplate('WebAlertLogGrid');
+        $alertHistoryGrid.empty().append($alertHistoryGridControl);
+        $alertHistoryGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                AlertId: FwFormField.getValueByDataField($form, 'AlertId')
+            };
+        });
+        FwBrowse.init($alertHistoryGridControl);
+        FwBrowse.renderRuntimeHtml($alertHistoryGridControl);
     }
     //----------------------------------------------------------------------------------------------
     loadModules($form) {
@@ -377,6 +387,9 @@ class Alert {
 
         const $alertWebUsersGrid = $form.find('[data-name="AlertWebUsersGrid"]');
         FwBrowse.search($alertWebUsersGrid);
+
+        const $alertHistoryGrid = $form.find('[data-name="WebAlertLogGrid"]');
+        FwBrowse.search($alertHistoryGrid);
     }
     //----------------------------------------------------------------------------------------------
     compare(a, b) {
