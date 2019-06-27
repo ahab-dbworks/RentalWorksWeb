@@ -593,6 +593,16 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                                     x = 1;
                                     while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
                                     {
+                                        reservationRow[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))] = 0;
+                                        reservationRow[dt.GetColumnNo("AvailableString" + x.ToString().PadLeft(2, '0'))] = "";
+                                        theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
+                                        x++;
+                                    }
+
+                                    theDate = request.FromDate;
+                                    x = 1;
+                                    while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
+                                    {
 
                                         if ((reservation.FromDateTime <= theDate) && (theDate <= reservation.ToDateTime))
                                         {
@@ -619,13 +629,24 @@ namespace WebApi.Modules.Reports.RentalInventoryAvailabilityReport
                 x = 1;
                 while ((theDate <= request.ToDate) && (x <= MAX_AVAILABILITY_DATE_COLUMNS)) // 30 days max 
                 {
-                    string availQtyAsString = "";
-                    object availQtyAsObj = row[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))];
-                    if (availQtyAsObj != null)
+                    string qtyAsString = "";
+                    object qtyAsObj = row[dt.GetColumnNo("AvailableInt" + x.ToString().PadLeft(2, '0'))];
+                    if (qtyAsObj != null)
                     {
-                        availQtyAsString = availQtyAsObj.ToString();
+                        if (row[dt.GetColumnNo("RowType")].ToString().Equals("reservation"))
+                        {
+                            int qtyAsInt = (int)Math.Floor(FwConvert.ToDecimal(qtyAsObj));
+                            if (qtyAsInt != 0)
+                            {
+                                qtyAsString = qtyAsObj.ToString();
+                            }
+                        }
+                        else
+                        {
+                            qtyAsString = qtyAsObj.ToString();
+                        }
                     }
-                    row[dt.GetColumnNo("AvailableString" + x.ToString().PadLeft(2, '0'))] = availQtyAsString;
+                    row[dt.GetColumnNo("AvailableString" + x.ToString().PadLeft(2, '0'))] = qtyAsString;
                     theDate = theDate.AddDays(1);  // daily inventory   #jhtodo: hourly
                     x++;
                 }

@@ -553,6 +553,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
     //------------------------------------------------------------------------------------ 
     public class TInventoryAvailabilityCalendarAndScheduleResponse
     {
+        public TInventoryWarehouseAvailability InventoryData { get; set; }
         public List<TInventoryAvailabilityCalendarEvent> InventoryAvailabilityCalendarEvents { get; set; } = new List<TInventoryAvailabilityCalendarEvent>();
         public List<TInventoryAvailabilityScheduleResource> InventoryAvailabilityScheduleResources { get; set; } = new List<TInventoryAvailabilityScheduleResource>();
         public List<TInventoryAvailabilityScheduleEvent> InventoryAvailabilityScheduleEvents { get; set; } = new List<TInventoryAvailabilityScheduleEvent>();
@@ -965,52 +966,59 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     string warehouseId = row[dt.GetColumnNo("warehouseid")].ToString();
                     TInventoryWarehouseAvailabilityKey availKey = new TInventoryWarehouseAvailabilityKey(inventoryId, warehouseId);
 
-                    TInventoryWarehouseAvailabilityReservation reservation = new TInventoryWarehouseAvailabilityReservation();
-                    reservation.OrderId = row[dt.GetColumnNo("orderid")].ToString();
-                    reservation.OrderItemId = row[dt.GetColumnNo("masteritemid")].ToString();
-                    reservation.OrderType = row[dt.GetColumnNo("ordertype")].ToString();
-                    reservation.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
-                    reservation.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
-                    reservation.OrderStatus = row[dt.GetColumnNo("orderstatus")].ToString();
-                    reservation.DepartmentId = row[dt.GetColumnNo("departmentid")].ToString();
-                    reservation.Department = row[dt.GetColumnNo("department")].ToString();
-                    reservation.DealId = row[dt.GetColumnNo("dealid")].ToString();
-                    reservation.Deal = row[dt.GetColumnNo("deal")].ToString();
-                    reservation.FromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availfromdatetime")].ToString());
-                    reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
-                    reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
-                    reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
-                    reservation.QuantityConsigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignqty")].ToString());
-
-                    TInventoryWarehouseAvailabilityQuantity reservationStaged = new TInventoryWarehouseAvailabilityQuantity();
-                    TInventoryWarehouseAvailabilityQuantity reservationOut = new TInventoryWarehouseAvailabilityQuantity();
-                    TInventoryWarehouseAvailabilityQuantity reservationIn = new TInventoryWarehouseAvailabilityQuantity();
-
-                    reservationStaged.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedowned")].ToString());
-                    reservationStaged.Subbed = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedsub")].ToString());
-                    reservationStaged.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedconsigned")].ToString());
-
-                    reservationOut.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutowned")].ToString());
-                    reservationOut.Subbed = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutsub")].ToString());
-                    reservationOut.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutconsigned")].ToString());
-
-                    reservationIn.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinowned")].ToString());
-                    reservationIn.Subbed = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinsub")].ToString());
-                    reservationIn.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinconsigned")].ToString());
-
-                    reservation.QuantityStaged = reservationStaged;
-                    reservation.QuantityOut = reservationOut;
-                    reservation.QuantityIn = reservationIn;
-
-                    if (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER) || reservation.OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER) || (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (reservation.OrderStatus.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
-                    {
-                        reservation.QuantityReserved.Owned = (reservation.QuantityOrdered - reservation.QuantitySub - reservation.QuantityConsigned - reservation.QuantityStaged.Owned - reservation.QuantityOut.Owned - reservation.QuantityIn.Owned);
-                        reservation.QuantityReserved.Consigned = (reservation.QuantityConsigned - reservation.QuantityOut.Consigned - reservation.QuantityIn.Consigned);
-                    }
-
                     TInventoryWarehouseAvailability availData = null;
                     if (availCache.TryGetValue(availKey, out availData))
                     {
+                        TInventoryWarehouseAvailabilityReservation reservation = new TInventoryWarehouseAvailabilityReservation();
+                        reservation.OrderId = row[dt.GetColumnNo("orderid")].ToString();
+                        reservation.OrderItemId = row[dt.GetColumnNo("masteritemid")].ToString();
+                        reservation.OrderType = row[dt.GetColumnNo("ordertype")].ToString();
+                        reservation.OrderNumber = row[dt.GetColumnNo("orderno")].ToString();
+                        reservation.OrderDescription = row[dt.GetColumnNo("orderdesc")].ToString();
+                        reservation.OrderStatus = row[dt.GetColumnNo("orderstatus")].ToString();
+                        reservation.DepartmentId = row[dt.GetColumnNo("departmentid")].ToString();
+                        reservation.Department = row[dt.GetColumnNo("department")].ToString();
+                        reservation.DealId = row[dt.GetColumnNo("dealid")].ToString();
+                        reservation.Deal = row[dt.GetColumnNo("deal")].ToString();
+                        reservation.FromDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availfromdatetime")].ToString());
+                        reservation.ToDateTime = FwConvert.ToDateTime(row[dt.GetColumnNo("availtodatetime")].ToString());
+
+                        if (!availData.InventoryWarehouse.HourlyAvailability)
+                        {
+                            reservation.FromDateTime = reservation.FromDateTime.Date;
+                            reservation.ToDateTime = (reservation.ToDateTime.Equals(reservation.ToDateTime.Date) ? reservation.ToDateTime.Date : reservation.ToDateTime.Date.AddDays(1));
+                        }
+
+                        reservation.QuantityOrdered = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyordered")].ToString());
+                        reservation.QuantitySub = FwConvert.ToDecimal(row[dt.GetColumnNo("subqty")].ToString());
+                        reservation.QuantityConsigned = FwConvert.ToDecimal(row[dt.GetColumnNo("consignqty")].ToString());
+
+                        TInventoryWarehouseAvailabilityQuantity reservationStaged = new TInventoryWarehouseAvailabilityQuantity();
+                        TInventoryWarehouseAvailabilityQuantity reservationOut = new TInventoryWarehouseAvailabilityQuantity();
+                        TInventoryWarehouseAvailabilityQuantity reservationIn = new TInventoryWarehouseAvailabilityQuantity();
+
+                        reservationStaged.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedowned")].ToString());
+                        reservationStaged.Subbed = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedsub")].ToString());
+                        reservationStaged.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtystagedconsigned")].ToString());
+
+                        reservationOut.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutowned")].ToString());
+                        reservationOut.Subbed = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutsub")].ToString());
+                        reservationOut.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyoutconsigned")].ToString());
+
+                        reservationIn.Owned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinowned")].ToString());
+                        reservationIn.Subbed = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinsub")].ToString());
+                        reservationIn.Consigned = FwConvert.ToDecimal(row[dt.GetColumnNo("qtyinconsigned")].ToString());
+
+                        reservation.QuantityStaged = reservationStaged;
+                        reservation.QuantityOut = reservationOut;
+                        reservation.QuantityIn = reservationIn;
+
+                        if (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_ORDER) || reservation.OrderType.Equals(RwConstants.ORDER_TYPE_TRANSFER) || (reservation.OrderType.Equals(RwConstants.ORDER_TYPE_QUOTE) && (reservation.OrderStatus.Equals(RwConstants.QUOTE_STATUS_RESERVED))))
+                        {
+                            reservation.QuantityReserved.Owned = (reservation.QuantityOrdered - reservation.QuantitySub - reservation.QuantityConsigned - reservation.QuantityStaged.Owned - reservation.QuantityOut.Owned - reservation.QuantityIn.Owned);
+                            reservation.QuantityReserved.Consigned = (reservation.QuantityConsigned - reservation.QuantityOut.Consigned - reservation.QuantityIn.Consigned);
+                        }
+
                         availData.Reservations.Add(reservation);
                     }
                 }
@@ -1462,6 +1470,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
 
             if (availData != null)
             {
+                response.InventoryData = availData;
                 int eventId = 0;
 
                 // build up the calendar events
@@ -1567,7 +1576,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                 iReturn.end = endDateTime.ToString("yyyy-MM-ddTHH:mm:ss tt");
                                 iReturn.text = "Returning " + ((int)inventoryWarehouseAvailabilityDateTime.Returning.Total).ToString();
                                 iReturn.backColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RETURNING);
-                                iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RESERVED);
+                                iReturn.textColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_TEXT_COLOR_RETURNING);
                                 response.InventoryAvailabilityCalendarEvents.Add(iReturn);
                             }
                         }
@@ -1710,7 +1719,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
-                            availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_ORDER);
+                            availScheduleEvent.barColor = RwGlobals.STAGED_COLOR;
                             availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }
@@ -1746,7 +1755,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
-                            availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_ORDER);
+                            availScheduleEvent.barColor = RwGlobals.OUT_COLOR;
                             availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }

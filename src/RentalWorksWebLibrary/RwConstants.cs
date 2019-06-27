@@ -254,6 +254,7 @@
         public const string INVENTORY_STATUS_TYPE_IN = "IN";
         public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
         public const string INVENTORY_STATUS_TYPE_INCONTAINER = "INCONTAINER";
+        public const string INVENTORY_STATUS_TYPE_STAGED = "STAGED";
 
         public const string INVENTORY_CLASSIFICATION_KIT = "K";
         public const string INVENTORY_CLASSIFICATION_COMPLETE = "C";
@@ -349,10 +350,10 @@
         public const int AVAILABILITY_COLOR_NO_AVAILABILITY = 16772044;      //aqua
         public const int AVAILABILITY_TEXT_COLOR_NO_AVAILABILITY = 0;        //black
         public const int AVAILABILITY_COLOR_NEGATIVE = 255;                  //red
-        public const int AVAILABILITY_COLOR_POSITIVE = 1176137;              //green
+        public const int AVAILABILITY_COLOR_POSITIVE = 3381504;              //green
         public const int AVAILABILITY_COLOR_LOW = 65535;                     //yellow
         public const int AVAILABILITY_TEXT_COLOR_NEGATIVE = 16777215;        //white
-        public const int AVAILABILITY_TEXT_COLOR_POSITIVE = 0;               //black
+        public const int AVAILABILITY_TEXT_COLOR_POSITIVE = 16777215;        //white
         public const int AVAILABILITY_TEXT_COLOR_LOW = 0;                    //black
         public const int AVAILABILITY_COLOR_RESERVED = 15132390;             //gray
         public const int AVAILABILITY_TEXT_COLOR_RESERVED = 0;               //black

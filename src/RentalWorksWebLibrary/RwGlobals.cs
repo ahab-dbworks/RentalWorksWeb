@@ -11,6 +11,8 @@ namespace WebLibrary
         public static string MISCELLANEOUS_COLOR { get; set; }
         public static string ITEM_COLOR { get; set; }
         public static string ACCESSORY_COLOR { get; set; }
+        public static string STAGED_COLOR { get; set; }
+        public static string OUT_COLOR { get; set; }
         public static string CONTAINER_COLOR { get; set; }
         public static string SUB_COLOR { get; set; }
         public static string CONSIGNMENT_COLOR { get; set; }
@@ -97,6 +99,20 @@ namespace WebLibrary
                 containerColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_INCONTAINER, "color").Result.ToString().TrimEnd());
             }
             CONTAINER_COLOR = FwConvert.OleColorToHtmlColor(containerColorInt);
+
+            int stagedColorInt = 0;
+            using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
+            {
+                stagedColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_STAGED, "color").Result.ToString().TrimEnd());
+            }
+            STAGED_COLOR = FwConvert.OleColorToHtmlColor(stagedColorInt);
+
+            int outColorInt = 0;
+            using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
+            {
+                outColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_OUT, "color").Result.ToString().TrimEnd());
+            }
+            OUT_COLOR = FwConvert.OleColorToHtmlColor(outColorInt);
             SUB_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
 
             int consignmentColorInt = 0;
