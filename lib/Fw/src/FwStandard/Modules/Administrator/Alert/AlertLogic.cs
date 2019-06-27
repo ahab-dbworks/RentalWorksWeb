@@ -53,7 +53,7 @@ namespace FwStandard.Modules.Administrator.Alert
         //------------------------------------------------------------------------------------ 
         public void OnAfterSave(object sender, AfterSaveEventArgs e)
         {
-            refreshAlerts();
+            AlertFunc.RefreshAlerts(AppConfig);
             List<AlertConditionLogic> previousConditionData = new List<AlertConditionLogic>();
 
             if (e.SaveMode.Equals(TDataRecordSaveMode.smUpdate))
@@ -107,7 +107,7 @@ namespace FwStandard.Modules.Administrator.Alert
         }
         public void OnAfterDeleteAlert(object sender, AfterDeleteEventArgs e)
         {
-            refreshAlerts();
+            AlertFunc.RefreshAlerts(AppConfig);
         }
     }
 }
