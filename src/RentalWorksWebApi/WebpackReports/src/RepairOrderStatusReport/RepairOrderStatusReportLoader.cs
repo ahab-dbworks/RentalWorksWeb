@@ -187,7 +187,7 @@ namespace WebApi.Modules.Reports.RepairOrderStatusReport
                     if (request.IsSummary.GetValueOrDefault(false))
                     {
                         StringBuilder sb = new StringBuilder();
-                        sb.Append("select     [" + TableAlias + "].[rowtype]                as [RowType],                 ");
+                        sb.Append("select     'detail'                                      as [RowType],                 ");
                         sb.Append("           [" + TableAlias + "].[warehouseid]            as [WarehouseId],             ");
                         sb.Append("           [" + TableAlias + "].[warehouse]              as [Warehouse],               ");
                         sb.Append("           [" + TableAlias + "].[whcode]                 as [WarehouseCode],           ");
@@ -260,7 +260,7 @@ namespace WebApi.Modules.Reports.RepairOrderStatusReport
 
                     if (request.IsSummary.GetValueOrDefault(false))
                     {
-                        select.AddWhere("", "group by rowtype, warehouseid, warehouse, whcode, departmentid, department, inventorydepartmentid, inventorydepartment, categoryid, category, subcategoryid, subcategory, masterid, masterno, description");  //#jhtodo: need to be able to do select.AddGroupBy
+                        select.AddWhere("", "group by warehouseid, warehouse, whcode, departmentid, department, inventorydepartmentid, inventorydepartment, categoryid, category, subcategoryid, subcategory, masterid, masterno, description");  //#jhtodo: need to be able to do select.AddGroupBy
                         select.AddOrderBy("warehouse, department, inventorydepartment, category, masterno, description");
                     }
                     else
