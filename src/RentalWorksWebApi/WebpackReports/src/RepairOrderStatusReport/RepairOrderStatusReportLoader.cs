@@ -273,7 +273,7 @@ namespace WebApi.Modules.Reports.RepairOrderStatusReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Quantity" };
+                string[] totalFields = new string[] { "Quantity", "QuantityPending", "QuantityBillable", "QuantityBilled", "QuantityNotYetBilled", "QuantityHighPriority", "QuantityMediumPriority", "QuantityLowPriority" };
                 dt.InsertSubTotalRows("Warehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("InventoryType", "RowType", totalFields);

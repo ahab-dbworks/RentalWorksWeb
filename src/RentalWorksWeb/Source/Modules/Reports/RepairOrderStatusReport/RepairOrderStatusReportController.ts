@@ -27,7 +27,7 @@ const repairOrderStatusTemplate = `
                 <div data-datafield="Billable" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="true" data-caption="Yes"></div>
                   <div data-value="false" data-caption="No"></div>
-                  <div data-caption="All"></div>
+                  <div data-value="ALL" data-caption="All"></div>
                 </div>
               </div>
             </div>
@@ -36,7 +36,7 @@ const repairOrderStatusTemplate = `
                 <div data-datafield="Billed" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="true" data-caption="Yes"></div>
                   <div data-value="false" data-caption="No"></div>
-                  <div data-caption="All"></div>
+                  <div data-value="ALL" data-caption="All"></div>
                 </div>
               </div>
             </div>
@@ -45,7 +45,7 @@ const repairOrderStatusTemplate = `
                 <div data-datafield="Owned" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="true" data-caption="Owned"></div>
                   <div data-value="false" data-caption="Not Owned"></div>
-                  <div data-caption="All"></div>
+                  <div data-value="ALL" data-caption="All"></div>
                 </div>
               </div>
             </div>
@@ -158,8 +158,19 @@ class RepairOrderStatusReport extends FwWebApiReport {
             if (daysFilterMode === 'ALL') {
                 FwFormField.disable($form.find('div[data-datafield="DaysInRepair"]'));
                 FwFormField.setValueByDataField($form, 'DaysInRepair', "");
+                $form.find('div[data-datafield="DaysInRepair"]').attr('data-required', 'false').removeClass('error');
+                $form.find('div[data-caption="General"]').removeClass('error');
             } else {
                 FwFormField.enable($form.find('div[data-datafield="DaysInRepair"]'));
+                $form.find('div[data-datafield="DaysInRepair"]').attr('data-required', 'true');
+            }
+        });
+        $form.on('change', 'div[data-datafield="IsSummary"] input', e => {
+            if (FwFormField.getValueByDataField($form, 'IsSummary') === 'true') {
+                $form.find('div[data-datafield="IncludeDamageNotes"] input').prop('checked', false);
+                FwFormField.disable($form.find('div[data-datafield="IncludeDamageNotes"]'));
+            } else {
+                FwFormField.enable($form.find('div[data-datafield="IncludeDamageNotes"]'));
             }
         });
         // Mutually exclusive Damage Notes
@@ -176,13 +187,13 @@ class RepairOrderStatusReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        if (parameters.Billable === 'undefined') {
+        if (parameters.Billable === 'ALL') {
             delete parameters.Billable;
         }
-        if (parameters.Billed === 'undefined') {
+        if (parameters.Billed === 'ALL') {
             delete parameters.Billed;
         }
-        if (parameters.Owned === 'undefined') {
+        if (parameters.Owned === 'ALL') {
             delete parameters.Owned;
         }
         return parameters;
@@ -192,8 +203,22 @@ class RepairOrderStatusReport extends FwWebApiReport {
         if (daysFilterMode === 'ALL') {
             FwFormField.disable($form.find('div[data-datafield="DaysInRepair"]'));
             FwFormField.setValueByDataField($form, 'DaysInRepair', "");
+            $form.find('div[data-datafield="DaysInRepair"]').attr('data-required', 'false').removeClass('error');
+            $form.find('div[data-caption="General"]').removeClass('error');
         } else {
             FwFormField.enable($form.find('div[data-datafield="DaysInRepair"]'));
+            $form.find('div[data-datafield="DaysInRepair"]').attr('data-required', 'true');
+        }
+        FwFormField.setValueByDataField($form, 'Billed', 'ALL');
+        FwFormField.setValueByDataField($form, 'Billable', 'ALL');
+        FwFormField.setValueByDataField($form, 'Owned', 'ALL');
+        if (FwFormField.getValueByDataField($form, 'IsSummary') === 'true') {
+            FwFormField.setValueByDataField($form, 'IncludeDamageNotes', false);
+            FwFormField.disable($form.find('div[data-datafield="IncludeDamageNotes"]'));
+            $form.find('div[data-datafield="IncludeDamageNotes"]').change();
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="IncludeDamageNotes"]'));
+
         }
     }
     //----------------------------------------------------------------------------------------------
