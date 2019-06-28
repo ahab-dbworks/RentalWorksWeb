@@ -10,10 +10,36 @@ namespace FwStandard.Models
         public string value { get; set; }
         public string text { get; set; }
         public bool? selected { get; set; }
+        //------------------------------------------------------------------------------------ 
+        public CheckBoxListItem(string value, string text, bool? selected)
+        {
+            this.value = value;
+            this.text = text;
+            this.selected = selected;
+        }
+        //------------------------------------------------------------------------------------ 
     }
+    //------------------------------------------------------------------------------------ 
+    //------------------------------------------------------------------------------------ 
     //------------------------------------------------------------------------------------ 
     public class CheckBoxListItems : List<CheckBoxListItem>
     {
+        //------------------------------------------------------------------------------------ 
+        public CheckBoxListItems GetSelectedItems()
+        {
+            CheckBoxListItems selectedItems = new CheckBoxListItems();
+
+            foreach (CheckBoxListItem item in this)
+            {
+                if (item.selected.GetValueOrDefault(false))
+                {
+                    selectedItems.Add(item);
+                }
+            }
+
+            return selectedItems;
+        }
+        //------------------------------------------------------------------------------------ 
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -30,6 +56,7 @@ namespace FwStandard.Models
             }
             return sb.ToString();
         }
+        //------------------------------------------------------------------------------------ 
     }
     //------------------------------------------------------------------------------------ 
 }
