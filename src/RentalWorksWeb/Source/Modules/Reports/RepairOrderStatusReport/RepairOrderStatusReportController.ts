@@ -24,10 +24,10 @@ const repairOrderStatusTemplate = `
             </div>
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Billable">
-                <div data-datafield="SerializedValueBasedOn" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                <div data-datafield="Billable" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="true" data-caption="Yes"></div>
                   <div data-value="false" data-caption="No"></div>
-                  <div data-value="" data-caption="All"></div>
+                  <div data-caption="All"></div>
                 </div>
               </div>
             </div>
@@ -36,7 +36,7 @@ const repairOrderStatusTemplate = `
                 <div data-datafield="Billed" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="true" data-caption="Yes"></div>
                   <div data-value="false" data-caption="No"></div>
-                  <div data-value="" data-caption="All"></div>
+                  <div data-caption="All"></div>
                 </div>
               </div>
             </div>
@@ -45,7 +45,7 @@ const repairOrderStatusTemplate = `
                 <div data-datafield="Owned" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="true" data-caption="Owned"></div>
                   <div data-value="false" data-caption="Not Owned"></div>
-                  <div data-value="" data-caption="All"></div>
+                  <div data-caption="All"></div>
                 </div>
               </div>
             </div>
@@ -152,10 +152,49 @@ class RepairOrderStatusReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
         this.loadLists($form);
+
+        $form.find('div[data-datafield="DaysInRepairFilterMode"]').change(() => {
+            const daysFilterMode = FwFormField.getValueByDataField($form, 'DaysInRepairFilterMode');
+            if (daysFilterMode === 'ALL') {
+                FwFormField.disable($form.find('div[data-datafield="DaysInRepair"]'));
+                FwFormField.setValueByDataField($form, 'DaysInRepair', "");
+            } else {
+                FwFormField.enable($form.find('div[data-datafield="DaysInRepair"]'));
+            }
+        });
+        // Mutually exclusive Damage Notes
+        $form.on('change', 'div[data-datafield="IncludeOutsideRepairsOnly"] input', e => {
+            if (FwFormField.getValueByDataField($form, 'IncludeOutsideRepairsOnly') === true) {
+                $form.find('div[data-datafield="IncludeDamageNotes"] input').prop('checked', false);
+            }
+        });
+        $form.on('change', 'div[data-datafield="IncludeDamageNotes"] input', e => {
+            if (FwFormField.getValueByDataField($form, 'IncludeDamageNotes') === true) {
+                $form.find('div[data-datafield="IncludeOutsideRepairsOnly"] input').prop('checked', false);
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
+        if (parameters.Billable === 'undefined') {
+            delete parameters.Billable;
+        }
+        if (parameters.Billed === 'undefined') {
+            delete parameters.Billed;
+        }
+        if (parameters.Owned === 'undefined') {
+            delete parameters.Owned;
+        }
         return parameters;
+    }
+    afterLoad($form) {
+        const daysFilterMode = FwFormField.getValueByDataField($form, 'DaysInRepairFilterMode');
+        if (daysFilterMode === 'ALL') {
+            FwFormField.disable($form.find('div[data-datafield="DaysInRepair"]'));
+            FwFormField.setValueByDataField($form, 'DaysInRepair', "");
+        } else {
+            FwFormField.enable($form.find('div[data-datafield="DaysInRepair"]'));
+        }
     }
     //----------------------------------------------------------------------------------------------
     loadLists($form) {

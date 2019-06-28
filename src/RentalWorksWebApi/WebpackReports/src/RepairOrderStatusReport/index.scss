@@ -10,7 +10,11 @@ table {
         }
     }
 
-    tbody[data-rowtype="detail"]:nth-of-type(even) {
+    tbody[data-rowtype="detail"]:nth-of-type(odd) {
+        background-color: #DCDCDC;
+    }
+
+    tr[data-rowtype="detail"]:nth-child(odd) {
         background-color: #DCDCDC;
     }
 
@@ -37,9 +41,6 @@ table {
     }
 }
 
-.top {
-    vertical-align: top;
-}
 .top-section-header {
     th {
         background-color: #DCDCDC;

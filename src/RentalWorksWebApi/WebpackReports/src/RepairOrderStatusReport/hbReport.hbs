@@ -1,11 +1,6 @@
 ﻿<!--RepairOrderStatusReport-->
-<div class="rpt-flexrow" style="width:1555px;">
-  <style type="text/css" media="print">
-    @page {
-      size: landscape;
-      margin: 10px 10px 10px 10px;
-    }
-  </style>
+  {{#ifEquals IsSummary true}}
+<div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -17,17 +12,16 @@
     <span class="rpt-header-right">{{Company}}</span>
   </div>
 </div>
-<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
-  {{#ifEquals IsSummary true}}
+<div class="rpt-flexrow" style="margin-top:40px;">
   <table>
     <thead class="top-section-header">
       <tr>
         <th colspan="4" style="background-color:white;"></th>
         <th colspan="3" style="border-right:3px solid black;">Billable Quantity</th>
-        <th colspan="3" style="border-right:3px solid black;">Quantity By Priority</th>
+        <th colspan="3">Quantity By Priority</th>
       </tr>
     </thead>
-    <thead>
+    <thead class="main-header">
       <tr>
         <th>I-Code</th>
         <th>Description</th>
@@ -92,26 +86,46 @@
       {{/each}}
     </tbody>
   </table>
-  {{/ifEquals}}
-  {{#ifEquals IsSummary false}}
-  <table>
+</div>
+{{/ifEquals}}
+{{#ifEquals IsSummary false}}
+<div class="rpt-flexrow" style="width:1555px;">
+  <style type="text/css" media="print">
+    @page {
+      size: landscape;
+      margin: 10px 10px 10px 10px;
+    }
+  </style>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">As of: {{Today}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
+  <table id="detail">
     <thead class="main-header">
       <tr>
-        <th class="top">RO No.</th>
-        <th class="top">Days</th>
-        <th class="top">Date</th>
-        <th class="top">Type</th>
-        <th class="top">I-Code</th>
-        <th class="top">Bar Code</th>
-        <th class="top">Description</th>
-        <th class="top">Deal</th>
-        <th class="top number">Qty</th>
-        <th class="top">Billable</th>
-        <th class="top">Priority</th>
-        <th class="top">Billed</th>
-        <th class="top">Item Status</th>
-        <th class="top">RO Status</th>
-        <th class="top">As Of</th>
+        <th>RO No.</th>
+        <th class="number">Days</th>
+        <th>Date</th>
+        <th>Type</th>
+        <th>I-Code</th>
+        <th>Bar Code</th>
+        <th>Description</th>
+        <th>Deal</th>
+        <th class="number">Qty</th>
+        <th>Billable</th>
+        <th>Priority</th>
+        <th>Billed</th>
+        <th>Item Status</th>
+        <th>RO Status</th>
+        <th>As Of</th>
       </tr>
     </thead>
     {{#each this}}
@@ -125,7 +139,7 @@
     {{#ifEquals RowType "Departmentheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <td colspan="3" class="lower header-row">Department: {{Department}}</td>
+        <th colspan="3" class="lower header-row">Department: {{Department}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
@@ -139,7 +153,7 @@
     {{#ifEquals RowType "Categoryheader"}}
     <thead data-rowtype="{{RowType}}">
       <tr>
-        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+        <th colspan="3" class="lower header-row">Category: {{Category}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
@@ -147,13 +161,13 @@
     <tbody data-rowtype="{{RowType}}">
       <tr>
         <td>{{RepairNumber}}</td>
-        <td>{{DaysInRepair}}</td>
+        <td class="number">{{DaysInRepair}}</td>
         <td>{{RepairDate}}</td>
         <td>{{RepairType}}</td>
         <td class="nowrap">{{ICode}}</td>
         <td>{{BarCode}}</td>
         <td>{{Description}}</td>
-        <td>{{Deal}}</td>
+        <td>{{DamageDeal}}</td>
         <td class="number">{{Quantity}}</td>
         <td>{{Billable}}</td>
         <td>{{Priority}}</td>
@@ -161,24 +175,24 @@
         <td>{{Status}}</td>
         <td>{{RepairItemStatus}}</td>
         <td>{{StatusDate}}</td>
-        <td>
       </tr>
-      {{#if RetiredNotes}}
+      {{#if ../IncludeDamageNotes}}
+      {{#ifNotEquals Damage ""}}
       <tr>
-        <td></td>
-        <td class="note" colspan="7">Retire Note: <span>{{RetiredNotes}}</span></td>
-        <td colspan="3"></td>
+        <td class="note" colspan="7">Damage Note: <span>{{Damage}}</span></td>
+        <td colspan="8"></td>
       </tr>
+      {{/ifNotEquals}}
       {{/if}}
-      {{#ifNotEquals  PurchaseOrderNumber ""}}
+      {{#ifNotEquals  PurchaseOrderId ""}}
       <tr>
         <th></th>
         <th class="subHeaders">PO No.</th>
         <th class="subHeaders" colspan="2">Vendor</th>
-        <th class="subHeaders">Qty</th>
+        <th class="subHeaders number">Qty</th>
         <th class="subHeaders">Vendor Item Status</th>
         <th class="subHeaders">Vendor Completion</th>
-        <th colspan="3"></th>
+        <th colspan="9"></th>
       </tr>
       <tr class="subValues">
         <td></td>
@@ -187,7 +201,7 @@
         <td class="number">{{VendorQuantity}}</td>
         <td>{{VendorRepairItemStatus}}</td>
         <td>{{VendorCompletionDate}}</td>
-        <th colspan="3"></th>
+        <th colspan="9"></th>
       </tr>
       {{/ifNotEquals}}
     </tbody>
@@ -226,7 +240,5 @@
     </tfoot>
     {{/each}}
   </table>
-
-  {{/ifEquals}}
-
 </div>
+{{/ifEquals}}

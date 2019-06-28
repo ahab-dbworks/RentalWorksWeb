@@ -12,7 +12,7 @@ export class RepairOrderStatusReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
-
+            console.log('param', parameters)
             Ajax.post<DataTable>(`${apiUrl}/api/v1/repairorderstatusreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
@@ -22,7 +22,13 @@ export class RepairOrderStatusReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     data.IncludeDamageNotes = parameters.IncludeDamageNotes;
+                    if (parameters.IsSummary === 'true') {
+                        data.IsSummary = true;
+                    } else {
+                        data.IsSummary = false;
+                    }
                     this.renderFooterHtml(data);
+                    console.log('rpt', data)
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
