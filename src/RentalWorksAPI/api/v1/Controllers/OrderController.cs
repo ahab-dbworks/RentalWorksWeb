@@ -122,7 +122,6 @@ namespace RentalWorksAPI.api.v1
             dynamic orderitemresponse;
             OrderItems result = new OrderItems();
             var watch         = System.Diagnostics.Stopwatch.StartNew();
-            List<string> itemsadded = new List<string>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
@@ -142,16 +141,12 @@ namespace RentalWorksAPI.api.v1
                     AppData.LogWebApiAudit(orderitem.orderid, "v1/order/lineitems", new JavaScriptSerializer().Serialize(orderitem), "", "404: The requested order was not found.", Convert.ToInt32(watch.Elapsed.TotalSeconds));
                     ThrowError("500", orderitemresponse.errmsg);
                 }
-                else
-                {
-                    itemsadded.Add(orderitemresponse.masteritemid);
-                }
             }
 
             OrderData.UpdateOrderTimeStamp(orderitem.orderid);
 
             result.orderid = orderitem.orderid;
-            result.items   = OrderData.GetOrderItems(orderitem.orderid, itemsadded.ToArray());
+            result.items   = OrderData.GetOrderItems(orderitem.orderid);
             watch.Stop();
             AppData.LogWebApiAudit(orderitem.orderid, "v1/order/lineitems", new JavaScriptSerializer().Serialize(orderitem), new JavaScriptSerializer().Serialize(result), "", Convert.ToInt32(watch.Elapsed.TotalSeconds));
 
