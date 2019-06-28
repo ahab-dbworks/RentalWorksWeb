@@ -76,47 +76,52 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
         public async Task<FwJsonDataTable> RunReportAsync(DailyReceiptsReportRequest request)
         {
             FwJsonDataTable dt = null;
+
+            // build a default "sortBy" object to use for sorting and grouping if none provided in the request
+            CheckBoxListItems sortBy = new CheckBoxListItems();
+            sortBy.Add(new CheckBoxListItem("OfficeLocation", "Office Location", true));
+            sortBy.Add(new CheckBoxListItem("Name", "Customer / Deal", true));
+            sortBy.Add(new CheckBoxListItem("PaymentType", "Payment Type", true));
+
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
-				select.UseOptionRecompile = true;
+                select.UseOptionRecompile = true;
                 using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    select.AddWhereIn("locationid", request.OfficeLocationId); 
-                    select.AddWhereIn("customerid", request.CustomerId); 
-                    select.AddWhereIn("dealid", request.DealId); 
-                    select.AddWhereIn("paytypeid", request.PaymentTypeId); 
-                    addDateFilterToSelect("ardate", request.FromDate, select, ">=", "fromdate"); 
-                    addDateFilterToSelect("ardate", request.ToDate, select, "<=", "todate"); 
+                    select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("dealid", request.DealId);
+                    select.AddWhereIn("paytypeid", request.PaymentTypeId);
+                    addDateFilterToSelect("ardate", request.FromDate, select, ">=", "fromdate");
+                    addDateFilterToSelect("ardate", request.ToDate, select, "<=", "todate");
                     //select.AddOrderBy("location, ardate, name, arid, invoiceid");
 
-                    StringBuilder orderBy = new StringBuilder();
-                    if ((request.SortBy == null) || (request.SortBy.Count.Equals(0)))
+                    // if a valid/non-empty request.SortBy is provided in the request, substitute it in
+                    if (request.SortBy != null)
                     {
-                        orderBy.Append("location, ardate, name, arid, invoiceid");
-                    }
-                    else
-                    {
-                        foreach (CheckBoxListItem item in request.SortBy)
+                        CheckBoxListItems requestedSortBy = request.SortBy.GetSelectedItems();
+                        if (requestedSortBy.Count > 0)
                         {
-                            if (item.selected.GetValueOrDefault(false))
-                            {
-                                if (!orderBy.ToString().Equals(string.Empty))
-                                {
-                                    orderBy.Append(",");
-                                }
-                                orderBy.Append(item.value.Equals("OfficeLocation") ? "location" : "");
-                                orderBy.Append(item.value.Equals("Customer") ? "name" : "");
-                                orderBy.Append(item.value.Equals("Deal") ? "deal" : "");
-                                orderBy.Append(item.value.Equals("PaymentType") ? "paytype" : "");
-                                //orderBy.Append(item.value.Equals("ATTRIBUTE") ? "attribute,attributevalue" : "");
-                            }
+                            sortBy = requestedSortBy;
                         }
-
                     }
+
+                    StringBuilder orderBy = new StringBuilder();
+                    foreach (CheckBoxListItem item in sortBy)
+                    {
+                        if (orderBy.Length > 0)
+                        {
+                            orderBy.Append(",");
+                        }
+                        orderBy.Append(item.value.Equals("OfficeLocation") ? "location" : "");  // can use reflection for this
+                        orderBy.Append(item.value.Equals("Name") ? "name" : "");
+                        orderBy.Append(item.value.Equals("PaymentType") ? "paytype" : "");
+                    }
+                    orderBy.Append(", arid, invoiceid");
                     select.AddOrderBy(orderBy.ToString());
 
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
@@ -125,12 +130,9 @@ namespace WebApi.Modules.Reports.DailyReceiptsReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "Amount", "Overpayment", "Applied" };
-                foreach (CheckBoxListItem item in request.SortBy)
+                foreach (CheckBoxListItem item in sortBy)
                 {
-                    if (item.selected.GetValueOrDefault(false))
-                    {
-                        dt.InsertSubTotalRows(item.value, "RowType", totalFields);
-                    }
+                    dt.InsertSubTotalRows(item.value, "RowType", totalFields);
                 }
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }

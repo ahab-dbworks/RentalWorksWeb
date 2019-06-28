@@ -112,8 +112,7 @@ class DailyReceiptsReport extends FwWebApiReport {
         FwFormField.loadItems($form.find('div[data-datafield="SortBy"]'),
             [
                 { value: "OfficeLocation", text: "Office Location", selected: "T" },
-                { value: "Customer", text: "Customer", selected: "T" },
-                { value: "Deal", text: "Deal", selected: "T" },
+                { value: "Name", text: "Customer / Deal", selected: "T" },
                 { value: "PaymentType", text: "Payment Type", selected: "T" },
             ]);
     }
