@@ -1,148 +1,232 @@
 ﻿<!--RepairOrderStatusReport-->
-  <div class="rpt-flexrow" style="width:1555px;">
-    <style type="text/css" media="print"> @page { size: landscape; margin: 10px 10px 10px 10px; } </style>
-    <div class="rpt-flexcolumn">
-      <span class="rpt-header-left">{{System}}</span>
-    </div>
-    <div class="rpt-flexcolumn">
-      <span class="rpt-title">{{Report}}</span>
-      <span class="rpt-header-center">As of: {{Today}}</span>
-    </div>
-    <div class="rpt-flexcolumn">
-      <span class="rpt-header-right">{{Company}}</span>
-    </div>
+<div class="rpt-flexrow" style="width:1555px;">
+  <style type="text/css" media="print">
+    @page {
+      size: landscape;
+      margin: 10px 10px 10px 10px;
+    }
+  </style>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
   </div>
-  <div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
-    <table>
-      <thead class="main-header">
-        <tr>
-          <th class="top">I-Code</th>
-          <th class="top">Description</th>
-          <th class="top number">In Repair</th>
-          <th class="top number">Pending</th>
-          <th class="top">Bar Code</th>
-          <th class="top">Purch. Date</th>
-          <th class="top">Receive Date</th>
-          <th class="top">PO No.</th>
-          <th class="top number">Purch. Price</th>
-          <th>
-            <div>Retire Date</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire Date</div>
-            {{/if}}
-          </th>
-          <th>
-            <div>Retire By</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire By</div>
-            {{/if}}
-          </th>
-          <th>
-            <div>Retire Reason</div>
-            {{#if IncludeUnretired}}
-            <div>Un-Retire Reason</div>
-            {{/if}}
-          </th>
-        </tr>
-      </thead>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">As of: {{Today}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;width:1555px;">
+  {{#ifEquals IsSummary true}}
+  <table>
+    <thead class="top-section-header">
+      <tr>
+        <th colspan="4" style="background-color:white;"></th>
+        <th colspan="3" style="border-right:3px solid black;">Billable Quantity</th>
+        <th colspan="3" style="border-right:3px solid black;">Quantity By Priority</th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th class="number">In Repair</th>
+        <th class="number">Pending</th>
+        <th class="number">Billable</th>
+        <th class="number">Billed</th>
+        <th class="number">Unbilled</th>
+        <th class="number">High</th>
+        <th class="number">Medium</th>
+        <th class="number">Low</th>
+      </tr>
+    </thead>
+    <tbody>
       {{#each this}}
-      {{#ifEquals RowType "Warehouseheader"}}
-      <thead data-rowtype="{{RowType}}">
-        <tr>
-          <th class="header-row" colspan="4">Warehouse: {{Warehouse}}</th>
-        </tr>
-      </thead>
-      {{/ifEquals}}
-      {{#ifEquals RowType "InventoryTypeheader"}}
-      <thead data-rowtype="{{RowType}}">
-        <tr>
-          <th class="header-row lower" colspan="4">Inventory Type: {{InventoryType}}</th>
-        </tr>
-      </thead>
-      {{/ifEquals}}
-      {{#ifEquals RowType "detail"}}
-      <tbody data-rowtype="{{RowType}}">
-        <tr>
-          <td class="nowrap">{{ICode}}</td>
-          <td>{{Description}}</td>
-          <td class="number">{{Quantity}}</td>
-          <td>{{BarCode}}</td>
-          <td>{{PurchaseDate}}</td>
-          <td>{{ReceiveDate}}</td>
-          <td>{{PurchasePurchaseOrderNumber}}</td>
-          <td class="number">{{PurchaseAmount}}</td>
-          <td>
-            <div>{{RetireDate}}</div>
-            {{#if ../IncludeUnretired}}
-            <div>{{UnretireDate}}</div>
-            {{/if}}
-          </td>
-          <td>
-            <div><nobr>{{RetiredBy}}</nobr></div>
-            {{#if ../IncludeUnretired}}
-            <div><nobr>{{UnretiredBy}}</nobr></div>
-            {{/if}}
-          </td>
-          <td>
-            <div>{{RetiredReason}}</div>
-            {{#if ../IncludeUnretired}}
-            <div>{{UnretiredReason}}</div>
-            {{/if}}
-          </td>
-        </tr>
-        {{#if RetiredNotes}}
-        <tr>
-          <td></td>
-          <td class="note" colspan="7">Retire Note: <span>{{RetiredNotes}}</span></td>
-          <td colspan="3"></td>
-        </tr>
-        {{/if}}
-        {{#ifEquals ../ShowSellInformation true}}
-        {{#checkLength SoldToCustomer 0}}
-        <tr>
-          <th></th>
-          <th class="subHeaders">Sold To Customer</th>
-          <th class="subHeaders" colspan="2">Deal</th>
-          <th class="subHeaders">Order No.</th>
-          <th class="subHeaders">L&D No.</th>
-          <th class="subHeaders">Inv. No.</th>
-          <th class="subHeaders number">Price</th>
-          <th colspan="3"></th>
-        </tr>
-        <tr class="subValues">
-          <td></td>
-          <td>{{SoldToCustomer}}</td>
-          <td colspan="2">{{SoldToDeal}}</td>
-          <td>{{SoldToOrderNumber}}</td>
-          <td>{{BilledToOrderNumber}}</td>
-          <td>{{BilledToInvoiceNumber}}</td>
-          <td class="number">{{BilledAmount}}</td>
-          <th colspan="3"></th>
-        </tr>
-        {{/checkLength}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Warehouseheader"}}
+        <td colspan="3" class="header-row">Warehouse: {{Warehouse}}</td>
         {{/ifEquals}}
-      </tbody>
-      {{/ifEquals}}
-      <tfoot data-rowtype="{{RowType}}">
-        {{#ifEquals RowType "InventoryTypefooter"}}
-        <tr>
-          <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
+        {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="3" class="lower header-row">Department: {{Department}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypeheader"}}
+        <td colspan="3" class="lower header-row">Inventory Type: {{InventoryType}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryheader"}}
+        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td class="nowrap">{{ICode}}</td>
+        <td data-value="{{Description}}"></td>
+        <td class="number" data-value="{{Quantity}}"></td>
+        <td class="number" data-value="{{QuantityPending}}"></td>
+        <td class="number" data-value="{{QuantityBillable}}"></td>
+        <td class="number" data-value="{{QuantityBilled}}"></td>
+        <td class="number" data-value="{{QuantityNotYetBilled}}"></td>
+        <td class="number" data-value="{{QuantityHighPriority}}"></td>
+        <td class="number" data-value="{{QuantityMediumPriority}}"></td>
+        <td class="number" data-value="{{QuantityLowPriority}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <tr>
-          <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
+        <td colspan="2" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="2" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "InventoryTypefooter"}}
+        <td colspan="2" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Categoryfooter"}}
+        <td colspan="2" class="total-name">{{Category}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <tr>
-          <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-          <td class="total-val" data-value="{{Quantity}}"></td>
-        </tr>
+        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
         {{/ifEquals}}
-      </tfoot>
+      </tr>
       {{/each}}
-    </table>
-  </div>
+    </tbody>
+  </table>
+  {{/ifEquals}}
+  {{#ifEquals IsSummary false}}
+  <table>
+    <thead class="main-header">
+      <tr>
+        <th class="top">RO No.</th>
+        <th class="top">Days</th>
+        <th class="top">Date</th>
+        <th class="top">Type</th>
+        <th class="top">I-Code</th>
+        <th class="top">Bar Code</th>
+        <th class="top">Description</th>
+        <th class="top">Deal</th>
+        <th class="top number">Qty</th>
+        <th class="top">Billable</th>
+        <th class="top">Priority</th>
+        <th class="top">Billed</th>
+        <th class="top">Item Status</th>
+        <th class="top">RO Status</th>
+        <th class="top">As Of</th>
+      </tr>
+    </thead>
+    {{#each this}}
+    {{#ifEquals RowType "Warehouseheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="header-row" colspan="4">Warehouse: {{Warehouse}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "Departmentheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <td colspan="3" class="lower header-row">Department: {{Department}}</td>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "InventoryTypeheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="header-row lower" colspan="4">Inventory Type: {{InventoryType}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "Categoryheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <td colspan="3" class="lower header-row">Category: {{Category}}</td>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr>
+        <td>{{RepairNumber}}</td>
+        <td>{{DaysInRepair}}</td>
+        <td>{{RepairDate}}</td>
+        <td>{{RepairType}}</td>
+        <td class="nowrap">{{ICode}}</td>
+        <td>{{BarCode}}</td>
+        <td>{{Description}}</td>
+        <td>{{Deal}}</td>
+        <td class="number">{{Quantity}}</td>
+        <td>{{Billable}}</td>
+        <td>{{Priority}}</td>
+        <td>{{Billed}}</td>
+        <td>{{Status}}</td>
+        <td>{{RepairItemStatus}}</td>
+        <td>{{StatusDate}}</td>
+        <td>
+      </tr>
+      {{#if RetiredNotes}}
+      <tr>
+        <td></td>
+        <td class="note" colspan="7">Retire Note: <span>{{RetiredNotes}}</span></td>
+        <td colspan="3"></td>
+      </tr>
+      {{/if}}
+      {{#ifNotEquals  PurchaseOrderNumber ""}}
+      <tr>
+        <th></th>
+        <th class="subHeaders">PO No.</th>
+        <th class="subHeaders" colspan="2">Vendor</th>
+        <th class="subHeaders">Qty</th>
+        <th class="subHeaders">Vendor Item Status</th>
+        <th class="subHeaders">Vendor Completion</th>
+        <th colspan="3"></th>
+      </tr>
+      <tr class="subValues">
+        <td></td>
+        <td>{{PurchaseOrderNumber}}</td>
+        <td colspan="2">{{Vendor}}</td>
+        <td class="number">{{VendorQuantity}}</td>
+        <td>{{VendorRepairItemStatus}}</td>
+        <td>{{VendorCompletionDate}}</td>
+        <th colspan="3"></th>
+      </tr>
+      {{/ifNotEquals}}
+    </tbody>
+    {{/ifEquals}}
+    <tfoot data-rowtype="{{RowType}}">
+      {{#ifEquals RowType "Warehousefooter"}}
+      <tr>
+        <td colspan="8" class="total-name">{{Warehouse}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Departmentfooter"}}
+      <tr>
+        <td colspan="8" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InventoryTypefooter"}}
+      <tr>
+        <td colspan="8" class="total-name">{{InventoryType}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "Categoryfooter"}}
+      <tr>
+        <td colspan="8" class="total-name">{{Category}}&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr>
+        <td colspan="8" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Quantity}}"></td>
+      </tr>
+      {{/ifEquals}}
+    </tfoot>
+    {{/each}}
+  </table>
+
+  {{/ifEquals}}
+
+</div>

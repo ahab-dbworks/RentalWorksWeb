@@ -79,7 +79,7 @@ const repairOrderStatusTemplate = `
                     <div data-value="LTE" data-caption="<="></div>
                     <div data-value="GT" data-caption=">"></div>
                   </div>
-                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield toggle-enable filter-amount" data-caption="" data-datafield="DaysInRepair" data-required="true" style="float:left; margin-left:20px; width:70px"></div>
+                  <div data-control="FwFormField" data-type="number" class="fwcontrol fwformfield toggle-enable filter-amount" data-caption="" data-datafield="DaysInRepair" style="float:left; margin-left:20px; width:70px"></div>
                 </div>
               </div>
             </div>
