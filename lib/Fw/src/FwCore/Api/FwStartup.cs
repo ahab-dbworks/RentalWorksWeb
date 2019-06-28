@@ -2,6 +2,7 @@ using AutoMapper;
 using FwCore.Middleware;
 using FwCore.Security;
 using FwStandard.Models;
+using FwStandard.Modules.Administrator.Alert;
 using FwStandard.Security;
 using FwStandard.SqlServer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -198,6 +199,7 @@ namespace FwCore.Api
             //    }
             //}
             FwSqlSelect.PagingCompatibility = FwSqlSelect.PagingCompatibilities.PreSql2012;
+            AlertFunc.RefreshAlerts(ApplicationConfig);
         }
         //------------------------------------------------------------------------------------
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

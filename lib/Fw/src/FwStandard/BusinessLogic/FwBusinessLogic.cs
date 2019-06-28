@@ -3,8 +3,6 @@ using FwStandard.AppManager;
 using FwStandard.DataLayer;
 using FwStandard.Models;
 using FwStandard.Modules.Administrator.Alert;
-using FwStandard.Modules.Administrator.AlertCondition;
-using FwStandard.Modules.Administrator.AlertWebUsers;
 using FwStandard.Modules.Administrator.DuplicateRule;
 using FwStandard.Modules.Administrator.WebAuditJson;
 using FwStandard.SqlServer;
@@ -13,10 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -896,36 +891,6 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
-        public static async Task<bool> SendEmailAsync(string from, string to, string subject, string body, FwApplicationConfig appConfig)
-        {
-            var message = new MailMessage(from, to, subject, body);
-            message.IsBodyHtml = true;
-            string accountname = string.Empty, accountpassword = string.Empty, authtype = string.Empty, host = string.Empty, domain = "";
-            int port = 25;
-            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-            {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout))
-                {
-                    qry.Add("select top 1 *");
-                    qry.Add("from emailreportcontrol with (nolock)");
-                    await qry.ExecuteAsync();
-                    accountname = qry.GetField("accountname").ToString().TrimEnd();
-                    accountpassword = qry.GetField("accountpassword").ToString().TrimEnd();
-                    authtype = qry.GetField("authtype").ToString().TrimEnd();
-                    host = qry.GetField("host").ToString().TrimEnd();
-                    port = qry.GetField("port").ToInt32();
-                }
-            }
-            var client = new SmtpClient(host, port);
-            client.Credentials = new NetworkCredential(accountname, accountpassword, domain);
-            try
-            {
-                await client.SendMailAsync(message);
-            }
-            catch (SmtpException ex) { }
-            return true;
-        }
-        //------------------------------------------------------------------------------------ 
         protected virtual bool IsValidStringValue(PropertyInfo property, string[] acceptableValues, ref string validateMsg, bool nullAcceptable = true)
         {
             bool isValidValue = false;
@@ -1229,7 +1194,11 @@ namespace FwStandard.BusinessLogic
                             rowsAffected = afterSaveArgs.RecordsAffected;
                         }
 
-                        AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, original, this, saveMode, this._Custom);
+                        await Task.Run(() =>
+                        {
+                            AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, original, this, saveMode);
+                        });
+
                     }
                 }
                 success = true;
