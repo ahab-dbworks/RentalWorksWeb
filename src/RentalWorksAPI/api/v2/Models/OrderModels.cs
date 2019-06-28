@@ -140,4 +140,14 @@ namespace RentalWorksAPI.api.v2.Models
         public string webusersid  { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
+    public class OrderItems
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        public string orderid         { get; set; }
+
+        [DataType(DataType.Text)]
+        public List<OrderItem> items  { get; set; }
+    }
+    //----------------------------------------------------------------------------------------------------
 }

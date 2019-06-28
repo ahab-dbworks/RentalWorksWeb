@@ -5,11 +5,13 @@ using RentalWorksAPI.api.v2.Models.OrderModels.CsrsDeals;
 using RentalWorksAPI.api.v2.Models.OrderModels.OrdersAndItems;
 using RentalWorksAPI.api.v2.Models.OrderModels.OrderStatusDetail;
 using RentalWorksAPI.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace RentalWorksAPI.api.v2
 {
@@ -66,6 +68,49 @@ namespace RentalWorksAPI.api.v2
             response.items     = OrderData.GetOrderStatus(orderid);
 
             return Request.CreateResponse(HttpStatusCode.OK, new { Order = response } );
+        }
+        //----------------------------------------------------------------------------------------------------
+        [HttpPost]
+        [Route("lineitemadd")]
+        public HttpResponseMessage ProcessOrderLineItem([FromBody]OrderItems orderitem)
+        {
+            dynamic orderitemresponse;
+            OrderItems result = new OrderItems();
+            var watch         = System.Diagnostics.Stopwatch.StartNew();
+            List<string> itemsadded = new List<string>();
+
+            if (!ModelState.IsValid)
+                ThrowError("400", "");
+
+            if (OrderData.GetOrder(orderitem.orderid, "O", null, "", "", "").Count == 0) {
+                watch.Stop();
+                AppData.LogWebApiAudit(orderitem.orderid, "v2/order/lineitemadd", new JavaScriptSerializer().Serialize(orderitem), "", "404: The requested order was not found.", Convert.ToInt32(watch.Elapsed.TotalSeconds));
+                ThrowError("404", "The requested order was not found.");
+            }
+
+            for (int i = 0; i < orderitem.items.Count; i++)
+            {
+                orderitemresponse = OrderData.ProcessOrderItem(orderitem.items[i], orderitem.orderid);
+                if (orderitemresponse.errno != "0")
+                {
+                    watch.Stop();
+                    AppData.LogWebApiAudit(orderitem.orderid, "v2/order/lineitemadd", new JavaScriptSerializer().Serialize(orderitem), "", "404: The requested order was not found.", Convert.ToInt32(watch.Elapsed.TotalSeconds));
+                    ThrowError("500", orderitemresponse.errmsg);
+                }
+                else
+                {
+                    itemsadded.Add(orderitemresponse.masteritemid);
+                }
+            }
+
+            OrderData.UpdateOrderTimeStamp(orderitem.orderid);
+
+            result.orderid = orderitem.orderid;
+            result.items   = OrderData.GetOrderItems(orderitem.orderid, itemsadded.ToArray());
+            watch.Stop();
+            AppData.LogWebApiAudit(orderitem.orderid, "v2/order/lineitemadd", new JavaScriptSerializer().Serialize(orderitem), new JavaScriptSerializer().Serialize(result), "", Convert.ToInt32(watch.Elapsed.TotalSeconds));
+
+            return Request.CreateResponse(HttpStatusCode.OK, new { order = result } );
         }
         //----------------------------------------------------------------------------------------------------
         private void ThrowError(string errno, string errmsg)

@@ -124,4 +124,72 @@ namespace RentalWorksAPI.api.v2.Models
         public string warehouseqtyin        { get; set; }
     }
     //----------------------------------------------------------------------------------------------------
+    public class OrderItem
+    {
+        [DataType(DataType.Text)]
+        public string masteritemid        { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        public string masterid            { get; set; }
+
+        [DataType(DataType.Text)]
+        public string description         { get; set; }
+
+        [DataType(DataType.Text)]
+        public string rentfromdate        { get; set; }
+
+        [DataType(DataType.Text)]
+        public string rentfromtime        { get; set; }
+
+        [DataType(DataType.Text)]
+        public string renttodate          { get; set; }
+
+        [DataType(DataType.Text)]
+        public string renttotime          { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        public string qtyordered          { get; set; }
+
+        [DataType(DataType.Text)]
+        public string unit                { get; set; }
+
+        [DataType(DataType.Text)]
+        public string price               { get; set; }
+
+        [DataType(DataType.Text)]
+        public string daysinwk            { get; set; }
+
+        [DataType(DataType.Text)]
+        public string notes               { get; set; }
+
+        [DataType(DataType.Text)]
+        public string parentid            { get; set; }
+
+        [DataType(DataType.Text)]
+        public string unitextended        { get; set; }
+
+        [DataType(DataType.Text)]
+        public string periodextended      { get; set; }
+
+        [DataType(DataType.Text)]
+        public string weeklyextended      { get; set; }
+
+        [DataType(DataType.Text)]
+        public string taxable             { get; set; }
+
+        [DataType(DataType.Text)]
+        public string inactive            { get; set; }
+
+        [DataType(DataType.Text)]
+        public string itemorder           { get; set; }
+
+        [DataType(DataType.Text)]
+        public string packageitemid       { get; set; }
+
+        [DataType(DataType.Text)]
+        public string nestedmasteritemid  { get; set; }
+    }
+    //----------------------------------------------------------------------------------------------------
 }
