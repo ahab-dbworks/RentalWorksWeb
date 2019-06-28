@@ -285,7 +285,7 @@ class Alert {
         let $conditionRow = jQuery(`
                             <div class="flexrow condition-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="AlertConditionId" style="display:none;"></div>
-                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName" data-allcaps="false" style="flex:1 1 0; max-width:250px;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName" data-allcaps="false" style="flex:1 1 0; max-width:350px;"></div>
                               <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:250px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-required="true"></div>
                               <i class="material-icons delete-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
@@ -396,9 +396,9 @@ class Alert {
     }
     //----------------------------------------------------------------------------------------------
     compare(a, b) {
-        if (a.Name < b.Name)
+        if (a.value < b.value)
             return -1;
-        if (a.Name > b.Name)
+        if (a.value > b.value)
             return 1;
         return 0;
     }
