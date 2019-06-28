@@ -32,6 +32,12 @@
         {{#ifEquals RowType "OfficeLocationheader"}}
         <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
+        {{#ifEquals RowType "Nameheader"}}
+        <td colspan="5" class="lower header-row">Customer / Deal: {{Name}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "PaymentTypeheader"}}
+        <td colspan="5" class="lower header-row">Payment Type: {{PaymentType}}</td>
+        {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{ReceiptDate}}"></td>
         <td data-value="{{Name}}"></td>
@@ -45,6 +51,18 @@
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
         <td colspan="5" class="total-name">{{OfficeLocation}}&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
+        <td class="total-val" data-value="{{Overpayment}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Namefooter"}}
+        <td colspan="5" class="total-name">{{Name}}&nbsp;</td>
+        <td class="total-val" data-value="{{Amount}}"></td>
+        <td class="total-val" data-value="{{Overpayment}}"></td>
+        <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "PaymentTypefooter"}}
+        <td colspan="5" class="total-name">{{PaymentType}}&nbsp;</td>
         <td class="total-val" data-value="{{Amount}}"></td>
         <td class="total-val" data-value="{{Overpayment}}"></td>
         <td class="total-val" colspan="2" data-value="{{Applied}}"></td>
