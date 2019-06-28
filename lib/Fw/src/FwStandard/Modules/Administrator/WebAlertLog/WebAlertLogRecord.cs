@@ -1,21 +1,22 @@
+using FwStandard.DataLayer;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
+using System;
 
-namespace WebApi.Modules.Administrator.WebAlertLog
+namespace FwStandard.Modules.Administrator.WebAlertLog
 {
     [FwSqlTable("webalertlog")]
-    public class WebAlertLogRecord : AppDataReadWriteRecord
+    public class WebAlertLogRecord : FwDataReadWriteRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "webalertlogid", modeltype: FwDataTypes.Integer, sqltype: "int", isPrimaryKey: true)]
+        [FwSqlDataField(column: "webalertlogid", modeltype: FwDataTypes.Integer, identity: true, sqltype: "int", isPrimaryKey: true)]
         public int? WebAlertLogId { get; set; } = 0;
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "alertid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string AlertId { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "createdatetime", modeltype: FwDataTypes.Date, sqltype: "datetime")]
-        public string CreateDateTime { get; set; }
+        [FwSqlDataField(column: "createdatetime", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
+        public DateTime? CreateDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "alertsubject", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 255)]
         public string AlertSubject { get; set; }

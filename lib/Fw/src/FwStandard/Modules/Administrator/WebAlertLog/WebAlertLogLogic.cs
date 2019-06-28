@@ -1,10 +1,11 @@
 using FwStandard.AppManager;
-using WebApi.Logic;
+using FwStandard.BusinessLogic;
+using System;
 
-namespace WebApi.Modules.Administrator.WebAlertLog
+namespace FwStandard.Modules.Administrator.WebAlertLog
 {
     [FwLogic(Id: "Zu7c1C5nMXgnm")]
-    public class WebAlertLogLogic : AppBusinessLogic
+    public class WebAlertLogLogic : FwBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
         WebAlertLogRecord webAlertLog = new WebAlertLogRecord();
@@ -18,7 +19,7 @@ namespace WebApi.Modules.Administrator.WebAlertLog
         [FwLogicProperty(Id: "COSY7QEyTmog ")]
         public string AlertId { get { return webAlertLog.AlertId; } set { webAlertLog.AlertId = value; } }
         [FwLogicProperty(Id: "1ZW3ABx5Gbnh ")]
-        public string CreateDateTime { get { return webAlertLog.CreateDateTime; } set { webAlertLog.CreateDateTime = value; } }
+        public DateTime? CreateDateTime { get { return webAlertLog.CreateDateTime; } set { webAlertLog.CreateDateTime = value; } }
         [FwLogicProperty(Id: "rFMy5SjOMT5D ")]
         public string AlertSubject { get { return webAlertLog.AlertSubject; } set { webAlertLog.AlertSubject = value; } }
         [FwLogicProperty(Id: "x37GeMfaUcxZ ")]

@@ -106,9 +106,11 @@ namespace FwStandard.Modules.Administrator.Alert
                 }
             }
         }
+        //------------------------------------------------------------------------------------ 
         public void OnAfterDeleteAlert(object sender, AfterDeleteEventArgs e)
         {
             AlertFunc.RefreshAlerts(AppConfig);
         }
+        //------------------------------------------------------------------------------------ 
     }
 }

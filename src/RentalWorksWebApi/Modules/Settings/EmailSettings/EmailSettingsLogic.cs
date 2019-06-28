@@ -1,5 +1,8 @@
 using WebApi.Logic;
 using FwStandard.AppManager;
+using FwStandard.Modules.Administrator.Alert;
+using FwStandard.BusinessLogic;
+
 namespace WebApi.Modules.Settings.EmailSettings
 {
     [FwLogic(Id: "K33XTFCoSEq6")]
@@ -10,6 +13,7 @@ namespace WebApi.Modules.Settings.EmailSettings
         public EmailSettingsLogic()
         {
             dataRecords.Add(emailSettings);
+            AfterSave += OnAfterSave;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "toCtkFmW1fghM", IsPrimaryKey: true)]
@@ -37,6 +41,11 @@ namespace WebApi.Modules.Settings.EmailSettings
         //    bool isValid = true; 
         //    return isValid; 
         //} 
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            AlertFunc.RefreshAlerts(AppConfig);
+        }
         //------------------------------------------------------------------------------------ 
     }
 }
