@@ -15,6 +15,9 @@ namespace FwStandard.Modules.Administrator.WebAuditJson
         [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text)]
         public string ModuleName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "recordtitle", modeltype: FwDataTypes.Text)]
+        public string Title { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "uniqueid1", modeltype: FwDataTypes.Text)]
         public string UniqueId1 { get; set; }
         //------------------------------------------------------------------------------------ 

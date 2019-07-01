@@ -1,4 +1,4 @@
-using AutoMapper;
+﻿using AutoMapper;
 using FwStandard.AppManager;
 using FwStandard.DataLayer;
 using FwStandard.Models;
@@ -1231,6 +1231,12 @@ namespace FwStandard.BusinessLogic
                     audit.AppConfig = this.AppConfig;
                     audit.UserSession = this.UserSession;
                     audit.ModuleName = this.BusinessLogicModuleName;
+                    string recordTitle = this.RecordTitle;
+                    if (string.IsNullOrEmpty(recordTitle))
+                    {
+                        recordTitle = original.RecordTitle;
+                    }
+                    audit.Title = recordTitle;
                     JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
                     jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     List<FwBusinessLogicFieldDelta> deltas = this.GetChanges(original);
