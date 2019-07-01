@@ -636,9 +636,9 @@ class User {
                       <!--Hidden Sound Filenames-->
                       <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                         <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Home Page Path" data-datafield="HomeMenuPath" style="flex:1 1 0; display:none;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="SuccessSoundFileName" data-datafield="SuccessSoundFileName" style="flex:1 1 300px;display:none;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ErrorSoundFileName" data-datafield="ErrorSoundFileName" style="flex:1 1 300px;display:none;"></div>
-                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="NotificationSoundFileName" data-datafield="NotificationSoundFileName" style="flex:1 1 300px;display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="SuccessSoundFileName" data-datafield="SuccessSoundFileName" data-allcaps="false" style="flex:1 1 300px;display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="ErrorSoundFileName" data-datafield="ErrorSoundFileName" data-allcaps="false" style="flex:1 1 300px;display:none;"></div>
+                        <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="NotificationSoundFileName" data-datafield="NotificationSoundFileName" data-allcaps="false" style="flex:1 1 300px;display:none;"></div>
                       </div>
                     </div>
                   </div>
