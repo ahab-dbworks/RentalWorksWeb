@@ -118,6 +118,8 @@
                             calendarevents[i].html = `<div style="color:${calendarevents[i].textColor}">${calendarevents[i].text}</div>`
                         }
                     }
+
+
                     //for (var i = 0; i < schedulerEvents.length; i++) {
                     //    if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
                     //        schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
@@ -125,6 +127,7 @@
                     //}
                     //self.loadScheduler($form, response.InventoryAvailabilityScheduleEvents, response.InventoryAvailabilityScheduleResources);
                     FwScheduler.loadEventsCallback($control, [{ id: '1', name: '' }], calendarevents);
+                    this.loadInventoryDataTotals($form, response.InventoryData);
                 }, function onError(response) {
                     FwFunc.showError(response);
                 }, $control)
@@ -494,6 +497,17 @@
 
         return $menuObject;
     };
+    //----------------------------------------------------------------------------------------------
+    loadInventoryDataTotals($form: JQuery, data) {
+        $form.find(`.inv-data-totals [data-totalfield="Total"] input`).val(data.Total.Total);
+        $form.find(`.inv-data-totals [data-totalfield="In"] input`).val(data.In.Total);
+        $form.find(`.inv-data-totals [data-totalfield="QcRequired"] input`).val(data.QcRequired.Total);
+        $form.find(`.inv-data-totals [data-totalfield="InContainer"] input`).val(data.InContainer.Total);
+        $form.find(`.inv-data-totals [data-totalfield="Staged"] input`).val(data.Staged.Total);
+        $form.find(`.inv-data-totals [data-totalfield="InRepair"] input`).val(data.InRepair.Total);
+        $form.find(`.inv-data-totals [data-totalfield="InTransit"] input`).val(data.InTransit.Total);
+        //$form.find(`.inv-data-totals [data-totalfield="QcRequired"] input`).val(data.QcRequired.Total); // on PO still wip
+    }
     //----------------------------------------------------------------------------------------------
     setupNewMode($form: any) {
         FwFormField.enable($form.find('[data-datafield="Classification"]'));
