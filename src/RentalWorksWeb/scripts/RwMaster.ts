@@ -78,7 +78,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.RemoveFromContainer,
                 ]
             };
-            if (applicationOptions.container.enabled) {
+            if ((applicationOptions.container !== undefined) && (applicationOptions.container.enabled !== null) && (applicationOptions.container.enabled)) {
                 this.navigation.push(menuContainer);
             }
             // Transfers Menu
@@ -94,7 +94,7 @@ class RwMaster extends WebMaster {
                     Constants.Modules.Home.TransferStatus,
                 ]
             };
-            if (applicationOptions.multiwarehouse.enabled && applicationOptions.multiwarehouse.value !== 1) {
+            if ((applicationOptions.multiwarehouse !== undefined) && (applicationOptions.multiwarehouse.enabled !== null) && (applicationOptions.multiwarehouse.enabled) && (applicationOptions.multiwarehouse.value !== 1)) {
                 this.navigation.push(menuTransfers);
             }
             // Billing Menu
