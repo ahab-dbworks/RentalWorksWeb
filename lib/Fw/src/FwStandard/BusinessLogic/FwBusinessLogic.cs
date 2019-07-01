@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using FwStandard.AppManager;
 using FwStandard.DataLayer;
 using FwStandard.Models;
@@ -1091,6 +1091,7 @@ namespace FwStandard.BusinessLogic
             return isValid;
         }
         //------------------------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Await.Warning", "CS4014")]  // do not warn about the call to Task.Run not being awaited.  I want it to run in a separte unawaited thread
         public virtual async Task<int> SaveAsync(FwBusinessLogic original, FwSqlConnection conn = null)
         {
             bool success = false;
@@ -1194,7 +1195,7 @@ namespace FwStandard.BusinessLogic
                             rowsAffected = afterSaveArgs.RecordsAffected;
                         }
 
-                        await Task.Run(() =>
+                        Task.Run(() =>
                         {
                             AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, original, this, saveMode);
                         });
