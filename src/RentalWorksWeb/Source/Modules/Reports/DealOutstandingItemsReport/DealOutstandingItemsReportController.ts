@@ -144,12 +144,10 @@ class DealOutstandingItemsReport extends FwWebApiReport {
         });
         // Expose date fields if Filter Date
         $form.on('change', '.filter-dates input[type=checkbox]', e => {
-            const isChecked = jQuery(e.currentTarget).is(':checked');
-            FwFormField.setValueByDataField($form, 'FromDate', '');
-            FwFormField.setValueByDataField($form, 'ToDate', '');
-            FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), isChecked);
-            FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), isChecked);
-            FwFormField.toggle($form.find('div[data-datafield="DateType"]'), isChecked);
+            const filterDate = FwFormField.getValueByDataField($form, 'FilterDate');
+            FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
         });
 
         return $form;
@@ -170,7 +168,14 @@ class DealOutstandingItemsReport extends FwWebApiReport {
     convertParameters(parameters: any) {
         return parameters;
     }
-
+    //----------------------------------------------------------------------------------------------
+    afterLoad($form) {
+        // Filter Dates
+        const filterDate = FwFormField.getValueByDataField($form, 'FilterDate');
+        FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
+        FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
+        FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
+    }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
         const validationName = request.module;
