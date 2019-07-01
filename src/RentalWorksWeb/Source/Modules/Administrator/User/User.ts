@@ -452,7 +452,12 @@ class User {
               <!--SECURITY PAGE-->
               <div data-type="tabpage" id="securitytabpage" class="tabpage" data-tabid="securitytab">
                 <div class="flexrow">
-                  <div class="flexcolumn" style="flex:0 1 350px;">
+                  <div class="flexcolumn" style="flex:0 1 450px;">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Lock Login">
+                      <div class="flexrow">
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Login is locked out" data-datafield="AccountLocked" style="flex:1 1 125px;"></div>
+                      </div>
+                    </div>
                     <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Password Security">
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="User must change password on next login" data-datafield="UserMustChangePassword" style="flex:1 1 125px;"></div>
                       <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield cbSecurityExpirePassword" data-caption="Expire password" data-datafield="PasswordExpires" style="flex:1 1 125px;"></div>
@@ -461,11 +466,12 @@ class User {
                         <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Last Changed" data-datafield="PasswordUpdatedDateTime" data-enabled="false" style="flex:0 1 125px;"></div>
                       </div>
                     </div>
-                  </div>
-                  <div class="flexcolumn" style="flex:0 1 300px;">
-                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Lock Login">
+                    <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Administrator">
                       <div class="flexrow">
-                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Login is locked out" data-datafield="AccountLocked" style="flex:1 1 125px;"></div>
+                        <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Administrator" data-datafield="WebAdministrator" style="float:left;width:150px;"></div>
+                      </div>
+                      <div class="flexrow">
+                        <div>Administrators have access to all Settings peek buttons.</div>
                       </div>
                     </div>
                   </div>

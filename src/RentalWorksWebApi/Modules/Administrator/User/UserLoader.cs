@@ -283,6 +283,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
         public string WebUserId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
+        public bool? WebAdministrator { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "browsedefaultrows", modeltype: FwDataTypes.Integer)]
         public int? BrowseDefaultRows { get; set; }
         //------------------------------------------------------------------------------------ 

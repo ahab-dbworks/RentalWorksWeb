@@ -24,7 +24,6 @@ namespace WebApi.Modules.Administrator.User
 
             user.AfterSave += AfterSaveUser;
             //webUser.AfterSave += AfterSaveWebUser;
-
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "DyZgfLOzppd7z", IsPrimaryKey: true)]
@@ -397,6 +396,9 @@ namespace WebApi.Modules.Administrator.User
 
         //[FwLogicProperty(Id:"n69lRcG4ix8")]
         //public string PasswordLastUpdated { get { return webUser.PasswordLastUpdated; } set { webUser.PasswordLastUpdated = value; } }
+
+        [FwLogicProperty(Id: "sfdYwaSiBzgqS")]
+        public bool? WebAdministrator { get { return webUser.WebAdministrator; } set { webUser.WebAdministrator = value; } }
 
 
         [FwLogicProperty(Id: "FXfH6IV8OL0HW")]
