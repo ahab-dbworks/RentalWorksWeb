@@ -1232,7 +1232,7 @@ namespace FwStandard.BusinessLogic
                     audit.UserSession = this.UserSession;
                     audit.ModuleName = this.BusinessLogicModuleName;
                     string recordTitle = this.RecordTitle;
-                    if (string.IsNullOrEmpty(recordTitle))
+                    if ((string.IsNullOrEmpty(recordTitle)) && (original != null))
                     {
                         recordTitle = original.RecordTitle;
                     }
