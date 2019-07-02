@@ -16,12 +16,11 @@ class WebApiCompiler {
     static get BUILD_ACTION_RUN() { return 'run'; };
     static get BUILD_ACTION_WATCH() { return 'watch'; };
     //------------------------------------------------------------------------------------
-    constructor(buildAction, target, buildMode, reports) {
+    constructor(buildAction, target, buildMode) {
         this.buildAction = buildAction;
         this.target = target;
         this.buildConfiguration = buildMode;
         this.dotnetConfiguration = this.buildConfiguration === WebApiCompiler.BUILD_CONFIGURATION_DEVELOPMENT ? "Debug" : "Release";
-        this.reports = reports;
     }
     //------------------------------------------------------------------------------------
     async rmfr_downloads() {
@@ -89,7 +88,7 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Building Webpack Reports');
         console.log('//------------------------------------------------------------------------------------');
-        let compiler = new WebpackReportsCompiler(this.buildAction, this.target, this.buildConfiguration, this.reports);
+        let compiler = new WebpackReportsCompiler(this.buildAction, this.target, this.buildConfiguration);
         const stats = await compiler.build();
         console.log(stats.toString({ colors: true }));
     }
@@ -98,7 +97,7 @@ class WebApiCompiler {
         console.log('//------------------------------------------------------------------------------------');
         console.log('Watching Webpack Reports');
         console.log('//------------------------------------------------------------------------------------');
-        let compiler = new WebpackReportsCompiler(this.buildAction, this.target, this.buildConfiguration, this.reports);
+        let compiler = new WebpackReportsCompiler(this.buildAction, this.target, this.buildConfiguration);
         const stats = await compiler.watch();
         console.log(stats.toString({ colors: true }));
     }
