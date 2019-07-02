@@ -180,3 +180,7 @@
 /src/QuartzScheduler/app.config
 /src/QuartzScheduler/quartz_jobs.xml
 
+/src/JestTest/node_modules
+/src/JestTest/dist
+/src/JestTest/*.env
+/src/JestTest*.log

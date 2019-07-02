@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        // {
+        //     "type": "node",
+        //     "request": "launch",
+        //     "name": "Launch Program",
+        //     "program": "${workspaceFolder}\\index.js",
+        //     "outFiles": [
+        //         "${workspaceFolder}/**/*.js"
+        //     ]
+        // },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug RentalWorksWeb Frontend Tests",
+            "program": "${workspaceRoot}\\node_modules\\jest\\bin\\jest.js",
+            "args": [
+                "--config=jest.rentalworksweb.config.js"
+            ],
+            //"preLaunchTask": "build",
+            "internalConsoleOptions": "openOnSessionStart",
+            "outFiles": [
+                "${workspaceRoot}/dist/**/*"
+            ],
+            "envFile": "${workspaceRoot}/.env"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug RentalWorksApi Tests",
+            "program": "${workspaceRoot}\\node_modules\\jest\\bin\\jest.js",
+            "args": [
+                "--config=jest.rentalworksapi.config.js"
+            ],
+            //"preLaunchTask": "build",
+            "internalConsoleOptions": "openOnSessionStart",
+            "outFiles": [
+                "${workspaceRoot}/dist/**/*"
+            ],
+            "envFile": "${workspaceRoot}/.env"
+        }
+    ],
+    // skip debugging of all the node internal files, so we don't go crazy debugging internal code with every promise
+    "skipFiles": [
+        "<node_internals>/**/*.js",
+        "${workspaceFolder}/node_modules/**/*.js"
+    ]
+}
