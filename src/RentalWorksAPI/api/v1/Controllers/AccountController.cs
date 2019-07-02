@@ -26,7 +26,8 @@ namespace RentalWorksAPI.api.v1
             req = AccountData.WebGetUsers(request.email, request.password);
             if (req.errno != "0")
             {
-                string message = req.errmsg;
+                //string message = req.errmsg;
+                string message = "Invalid username and/or password.";
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, message));
             }
             else
