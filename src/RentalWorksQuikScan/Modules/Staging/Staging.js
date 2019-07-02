@@ -2147,7 +2147,7 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     };
 
     screen.disableBarcodeField = function () {
-        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true && applicationConfig.allowDisableBarcodeFieldInStaging);
+        //screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true && applicationConfig.allowDisableBarcodeFieldInStaging);
     };
 
     screen.enableBarcodeField = function () {
@@ -3059,6 +3059,9 @@ RwOrderController.getStagingScreen = function(viewModel, properties) {
     
     screen.load = function() {
         program.setScanTarget('');
+
+        RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
+
         program.onScanBarcode = function (barcode, barcodeType) {
             try {
                 if (screen.getCurrentPage().name === 'search') {

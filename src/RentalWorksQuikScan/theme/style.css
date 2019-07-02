@@ -78,6 +78,8 @@ html.textcolor-darkgrey .fwmenu-item-description{ text-shadow:none;text-shadow: 
 #scanBarcodeView-txtBarcodeData {flex: 1 1 0;width: 275px;text-transform:uppercase;height: 44px;font-size: 18px;padding: 10px 5px;border: 0;box-sizing: border-box;border-radius: 0;}
 #scanBarcodeView .clearbarcode{flex:0 0 44px;width:44px;height:44px;line-height:44px;text-align:center;font-size:22px;color:#757575;cursor:pointer;display:none;}
 #scanBarcodeView .clearbarcode i {line-height:inherit;}
+#scanBarcodeView .numpad { flex: 0 0 44px; width: 44px; height: 44px; line-height: 44px; text-align: center; font-size: 22px; color: #757575; cursor: pointer; display: none; }
+#scanBarcodeView .numpad i { line-height: inherit; }
 /*#scanBarcodeView-button {background-color:rgba(255,255,255,.7);border:1px solid #ffffff;border-radius:5px;padding:4px;}*/
 
 .center {text-align:center;}
@@ -247,3 +249,8 @@ body.transparent .field .caption {color:#000000;}
   from {-webkit-transform:translateY(15rem);opacity:0;}
 }
 
+/* override some styles from the jQuery virtual keyboard */
+.ui-keyboard-button { border-radius:10em; font-size:26px;}
+.ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) { min-width: 3em; }
+.ui-keyboard-actionkey:not(.ui-keyboard-dec):not(.ui-keyboard-combo) span { font-size: unset; position: unset; top: unset; left: unset; }
+.ui-keyboard-preview { font-size: 1.4em; }

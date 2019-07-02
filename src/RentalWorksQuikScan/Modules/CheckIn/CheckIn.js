@@ -1626,7 +1626,7 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
     };
 
     screen.disableBarcodeField = function () {
-        screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true);
+        //screen.$view.find('#scanBarcodeView-txtBarcodeData').prop('disabled', true);
     };
 
     screen.enableBarcodeField = function () {
@@ -1786,6 +1786,8 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
 
     screen.load = function() {
         program.setScanTarget('#scanBarcodeView-txtBarcodeData');
+
+        RwVirtualNumpad.init('#scanBarcodeView-txtBarcodeData');
 
         if (typeof window.TslReader !== 'undefined') {
             window.TslReader.registerListener('deviceConnected', 'deviceConnected_rwordercontrollerjs_getCheckInScreen', function() {

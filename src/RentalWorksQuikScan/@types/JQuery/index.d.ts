@@ -8,4 +8,6 @@
     colpickShow(e: JQuery.Event);
     datepicker(options: any);
     inputmask(arg1: any, arg2?: any);
+    keyboard(options: any);
+    getkeyboard();
 }

@@ -424,6 +424,7 @@
     </Content>
     <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="%40types\QuikScan\index.d.ts" />
+    <TypeScriptCompile Include="scripts\RwVirtualNumpad.ts" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EncryptUtility.aspx.cs">
@@ -489,6 +490,7 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Libraries\" />
     <Folder Include="Source\Reports\" />
     <Folder Include="temp\" />
     <Folder Include="theme\fwaudio\" />

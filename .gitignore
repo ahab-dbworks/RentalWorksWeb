@@ -25,11 +25,13 @@
 /src/RentalWorksQuikScan/Application.config
 /src/RentalWorksQuikScan/ApplicationConfig.js
 /src/RentalWorksQuikScan/FwApplicationSchema.config
+/src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js.map
+/src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
 /src/RentalWorksQuikScan/scripts/_references.js
 /src/RentalWorksQuikScan/scripts/Program.js
 /src/RentalWorksQuikScan/scripts/Program.js.map
-/src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js.map
-/src/RentalWorksQuikScan/Modules/QuikIn/QuikIn.js
+/src/RentalWorksQuikScan/scripts/RwVirtualNumpad.js.map
+/src/RentalWorksQuikScan/scripts/RwVirtualNumpad.js
 
 /src/RentalWorksTest/Application.config
 
@@ -177,3 +179,4 @@
 
 /src/QuartzScheduler/app.config
 /src/QuartzScheduler/quartz_jobs.xml
+
