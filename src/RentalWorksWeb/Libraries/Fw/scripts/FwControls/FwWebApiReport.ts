@@ -87,6 +87,7 @@ abstract class FwWebApiReport {
                         request.renderMode = 'Html';
                         request.parameters = this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
+                        request.parameters.action = 'Preview';
                         const reportPageMessage = new ReportPageMessage();
                         reportPageMessage.action = 'Preview';
                         reportPageMessage.apiUrl = apiUrl;
@@ -127,6 +128,7 @@ abstract class FwWebApiReport {
                         request.renderMode = 'Html';
                         request.parameters = this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
+                        request.parameters.action = 'Print/PDF';
                         const $iframe = jQuery(`<iframe src="${urlHtmlReport}" style="display:none;"></iframe>`);
                         jQuery('.application').append($iframe);
                         $iframe.on('load', () => {
@@ -221,6 +223,7 @@ abstract class FwWebApiReport {
                         request.downloadPdfAsAttachment = false;
                         request.parameters = this.convertParameters(this.getParameters($form));
                         request.parameters.companyName = companyName;
+                        request.parameters.action = 'Print/PDF'
                         const win = window.open('', '_blank');
                         const head = win.document.head || win.document.getElementsByTagName('head')[0];
                         const loader = jQuery(win.document.body.innerHTML = '<div class="loader-container"><div class="loader"></div></div>');
