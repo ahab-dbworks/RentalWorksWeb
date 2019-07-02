@@ -323,8 +323,6 @@
     <Compile Include="api\v1\Controllers\InventoryController.cs" />
     <Compile Include="api\v1\Controllers\OrderController.cs" />
     <Compile Include="api\v1\Controllers\QuoteController.cs" />
-    <Compile Include="EdecsPublisher.cs" />
-    <Compile Include="EdecsSubscriber.cs" />
     <Compile Include="Filters\AppConfigAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -336,7 +334,6 @@
     <Compile Include="api\v1\Models\DealModels.cs" />
     <Compile Include="api\v1\Models\GenericModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\EdecsModels.cs" />
     <Compile Include="api\v1\Models\InvoiceModels.cs" />
     <Compile Include="api\v1\Models\ItemModels.cs" />
     <Compile Include="api\v1\Models\NoteModels.cs" />
@@ -388,8 +385,8 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="application.sample.config" />
-    <Content Include="Application.test.config" />
-    <Content Include="Application.dev.config" />
+    <None Include="Application.test.config" />
+    <None Include="Application.dev.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -401,6 +398,7 @@
     <None Include="Properties\PublishProfiles\Dbworks.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.2.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.2.1.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
@@ -443,7 +441,7 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <None Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
