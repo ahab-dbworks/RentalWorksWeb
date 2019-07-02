@@ -180,6 +180,7 @@
     <Content Include="Application.test.config" />
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
+    <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
     <Content Include="Source\Grids\WebAlertLogGrid\WebAlertLogGridBrowse.htm" />
     <Content Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridBrowse.htm" />
     <Content Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridBrowse.htm" />
@@ -324,6 +325,7 @@
     <Content Include="Source\Grids\InventoryLocationTaxGrid\InventoryLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
+    <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\WebAlertLogGrid\WebAlertLogGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckedOutItemGrid\CheckedOutItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\CheckInQuantityItemsGrid\CheckInQuantityItemsGridController.ts" />

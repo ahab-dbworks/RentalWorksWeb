@@ -3,6 +3,7 @@
   <div id="availabilitysettingstypeform-tabcontrol" class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs">
       <div data-type="tab" id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+      <div data-type="tab" id="historytab" class="tab" data-tabpageid="historytabpage" data-caption="History"></div>
     </div>
     <div class="tabpages">
       <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
@@ -14,6 +15,19 @@
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Check for Inventory Needing Availability Updates Every xx Seconds" data-datafield="PollForStaleAvailabilitySeconds" style="flex:1 1 370px;"></div>
                   <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Keep Availability Cache Current" data-datafield="KeepAvailabilityCacheCurrent" style="flex:1 1 230px;"></div>
                   <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Keep Availability Cache Current Every xx Seconds" data-datafield="KeepCurrentSeconds" style="flex:1 1 275px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-type="tabpage" id="historytabpage" class="tabpage" data-tabid="historytab">
+        <div class="formpage">
+          <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+            <div class="flexrow">
+              <div class="flexcolumn" style="flex:0 1 800px;">
+                <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Availability History">
+                  <div data-control="FwGrid" data-grid="AvailabilityHistoryGrid" data-securitycaption="Availability History"></div>
                 </div>
               </div>
             </div>
