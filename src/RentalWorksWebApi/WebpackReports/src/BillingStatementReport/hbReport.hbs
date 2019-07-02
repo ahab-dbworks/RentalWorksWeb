@@ -1,6 +1,29 @@
 ﻿<!--BillingStatementReport-->
+{{#ifEquals action "Print/PDF"}}
 {{#each this}}
 {{#ifEquals RowType "Dealheader"}}
+<style>
+  @media print {
+    html, body {
+      border: 1px solid white;
+      height: 99%;
+      page-break-after: avoid;
+      page-break-before: avoid;
+    }
+
+    .page-break:first-child {
+      page-break-before: avoid !important;
+    }
+
+    .page-break:first-of-type {
+      page-break-before: avoid !important;
+    }
+
+    .page-break:nth-of-type(0) {
+      page-break-before: avoid !important;
+    }
+  }
+</style>
 <div class="page-break"></div>
 <table>
   <thead>
@@ -31,7 +54,7 @@
               <tr>
                 <th class="sub text" style="text-align:left;">Issued To:</th>
                 <th class="sub text" style="text-align:left;"></th>
-                <th class="sub text" style="text-align:left;">Statement Period: {{../Today}} - {{../Today}}</th>
+                <th class="sub text" style="text-align:left;">Statement Period: {{../FromDate}} - {{../ToDate}}</th>
               </tr>
             </thead>
             <tbody>
@@ -155,3 +178,158 @@
   </tfoot>
   {{/each}}
 </table>
+{{else}}
+<!--Non-Print Version-->
+<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
+  <div class="rpt-flexcolumn" style="border-bottom: 2px solid #027cc5;padding-bottom:5px;">
+    {{#if Logosrc}}
+    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
+    {{else}}
+    <div></div>
+    {{/if}}
+    <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
+    <span class="header-left">{{OfficeLocationAddress1}}</span>
+    <span class="header-left">{{OfficeLocationAddress2}}</span>
+    <span class="header-left">{{OfficeLocationCity}}, {{OfficeLocationState}} {{OfficeLocationZipCode}} {{OfficeLocationCountry}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span style="font-size:18px;" class="rpt-header-right"><span style="font-weight:600;">Date: </span><span style="color:black;">{{Today}}</span></span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:25px;">
+  <table>
+    <thead>
+      <tr>
+        <th class="sub text" style="text-align:left;">Issued To</th>
+        <th class="sub text" style="text-align:left;"></th>
+        <th class="sub text" style="text-align:left;">Statement Period: {{FromDate}} - {{ToDate}}<</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="issuedTo" style="text-align:left;width:33.3%;">
+          <div>
+            <span style="font-weight:600;">Issued To: </span><span class="blue">{{IssuedToCompany}}</span>
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAttention1}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAttention2}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAddress1}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToAddress2}}
+          </div>
+          <div class="blue" style="padding-left:78px;">
+            {{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:23px;">Phone: </span><span class="blue">{{IssuedToPhone}}</span>
+          </div>
+          <div>
+            <span style="font-weight:600;padding-right:43px;">Fax: </span><span class="blue">{{IssuedToFax}}</span>
+          </div>
+        </td>
+        <td id="outgoing" style="text-align:left;width:33.3%;"></td>
+        <td id="incoming" style="text-align:left;width:33.3%"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead class="main-header">
+      <tr>
+        <th class="top">Date</th>
+        <th class="top">Invoice No.</th>
+        <th class="top">PO No.</th>
+        <th class="top">Description</th>
+        <th class="top number">Amount Due</th>
+        <th class="top number">Credits</th>
+        <th class="top number">Balance</th>
+      </tr>
+    </thead>
+    {{#each this}}
+    {{#ifEquals RowType "Dealheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="header-row" colspan="4">Deal: {{Deal}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "InvoiceNumberheader"}}
+    <thead data-rowtype="{{RowType}}">
+      <tr>
+        <th class="lower header-row" colspan="4">Invoice: {{InvoiceNumber}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      {{#ifEquals ARRecType ""}}
+      <tr>
+        <td class="nowrap">{{InvoiceDate}}</td>
+        <td>{{InvoiceNumber}}</td>
+        <td>{{PurchaseOrderNumber}}</td>
+        <td>{{InvoiceDescription}}</td>
+        <td class="number">{{Due}}</td>
+        <td class="number">{{Received}}</td>
+        <td class="number">{{Remaining}}</td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals HasPayments true}}
+      <tr>
+        <th style="background-color:white;" colspan="2"></th>
+        <th class="subHeaders">Payment Date</th>
+        <th class="subHeaders" colspan="4">Description</th>
+      </tr>
+      {{/ifEquals}}
+      {{#ifNotEquals ARRecType ""}}
+      <tr class="subValues">
+        <td style="background-color:white;" colspan="2"></td>
+        <td>{{PaymentDate}}</td>
+        <td>{{PaymentDescription}}</td>
+        <td class="number">{{Due}}</td>
+        <td class="number">{{Received}}</td>
+        <td class="number">{{Remaining}}</td>
+      </tr>
+      {{/ifNotEquals}}
+    </tbody>
+    {{/ifEquals}}
+    <tfoot data-rowtype="{{RowType}}">
+      {{#ifEquals RowType "Dealfooter"}}
+      <tr>
+        <td colspan="4" class="total-name">{{Deal}}&nbsp;</td>
+        <td class="total-val" data-value="{{Due}}"></td>
+        <td class="total-val" data-value="{{Received}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "InvoiceNumberfooter"}}
+      <tr>
+        <td colspan="4" class="total-name">{{InvoiceNumber}}&nbsp;</td>
+        <td class="total-val" data-value="{{Due}}"></td>
+        <td class="total-val" data-value="{{Received}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
+      {{#ifEquals RowType "grandtotal"}}
+      <tr>
+        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{Due}}"></td>
+        <td class="total-val" data-value="{{Received}}"></td>
+        <td class="total-val" data-value="{{Remaining}}"></td>
+      </tr>
+      {{/ifEquals}}
+    </tfoot>
+    {{/each}}
+  </table>
+</div>
+
+{{/ifEquals}}
