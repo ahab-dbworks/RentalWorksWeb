@@ -470,7 +470,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>20156</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/RentalWorksAPI</IISUrl>
+          <IISUrl>http://localhost/RentalWorksAPI2018</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
