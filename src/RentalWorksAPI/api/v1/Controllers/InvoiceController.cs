@@ -15,7 +15,7 @@ namespace RentalWorksAPI.api.v1
     {
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("invoice/{asofdate}")]
+        [Route("invoice/{asofdate:datetime}")]
         public HttpResponseMessage GetInvoicesAsOf([FromUri]string asofdate)
         {
             List<Invoice> result = new List<Invoice>();
