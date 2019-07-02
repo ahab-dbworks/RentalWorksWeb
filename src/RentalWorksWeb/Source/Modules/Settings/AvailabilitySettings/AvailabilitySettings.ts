@@ -61,7 +61,7 @@ class AvailabilitySettings {
         $availabilityHistoryGrid.empty().append($availabilityHistoryGridControl);
         $availabilityHistoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
-                ControlId: FwFormField.getValueByDataField($form, 'ControlId')
+                Id: FwFormField.getValueByDataField($form, 'ControlId')
             };
         });
         FwBrowse.init($availabilityHistoryGridControl);
@@ -79,6 +79,29 @@ class AvailabilitySettings {
         } else {
             FwFormField.disable($form.find('div[data-datafield="KeepCurrentSeconds"]'))
         }
+
+        // Click Event on tabs to load grids/browses
+        $form.on('click', '[data-type="tab"]', e => {
+            const tabname = jQuery(e.currentTarget).attr('id');
+            const lastIndexOfTab = tabname.lastIndexOf('tab');
+            const tabpage = `${tabname.substring(0, lastIndexOfTab)}tabpage${tabname.substring(lastIndexOfTab + 3)}`;
+
+            const $gridControls = $form.find(`#${tabpage} [data-type="Grid"]`);
+            if ($gridControls.length > 0) {
+                for (let i = 0; i < $gridControls.length; i++) {
+                    const $gridcontrol = jQuery($gridControls[i]);
+                    FwBrowse.search($gridcontrol);
+                }
+            }
+
+            const $browseControls = $form.find(`#${tabpage} [data-type="Browse"]`);
+            if ($browseControls.length > 0) {
+                for (let i = 0; i < $browseControls.length; i++) {
+                    const $browseControl = jQuery($browseControls[i]);
+                    FwBrowse.search($browseControl);
+                }
+            }
+        });
     }
     //----------------------------------------------------------------------------------------------
 }
