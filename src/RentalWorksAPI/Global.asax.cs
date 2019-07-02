@@ -21,7 +21,7 @@ namespace RentalWorksAPI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             FwSqlConnection.AppDatabase = FwDatabases.RentalWorks;
-            EdecsPublisher publisher = EdecsPublisher.Instance;
+            //EdecsPublisher publisher = EdecsPublisher.Instance;
         }
     }
 }
