@@ -40,7 +40,7 @@ namespace RentalWorksAPI.api.v1
         /// <param name="quoteid">Quote Id</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("quote/{quoteid}")]
+        [Route("quote/{quoteid:alpha}")]
         public HttpResponseMessage GetQuote([FromUri]string quoteid)
         {
             List<Order> orders = new List<Order>();
@@ -287,7 +287,7 @@ namespace RentalWorksAPI.api.v1
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("quote/{quoteid}/clearquote")]
+        [Route("quote/{quoteid:alpha}/clearquote")]
         public HttpResponseMessage WebClearQuote([FromUri]string quoteid)
         {
             Error result = new Error();

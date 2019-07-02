@@ -297,28 +297,27 @@ namespace RentalWorksAPI.Areas.HelpPage
             }
 
             object sample = String.Empty;
-            MemoryStream ms = null;
-            HttpContent content = null;
             try
             {
                 if (formatter.CanWriteType(type))
                 {
-                    ms = new MemoryStream();
-                    content = new ObjectContent(type, value, formatter, mediaType);
-                    formatter.WriteToStreamAsync(type, value, ms, content, null).Wait();
-                    ms.Position = 0;
-                    StreamReader reader = new StreamReader(ms);
-                    string serializedSampleString = reader.ReadToEnd();
-                    if (mediaType.MediaType.ToUpperInvariant().Contains("XML"))
+                    using (MemoryStream ms = new MemoryStream())
+                    using (HttpContent content = new ObjectContent(type, value, formatter, mediaType))
                     {
-                        serializedSampleString = TryFormatXml(serializedSampleString);
+                        formatter.WriteToStreamAsync(type, value, ms, content, null).Wait();
+                        ms.Position = 0;
+                        StreamReader reader = new StreamReader(ms);
+                        string serializedSampleString = reader.ReadToEnd();
+                        if (mediaType.MediaType.ToUpperInvariant().Contains("XML"))
+                        {
+                            serializedSampleString = TryFormatXml(serializedSampleString);
+                        }
+                        else if (mediaType.MediaType.ToUpperInvariant().Contains("JSON"))
+                        {
+                            serializedSampleString = TryFormatJson(serializedSampleString);
+                        }
+                        sample = new TextSample(serializedSampleString);
                     }
-                    else if (mediaType.MediaType.ToUpperInvariant().Contains("JSON"))
-                    {
-                        serializedSampleString = TryFormatJson(serializedSampleString);
-                    }
-
-                    sample = new TextSample(serializedSampleString);
                 }
                 else
                 {
@@ -338,17 +337,6 @@ namespace RentalWorksAPI.Areas.HelpPage
                     formatter.GetType().FullName,
                     mediaType.MediaType,
                     UnwrapException(e).Message));
-            }
-            finally
-            {
-                if (ms != null)
-                {
-                    ms.Dispose();
-                }
-                if (content != null)
-                {
-                    content.Dispose();
-                }
             }
 
             return sample;

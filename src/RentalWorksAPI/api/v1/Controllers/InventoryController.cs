@@ -16,7 +16,7 @@ namespace RentalWorksAPI.api.v1
     {
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("inventory/rental/{asofdate}")]
+        [Route("inventory/rental/{asofdate:datetime}")]
         public HttpResponseMessage GetRentalInventoryAsOf([FromUri]string asofdate)
         {
             DateTime dDate;
@@ -37,7 +37,7 @@ namespace RentalWorksAPI.api.v1
         }
         //----------------------------------------------------------------------------------------------------
         [HttpPost]
-        [Route("inventory/sales/{asofdate}")]
+        [Route("inventory/sales/{asofdate=datetime}")]
         public HttpResponseMessage GetSalesInventoryAsOf([FromUri]string asofdate)
         {
             DateTime dDate;
