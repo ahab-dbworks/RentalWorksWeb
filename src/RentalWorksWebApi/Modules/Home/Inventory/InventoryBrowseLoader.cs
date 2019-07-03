@@ -45,14 +45,11 @@ namespace WebApi.Modules.Home.Inventory
         public string ManufacturerPartNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "class", modeltype: FwDataTypes.Text)]
-        public string Classification{ get; set; }
+        public string Classification { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "classdesc", modeltype: FwDataTypes.Text)]
         public string ClassificationDescription { get; set; }
         //------------------------------------------------------------------------------------ 
-        //[FwSqlDataField(column: "classcolor", modeltype: FwDataTypes.OleToHtmlColor)]
-        //public string ClassificationColor { get; set; }
-        ////------------------------------------------------------------------------------------ 
         [FwSqlDataField(calculatedColumnSql: "null", modeltype: FwDataTypes.OleToHtmlColor)]
         public string ClassificationColor
         {
@@ -63,6 +60,9 @@ namespace WebApi.Modules.Home.Inventory
             set { }
         }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(calculatedColumnSql: "(select q.qty from masterwhqty q where q.masterid = t.masterid and q.warehouseid = @warehouseid)", modeltype: FwDataTypes.Decimal)]
+        public decimal? Quantity { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inactive", modeltype: FwDataTypes.Boolean)]
         public bool? Inactive { get; set; }
         //------------------------------------------------------------------------------------ 
@@ -70,10 +70,9 @@ namespace WebApi.Modules.Home.Inventory
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
 
-            select.AddWhere("(availfor='" + AvailFor + "')");
-
+            select.AddWhere("(availfor = @availfor)");
+            select.AddParameter("@availfor", AvailFor);
 
             addFilterToSelect("TrackedBy", "trackedby", select, request);
             addFilterToSelect("Classification", "class", select, request);
@@ -88,9 +87,14 @@ namespace WebApi.Modules.Home.Inventory
                 select.AddParameter("@containerid", containerId);
             }
 
+            string warehouseId = GetUniqueIdAsString("WarehouseId", request);
+            if (string.IsNullOrEmpty(warehouseId))
+            {
+                warehouseId = "xxx~~xxx";
+            }
+            select.AddParameter("@warehouseid", warehouseId);
 
             AddActiveViewFieldToSelect("Classification", "class", select, request);
-
         }
         //------------------------------------------------------------------------------------ 
         public void OnAfterBrowse(object sender, AfterBrowseEventArgs e)

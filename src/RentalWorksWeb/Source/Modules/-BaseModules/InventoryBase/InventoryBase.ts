@@ -33,17 +33,15 @@
         let $browse: JQuery = FwBrowse.loadBrowseFromTemplate(this.Module);
         $browse = FwModule.openBrowse($browse);
 
-        //if (this.Module === 'RentalInventory') {
-        //    FwAppData.apiMethod(true, 'GET', 'api/v1/control/', null, FwServices.defaultTimeout, function onSuccess(response) {
-        //        console.log(response);
-        //    }, function onError(response) {
-        //        FwFunc.showError(response);
-        //    }, null);
-        //}
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
 
         $browse.data('ondatabind', request => {
             request.activeviewfields = this.ActiveViewFields;
+            request.uniqueids = {
+                WarehouseId: warehouse.warehouseid
+            }
         });
+
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
                 for (let key in response) {

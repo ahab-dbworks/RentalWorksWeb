@@ -2,8 +2,8 @@ class RentalInventory extends InventoryBase {
     Module: string = 'RentalInventory';
     apiurl: string = 'api/v1/rentalinventory';
     caption: string = Constants.Modules.Home.RentalInventory.caption;
-	nav: string = Constants.Modules.Home.RentalInventory.nav;
-	id: string = Constants.Modules.Home.RentalInventory.id;
+    nav: string = Constants.Modules.Home.RentalInventory.nav;
+    id: string = Constants.Modules.Home.RentalInventory.id;
     AvailableFor: string = "R";
     //----------------------------------------------------------------------------------------------
     openFormInventory($form: any) {
@@ -429,7 +429,7 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {
-        const  $browse = ContainerController.openBrowse();
+        const $browse = ContainerController.openBrowse();
         const containerId = FwFormField.getValueByDataField($form, 'ContainerId');
 
         $browse.data('ondatabind', function (request) {
@@ -526,7 +526,7 @@ class RentalInventory extends InventoryBase {
         let wildcardMask = '[' + inputmasksplit.join('') + ']';  //justin 04/16/2019 optional digits are converted to blanks instead of '_' on blur
         $form.find('[data-datafield="ICode"] input').inputmask({ mask: wildcardMask });
     }
-        //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     events($form) {
         super.events($form);
 
@@ -538,7 +538,7 @@ class RentalInventory extends InventoryBase {
             }
         });
     }
-        //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
 };
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.RentalInventory.form.menuItems.CreateComplete.id] = (e: JQuery.ClickEvent) => {
