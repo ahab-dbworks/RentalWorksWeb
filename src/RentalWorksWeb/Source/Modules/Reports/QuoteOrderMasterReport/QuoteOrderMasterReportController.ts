@@ -27,7 +27,27 @@ const quoteordermasterTemplate = `
                 </div>
               </div>
             </div>
-           
+             <div class="flexcolumn" style="max-width:200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Type">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderType" style="float:left;max-width:200px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Status">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="QuoteStatus" style="float:left;max-width:200px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:200px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Status">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderStatus" style="float:left;max-width:200px;"></div>
+                </div>
+              </div>
+            </div>
             <div class="flexcolumn" style="max-width:600px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filters">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
@@ -103,10 +123,34 @@ class QuoteOrderMasterReport extends FwWebApiReport {
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         const location = JSON.parse(sessionStorage.getItem('location'));
         FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
+
+        this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
         return parameters;
+    }
+    //----------------------------------------------------------------------------------------------
+    loadLists($form: JQuery): void {
+        FwFormField.loadItems($form.find('div[data-datafield="QuoteStatus"]'), [
+            { value: "PROSPECT", text: "Prospect", selected: "T" },
+            { value: "ACTIVE", text: "Active", selected: "T" },
+            { value: "RESERVED", text: "Reserved", selected: "T" },
+            { value: "ORDERED", text: "Ordered", selected: "T" },
+            { value: "CLOSED", text: "Closed", selected: "T" },
+            { value: "CANCELLED", text: "Cancelled", selected: "T" },
+        ]);
+        FwFormField.loadItems($form.find('div[data-datafield="OrderStatus"]'), [
+            { value: "CONFIRMED", text: "Confirmed", selected: "T" },
+            { value: "ACTIVE", text: "Active", selected: "T" },
+            { value: "COMPLETE", text: "Complete", selected: "T" },
+            { value: "CLOSED", text: "Closed", selected: "T" },
+            { value: "CANCELLED", text: "Cancelled", selected: "T" },
+        ]);
+        FwFormField.loadItems($form.find('div[data-datafield="OrderType"]'), [
+            { value: "QUOTE", text: "Quote", selected: "T" },
+            { value: "ORDER", text: "Order", selected: "T" },
+        ]);
     }
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
