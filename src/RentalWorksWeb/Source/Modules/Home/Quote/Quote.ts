@@ -6,10 +6,8 @@ class Quote extends OrderBase {
     Module: string = 'Quote';
     apiurl: string = 'api/v1/quote';
     caption: string = Constants.Modules.Home.Quote.caption;
-	nav: string = Constants.Modules.Home.Quote.nav;
-	id: string = Constants.Modules.Home.Quote.id;
-    ActiveViewFields: any = {};
-    ActiveViewFieldsId: string;
+    nav: string = Constants.Modules.Home.Quote.nav;
+    id: string = Constants.Modules.Home.Quote.id;
     //----------------------------------------------------------------------------------------------
     getModuleScreen(filter?: { datafield: string, search: string }) {
         var screen, $browse;
@@ -46,45 +44,6 @@ class Quote extends OrderBase {
     };
 
     //----------------------------------------------------------------------------------------------
-    openBrowse() {
-        let $browse = jQuery(this.getBrowseTemplate());
-        $browse = FwModule.openBrowse($browse);
-
-        FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
-            if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
-                $tr.css('color', '#aaaaaa');
-            }
-        });
-
-        const self = this;
-        $browse.data('ondatabind', request => { 
-            request.activeviewfields = self.ActiveViewFields;
-        });
-
-        try {
-            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (var key in response) {
-                    FwBrowse.addLegend($browse, key, response[key]);
-                }
-            }, function onError(response) {
-                FwFunc.showError(response);
-            }, $browse)
-        } catch (ex) {
-            FwFunc.showError(ex);
-        }
-
-        var department = JSON.parse(sessionStorage.getItem('department'));;
-        var location = JSON.parse(sessionStorage.getItem('location'));;
-
-        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
-            self.DefaultOrderType = response.DefaultOrderType;
-            self.DefaultOrderTypeId = response.DefaultOrderTypeId;
-        }, null, null);
-
-        return $browse;
-    };
-
-    //----------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject: any) {
         const $all: JQuery = FwMenu.generateDropDownViewBtn('All', true, "ALL");
         const $new: JQuery = FwMenu.generateDropDownViewBtn('New', false, "NEW");
@@ -118,7 +77,7 @@ class Quote extends OrderBase {
         }
         else if (sessionStorage.getItem('userType') === 'CONTACT') {
             //Location Filter
-            const deal      = JSON.parse(sessionStorage.getItem('deal'));
+            const deal = JSON.parse(sessionStorage.getItem('deal'));
             //const $allLocations = FwMenu.generateDropDownViewBtn('ALL Locations', false, "ALL");
             //const $userLocation = FwMenu.generateDropDownViewBtn(location.location, true, location.locationid);
 
@@ -1449,15 +1408,15 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.Cancel
 //-----------------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Quote.form.menuItems.CreateOrder.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form  = jQuery(this).closest('.fwform');
+        let $form = jQuery(this).closest('.fwform');
         let status = FwFormField.getValueByDataField($form, 'Status');
 
         if (status === 'ACTIVE') {
-            let $quoteTab     = jQuery('#' + $form.closest('.tabpage').attr('data-tabid'));
-            let quoteNumber   = FwFormField.getValueByDataField($form, 'QuoteNumber');
+            let $quoteTab = jQuery('#' + $form.closest('.tabpage').attr('data-tabid'));
+            let quoteNumber = FwFormField.getValueByDataField($form, 'QuoteNumber');
             var $confirmation = FwConfirmation.renderConfirmation('Create Order', `<div>Create Order for Quote ${quoteNumber}?</div>`);
-            var $yes          = FwConfirmation.addButton($confirmation, 'Create Order', false);
-            var $no           = FwConfirmation.addButton($confirmation, 'Cancel');
+            var $yes = FwConfirmation.addButton($confirmation, 'Create Order', false);
+            var $no = FwConfirmation.addButton($confirmation, 'Cancel');
 
             $yes.on('click', function () {
                 var quoteId = FwFormField.getValueByDataField($form, 'QuoteId');

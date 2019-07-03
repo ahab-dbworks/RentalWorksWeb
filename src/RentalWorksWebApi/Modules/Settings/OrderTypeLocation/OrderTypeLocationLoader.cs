@@ -44,8 +44,8 @@ namespace WebApi.Modules.Settings.OrderTypeLocation
         {
             base.SetBaseSelectQuery(select, qry, customFields, request);
             select.Parse();
-            //select.AddWhere("(xxxtype = 'ABCDEF')"); 
             addFilterToSelect("OrderTypeId", "ordertypeid", select, request); 
+            addFilterToSelect("LocationId", "locationid", select, request); 
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -2,10 +2,17 @@
 class OrderBase {
     DefaultOrderType: string;
     DefaultOrderTypeId: string;
+    DefaultTermsConditionsId: string;
+    DefaultTermsConditions: string;
+    DefaultCoverLetterId: string;
+    DefaultCoverLetter: string;
     CombineActivity: string;
     Module: string;
+    apiurl: string;
     CachedOrderTypes: any = {};
     totalFields = ['WeeklyExtendedNoDiscount', 'WeeklyDiscountAmount', 'WeeklyExtended', 'WeeklyTax', 'WeeklyTotal', 'MonthlyExtendedNoDiscount', 'MonthlyDiscountAmount', 'MonthlyExtended', 'MonthlyTax', 'MonthlyTotal', 'PeriodExtendedNoDiscount', 'PeriodDiscountAmount', 'PeriodExtended', 'PeriodTax', 'PeriodTotal',]
+    ActiveViewFields: any = {};
+    ActiveViewFieldsId: string;
 
     //----------------------------------------------------------------------------------------------
     getBrowseTemplate(): string { return ``; }
@@ -237,6 +244,61 @@ class OrderBase {
 
     }
     //----------------------------------------------------------------------------------------------
+    openBrowse() {
+        let $browse = jQuery(this.getBrowseTemplate());
+        $browse = FwModule.openBrowse($browse);
+
+        FwBrowse.setAfterRenderRowCallback($browse, function ($tr, dt, rowIndex) {
+            if (dt.Rows[rowIndex][dt.ColumnIndex['Status']] === 'CANCELLED') {
+                $tr.css('color', '#aaaaaa');
+            }
+        });
+
+        const self = this;
+        $browse.data('ondatabind', request => {
+            request.activeviewfields = self.ActiveViewFields;
+        });
+
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (var key in response) {
+                    FwBrowse.addLegend($browse, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, $browse)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
+
+        var department = JSON.parse(sessionStorage.getItem('department'));;
+        var location = JSON.parse(sessionStorage.getItem('location'));;
+
+        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
+            self.DefaultOrderType = response.DefaultOrderType;
+            self.DefaultOrderTypeId = response.DefaultOrderTypeId;
+        }, null, null);
+
+        const request: any = {};
+        request.uniqueids = {
+            OrderTypeId: self.DefaultOrderTypeId,
+            LocationId: location.locationid
+        }
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
+            response => {
+                if (response.Rows.length > 0) {
+                    self.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
+                    self.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
+                    self.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
+                    self.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
+                }
+            }, null, null);
+
+        return $browse;
+    };
+
+    //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = jQuery(this.getFormTemplate());
         $form = FwModule.openForm($form, mode);
@@ -264,6 +326,8 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValue($form, 'div[data-datafield="OrderTypeId"]', this.DefaultOrderTypeId, this.DefaultOrderType);
             FwFormField.setValue($form, 'div[data-datafield="BillingCycleId"]', controlDefaults.defaultdealbillingcycleid, controlDefaults.defaultdealbillingcycle);
+            FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', this.DefaultTermsConditionsId, this.DefaultTermsConditions);
+            FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
 
             FwFormField.setValue($form, 'div[data-datafield="PendingPo"]', true);
             FwFormField.setValue($form, 'div[data-datafield="Rental"]', true);
