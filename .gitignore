@@ -183,4 +183,4 @@
 /src/JestTest/node_modules
 /src/JestTest/dist
 /src/JestTest/*.env
-/src/JestTest*.log
+/src/JestTest/*.log
