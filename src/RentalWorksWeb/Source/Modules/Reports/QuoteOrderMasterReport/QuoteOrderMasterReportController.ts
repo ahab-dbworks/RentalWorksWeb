@@ -30,21 +30,21 @@ const quoteordermasterTemplate = `
              <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Type">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderType" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderType" style="float:left;max-width:110px;"></div>
                 </div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Quote Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="QuoteStatus" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="QuoteStatus" style="float:left;max-width:125px;"></div>
                 </div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderStatus" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderStatus" style="float:left;max-width:125px;"></div>
                 </div>
               </div>
             </div>
