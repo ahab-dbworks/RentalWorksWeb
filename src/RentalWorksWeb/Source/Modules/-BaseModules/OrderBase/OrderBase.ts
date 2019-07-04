@@ -254,14 +254,13 @@ class OrderBase {
             }
         });
 
-        const self = this;
         $browse.data('ondatabind', request => {
-            request.activeviewfields = self.ActiveViewFields;
+            request.activeviewfields = this.ActiveViewFields;
         });
 
         try {
             FwAppData.apiMethod(true, 'GET', `${this.apiurl}/legend`, null, FwServices.defaultTimeout, function onSuccess(response) {
-                for (var key in response) {
+                for (let key in response) {
                     FwBrowse.addLegend($browse, key, response[key]);
                 }
             }, function onError(response) {
@@ -271,29 +270,15 @@ class OrderBase {
             FwFunc.showError(ex);
         }
 
-        var department = JSON.parse(sessionStorage.getItem('department'));;
-        var location = JSON.parse(sessionStorage.getItem('location'));;
+        const department = JSON.parse(sessionStorage.getItem('department'));;
+        const location = JSON.parse(sessionStorage.getItem('location'));;
 
-        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, function onSuccess(response) {
-            self.DefaultOrderType = response.DefaultOrderType;
-            self.DefaultOrderTypeId = response.DefaultOrderTypeId;
+        FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, response => {
+            this.DefaultOrderType = response.DefaultOrderType;
+            this.DefaultOrderTypeId = response.DefaultOrderTypeId;
         }, null, null);
 
-        const request: any = {};
-        request.uniqueids = {
-            OrderTypeId: self.DefaultOrderTypeId,
-            LocationId: location.locationid
-        }
-
-        FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
-            response => {
-                if (response.Rows.length > 0) {
-                    self.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
-                    self.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
-                    self.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
-                    self.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
-                }
-            }, null, null);
+        this.getTermsConditions();
 
         return $browse;
     };
@@ -894,6 +879,7 @@ class OrderBase {
         $form.find('.week_or_month_field').on('change', event => {
             this.adjustBillingEndDate($form, event);
         });
+        // ----------
         $form.find('[data-datafield="BillToAddressDifferentFromIssuedToAddress"] .fwformfield-value').on('change', function () {
             var $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -903,12 +889,12 @@ class OrderBase {
                 FwFormField.disable($form.find('.differentaddress'));
             }
         });
-
+        // ----------
         $form.find('div[data-datafield="OrderTypeId"]').on('change', event => {
             this.renderGrids($form);
             this.applyOrderTypeAndRateTypeToForm($form);
         });
-
+        // ----------
         $form.find('[data-datafield="NoCharge"] .fwformfield-value').on('change', function () {
             let $this = jQuery(this);
             if ($this.prop('checked') === true) {
@@ -917,7 +903,14 @@ class OrderBase {
                 FwFormField.disable($form.find('[data-datafield="NoChargeReason"]'));
             }
         });
+        // ----------
+        $form.find('div[data-datafield="OrderTypeId"]').data('onchange', async e => {
+            await this.getTermsConditions();
+            await FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', this.DefaultTermsConditionsId, this.DefaultTermsConditions);
+            await FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
 
+        })
+        // ----------
         $form.find('div[data-datafield="DepartmentId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingRentalRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingRentalRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingSalesRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingSalesRate"]').attr('data-originalvalue')));
@@ -926,7 +919,7 @@ class OrderBase {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingUsedSaleRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingUsedSaleRate"]').attr('data-originalvalue')));
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingLossAndDamageRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingLossAndDamageRate"]').attr('data-originalvalue')));
         });
-
+        // ----------
         $form.find('.copy').on('click', e => {
             var $confirmation, $yes, $no;
             $confirmation = FwConfirmation.renderConfirmation('Confirm Copy', '');
@@ -954,7 +947,7 @@ class OrderBase {
                 $form.find('.btn[data-type="SaveMenuBarButton"]').removeClass('disabled');
             }
         });
-
+        // ----------
         $form.find('.allFrames').css('display', 'none');
         $form.find('.hideFrames').css('display', 'none');
         $form.find('.expandArrow').on('click', e => {
@@ -1531,6 +1524,23 @@ class OrderBase {
             }
         }
     };
+    getTermsConditions() {
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const request: any = {};
+        request.uniqueids = {
+            OrderTypeId: this.DefaultOrderTypeId,
+            LocationId: location.locationid
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
+            response => {
+                if (response.Rows.length > 0) {
+                    this.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
+                    this.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
+                    this.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
+                    this.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
+                }
+            }, null, null);
+    }
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
         const $element = jQuery(event.currentTarget);
