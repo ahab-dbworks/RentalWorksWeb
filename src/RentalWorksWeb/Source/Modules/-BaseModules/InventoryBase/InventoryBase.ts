@@ -112,8 +112,8 @@
                     var calendarevents = response.InventoryAvailabilityCalendarEvents;
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < calendarevents.length; i++) {
-                        if (calendarevents[i].textColor !== 'rgb(0,0,0') {
-                            calendarevents[i].html = `<div style="color:${calendarevents[i].textColor}">${calendarevents[i].text}</div>`
+                        if (calendarevents[i].textColor !== 'rgb(0,0,0') { // missing closing parens here
+                            calendarevents[i].html = `<div style="color:${calendarevents[i].textColor};">${calendarevents[i].text}</div>`
                         }
                     }
 
@@ -159,8 +159,10 @@
                 FwAppData.apiMethod(true, 'GET', `api/v1/inventoryavailability/calendarandscheduledata?&InventoryId=${inventoryId}&WarehouseId=${warehouseId}&FromDate=${start}&ToDate=${end}`, null, FwServices.defaultTimeout, function onSuccess(response) {
                     var schedulerEvents = response.InventoryAvailabilityScheduleEvents;
                     for (let i = 0; i < schedulerEvents.length; i++) {
-                        if (schedulerEvents[i].textColor !== 'rgb(0,0,0') {
-                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor}">${schedulerEvents[i].text}</div>`
+                        if (schedulerEvents[i].textColor !== 'rgb(0,0,0)') {
+                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};">${schedulerEvents[i].text}</div>`
+                        } else {
+                            schedulerEvents[i].html = `<div style="color:${schedulerEvents[i].textColor};text-align:left;">${schedulerEvents[i].text}</div>`
                         }
                     }
                     FwSchedulerDetailed.loadEventsCallback($control, response.InventoryAvailabilityScheduleResources, response.InventoryAvailabilityScheduleEvents);
