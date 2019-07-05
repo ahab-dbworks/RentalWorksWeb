@@ -504,6 +504,7 @@
         $form.find(`.inv-data-totals [data-totalfield="QcRequired"] input`).val(data.QcRequired.Total);
         $form.find(`.inv-data-totals [data-totalfield="InContainer"] input`).val(data.InContainer.Total);
         $form.find(`.inv-data-totals [data-totalfield="Staged"] input`).val(data.Staged.Total);
+        $form.find(`.inv-data-totals [data-totalfield="Out"] input`).val(data.Out.Total);
         $form.find(`.inv-data-totals [data-totalfield="InRepair"] input`).val(data.InRepair.Total);
         $form.find(`.inv-data-totals [data-totalfield="InTransit"] input`).val(data.InTransit.Total);
         //$form.find(`.inv-data-totals [data-totalfield="QcRequired"] input`).val(data.QcRequired.Total); // on PO still wip

@@ -272,6 +272,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
         public string SubCategory { get; set; } = "";
         public string InventoryId { get; set; } = "";
         public string WarehouseId { get; set; } = "";
+        public string AvailableFor { get; set; } = "";
         public string ICode { get; set; } = "";
         public string Description { get; set; } = "";
         public string WarehouseCode { get; set; } = "";
@@ -827,7 +828,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
-                qry.Add("select a.masterid, a.warehouseid,                                                                                     ");
+                qry.Add("select a.masterid, a.warehouseid, a.availfor,                                                                         ");
                 qry.Add("       a.masterno, a.master, a.whcode, a.noavail, a.warehouse, a.class, a.availbyhour, a.availabilitygrace,           ");
                 qry.Add("       a.inventorydepartmentid, a.inventorydepartment, a.categoryid, a.category, a.subcategoryid, a.subcategory,      ");
                 qry.Add("       a.ownedqty, a.ownedqtyin, a.ownedqtystaged, a.ownedqtyout, a.ownedqtyintransit,                                ");
@@ -862,6 +863,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     availData.InventoryWarehouse.Category = row[dt.GetColumnNo("category")].ToString();
                     availData.InventoryWarehouse.SubCategoryId = row[dt.GetColumnNo("subcategoryid")].ToString();
                     availData.InventoryWarehouse.SubCategory = row[dt.GetColumnNo("subcategory")].ToString();
+                    availData.InventoryWarehouse.AvailableFor = row[dt.GetColumnNo("availfor")].ToString();
 
                     if (availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_COMPLETE) || availData.InventoryWarehouse.Classification.Equals(RwConstants.INVENTORY_CLASSIFICATION_KIT))
                     {
@@ -1140,14 +1142,17 @@ namespace WebApi.Modules.Home.InventoryAvailability
                                     reservation.countedReserved = true;
                                 }
 
-                                if ((theDateTime == fromDateTime) && (reservation.ToDateTime == LateDateTime))  // items are late
+                                if (availData.InventoryWarehouse.AvailableFor.Equals(RwConstants.INVENTORY_AVAILABLE_FOR_RENT))
                                 {
-                                    if (!reservation.countedLate)
+                                    if ((theDateTime == fromDateTime) && (reservation.ToDateTime == LateDateTime))  // items are late
                                     {
-                                        reservation.QuantityLate = reservation.QuantityStaged + reservation.QuantityOut;
-                                        late += reservation.QuantityLate;
+                                        if (!reservation.countedLate)
+                                        {
+                                            reservation.QuantityLate = reservation.QuantityStaged + reservation.QuantityOut;
+                                            late += reservation.QuantityLate;
+                                        }
+                                        reservation.countedLate = true;
                                     }
-                                    reservation.countedLate = true;
                                 }
 
                                 if (reservation.ToDateTime == theDateTime)
