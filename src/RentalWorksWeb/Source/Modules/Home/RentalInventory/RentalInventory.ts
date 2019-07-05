@@ -19,6 +19,15 @@ class RentalInventory extends InventoryBase {
             FwFormField.setValue($form, 'div[data-datafield="ContainerScannableDescription"]', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
         });
 
+        // Legend for Avail Calendar
+        const availSchedControl = $form.find('.cal-sched')
+        FwBrowse.addLegend(availSchedControl, 'OUT', '#1900fa');
+        FwBrowse.addLegend(availSchedControl, 'IN REPAIR', '#EA300F');
+        FwBrowse.addLegend(availSchedControl, 'IN TRANSIT', '#ff01ff');
+        FwBrowse.addLegend(availSchedControl, 'STAGED', '#01ff40');
+        FwBrowse.addLegend(availSchedControl, 'ON TRUCK', '#ffff00');
+        FwBrowse.addLegend(availSchedControl, 'IN CONTAINER', '#b330b2');
+
         const $calendar = $form.find('.calendar');
         const $realscheduler = $form.find('.realscheduler');
         $form.on('change', '.warehousefilter', e => {
