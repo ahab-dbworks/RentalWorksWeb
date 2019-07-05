@@ -16,6 +16,15 @@ namespace FwStandard.Modules.Administrator.Alert
         [FwSqlDataField(column: "modulename", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string ModuleName { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "actionnew", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ActionNew { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "actionedit", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ActionEdit { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "actiondelete", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        public bool? ActionDelete { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "alertsubject", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string AlertSubject { get; set; }
         //------------------------------------------------------------------------------------ 

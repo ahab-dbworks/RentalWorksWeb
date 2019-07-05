@@ -138,7 +138,7 @@ namespace FwStandard.Modules.Administrator.Alert
                             foreach (AlertConditionLogic condition in alert.conditions)
                             {
                                 bool thisConditionMet = false;
-                                object newValue = GetFwBusiessLogicPropertyByName(propertyInfo, condition.FieldName, oldObject, newObject);
+                                object newValue = GetFwBusiessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
 
                                 if (newValue != null)
                                 {
