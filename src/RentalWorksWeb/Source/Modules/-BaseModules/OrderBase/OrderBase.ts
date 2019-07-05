@@ -278,11 +278,24 @@ class OrderBase {
             this.DefaultOrderTypeId = response.DefaultOrderTypeId;
         }, null, null);
 
-        this.getTermsConditions();
+        const request: any = {};
+        request.uniqueids = {
+            OrderTypeId: this.DefaultOrderTypeId,
+            LocationId: location.locationid
+        }
+
+        FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
+            response => {
+                if (response.Rows.length > 0) {
+                    this.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
+                    this.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
+                    this.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
+                    this.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
+                }
+            }, null, null);
 
         return $browse;
     };
-
     //----------------------------------------------------------------------------------------------
     openForm(mode: string, parentModuleInfo?: any) {
         let $form = jQuery(this.getFormTemplate());
@@ -848,6 +861,7 @@ class OrderBase {
                 FwFunc.showError(response);
             }, $form);
         });
+        // ----------
         $form.find('div[data-datafield="RateType"]').on('change', event => {
             this.applyOrderTypeAndRateTypeToForm($form);
         });
@@ -904,12 +918,9 @@ class OrderBase {
             }
         });
         // ----------
-        $form.find('div[data-datafield="OrderTypeId"]').data('onchange', async e => {
-            await this.getTermsConditions();
-            await FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', this.DefaultTermsConditionsId, this.DefaultTermsConditions);
-            await FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', this.DefaultCoverLetterId, this.DefaultCoverLetter);
-
-        })
+        $form.find('div[data-datafield="OrderTypeId"]').data('onchange', e => {
+            this.getTermsConditions($form);
+        });
         // ----------
         $form.find('div[data-datafield="DepartmentId"]').data('onchange', function ($tr) {
             FwFormField.setValue($form, 'div[data-datafield="DisableEditingRentalRate"]', JSON.parse($tr.find('.field[data-browsedatafield="DisableEditingRentalRate"]').attr('data-originalvalue')));
@@ -1020,7 +1031,6 @@ class OrderBase {
         $form.find('[data-datafield="PrintIssuedToAddressFrom"]').on('change', event => {
             this.issueToAddresses($form, event);
         });
-
         // Stores previous value for Out / InDeliveryDeliveryType
         $form.find('.delivery-delivery').on('click', event => {
             let $element, newValue, prevValue;
@@ -1524,23 +1534,6 @@ class OrderBase {
             }
         }
     };
-    getTermsConditions() {
-        const location = JSON.parse(sessionStorage.getItem('location'));
-        const request: any = {};
-        request.uniqueids = {
-            OrderTypeId: this.DefaultOrderTypeId,
-            LocationId: location.locationid
-        }
-        FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
-            response => {
-                if (response.Rows.length > 0) {
-                    this.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
-                    this.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
-                    this.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
-                    this.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
-                }
-            }, null, null);
-    }
     //----------------------------------------------------------------------------------------------
     deliveryTypeAddresses($form: any, event: any): void {
         const $element = jQuery(event.currentTarget);
@@ -1684,6 +1677,27 @@ class OrderBase {
             FwFormField.enable($form.find('div[data-datafield="PeriodCombinedTotalIncludesTax"]'));
         }
     };
+    //----------------------------------------------------------------------------------------------
+    getTermsConditions($form) {
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        const orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
+        const request: any = {};
+        request.uniqueids = {
+            OrderTypeId: orderTypeId,
+            LocationId: location.locationid
+        }
+        FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
+            response => {
+                if (response.Rows.length > 0) {
+                    const termsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
+                    const termsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
+                    const coverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
+                    const coverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
+                    FwFormField.setValue($form, 'div[data-datafield="TermsConditionsId"]', termsConditionsId, termsConditions);
+                    FwFormField.setValue($form, 'div[data-datafield="CoverLetterId"]', coverLetterId, coverLetter);
+                }
+            }, null, null);
+    }
     //----------------------------------------------------------------------------------------------
     cancelUncancelOrder($form: any) {
         let $confirmation, $yes, $no, id, orderStatus, self, module;
@@ -2253,7 +2267,7 @@ class OrderBase {
                         const $row = jQuery(`<div class="flexrow date-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderTypeDateTypeId" style="display:none;"></div>
                               <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="${row[descriptionDisplayIndex]}" data-datafield="Date" data-enabled="true" style="flex:0 1 150px;"></div>
-                              <div data-control="FwFormField" data-type="timepicker" data-timeformat="24" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 150px;"></div>
+                              <div data-control="FwFormField" data-type="timepicker" class="fwcontrol fwformfield" data-caption="" data-datafield="Time" data-enabled="true" style="flex:0 1 150px;"></div>
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Day" data-datafield="DayOfWeek" data-enabled="false" style="flex:0 1 150px;"></div>                          
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Production Activity" data-datafield="IsProductionActivity" style="display:none; flex:0 1 180px;"></div>
                               <div data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Milestone" data-datafield="IsMilestone" style="display:none; flex:0 1 110px;"></div>
