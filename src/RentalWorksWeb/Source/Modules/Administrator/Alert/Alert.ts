@@ -244,15 +244,24 @@ class Alert {
             const moduleUrl = jQuery(e.currentTarget).find(':selected').attr('data-apiurl');
             FwAppData.apiMethod(true, 'GET', `${moduleUrl}/emptyobject`, null, FwServices.defaultTimeout,
                 response => {
-                    let customFields;
-                    let fieldsList = response._Fields;
-                    fieldsList = fieldsList
-                        .filter(obj => { return obj.Name != 'DateStamp' })
-                        .map(obj => { return { 'value': obj.Name, 'text': obj.Name, 'datatype': obj.DataType } });
-
+                    let fieldsList = response._Fields.filter(obj => { return obj.Name != 'DateStamp' });
+                    const oldVal = fieldsList.map(obj => {
+                        return { 'value': `${obj.Name}___OldValue`, 'text': `${obj.Name} - Old Value`, 'datatype': obj.DataType }
+                    });
+                    const newVal = fieldsList
+                        .map(obj => {
+                            return { 'value': `${obj.Name}___NewValue`, 'text': `${obj.Name} - New Value`, 'datatype': obj.DataType }
+                        });
                     if (response._Custom.length > 0) {
-                        customFields = response._Custom.map(obj => { return { 'value': obj.FieldName, 'text': obj.FieldName, 'datatype': obj.FieldType } })
-                        jQuery.merge(fieldsList, customFields);
+                        const customOldVal = response._Custom.map(obj => {
+                            return { 'value': `${obj.FieldName}___OldValue`, 'text': `${obj.FieldName} - Old Value`, 'datatype': obj.FieldType }
+                        });
+                        const customNewVal = response._Custom.map(obj => {
+                            return { 'value': `${obj.FieldName}___NewValue`, 'text': `${obj.FieldName} - New Value`, 'datatype': obj.FieldType }
+                        });
+                        fieldsList = oldVal.concat(newVal).concat(customOldVal).concat(customNewVal);
+                    } else {
+                        fieldsList = jQuery.merge(oldVal, newVal);
                     }
                     fieldsList = fieldsList.sort(this.compare);
                     this.datafields = fieldsList;
