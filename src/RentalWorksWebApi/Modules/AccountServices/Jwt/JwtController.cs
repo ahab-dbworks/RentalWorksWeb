@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
 
-namespace WebApi.Controllers
+namespace WebApi.Modules.AccountServices.Jwt
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "accountservices-v1")]

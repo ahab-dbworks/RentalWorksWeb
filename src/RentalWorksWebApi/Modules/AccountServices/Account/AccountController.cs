@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using WebApi.Controllers;
 using WebApi.Logic;
 
-namespace WebApi.Modules.AccountServices
+namespace WebApi.Modules.AccountServices.Account
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "accountservices-v1")]
