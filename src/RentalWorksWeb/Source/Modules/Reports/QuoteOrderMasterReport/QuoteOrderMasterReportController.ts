@@ -135,6 +135,7 @@ class QuoteOrderMasterReport extends FwWebApiReport {
         FwFormField.loadItems($form.find('div[data-datafield="QuoteStatus"]'), [
             { value: "PROSPECT", text: "Prospect", selected: "T" },
             { value: "ACTIVE", text: "Active", selected: "T" },
+            { value: "HOLD", text: "Hold", selected: "T" },
             { value: "RESERVED", text: "Reserved", selected: "T" },
             { value: "ORDERED", text: "Ordered", selected: "T" },
             { value: "CLOSED", text: "Closed", selected: "T" },
@@ -143,6 +144,7 @@ class QuoteOrderMasterReport extends FwWebApiReport {
         FwFormField.loadItems($form.find('div[data-datafield="OrderStatus"]'), [
             { value: "CONFIRMED", text: "Confirmed", selected: "T" },
             { value: "ACTIVE", text: "Active", selected: "T" },
+            { value: "HOLD", text: "Hold", selected: "T" },
             { value: "COMPLETE", text: "Complete", selected: "T" },
             { value: "CLOSED", text: "Closed", selected: "T" },
             { value: "CANCELLED", text: "Cancelled", selected: "T" },

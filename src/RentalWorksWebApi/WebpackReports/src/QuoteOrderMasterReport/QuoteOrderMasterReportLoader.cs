@@ -6,6 +6,8 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using WebLibrary;
+
 namespace WebApi.Modules.Reports.QuoteOrderMasterReport
 {
     [FwSqlTable("quoteordermasterrptview")]
@@ -183,22 +185,22 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
         [FwSqlDataField(column: "event", modeltype: FwDataTypes.Text)]
         public string Event { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "grosstotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "grosstotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? GrossTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "discountpct", modeltype: FwDataTypes.Percentage)]
         public decimal? DiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "discountamt", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "discountamt", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? DiscountAmount { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "subtotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "subtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Subtotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "taxtotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "taxtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TaxTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "grandtotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "grandtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? GrandTotal { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(QuoteOrderMasterReportRequest request)
@@ -216,34 +218,36 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
-                    //select.AddWhereIn("locationid", request.OfficeLocationId); 
-                    //select.AddWhereIn("departmentid", request.DepartmentId); 
-                    //addDateFilterToSelect("datefieldname1", request.DateValue1, select, "^>=", "dateparametername(optional)"); 
-                    //addDateFilterToSelect("datefieldname2", request.DateValue2, select, "^<=", "dateparametername(optional)"); 
-                    //if (!request.BooleanField.GetValueOrDefault(false)) 
-                    //{ 
-                    //    select.AddWhere("somefield ^<^> 'T'"); 
-                    //} 
-                    select.AddOrderBy("field1,field2");
+                    select.AddWhereIn("locationid", request.OfficeLocationId);
+                    select.AddWhereIn("agentid", request.DepartmentId);
+                    select.AddWhereIn("customerid", request.CustomerId);
+                    select.AddWhereIn("agentid", request.DepartmentId);
+                    select.AddWhereIn("dealtypeid", request.DealTypeId);
+                    select.AddWhereIn("dealstatusid", request.DealStatusId);
+
+                    //string dateField = "orderdate";
+                    //if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
+                    //{
+                    //    dateField = "estrentfrom";
+                    //}
+                    //addDateFilterToSelect(dateField, request.FromDate, select, ">=", "fromdate");
+                    //addDateFilterToSelect(dateField, request.ToDate, select, "<=", "todate");
+                    select.AddParameter("@fromdate", request.FromDate);
+                    select.AddParameter("@todate", request.ToDate);
+                    //select.AddParameter("@datefield", request.DateField);
+                    select.AddWhereIn("ordertype", request.OrderType);
+                    select.AddWhereIn("quotestatus", request.QuoteStatus);
+                    select.AddWhereIn("orderstatus", request.OrderStatus);
+
+
+                    select.AddOrderBy("location, department, deal, orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
-                }
-                //--------------------------------------------------------------------------------- 
-                //--------------------------------------------------------------------------------- 
-                //--------------------------------------------------------------------------------- 
-                // below uses a stored procedure to populate the FwJsonDataTable 
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "procedurename", this.AppConfig.DatabaseSettings.ReportTimeout))
-                {
-                    //qry.AddParameter("@someid", SqlDbType.Text, ParameterDirection.Input, request.SomeId);
-                    //qry.AddParameter("@somedate", SqlDbType.Date, ParameterDirection.Input, request.SomeDate);
-                    //AddPropertiesAsQueryColumns(qry);
-                    //dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
                 //--------------------------------------------------------------------------------- 
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalTotal", "SalesTotal" };
+                string[] totalFields = new string[] { "GrossTotal", "DiscountAmount", "Subtotal", "TaxTotal", "GrandTotal" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);
