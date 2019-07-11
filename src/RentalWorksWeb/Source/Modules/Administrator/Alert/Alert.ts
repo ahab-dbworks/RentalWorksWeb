@@ -383,15 +383,17 @@ class Alert {
         const conditionList: any = [];
         for (let i = 0; i < $conditions.length; i++) {
             const $this = jQuery($conditions[i]);
-            const fieldName = FwFormField.getValue2($this.find('[data-datafield="FieldName"]'));
+            const fieldName1 = FwFormField.getValue2($this.find('[data-datafield="FieldName1"]'));
+            const fieldName2 = FwFormField.getValue2($this.find('[data-datafield="FieldName2"]'));
             const condition = FwFormField.getValue2($this.find('[data-datafield="Condition"]'));
             const value = FwFormField.getValue2($this.find('[data-datafield="Value"]'));
             const alertConditionId = FwFormField.getValue2($this.find('[data-datafield="AlertConditionId"]'));
-            if (fieldName !== '' && condition !== '' && value !== '') {
+            if (fieldName1 !== '' && fieldName2 !== '' && condition !== '') {
                 conditionList.push({
                     AlertConditionId: alertConditionId
                     , AlertId: alertId
-                    , FieldName: fieldName
+                    , FieldName1: fieldName1
+                    , FieldName2: fieldName2
                     , Condition: condition
                     , Value: value
                 });
