@@ -1894,16 +1894,17 @@ RwOrderController.getCheckInScreen = function(viewModel, properties) {
 
     screen.toggleFillContainerButton = function() {
         if ((screen.getContractId().length > 0) && (sessionStorage.userType === 'USER') && (typeof applicationOptions.container !== 'undefined') && (applicationOptions.container.enabled)) {
-            var requestHasCheckinFillContainerButton = {
-                contractid: screen.getContractId()
-            };
-            RwServices.FillContainer.HasCheckinFillContainerButton(requestHasCheckinFillContainerButton, function(response) {
-                if (response.hasCheckinFillContainerButton) {
-                    $checkincontrol.fwmobilemodulecontrol('showButton', '#fillcontainer');
-                } else {
-                    $checkincontrol.fwmobilemodulecontrol('hideButton', '#fillcontainer');
-                }
-            });
+            //var requestHasCheckinFillContainerButton = {
+            //    contractid: screen.getContractId()
+            //};
+            //RwServices.FillContainer.HasCheckinFillContainerButton(requestHasCheckinFillContainerButton, function(response) {
+            //    if (response.hasCheckinFillContainerButton) {
+            //        $checkincontrol.fwmobilemodulecontrol('showButton', '#fillcontainer');
+            //    } else {
+            //        $checkincontrol.fwmobilemodulecontrol('hideButton', '#fillcontainer');
+            //    }
+            //});
+            $checkincontrol.fwmobilemodulecontrol('showButton', '#fillcontainer');
         } else {
             $checkincontrol.fwmobilemodulecontrol('hideButton', '#fillcontainer');
         }
