@@ -225,15 +225,15 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                     select.AddWhereIn("dealtypeid", request.DealTypeId);
                     select.AddWhereIn("dealstatusid", request.DealStatusId);
 
-                    //string dateField = "orderdate";
-                    //if (request.DateType.Equals(RwConstants.INVOICE_DATE_TYPE_BILLING_START_DATE))
+                    string dateField = "orderdate";
+                    //if (request.DateType.Equals("B"))
                     //{
                     //    dateField = "estrentfrom";
                     //}
-                    //addDateFilterToSelect(dateField, request.FromDate, select, ">=", "fromdate");
-                    //addDateFilterToSelect(dateField, request.ToDate, select, "<=", "todate");
-                    select.AddParameter("@fromdate", request.FromDate);
-                    select.AddParameter("@todate", request.ToDate);
+                    addDateFilterToSelect(dateField, request.FromDate, select, ">=", "estrentfrom");
+                    addDateFilterToSelect(dateField, request.ToDate, select, "<=", "estrentto");
+                    //select.AddParameter("@estrentfrom", request.FromDate);
+                    //select.AddParameter("@estrentto", request.ToDate);
                     //select.AddParameter("@datefield", request.DateField);
                     select.AddWhereIn("ordertype", request.OrderType);
                     select.AddWhereIn("quotestatus", request.QuoteStatus);

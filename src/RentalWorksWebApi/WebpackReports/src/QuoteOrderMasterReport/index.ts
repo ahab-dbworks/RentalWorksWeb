@@ -25,6 +25,7 @@ export class QuoteOrderMasterReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     this.renderFooterHtml(data);
+                    console.log('rpt', data)
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
