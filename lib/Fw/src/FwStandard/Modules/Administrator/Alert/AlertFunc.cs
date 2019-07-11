@@ -138,70 +138,30 @@ namespace FwStandard.Modules.Administrator.Alert
                             foreach (AlertConditionLogic condition in alert.conditions)
                             {
                                 bool thisConditionMet = false;
-                                //object newValue = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
+                                object newValue = GetFwBusiessLogicPropertyByName(propertyInfo, condition.FieldName, oldObject, newObject);
 
-                                //if (newValue != null)
-                                //{
-                                //    string conditionValue = condition.Value;
-                                //    switch (condition.Condition)
-                                //    {
-                                //        case ALERT_CONDITION_CONTAINS:
-                                //            thisConditionMet = newValue.ToString().Contains(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_STARTS_WITH:
-                                //            thisConditionMet = newValue.ToString().StartsWith(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_ENDS_WITH:
-                                //            thisConditionMet = newValue.ToString().EndsWith(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_EQUALS:
-                                //            thisConditionMet = newValue.ToString().Equals(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_DOES_NOT_CONTAIN:
-                                //            thisConditionMet = !newValue.ToString().Contains(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_DOES_NOT_EQUAL:
-                                //            thisConditionMet = !newValue.ToString().Equals(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_CHANGED_BY:
-                                //            //thisConditionMet =  //#jhtodo
-                                //            break;
-                                //    }
-                                //}
-
-                                object field1 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
-                                object field2;
-
-                                if (condition.FieldName2.EndsWith("___OldValue") || condition.FieldName2.EndsWith("___NewValue"))
+                                if (newValue != null)
                                 {
-                                    field2 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName2, oldObject, newObject);
-                                }
-                                else
-                                {
-                                    field2 = condition.Value;
-                                }
-
-                                if (field1 != null)
-                                {
+                                    string conditionValue = condition.Value;
                                     switch (condition.Condition)
                                     {
                                         case ALERT_CONDITION_CONTAINS:
-                                            thisConditionMet = field1.ToString().Contains(field2.ToString());
+                                            thisConditionMet = newValue.ToString().Contains(conditionValue);
                                             break;
                                         case ALERT_CONDITION_STARTS_WITH:
-                                            thisConditionMet = field1.ToString().StartsWith(field2.ToString());
+                                            thisConditionMet = newValue.ToString().StartsWith(conditionValue);
                                             break;
                                         case ALERT_CONDITION_ENDS_WITH:
-                                            thisConditionMet = field1.ToString().EndsWith(field2.ToString());
+                                            thisConditionMet = newValue.ToString().EndsWith(conditionValue);
                                             break;
                                         case ALERT_CONDITION_EQUALS:
-                                            thisConditionMet = field1.ToString().Equals(field2.ToString());
+                                            thisConditionMet = newValue.ToString().Equals(conditionValue);
                                             break;
                                         case ALERT_CONDITION_DOES_NOT_CONTAIN:
-                                            thisConditionMet = !field1.ToString().Contains(field2.ToString());
+                                            thisConditionMet = !newValue.ToString().Contains(conditionValue);
                                             break;
                                         case ALERT_CONDITION_DOES_NOT_EQUAL:
-                                            thisConditionMet = !field1.ToString().Equals(field2.ToString());
+                                            thisConditionMet = !newValue.ToString().Equals(conditionValue);
                                             break;
                                         case ALERT_CONDITION_CHANGED_BY:
                                             //thisConditionMet =  //#jhtodo
@@ -227,7 +187,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                 foreach (Match sm in subjectMatches)
                                 {
                                     string field = sm.ToString();
-                                    object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+                                    object value = GetFwBusiessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
 
                                     if (value != null)
                                     {
@@ -238,7 +198,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                 foreach (Match bm in bodyMatches)
                                 {
                                     string field = bm.ToString();
-                                    object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+                                    object value = GetFwBusiessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
 
                                     if (value != null)
                                     {
@@ -293,22 +253,11 @@ namespace FwStandard.Modules.Administrator.Alert
             return;
         }
         //-------------------------------------------------------------------------------------------------------        
-        private static object GetFwBusinessLogicPropertyByName(PropertyInfo[] propertyInfo, string propertyName, FwBusinessLogic oldObject, FwBusinessLogic newObject)
+        private static object GetFwBusiessLogicPropertyByName(PropertyInfo[] propertyInfo, string propertyName, FwBusinessLogic oldObject, FwBusinessLogic newObject)
         {
             object oldValue = null;
             object newValue = null;
             bool propertyFound = false;
-            bool useOldValue = false;
-
-            if (propertyName.EndsWith("___OldValue") || propertyName.EndsWith("- Old Value"))
-            {
-                useOldValue = true;
-                propertyName = propertyName.Substring(0, propertyName.Length - 11).TrimEnd();
-            }
-            else if (propertyName.EndsWith("___NewValue") || propertyName.EndsWith("- New Value"))
-            {
-                propertyName = propertyName.Substring(0, propertyName.Length - 11).TrimEnd();
-            }
 
             if (!propertyFound)
             {
@@ -324,7 +273,7 @@ namespace FwStandard.Modules.Administrator.Alert
                             oldValue = oldObject.GetType().GetProperty(property.Name).GetValue(oldObject);
                         }
 
-                        if (newValue == null || useOldValue)
+                        if (newValue == null)
                         {
                             newValue = oldValue;
                         }
@@ -363,7 +312,7 @@ namespace FwStandard.Modules.Administrator.Alert
                             }
                         }
 
-                        if (newValue == null || useOldValue)
+                        if (newValue == null)
                         {
                             newValue = oldValue;
                         }

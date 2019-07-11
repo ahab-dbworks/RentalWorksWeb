@@ -10,9 +10,8 @@ namespace FwStandard.Modules.Administrator.Alert
     {
         public string AlertConditionId { get; set; }
         public string AlertId { get; set; }
-        public string FieldName1 { get; set; }
+        public string FieldName { get; set; }
         public string Condition { get; set; }
-        public string FieldName2 { get; set; }
         public string Value { get; set; }
     }
 
@@ -29,18 +28,12 @@ namespace FwStandard.Modules.Administrator.Alert
             ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "6c9PL4mHxpfO", IsPrimaryKey: true)]
+        [FwLogicProperty(Id: "6c9PL4mHxpfO", IsPrimaryKey:true)]
         public string AlertId { get { return alert.AlertId; } set { alert.AlertId = value; } }
-        [FwLogicProperty(Id: "QlcNGC0VsxNE", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "QlcNGC0VsxNE", IsRecordTitle:true)]
         public string AlertName { get { return alert.AlertName; } set { alert.AlertName = value; } }
         [FwLogicProperty(Id: "iL9L6gQI0Bh6")]
         public string ModuleName { get { return alert.ModuleName; } set { alert.ModuleName = value; } }
-        [FwLogicProperty(Id: "M2dUY3c6L6llB")]
-        public bool? ActionNew { get { return alert.ActionNew; } set { alert.ActionNew = value; } }
-        [FwLogicProperty(Id: "H7PHYDPREiDuj")]
-        public bool? ActionEdit { get { return alert.ActionEdit; } set { alert.ActionEdit = value; } }
-        [FwLogicProperty(Id: "qCzhqzfPAAifY")]
-        public bool? ActionDelete { get { return alert.ActionDelete; } set { alert.ActionDelete = value; } }
         [FwLogicProperty(Id: "QlDlFJ3f12N")]
         public string AlertSubject { get { return alert.AlertSubject; } set { alert.AlertSubject = value; } }
         [FwLogicProperty(Id: "9aGNy3nvxSx")]
@@ -83,12 +76,11 @@ namespace FwStandard.Modules.Administrator.Alert
                 {
                     if (acPrev.AlertConditionId.ToString().Equals(acNew.AlertConditionId)) // find the matching record
                     {
-                        if ((!acPrev.FieldName1.Equals(acNew.FieldName1)) || (!acPrev.Condition.Equals(acNew.Condition)) || (!acPrev.FieldName2.Equals(acNew.FieldName2)) || (!acPrev.Value.Equals(acNew.Value)))
+                        if ((!acPrev.FieldName.Equals(acNew.FieldName)) || (!acPrev.Condition.Equals(acNew.Condition)) || (!acPrev.Value.Equals(acNew.Value)))
                         {
                             AlertConditionLogic cNew = acPrev.MakeCopy<AlertConditionLogic>();
-                            cNew.FieldName1 = acNew.FieldName1;
+                            cNew.FieldName = acNew.FieldName;
                             cNew.Condition = acNew.Condition;
-                            cNew.FieldName2 = acNew.FieldName2;
                             cNew.Value = acNew.Value;
                             cNew.SetDependencies(AppConfig, UserSession);
                             int saveCount = cNew.SaveAsync(acPrev, conn: e.SqlConnection).Result;
@@ -105,9 +97,8 @@ namespace FwStandard.Modules.Administrator.Alert
                     AlertConditionLogic acNew = new AlertConditionLogic();
                     acNew.SetDependencies(AppConfig, UserSession);
                     acNew.AlertId = AlertId;
-                    acNew.FieldName1 = ac.FieldName1;
+                    acNew.FieldName = ac.FieldName;
                     acNew.Condition = ac.Condition;
-                    acNew.FieldName2 = ac.FieldName2;
                     acNew.Value = ac.Value;
                     acNew.SetDependencies(AppConfig, UserSession);
                     int saveCount = acNew.SaveAsync(null, conn: e.SqlConnection).Result;

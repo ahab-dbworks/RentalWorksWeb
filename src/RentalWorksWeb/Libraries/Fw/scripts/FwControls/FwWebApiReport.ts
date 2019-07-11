@@ -74,7 +74,7 @@ abstract class FwWebApiReport {
         if (JSON.parse(sessionStorage.getItem('controldefaults')).companyname != null) {
             companyName = JSON.parse(sessionStorage.getItem('controldefaults')).companyname;
         }
-        
+
         // Preview Button
         if ((typeof reportOptions.HasExportHtml === 'undefined') || (reportOptions.HasExportHtml === true)) {
             const $btnPreview = FwMenu.addStandardBtn($menuObject, 'Preview');

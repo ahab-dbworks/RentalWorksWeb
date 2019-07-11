@@ -14,14 +14,11 @@ namespace FwStandard.Modules.Administrator.AlertCondition
         [FwSqlDataField(column: "alertconditionid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, isPrimaryKey:true)]
         public string AlertConditionId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fieldname1", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100, required: true)]
-        public string FieldName1 { get; set; }
+        [FwSqlDataField(column: "fieldname", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        public string FieldName { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "condition", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50, required: true)]
+        [FwSqlDataField(column: "condition", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string Condition { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fieldname2", modeltype: FwDataTypes.Text, sqltype: "varchar", maxlength: 100, required: true)]
-        public string FieldName2 { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "value", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
         public string Value { get; set; }
@@ -35,6 +32,5 @@ namespace FwStandard.Modules.Administrator.AlertCondition
             select.Parse();
             addFilterToSelect("AlertId", "alertid", select, request);
         }
-        //------------------------------------------------------------------------------------ 
     }
 }

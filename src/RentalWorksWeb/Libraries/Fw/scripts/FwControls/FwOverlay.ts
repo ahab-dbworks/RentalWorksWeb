@@ -56,7 +56,7 @@
         $moduleoverlay.html(html.join(''));
         $appendToElement.css('position', 'relative').append($moduleoverlay);
 
-        let handle = setInterval(() => {
+        let handle: number = window.setInterval(() => {
             jQuery.ajax(ajaxOptions)
                 .done(response => {
                     try {
@@ -87,7 +87,7 @@
                     if (currentStep >= totalSteps) {
                         progressCompleted = true;
                         if (progressCompleted) {
-                            clearInterval(handle);
+                            window.clearInterval(handle);
                             handle = 0;
                         }
                     }

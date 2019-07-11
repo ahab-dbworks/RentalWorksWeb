@@ -412,7 +412,7 @@
                 }
                 FwAppImage.fileToDataUrl($control, $image, blob);
             } else {
-                setTimeout(function () {
+                window.setTimeout(function () {
                     var dataUrl, file, filename, mimetype, $pastedimage;
                     if ($control.find('.pasteimage > img').length > 0) {
                         dataUrl = $image.find('.pasteimage > img').attr('src');
@@ -427,7 +427,7 @@
                         $image.find('.btnClear').show();
                         $pastedimage = $image.find('.pastedimage');
                         let addImageAttempts = 0;
-                        let timer = setInterval(function () {
+                        let timer = window.setInterval(function () {
                             try {
                                 if ((($pastedimage.attr('src') !== '') || ($pastedimage.attr('src') !== FwAppImage.blankDataUrl))) {
                                     window.clearInterval(timer);
@@ -504,7 +504,7 @@
                 $image.find('.btnClear').show();
                 $pastedimage = $image.find('.pastedimage');
                 let addImageAttempts = 0;
-                let timer = setInterval(function () {
+                let timer: number = window.setInterval(function () {
                     try {
                         if ((($pastedimage.attr('src') !== '') || ($pastedimage.attr('src') !== FwAppImage.blankDataUrl))) {
                             window.clearInterval(timer);
