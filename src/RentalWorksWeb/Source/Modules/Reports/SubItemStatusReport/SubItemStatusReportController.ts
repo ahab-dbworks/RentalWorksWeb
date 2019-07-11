@@ -29,19 +29,19 @@ const subItemStatusTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-datafield="DateType" style="float:left;max-width:200px;">
                     <div data-value="BILLINGDATES" data-caption="Contract Billing Dates"></div>
-                    <div data-value="CONTRACTDATES" data-caption="Actual Scan Dates"></div>
+                    <div data-value="CONTRACT" data-caption="Actual Scan Dates"></div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
+            <div class="flexcolumn" style="max-width:135px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activity">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Activities" style="float:left;max-width:200px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="RecType" style="float:left;max-width:200px;"></div>
                 </div>
               </div>
             </div>
-            <div class="flexcolumn" style="max-width:200px;">
+            <div class="flexcolumn" style="max-width:115px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Statuses" style="float:left;max-width:200px;"></div>
