@@ -197,6 +197,17 @@ class Alert {
         //    }
         //});
 
+        //enable value field 
+        $form.on('change', '[data-datafield="FieldName2"]', e => {
+            const $this = jQuery(e.currentTarget);
+            const val = $this.find(':selected').attr('value');
+            if (val === 'LITERALVALUE') {
+                FwFormField.enable($this.siblings('[data-datafield="Value"]'));
+            } else {
+                FwFormField.disable($this.siblings('[data-datafield="Value"]'));
+            }
+        });
+
         //add condition fields
         const $conditionList = $form.find('.condition-list')
         $form.on('click', 'i.add-condition', e => {
@@ -294,17 +305,21 @@ class Alert {
         let $conditionRow = jQuery(`
                             <div class="flexrow condition-row">
                               <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="AlertConditionId" style="display:none;"></div>
-                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName" data-allcaps="false" style="flex:1 1 0; max-width:350px;"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName1" data-allcaps="false" style="flex:1 1 0; max-width:350px;"></div>
                               <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Condition" data-datafield="Condition" style="flex:1 1 0; max-width:250px;"></div>
-                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-required="true"></div>
+                              <div data-control="FwFormField" data-type="select" class="fwcontrol fwformfield" data-caption="Data Field" data-datafield="FieldName2" data-allcaps="false" style="flex:1 1 0; max-width:350px;"></div>
+                              <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="Value" data-allcaps="false" style="flex:1 1 0; max-width:250px;" data-enabled="false"></div>
                               <i class="material-icons delete-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">delete_outline</i>
                               <i class="material-icons add-condition" style="max-width:25px; cursor:pointer; margin:23px 0px 0px 10px;">add_circle_outline</i>
                             </div>`);
         FwControl.renderRuntimeControls($conditionRow.find('.fwcontrol'));
         const moduleName = FwFormField.getValueByDataField($form, 'ModuleName');
         if (moduleName != '') {
-            const $datafield = $conditionRow.find('[data-datafield="FieldName"]');
-            FwFormField.loadItems($datafield, this.datafields);
+            const $datafield1 = $conditionRow.find('[data-datafield="FieldName1"]');
+            FwFormField.loadItems($datafield1, this.datafields);
+            const $datafield2 = $conditionRow.find('[data-datafield="FieldName2"]');
+            FwFormField.loadItems($datafield2, this.datafields);
+            jQuery($datafield2).find('select option:first-of-type').after(`<option value="LITERALVALUE">Literal Value</option>`);
 
             const $conditionSelect = $conditionRow.find('[data-datafield="Condition"]');
             FwFormField.loadItems($conditionSelect, [
@@ -330,21 +345,28 @@ class Alert {
             response => {
                 if (response.Rows.length > 0) {
                     const alertConditionIdIndex = response.ColumnIndex.AlertConditionId;
-                    const fieldNameIndex = response.ColumnIndex.FieldName;
+                    const fieldName1Index = response.ColumnIndex.FieldName1;
+                    const fieldName2Index = response.ColumnIndex.FieldName2;
                     const conditionIndex = response.ColumnIndex.Condition;
                     const valueIndex = response.ColumnIndex.Value;
                     for (let i = 0; i < response.Rows.length; i++) {
                         const alertConditionId = response.Rows[i][alertConditionIdIndex];
-                        const fieldName = response.Rows[i][fieldNameIndex];
+                        const fieldName1 = response.Rows[i][fieldName1Index];
+                        const fieldName2 = response.Rows[i][fieldName2Index];
                         const condition = response.Rows[i][conditionIndex];
                         const value = response.Rows[i][valueIndex];
                         let $conditionRow = this.renderConditionRow($form);
                         $conditionRow.find('.add-condition').hide();
                         FwFormField.setValue2($conditionRow.find('[data-datafield="AlertConditionId"]'), alertConditionId);
-                        FwFormField.setValue2($conditionRow.find('[data-datafield="FieldName"]'), fieldName);
+                        FwFormField.setValue2($conditionRow.find('[data-datafield="FieldName1"]'), fieldName1);
+                        FwFormField.setValue2($conditionRow.find('[data-datafield="FieldName2"]'), fieldName2);
                         FwFormField.setValue2($conditionRow.find('[data-datafield="Condition"]'), condition);
                         FwFormField.setValue2($conditionRow.find('[data-datafield="Value"]'), value);
                         $conditionList.append($conditionRow);
+
+                        if (fieldName2 === 'LITERALVALUE') {
+                            FwFormField.enable(jQuery($conditionRow).find('[data-datafield="Value"]'));
+                        }
                     }
                 }
                 const $addConditionRow = this.renderConditionRow($form);
