@@ -23,6 +23,31 @@ export class ChangeAuditReport extends WebpackReport {
                     data.Report = 'Change Audit Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+
+                    //adds module and user headers
+                    let moduleName;
+                    let userName;
+                    for (let i = 0; i < data.length; i++) {
+                        if (data[i].ModuleName == moduleName) {
+                            data[i].RenderModuleHeader = false;
+
+                            if (data[i].UserName == userName) {
+                                data[i].RenderUserHeader = false;
+                            } else {
+                                userName = data[i].UserName;
+                                data[i].RenderUserHeader = true;
+                            }
+                        } else {
+                            moduleName = data[i].ModuleName;
+                            userName = data[i].UserName;
+                            data[i].RenderModuleHeader = true;
+                            data[i].RenderUserHeader = true;
+                        }
+
+                        //parse changes json
+                        data[i].Json = JSON.parse(data[i].Json);
+                    }
+
                     console.log('rpt: ', data)
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {

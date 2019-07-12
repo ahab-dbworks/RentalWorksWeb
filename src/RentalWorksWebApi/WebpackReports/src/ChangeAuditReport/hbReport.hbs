@@ -12,116 +12,48 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-  <table>
+  <table style="max-width:1110px;">
     <thead class="main-header">
       <tr>
-        <th>Order No.</th>
-        <th>Deal</th>
-        <th>Order Description</th>
-        <th>Status</th>
-        <th>PO No.</th>
-        <th class="number">Order Total</th>
-        <th class="number">Cost</th>
-        <th class="number">To Bill</th>
-        <th class="number">Vendor Invoice</th>
-      </tr>
-      <tr>
-        <th>Project No.</th>
-        <th>Primary Contact</th>
-        <th colspan="2"></th>
-        <th>Ship Date</th>
-        <th colspan="4"></th>
+        <th>Date/Time</th>
+        <th>Record Title</th>
+        <th colspan="3">Changes</th>
       </tr>
     </thead>
     {{#each this}}
-    {{#ifEquals RowType "OfficeLocationheader"}}
+    {{#ifEquals RenderModuleHeader true}}
     <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="header-row" colspan="4">Office Location: {{OfficeLocation}}</th>
+      <tr data-rowtype="ModuleNameHeader">
+        <th class="header-row" colspan="3">Module: {{ModuleName}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
-    {{#ifEquals RowType "Agentheader"}}
+    {{#ifEquals RenderUserHeader true}}
     <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="lower header-row" colspan="4">Agent: {{Agent}}</th>
+      <tr data-rowtype="UserNameHeader">
+        <th class="lower header-row" colspan="3">User: {{UserName}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr>
-        <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{Deal}}"></td>
-        <td data-value="{{OrderDescription}}"></td>
-        <td data-value="{{Status}}"></td>
-        <td data-value="{{PurchaseOrderNumber}}"></td>
-        <td class="number" data-value="{{OrderTotal}}"></td>
-        <td class="number" data-value="{{OrderCost}}"></td>
-        <td class="number" data-value="{{InvoicedTotal}}"></td>
-        <td class="number" data-value="{{VendorInvoiceTotal}}"></td>
+        <td data-value="{{DateStamp}}"></td>
+        <td data-value="{{RecordTitle}}"></td>
+        <td class="header-row">Field Name</td>
+        <td class="header-row">Old Value</td>
+        <td class="header-row">New value</td>
       </tr>
-      <tr data-rowtype="{{RowType}}">
-        <td data-value="{{ProjectNumber}}"></td>
-        <td data-value="{{PrimaryContact}}"></td>
-        <td colspan="2"></td>
-        <td data-value="{{OrderDate}}"></td>
-        <td colspan="4"></td>
-      </tr>
-      {{#if ../IncludeProjectStatus}}
-      {{#checkLength ProjectId 0 }}
+      {{#each Json}}
       <tr>
-        <th></th>
-        <th class="subHeaders">Project</th>
-        <th class="subHeaders">Drawings</th>
-        <th class="subHeaders">Drop Ship</th>
-        <th class="subHeaders">As-Build</th>
-        <th class="subHeaders" colspan="2">Commissioning</th>
-        <th class="subHeaders">Deposit</th>
-        <th class="subHeaders">Items Ordered</th>
+        <td colspan="2"></td>
+        <td data-value="{{FieldName}}"></td>
+        <td data-value="{{OldValue}}"></td>
+        <td data-value="{{NewValue}}"></td>
       </tr>
-      <tr class="subValues">
-        <td colspan="2">{{ProjectDescription}}</td>
-        <td>{{Drawing}}</td>
-        <td>{{ProjectDropShipItems}}</td>
-        <td>{{AsBuild}}</td>
-        <td colspan="2">{{Commissioning}}</td>
-        <td>{{Deposit}}</td>
-        <td>{{ProjectItemsOrdered}}</td>
-      </tr>
+    {{/each}}
     </tbody>
-    {{/checkLength}}
-    {{/if}}
     {{/ifEquals}}
-    <tfoot>
-      {{#ifEquals RowType "Agentfooter"}}
-      <tr data-rowtype="{{RowType}}">
-        <td colspan="5" class="total-name">{{Agent}}:&nbsp;</td>
-        <td class="total-val" data-value="{{OrderTotal}}"></td>
-        <td class="total-val" data-value="{{OrderCost}}"></td>
-        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "OfficeLocationfooter"}}
-      <tr data-rowtype="{{RowType}}">
-        <td colspan="5" class="total-name">{{OfficeLocation}}:&nbsp;</td>
-        <td class="total-val" data-value="{{OrderTotal}}"></td>
-        <td class="total-val" data-value="{{OrderCost}}"></td>
-        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "grandtotal"}}
-      <tr data-rowtype="{{RowType}}">
-        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{OrderTotal}}"></td>
-        <td class="total-val" data-value="{{OrderCost}}"></td>
-        <td class="total-val" data-value="{{InvoicedTotal}}"></td>
-        <td class="total-val" data-value="{{VendorInvoiceTotal}}"></td>
-      </tr>
-      {{/ifEquals}}
-    </tfoot>
     {{/each}}
   </table>
 </div>
