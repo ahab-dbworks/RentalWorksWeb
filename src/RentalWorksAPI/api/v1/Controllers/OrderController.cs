@@ -138,7 +138,7 @@ namespace RentalWorksAPI.api.v1
                 if (orderitemresponse.errno != "0")
                 {
                     watch.Stop();
-                    AppData.LogWebApiAudit(orderitem.orderid, "v1/order/lineitems", new JavaScriptSerializer().Serialize(orderitem), "", "404: The requested order was not found.", Convert.ToInt32(watch.Elapsed.TotalSeconds));
+                    AppData.LogWebApiAudit(orderitem.orderid, "v1/order/lineitems", new JavaScriptSerializer().Serialize(orderitem), "", "500: " + orderitemresponse.errmsg, Convert.ToInt32(watch.Elapsed.TotalSeconds));
                     ThrowError("500", orderitemresponse.errmsg);
                 }
             }
