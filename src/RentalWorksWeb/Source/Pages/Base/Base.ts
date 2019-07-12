@@ -140,13 +140,20 @@ class Base {
                                     $elementToBlock: $loginWindow
                                 });
 
+                                const promiseGetUser = FwAjax.callWebApi<any>({
+                                    httpMethod: 'GET',
+                                    url: `${applicationConfig.apiurl}api/v1/user/${responseSessionInfo.webUser.usersid}`,
+                                    $elementToBlock: $loginWindow
+                                });
+
 
                                 // wait for all the queries to finish
                                 await Promise.all([
                                     promiseGetUserSettings,     // 00
                                     promiseGetCustomFields,     // 01
                                     promiseGetCustomForms,      // 02
-                                    promiseGetControlDefaults   // 03
+                                    promiseGetControlDefaults,  // 03
+                                    promiseGetUser   // 04
                                 ])
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
@@ -160,6 +167,14 @@ class Base {
                                         sessionStorage.setItem('sounds', JSON.stringify(sounds));
                                         sessionStorage.setItem('homePage', JSON.stringify(homePage));
                                         sessionStorage.setItem('toolbar', toolbar);
+                                        // Web admin - temp security for peek validation show / hide   J.Pace 7/12/19
+                                        const userid = JSON.parse(sessionStorage.getItem('userid'));
+                                        if (values[4].WebAdministrator === true) {
+                                            userid.webadministrator = 'true';
+                                        } else {
+                                            userid.webadministrator = 'false';
+                                        }
+                                        sessionStorage.setItem('userid', JSON.stringify(userid));
 
                                         const responseGetCustomFields = values[1];
                                         var customFields = [];
