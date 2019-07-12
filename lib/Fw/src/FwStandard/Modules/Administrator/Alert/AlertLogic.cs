@@ -10,7 +10,8 @@ namespace FwStandard.Modules.Administrator.Alert
     {
         public string AlertConditionId { get; set; }
         public string AlertId { get; set; }
-        public string FieldName { get; set; }
+        public string FieldName1 { get; set; }
+        public string FieldName2 { get; set; }
         public string Condition { get; set; }
         public string Value { get; set; }
     }
@@ -76,10 +77,11 @@ namespace FwStandard.Modules.Administrator.Alert
                 {
                     if (acPrev.AlertConditionId.ToString().Equals(acNew.AlertConditionId)) // find the matching record
                     {
-                        if ((!acPrev.FieldName.Equals(acNew.FieldName)) || (!acPrev.Condition.Equals(acNew.Condition)) || (!acPrev.Value.Equals(acNew.Value)))
+                        if ((!acPrev.FieldName1.Equals(acNew.FieldName1)) || (!acPrev.FieldName2.Equals(acNew.FieldName2)) || (!acPrev.Condition.Equals(acNew.Condition)) || (!acPrev.Value.Equals(acNew.Value)))
                         {
                             AlertConditionLogic cNew = acPrev.MakeCopy<AlertConditionLogic>();
-                            cNew.FieldName = acNew.FieldName;
+                            cNew.FieldName1 = acNew.FieldName1;
+                            cNew.FieldName2 = acNew.FieldName2;
                             cNew.Condition = acNew.Condition;
                             cNew.Value = acNew.Value;
                             cNew.SetDependencies(AppConfig, UserSession);
@@ -97,7 +99,8 @@ namespace FwStandard.Modules.Administrator.Alert
                     AlertConditionLogic acNew = new AlertConditionLogic();
                     acNew.SetDependencies(AppConfig, UserSession);
                     acNew.AlertId = AlertId;
-                    acNew.FieldName = ac.FieldName;
+                    acNew.FieldName1 = ac.FieldName1;
+                    acNew.FieldName2 = ac.FieldName2;
                     acNew.Condition = ac.Condition;
                     acNew.Value = ac.Value;
                     acNew.SetDependencies(AppConfig, UserSession);
