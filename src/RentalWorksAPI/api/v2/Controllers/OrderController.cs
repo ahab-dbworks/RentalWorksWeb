@@ -77,7 +77,6 @@ namespace RentalWorksAPI.api.v2
             dynamic orderitemresponse;
             OrderItems result = new OrderItems();
             var watch         = System.Diagnostics.Stopwatch.StartNew();
-            List<string> itemsadded = new List<string>();
 
             if (!ModelState.IsValid)
                 ThrowError("400", "");
@@ -88,25 +87,55 @@ namespace RentalWorksAPI.api.v2
                 ThrowError("404", "The requested order was not found.");
             }
 
+            result.items = new List<OrderItem>();
             for (int i = 0; i < orderitem.items.Count; i++)
             {
-                orderitemresponse = OrderData.ProcessOrderItem(orderitem.items[i], orderitem.orderid);
+                orderitemresponse = OrderData.ProcessAddOrderItem(orderitem.items[i], orderitem.orderid);
                 if (orderitemresponse.errno != "0")
                 {
                     watch.Stop();
-                    AppData.LogWebApiAudit(orderitem.orderid, "v2/order/lineitemadd", new JavaScriptSerializer().Serialize(orderitem), "", "404: The requested order was not found.", Convert.ToInt32(watch.Elapsed.TotalSeconds));
+                    AppData.LogWebApiAudit(orderitem.orderid, "v2/order/lineitemadd", new JavaScriptSerializer().Serialize(orderitem), "", "500: " + orderitemresponse.errmsg, Convert.ToInt32(watch.Elapsed.TotalSeconds));
                     ThrowError("500", orderitemresponse.errmsg);
                 }
                 else
                 {
-                    itemsadded.Add(orderitemresponse.masteritemid);
+                    OrderItem itemordered = new OrderItem();
+
+                    itemordered.masteritemid         = orderitemresponse.masteritemid;
+                    itemordered.masterid             = orderitemresponse.masterid;
+                    itemordered.description          = orderitemresponse.description;
+                    itemordered.rentfromdate         = orderitemresponse.rentfromdate;
+                    itemordered.rentfromtime         = orderitemresponse.rentfromtime;
+                    itemordered.renttodate           = orderitemresponse.renttodate;
+                    itemordered.renttotime           = orderitemresponse.renttotime;
+                    itemordered.qtyordered           = orderitemresponse.qtyordered;
+                    itemordered.unit                 = orderitemresponse.unit;
+                    itemordered.price                = orderitemresponse.price;
+                    itemordered.daysinwk             = orderitemresponse.daysinwk;
+                    itemordered.notes                = orderitemresponse.notes;
+                    itemordered.parentid             = orderitemresponse.parentid;
+                    itemordered.nestedmasteritemid   = orderitemresponse.nestedmasteritemid;
+                    
+                    itemordered.unitextended         = orderitemresponse.unitextended;
+                    itemordered.periodextended       = orderitemresponse.periodextended;
+                    itemordered.weeklyextended       = orderitemresponse.weeklyextended;
+                    itemordered.taxable              = orderitemresponse.taxable;
+                    itemordered.inactive             = orderitemresponse.inactive;
+                    itemordered.itemorder            = orderitemresponse.itemorder;
+
+                    result.items.Add(itemordered);
+
+                    if ((orderitemresponse.itemclass == "C") || (orderitemresponse.itemclass == "K"))
+                    {
+                        result.items.AddRange(OrderData.FuncCompleteAddProcessMasterItem(orderitem.orderid, orderitemresponse.masteritemid, orderitemresponse.parentid, orderitemresponse.qtyordered));
+                    }
                 }
             }
 
             OrderData.UpdateOrderTimeStamp(orderitem.orderid);
 
             result.orderid = orderitem.orderid;
-            result.items   = OrderData.GetOrderItems(orderitem.orderid, itemsadded.ToArray());
+            //result.items   = OrderData.GetOrderItems(orderitem.orderid, itemsadded.ToArray());
             watch.Stop();
             AppData.LogWebApiAudit(orderitem.orderid, "v2/order/lineitemadd", new JavaScriptSerializer().Serialize(orderitem), new JavaScriptSerializer().Serialize(result), "", Convert.ToInt32(watch.Elapsed.TotalSeconds));
 
