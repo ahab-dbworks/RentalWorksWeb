@@ -111,11 +111,11 @@ namespace FwStandard.Modules.Administrator.Alert
             }
         }
         //-------------------------------------------------------------------------------------------------------        
-        public static async void ProcessAlerts(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, FwBusinessLogic oldObject, FwBusinessLogic newObject, TDataRecordSaveMode saveMode)
+        public static async void ProcessAlerts(FwApplicationConfig appConfig, FwUserSession userSession, string moduleName, FwBusinessLogic oldObject, FwBusinessLogic newObject, TDataRecordSaveMode? saveMode)
         {
             if (Alerts.Count > 0)
             {
-                if ((oldObject == null) || (oldObject.GetType().Equals(newObject.GetType())))  // newObject and oldObject must be the same type.  or original can be null, which means we are Inserting a new record
+                if ((oldObject == null) || (newObject == null) || (oldObject.GetType().Equals(newObject.GetType())))  // newObject and oldObject must be the same type.  or original can be null, which means we are Inserting a new record
                 {
                     List<Alert> moduleAlerts = new List<Alert>();
 
@@ -130,11 +130,45 @@ namespace FwStandard.Modules.Administrator.Alert
 
                     if (moduleAlerts.Count > 0)
                     {
-                        PropertyInfo[] propertyInfo = newObject.GetType().GetProperties();
+                        PropertyInfo[] propertyInfo;
+                        if (newObject != null) { 
+                        propertyInfo = newObject.GetType().GetProperties();
+                        }
+                        else
+                        {
+                            propertyInfo = oldObject.GetType().GetProperties();
+                        }
 
                         foreach (Alert alert in moduleAlerts)
                         {
                             bool allConditionsMet = true;
+                            bool modeConditionMet = false;
+                            if (saveMode != null)
+                            {
+                                if (saveMode == TDataRecordSaveMode.smUpdate && alert.alert.ActionEdit.GetValueOrDefault())
+                                {
+                                    modeConditionMet = true;
+                                }
+
+                                if (saveMode == TDataRecordSaveMode.smInsert && alert.alert.ActionNew.GetValueOrDefault())
+                                {
+                                    modeConditionMet = true;
+                                }
+                            }
+                            else
+                            {
+                                if (alert.alert.ActionDelete.GetValueOrDefault())
+                                {
+                                    modeConditionMet = true;
+                                }
+                            }
+
+                            if (!modeConditionMet)
+                            {
+                                allConditionsMet = false;
+                                break;
+                            }
+
                             foreach (AlertConditionLogic condition in alert.conditions)
                             {
                                 bool thisConditionMet = false;

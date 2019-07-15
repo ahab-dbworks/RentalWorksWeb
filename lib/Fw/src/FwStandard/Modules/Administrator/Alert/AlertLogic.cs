@@ -35,6 +35,12 @@ namespace FwStandard.Modules.Administrator.Alert
         public string AlertName { get { return alert.AlertName; } set { alert.AlertName = value; } }
         [FwLogicProperty(Id: "iL9L6gQI0Bh6")]
         public string ModuleName { get { return alert.ModuleName; } set { alert.ModuleName = value; } }
+        [FwLogicProperty(Id: "M2dUY3c6L6llB")]
+        public bool? ActionNew { get { return alert.ActionNew; } set { alert.ActionNew = value; } }
+        [FwLogicProperty(Id: "H7PHYDPREiDuj")]
+        public bool? ActionEdit { get { return alert.ActionEdit; } set { alert.ActionEdit = value; } }
+        [FwLogicProperty(Id: "qCzhqzfPAAifY")]
+        public bool? ActionDelete { get { return alert.ActionDelete; } set { alert.ActionDelete = value; } }
         [FwLogicProperty(Id: "QlDlFJ3f12N")]
         public string AlertSubject { get { return alert.AlertSubject; } set { alert.AlertSubject = value; } }
         [FwLogicProperty(Id: "9aGNy3nvxSx")]

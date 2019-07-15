@@ -1234,6 +1234,7 @@ namespace FwStandard.BusinessLogic
             return rowsAffected;
         }
         //------------------------------------------------------------------------------------
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Await.Warning", "CS4014")]  // do not warn about the call to Task.Run not being awaited.  I want it to run in a separte unawaited thread
         public virtual async Task<bool> DeleteAsync()
         {
             bool success = true;
@@ -1256,6 +1257,11 @@ namespace FwStandard.BusinessLogic
                     }
                 }
                 AfterDelete?.Invoke(this, afterDeleteArgs);
+                Task.Run(() =>
+                {
+                    AlertFunc.ProcessAlerts(this.AppConfig, this.UserSession, this.BusinessLogicModuleName, this, null, null);
+                });
+
             }
             return success;
         }
