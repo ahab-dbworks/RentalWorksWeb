@@ -1,6 +1,18 @@
 ﻿﻿class TransferOrderItemGrid {
      Module: string = 'TransferOrderItemGrid';
      apiurl: string = 'api/v1/orderitem';
+
+     generateRow($control, $generatedtr) {
+         const $form = $control.closest('.fwform');
+         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+             $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
+             $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
+             $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(FwFormField.getValueByDataField($form, 'FromWarehouseId'));
+             $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(FwFormField.getValueByDataField($form, 'ToWarehouseId'));
+             $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(FwFormField.getTextByDataField($form, 'FromWarehouseId'));
+             $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(FwFormField.getTextByDataField($form, 'ToWarehouseId'));
+         });
+     }
 }
 //----------------------------------------------------------------------------------------------
 //Refresh Availability
