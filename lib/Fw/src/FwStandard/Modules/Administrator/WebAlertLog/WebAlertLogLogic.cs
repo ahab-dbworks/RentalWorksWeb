@@ -12,6 +12,7 @@ namespace FwStandard.Modules.Administrator.WebAlertLog
         public WebAlertLogLogic()
         {
             dataRecords.Add(webAlertLog);
+            HasAudit = false;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "KD5s4c0XTmBxO", IsPrimaryKey: true)]
