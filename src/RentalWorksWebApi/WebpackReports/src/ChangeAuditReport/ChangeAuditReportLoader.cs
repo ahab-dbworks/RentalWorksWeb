@@ -60,13 +60,13 @@ namespace WebApi.Modules.Reports.ChangeAuditReport
                     select.Parse();
                     select.AddWhereIn("modulename", request.ModuleName);
                     select.AddWhereIn("webusersid", request.WebUsersId);
-                    select.AddParameter("@fromdate", request.FromDate);
-                    select.AddParameter("@todate", request.ToDate.AddDays(1));
+                    //select.AddParameter("@fromdate", request.FromDate);
+                    //select.AddParameter("@todate", request.ToDate.AddDays(1));
                     //select.AddParameter("@modulename", request.ModuleName);
                     //select.AddParameter("@webusersid", request.WebUsersId);
                     select.AddParameter("@keyword", request.Keyword);
                     addDateFilterToSelect("datestamp", request.FromDate, select, ">=", "fromdate");
-                    addDateFilterToSelect("datestamp", request.ToDate, select, "<", "todate");
+                    addDateFilterToSelect("datestamp", request.ToDate.AddDays(1), select, "<", "todate");
                     if (request.Keyword.Length > 0)
                     {
                         select.AddWhere("(upper(json) like '%' + @keyword + '%' or upper(recordtitle) like '%' + @keyword + '%')");
