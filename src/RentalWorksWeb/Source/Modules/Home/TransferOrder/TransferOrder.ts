@@ -177,6 +177,10 @@ class TransferOrder {
                 , Rectype: 'R'
             };
         });
+        $orderItemRentalGridControl.data('beforesave', request => {
+            request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+            request.RecType = 'R';
+        });
         FwBrowse.init($orderItemRentalGridControl);
         FwBrowse.renderRuntimeHtml($orderItemRentalGridControl);
         // ----------
@@ -189,6 +193,10 @@ class TransferOrder {
                 OrderId: FwFormField.getValueByDataField($form, 'TransferId')
                 , Rectype: 'S'
             };
+        });
+        $orderItemSalesGridControl.data('beforesave', request => {
+            request.OrderId = FwFormField.getValueByDataField($form, 'TransferId');
+            request.RecType = 'S';
         });
         FwBrowse.init($orderItemSalesGridControl);
         FwBrowse.renderRuntimeHtml($orderItemSalesGridControl);
