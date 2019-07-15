@@ -60,7 +60,7 @@ namespace WebApi.Modules.Administrator.CustomFormGroup
         [FwControllerMethod(Id: "S5OEQ9jQgwsS")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CustomFormGroupLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

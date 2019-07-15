@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.Floor
         [FwControllerMethod(Id:"WlKt8i6QIrfs")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<FloorLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

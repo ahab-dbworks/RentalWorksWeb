@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.ContactNote
         [FwControllerMethod(Id:"74ZuUrhPBWLc")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ContactNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

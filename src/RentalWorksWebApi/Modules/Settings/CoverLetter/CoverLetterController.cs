@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.CoverLetter
         [FwControllerMethod(Id:"MBjxcC9i3Ce7")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CoverLetterLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

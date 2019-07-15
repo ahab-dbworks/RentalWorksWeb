@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.VehicleColor
         [FwControllerMethod(Id:"SnWPkeSWX2T7o")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VehicleColorLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

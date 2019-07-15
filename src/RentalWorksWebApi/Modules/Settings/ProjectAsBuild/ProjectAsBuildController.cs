@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.ProjectAsBuild
         [FwControllerMethod(Id:"EvBV2PpuYCwbn")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectAsBuildLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

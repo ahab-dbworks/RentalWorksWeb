@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.InventorySubstitute
         [FwControllerMethod(Id:"eaG1OvC6g3xd")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventorySubstituteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

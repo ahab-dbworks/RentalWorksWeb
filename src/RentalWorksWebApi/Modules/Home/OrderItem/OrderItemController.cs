@@ -55,7 +55,7 @@ namespace WebApi.Modules.Home.OrderItem
         //justin 03/04/2019 experimental
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/many
-        [HttpPost("many")]
+        [HttpPost("<OrderItemLogic>many")]
         [FwControllerMethod(Id: "MqUlSwrmvxSAK")]
         public async Task<List<ActionResult<OrderItemLogic>>> PostAsync([FromBody]List<OrderItemLogic> l)
         {
@@ -72,7 +72,7 @@ namespace WebApi.Modules.Home.OrderItem
         [FwControllerMethod(Id:"042zT8NJ4EW8")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<OrderItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
 

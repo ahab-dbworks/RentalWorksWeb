@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.GlAccount
         [FwControllerMethod(Id:"Ci3O5l0xJGVT")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<GlAccountLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

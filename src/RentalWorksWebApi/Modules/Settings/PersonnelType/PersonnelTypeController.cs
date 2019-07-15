@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.PersonnelType
         [FwControllerMethod(Id:"UmmOMN9feSrd")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PersonnelTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

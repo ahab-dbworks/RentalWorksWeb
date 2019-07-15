@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WallDescription
         [FwControllerMethod(Id:"6PSQBs4UtuSnm")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WallDescriptionLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

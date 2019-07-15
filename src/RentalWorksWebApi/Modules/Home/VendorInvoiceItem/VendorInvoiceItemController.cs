@@ -52,7 +52,7 @@ namespace WebApi.Modules.Home.VendorInvoiceItem
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VendorInvoiceItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

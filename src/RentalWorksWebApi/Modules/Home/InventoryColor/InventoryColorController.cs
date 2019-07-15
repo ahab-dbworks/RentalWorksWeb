@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.InventoryColor
         [FwControllerMethod(Id:"zJ9JHwKd9OZ3")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventoryColorLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

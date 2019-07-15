@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.PoClassification
         [FwControllerMethod(Id:"D5zOOZu0jl4C")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PoClassificationLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

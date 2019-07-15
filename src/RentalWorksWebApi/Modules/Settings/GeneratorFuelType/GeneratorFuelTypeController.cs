@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.GeneratorFuelType
         [FwControllerMethod(Id:"0Y6S4a1XLPPa")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<GeneratorFuelTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

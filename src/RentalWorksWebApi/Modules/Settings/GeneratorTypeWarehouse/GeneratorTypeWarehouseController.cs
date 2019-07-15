@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.GeneratorTypeWarehouse
         [FwControllerMethod(Id:"hgOaB4W2hs9Z")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<GeneratorTypeWarehouseLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

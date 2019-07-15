@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.DealClassification
         [FwControllerMethod(Id:"K3nKF8nTFIEe")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<DealClassificationLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

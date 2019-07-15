@@ -71,7 +71,7 @@ namespace WebApi.Modules.Home.SubPurchaseOrderItem
         [FwControllerMethod(Id:"Bhu77r9vju2F3")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SubPurchaseOrderItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/subpurchaseorderitem/selectall

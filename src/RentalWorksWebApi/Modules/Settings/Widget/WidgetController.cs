@@ -64,7 +64,7 @@ namespace WebApi.Modules.Settings.Widget
         [FwControllerMethod(Id: "Wv3dxWeI0piCr")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WidgetLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/widget/loadbyname/ordersbystatus

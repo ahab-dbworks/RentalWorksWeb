@@ -77,7 +77,7 @@ namespace WebApi.Modules.Home.CompanyContact
         [FwControllerMethod(Id:"859kQDas1ois")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CompanyContactLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.PoRejectReason
         [FwControllerMethod(Id:"sfY6Gp6ymVZ4")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PoRejectReasonLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

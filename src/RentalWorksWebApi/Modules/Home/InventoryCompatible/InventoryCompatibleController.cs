@@ -61,7 +61,7 @@ namespace WebApi.Modules.Home.InventoryCompatible
         [FwControllerMethod(Id:"Ks7UnEBkIU04")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventoryCompatibleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

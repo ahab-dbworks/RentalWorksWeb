@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.VehicleScheduleStatus
         [FwControllerMethod(Id:"XAnqUkYZWRBBW")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VehicleScheduleStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

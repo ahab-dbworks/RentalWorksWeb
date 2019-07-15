@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.RateLocationTax
         [FwControllerMethod(Id:"1mMPF6XDmwjr1")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<RateLocationTaxLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -69,7 +69,7 @@ namespace WebApi.Modules.Home.Item
         //[FwControllerMethod(Id:"NfaaIo4GI")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <ItemLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

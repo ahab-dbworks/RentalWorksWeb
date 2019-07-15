@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.Manifest
         [FwControllerMethod(Id: "hfYcAsk67QgY1")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ManifestLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.Country
         [FwControllerMethod(Id:"643Hwtc5kewd")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CountryLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

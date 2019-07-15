@@ -63,7 +63,7 @@ namespace WebApi.Modules.Home.Contract
         [FwControllerMethod(Id:"AeKHviMBg3XP")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ContractLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -61,7 +61,7 @@ namespace WebApi.Modules.Home.VendorNote
         [FwControllerMethod(Id:"B3G7du7OWsv9B")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VendorNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

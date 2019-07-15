@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.DiscountTemplate
         [FwControllerMethod(Id:"gH1ia0r0zdXf")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<DiscountTemplateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

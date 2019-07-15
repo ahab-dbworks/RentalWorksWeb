@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.ProjectDropShipItems
         [FwControllerMethod(Id:"DTCFk58g3G2Lv")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectDropShipItemsLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

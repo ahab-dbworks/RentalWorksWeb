@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.FormDesign
         [FwControllerMethod(Id:"e6ZDDV8xALp4")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<FormDesignLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

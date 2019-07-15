@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.LicenseClass
         [FwControllerMethod(Id:"jrJaxkbnqTd7")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<LicenseClassLogic>(id);
         }
         //------------------------------------------------------------------------------------
 }

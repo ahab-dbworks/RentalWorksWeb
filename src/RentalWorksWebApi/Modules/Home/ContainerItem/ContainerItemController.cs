@@ -151,7 +151,7 @@ namespace WebApi.Modules.Home.ContainerItem
         //[FwControllerMethod(Id:"WhehdFIg4Y8a")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await DoDeleteAsync<ContainerItemLogic>(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

@@ -62,7 +62,7 @@ namespace WebApi.Modules.Administrator.Alert
         [FwControllerMethod(Id: "NDPBeQE9TPDy")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<AlertLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

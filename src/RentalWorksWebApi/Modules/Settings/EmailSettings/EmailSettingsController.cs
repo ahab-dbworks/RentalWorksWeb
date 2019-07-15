@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.EmailSettings
         //[FwControllerMethod(Id: "JXBw6zydRQb8")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <EmailSettingsLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

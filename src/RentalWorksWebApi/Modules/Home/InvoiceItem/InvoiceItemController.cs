@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.InvoiceItem
         [FwControllerMethod(Id:"XMj04F2A6B7")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InvoiceItemLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

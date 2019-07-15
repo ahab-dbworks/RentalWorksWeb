@@ -63,7 +63,7 @@ namespace WebApi.Modules.Home.Container
         //[FwControllerMethod(Id: "xxxxxxxxxxx")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <ContainerLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

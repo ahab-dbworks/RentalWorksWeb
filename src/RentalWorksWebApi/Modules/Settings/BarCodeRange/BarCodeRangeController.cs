@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.BarCodeRange
         [FwControllerMethod(Id:"0r9ng0eQReC")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<BarCodeRangeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

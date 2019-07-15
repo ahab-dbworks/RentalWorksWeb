@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.WardrobeSource
         [FwControllerMethod(Id:"6gSRksMbuNxDC")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WardrobeSourceLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

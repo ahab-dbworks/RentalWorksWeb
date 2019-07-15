@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.SetCondition
         [FwControllerMethod(Id:"4qIpX6lADEW0L")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SetConditionLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

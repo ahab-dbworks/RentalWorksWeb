@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.OrganizationType
         [FwControllerMethod(Id:"wFat1JRGcNxN")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<OrganizationTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

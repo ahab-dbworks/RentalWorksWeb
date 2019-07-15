@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.InventoryMaterial
         [FwControllerMethod(Id:"8F89eZz2E2M0")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventoryMaterialLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

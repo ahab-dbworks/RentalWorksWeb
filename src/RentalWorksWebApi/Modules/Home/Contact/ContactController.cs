@@ -84,7 +84,7 @@ namespace WebApi.Modules.Home.Contact
         [FwControllerMethod(Id:"8PPmwft0gjJw")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ContactLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

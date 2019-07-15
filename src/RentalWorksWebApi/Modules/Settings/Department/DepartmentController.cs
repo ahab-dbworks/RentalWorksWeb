@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.Department
         [FwControllerMethod(Id:"3pAiXb2NT6gG")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<DepartmentLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

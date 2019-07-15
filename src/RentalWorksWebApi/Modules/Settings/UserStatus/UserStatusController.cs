@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.UserStatus
         [FwControllerMethod(Id:"rD0jCFZI7LpwS")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<UserStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

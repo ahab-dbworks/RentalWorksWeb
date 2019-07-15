@@ -97,7 +97,7 @@ namespace WebApi.Modules.Home.TransferOrder
         [FwControllerMethod(Id: "EqJ7cN287WIb")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<TransferOrderLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.PoApproverRole
         [FwControllerMethod(Id:"UUeAxsOf5Y4K")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PoApproverRoleLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

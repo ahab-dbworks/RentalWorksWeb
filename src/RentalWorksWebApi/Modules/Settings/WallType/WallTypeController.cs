@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WallType
         [FwControllerMethod(Id:"l5FkQLYTR9fqG")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WallTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

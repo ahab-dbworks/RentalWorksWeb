@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.RateWarehouse
         [FwControllerMethod(Id:"lEuhw27ObIwK4")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<RateWarehouseLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

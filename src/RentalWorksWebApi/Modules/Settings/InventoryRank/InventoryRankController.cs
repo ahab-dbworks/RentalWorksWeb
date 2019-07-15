@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.InventoryRank
         [FwControllerMethod(Id:"I0eetYvV8SZl")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventoryRankLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

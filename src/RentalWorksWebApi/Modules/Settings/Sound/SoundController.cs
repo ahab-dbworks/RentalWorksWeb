@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.Sound
         [FwControllerMethod(Id:"J7o8XvkLRJcW3")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SoundLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

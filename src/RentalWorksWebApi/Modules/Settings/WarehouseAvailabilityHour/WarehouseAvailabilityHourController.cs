@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WarehouseAvailabilityHour
         [FwControllerMethod(Id:"274xAgVHBrPtX")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WarehouseAvailabilityHourLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.FacilityRate
         [FwControllerMethod(Id:"lO1rpLPVwNV")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<FacilityRateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

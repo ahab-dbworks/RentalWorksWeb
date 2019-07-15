@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.VehicleRating
         [FwControllerMethod(Id:"F53WraMD2cOld")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VehicleRatingLogic>(id);
         }
         //------------------------------------------------------------------------------------
 }

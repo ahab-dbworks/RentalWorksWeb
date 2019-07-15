@@ -63,7 +63,7 @@ namespace WebApi.Modules.Administrator.Group
         [FwControllerMethod(Id:"jxY9aeG4nl9e")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<FwGroupLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
 

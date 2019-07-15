@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.FiscalYear
         [FwControllerMethod(Id:"yP1syJGaLNaI")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<FiscalYearLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.BlackoutStatus
         [FwControllerMethod(Id:"95GiHb7P2C7")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<BlackoutStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.Invoice
         //[FwControllerMethod(Id:"TPgslKxFR6")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <InvoiceLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
         // POST api/v1/invoice/A0000001/void

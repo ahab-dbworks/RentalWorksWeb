@@ -53,7 +53,7 @@ namespace WebApi.Modules.Settings.RetiredReason
         [HttpDelete("{id}")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<RetiredReasonLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

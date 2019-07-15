@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.VendorInvoiceApprover
         [FwControllerMethod(Id:"IrjXa5WBYpIQf")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VendorInvoiceApproverLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

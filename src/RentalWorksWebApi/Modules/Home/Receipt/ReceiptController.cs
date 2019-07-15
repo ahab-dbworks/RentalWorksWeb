@@ -79,7 +79,7 @@ namespace WebApi.Modules.Home.Receipt
         [FwControllerMethod(Id:"RZg83sSIUEo")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ReceiptLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // GET api/v1/receipt/remainingdepositamounts

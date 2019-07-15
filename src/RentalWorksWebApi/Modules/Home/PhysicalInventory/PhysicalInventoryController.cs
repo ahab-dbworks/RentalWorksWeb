@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         //[FwControllerMethod(Id: "xryKgL6RDOYa")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <PhysicalInventoryLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

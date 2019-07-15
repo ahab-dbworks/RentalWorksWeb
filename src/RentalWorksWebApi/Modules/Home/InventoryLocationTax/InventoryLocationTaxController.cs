@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.InventoryLocationTax
         [FwControllerMethod(Id:"hvrSMK5zNq46")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventoryLocationTaxLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.PickList
         [FwControllerMethod(Id:"2zX9FJ9f8TX5")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PickListLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

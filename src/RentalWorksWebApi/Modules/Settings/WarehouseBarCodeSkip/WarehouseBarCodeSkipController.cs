@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WarehouseBarCodeSkip
         [FwControllerMethod(Id:"OGUaAxnmf1Xv4")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WarehouseBarCodeSkipLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

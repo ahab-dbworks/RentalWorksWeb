@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.PresentationLayer
         [FwControllerMethod(Id:"FjecJyzrBwk1i")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PresentationLayerLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

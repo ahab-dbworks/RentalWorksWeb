@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.GeneratorWatts
         [FwControllerMethod(Id:"MJm1LT5dsNWQ")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<GeneratorWattsLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

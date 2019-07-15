@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.PresentationLayerForm
         [FwControllerMethod(Id:"k3RTSk2ADzNRD")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PresentationLayerFormLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.ProjectDrawings
         [FwControllerMethod(Id:"8uzEz1R5dYXac")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectDrawingsLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.GlDistributionRule
         [FwControllerMethod(Id:"olBYTapfO7Rm")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<GlDistributionRuleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

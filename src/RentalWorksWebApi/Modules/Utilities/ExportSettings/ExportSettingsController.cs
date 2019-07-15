@@ -60,7 +60,7 @@ namespace WebApi.Modules.Utilities.ExportSettings
         [FwControllerMethod(Id: "U0INCK4MxulSU")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ExportSettingsLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

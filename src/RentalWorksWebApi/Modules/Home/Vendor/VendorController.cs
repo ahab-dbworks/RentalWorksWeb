@@ -61,7 +61,7 @@ namespace WebApi.Modules.Home.Vendor
         [FwControllerMethod(Id:"5iVmNJZGN9LDk")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VendorLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

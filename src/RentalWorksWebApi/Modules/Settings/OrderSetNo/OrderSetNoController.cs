@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.OrderSetNo
         [FwControllerMethod(Id:"booSUfWreDwC")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<OrderSetNoLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.CompanyTaxResale
         [FwControllerMethod(Id:"uA5m7CZ6VGc6")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CompanyTaxResaleLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

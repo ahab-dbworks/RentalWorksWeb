@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.MiscType
         [FwControllerMethod(Id:"zIoEYUaj2Qgk")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<MiscTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

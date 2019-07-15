@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.InvoiceNote
         [FwControllerMethod(Id: "Rc1UU2xwTMTZ")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InvoiceNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

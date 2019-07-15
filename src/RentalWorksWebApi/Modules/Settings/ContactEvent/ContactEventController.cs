@@ -63,7 +63,7 @@ namespace WebApi.Modules.Settings.ContactEvent
         [FwControllerMethod(Id:"hCKaD0wqy4Pc")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ContactEventLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

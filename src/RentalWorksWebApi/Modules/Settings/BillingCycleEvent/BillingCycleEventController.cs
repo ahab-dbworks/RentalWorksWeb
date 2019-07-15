@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.BillingCycleEvent
         [FwControllerMethod(Id:"vV8MCrsWZXU")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<BillingCycleEventLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

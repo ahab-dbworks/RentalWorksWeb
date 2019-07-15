@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.MiscRate
         [FwControllerMethod(Id:"F3c4Lkpej6ur")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<MiscRateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

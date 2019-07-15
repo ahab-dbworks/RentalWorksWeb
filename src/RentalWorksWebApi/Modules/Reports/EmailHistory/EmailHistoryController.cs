@@ -60,7 +60,7 @@ namespace WebApi.Modules.Reports.EmailHistory
         //[FwControllerMethod(Id: "YYgEXn11pJj6")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <EmailHistoryLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

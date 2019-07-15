@@ -63,7 +63,7 @@ namespace WebApi.Modules.Home.RepairPart
         [FwControllerMethod(Id:"SmouYiNneRwq2")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<RepairPartLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
 

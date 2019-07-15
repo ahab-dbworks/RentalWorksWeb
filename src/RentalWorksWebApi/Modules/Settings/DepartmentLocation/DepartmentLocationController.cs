@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.DepartmentLocation
         //[FwControllerMethod(Id:"rCC2SGeedrW5")]
         // public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         // {
-        //     return await DoDeleteAsync(id);
+        //     return await <DepartmentLocationLogic>DoDeleteAsync(id);
         // }
         // ------------------------------------------------------------------------------------ 
     }

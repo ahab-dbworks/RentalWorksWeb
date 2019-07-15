@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.MarketSegmentJob
         [FwControllerMethod(Id:"BWExghGlV9kl")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<MarketSegmentJobLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

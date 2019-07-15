@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.ProjectDeposit
         [FwControllerMethod(Id:"lvlU4iGwXIiUD")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectDepositLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

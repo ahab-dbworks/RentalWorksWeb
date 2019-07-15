@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.GeneratorRating
         [FwControllerMethod(Id:"8NNpylgBHqIL")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<GeneratorRatingLogic>(id);
         }
         //------------------------------------------------------------------------------------
     //------------------------------------------------------------------------------------

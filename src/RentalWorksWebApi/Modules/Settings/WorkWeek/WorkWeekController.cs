@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WorkWeek
         [FwControllerMethod(Id:"LiRanbX72kNWt")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WorkWeekLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

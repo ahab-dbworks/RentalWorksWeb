@@ -62,7 +62,7 @@ namespace WebApi.Modules.Administrator.DuplicateRule
         [FwControllerMethod(Id:"odX2t317pvT1")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<DuplicateRuleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

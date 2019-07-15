@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.LaborCategory
         [FwControllerMethod(Id:"lxqvsNDVsc6m")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<LaborCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

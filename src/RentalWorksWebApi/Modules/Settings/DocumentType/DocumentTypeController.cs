@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.DocumentType
         [FwControllerMethod(Id:"D53ZIX4E6pMx")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<DocumentTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

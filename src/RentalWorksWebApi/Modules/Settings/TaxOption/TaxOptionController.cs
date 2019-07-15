@@ -64,7 +64,7 @@ namespace WebApi.Modules.Settings.TaxOption
         [FwControllerMethod(Id:"lE3Ob6a7tDCKi")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<TaxOptionLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

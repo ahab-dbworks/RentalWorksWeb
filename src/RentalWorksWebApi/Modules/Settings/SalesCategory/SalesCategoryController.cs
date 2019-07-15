@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.SalesCategory
         [FwControllerMethod(Id:"iXj9iGvriNmmc")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SalesCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

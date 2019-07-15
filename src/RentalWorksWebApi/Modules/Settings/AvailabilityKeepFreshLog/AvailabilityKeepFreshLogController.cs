@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.AvailabilityKeepFreshLog
         //[FwControllerMethod(Id: "QjARQX8fKzKjS")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <AvailabilityKeepFreshLogLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.UnretiredReason
         [FwControllerMethod(Id:"3dkxSsl06CzTq")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<UnretiredReasonLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

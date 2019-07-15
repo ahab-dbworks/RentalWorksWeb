@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.State
         [FwControllerMethod(Id:"NtgmETqprgoJs")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<StateLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

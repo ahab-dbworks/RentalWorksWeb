@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WarehouseLocation
         [FwControllerMethod(Id:"7QR1igUbEX88B")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WarehouseLocationLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

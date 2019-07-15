@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.Region
         [FwControllerMethod(Id:"y6aHyItQJkPWo")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<RegionLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

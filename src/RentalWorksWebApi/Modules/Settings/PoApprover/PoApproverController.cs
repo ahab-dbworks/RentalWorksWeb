@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.PoApprover
         [FwControllerMethod(Id:"AoMJdHYdcTVw")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PoApproverLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

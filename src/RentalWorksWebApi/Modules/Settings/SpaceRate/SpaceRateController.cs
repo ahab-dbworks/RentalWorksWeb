@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.SpaceRate
         [FwControllerMethod(Id:"88ZmgTYFIsHXo")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SpaceRateLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

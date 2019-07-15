@@ -81,7 +81,7 @@ namespace WebApi.Modules.Home.PurchaseOrder
         //[FwControllerMethod(Id:"slEQG9pj9a")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <PurchaseOrderLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
 

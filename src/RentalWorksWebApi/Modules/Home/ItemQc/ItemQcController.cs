@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.ItemQc
         //[FwControllerMethod(Id:"dTALdden7B")]
         //public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         //{
-        //    return await DoDeleteAsync(id);
+        //    return await <ItemQcLogic>DoDeleteAsync(id);
         //}
         ////------------------------------------------------------------------------------------ 
     }

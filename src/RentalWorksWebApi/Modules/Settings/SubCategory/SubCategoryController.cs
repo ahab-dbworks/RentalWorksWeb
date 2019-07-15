@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.SubCategory
         [FwControllerMethod(Id:"8uXzlXqS43vGI")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SubCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.OrderTypeContactTitle
         [FwControllerMethod(Id:"bioOTk84ufl2")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<OrderTypeContactTitleLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

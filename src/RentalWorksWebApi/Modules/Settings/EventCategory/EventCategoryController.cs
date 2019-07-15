@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.EventCategory
         [FwControllerMethod(Id:"FhOCF54yf6fS")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<EventCategoryLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.SetOpening
         [FwControllerMethod(Id:"OU8Brzv5qX3ec")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SetOpeningLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

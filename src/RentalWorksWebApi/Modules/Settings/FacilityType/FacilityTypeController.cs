@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.FacilityType
         [FwControllerMethod(Id:"vSVG7sWVZhiK")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<FacilityTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

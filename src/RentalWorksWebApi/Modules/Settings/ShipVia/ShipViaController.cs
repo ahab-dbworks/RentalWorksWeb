@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.ShipVia
         [FwControllerMethod(Id:"SBcQx7ZsPd7u9")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ShipViaLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

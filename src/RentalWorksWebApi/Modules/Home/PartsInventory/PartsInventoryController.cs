@@ -77,7 +77,7 @@ namespace WebApi.Modules.Home.PartsInventory
         [FwControllerMethod(Id:"hPUVWG4l9BLE")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PartsInventoryLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

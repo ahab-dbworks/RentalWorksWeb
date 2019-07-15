@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WarehouseQuikLocateApprover
         [FwControllerMethod(Id:"TksmPB0vNJ2kV")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<WarehouseQuikLocateApproverLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

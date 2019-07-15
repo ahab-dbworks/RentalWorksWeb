@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.VehicleTypeWarehouse
         [FwControllerMethod(Id:"qQXXte1VmO2gp")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<VehicleTypeWarehouseLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

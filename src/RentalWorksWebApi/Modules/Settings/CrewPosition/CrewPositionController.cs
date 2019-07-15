@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.CrewPosition
         [FwControllerMethod(Id:"4Mebi3QjMhfu")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CrewPositionLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

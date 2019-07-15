@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.OrderLocation
         [FwControllerMethod(Id:"mfOKZ6zzsEOu")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<OrderLocationLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

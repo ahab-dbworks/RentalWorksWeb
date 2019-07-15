@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.DiscountReason
         [FwControllerMethod(Id:"PIrEeU16N38D")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<DiscountReasonLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

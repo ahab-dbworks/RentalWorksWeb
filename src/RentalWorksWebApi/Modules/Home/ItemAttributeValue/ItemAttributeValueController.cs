@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.ItemAttributeValue
         [FwControllerMethod(Id:"aTs8XwiiT3SJ")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ItemAttributeValueLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -60,7 +60,7 @@ namespace WebApi.Modules.Utilities.BrowseActiveViewFields
         [FwControllerMethod(Id: "ASkfPgAgqqNK")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<BrowseActiveViewFieldsLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

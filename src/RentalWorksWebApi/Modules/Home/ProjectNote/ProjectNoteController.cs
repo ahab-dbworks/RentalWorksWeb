@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.ProjectNote
         [FwControllerMethod(Id:"tzzdkC2n8TiFa")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

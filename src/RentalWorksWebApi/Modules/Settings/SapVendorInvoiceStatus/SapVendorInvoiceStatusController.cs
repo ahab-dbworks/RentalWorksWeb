@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.SapVendorInvoiceStatus
         [FwControllerMethod(Id:"W8Gpb0TJzWrGH")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SapVendorInvoiceStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

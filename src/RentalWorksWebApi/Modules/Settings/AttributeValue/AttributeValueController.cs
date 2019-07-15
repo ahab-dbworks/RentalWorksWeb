@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.AttributeValue
         [FwControllerMethod(Id:"LITeDKKEZo2")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<AttributeValueLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

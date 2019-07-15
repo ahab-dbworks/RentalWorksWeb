@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.Address
         [FwControllerMethod(Id:"cw3ukmZB2d")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<AddressLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

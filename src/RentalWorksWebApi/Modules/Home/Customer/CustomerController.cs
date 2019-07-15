@@ -67,7 +67,7 @@ namespace WebApi.Modules.Home.Customer
         [FwControllerMethod(Id:"6p5DKezU9DgN")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CustomerLogic>(id);
         }
         //------------------------------------------------------------------------------------
         // GET api/v1/customer/lookup/officelocations

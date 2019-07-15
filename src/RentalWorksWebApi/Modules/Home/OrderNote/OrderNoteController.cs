@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.OrderNote
         [FwControllerMethod(Id:"VdRXtiXDsn1Q")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<OrderNoteLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

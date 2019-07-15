@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.SetSurface
         [FwControllerMethod(Id:"G4CdOPdKBkpRa")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<SetSurfaceLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.ContactTitle
         [FwControllerMethod(Id:"2ovTDXxx0TEI")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ContactTitleLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

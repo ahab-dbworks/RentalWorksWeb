@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.ScheduleType
         [FwControllerMethod(Id:"F9h8dTZ6e68Yk")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ScheduleTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

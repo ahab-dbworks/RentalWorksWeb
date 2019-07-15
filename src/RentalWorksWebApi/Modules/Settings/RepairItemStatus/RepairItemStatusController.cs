@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.RepairItemStatus
         [FwControllerMethod(Id:"sgKHiwM1BW35p")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<RepairItemStatusLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

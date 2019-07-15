@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.ProjectItemsOrdered
         [FwControllerMethod(Id:"jYcF1q8Hial5P")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectItemsOrderedLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

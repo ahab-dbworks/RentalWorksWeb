@@ -60,7 +60,7 @@ namespace WebApi.Modules.Home.PurchaseOrderReceiveBarCode
         [FwControllerMethod(Id:"oxf9uYnwgzCG0")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PurchaseOrderReceiveBarCodeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

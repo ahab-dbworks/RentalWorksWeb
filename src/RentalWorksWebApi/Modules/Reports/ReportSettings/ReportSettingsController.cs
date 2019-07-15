@@ -60,7 +60,7 @@ namespace WebApi.Modules.Reports.ReportSettings
         [FwControllerMethod(Id: "xr50gH6Te2JFI")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ReportSettingsLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

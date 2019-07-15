@@ -64,7 +64,7 @@ namespace WebApi.Modules.Home.Project
         [FwControllerMethod(Id:"uvLNiRZFF5gdy")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/project/createquote/A0000001

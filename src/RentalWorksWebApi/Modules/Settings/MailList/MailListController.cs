@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.MailList
         [FwControllerMethod(Id:"lv3T92YSlIpE")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<MailListLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

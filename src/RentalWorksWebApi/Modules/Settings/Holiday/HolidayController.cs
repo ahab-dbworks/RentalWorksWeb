@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.Holiday
         [FwControllerMethod(Id:"ZOTYVWL3Q1Tm")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<HolidayLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

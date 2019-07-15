@@ -62,7 +62,7 @@ namespace WebApi.Modules.Settings.Currency
         [FwControllerMethod(Id:"fC8wVsWf2bpt")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CurrencyLogic>(id);
         }
         //------------------------------------------------------------------------------------
         //------------------------------------------------------------------------------------

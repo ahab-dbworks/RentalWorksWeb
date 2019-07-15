@@ -65,7 +65,7 @@ namespace WebApi.Modules.Home.InventorySearchPreview
         [FwControllerMethod(Id:"OkVc9qhIP2sl")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventorySearchPreviewLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

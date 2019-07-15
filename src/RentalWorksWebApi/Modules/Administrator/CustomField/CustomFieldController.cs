@@ -60,7 +60,7 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwControllerMethod(Id:"6PHk5J2N5N1t")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CustomFieldLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

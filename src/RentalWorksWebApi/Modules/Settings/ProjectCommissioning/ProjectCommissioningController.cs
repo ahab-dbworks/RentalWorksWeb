@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.ProjectCommissioning
         [FwControllerMethod(Id:"kpB5az5SmLHPM")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<ProjectCommissioningLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

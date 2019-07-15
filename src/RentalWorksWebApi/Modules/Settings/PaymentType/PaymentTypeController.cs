@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.PaymentType
         [FwControllerMethod(Id:"W4dBHcERzFAK")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PaymentTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

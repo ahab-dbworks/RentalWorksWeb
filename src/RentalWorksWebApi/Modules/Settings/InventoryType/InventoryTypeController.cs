@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.InventoryType
         [FwControllerMethod(Id:"KrYwO2Kkk0pL")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<InventoryTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

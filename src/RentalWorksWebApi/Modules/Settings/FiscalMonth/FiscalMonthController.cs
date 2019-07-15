@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.FiscalMonth
         [FwControllerMethod(Id:"8zbAgyeoiH5Y")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<FiscalMonthLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

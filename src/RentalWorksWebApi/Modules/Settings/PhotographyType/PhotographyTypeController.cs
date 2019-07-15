@@ -61,7 +61,7 @@ namespace WebApi.Modules.Settings.PhotographyType
         [FwControllerMethod(Id:"LiGKi4KguDgz")]
         public async Task<ActionResult<bool>> DeleteAsync(string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PhotographyTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------
     }

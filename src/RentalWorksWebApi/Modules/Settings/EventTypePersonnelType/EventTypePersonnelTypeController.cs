@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.EventTypePersonnelType
         [FwControllerMethod(Id:"1vNsKRaLbw8")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<EventTypePersonnelTypeLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

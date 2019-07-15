@@ -60,7 +60,7 @@ namespace WebApi.Modules.Administrator.CustomFormUser
         [FwControllerMethod(Id: "IQZscu9OBtw9")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<CustomFormUserLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

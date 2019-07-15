@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.WebUserWidget
         [FwControllerMethod(Id:"owpUAateZ4CZX")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<UserWidgetLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -60,7 +60,7 @@ namespace WebApi.Modules.Settings.PresentationLayerActivityOverride
         [FwControllerMethod(Id:"kxiO2Eoj2cdmk")]
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
-            return await DoDeleteAsync(id);
+            return await DoDeleteAsync<PresentationLayerActivityOverrideLogic>(id);
         }
         //------------------------------------------------------------------------------------ 
     }
