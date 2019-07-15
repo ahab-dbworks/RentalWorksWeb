@@ -131,8 +131,9 @@ namespace FwStandard.Modules.Administrator.Alert
                     if (moduleAlerts.Count > 0)
                     {
                         PropertyInfo[] propertyInfo;
-                        if (newObject != null) { 
-                        propertyInfo = newObject.GetType().GetProperties();
+                        if (newObject != null)
+                        {
+                            propertyInfo = newObject.GetType().GetProperties();
                         }
                         else
                         {
@@ -143,19 +144,18 @@ namespace FwStandard.Modules.Administrator.Alert
                         {
                             bool allConditionsMet = true;
                             bool modeConditionMet = false;
-                            if (saveMode != null)
+                            if (saveMode != null) // new or edit
                             {
-                                if (saveMode == TDataRecordSaveMode.smUpdate && alert.alert.ActionEdit.GetValueOrDefault())
+                                if (saveMode.Equals(TDataRecordSaveMode.smUpdate) && (alert.alert.ActionEdit.GetValueOrDefault()))
                                 {
                                     modeConditionMet = true;
                                 }
-
-                                if (saveMode == TDataRecordSaveMode.smInsert && alert.alert.ActionNew.GetValueOrDefault())
+                                else if (saveMode.Equals(TDataRecordSaveMode.smInsert) && (alert.alert.ActionNew.GetValueOrDefault()))
                                 {
                                     modeConditionMet = true;
                                 }
                             }
-                            else
+                            else // delete
                             {
                                 if (alert.alert.ActionDelete.GetValueOrDefault())
                                 {
@@ -163,162 +163,132 @@ namespace FwStandard.Modules.Administrator.Alert
                                 }
                             }
 
-                            if (!modeConditionMet)
+                            if (modeConditionMet)
                             {
-                                allConditionsMet = false;
-                                break;
-                            }
 
-                            foreach (AlertConditionLogic condition in alert.conditions)
-                            {
-                                bool thisConditionMet = false;
-                                //object newValue = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
 
-                                //if (newValue != null)
-                                //{
-                                //    string conditionValue = condition.Value;
-                                //    switch (condition.Condition)
-                                //    {
-                                //        case ALERT_CONDITION_CONTAINS:
-                                //            thisConditionMet = newValue.ToString().Contains(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_STARTS_WITH:
-                                //            thisConditionMet = newValue.ToString().StartsWith(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_ENDS_WITH:
-                                //            thisConditionMet = newValue.ToString().EndsWith(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_EQUALS:
-                                //            thisConditionMet = newValue.ToString().Equals(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_DOES_NOT_CONTAIN:
-                                //            thisConditionMet = !newValue.ToString().Contains(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_DOES_NOT_EQUAL:
-                                //            thisConditionMet = !newValue.ToString().Equals(conditionValue);
-                                //            break;
-                                //        case ALERT_CONDITION_CHANGED_BY:
-                                //            //thisConditionMet =  //#jhtodo
-                                //            break;
-                                //    }
-                                //}
 
-                                object field1 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
-                                object field2;
-
-                                if (condition.FieldName2.EndsWith("___OldValue") || condition.FieldName2.EndsWith("___NewValue"))
+                                foreach (AlertConditionLogic condition in alert.conditions)
                                 {
-                                    field2 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName2, oldObject, newObject);
-                                }
-                                else
-                                {
-                                    field2 = condition.Value;
-                                }
+                                    bool thisConditionMet = false;
 
-                                if (field1 != null)
-                                {
-                                    switch (condition.Condition)
+                                    object field1 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName1, oldObject, newObject);
+                                    object field2;
+
+                                    if (condition.FieldName2.EndsWith("___OldValue") || condition.FieldName2.EndsWith("___NewValue"))
                                     {
-                                        case ALERT_CONDITION_CONTAINS:
-                                            thisConditionMet = field1.ToString().Contains(field2.ToString());
-                                            break;
-                                        case ALERT_CONDITION_STARTS_WITH:
-                                            thisConditionMet = field1.ToString().StartsWith(field2.ToString());
-                                            break;
-                                        case ALERT_CONDITION_ENDS_WITH:
-                                            thisConditionMet = field1.ToString().EndsWith(field2.ToString());
-                                            break;
-                                        case ALERT_CONDITION_EQUALS:
-                                            thisConditionMet = field1.ToString().Equals(field2.ToString());
-                                            break;
-                                        case ALERT_CONDITION_DOES_NOT_CONTAIN:
-                                            thisConditionMet = !field1.ToString().Contains(field2.ToString());
-                                            break;
-                                        case ALERT_CONDITION_DOES_NOT_EQUAL:
-                                            thisConditionMet = !field1.ToString().Equals(field2.ToString());
-                                            break;
-                                        case ALERT_CONDITION_CHANGED_BY:
-                                            //thisConditionMet =  //#jhtodo
-                                            break;
+                                        field2 = GetFwBusinessLogicPropertyByName(propertyInfo, condition.FieldName2, oldObject, newObject);
+                                    }
+                                    else // use literal value
+                                    {
+                                        field2 = condition.Value;
+                                    }
+
+                                    if ((field1 != null) && (field2 != null))
+                                    {
+                                        switch (condition.Condition)
+                                        {
+                                            case ALERT_CONDITION_CONTAINS:
+                                                thisConditionMet = field1.ToString().Contains(field2.ToString());
+                                                break;
+                                            case ALERT_CONDITION_STARTS_WITH:
+                                                thisConditionMet = field1.ToString().StartsWith(field2.ToString());
+                                                break;
+                                            case ALERT_CONDITION_ENDS_WITH:
+                                                thisConditionMet = field1.ToString().EndsWith(field2.ToString());
+                                                break;
+                                            case ALERT_CONDITION_EQUALS:
+                                                thisConditionMet = field1.ToString().Equals(field2.ToString());
+                                                break;
+                                            case ALERT_CONDITION_DOES_NOT_CONTAIN:
+                                                thisConditionMet = !field1.ToString().Contains(field2.ToString());
+                                                break;
+                                            case ALERT_CONDITION_DOES_NOT_EQUAL:
+                                                thisConditionMet = !field1.ToString().Equals(field2.ToString());
+                                                break;
+                                            case ALERT_CONDITION_CHANGED_BY:
+                                                //thisConditionMet =  //#jhtodo
+                                                break;
+                                        }
+                                    }
+
+                                    if (!thisConditionMet)
+                                    {
+                                        allConditionsMet = false;
+                                        break;
                                     }
                                 }
 
-                                if (!thisConditionMet)
+                                if (allConditionsMet)
                                 {
-                                    allConditionsMet = false;
-                                    break;
-                                }
-                            }
+                                    string alertSubject = alert.alert.AlertSubject;
+                                    string alertBody = alert.alert.AlertBody;
+                                    var pattern = @"(?<=\[)[^[]*(?=\])";
+                                    var subjectMatches = Regex.Matches(alertSubject, pattern);
+                                    var bodyMatches = Regex.Matches(alertBody, pattern);
 
-                            if (allConditionsMet)
-                            {
-                                string alertSubject = alert.alert.AlertSubject;
-                                string alertBody = alert.alert.AlertBody;
-                                var pattern = @"(?<=\[)[^[]*(?=\])";
-                                var subjectMatches = Regex.Matches(alertSubject, pattern);
-                                var bodyMatches = Regex.Matches(alertBody, pattern);
-
-                                foreach (Match sm in subjectMatches)
-                                {
-                                    string field = sm.ToString();
-                                    object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
-
-                                    if (value != null)
+                                    foreach (Match sm in subjectMatches)
                                     {
-                                        alertSubject = alertSubject.Replace("[" + field + "]", value.ToString());
+                                        string field = sm.ToString();
+                                        object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+
+                                        if (value != null)
+                                        {
+                                            alertSubject = alertSubject.Replace("[" + field + "]", value.ToString());
+                                        }
                                     }
-                                }
 
-                                foreach (Match bm in bodyMatches)
-                                {
-                                    string field = bm.ToString();
-                                    object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
-
-                                    if (value != null)
+                                    foreach (Match bm in bodyMatches)
                                     {
-                                        alertBody = alertBody.Replace("[" + field + "]", value.ToString());
+                                        string field = bm.ToString();
+                                        object value = GetFwBusinessLogicPropertyByName(propertyInfo, field, oldObject, newObject);
+
+                                        if (value != null)
+                                        {
+                                            alertBody = alertBody.Replace("[" + field + "]", value.ToString());
+                                        }
                                     }
+
+                                    List<string> toEmails = new List<string>();
+                                    foreach (AlertWebUsersLogic user in alert.recipients)
+                                    {
+                                        toEmails.Add(user.Email);
+                                    }
+
+                                    //#jhtodo: need to add a global sending account for this. Alerts should not come from specific user emails.
+                                    //string from = "RentalWorksWeb@rentalworks.com";
+                                    string from;
+                                    using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                                    {
+                                        from = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "email").Result;
+                                    }
+                                    string to = String.Join(";", toEmails);
+
+
+                                    WebAlertLogLogic log = new WebAlertLogLogic();
+                                    log.SetDependencies(appConfig, userSession);
+                                    log.AlertId = alert.alert.AlertId;
+                                    log.AlertSubject = alertSubject;
+                                    log.AlertBody = alertBody;
+                                    log.AlertFrom = from;
+                                    log.AlertTo = to;
+                                    log.Status = "PENDING";
+                                    log.CreateDateTime = DateTime.Now;
+                                    await log.SaveAsync(null);
+
+                                    AlertEmailResponse emailResponse = await SendEmailAsync(from, to, alertSubject, alertBody);
+
+                                    if (emailResponse.Success)
+                                    {
+                                        log.Status = "SENT";
+                                    }
+                                    else
+                                    {
+                                        log.Status = "FAILED";
+                                        log.ErrorMessage = emailResponse.ErrorMessage;
+                                    }
+                                    await log.SaveAsync(null);
                                 }
-
-                                List<string> toEmails = new List<string>();
-                                foreach (AlertWebUsersLogic user in alert.recipients)
-                                {
-                                    toEmails.Add(user.Email);
-                                }
-
-                                //#jhtodo: need to add a global sending account for this. Alerts should not come from specific user emails.
-                                //string from = "RentalWorksWeb@rentalworks.com";
-                                string from;
-                                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-                                {
-                                    from = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "email").Result;
-                                }
-                                string to = String.Join(";", toEmails);
-
-
-                                WebAlertLogLogic log = new WebAlertLogLogic();
-                                log.SetDependencies(appConfig, userSession);
-                                log.AlertId = alert.alert.AlertId;
-                                log.AlertSubject = alertSubject;
-                                log.AlertBody = alertBody;
-                                log.AlertFrom = from;
-                                log.AlertTo = to;
-                                log.Status = "PENDING";
-                                log.CreateDateTime = DateTime.Now;
-                                await log.SaveAsync(null);
-
-                                AlertEmailResponse emailResponse = await SendEmailAsync(from, to, alertSubject, alertBody);
-
-                                if (emailResponse.Success)
-                                {
-                                    log.Status = "SENT";
-                                }
-                                else
-                                {
-                                    log.Status = "FAILED";
-                                    log.ErrorMessage = emailResponse.ErrorMessage;
-                                }
-                                await log.SaveAsync(null);
                             }
                         }
                     }
@@ -331,6 +301,7 @@ namespace FwStandard.Modules.Administrator.Alert
         {
             object oldValue = null;
             object newValue = null;
+            object returnValue = null;
             bool propertyFound = false;
             bool useOldValue = false;
 
@@ -351,17 +322,22 @@ namespace FwStandard.Modules.Administrator.Alert
                     if (property.Name.Equals(propertyName))
                     {
                         propertyFound = true;
-                        newValue = newObject.GetType().GetProperty(property.Name).GetValue(newObject);
+                        if (newObject != null)
+                        {
+                            newValue = newObject.GetType().GetProperty(property.Name).GetValue(newObject);
+                        }
 
                         if (oldObject != null)
                         {
                             oldValue = oldObject.GetType().GetProperty(property.Name).GetValue(oldObject);
                         }
 
-                        if (newValue == null || useOldValue)
+                        if (newValue == null)
                         {
                             newValue = oldValue;
                         }
+
+                        returnValue = useOldValue ? oldValue : newValue;
 
                         break;
                     }
@@ -388,24 +364,30 @@ namespace FwStandard.Modules.Administrator.Alert
                             }
                         }
 
-                        for (int customFieldIndex = 0; customFieldIndex < newObject._Custom.Count; customFieldIndex++)
+                        if (newObject != null)
                         {
-                            if (newObject._Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                            for (int customFieldIndex = 0; customFieldIndex < newObject._Custom.Count; customFieldIndex++)
                             {
-                                newValue = newObject._Custom[customFieldIndex].FieldValue;
-                                break;
+                                if (newObject._Custom[customFieldIndex].FieldName.Equals(customField.FieldName))
+                                {
+                                    newValue = newObject._Custom[customFieldIndex].FieldValue;
+                                    break;
+                                }
                             }
                         }
 
-                        if (newValue == null || useOldValue)
+                        if (newValue == null)
                         {
                             newValue = oldValue;
                         }
+
+                        returnValue = useOldValue ? oldValue : newValue;
+
                         break;
                     }
                 }
             }
-            return newValue;
+            return returnValue;
         }
         //------------------------------------------------------------------------------------
         private static async Task<AlertEmailResponse> SendEmailAsync(string from, string to, string subject, string body)
@@ -420,7 +402,6 @@ namespace FwStandard.Modules.Administrator.Alert
                 await client.SendMailAsync(message);
                 response.Success = true;
             }
-            //catch (SmtpException ex)
             catch (Exception ex)
             {
                 response.Success = false;

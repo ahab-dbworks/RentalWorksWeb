@@ -195,6 +195,9 @@ namespace FwStandard.BusinessLogic
         public bool LoadOriginalBeforeSaving { get; set; } = true;
 
         [JsonIgnore]
+        public bool LoadOriginalBeforeDeleting { get; set; } = true;
+
+        [JsonIgnore]
         public bool HasAudit { get; set; } = true;
 
         [JsonIgnore]
