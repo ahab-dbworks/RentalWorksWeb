@@ -276,23 +276,23 @@ class OrderBase {
         FwAppData.apiMethod(true, 'GET', 'api/v1/departmentlocation/' + department.departmentid + '~' + location.locationid, null, FwServices.defaultTimeout, response => {
             this.DefaultOrderType = response.DefaultOrderType;
             this.DefaultOrderTypeId = response.DefaultOrderTypeId;
+
+            const request: any = {};
+            request.uniqueids = {
+                OrderTypeId: this.DefaultOrderTypeId,
+                LocationId: location.locationid
+            }
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
+                response => {
+                    if (response.Rows.length > 0) {
+                        this.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
+                        this.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
+                        this.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
+                        this.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
+                    }
+                }, null, null);
         }, null, null);
-
-        const request: any = {};
-        request.uniqueids = {
-            OrderTypeId: this.DefaultOrderTypeId,
-            LocationId: location.locationid
-        }
-
-        FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
-            response => {
-                if (response.Rows.length > 0) {
-                    this.DefaultTermsConditionsId = response.Rows[0][response.ColumnIndex.TermsConditionsId];
-                    this.DefaultTermsConditions = response.Rows[0][response.ColumnIndex.TermsConditions];
-                    this.DefaultCoverLetterId = response.Rows[0][response.ColumnIndex.CoverLetterId];
-                    this.DefaultCoverLetter = response.Rows[0][response.ColumnIndex.CoverLetter];
-                }
-            }, null, null);
 
         return $browse;
     };
@@ -919,7 +919,7 @@ class OrderBase {
         });
         // ----------
         $form.find('div[data-datafield="OrderTypeId"]').data('onchange', e => {
-            this.getTermsConditions($form);
+            this.applyOrderTypeDefaults($form);
         });
         // ----------
         $form.find('div[data-datafield="DepartmentId"]').data('onchange', function ($tr) {
@@ -1678,13 +1678,13 @@ class OrderBase {
         }
     };
     //----------------------------------------------------------------------------------------------
-    getTermsConditions($form) {
-        const location = JSON.parse(sessionStorage.getItem('location'));
+    applyOrderTypeDefaults($form) {
+        const locationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
         const orderTypeId = FwFormField.getValueByDataField($form, 'OrderTypeId');
         const request: any = {};
         request.uniqueids = {
             OrderTypeId: orderTypeId,
-            LocationId: location.locationid
+            LocationId: locationId;
         }
         FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
             response => {
