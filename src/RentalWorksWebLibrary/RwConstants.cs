@@ -255,6 +255,8 @@
         public const string INVENTORY_STATUS_TYPE_OUT = "OUT";
         public const string INVENTORY_STATUS_TYPE_INCONTAINER = "INCONTAINER";
         public const string INVENTORY_STATUS_TYPE_STAGED = "STAGED";
+        public const string INVENTORY_STATUS_TYPE_IN_REPAIR = "INREPAIR";
+        public const string INVENTORY_STATUS_TYPE_IN_TRANSIT = "INTRANSIT";
 
         public const string INVENTORY_CLASSIFICATION_KIT = "K";
         public const string INVENTORY_CLASSIFICATION_COMPLETE = "C";
@@ -365,8 +367,6 @@
         public const int AVAILABILITY_TEXT_COLOR_HISTORICAL_DATE = 0;        //black
         public const int AVAILABILITY_COLOR_LATE = 4227327;                  //orange
         public const int AVAILABILITY_TEXT_COLOR_LATE = 0;                   //black
-
-        public const int AVAILABILITY_COLOR_ORDER = 15101961; //blue TEMPORARY
 
         public const string AVAILABILITY_STATE_NO_AVAILABILITY_CHECK = "noavailcheck";
         public const string AVAILABILITY_STATE_STALE = "stale";

@@ -21,12 +21,23 @@ class SalesInventory extends InventoryBase {
 
         // Legend for Avail Calendar
         const availSchedControl = $form.find('.cal-sched')
-        FwBrowse.addLegend(availSchedControl, 'OUT', '#1900fa');
-        FwBrowse.addLegend(availSchedControl, 'IN REPAIR', '#EA300F');
-        FwBrowse.addLegend(availSchedControl, 'IN TRANSIT', '#ff01ff');
-        FwBrowse.addLegend(availSchedControl, 'STAGED', '#01ff40');
-        FwBrowse.addLegend(availSchedControl, 'ON TRUCK', '#ffff00');
-        FwBrowse.addLegend(availSchedControl, 'IN CONTAINER', '#b330b2');
+        //FwBrowse.addLegend(availSchedControl, 'OUT', '#1900fa');
+        //FwBrowse.addLegend(availSchedControl, 'IN REPAIR', '#EA300F');
+        //FwBrowse.addLegend(availSchedControl, 'IN TRANSIT', '#ff01ff');
+        //FwBrowse.addLegend(availSchedControl, 'STAGED', '#01ff40');
+        //FwBrowse.addLegend(availSchedControl, 'ON TRUCK', '#ffff00');
+        //FwBrowse.addLegend(availSchedControl, 'IN CONTAINER', '#b330b2');
+        try {
+            FwAppData.apiMethod(true, 'GET', `${this.apiurl}/availabilitylegend`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                for (let key in response) {
+                    FwBrowse.addLegend(availSchedControl, key, response[key]);
+                }
+            }, function onError(response) {
+                FwFunc.showError(response);
+            }, availSchedControl)
+        } catch (ex) {
+            FwFunc.showError(ex);
+        }
 
         const $calendar = $form.find('.calendar');
         const $realscheduler = $form.find('.realscheduler');

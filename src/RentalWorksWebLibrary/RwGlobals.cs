@@ -13,9 +13,17 @@ namespace WebLibrary
         public static string ACCESSORY_COLOR { get; set; }
         public static string STAGED_COLOR { get; set; }
         public static string OUT_COLOR { get; set; }
+        public static string IN_REPAIR_COLOR { get; set; }
+        public static string IN_TRANSIT_COLOR { get; set; }
         public static string CONTAINER_COLOR { get; set; }
         public static string SUB_COLOR { get; set; }
         public static string CONSIGNMENT_COLOR { get; set; }
+
+
+        //AVAILABILITY
+        public static string AVAILABILITY_COLOR_RESERVED { get; set; }
+        public static string AVAILABILITY_COLOR_LATE { get; set; }
+        
 
 
         //QUOTE/ORDER 
@@ -113,6 +121,22 @@ namespace WebLibrary
                 outColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_OUT, "color").Result.ToString().TrimEnd());
             }
             OUT_COLOR = FwConvert.OleColorToHtmlColor(outColorInt);
+
+            int inRepairColorInt = 0;
+            using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
+            {
+                inRepairColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN_REPAIR, "color").Result.ToString().TrimEnd());
+            }
+            IN_REPAIR_COLOR = FwConvert.OleColorToHtmlColor(inRepairColorInt);
+
+            int inTransitColorInt = 0;
+            using (FwSqlConnection conn = new FwSqlConnection(databaseSettings.ConnectionString))
+            {
+                inTransitColorInt = FwConvert.ToInt32(FwSqlCommand.GetDataAsync(conn, databaseSettings.QueryTimeout, "rentalstatus", "statustype", RwConstants.INVENTORY_STATUS_TYPE_IN_TRANSIT, "color").Result.ToString().TrimEnd());
+            }
+            IN_TRANSIT_COLOR = FwConvert.OleColorToHtmlColor(inTransitColorInt);
+
+
             SUB_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.SUB_COLOR);
 
             int consignmentColorInt = 0;
@@ -163,6 +187,10 @@ namespace WebLibrary
             NEGATIVE_VARIANCE_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.NEGATIVE_VARIANCE_COLOR);
 
             STAGING_PENDING_ITEMS_MISSING_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.STAGING_PENDING_ITEMS_MISSING_COLOR);
+
+
+            AVAILABILITY_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
+            AVAILABILITY_COLOR_LATE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LATE);
 
 
         }
