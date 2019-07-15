@@ -21,6 +21,7 @@ namespace FwCore.Controllers
     {
         protected Type logicType = null;
         protected bool return404IfGetNotFound = true;
+        protected bool return404IfDeleteNotFound = true;
         //------------------------------------------------------------------------------------
         public FwDataController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------
@@ -401,6 +402,8 @@ namespace FwCore.Controllers
             }
         }
         //------------------------------------------------------------------------------------
+        //BEGIN LEGACY CODE
+        [Obsolete("DoDeleteAsync without a <T> type is deprecated.  Please add the logical type to this method call.")]
         protected virtual async Task<ActionResult<bool>> DoDeleteAsync(string id, Type type = null)
         {
             try
@@ -414,6 +417,40 @@ namespace FwCore.Controllers
                 string[] ids = id.Split('~');
                 FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
                 l.SetPrimaryKeys(ids);
+                bool success = await l.DeleteAsync();
+                return new OkObjectResult(success);
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //END LEGACY CODE
+        //------------------------------------------------------------------------------------
+        protected virtual async Task<ActionResult<bool>> DoDeleteAsync<T>(string id, Type type = null)
+        {
+            try
+            {
+
+                if (type == null)
+                {
+                    type = logicType;
+                }
+
+                string[] ids = id.Split('~');
+                FwBusinessLogic l = FwBusinessLogic.CreateBusinessLogic(type, this.AppConfig, this.UserSession);
+                l.SetPrimaryKeys(ids);
+
+                if (l.LoadOriginalBeforeDeleting)
+                {
+                    //load the original record from the database
+                    bool exists = await l.LoadAsync<T>();
+                    if ((!exists) && return404IfDeleteNotFound)
+                    {
+                        return NotFound();
+                    }
+                }
+
                 bool success = await l.DeleteAsync();
                 return new OkObjectResult(success);
             }
