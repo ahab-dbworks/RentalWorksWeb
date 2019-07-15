@@ -141,10 +141,10 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
         public string PrepTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "loadindate", modeltype: FwDataTypes.Date)]
-        public string LoadinDate { get; set; }
+        public string LoadInDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "loadintime", modeltype: FwDataTypes.Text)]
-        public string LoadinTime { get; set; }
+        public string LoadInTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "testdate", modeltype: FwDataTypes.Date)]
         public string TestDate { get; set; }
@@ -153,10 +153,10 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
         public string TestTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
-        public string Estrentfrom { get; set; }
+        public string EstrentFrom { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
-        public string Estrentto { get; set; }
+        public string EstrentTo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "strikedate", modeltype: FwDataTypes.Date)]
         public string StrikeDate { get; set; }
@@ -171,16 +171,16 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
         public string PickupTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodstart", modeltype: FwDataTypes.Date)]
-        public string BillPeriodStart { get; set; }
+        public string BillingPeriodStart { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodend", modeltype: FwDataTypes.Date)]
-        public string BillPeriodEnd { get; set; }
+        public string BillingPeriodEnd { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
-        public string BillPeriodId { get; set; }
+        public string BillingPeriodId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
-        public string BillPeriod { get; set; }
+        public string BillingPeriod { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "event", modeltype: FwDataTypes.Text)]
         public string Event { get; set; }
@@ -223,16 +223,6 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                     select.AddWhereIn("dealtypeid", request.DealTypeId);
                     select.AddWhereIn("dealstatusid", request.DealStatusId);
 
-                    string dateField = "orderdate";
-                    if (request.DateType.Equals(RwConstants.QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE))
-                    {
-                        dateField = "estrentfrom";
-                    }
-                    addDateFilterToSelect(dateField, request.FromDate, select, ">=", "fromdate");
-                    addDateFilterToSelect(dateField, request.ToDate, select, "<=", "todate");
-                    //select.AddParameter("@estrentfrom", request.FromDate);
-                    //select.AddParameter("@estrentto", request.ToDate);
-                    //select.AddParameter("@datefield", request.DateField);
                     select.AddWhereIn("type", request.OrderType);
 
 
@@ -241,6 +231,16 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                     select.AddWhereIn("quotestatus", request.QuoteStatus);
                     select.AddWhereIn("orderstatus", request.OrderStatus);
 
+                    if (request.FilterDates.GetValueOrDefault(false))
+                    {
+                        string dateField = "orderdate";
+                        if (request.DateType.Equals(RwConstants.QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE))
+                        {
+                            dateField = "estrentfrom";
+                        }
+                        addDateFilterToSelect(dateField, request.FromDate, select, ">=", "fromdate");
+                        addDateFilterToSelect(dateField, request.ToDate, select, "<=", "todate");
+                    }
 
                     select.AddOrderBy("location, department, deal, orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);

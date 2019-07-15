@@ -17,7 +17,8 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
-        public string DateType { get; set; } 
+        public string DateType { get; set; }
+        public bool? FilterDates { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public string CustomerId { get; set; }
