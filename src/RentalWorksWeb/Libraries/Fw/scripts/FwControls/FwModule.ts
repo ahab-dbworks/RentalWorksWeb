@@ -1217,6 +1217,11 @@
 
         nodeModule = FwApplicationTree.getNodeByController(controller);
         if (nodeModule !== null) {
+            const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
+            const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
+            const nodeBrowseEditButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'EditMenuBarButton');
+            const hasBrowseNew = (nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
+            const hasBrowseEdit = (nodeBrowseEditButton.length > 0) ? (nodeBrowseEditButton[0].properties.visible === 'T') : false;
             nodeForm = FwApplicationTree.getChildByType(nodeModule, 'Form');
             if (nodeForm !== null) {
                 nodeFormMenuBar = FwApplicationTree.getChildByType(nodeForm, 'MenuBar');
@@ -1259,26 +1264,28 @@
                                         $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
                                         break;
                                     case 'SaveMenuBarButton':
-                                        $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
-                                        $menubarbutton.attr('data-type', 'SaveMenuBarButton');
-                                        $menubarbutton.addClass('disabled');
-                                        $menubarbutton.on('click', function (event) {
-                                            var method, ismodified;
-                                            try {
-                                                method = 'saveForm';
-                                                ismodified = $form.attr('data-modified');
-                                                if (ismodified === 'true') {
-                                                    if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
-                                                    if (typeof window[controller][method] === 'function') {
-                                                        window[controller][method]($form, { closetab: false });
-                                                    } else {
-                                                        FwModule[method](window[controller].Module, $form, { closetab: false });
+                                        if (($form.attr('data-mode') === 'NEW' && hasBrowseNew) || ($form.attr('data-mode') === 'EDIT' && hasBrowseEdit)) {
+                                            $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
+                                            $menubarbutton.attr('data-type', 'SaveMenuBarButton');
+                                            $menubarbutton.addClass('disabled');
+                                            $menubarbutton.on('click', function (event) {
+                                                var method, ismodified;
+                                                try {
+                                                    method = 'saveForm';
+                                                    ismodified = $form.attr('data-modified');
+                                                    if (ismodified === 'true') {
+                                                        if (typeof window[controller] === 'undefined') throw 'Missing javascript module: ' + controller;
+                                                        if (typeof window[controller][method] === 'function') {
+                                                            window[controller][method]($form, { closetab: false });
+                                                        } else {
+                                                            FwModule[method](window[controller].Module, $form, { closetab: false });
+                                                        }
                                                     }
+                                                } catch (ex) {
+                                                    FwFunc.showError(ex);
                                                 }
-                                            } catch (ex) {
-                                                FwFunc.showError(ex);
-                                            }
-                                        });
+                                            });
+                                        }
                                         break;
                                     case 'PrevMenuBarButton':
                                         if (nodeMenuBarItem.properties.visible === 'T') {
