@@ -58,29 +58,23 @@ namespace WebApi.Modules.Reports.ChangeAuditReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    //select.AddWhere("(xxxxid ^> ')"); 
                     select.AddWhereIn("modulename", request.ModuleName);
                     select.AddWhereIn("webusersid", request.WebUsersId);
                     select.AddParameter("@fromdate", request.FromDate);
-                    select.AddParameter("@todate", request.ToDate);
+                    select.AddParameter("@todate", request.ToDate.AddDays(1));
                     //select.AddParameter("@modulename", request.ModuleName);
                     //select.AddParameter("@webusersid", request.WebUsersId);
                     select.AddParameter("@keyword", request.Keyword);
-                    //if (request.Keyword.Length > 0)
-                    //{
-                    //    select.AddWhere("(json like '%' + @keyword + '%' or recordtitle like '%' + @keyword + '%')");
-                    //}
-                    //select.AddOrderBy("modulename, username, datestamp");
+                    addDateFilterToSelect("datestamp", request.FromDate, select, ">=", "fromdate");
+                    addDateFilterToSelect("datestamp", request.ToDate, select, "<=", "todate");
+                    if (request.Keyword.Length > 0)
+                    {
+                        select.AddWhere("(upper(json) like '%' + @keyword + '%' or upper(recordtitle) like '%' + @keyword + '%')");
+                    }
+                    select.AddOrderBy("modulename, username, datestamp");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
             }
-            //if (request.IncludeSubHeadingsAndSubTotals)
-            //{
-            //    string[] totalFields = new string[] { "" };
-            //    dt.InsertSubTotalRows("ModuleName", "RowType", totalFields);
-            //    dt.InsertSubTotalRows("UserName", "RowType", totalFields);
-            //    dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
-            //}
             return dt;
         }
         //------------------------------------------------------------------------------------ 

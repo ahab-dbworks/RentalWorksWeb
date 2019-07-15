@@ -12,7 +12,7 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-  <table style="max-width:1110px;">
+  <table style="width:1110px; table-layout:fixed">
     <thead class="main-header">
       <tr>
         <th>Date/Time</th>
@@ -24,14 +24,14 @@
     {{#ifEquals RenderModuleHeader true}}
     <thead>
       <tr data-rowtype="ModuleNameHeader">
-        <th class="header-row" colspan="3">Module: {{ModuleName}}</th>
+        <th class="header-row" colspan="5">Module: {{ModuleName}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RenderUserHeader true}}
     <thead>
       <tr data-rowtype="UserNameHeader">
-        <th class="lower header-row" colspan="3">User: {{UserName}}</th>
+        <th class="lower header-row" colspan="5">User: {{UserName}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
