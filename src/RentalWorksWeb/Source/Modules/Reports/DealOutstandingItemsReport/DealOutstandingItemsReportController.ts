@@ -17,7 +17,7 @@ const dealOutstandingItemsTemplate = `
             <div class="flexcolumn" style="max-width:230px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Filter Order by Date">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDate" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
+                  <div data-datafield="FilterDates" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
                     <div data-datafield="DateType" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-enabled="false">
                       <div data-value="B" data-caption="Billing Stop Date"></div>
                       <div data-value="E" data-caption="Estimated Rental Stop Date"></div>
@@ -144,7 +144,7 @@ class DealOutstandingItemsReport extends FwWebApiReport {
         });
         // Expose date fields if Filter Date
         $form.on('change', '.filter-dates input[type=checkbox]', e => {
-            const filterDate = FwFormField.getValueByDataField($form, 'FilterDate');
+            const filterDate = FwFormField.getValueByDataField($form, 'FilterDates');
             FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
             FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
             FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
@@ -171,7 +171,7 @@ class DealOutstandingItemsReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         // Filter Dates
-        const filterDate = FwFormField.getValueByDataField($form, 'FilterDate');
+        const filterDate = FwFormField.getValueByDataField($form, 'FilterDates');
         FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
         FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
         FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);

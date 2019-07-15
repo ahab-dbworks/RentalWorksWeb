@@ -201,8 +201,6 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getdealoutstandingrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@datetouse", SqlDbType.Text, ParameterDirection.Input, request.DateType);
                     qry.AddParameter("@returnimagemode", SqlDbType.Text, ParameterDirection.Input, request.IncludeFullImages.GetValueOrDefault(false) ? "FULL" : request.IncludeThumbnailImages.GetValueOrDefault(false) ? "THUMBNAIL" : "");
                     qry.AddParameter("@excludepending", SqlDbType.Text, ParameterDirection.Input, request.ExcludePendingExchanges);
@@ -219,6 +217,12 @@ namespace WebApi.Modules.Reports.DealOutstandingItemsReport
                     qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
                     qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
                     qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
+
+                    if (request.FilterDates.GetValueOrDefault(false))
+                    {
+                        qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                        qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+                    }
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
