@@ -16,6 +16,9 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "usersid", modeltype: FwDataTypes.Text, isPrimaryKey: true)]
         public string UserId { get; set; } = "";
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
+        public string WebUserId { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "name", modeltype: FwDataTypes.Text)]
         public string Name { get; set; }
         //------------------------------------------------------------------------------------ 

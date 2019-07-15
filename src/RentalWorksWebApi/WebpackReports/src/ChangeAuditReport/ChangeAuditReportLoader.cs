@@ -66,7 +66,7 @@ namespace WebApi.Modules.Reports.ChangeAuditReport
                     //select.AddParameter("@webusersid", request.WebUsersId);
                     select.AddParameter("@keyword", request.Keyword);
                     addDateFilterToSelect("datestamp", request.FromDate, select, ">=", "fromdate");
-                    addDateFilterToSelect("datestamp", request.ToDate, select, "<=", "todate");
+                    addDateFilterToSelect("datestamp", request.ToDate, select, "<", "todate");
                     if (request.Keyword.Length > 0)
                     {
                         select.AddWhere("(upper(json) like '%' + @keyword + '%' or upper(recordtitle) like '%' + @keyword + '%')");
