@@ -1667,7 +1667,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             TInventoryAvailabilityScheduleResource resource = new TInventoryAvailabilityScheduleResource();
                             resource.id = resourceId.ToString();
                             resource.name = reservation.OrderNumber;
-                            //resource.backColor = FwConvert.OleColorToHtmlColor(618726); //blue
                             response.InventoryAvailabilityScheduleResources.Add(resource);
 
                             DateTime reservationFromDateTime = reservation.FromDateTime;
@@ -1688,7 +1687,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             availScheduleEvent.orderNumber = reservation.OrderNumber;
                             availScheduleEvent.orderStatus = reservation.OrderStatus;
                             availScheduleEvent.deal = reservation.Deal;
-                            availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_ORDER);
+                            availScheduleEvent.barColor = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
                             availScheduleEvent.textColor = FwConvert.OleColorToHtmlColor(0); //black 
                             response.InventoryAvailabilityScheduleEvents.Add(availScheduleEvent);
                         }
@@ -1703,7 +1702,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             TInventoryAvailabilityScheduleResource resource = new TInventoryAvailabilityScheduleResource();
                             resource.id = resourceId.ToString();
                             resource.name = reservation.OrderNumber;
-                            //resource.backColor = FwConvert.OleColorToHtmlColor(618726); //blue
                             response.InventoryAvailabilityScheduleResources.Add(resource);
 
                             DateTime reservationFromDateTime = reservation.FromDateTime;
@@ -1739,7 +1737,6 @@ namespace WebApi.Modules.Home.InventoryAvailability
                             TInventoryAvailabilityScheduleResource resource = new TInventoryAvailabilityScheduleResource();
                             resource.id = resourceId.ToString();
                             resource.name = reservation.OrderNumber;
-                            //resource.backColor = FwConvert.OleColorToHtmlColor(618726); //blue
                             response.InventoryAvailabilityScheduleResources.Add(resource);
 
                             DateTime reservationFromDateTime = reservation.FromDateTime;

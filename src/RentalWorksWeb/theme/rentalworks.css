@@ -487,7 +487,7 @@ Form tables
 }
 
 .item-container .available-color {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
-.item-container div[data-column="Available"][data-state="enough"] .available-color {background-color:#7CB342;color:#ffffff;}
+.item-container div[data-column="Available"][data-state="enough"] .available-color {background-color:#009933;color:#ffffff;}
 .item-container div[data-column="Available"][data-state="negative"] .available-color {background-color:#f44336;color:#ffffff;}
 .item-container div[data-column="Available"][data-state="stale"] .available-color {background-color:#1565C0;color:#ffffff;}
 .item-container div[data-column="Available"][data-state="low"] .available-color {background-color:#ffeb3b;}
@@ -590,7 +590,7 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
 #availabilityTable table tr td.quantity-available {cursor:pointer;}
 #availabilityTable table tr td div.available-color {padding:4px 8px;border-radius:4px;display:inline-block;min-width: 36px;border: 1px solid rgba(0, 40, 100, 0.12);}
 #availabilityTable table tr td div[data-state="stale"] {background-color:#1565C0;color:#ffffff;}
-#availabilityTable table tr td div[data-state="enough"]{background-color:#7CB342;color:#ffffff;}
+#availabilityTable table tr td div[data-state="enough"]{background-color:#009933;color:#ffffff;}
 #availabilityTable table tr td div[data-state="negative"]{background-color:#f44336;color:#ffffff;}
 #availabilityTable table tr td div[data-state="low"]  {background-color:#ffeb3b;}
 #availabilityTable table tr td div[data-state="noavailcheck"] {background-color:#00ffff;}
