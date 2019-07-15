@@ -25,7 +25,7 @@ namespace FwStandard.Modules.Administrator.Alert
         [FwSqlDataField(column: "actiondelete", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? ActionDelete { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "alertsubject", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 50)]
+        [FwSqlDataField(column: "alertsubject", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 255)]
         public string AlertSubject { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "alertbody", modeltype: FwDataTypes.Text, sqltype: "text")]
