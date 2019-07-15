@@ -1223,43 +1223,12 @@ namespace FwStandard.BusinessLogic
                 }
             }
 
-            if ((success) && (rowsAffected > 0))
+            if ((success) && (HasAudit) && (rowsAffected > 0))
             {
-                if (HasAudit)
+                Task.Run(() =>
                 {
-                    WebAuditJsonLogic audit = new WebAuditJsonLogic();
-                    audit.AppConfig = this.AppConfig;
-                    audit.UserSession = this.UserSession;
-                    audit.ModuleName = this.BusinessLogicModuleName;
-                    string recordTitle = this.RecordTitle;
-                    if ((string.IsNullOrEmpty(recordTitle)) && (original != null))
-                    {
-                        recordTitle = original.RecordTitle;
-                    }
-                    audit.Title = recordTitle;
-                    JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings();
-                    jsonSerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    List<FwBusinessLogicFieldDelta> deltas = this.GetChanges(original);
-                    if (deltas.Count > 0)
-                    {
-                        audit.Json = JsonConvert.SerializeObject(deltas, jsonSerializerSettings);
-                        object[] keys = this.GetPrimaryKeys();
-                        if (keys.Length > 0)
-                        {
-                            audit.UniqueId1 = keys[0].ToString();
-                        }
-                        if (keys.Length > 1)
-                        {
-                            audit.UniqueId2 = keys[1].ToString();
-                        }
-                        if (keys.Length > 2)
-                        {
-                            audit.UniqueId3 = keys[2].ToString();
-                        }
-                        audit.WebUserId = this.UserSession.WebUsersId;
-                        await audit.SaveAsync(null);
-                    }
-                }
+                    WebAuditJsonFunc.AddAudit(this.AppConfig, this.UserSession, original, this);
+                });
             }
 
             return rowsAffected;
