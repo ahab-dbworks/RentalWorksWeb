@@ -107,6 +107,9 @@
         public const int ORDER_REPAIR_COLOR = 11447902;                    // teal
         public const int ORDER_LOSS_AND_DAMAGE_COLOR = 4194368;            // dark purple
 
+        public const string QUOTE_ORDER_DATE_TYPE_ORDER_DATE = "ORDER_DATE";
+        public const string QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE = "ESTIMATED_START_DATE";
+
 
         //QUOTE/ORDER LINE-ITEMS
         public const string RECTYPE_RENTAL = "R";

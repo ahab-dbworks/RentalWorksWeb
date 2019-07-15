@@ -209,8 +209,6 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                //--------------------------------------------------------------------------------- 
-                // below uses a "select" query to populate the FwJsonDataTable 
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
                 select.UseOptionRecompile = true;
@@ -226,16 +224,20 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                     select.AddWhereIn("dealstatusid", request.DealStatusId);
 
                     string dateField = "orderdate";
-                    //if (request.DateType.Equals("B"))
-                    //{
-                    //    dateField = "estrentfrom";
-                    //}
-                    addDateFilterToSelect(dateField, request.FromDate, select, ">=", "estrentfrom");
-                    addDateFilterToSelect(dateField, request.ToDate, select, "<=", "estrentto");
+                    if (request.DateType.Equals(RwConstants.QUOTE_ORDER_DATE_TYPE_ESTIMATED_START_DATE))
+                    {
+                        dateField = "estrentfrom";
+                    }
+                    addDateFilterToSelect(dateField, request.FromDate, select, ">=", "fromdate");
+                    addDateFilterToSelect(dateField, request.ToDate, select, "<=", "todate");
                     //select.AddParameter("@estrentfrom", request.FromDate);
                     //select.AddParameter("@estrentto", request.ToDate);
                     //select.AddParameter("@datefield", request.DateField);
-                    select.AddWhereIn("ordertype", request.OrderType);
+                    select.AddWhereIn("type", request.OrderType);
+
+
+                    request.QuoteStatus.Add(new SelectedCheckBoxListItem(""));
+                    request.OrderStatus.Add(new SelectedCheckBoxListItem(""));
                     select.AddWhereIn("quotestatus", request.QuoteStatus);
                     select.AddWhereIn("orderstatus", request.OrderStatus);
 
@@ -243,7 +245,6 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                     select.AddOrderBy("location, department, deal, orderno");
                     dt = await qry.QueryToFwJsonTableAsync(select, false);
                 }
-                //--------------------------------------------------------------------------------- 
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {

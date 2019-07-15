@@ -19,8 +19,8 @@ const quoteordermasterTemplate = `
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="FilterDate" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
                     <div data-datafield="DateType" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-enabled="false">
-                      <div data-value="B" data-caption="Quote / Order Date"></div>
-                      <div data-value="E" data-caption="Quote / Order Estimated Start Date"></div>
+                      <div data-value="ORDER_DATE" data-caption="Quote / Order Date"></div>
+                      <div data-value="ESTIMATED_START_DATE" data-caption="Quote / Order Estimated Start Date"></div>
                     </div>
                   <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
                   <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
@@ -150,8 +150,8 @@ class QuoteOrderMasterReport extends FwWebApiReport {
             { value: "CANCELLED", text: "Cancelled", selected: "T" },
         ]);
         FwFormField.loadItems($form.find('div[data-datafield="OrderType"]'), [
-            { value: "QUOTE", text: "Quote", selected: "T" },
-            { value: "ORDER", text: "Order", selected: "T" },
+            { value: "Q", text: "Quote", selected: "T" },
+            { value: "O", text: "Order", selected: "T" },
         ]);
     }
     //----------------------------------------------------------------------------------------------
