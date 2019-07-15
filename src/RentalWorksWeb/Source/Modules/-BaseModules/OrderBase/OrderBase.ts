@@ -1684,7 +1684,7 @@ class OrderBase {
         const request: any = {};
         request.uniqueids = {
             OrderTypeId: orderTypeId,
-            LocationId: locationId;
+            LocationId: locationId
         }
         FwAppData.apiMethod(true, 'POST', `api/v1/ordertypelocation/browse`, request, FwServices.defaultTimeout,
             response => {
