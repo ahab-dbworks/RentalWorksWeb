@@ -99,13 +99,13 @@ namespace WebApi.Modules.Home.TransferOrder
         [FwLogicProperty(Id: "dCW5zlMgVqQs", IsReadOnly: true)]
         public string RelatedToOrderNumber { get; set; }
 
-        [FwLogicProperty(Id: "SZosgj3Ktskim", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "SZosgj3Ktskim", DisableDirectModify: true)]
         public string OfficeLocationId { get { return transferOrder.OfficeLocationId; } set { transferOrder.OfficeLocationId = value; } }
 
         [FwLogicProperty(Id: "YqNC9HI9TjfyP", IsReadOnly: true)]
         public string OfficeLocation { get; set; }
 
-        [FwLogicProperty(Id: "kBx2hobWvMgT", DisableDirectAssign: true, DisableDirectModify: true)]
+        [FwLogicProperty(Id: "kBx2hobWvMgT", DisableDirectModify: true)]
         public bool? IsReturnTransferOrder { get { return transferOrderDetail.IsReturnTransferOrder; } set { transferOrderDetail.IsReturnTransferOrder = value; } }
 
         [FwLogicProperty(Id: "EgZDjXm8CZKGD")]
