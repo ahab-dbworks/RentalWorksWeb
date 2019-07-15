@@ -50,7 +50,10 @@
 		                kb.reveal();
 	                }
                 });
-            jQuery('#scanBarcodeView .barcodewrapper').append($numPadButton);
+            let $barcodewrapper = jQuery('#scanBarcodeView .barcodewrapper');
+            if ($barcodewrapper.find('.numpad').length === 0) {
+                jQuery('#scanBarcodeView .barcodewrapper').append($numPadButton);
+            }
         }
     }
 }
