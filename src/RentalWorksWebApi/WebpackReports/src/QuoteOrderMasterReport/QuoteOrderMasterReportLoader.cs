@@ -153,10 +153,10 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
         public string TestTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estrentfrom", modeltype: FwDataTypes.Date)]
-        public string EstrentFrom { get; set; }
+        public string EstimatedStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
-        public string EstrentTo { get; set; }
+        public string EstimatedStopDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "strikedate", modeltype: FwDataTypes.Date)]
         public string StrikeDate { get; set; }
@@ -177,10 +177,10 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
         public string BillingPeriodEnd { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiodid", modeltype: FwDataTypes.Text)]
-        public string BillingPeriodId { get; set; }
+        public string BillingCycleId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "billperiod", modeltype: FwDataTypes.Text)]
-        public string BillingPeriod { get; set; }
+        public string BillingCycle { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "event", modeltype: FwDataTypes.Text)]
         public string Event { get; set; }
@@ -222,9 +222,7 @@ namespace WebApi.Modules.Reports.QuoteOrderMasterReport
                     select.AddWhereIn("agentid", request.DepartmentId);
                     select.AddWhereIn("dealtypeid", request.DealTypeId);
                     select.AddWhereIn("dealstatusid", request.DealStatusId);
-
                     select.AddWhereIn("type", request.OrderType);
-
 
                     request.QuoteStatus.Add(new SelectedCheckBoxListItem(""));
                     request.OrderStatus.Add(new SelectedCheckBoxListItem(""));

@@ -20,6 +20,8 @@
         <th>Order No.</th>
         <th>Type</th>
         <th>Description</th>
+        <th>Order Type</th>
+        <th>Status</th>
         <th>Start Date</th>
         <th>End Date</th>
         <th>Billing Cycle</th>
@@ -34,48 +36,50 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="5" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="7" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentheader"}}
-        <td colspan="5" class="lower header-row">Department: {{Department}}</td>
+        <td colspan="7" class="lower header-row">Department: {{Department}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Customerheader"}}
-        <td colspan="5" class="lower header-row">Customer: {{Customer}}</td>
+        <td colspan="7" class="lower header-row">Customer: {{Customer}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealheader"}}
-        <td colspan="5" class="lower header-row">Deal: {{Deal}}</td>
+        <td colspan="7" class="lower header-row">Deal: {{Deal}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td data-value="{{OrderNumber}}"></td>
-        <td data-value="{{OrderType}}"></td>
+        <td data-value="{{TypeDescription}}"></td>
         <td data-value="{{Description}}"></td>
-        <td data-value="{{EstrentFrom}}"></td>
-        <td data-value="{{EstrentTo}}"></td>
-        <td data-value="{{BillingPeriod}}"></td>
+        <td data-value="{{OrderType}}"></td>
+        <td data-value="{{Status}}"></td>
+        <td data-value="{{EstimatedStartDate}}"></td>
+        <td data-value="{{EstimatedStopDate}}"></td>
+        <td data-value="{{BillingCycle}}"></td>
         <td class="number" data-value="{{GrossTotal}}"></td>
         <td class="number" data-value="{{DiscountAmount}}"></td>
         <td class="number" data-value="{{Subtotal}}"></td>
         <td class="number" data-value="{{TaxTotal}}"></td>
-                <td class="number" data-value="{{GrandTotal}}"></td>
+        <td class="number" data-value="{{GrandTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="6" class="total-name">{{OfficeLocation}}&nbsp;</td>
-             <td class="total-val" data-value="{{GrossTotal}}"></td>
-        <td class="total-val" data-value="{{DiscountAmount}}"></td>
-        <td class="total-val" data-value="{{Subtotal}}"></td>
-        <td class="total-val" data-value="{{TaxTotal}}"></td>
-        <td class="total-val" data-value="{{GrandTotal}}"></td>
-        {{/ifEquals}}
-             {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="6" class="total-name">{{Department}}&nbsp;</td>
+        <td colspan="8" class="total-name">{{OfficeLocation}}&nbsp;</td>
         <td class="total-val" data-value="{{GrossTotal}}"></td>
         <td class="total-val" data-value="{{DiscountAmount}}"></td>
         <td class="total-val" data-value="{{Subtotal}}"></td>
         <td class="total-val" data-value="{{TaxTotal}}"></td>
         <td class="total-val" data-value="{{GrandTotal}}"></td>
         {{/ifEquals}}
-             {{#ifEquals RowType "Customerfooter"}}
-        <td colspan="6" class="total-name">{{Customer}}&nbsp;</td>
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="8" class="total-name">{{Department}}&nbsp;</td>
+        <td class="total-val" data-value="{{GrossTotal}}"></td>
+        <td class="total-val" data-value="{{DiscountAmount}}"></td>
+        <td class="total-val" data-value="{{Subtotal}}"></td>
+        <td class="total-val" data-value="{{TaxTotal}}"></td>
+        <td class="total-val" data-value="{{GrandTotal}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Customerfooter"}}
+        <td colspan="8" class="total-name">{{Customer}}&nbsp;</td>
         <td class="total-val" data-value="{{GrossTotal}}"></td>
         <td class="total-val" data-value="{{DiscountAmount}}"></td>
         <td class="total-val" data-value="{{Subtotal}}"></td>
@@ -83,7 +87,7 @@
         <td class="total-val" data-value="{{GrandTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Dealfooter"}}
-        <td colspan="6" class="total-name">{{Deal}}&nbsp;</td>
+        <td colspan="8" class="total-name">{{Deal}}&nbsp;</td>
         <td class="total-val" data-value="{{GrossTotal}}"></td>
         <td class="total-val" data-value="{{DiscountAmount}}"></td>
         <td class="total-val" data-value="{{Subtotal}}"></td>
@@ -91,7 +95,7 @@
         <td class="total-val" data-value="{{GrandTotal}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="8" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{GrossTotal}}"></td>
         <td class="total-val" data-value="{{DiscountAmount}}"></td>
         <td class="total-val" data-value="{{Subtotal}}"></td>
