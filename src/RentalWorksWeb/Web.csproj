@@ -952,6 +952,7 @@
     <Content Include="Source\Validations\ReceiptProcessBatchValidation\ReceiptProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\ReceiptValidation\ReceiptValidationBrowse.htm" />
     <Content Include="Source\Validations\UnretiredReasonValidation\UnretiredReasonValidationBrowse.htm" />
+    <Content Include="Source\Validations\WarehouseCodeValidation\WarehouseCodeValidationBrowse.htm" />
     <Content Include="Source\Validations\WebUserValidation\WebUserValidationBrowse.htm" />
     <Content Include="Source\Validations\VendorInvoiceProcessBatchValidation\VendorInvoiceProcessBatchValidationBrowse.htm" />
     <Content Include="Source\Validations\InvoiceProcessBatchValidation\InvoiceProcessBatchValidationBrowse.htm" />
