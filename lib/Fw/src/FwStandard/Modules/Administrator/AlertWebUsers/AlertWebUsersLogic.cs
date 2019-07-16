@@ -1,5 +1,6 @@
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
+using FwStandard.Modules.Administrator.Alert;
 using FwStandard.SqlServer;
 
 namespace FwStandard.Modules.Administrator.AlertWebUsers
@@ -15,6 +16,8 @@ namespace FwStandard.Modules.Administrator.AlertWebUsers
             dataRecords.Add(alertWebUsers);
             dataLoader = alertWebUsersLoader;
             BeforeSave += OnBeforeSave;
+            AfterSave += OnAfterSave;
+            AfterDelete += OnAfterDeleteAlert;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "j9k9lMzO90EO", IsPrimaryKey: true)]
@@ -43,6 +46,16 @@ namespace FwStandard.Modules.Administrator.AlertWebUsers
                     WebUserId = FwSqlCommand.GetStringDataAsync(conn, AppConfig.DatabaseSettings.QueryTimeout, "webusers", "usersid", UserId, "webusersid").Result;
                 }
             }
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterSave(object sender, AfterSaveEventArgs e)
+        {
+            AlertFunc.RefreshAlerts(AppConfig);
+        }
+        //------------------------------------------------------------------------------------ 
+        public void OnAfterDeleteAlert(object sender, AfterDeleteEventArgs e)
+        {
+            AlertFunc.RefreshAlerts(AppConfig);
         }
         //------------------------------------------------------------------------------------ 
     }
