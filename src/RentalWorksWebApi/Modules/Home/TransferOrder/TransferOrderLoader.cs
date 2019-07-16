@@ -1,13 +1,16 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
-using WebApi.Data;
 namespace WebApi.Modules.Home.TransferOrder
 {
     [FwSqlTable("transferwebview")]
     public class TransferOrderLoader : TransferOrderBrowseLoader
     {
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "fromwarehousecode", modeltype: FwDataTypes.Text)]
+        public string FromWarehouseCode { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "towarehousecode", modeltype: FwDataTypes.Text)]
+        public string ToWarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rental", modeltype: FwDataTypes.Boolean)]
         public bool? Rental { get; set; }

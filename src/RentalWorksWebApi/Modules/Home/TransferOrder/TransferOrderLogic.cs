@@ -69,11 +69,17 @@ namespace WebApi.Modules.Home.TransferOrder
         [FwLogicProperty(Id: "pAJbBxN0u0iu", IsReadOnly: true)]
         public string FromWarehouse { get; set; }
 
+        [FwLogicProperty(Id: "9L1dLPqDOBuOQ", IsReadOnly: true)]
+        public string FromWarehouseCode { get; set; }
+
         [FwLogicProperty(Id: "4Z71LHyG45F3j")]
         public string ToWarehouseId { get { return transferOrder.WarehouseId; } set { transferOrder.WarehouseId = value; } }
 
         [FwLogicProperty(Id: "hEaKt19UKcRz", IsReadOnly: true)]
         public string ToWarehouse { get; set; }
+
+        [FwLogicProperty(Id: "UF8qZFNETI0x7", IsReadOnly: true)]
+        public string ToWarehouseCode { get; set; }
 
         [FwLogicProperty(Id: "FJQLU7kwlJOR")]
         public string DepartmentId { get { return transferOrder.DepartmentId; } set { transferOrder.DepartmentId = value; } }
