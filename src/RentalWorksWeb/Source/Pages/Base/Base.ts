@@ -3,17 +3,17 @@ class Base {
     getDefaultScreen() {
         let viewModel = {
             captionProgramTitle: 'RentalWorks',
-            valueYear:           new Date().getFullYear(),
-            valueVersion:        applicationConfig.version
+            valueYear: new Date().getFullYear(),
+            valueVersion: applicationConfig.version
         };
         let screen: any = {};
         screen = FwBasePages.getDefaultScreen(viewModel);
 
         screen.$view
-            .on('click', '.btnLogin', function() {
+            .on('click', '.btnLogin', function () {
                 try {
                     program.navigate('login');
-                } catch(ex) {
+                } catch (ex) {
                     FwFunc.showError(ex);
                 }
             })
@@ -24,18 +24,18 @@ class Base {
     //----------------------------------------------------------------------------------------------
     getLoginScreen() {
         let viewModel = {
-            captionPanelLogin:       'RentalWorks Login',
-            captionEmail:            RwLanguages.translate('E-mail / Username'),
-            valueEmail:              (localStorage.getItem('email') ? localStorage.getItem('email') : ''),
-            captionPassword:         RwLanguages.translate('Password'),
-            valuePassword:           '',
-            captionBtnLogin:         RwLanguages.translate('Sign In'),
-            captionBtnCancel:        RwLanguages.translate('Cancel'),
+            captionPanelLogin: 'RentalWorks Login',
+            captionEmail: RwLanguages.translate('E-mail / Username'),
+            valueEmail: (localStorage.getItem('email') ? localStorage.getItem('email') : ''),
+            captionPassword: RwLanguages.translate('Password'),
+            valuePassword: '',
+            captionBtnLogin: RwLanguages.translate('Sign In'),
+            captionBtnCancel: RwLanguages.translate('Cancel'),
             captionPasswordRecovery: RwLanguages.translate('Recover Password'),
-            captionAbout:            RwLanguages.translate('About'),
-            captionSupport:          RwLanguages.translate('Support'),
-            valueYear:               new Date().getFullYear(),
-            valueVersion:            applicationConfig.version
+            captionAbout: RwLanguages.translate('About'),
+            captionSupport: RwLanguages.translate('Support'),
+            valueYear: new Date().getFullYear(),
+            valueVersion: applicationConfig.version
         };
         let screen: any = {};
         if ((typeof applicationConfig.customLogin != 'undefined') && (applicationConfig.customLogin == true)) {
@@ -48,8 +48,8 @@ class Base {
             .on('click', '.btnLogin', async (e: JQuery.ClickEvent) => {
                 try {
                     var $loginWindow = screen.$view.find('.login-container');
-                    var $email       = screen.$view.find('#email');
-                    var $password    = screen.$view.find('#password');
+                    var $email = screen.$view.find('#email');
+                    var $password = screen.$view.find('#password');
                     $email.parent().removeClass('error');
                     $password.parent().removeClass('error');
                     if ($email.val() == '') {
@@ -58,7 +58,7 @@ class Base {
                         $password.parent().addClass('error');
                     } else {
                         sessionStorage.clear();
-                        
+
                         // Ajax for a jwt token
                         const responseJwt = await FwAjax.callWebApi<any>({
                             httpMethod: 'POST',
@@ -80,35 +80,35 @@ class Base {
                                     $loginWindow.find('.errormessage').html('').html(responseJwt.exception).show();
                                 }
                             } else {
-                                 // get session info
+                                // get session info
                                 const responseSessionInfo = await FwAjax.callWebApi<any>({
                                     httpMethod: 'GET',
                                     url: `${applicationConfig.apiurl}api/v1/account/session?applicationid=${FwApplicationTree.currentApplicationId}`,
                                     $elementToBlock: $loginWindow
                                 });
-                                sessionStorage.setItem('email',              responseSessionInfo.webUser.email);
-                                sessionStorage.setItem('fullname',           responseSessionInfo.webUser.fullname);
-                                sessionStorage.setItem('name',               responseSessionInfo.webUser.name);  //justin 05/06/2018
-                                sessionStorage.setItem('usersid',            responseSessionInfo.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
-                                sessionStorage.setItem('browsedefaultrows',  responseSessionInfo.webUser.browsedefaultrows);
-                                sessionStorage.setItem('applicationtheme',   responseSessionInfo.webUser.applicationtheme);
-                                sessionStorage.setItem('lastLoggedIn',       new Date().toLocaleTimeString());
-                                sessionStorage.setItem('serverVersion',      responseSessionInfo.serverVersion);
+                                sessionStorage.setItem('email', responseSessionInfo.webUser.email);
+                                sessionStorage.setItem('fullname', responseSessionInfo.webUser.fullname);
+                                sessionStorage.setItem('name', responseSessionInfo.webUser.name);  //justin 05/06/2018
+                                sessionStorage.setItem('usersid', responseSessionInfo.webUser.usersid);  //justin 05/25/2018  //C4E0E7F6-3B1C-4037-A50C-9825EDB47F44
+                                sessionStorage.setItem('browsedefaultrows', responseSessionInfo.webUser.browsedefaultrows);
+                                sessionStorage.setItem('applicationtheme', responseSessionInfo.webUser.applicationtheme);
+                                sessionStorage.setItem('lastLoggedIn', new Date().toLocaleTimeString());
+                                sessionStorage.setItem('serverVersion', responseSessionInfo.serverVersion);
                                 sessionStorage.setItem('applicationOptions', JSON.stringify(responseSessionInfo.applicationOptions));
-                                sessionStorage.setItem('userType',           responseSessionInfo.webUser.usertype);
-                                sessionStorage.setItem('applicationtree',    JSON.stringify(responseSessionInfo.applicationtree));
-                                sessionStorage.setItem('clientCode',         responseSessionInfo.clientcode);
-                                sessionStorage.setItem('location',           JSON.stringify(responseSessionInfo.location));
-                                sessionStorage.setItem('defaultlocation',    JSON.stringify(responseSessionInfo.location));
-                                sessionStorage.setItem('warehouse',          JSON.stringify(responseSessionInfo.warehouse));
-                                sessionStorage.setItem('department',         JSON.stringify(responseSessionInfo.department));
-                                sessionStorage.setItem('webusersid',         responseSessionInfo.webUser.webusersid);
-                                sessionStorage.setItem('userid',             JSON.stringify(responseSessionInfo.webUser));
+                                sessionStorage.setItem('userType', responseSessionInfo.webUser.usertype);
+                                sessionStorage.setItem('applicationtree', JSON.stringify(responseSessionInfo.applicationtree));
+                                sessionStorage.setItem('clientCode', responseSessionInfo.clientcode);
+                                sessionStorage.setItem('location', JSON.stringify(responseSessionInfo.location));
+                                sessionStorage.setItem('defaultlocation', JSON.stringify(responseSessionInfo.location));
+                                sessionStorage.setItem('warehouse', JSON.stringify(responseSessionInfo.warehouse));
+                                sessionStorage.setItem('department', JSON.stringify(responseSessionInfo.department));
+                                sessionStorage.setItem('webusersid', responseSessionInfo.webUser.webusersid);
+                                sessionStorage.setItem('userid', JSON.stringify(responseSessionInfo.webUser));
                                 if (responseSessionInfo.webUser.usertype == 'CONTACT') {
                                     sessionStorage.setItem('deal', JSON.stringify(responseSessionInfo.deal));
                                 }
                                 jQuery('html').removeClass('theme-material');
-                                
+
                                 // run several AJAX calls in parallel
 
                                 const promiseGetUserSettings = FwAjax.callWebApi<any>({
@@ -158,8 +158,8 @@ class Base {
                                     .then((values: any) => {
                                         const responseGetUserSettings = values[0];
                                         let sounds: any = {}, homePage: any = {}, toolbar: any = {};
-                                        sounds.successSoundFileName      = responseGetUserSettings.SuccessSoundFileName;
-                                        sounds.errorSoundFileName        = responseGetUserSettings.ErrorSoundFileName;
+                                        sounds.successSoundFileName = responseGetUserSettings.SuccessSoundFileName;
+                                        sounds.errorSoundFileName = responseGetUserSettings.ErrorSoundFileName;
                                         sounds.notificationSoundFileName = responseGetUserSettings.NotificationSoundFileName;
                                         homePage.guid = responseGetUserSettings.HomeMenuGuid;
                                         homePage.path = responseGetUserSettings.HomeMenuPath;
@@ -225,7 +225,7 @@ class Base {
                                         program.navigate('home');
                                     });
                             }
-                            
+
                         } else if (responseJwt.statuscode !== 0) {
                             $loginWindow.find('.errormessage').html('').html(responseJwt.statusmessage).show();
                         }
@@ -287,6 +287,11 @@ class Base {
         screen.viewModel = viewModel;
         screen.properties = properties;
         return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    static isHomeModule($control: JQuery<HTMLElement>): boolean { //temp (inefficient) solution, till security tree implementations are in place, used to determine whether to render peek buttons - jpace 
+        const homeModules = ['ContactValidation', 'CustomerValidation', 'CustomerTypeValidation', 'DealValidation', 'OrderValidation', 'ProjectValidation', 'PurchaseOrderValidation', 'QuoteValidation', 'VendorValidation', 'AssetValidation', 'PartsInventoryValidation', 'RentalInventoryValidation', 'RepairOrderValidation', 'SalesInventoryValidation', 'ContractValidation', 'PickListValidation', 'ContainerValidation', 'BillingCycleValidation', 'InvoiceValidation', 'ReceiptValidation'];
+        return (homeModules.indexOf($control.attr('data-validationname')) > -1);
     }
     //----------------------------------------------------------------------------------------------
 }
