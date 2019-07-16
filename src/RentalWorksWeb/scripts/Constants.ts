@@ -28,7 +28,13 @@
             AvailabilityConflicts: { id: 'DF2859D1-3834-42DA-A367-85B168850ED9', caption: 'Availability Conflicts', nav: 'module/availabilityconflicts'},
             Billing: { id: '34E0472E-9057-4C66-8CC2-1938B3222569', caption: 'Billing', nav: 'module/billing' },
             BillingMessage: { id: 'B232DF4D-462A-4810-952D-73F8DE66800C', caption: 'Billing Message', nav: 'module/billingmessage' },
-            CheckIn: { id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin' },
+            CheckIn: { id: '77317E53-25A2-4C12-8DAD-7541F9A09436', caption: 'Check-In', nav: 'module/checkin',
+                form: {
+                    menuItems: {
+                        Cancel: { id: '{52BEF7F5-C9F7-44DE-AD84-8E5AC68A9D7B}' }
+                    }
+                }
+            },
             CompleteQc: { id: '3F20813A-CC21-49D8-A5F8-9930B7F05404', caption: 'Complete QC', nav: 'module/completeqc' },
             Contact: { id: '3F803517-618A-41C0-9F0B-2C96B8BDAFC4', caption: 'Contact', nav: 'module/contact' },
             Container: { id: '28A49328-FFBD-42D5-A492-EDF540DF7011', caption: 'Container', nav: 'module/container' },
@@ -46,7 +52,13 @@
             Deal: { id: 'C67AD425-5273-4F80-A452-146B2008B41C', caption: 'Deal', nav: 'module/deal' },
             DealCredit: { id: '3DD1BA32-0213-472E-ADA8-E54D531464CC', caption: 'Deal Credit', nav: 'module/dealcredit' },
             EmptyContainer: { id: '60CAE944-DE89-459E-86AC-2F1B68211E07', caption: 'Empty Container', nav: 'module/emptycontainer' },
-            Exchange: { id: '2AEDB175-7998-48BC-B2C4-D4794BF65342', caption: 'Exchange', nav: 'module/exchange' },
+            Exchange: { id: '2AEDB175-7998-48BC-B2C4-D4794BF65342', caption: 'Exchange', nav: 'module/exchange',
+                form: {
+                    menuItems: {
+                        Cancel: { id: '{2301B78E-7928-4672-8747-29ED57C529FC}' }
+                    }
+                }
+            },
             FillContainer: { id: '0F1050FB-48DF-41D7-A969-37300B81B7B5', caption: 'Fill Container', nav: 'module/fillcontainer' },
             Invoice: { id: '9B79D7D8-08A1-4F6B-AC0A-028DFA9FE10F', caption: 'Invoice', nav: 'module/invoice',
                 browse: {
@@ -154,7 +166,13 @@
                 }    
             },
             Receipt: { id: '57E34535-1B9F-4223-AD82-981CA34A6DEC', caption: 'Receipts', nav: 'module/receipt' },
-            ReceiveFromVendor: { id: '00539824-6489-4377-A291-EBFE26325FAD', caption: 'Receive From Vendor', nav: 'module/receivefromvendor' },
+            ReceiveFromVendor: { id: '00539824-6489-4377-A291-EBFE26325FAD', caption: 'Receive From Vendor', nav: 'module/receivefromvendor',
+                form: {
+                    menuItems: {
+                        Cancel: { id: '{A3BA715F-9249-4504-B076-1E9195F35372}' }
+                    }
+                }
+            },
             RemoveFromContainer: { id: 'FB9876B5-165E-486C-9E06-DFB3ACB3CBF0', caption: 'Remove From Container', nav: 'module/removefromcontainer' },
             RentalInventory: { id: 'FCDB4C86-20E7-489B-A8B7-D22EE6F85C06', caption: 'Rental Inventory', nav: 'module/rentalinventory',
                 form: {
@@ -178,7 +196,13 @@
                     }
                 }
             },
-            ReturnToVendor: { id: 'D54EAA01-A710-4F78-A1EE-5FC9EE9150D8', caption: 'Return To Vendor', nav: 'module/returntovendor' },
+            ReturnToVendor: { id: 'D54EAA01-A710-4F78-A1EE-5FC9EE9150D8', caption: 'Return To Vendor', nav: 'module/returntovendor',
+                form: {
+                    menuItems: {
+                        Cancel: { id: '{C072441D-1FE3-4D2E-A015-DBE871CEC0FD}' }
+                    }
+                }
+            },
             SalesInventory: { id: 'B0CF2E66-CDF8-4E58-8006-49CA68AE38C2', caption: 'Sales Inventory', nav: 'module/salesinventory',
                 form: {
                     menuItems: {

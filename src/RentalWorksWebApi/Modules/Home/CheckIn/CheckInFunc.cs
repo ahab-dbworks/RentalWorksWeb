@@ -184,5 +184,18 @@ create procedure dbo.pdacheckinitem(@code                   varchar(255),
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> CancelContract(FwApplicationConfig appConfig, FwUserSession userSession, CancelContractRequest request)
+        {
+            TSpStatusResponse response = new TSpStatusResponse();
+            using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            {
+                FwSqlCommand qry = new FwSqlCommand(conn, "cancelcontract", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                await qry.ExecuteNonQueryAsync();
+            }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
     }
 }

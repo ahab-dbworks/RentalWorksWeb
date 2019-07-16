@@ -3,8 +3,8 @@
 class ReturnToVendor {
     Module: string = 'ReturnToVendor';
     caption: string = Constants.Modules.Home.ReturnToVendor.caption;
-	nav: string = Constants.Modules.Home.ReturnToVendor.nav;
-	id: string = Constants.Modules.Home.ReturnToVendor.id;
+    nav: string = Constants.Modules.Home.ReturnToVendor.nav;
+    id: string = Constants.Modules.Home.ReturnToVendor.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
@@ -36,6 +36,9 @@ class ReturnToVendor {
         //$form.find('div[data-datafield="PurchaseOrderId"] fwformfield-text input').focus();
         //$form.find('div[data-datafield="PurchaseOrderId"] input fwformfield-text').focus();
         //$form.find('div[data-displayfield="PurchaseOrderNumber"] input').focus();
+
+        const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         let date = new Date(),
             currentDate = date.toLocaleString(),
@@ -81,6 +84,8 @@ class ReturnToVendor {
                     let $this = jQuery(e.currentTarget);
                     let id = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
                     let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
+                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -112,6 +117,8 @@ class ReturnToVendor {
                     max = 9999;
 
                 FwFormField.setValueByDataField($form, 'ContractId', contractId);
+                const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                 $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
                 $pOReturnItemGridControl.data('ondatabind', function (request) {
@@ -166,18 +173,15 @@ class ReturnToVendor {
                 currentDate = date.toLocaleString(),
                 currentTime = date.toLocaleTimeString();
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout,
+                response => {
                 try {
                     let contractInfo: any = {}, $contractForm;
                     contractInfo.ContractId = contractId;
                     $contractForm = ContractController.loadForm(contractInfo);
                     FwModule.openSubModuleTab($form, $contractForm);
 
-                    $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
-                    FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
-                    $form.find('div[data-name="POReturnItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="POReturnBarCodeGrid"] tr.viewmode').empty();
-                    errorMsg.html('');
+                    this.resetForm($form);
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -258,6 +262,17 @@ class ReturnToVendor {
         };
     };
     //----------------------------------------------------------------------------------------------
+    resetForm($form) {
+        const errorMsg = $form.find('.error-msg:not(.qty)');
+        $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+        FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
+        $form.find('div[data-name="POReturnItemGrid"] tr.viewmode').empty();
+        $form.find('div[data-name="POReturnBarCodeGrid"] tr.viewmode').empty();
+        errorMsg.html('');
+        const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+    }
+    //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
         <div id="returntovendorform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="Return To Vendor" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="ReturnToVendorController">
@@ -302,4 +317,30 @@ class ReturnToVendor {
         `;
     }
 };
+//----------------------------------------------------------------------------------------------
+//Cancel
+FwApplicationTree.clickEvents[Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
+    const $form = jQuery(this).closest('.fwform');
+    const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+    try {
+        //if (contractId.length > 0) {
+            const request: any = {};
+            request.ContractId = contractId;
+            FwAppData.apiMethod(true, 'POST', `api/v1/checkin/cancelcontract`, request, FwServices.defaultTimeout,
+                response => {
+                    ReturnToVendorController.resetForm($form);
+                    FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+                },
+                ex => FwFunc.showError(ex),
+                null, $form);
+        //} else {
+        //    FwNotification.renderNotification('ERROR', 'This option is not available until a ContractId is issued.');
+        //}
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
 var ReturnToVendorController = new ReturnToVendor();
+

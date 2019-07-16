@@ -601,3 +601,5 @@ html.theme-material [data-name="AuditHistoryGrid"] tbody tr.selected td ul:not(.
   border-left: 1px solid #9e9e9e;
   border-right: 1px solid #9e9e9e;
 }
+
+.submenu-btn[data-enabled="false"] {pointer-events: none;color: lightgray;}
