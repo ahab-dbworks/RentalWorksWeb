@@ -9,9 +9,11 @@ namespace FwStandard.Modules.Administrator.WebAlertLog
     {
         //------------------------------------------------------------------------------------ 
         WebAlertLogRecord webAlertLog = new WebAlertLogRecord();
+        WebAlertLogLoader webAlertLogLoader = new WebAlertLogLoader();
         public WebAlertLogLogic()
         {
             dataRecords.Add(webAlertLog);
+            dataLoader = webAlertLogLoader;
             HasAudit = false;
         }
         //------------------------------------------------------------------------------------ 
