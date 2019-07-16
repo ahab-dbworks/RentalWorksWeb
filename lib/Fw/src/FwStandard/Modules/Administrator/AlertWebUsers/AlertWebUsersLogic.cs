@@ -17,7 +17,7 @@ namespace FwStandard.Modules.Administrator.AlertWebUsers
             dataLoader = alertWebUsersLoader;
             BeforeSave += OnBeforeSave;
             AfterSave += OnAfterSave;
-            AfterDelete += OnAfterDeleteAlert;
+            AfterDelete += OnAfterDelete;
         }
         //------------------------------------------------------------------------------------ 
         [FwLogicProperty(Id: "j9k9lMzO90EO", IsPrimaryKey: true)]
@@ -53,7 +53,7 @@ namespace FwStandard.Modules.Administrator.AlertWebUsers
             AlertFunc.RefreshAlerts(AppConfig);
         }
         //------------------------------------------------------------------------------------ 
-        public void OnAfterDeleteAlert(object sender, AfterDeleteEventArgs e)
+        public void OnAfterDelete(object sender, AfterDeleteEventArgs e)
         {
             AlertFunc.RefreshAlerts(AppConfig);
         }
