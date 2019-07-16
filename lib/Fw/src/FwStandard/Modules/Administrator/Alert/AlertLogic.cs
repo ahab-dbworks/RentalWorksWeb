@@ -29,9 +29,9 @@ namespace FwStandard.Modules.Administrator.Alert
             ForceSave = true;
         }
         //------------------------------------------------------------------------------------ 
-        [FwLogicProperty(Id: "6c9PL4mHxpfO", IsPrimaryKey:true)]
+        [FwLogicProperty(Id: "6c9PL4mHxpfO", IsPrimaryKey: true)]
         public string AlertId { get { return alert.AlertId; } set { alert.AlertId = value; } }
-        [FwLogicProperty(Id: "QlcNGC0VsxNE", IsRecordTitle:true)]
+        [FwLogicProperty(Id: "QlcNGC0VsxNE", IsRecordTitle: true)]
         public string AlertName { get { return alert.AlertName; } set { alert.AlertName = value; } }
         [FwLogicProperty(Id: "iL9L6gQI0Bh6")]
         public string ModuleName { get { return alert.ModuleName; } set { alert.ModuleName = value; } }
