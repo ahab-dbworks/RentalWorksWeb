@@ -4,13 +4,25 @@
 
      generateRow($control, $generatedtr) {
          const $form = $control.closest('.fwform');
-         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
+         $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', $tr => {
+             const fromWarehouseId = FwFormField.getValueByDataField($form, 'FromWarehouseId');
+             const toWarehouseId = FwFormField.getValueByDataField($form, 'ToWarehouseId');
              $generatedtr.find('.field[data-browsedatafield="Description"] input').val($tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
              $generatedtr.find('.field[data-browsedatafield="QuantityOrdered"] input').val("1");
-             $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input').val(FwFormField.getValueByDataField($form, 'FromWarehouseId'));
-             $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(FwFormField.getValueByDataField($form, 'ToWarehouseId'));
-             $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(FwFormField.getTextByDataField($form, 'FromWarehouseId'));
-             $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(FwFormField.getTextByDataField($form, 'ToWarehouseId'));
+             //$generatedtr.find('.field[data-browsedatafield="WarehouseId"]').attr('data-originalvalue', fromWarehouseId);
+             //$generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"]').attr('data-originalvalue', toWarehouseId);
+             $generatedtr.find('.field[data-browsedatafield="WarehouseId"]').text(FwFormField.getTextByDataField($form, 'FromWarehouseId'));
+             $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"]').text(FwFormField.getTextByDataField($form, 'ToWarehouseId'));
+
+             //adds warehouse values
+             const beforeSave = $control.data('beforesave');
+             if (typeof beforeSave == 'function') {
+                 $control.data('beforesave', request => {
+                     beforeSave(request);
+                     request.WarehouseId = fromWarehouseId;
+                     request.ReturnToWarehouseId = toWarehouseId;
+                 });
+             }
          });
      }
 }
