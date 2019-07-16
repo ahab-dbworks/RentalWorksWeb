@@ -39,13 +39,16 @@ class FwBrowseColumn_validationClass implements IFwBrowseColumn {
     setFieldViewMode($browse, $tr, $field): void {
         $field.data('autoselect', false);
         var originaltext = (typeof $field.attr('data-originaltext') === 'string') ? $field.attr('data-originaltext') : '';
-        var showPeek = false;
         let html = [];
-        if (applicationConfig.defaultPeek === true) {
-            showPeek = (!($field.attr('data-validationpeek') === 'false'));
-        }
-        else {
-            showPeek = ($field.attr('data-validationpeek') === 'true');
+        const isWebAdmin = JSON.parse(sessionStorage.getItem('userid')).webadministrator;
+        let showPeek = false;
+        if (!($field.attr('data-validationpeek') === 'false')) {
+            if (isWebAdmin === 'true') {
+                showPeek = true;
+            }
+            else if (isWebAdmin === 'false' && FwValidation.isHomeModule($field)) {
+                showPeek = true;
+            }
         }
         if (showPeek) {
             html.push('<div class="btnpeek"><i class="material-icons">more_horiz</i></div>');
