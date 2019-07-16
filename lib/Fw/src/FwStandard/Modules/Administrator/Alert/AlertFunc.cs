@@ -262,7 +262,7 @@ namespace FwStandard.Modules.Administrator.Alert
                                     {
                                         from = FwSqlCommand.GetStringDataAsync(conn, appConfig.DatabaseSettings.QueryTimeout, "webusersview", "webusersid", userSession.WebUsersId, "email").Result;
                                     }
-                                    string to = String.Join(";", toEmails);
+                                    string to = String.Join(",", toEmails);
 
 
                                     WebAlertLogLogic log = new WebAlertLogLogic();
