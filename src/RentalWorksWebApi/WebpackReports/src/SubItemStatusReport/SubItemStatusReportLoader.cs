@@ -8,7 +8,6 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.SubItemStatusReport
 {
-    [FwSqlTable("getsubitemstatus")]
     public class SubItemStatusReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
@@ -52,7 +51,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string OrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ordernodesc", modeltype: FwDataTypes.Text)]
-        public string OrderNumberDescription { get; set; }
+        public string OrderNumberAndDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdate", modeltype: FwDataTypes.Date)]
         public string OrderDate { get; set; }
@@ -67,37 +66,37 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string OrderAgent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderestrentfrom", modeltype: FwDataTypes.Date)]
-        public string Orderestrentfrom { get; set; }
+        public string OrderEstimatedStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderestrentto", modeltype: FwDataTypes.Date)]
-        public string Orderestrentto { get; set; }
+        public string OrderEstimatedStopDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderestrentperiod", modeltype: FwDataTypes.Text)]
-        public string Orderestrentperiod { get; set; }
+        public string OrderEstimatedPeriod { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderbillperiodstart", modeltype: FwDataTypes.Date)]
-        public string OrderBillingPeriodStart { get; set; }
+        public string OrderBillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderbillperiodend", modeltype: FwDataTypes.Date)]
-        public string OrderBillingPeriodEnd { get; set; }
+        public string OrderBillingStopDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderratetype", modeltype: FwDataTypes.Text)]
         public string OrderRateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderhiatusdiscfrom", modeltype: FwDataTypes.Text)]
-        public string OrderHiatusDiscFrom { get; set; }
+        public string OrderHiatusDiscountFrom { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderbillperiodid", modeltype: FwDataTypes.Text)]
-        public string OrderBillingPeriodId { get; set; }
+        public string OrderBillingCycleId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderbillperiodtype", modeltype: FwDataTypes.Text)]
-        public string OrderBillingPeriodType { get; set; }
+        public string OrderBillingCycleType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masteritemid", modeltype: FwDataTypes.Text)]
         public string OrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nestedmasteritemid", modeltype: FwDataTypes.Text)]
-        public string NestedLasterItemId { get; set; }
+        public string NestedOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "masterno", modeltype: FwDataTypes.Text)]
         public string ICode { get; set; }
@@ -106,7 +105,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "description", modeltype: FwDataTypes.Text)]
-        public string Description { get; set; }
+        public string ItemDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "subqty", modeltype: FwDataTypes.Decimal)]
         public decimal? SubQuantity { get; set; }
@@ -136,16 +135,16 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string ReturnToWarehouse { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "returntowhcode", modeltype: FwDataTypes.Text)]
-        public string ReturnWarehouseCode { get; set; }
+        public string ReturnToWarehouseCode { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "isrecurring", modeltype: FwDataTypes.Boolean)]
-        public bool? IsRRecurring { get; set; }
+        public bool? IsRecurring { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "prorateweeks", modeltype: FwDataTypes.Boolean)]
-        public bool? ProRateWeeks { get; set; }
+        public bool? ProrateWeeks { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderrecurringratetype", modeltype: FwDataTypes.Boolean)]
-        public bool? OrderRecurringRateType { get; set; }
+        public bool? IsOrderRecurringRateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderrate", modeltype: FwDataTypes.Decimal)]
         public decimal? OrderRate { get; set; }
@@ -178,7 +177,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string PurchaseOrderId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pomasteritemid", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderMasterItemId { get; set; }
+        public string PurchaseOrderItemId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderNumber { get; set; }
@@ -187,7 +186,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string PurchaseOrderDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "ponodesc", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderNumberDescription { get; set; }
+        public string PurchaseOrderNumberAndDescription { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "postatus", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderStatus { get; set; }
@@ -196,31 +195,31 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string PurchaseOrderDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poestrentfrom", modeltype: FwDataTypes.Date)]
-        public string PurchaseOrderEstrentFrom { get; set; }
+        public string PurchaseOrderEstimatedStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poestrentto", modeltype: FwDataTypes.Date)]
-        public string PurchaseOrderEstrentTo { get; set; }
+        public string PurchaseOrderEstimatedStopDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poestrentperiod", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderEstrentPeriod { get; set; }
+        public string PurchaseOrderEstimatedPeriod { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillperiodstart", modeltype: FwDataTypes.Date)]
-        public string PurchaseOrderBillingPeriodStart { get; set; }
+        public string PurchaseOrderBillingStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillperiodend", modeltype: FwDataTypes.Date)]
-        public string PurchaseOrderBillingPeriodEnd { get; set; }
+        public string PurchaseOrderBillingEndDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poratetype", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderRateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pohiatusdiscfrom", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderHiatusDiscFrom { get; set; }
+        public string PurchaseOrderHiatusDiscountFrom { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillperiodid", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderBillingPeriodId { get; set; }
+        public string PurchaseOrderBillingCycleId { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillperiodtype", modeltype: FwDataTypes.Text)]
-        public string PurchaseOrderBillingPeriodType { get; set; }
+        public string PurchaseOrderBillingCycleType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poclassificationid", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderClassificationId { get; set; }
@@ -238,7 +237,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string Vendor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "porecurringratetype", modeltype: FwDataTypes.Boolean)]
-        public bool? Porecurringratetype { get; set; }
+        public bool? IsPurchaseOrderRecurringRateType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "porate", modeltype: FwDataTypes.Decimal)]
         public decimal? PurchaseOrderRate { get; set; }
@@ -256,7 +255,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public decimal? PurchaseOrderQuantityCoefficient { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poweeklyextended", modeltype: FwDataTypes.Decimal)]
-        public decimal? PurchaseOrderweeklyExtended { get; set; }
+        public decimal? PurchaseOrderWeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pomonthlyextended", modeltype: FwDataTypes.Decimal)]
         public decimal? PurchaseOrderMonthlyExtended { get; set; }
@@ -280,7 +279,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string ReceiveDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "receiveestimated", modeltype: FwDataTypes.Boolean)]
-        public bool? ReceiveEstimated { get; set; }
+        public bool? IsReceiveEstimated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "issuspendreceive", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendReceive { get; set; }
@@ -289,7 +288,7 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string OutDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "outestimated", modeltype: FwDataTypes.Boolean)]
-        public bool? OutEstimated { get; set; }
+        public bool? IsOutEstimated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "issuspendout", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendOut { get; set; }
@@ -298,19 +297,19 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string InDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "inestimated", modeltype: FwDataTypes.Boolean)]
-        public bool? InEstimated { get; set; }
+        public bool? IsInEstimated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "issuspendin", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendIn { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "lost", modeltype: FwDataTypes.Boolean)]
-        public bool? Lost { get; set; }
+        public bool? IsLost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "returndate", modeltype: FwDataTypes.Date)]
         public string ReturnDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "returnestimated", modeltype: FwDataTypes.Boolean)]
-        public bool? ReturnEstimated { get; set; }
+        public bool? IsReturnEstimated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "issuspendreturn", modeltype: FwDataTypes.Boolean)]
         public bool? IsSuspendReturn { get; set; }
@@ -322,10 +321,10 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string OrderBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "bold", modeltype: FwDataTypes.Boolean)]
-        public bool? Bold { get; set; }
+        public bool? IsBold { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Boolean)]
-        public bool? OptionColor { get; set; }
+        [FwSqlDataField(column: "optioncolor", modeltype: FwDataTypes.Text)]
+        public string OptionColor { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "actualreceivedate", modeltype: FwDataTypes.Date)]
         public string ActualReceiveDate { get; set; }
@@ -370,34 +369,37 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         public string OrderBillablePeriodsTo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillableperiodsfrom", modeltype: FwDataTypes.Date)]
-        public string PoBillablePeriodsFrom { get; set; }
+        public string PurchaseOrderBillablePeriodsFrom { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillableperiodsto", modeltype: FwDataTypes.Date)]
-        public string PoBillablePeriodsTo { get; set; }
+        public string PurchaseOrderBillablePeriodsTo { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
         public int? Id { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(SubItemStatusReportRequest request)
         {
-            useWithNoLock = false;
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "procedurename", this.AppConfig.DatabaseSettings.ReportTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getsubitemstatus", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
-                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@orderfromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                    qry.AddParameter("@ordertodate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
                     qry.AddParameter("@orderid", SqlDbType.Text, ParameterDirection.Input, request.OrderId);
                     qry.AddParameter("@vendorid", SqlDbType.Text, ParameterDirection.Input, request.VendorId);
                     qry.AddParameter("@poclassificationid", SqlDbType.Text, ParameterDirection.Input, request.PoClassificationId);
-
-                    qry.AddParameter("@datetouse", SqlDbType.Text, ParameterDirection.Input, request.DateType); // needs more here
-                    qry.AddParameter("@status", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
                     qry.AddParameter("@rectype", SqlDbType.Text, ParameterDirection.Input, request.RecType.ToString());
+                    qry.AddParameter("@orderstatus", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
+
+                    // future expansion
+                    //qry.AddParameter("@datetype", SqlDbType.Text, ParameterDirection.Input, request.DateType); 
+                    //qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                    //qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
@@ -405,14 +407,13 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
 
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "OrderQuantityOrdered", "OrderPeriodExtended", "OrderPeriodExtended", "Profit" };
-                string[] headerFieldsOrder = new string[] { "OrderDescription", "Deal", "OrderDate", "OrderPeriodStart", "OrderPeriodEnd" };
-                string[] headerFieldsPurchaseOrder = new string[] { "PurchaseOrderDescription", "Vendor", "PurchaseOrderClassification", "PurchaseOrderPeriodStart", "PurchaseOrderPeriodEnd" };
+                string[] totalFields = new string[] { "SubQuantity", "PurchaseOrderPeriodExtended", "OrderPeriodExtended", "Profit" };
+                string[] headerFieldsOrder = new string[] { "OrderNumberAndDescription", "Deal", "OrderDate", "OrderEstimatedPeriod" };
+                string[] headerFieldsPurchaseOrder = new string[] { "PurchaseOrderNumberAndDescription", "Vendor", "PurchaseOrderClassification", "PurchaseOrderDate", "PurchaseOrderEstimatedPeriod" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
-                dt.InsertSubTotalRows("Order", "RowType", totalFields);
+                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields, headerFieldsOrder, totalFor: "Total for Order");
                 dt.InsertSubTotalRows("PurchaseOrderNumber", "RowType", totalFields, headerFieldsPurchaseOrder, totalFor: "Total for PO");
-                dt.InsertSubTotalRows("Order", "RowType", totalFields, headerFieldsOrder, totalFor: "Total for Order");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
