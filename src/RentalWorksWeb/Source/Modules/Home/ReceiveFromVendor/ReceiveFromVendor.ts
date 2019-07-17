@@ -3,8 +3,8 @@
 class ReceiveFromVendor {
     Module: string = 'ReceiveFromVendor';
     caption: string = Constants.Modules.Home.ReceiveFromVendor.caption;
-	nav: string = Constants.Modules.Home.ReceiveFromVendor.nav;
-	id: string = Constants.Modules.Home.ReceiveFromVendor.id;
+    nav: string = Constants.Modules.Home.ReceiveFromVendor.nav;
+    id: string = Constants.Modules.Home.ReceiveFromVendor.id;
     successSoundFileName: string;
     errorSoundFileName: string;
     notificationSoundFileName: string;
@@ -41,6 +41,8 @@ class ReceiveFromVendor {
         FwFormField.setValueByDataField($form, 'Date', currentDate);
         FwFormField.setValueByDataField($form, 'Time', currentTime);
 
+        const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
 
         if (typeof parentmoduleinfo !== 'undefined') {
             FwFormField.setValueByDataField($form, 'PurchaseOrderId', parentmoduleinfo.PurchaseOrderId, parentmoduleinfo.PurchaseOrderNumber);
@@ -80,6 +82,9 @@ class ReceiveFromVendor {
                     let $this = jQuery(e.currentTarget);
                     let id = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
                     let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
+                    const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -89,7 +94,6 @@ class ReceiveFromVendor {
         }
     }
     //----------------------------------------------------------------------------------------------
-
     getItems($form) {
         $form.find('[data-datafield="PurchaseOrderId"]').data('onchange', $tr => {
             FwFormField.disable($form.find('[data-datafield="PurchaseOrderId"]'));
@@ -110,6 +114,9 @@ class ReceiveFromVendor {
                     max = 9999;
 
                 FwFormField.setValueByDataField($form, 'ContractId', contractId);
+
+                const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                 $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
                 $receiveItemsGridControl.data('ondatabind', function (request) {
@@ -154,10 +161,6 @@ class ReceiveFromVendor {
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
             let automaticallyCreateCheckOut = FwFormField.getValueByDataField($form, 'AutomaticallyCreateCheckOut');
-            let date = new Date(),
-                currentDate = date.toLocaleString(),
-                currentTime = date.toLocaleTimeString();
-
             let requestBody: any = {};
             if (automaticallyCreateCheckOut == 'T') {
                 requestBody = {
@@ -173,24 +176,11 @@ class ReceiveFromVendor {
                             $contractForm = ContractController.loadForm(contractInfo);
                             FwModule.openSubModuleTab($form, $contractForm);
                         }
-                        $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
-                        let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                        $receiveItemsGridControl.data('ondatabind', request => {
-                            request.uniqueids = {
-                                ContractId: contractId
-                                , PurchaseOrderId: ''
-                            }
-                        })
-                        FwBrowse.search($receiveItemsGridControl);
-                        FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
+                        this.resetForm($form);
                     }
                     catch (ex) {
                         FwFunc.showError(ex);
                     }
-                    FwFormField.setValueByDataField($form, 'Date', currentDate);
-                    FwFormField.setValueByDataField($form, 'Time', currentTime);
-                    $form.find('.createcontract[data-type="button"]').show();
-                    $form.find('.createcontract[data-type="btnmenu"]').hide();
                 }, null, $form);
             } else {
                 FwNotification.renderNotification('WARNING', 'Select a Purchase Order.');
@@ -271,45 +261,53 @@ class ReceiveFromVendor {
             e.stopPropagation();
             let request: any = {};
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
-            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereceivecontract/${contractId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                let contractInfo: any = {}, $contractForm, $assignBarCodesForm;
+            FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereceivecontract/${contractId}`, request, FwServices.defaultTimeout,
+                response => {
+                    let contractInfo: any = {}, $contractForm, $assignBarCodesForm;
 
-                contractInfo.ContractNumber = response[0].ContractNumber;
-                contractInfo.PurchaseOrderNumber = response[0].PurchaseOrderNumber;
-                contractInfo.PurchaseOrderId = response[0].PurchaseOrderId;
-                $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', contractInfo);
-                FwModule.openSubModuleTab($form, $assignBarCodesForm);
-                jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
+                    contractInfo.ContractNumber = response[0].ContractNumber;
+                    contractInfo.PurchaseOrderNumber = response[0].PurchaseOrderNumber;
+                    contractInfo.PurchaseOrderId = response[0].PurchaseOrderId;
+                    $assignBarCodesForm = AssignBarCodesController.openForm('EDIT', contractInfo);
+                    FwModule.openSubModuleTab($form, $assignBarCodesForm);
+                    jQuery('.tab.submodule.active').find('.caption').html('Assign Bar Codes');
 
-                contractInfo.ContractId = response[0].ContractId;
-                $contractForm = ContractController.loadForm(contractInfo);
-                FwModule.openSubModuleTab($form, $contractForm);
+                    contractInfo.ContractId = response[0].ContractId;
+                    $contractForm = ContractController.loadForm(contractInfo);
+                    FwModule.openSubModuleTab($form, $contractForm);
 
-                $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
-                let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                $receiveItemsGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        ContractId: contractId
-                        , PurchaseOrderId: ''
-                    }
-                })
-                FwBrowse.search($receiveItemsGridControl);
-                FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
-
-                let date = new Date(),
-                    currentDate = date.toLocaleString(),
-                    currentTime = date.toLocaleTimeString();
-                FwFormField.setValueByDataField($form, 'Date', currentDate);
-                FwFormField.setValueByDataField($form, 'Time', currentTime);
-                $form.find('.createcontract[data-type="button"]').show();
-                $form.find('.createcontract[data-type="btnmenu"]').hide();
-            }, null, $form);
+                    this.resetForm($form);
+                }, null, $form);
         });
 
         let menuOptions = [];
         menuOptions.push($createContract, $createContractAndAssignBarCodes);
 
         FwMenu.addButtonMenuOptions($buttonmenu, menuOptions);
+    }
+    //----------------------------------------------------------------------------------------------
+    resetForm($form) {
+        $form.find('.fwformfield').not('[data-type="date"], [data-type="time"]').find('input').val('');
+        let $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+        $receiveItemsGridControl.data('ondatabind', function (request) {
+            request.uniqueids = {
+                ContractId: ''
+                , PurchaseOrderId: ''
+            }
+        })
+        FwBrowse.search($receiveItemsGridControl);
+        FwFormField.enable($form.find('[data-datafield="PurchaseOrderId"]'));
+        let date = new Date(),
+            currentDate = date.toLocaleString(),
+            currentTime = date.toLocaleTimeString();
+        FwFormField.setValueByDataField($form, 'Date', currentDate);
+        FwFormField.setValueByDataField($form, 'Time', currentTime);
+        $form.find('.createcontract[data-type="button"]').show();
+        $form.find('.createcontract[data-type="btnmenu"]').hide();
+        const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
+        $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -362,8 +360,26 @@ class ReceiveFromVendor {
         </div>
         `;
     }
-    //----------------------------------------------------------------------------------------------
-
 }
-
+//----------------------------------------------------------------------------------------------
+//Cancel
+FwApplicationTree.clickEvents[Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
+    const $form = jQuery(this).closest('.fwform');
+    const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+    try {
+        const request: any = {};
+        request.ContractId = contractId;
+        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+            response => {
+                ReceiveFromVendorController.resetForm($form);
+                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+            },
+            ex => FwFunc.showError(ex),
+            null, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
 var ReceiveFromVendorController = new ReceiveFromVendor();

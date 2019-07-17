@@ -210,7 +210,12 @@
                     }
                 }
             },
-            StagingCheckout: { id: 'C3B5EEC9-3654-4660-AD28-20DE8FF9044D', caption: 'Staging / Check-Out', nav: 'module/checkout' },
+            StagingCheckout: { id: 'C3B5EEC9-3654-4660-AD28-20DE8FF9044D', caption: 'Staging / Check-Out', nav: 'module/checkout',
+                form: {
+                    menuItems: {
+                        Cancel: { id: '{6E95996C-E104-4BBA-BE13-5FD73E4AAD04}' }
+                    }
+                }},
             SubWorksheet: { id: '2227B6C3-587D-48B1-98B6-B9125E0E4D9D', caption: 'Sub Worksheet', nav: 'module/subworksheet' },
             SuspendedSession: { id: '5FBE7FF8-3770-48C5-855C-4320C961D95A', caption: 'Suspended Session', nav: 'module/suspendedsession' },
             TransferIn: { id: 'F089C9A9-554D-40BF-B1FA-015FEDE43591', caption: 'Transfer In', nav: 'module/transferin' },

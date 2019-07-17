@@ -175,20 +175,20 @@ class ReturnToVendor {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
             FwAppData.apiMethod(true, 'POST', `api/v1/purchaseorder/completereturncontract/${contractId}`, null, FwServices.defaultTimeout,
                 response => {
-                try {
-                    let contractInfo: any = {}, $contractForm;
-                    contractInfo.ContractId = contractId;
-                    $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
+                    try {
+                        let contractInfo: any = {}, $contractForm;
+                        contractInfo.ContractId = contractId;
+                        $contractForm = ContractController.loadForm(contractInfo);
+                        FwModule.openSubModuleTab($form, $contractForm);
 
-                    this.resetForm($form);
-                }
-                catch (ex) {
-                    FwFunc.showError(ex);
-                }
-                FwFormField.setValueByDataField($form, 'Date', currentDate);
-                FwFormField.setValueByDataField($form, 'Time', currentTime);
-            }, null, $form);
+                        this.resetForm($form);
+                    }
+                    catch (ex) {
+                        FwFunc.showError(ex);
+                    }
+                    FwFormField.setValueByDataField($form, 'Date', currentDate);
+                    FwFormField.setValueByDataField($form, 'Time', currentTime);
+                }, null, $form);
         });
         // Select None
         $form.find('.selectnone').on('click', e => {
@@ -271,6 +271,8 @@ class ReturnToVendor {
         errorMsg.html('');
         const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
         $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
+        $form.find('.suspendedsession').show();
     }
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
@@ -323,19 +325,15 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.ReturnToVendor.form.menuIte
     const $form = jQuery(this).closest('.fwform');
     const contractId = FwFormField.getValueByDataField($form, 'ContractId');
     try {
-        //if (contractId.length > 0) {
-            const request: any = {};
-            request.ContractId = contractId;
-            FwAppData.apiMethod(true, 'POST', `api/v1/checkin/cancelcontract`, request, FwServices.defaultTimeout,
-                response => {
-                    ReturnToVendorController.resetForm($form);
-                    FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
-                },
-                ex => FwFunc.showError(ex),
-                null, $form);
-        //} else {
-        //    FwNotification.renderNotification('ERROR', 'This option is not available until a ContractId is issued.');
-        //}
+        const request: any = {};
+        request.ContractId = contractId;
+        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+            response => {
+                ReturnToVendorController.resetForm($form);
+                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+            },
+            ex => FwFunc.showError(ex),
+            null, $form);
     }
     catch (ex) {
         FwFunc.showError(ex);

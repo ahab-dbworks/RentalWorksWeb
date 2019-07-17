@@ -2,8 +2,8 @@
     Module: string = 'Exchange';
     apiurl: string = 'api/v1/exchange';
     caption: string = Constants.Modules.Home.Exchange.caption;
-	nav: string = Constants.Modules.Home.Exchange.nav;
-	id: string = Constants.Modules.Home.Exchange.id;
+    nav: string = Constants.Modules.Home.Exchange.nav;
+    id: string = Constants.Modules.Home.Exchange.id;
     ContractId: string = '';
     ExchangeResponse: any = {};
     successSoundFileName: string;
@@ -46,6 +46,10 @@
         if (department.department === 'SALES') {
             $form.find('div[data-validationname="SalesInventoryValidation"]').show();
         }
+
+        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
         this.getSoundUrls($form);
         this.getSuspendedSessions($form);
         this.events($form);
@@ -106,6 +110,8 @@
 
         contractRequest['DepartmentId'] = department.departmentid;
 
+        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+
         // Deal Id
         $form.find('div[data-datafield="DealId"]').data('onchange', $tr => {
             contractRequest['OrderId'] = FwFormField.getValueByDataField($form, "OrderId");
@@ -115,6 +121,7 @@
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
                     if (this.ContractId === '') {
                         this.ContractId = response.ContractId
+                        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     }
 
                     let $exchangeItemGridControl: any;
@@ -143,6 +150,7 @@
                 FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
                     if (this.ContractId === '') {
                         this.ContractId = response.ContractId
+                        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     }
 
                     FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
@@ -217,6 +225,7 @@
                         if (response.success) {
                             if (this.ContractId === '') {
                                 this.ContractId = response.ContractId
+                                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                             }
                             $form.find('div.error-msg.check-in').html('');
                             $form.find('.in').removeClass('error');
@@ -255,18 +264,8 @@
                         let $contractForm = ContractController.loadForm({
                             ContractId: response.ContractId
                         });
-                        let fields = $form.find('.fwformfield');
                         FwModule.openSubModuleTab($form, $contractForm);
-                        for (let i = 0; i < fields.length; i++) {
-                            if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
-                                FwFormField.setValue2(jQuery(fields[i]), '', '');
-                            }
-                        }
-                        this.ContractId = '';
-                        this.ExchangeResponse = {};
-                        this.renderGrids($form);
-                        FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));
-                        FwFormField.enable(FwFormField.getDataField($form, 'DealId'));
+                        this.resetForm($form);
                     }, null, $form);
                 } catch (ex) {
                     FwFunc.showError(ex);
@@ -301,6 +300,24 @@
         }
     };
     //----------------------------------------------------------------------------------------------
+    resetForm($form) {
+        let fields = $form.find('.fwformfield');
+        for (let i = 0; i < fields.length; i++) {
+            if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
+                FwFormField.setValue2(jQuery(fields[i]), '', '');
+            }
+        }
+        this.ContractId = '';
+        const cancelMenuOptionId = Constants.Modules.Home.Exchange.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+        this.ExchangeResponse = {};
+        this.renderGrids($form);
+        FwFormField.enable(FwFormField.getDataField($form, 'OrderId'));
+        FwFormField.enable(FwFormField.getDataField($form, 'DealId'));
+
+        $form.find('.suspendedsession').show();
+    }
+        //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         let typeHTML;
         switch (this.Module) {
@@ -366,4 +383,25 @@
         </div>`;
     }
 };
+//----------------------------------------------------------------------------------------------
+//Cancel
+FwApplicationTree.clickEvents[Constants.Modules.Home.Exchange.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
+    const $form = jQuery(this).closest('.fwform');
+    const contractId = ExchangeController.ContractId;
+    try {
+        const request: any = {};
+        request.ContractId = contractId;
+        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+            response => {
+                ExchangeController.resetForm($form);
+                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+            },
+            ex => FwFunc.showError(ex),
+            null, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
 var ExchangeController = new Exchange();

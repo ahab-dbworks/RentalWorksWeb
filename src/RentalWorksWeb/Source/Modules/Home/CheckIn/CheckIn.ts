@@ -52,6 +52,10 @@ class CheckIn {
             jQuery($form.find(`[data-datafield="${this.Type}Id"]`)).trigger('change');
             $form.attr('data-showsuspendedsessions', 'false');
         }
+
+        const cancelMenuOptionId = Constants.Modules.Home.CheckIn.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
         this.getSoundUrls($form);
         this.events($form);
         this.getSuspendedSessions($form);
@@ -98,6 +102,10 @@ class CheckIn {
                     let $this = jQuery(e.currentTarget);
                     const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
                     const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
+                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    FwFormField.setValueByDataField($form, 'ContractId', contractId);
+                    const cancelMenuOptionId = Constants.Modules.Home.CheckIn.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     if (this.Module == 'CheckIn') {
                         let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
@@ -214,6 +222,7 @@ class CheckIn {
         const specificOrder = $form.find('[data-datafield="SpecificOrder"] input');
         const specificOrderValidation = $form.find('div[data-datafield="SpecificOrderId"]');
         const type = (this.Module === 'CheckIn' ? 'Order' : 'Transfer');
+        const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
 
         //Default Department
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
@@ -235,6 +244,8 @@ class CheckIn {
             if (this.Module === 'CheckIn') request.DealId = FwFormField.getValueByDataField($form, 'DealId');
             FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
+
+                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                 $form.find('[data-datafield="BarCode"] input').focus();
             }, null, null);
 
@@ -250,6 +261,7 @@ class CheckIn {
             }
             FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                 FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
+                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                 $form.find('[data-datafield="BarCode"] input').focus();
             }, null, null);
         });
@@ -284,15 +296,13 @@ class CheckIn {
         $form.find('.createcontract').on('click', e => {
             let contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId) {
-                FwAppData.apiMethod(true, 'POST', `api/v1/checkin/completecheckincontract/${contractId}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+                FwAppData.apiMethod(true, 'POST', `api/v1/checkin/completecheckincontract/${contractId}`, null, FwServices.defaultTimeout,
+                    response => {
                     let contractInfo: any = {}, $contractForm;
                     contractInfo.ContractId = response.ContractId;
                     $contractForm = ContractController.loadForm(contractInfo);
-                    FwModule.openSubModuleTab($form, $contractForm);
-                    $form.find('.fwformfield').not('[data-datafield="DepartmentId"]').find('input').val('');
-                    $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
-                    errorMsg.html('');
-                    FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+                        FwModule.openSubModuleTab($form, $contractForm);
+                        this.resetForm($form);
                 }, null, $form);
             } else {
                 e.stopPropagation();
@@ -508,6 +518,18 @@ class CheckIn {
         }, null, contractId ? null : $form);
     }
     //----------------------------------------------------------------------------------------------
+    resetForm($form) {
+        const errorMsg = $form.find('.error-msg:not(.qty)');
+        $form.find('.fwformfield').not('[data-datafield="DepartmentId"]').find('input').val('');
+        $form.find('div[data-name="CheckedInItemGrid"] tr.viewmode').empty();
+        errorMsg.html('');
+        FwFormField.enable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+        const cancelMenuOptionId = Constants.Modules.Home.CheckIn.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
+        $form.find('.suspendedsession').show();
+    }
+    //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         return `
         <div id="checkinform" class="fwcontrol fwcontainer fwform" data-control="FwContainer" data-type="form" data-version="1" data-caption="${this.caption}" data-rendermode="template" data-tablename="" data-mode="" data-hasaudit="false" data-controller="${this.Module}Controller">
@@ -627,7 +649,26 @@ class CheckIn {
         </div>
         `;
     }
-    //----------------------------------------------------------------------------------------------
-    //----------------------------------------------------------------------------------------------
-}
+};
+//----------------------------------------------------------------------------------------------
+//Cancel
+FwApplicationTree.clickEvents[Constants.Modules.Home.CheckIn.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
+    const $form = jQuery(this).closest('.fwform');
+    const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+    try {
+        const request: any = {};
+        request.ContractId = contractId;
+        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+            response => {
+                CheckInController.resetForm($form);
+                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+            },
+            ex => FwFunc.showError(ex),
+            null, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
 var CheckInController = new CheckIn();

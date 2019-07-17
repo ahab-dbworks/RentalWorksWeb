@@ -50,6 +50,9 @@
         const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
 
+        const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
         this.getSoundUrls();
         this.getOrder($form);
         if (typeof parentmoduleinfo !== 'undefined') {
@@ -200,6 +203,10 @@
                     const $this = jQuery(e.currentTarget);
                     const orderId = $this.find(`[data-browsedatafield="${this.Type}Id"]`).attr('data-originalvalue');
                     const orderNo = $this.find(`[data-browsedatafield="${this.Type}Number"]`).attr('data-originalvalue');
+                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    this.contractId = contractId;
+                    const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
                     FwFormField.setValueByDataField($form, `${this.Type}Id`, orderId, orderNo);
                     FwPopup.destroyPopup($popup);
                     $form.find(`[data-datafield="${this.Type}Id"] input`).change();
@@ -371,6 +378,10 @@
             FwAppData.apiMethod(true, 'POST', `api/v1/checkout/startcheckoutcontract`, requestBody, FwServices.defaultTimeout, response => {
                 try {
                     this.contractId = response.ContractId;
+
+                    const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
                     const $checkedOutItemGridControl = $form.find('[data-name="CheckedOutItemGrid"]');
                     $checkedOutItemGridControl.data('ContractId', this.contractId); // Stores ContractId on grid for dblclick in grid controller
                     $checkedOutItemGridControl.attr('data-tableheight', '735px');
@@ -458,7 +469,7 @@
                     Quantity: quantity ? quantity : quantityStaged,
                     VendorId: vendorId
                 }
-       
+
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkout/unstageitem`, request, FwServices.defaultTimeout, response => {
                     responseCount++;
                     if (responseCount === $selectedCheckBoxes.length) {
@@ -661,24 +672,7 @@
                     const $contractForm = ContractController.loadForm(contractInfo);
                     $form.find('.flexrow').css('max-width', '1200px');
                     FwModule.openSubModuleTab($form, $contractForm);
-                    $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
-                    const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
-                    FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                    $form.find('.partial-contract').hide();
-                    $form.find('.complete-checkout-contract').hide();
-                    $form.find('.abort-checkout-contract').hide();
-                    $form.find('[data-caption="Items"]').show();
-                    FwFormField.enable($form.find(`div[data-datafield="${this.Type}Id"]`));
-                    // Clear out all grids
-                    $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="CheckOutPendingItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
-                    $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
-                    $form.find(`div[data-datafield="${this.Type}Id"]`).focus();
-                    // Reveal buttons
-                    $form.find('.original-buttons').show();
-                    $form.find('.orderstatus').show();
-                    $form.find('.createcontract').show();
+                    this.resetForm($form);
                 }
                 catch (ex) {
                     FwFunc.showError(ex);
@@ -734,7 +728,7 @@
                         FwModule.openSubModuleTab($form, $contractForm);
                         $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
                         FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
-                        type === 'ContainerItem' ? FwFormField.enable($form.find(`div[data-datafield="BarCode"]`)) :FwFormField.enable($form.find(`div[data-datafield="${type}Id"]`));
+                        type === 'ContainerItem' ? FwFormField.enable($form.find(`div[data-datafield="BarCode"]`)) : FwFormField.enable($form.find(`div[data-datafield="${type}Id"]`));
                         $form.find('[data-datafield="Code"] input').select();
                         // Clear out all grids
                         $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
@@ -1185,6 +1179,33 @@
         $form.find('[data-datafield="Code"] input').select();
     }
     //----------------------------------------------------------------------------------------------
+    resetForm($form) {
+        $form.find('.clearable').find('input').val(''); // Clears all fields but gridview radio
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        $form.find('.partial-contract').hide();
+        $form.find('.complete-checkout-contract').hide();
+        $form.find('.abort-checkout-contract').hide();
+        $form.find('[data-caption="Items"]').show();
+        FwFormField.enable($form.find(`div[data-datafield="${this.Type}Id"]`));
+        // Clear out all grids
+        $form.find('div[data-name="StagedItemGrid"] tr.viewmode').empty();
+        $form.find('div[data-name="CheckOutPendingItemGrid"] tr.viewmode').empty();
+        $form.find('div[data-name="CheckedOutItemGrid"] tr.viewmode').empty();
+        $form.find('div[data-name="StageQuantityItemGrid"] tr.viewmode').empty();
+        $form.find(`div[data-datafield="${this.Type}Id"]`).focus();
+        // Reveal buttons
+        $form.find('.original-buttons').show();
+        $form.find('.orderstatus').show();
+        $form.find('.createcontract').show();
+
+        this.contractId = '';
+        const cancelMenuOptionId = Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'false');
+
+        $form.find('.suspendedsession').show();
+    }
+    //----------------------------------------------------------------------------------------------
     addLegend($form: any, $grid): void {
         FwBrowse.addLegend($grid, 'Complete', '#8888ff');
         FwBrowse.addLegend($grid, 'Kit', '#03d337');
@@ -1198,7 +1219,6 @@
         FwBrowse.addLegend($grid, 'Not Yet Staged or Still Out', '#ff0000');
         FwBrowse.addLegend($grid, 'Too Many Staged', '#00ff80');
     };
-
     //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         let tabCaption;
@@ -1410,6 +1430,26 @@
         </div>`;
     }
 }
+//----------------------------------------------------------------------------------------------
+//Cancel
+FwApplicationTree.clickEvents[Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
+    const $form = jQuery(this).closest('.fwform');
+    const contractId = StagingCheckoutController.contractId;
+    try {
+        const request: any = {};
+        request.ContractId = contractId;
+        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+            response => {
+                StagingCheckoutController.resetForm($form);
+                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+            },
+            ex => FwFunc.showError(ex),
+            null, $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Grids.StagedItemGrid.menuItems.UnstageItems.id] = function (event: JQuery.ClickEvent) {
     try {
