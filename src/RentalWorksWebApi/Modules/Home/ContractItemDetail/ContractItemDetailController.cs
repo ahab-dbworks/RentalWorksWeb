@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using System;
+using WebApi.Logic;
+using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Home.ContractItemDetail
 {
     [Route("api/v1/[controller]")]
@@ -28,6 +32,30 @@ namespace WebApi.Modules.Home.ContractItemDetail
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoExportExcelXlsxFileAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/contractitemdetail/voiditems
+        [HttpPost("voiditems")]
+        [FwControllerMethod(Id: "pbZeqJ3pd8r")]
+        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]VoidItemsRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TSpStatusResponse response = await ContractItemDetailFunc.VoidItems(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

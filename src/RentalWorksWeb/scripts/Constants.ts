@@ -296,6 +296,11 @@
         }
     },
     Grids: {
+        ContractDetailGrid: {
+            menuItems: {
+                VoidItems: { id: '{DD6F2FD1-B70F-4525-BCAA-322EF3DBC9C1}' }
+            }
+        },
         InventoryCompleteGrid: {
             menuItems: {
                 QuikSearch: { id: '{A3EEC381-6D45-485D-8E12-5DA6B38BB71A}'}
