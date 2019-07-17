@@ -2,28 +2,6 @@
 {{#ifEquals action "Print/PDF"}}
 {{#each this}}
 {{#ifEquals RowType "Dealheader"}}
-<style>
-  @media print {
-    html, body {
-      border: 1px solid white;
-      height: 99%;
-      page-break-after: avoid;
-      page-break-before: avoid;
-    }
-
-    .page-break:first-child {
-      page-break-before: avoid !important;
-    }
-
-    .page-break:first-of-type {
-      page-break-before: avoid !important;
-    }
-
-    .page-break:nth-of-type(0) {
-      page-break-before: avoid !important;
-    }
-  }
-</style>
 <div class="page-break"></div>
 <table>
   <thead>
@@ -54,39 +32,30 @@
               <tr>
                 <th class="sub text" style="text-align:left;">Issued To:</th>
                 <th class="sub text" style="text-align:left;"></th>
-                <th class="sub text" style="text-align:left;">Statement Period: {{../FromDate}} - {{../ToDate}}</th>
+                <th class="sub text" style="text-align:right;">Statement Period: {{../FromDate}} - {{../ToDate}}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td id="issuedTo" style="text-align:left;width:33.3%;">
                   <div>
-                    <span style="font-weight:600;">Issued To: </span><span class="blue">{{../OfficeLocationCompany}}</span>
+                    <span style="font-weight:600;">Issued To: </span><span class="blue">{{Deal}}</span>
                   </div>
-                  <div class="blue" style="padding-left:78px;">
-                    {{../OfficeLocationCompany}}
+                  <div class="blue" style="padding-left:68px;">
+                    {{BillToAttention}}
                   </div>
-                  <div class="blue" style="padding-left:78px;">
-                    {{../OfficeLocationCompany}}
+                  <div class="blue" style="padding-left:68px;">
+                    {{BillToAddress1}}
                   </div>
-                  <div class="blue" style="padding-left:78px;">
-                    {{../OfficeLocationCompany}}
+                  <div class="blue" style="padding-left:68px;">
+                    {{BilltoAddress2}}
                   </div>
-                  <div class="blue" style="padding-left:78px;">
-                    {{../OfficeLocationCompany}}
-                  </div>
-                  <div class="blue" style="padding-left:78px;">
-                    {{../OfficeLocationCompany}}, {{../OfficeLocationCompany}} {{../OfficeLocationCompany}} {{../OfficeLocationCompany}}
-                  </div>
-                  <div>
-                    <span style="font-weight:600;padding-right:23px;">Phone: </span><span class="blue">{{../OfficeLocationCompany}}</span>
-                  </div>
-                  <div>
-                    <span style="font-weight:600;padding-right:43px;">Fax: </span><span class="blue">{{../OfficeLocationCompany}}</span>
+                  <div class="blue" style="padding-left:68px;">
+                    {{BillToCity}}, {{BillToState}} {{BillToZipCode}} {{BillToCountry}}
                   </div>
                 </td>
                 <td id="outgoing" style="text-align:left;width:33.3%;"></td>
-                <td id="incoming" style="text-align:left;font-size:1.2em;width:33.3%">Total Balance: $555.83 [need field]</td>
+                <td id="incoming" style="text-align:left;font-size:1.2em;width:33.3%">Total Balance: {{DealTotal}}</td>
               </tr>
             </tbody>
           </table>
@@ -158,6 +127,8 @@
       <td class="total-val" data-value="{{Received}}"></td>
       <td class="total-val" data-value="{{Remaining}}"></td>
     </tr>
+    <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
+    <tr class="deal-total val"><td style="border:none;"></td><td>174.16{{placeholder}}</td><td>0.00{{placeholder}}</td><td>45.34{{placeholder}}</td><td>9.00{{placeholder}}</td><td>50.00{{placeholder}}</td></tr>
     {{/ifEquals}}
     {{#ifEquals RowType "InvoiceNumberfooter"}}
     <tr>
@@ -180,67 +151,17 @@
 </table>
 {{else}}
 <!--Non-Print Version-->
-<div class="rpt-flexrow" style="margin:5px 0px 0px 4px;">
-  <div class="rpt-flexcolumn" style="border-bottom: 2px solid #027cc5;padding-bottom:5px;">
-    {{#if Logosrc}}
-    <div style="height:130px;"><img class="clientlogo" src="{{Logosrc}}" style="display:block;width:auto;height:100%;" alt="logo" /></div>
-    {{else}}
-    <div></div>
-    {{/if}}
-    <span class="header-left" style="font-weight:600">{{OfficeLocationCompany}}</span>
-    <span class="header-left">{{OfficeLocationAddress1}}</span>
-    <span class="header-left">{{OfficeLocationAddress2}}</span>
-    <span class="header-left">{{OfficeLocationCity}}, {{OfficeLocationState}} {{OfficeLocationZipCode}} {{OfficeLocationCountry}}</span>
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
   </div>
   <div class="rpt-flexcolumn">
     <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
   </div>
   <div class="rpt-flexcolumn">
-    <span style="font-size:18px;" class="rpt-header-right"><span style="font-weight:600;">Date: </span><span style="color:black;">{{Today}}</span></span>
+    <span class="rpt-header-right">{{Company}}</span>
   </div>
-</div>
-<div class="rpt-flexrow" style="margin-top:25px;">
-  <table>
-    <thead>
-      <tr>
-        <th class="sub text" style="text-align:left;">Issued To</th>
-        <th class="sub text" style="text-align:left;"></th>
-        <th class="sub text" style="text-align:left;">Statement Period: {{FromDate}} - {{ToDate}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td id="issuedTo" style="text-align:left;width:33.3%;">
-          <div>
-            <span style="font-weight:600;">Issued To: </span><span class="blue">{{IssuedToCompany}}</span>
-          </div>
-          <div class="blue" style="padding-left:78px;">
-            {{IssuedToAttention1}}
-          </div>
-          <div class="blue" style="padding-left:78px;">
-            {{IssuedToAttention2}}
-          </div>
-          <div class="blue" style="padding-left:78px;">
-            {{IssuedToAddress1}}
-          </div>
-          <div class="blue" style="padding-left:78px;">
-            {{IssuedToAddress2}}
-          </div>
-          <div class="blue" style="padding-left:78px;">
-            {{IssuedToCity}}, {{IssuedToState}} {{IssuedToZipCode}} {{IssuedToCountry}}
-          </div>
-          <div>
-            <span style="font-weight:600;padding-right:23px;">Phone: </span><span class="blue">{{IssuedToPhone}}</span>
-          </div>
-          <div>
-            <span style="font-weight:600;padding-right:43px;">Fax: </span><span class="blue">{{IssuedToFax}}</span>
-          </div>
-        </td>
-        <td id="outgoing" style="text-align:left;width:33.3%;"></td>
-        <td id="incoming" style="text-align:left;width:33.3%"></td>
-      </tr>
-    </tbody>
-  </table>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
   <table>
@@ -310,6 +231,8 @@
         <td class="total-val" data-value="{{Received}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
       </tr>
+      <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
+      <tr class="deal-total val"><td style="border:none;"></td><td>174.16{{placeholder}}</td><td>0.00{{placeholder}}</td><td>45.34{{placeholder}}</td><td>9.00{{placeholder}}</td><td>50.00{{placeholder}}</td></tr>
       {{/ifEquals}}
       {{#ifEquals RowType "InvoiceNumberfooter"}}
       <tr>
@@ -331,5 +254,4 @@
     {{/each}}
   </table>
 </div>
-
 {{/ifEquals}}

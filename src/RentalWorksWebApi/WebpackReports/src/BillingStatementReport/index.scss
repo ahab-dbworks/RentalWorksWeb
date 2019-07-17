@@ -45,17 +45,17 @@ table {
 .page-break {
     page-break-before: always !important;
 }
-.page-break:first-child {
-    page-break-before:auto;
-}
 .sub {
     border-top: 2px solid #027cc5;
     border-bottom: 2px solid #027cc5;
     background-color: #DCDCDC;
 }
-
-@media print {
-    html, body {
-        height: 99%;
+.deal-total {
+    text-align:center;
+    td {
+        border: .2em solid black;
+    }
+    .header td {
+        font-weight:600;
     }
 }

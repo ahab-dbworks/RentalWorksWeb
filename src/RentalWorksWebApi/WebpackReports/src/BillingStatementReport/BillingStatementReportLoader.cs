@@ -165,7 +165,8 @@ namespace WebApi.Modules.Reports.BillingStatementReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "Due", "Received", "Remaining" };
-                dt.InsertSubTotalRows("Deal", "RowType", totalFields);
+                string[] headerFieldsDeal = new string[] { "BillToAttention", "BillToAddress1", "BilltoAddress2", "BillToCity", "BillToState", "BillToZipCode", "BillToCountry", "Deal", "DealTotal" };
+                dt.InsertSubTotalRows("Deal", "RowType", totalFields, headerFieldsDeal, totalFor: "Total for Deal");
                 dt.InsertSubTotalRows("InvoiceNumber", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }

@@ -27,6 +27,7 @@ export class BillingStatementReport extends WebpackReport {
                             data.Report = 'Billing Statement Report';
                             data.System = 'RENTALWORKS';
                             data.Today = moment().format('MM/DD/YYYY')
+                            data.Company = parameters.companyName;
                             data.action = parameters.action;
                             if (controlObject.ReportLogoImage != '') {
                                 data.Logosrc = controlObject.ReportLogoImage;
