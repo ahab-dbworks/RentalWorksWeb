@@ -92,14 +92,14 @@
                 },
                 form: {
                     menuItems: {
-                        //AddLossAndDamage: { id: '{427FCDFE-7E42-4081-A388-150D3D7FAE36}' },
-                        //RetireLossAndDamage: { id: '{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}' },
+                        AddLossAndDamage: { id: '{427FCDFE-7E42-4081-A388-150D3D7FAE36}' },
+                        RetireLossAndDamage: { id: '{78ED6DE2-D2A2-4D0D-B4A6-16F1C928C412}' },
                         Search: { id: '{B2D127C6-A1C2-4697-8F3B-9A678F3EAEEE}' },
                         CopyOrder: { id: '{E25CB084-7E7F-4336-9512-36B7271AC151}' },
                         PrintOrder: { id: '{F2FD2F4C-1AB7-4627-9DD5-1C8DB96C5509}' },
                         CreatePickList: { id: '{91C9FD3E-ADEE-49CE-BB2D-F00101DFD93F}' },
                         CreateSnapshot: { id: '{AB1D12DC-40F6-4DF2-B405-54A0C73149EA}' },
-                        //CancelSnapshot: { id: '{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}' },
+                        CancelSnapshot: { id: '{C6CC3D94-24CE-41C1-9B4F-B4F94A50CB48}' },
                         ViewSnapshot: { id: '{03000DCC-3D58-48EA-8BDF-A6D6B30668F5}' },
                         CancelUncancel: { id: '{6B644862-9030-4D42-A29B-30C8DAC29D3E}' },
                         OnHold: { id: '{00AB18C2-221A-46F9-86DC-A7145D13A0D8}' },

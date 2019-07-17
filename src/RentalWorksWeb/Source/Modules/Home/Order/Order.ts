@@ -1860,39 +1860,38 @@ class Order extends OrderBase {
     //----------------------------------------------------------------------------------------------
 };
 //---------------------------------------------------------------------------------
-// mv 4-29-19 commented out this method, because it's not registered in the security tree
-//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.AddLossAndDamage.id] = function (event: JQuery.ClickEvent) {
-//    try {    
-//        let $form = jQuery(this).closest('.fwform');
-//        if ($form.attr('data-mode') !== 'NEW') {
-//            OrderController.addLossDamage($form, event);
-//        } else {
-//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-//        }
-//    }
-//    catch (ex) {
-//        FwFunc.showError(ex);
-//    }
-//};
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.AddLossAndDamage.id] = function (event: JQuery.ClickEvent) {
+    try {    
+        const $form = jQuery(this).closest('.fwform');
+        if ($form.attr('data-mode') !== 'NEW') {
+            OrderController.addLossDamage($form, event);
+        } else {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 ////---------------------------------------------------------------------------------
-// mv 4-29-19 commented out this method, because it's not registered in the security tree
-//FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.RetireLossAndDamage.id] = function (event: JQuery.ClickEvent) {
-//    try {
-//        if ($form.attr('data-mode') !== 'NEW') {
-//            let $form = jQuery(this).closest('.fwform');
-//            OrderController.retireLossDamage($form);
-//        } else {
-//            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
-//        }
-//    }
-//    catch (ex) {
-//        FwFunc.showError(ex);
-//    }
-//};
+FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.RetireLossAndDamage.id] = function (event: JQuery.ClickEvent) {
+    try {
+        const $form = jQuery(this).closest('.fwform');
+        if ($form.attr('data-mode') !== 'NEW') {
+            let $form = jQuery(this).closest('.fwform');
+            OrderController.retireLossDamage($form);
+        } else {
+            FwNotification.renderNotification('WARNING', 'Save the record before performing this function');
+        }
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
 //---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreateSnapshot.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         OrderController.createSnapshotOrder($form, event);
     }
     catch (ex) {
@@ -1909,7 +1908,6 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.ViewSn
         FwFunc.showError(ex);
     }
 };
-
 //---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CreatePickList.id] = function (event: JQuery.ClickEvent) {
     try {
@@ -1928,15 +1926,12 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Create
         FwFunc.showError(ex);
     }
 };
-
 //----------------------------------------------------------------------------------------------
-// mv 4-29-19 commented out this method, because it's not registered in the security tree
 //Confirmation for cancelling Pick List
 //FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CancelPicklist.id] = function (event: JQuery.ClickEvent) {
-//    var $form, pickListId, pickListNumber;
-//    $form = jQuery(this).closest('.fwform');
-//    pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
-//    pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
+//    const $form = jQuery(this).closest('.fwform');
+//    const pickListId = $form.find('tr.selected > td.column > [data-formdatafield="PickListId"]').attr('data-originalvalue');
+//    const pickListNumber = $form.find('tr.selected > td.column > [data-formdatafield="PickListNumber"]').attr('data-originalvalue');
 //    try {
 //        OrderController.cancelPickList(pickListId, pickListNumber, $form);
 //    }
@@ -1944,11 +1939,10 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.Create
 //        FwFunc.showError(ex);
 //    }
 //};
-
 //----------------------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Modules.Home.Order.form.menuItems.CopyOrder.id] = function (event: JQuery.ClickEvent) {
     try {
-        let $form = jQuery(this).closest('.fwform');
+        const $form = jQuery(this).closest('.fwform');
         OrderController.copyOrderOrQuote($form);
     }
     catch (ex) {
