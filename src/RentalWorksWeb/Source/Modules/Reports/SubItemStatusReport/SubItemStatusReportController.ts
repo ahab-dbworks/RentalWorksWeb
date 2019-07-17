@@ -141,10 +141,10 @@ class SubItemStatusReport extends FwWebApiReport {
             { value: "CLOSED", text: "Closed", selected: "T" },
         ]);
         FwFormField.loadItems($form.find('div[data-datafield="RecType"]'), [
-            { value: "RENTAL", text: "Rental", selected: "T" },
-            { value: "SALES", text: "Sales", selected: "T" },
-            { value: "MISCELLANEOUS", text: "Miscellaneous", selected: "T" },
-            { value: "LABOR", text: "LAbor", selected: "T" },
+            { value: "R", text: "Rental", selected: "T" },
+            { value: "S", text: "Sales", selected: "T" },
+            { value: "M", text: "Miscellaneous", selected: "T" },
+            { value: "L", text: "LAbor", selected: "T" },
         ]);
     }
     //----------------------------------------------------------------------------------------------
