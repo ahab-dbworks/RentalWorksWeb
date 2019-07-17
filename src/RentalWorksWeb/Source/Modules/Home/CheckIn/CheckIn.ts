@@ -481,6 +481,9 @@ class CheckIn {
                 FwFormField.setValueByDataField($form, 'QuantityOut', response.InventoryStatus.QuantityOut);
                 FwFormField.setValueByDataField($form, 'QuantityIn', response.InventoryStatus.QuantityIn);
                 FwFormField.setValueByDataField($form, 'QuantityRemaining', response.InventoryStatus.QuantityRemaining);
+                const cancelMenuOptionId = Constants.Modules.Home.CheckIn.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
                 if (this.Module == 'CheckIn') FwFormField.setValueByDataField($form, 'DealId', response.DealId, response.Deal);
                 if (type !== 'SwapItem') {
                     FwFormField.setValueByDataField($form, `${idType}Id`, response[`${idType}Id`], response[`${idType}Number`]);
