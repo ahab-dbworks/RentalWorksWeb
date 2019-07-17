@@ -11,7 +11,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
         {
             // Form
             var nodeForm = tree.AddForm("{9F502B62-FDFE-4724-B5C9-672EB5917C7A}", MODULEID);
-                var nodeFormMenuBar = tree.AddMenuBar("{FCB95E31-AC5F-4FF4-80B1-8041D0EC50A2}", nodeForm.Id);
+            var nodeFormMenuBar = tree.AddMenuBar("{FCB95E31-AC5F-4FF4-80B1-8041D0EC50A2}", nodeForm.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

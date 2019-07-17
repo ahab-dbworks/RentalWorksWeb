@@ -18,7 +18,6 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             tree.AddEditMenuBarButton("{91741041-B6F5-4F89-9194-A2DCF3F33024}", nodeBrowseMenuBar.Id);
             //tree.AddDeleteMenuBarButton("{4A06B99F-D732-4D16-985E-0AD8A96B19A3}", nodeBrowseMenuBar.Id);
 
-
             // Form
             var nodeForm = tree.AddForm("{D29B092C-07A3-40A5-BBB9-2E7438EBEBF2}", MODULEID);
             var nodeFormMenuBar = tree.AddMenuBar("{A6C84689-BA38-4D6B-A381-41CA80487995}", nodeForm.Id);
