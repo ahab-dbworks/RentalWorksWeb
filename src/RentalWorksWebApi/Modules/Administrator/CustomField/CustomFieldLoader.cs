@@ -31,9 +31,6 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwSqlDataField(column: "controltype", modeltype: FwDataTypes.Text)]
         public string ControlType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "fieldsizepx", modeltype: FwDataTypes.Integer)]
-        public int? FieldSizeInPixels { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "stringlength", modeltype: FwDataTypes.Integer)]
         public int? StringLength { get; set; }
         //------------------------------------------------------------------------------------ 

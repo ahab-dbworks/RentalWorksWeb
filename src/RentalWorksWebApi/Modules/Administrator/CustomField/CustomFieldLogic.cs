@@ -38,9 +38,6 @@ namespace WebApi.Modules.Administrator.CustomField
         [FwLogicProperty(Id:"9Ck7RMxoEB72", IsReadOnly:true)]
         public string ControlType { get; set; }
 
-        [FwLogicProperty(Id:"TIQGLpvUxtSCR")]
-        public int? FieldSizeInPixels { get { return customField.FieldSizeInPixels; } set { customField.FieldSizeInPixels = value; } }
-
         [FwLogicProperty(Id:"F85n6HZmv1evj")]
         public int? StringLength { get { return customField.StringLength; } set { customField.StringLength = value; } }
 
