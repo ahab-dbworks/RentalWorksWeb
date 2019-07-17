@@ -15,11 +15,10 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeBrowseSubMenu = tree.AddSubMenu("{C4D0C672-62BA-46B4-8014-4C618AC9D951}", nodeBrowseMenuBar.Id);
             var nodeBrowseExport = tree.AddSubMenuGroup("Export", "{292293B1-5751-4033-8900-AE4A29EBCCDC}", nodeBrowseSubMenu.Id);
             tree.AddDownloadExcelSubMenuItem("{AD52F53D-9048-47BE-A2CE-EE1FD2952EBD}", nodeBrowseExport.Id);
-            //tree.AddNewMenuBarButton("{26712287-9C2F-4F18-964A-D211DA9A88FC}", nodeBrowseMenuBar.Id);
+            tree.AddNewMenuBarButton("{998B0D67-EBD4-4F7C-BD23-B1A8C1BCCF3E}", nodeBrowseMenuBar.Id);
             tree.AddViewMenuBarButton("{73078E69-17D8-4839-80FD-2E532EB673E9}", nodeBrowseMenuBar.Id);
             tree.AddEditMenuBarButton("{8F288862-D8CE-42B0-B3A2-47DBA4094081}", nodeBrowseMenuBar.Id);
-            //tree.AddDeleteMenuBarButton("{E7FE3906-CAE9-422B-812E-D64D42D273CB}", nodeBrowseMenuBar.Id);
-
+            tree.AddDeleteMenuBarButton("{C60CE0BB-7A1B-40B2-8126-D16395200C75}", nodeBrowseMenuBar.Id);
 
             // Form
             var nodeForm = tree.AddForm("{5466A966-B30A-464C-8E89-AFFB9A6199B5}", MODULEID);
