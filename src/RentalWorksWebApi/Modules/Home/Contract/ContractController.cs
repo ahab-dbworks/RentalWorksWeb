@@ -6,8 +6,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApi.Controllers;
 using System.Threading.Tasks;
+using WebApi.Logic;
+using System;
+using Microsoft.AspNetCore.Http;
+
 namespace WebApi.Modules.Home.Contract
 {
+    public class CancelContractRequest
+    {
+        public string ContractId;
+    }
+
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"Z8MlDQp7xOqu")]
@@ -64,6 +73,30 @@ namespace WebApi.Modules.Home.Contract
         public async Task<ActionResult<bool>> DeleteAsync([FromRoute]string id)
         {
             return await DoDeleteAsync<ContractLogic>(id);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/contract/cancelcontract 
+        [HttpPost("cancelcontract")]
+        [FwControllerMethod(Id: "S8ybdjuN7MU")]
+        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]CancelContractRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                TSpStatusResponse response = await ContractFunc.CancelContract(AppConfig, UserSession, request);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                FwApiException jsonException = new FwApiException();
+                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
+                jsonException.Message = ex.Message;
+                jsonException.StackTrace = ex.StackTrace;
+                return StatusCode(jsonException.StatusCode, jsonException);
+            }
         }
         //------------------------------------------------------------------------------------ 
     }

@@ -38,11 +38,6 @@ namespace WebApi.Modules.Home.CheckIn
         public bool? SwapItem;
     }
 
-    public class CancelContractRequest
-    {
-        public string ContractId;
-    }
-
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "home-v1")]
     [FwController(Id:"krnJWTUs4n5U")]
@@ -203,31 +198,5 @@ namespace WebApi.Modules.Home.CheckIn
                 return StatusCode(jsonException.StatusCode, jsonException);
             }
         }
-        //------------------------------------------------------------------------------------ 
-
-        // POST api/v1/checkin/cancelcontract 
-        [HttpPost("cancelcontract")]
-        [FwControllerMethod(Id: "S8ybdjuN7MU")]
-        public async Task<ActionResult<TSpStatusResponse>> CancelContract([FromBody]CancelContractRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                TSpStatusResponse response = await CheckInFunc.CancelContract(AppConfig, UserSession, request);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                FwApiException jsonException = new FwApiException();
-                jsonException.StatusCode = StatusCodes.Status500InternalServerError;
-                jsonException.Message = ex.Message;
-                jsonException.StackTrace = ex.StackTrace;
-                return StatusCode(jsonException.StatusCode, jsonException);
-            }
-        }
-        //------------------------------------------------------------------------------------ 
     }
 }
