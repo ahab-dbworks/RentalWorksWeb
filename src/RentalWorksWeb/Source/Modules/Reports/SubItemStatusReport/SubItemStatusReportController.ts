@@ -5,7 +5,7 @@
 });
 
 const subItemStatusTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Invoice Summary" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SubItemStatusReportController">
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="SubItemStatusReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -81,7 +81,7 @@ const subItemStatusTemplate = `
 class SubItemStatusReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('SubItemStatusReportController', 'api/v1/subitemstatusreport', subItemStatusTemplate);
+        super('SubItemStatusReport', 'api/v1/subitemstatusreport', subItemStatusTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
