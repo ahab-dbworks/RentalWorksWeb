@@ -8,24 +8,25 @@ import './index.scss';
 const hbReport = require("./hbReport.hbs");
 const hbFooter = require("./hbFooter.hbs");
 
-export class QuoteOrderMasterReport extends WebpackReport {
+export class OrdersByDealReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();
 
-            Ajax.post<DataTable>(`${apiUrl}/api/v1/quoteordermasterreport/runreport`, authorizationHeader, parameters)
+            Ajax.post<DataTable>(`${apiUrl}/api/v1/ordersbydealreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
                     const data: any = DataTable.toObjectList(response);
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
                     data.FilterDates = parameters.FilterDates;
-                    data.Report = 'Quote / Order Master Report';
+                    data.Report = 'Orders By Deal Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     this.renderFooterHtml(data);
+                    console.log('rpt', data)
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;
                     }
@@ -47,4 +48,4 @@ export class QuoteOrderMasterReport extends WebpackReport {
     }
 }
 
-(<any>window).report = new QuoteOrderMasterReport();
+(<any>window).report = new OrdersByDealReport();
