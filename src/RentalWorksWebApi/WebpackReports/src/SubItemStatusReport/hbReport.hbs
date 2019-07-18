@@ -30,7 +30,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "OrderNumberheader"}}
     <thead>
-      <tr data-rowtype={{RowType}}>
+      <tr style="padding-top:15px;" data-rowtype={{RowType}}>
         <th colspan="2" class="lower no-border">Order: {{OrderNumberAndDescription}}</th>
         <th colspan="9" class="line-header">Deal: <span>{{Deal}}</span></th>
         <th colspan="3" class="line-header">Order Date: <span>{{OrderDate}}</span></th>
@@ -40,7 +40,7 @@
     {{/ifEquals}}
     {{#ifEquals RowType "PurchaseOrderNumberheader"}}
     <thead>
-      <tr data-rowtype={{RowType}}>
+      <tr style="padding-top:15px;" data-rowtype={{RowType}}>
         <th colspan="2" class="lower no-border header-row">PO: {{PurchaseOrderNumberAndDescription}}</th>
         <th colspan="5" class="line-header">Vendor: <span>{{Vendor}}</span></th>
         <th colspan="4" class="line-header">Class: <span>{{PurchaseOrderClassification}}</span></th>

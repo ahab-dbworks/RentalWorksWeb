@@ -524,6 +524,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\StagingCheckout\StagingCheckout.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\ChangeAuditReport\ChangeAuditReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\OrdersByDealReport\OrdersByDealReportController.ts" />
+    <TypeScriptCompile Include="Source\Modules\Reports\DealInvoiceDetailReport\DealInvoiceDetailReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SalesTaxCanadaReport\SalesTaxCanadaReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\SubItemStatusReport\SubItemStatusReportController.ts" />
     <TypeScriptCompile Include="Source\Modules\Reports\QuoteOrderMasterReport\QuoteOrderMasterReportController.ts" />
