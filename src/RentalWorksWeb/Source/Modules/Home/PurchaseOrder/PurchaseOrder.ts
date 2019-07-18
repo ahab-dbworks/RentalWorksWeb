@@ -156,8 +156,24 @@ class PurchaseOrder {
         const $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PurchaseOrderId"] input').val(uniqueids.PurchaseOrderId);
         FwModule.loadForm(this.Module, $form);
-        $form.find('.vendorinvoice').append(this.openVendorInvoiceBrowse($form));
+
+        const $vendorInvoiceBrowse = this.openVendorInvoiceBrowse($form);
+        $form.find('.vendorinvoice').append($vendorInvoiceBrowse);
         $form.find('.contractSubModule').append(this.openContractBrowse($form));
+
+        //replace default click event on "New" button in Vendor Invoice sub-module to default PO
+        $vendorInvoiceBrowse.find('[data-type="NewMenuBarButton"]')
+            .off('click')
+            .on('click', createNewVendorInvoice);
+
+        function createNewVendorInvoice() {
+            const $vendorInvoiceForm = VendorInvoiceController.openForm('NEW');
+            const poNumber = FwFormField.getValueByDataField($form, 'PurchaseOrderNumber');
+            const poId = FwFormField.getValueByDataField($form, 'PurchaseOrderId');
+            FwFormField.setValueByDataField($vendorInvoiceForm, 'PurchaseOrderId', poId ,poNumber, true);
+            FwModule.openSubModuleTab($vendorInvoiceBrowse, $vendorInvoiceForm);
+        }
+
         return $form;
     };
     //----------------------------------------------------------------------------------------------
