@@ -1,14 +1,14 @@
 using WebLibrary;
 using WebApi.Modules.Reports.SalesTaxReport;
 
-namespace WebApi.Modules.Reports.SalesTaxUSAReport
+namespace WebApi.Modules.Reports.SalesTaxCanadaReport
 {
-    public class SalesTaxUSAReportLoader : SalesTaxReportLoader
+    public class SalesTaxCanadaReportLoader : SalesTaxReportLoader
     {
         //------------------------------------------------------------------------------------ 
-        public SalesTaxUSAReportLoader()
+        public SalesTaxCanadaReportLoader()
         {
-            TaxCountryFilter = RwConstants.TAX_COUNTRY_USA;
+            TaxCountryFilter = RwConstants.TAX_COUNTRY_CANADA;
         }
         //------------------------------------------------------------------------------------ 
     }

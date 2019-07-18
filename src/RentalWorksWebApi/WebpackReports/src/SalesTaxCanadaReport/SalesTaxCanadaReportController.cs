@@ -13,17 +13,17 @@ using FwStandard.AppManager;
 using static FwCore.Controllers.FwDataController;
 using WebApi.Modules.Reports.SalesTaxReport;
 
-namespace WebApi.Modules.Reports.SalesTaxUSAReport
+namespace WebApi.Modules.Reports.SalesTaxCanadaReport
 {
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "reports-v1")]
     [FwController(Id: "TaaSgS14rWsCL")]
-    public class SalesTaxUSAReportController : AppReportController
+    public class SalesTaxCanadaReportController : AppReportController
     {
-        public SalesTaxUSAReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
-        protected override string GetReportFileName() { return "SalesTaxUSAReport"; }
+        public SalesTaxCanadaReportController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        protected override string GetReportFileName() { return "SalesTaxCanadaReport"; }
         //------------------------------------------------------------------------------------ 
-        protected override string GetReportFriendlyName() { return "Sales Tax USA Report"; }
+        protected override string GetReportFriendlyName() { return "Sales Tax Canada Report"; }
         //------------------------------------------------------------------------------------ 
         protected override PdfOptions GetPdfOptions()
         {
@@ -36,10 +36,10 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
         protected override string GetUniqueId(FwReportRenderRequest request)
         {
             //return request.parameters["xxxxid"].ToString().TrimEnd(); 
-            return "SalesTaxUSAReport";
+            return "SalesTaxCanadaReport";
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salestaxusareport/render 
+        // POST api/v1/salestaxcanadareport/render 
         [HttpPost("render")]
         [FwControllerMethod(Id: "qbROZ9zAw6wW3")]
         public async Task<ActionResult<FwReportRenderResponse>> Render([FromBody]FwReportRenderRequest request)
@@ -49,7 +49,7 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
             return new OkObjectResult(response);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salestaxusareport/exportexcelxlsx/filedownloadname 
+        // POST api/v1/salestaxcanadareport/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id: "FIX9utWXrEhYH")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]SalesTaxReportRequest request)
@@ -59,7 +59,7 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
             return await DoExportExcelXlsxFileAsync(dt, includeIdColumns: request.IncludeIdColumns);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/salestaxusareport/runreport 
+        // POST api/v1/salestaxcanadareport/runreport 
         [HttpPost("runreport")]
         [FwControllerMethod(Id: "skTAGny594jG2")]
         public async Task<ActionResult<FwJsonDataTable>> RunReportAsync([FromBody]SalesTaxReportRequest request)
@@ -70,7 +70,7 @@ namespace WebApi.Modules.Reports.SalesTaxUSAReport
             }
             try
             {
-                SalesTaxUSAReportLoader l = new SalesTaxUSAReportLoader();
+                SalesTaxCanadaReportLoader l = new SalesTaxCanadaReportLoader();
                 l.SetDependencies(this.AppConfig, this.UserSession);
                 FwJsonDataTable dt = await l.RunReportAsync(request);
                 return new OkObjectResult(dt);

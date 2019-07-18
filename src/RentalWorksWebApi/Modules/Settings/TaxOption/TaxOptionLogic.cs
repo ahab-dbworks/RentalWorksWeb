@@ -2,6 +2,9 @@ using FwStandard.AppManager;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Logic;
 using System.Threading.Tasks;
+using FwStandard.BusinessLogic;
+using System.Reflection;
+using WebLibrary;
 
 namespace WebApi.Modules.Settings.TaxOption
 {
@@ -118,7 +121,18 @@ namespace WebApi.Modules.Settings.TaxOption
         public string DateStamp { get { return taxOption.DateStamp; } set { taxOption.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------
-
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            bool isValid = true;
+            if (isValid)
+            {
+                PropertyInfo property = typeof(TaxOptionLogic).GetProperty(nameof(TaxOptionLogic.TaxCountry));
+                string[] acceptableValues = { RwConstants.TAX_COUNTRY_USA, RwConstants.TAX_COUNTRY_CANADA };
+                isValid = IsValidStringValue(property, acceptableValues, ref validateMsg);
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------
         public bool ForceRates()
         {
             bool success = taxOption.ForceRatesAsync().Result;

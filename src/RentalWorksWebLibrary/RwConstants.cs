@@ -456,6 +456,11 @@
         public const string DEAL_STATUS_TYPE_INACTIVE = "I";
 
 
+        //TAX OPTION
+        public const string TAX_COUNTRY_USA = "U";
+        public const string TAX_COUNTRY_CANADA = "C";
+
+
     }
 
     public class QuoteOrderCopyRequest

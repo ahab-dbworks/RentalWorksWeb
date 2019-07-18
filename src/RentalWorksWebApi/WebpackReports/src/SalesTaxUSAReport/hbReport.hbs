@@ -45,13 +45,14 @@
       {{#each this}}
       <tr data-rowtype={{RowType}}>
         {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="3" class="header-row">Office: {{OfficeLocation}}</td>
+        <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "TaxOptionheader"}}
-        <td colspan="2" class="lower header-row">Tax Option: {{TaxOption}}</td>
-        <td class="tax-option">Rental: {{RentalRate}}</td>
-        <td class="tax-option">Sales: {{SalesRate}}</td>
-        <td class="tax-option">Labor: {{LaborRate}}</td>
+        <td colspan="3" class="lower header-row">Tax Option: {{TaxOption}}</td>
+        <td colspan="1" class="tax-option">&nbsp;</td>
+        <td colspan="4" class="tax-option">Rental: {{RentalRate}}</td>
+        <td colspan="4" class="tax-option">Sales: {{SalesRate}}</td>
+        <td colspan="3" class="tax-option">Labor: {{LaborRate}}</td>
         {{/ifEquals}}
         {{#ifEquals RowType "detail"}}
         <td class="nowrap">{{InvoiceNumber}}</td>
