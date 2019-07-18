@@ -100,6 +100,17 @@
       <td class="number">{{Remaining}}</td>
     </tr>
     {{/ifEquals}}
+    {{#ifEquals ARRecType "C"}}
+    <tr>
+      <td class="nowrap">{{InvoiceDate}}</td>
+      <td>{{InvoiceNumber}}</td>
+      <td>{{PurchaseOrderNumber}}</td>
+      <td>{{InvoiceDescription}}</td>
+      <td class="number">{{Due}}</td>
+      <td class="number">{{Received}}</td>
+      <td class="number">{{Remaining}}</td>
+    </tr>
+    {{/ifEquals}}
     {{#ifEquals HasPayments true}}
     <tr>
       <th style="background-color:white;" colspan="2"></th>
@@ -126,6 +137,9 @@
       <td class="total-val" data-value="{{Due}}"></td>
       <td class="total-val" data-value="{{Received}}"></td>
       <td class="total-val" data-value="{{Remaining}}"></td>
+    </tr>
+        <tr data-rowtype="{{RowType}}">
+      <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
     </tr>
     <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
     <tr class="deal-total val"><td style="border:none;"></td><td>174.16{{placeholder}}</td><td>0.00{{placeholder}}</td><td>45.34{{placeholder}}</td><td>9.00{{placeholder}}</td><td>50.00{{placeholder}}</td></tr>
@@ -204,6 +218,17 @@
         <td class="number">{{Remaining}}</td>
       </tr>
       {{/ifEquals}}
+      {{#ifEquals ARRecType "C"}}
+      <tr>
+        <td class="nowrap">{{InvoiceDate}}</td>
+        <td>{{InvoiceNumber}}</td>
+        <td>{{PurchaseOrderNumber}}</td>
+        <td>{{InvoiceDescription}}</td>
+        <td class="number">{{Due}}</td>
+        <td class="number">{{Received}}</td>
+        <td class="number">{{Remaining}}</td>
+      </tr>
+      {{/ifEquals}}
       {{#ifEquals HasPayments true}}
       <tr>
         <th style="background-color:white;" colspan="2"></th>
@@ -231,6 +256,9 @@
         <td class="total-val" data-value="{{Received}}"></td>
         <td class="total-val" data-value="{{Remaining}}"></td>
       </tr>
+          <tr data-rowtype="{{RowType}}">
+      <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
+    </tr>
       <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
       <tr class="deal-total val"><td style="border:none;"></td><td>174.16{{placeholder}}</td><td>0.00{{placeholder}}</td><td>45.34{{placeholder}}</td><td>9.00{{placeholder}}</td><td>50.00{{placeholder}}</td></tr>
       {{/ifEquals}}
