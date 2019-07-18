@@ -987,7 +987,7 @@ namespace FwStandard.DataLayer
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} = {parameterName}");
-                                select.AddParameter("{parameterName}", fieldSqlValue);
+                                select.AddParameter(parameterName, fieldSqlValue);
                                 break;
                             case "ne":
                                 if (needsWhere)
@@ -996,7 +996,7 @@ namespace FwStandard.DataLayer
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} <> {parameterName}");
-                                select.AddParameter("{parameterName}", fieldSqlValue);
+                                select.AddParameter(parameterName, fieldSqlValue);
                                 break;
                             case "in":
                             case "ni":
@@ -1147,7 +1147,7 @@ namespace FwStandard.DataLayer
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
-                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}");
                                 break;
                             case "ew":
                                 if (needsWhere)
@@ -1156,7 +1156,7 @@ namespace FwStandard.DataLayer
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
-                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}");
                                 break;
                             case "co":
                                 if (needsWhere)
@@ -1165,7 +1165,7 @@ namespace FwStandard.DataLayer
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} like {parameterName}");
-                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}%");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
                                 break;
                             case "dnc":
                                 if (needsWhere)
@@ -1174,7 +1174,7 @@ namespace FwStandard.DataLayer
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} not like {parameterName}");
-                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}%");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
                                 break;
                             case "gt":
                                 if (needsWhere)
@@ -1183,7 +1183,7 @@ namespace FwStandard.DataLayer
                                     needsWhere = false;
                                 }
                                 select.Add($"  {conjunction}{sqlFieldName} > {parameterName}");
-                                select.AddParameter("{parameterName}", $"%{fieldSqlValue}%");
+                                select.AddParameter(parameterName, $"%{fieldSqlValue}%");
                                 break;
                             case "gte":
                                 if (needsWhere)
