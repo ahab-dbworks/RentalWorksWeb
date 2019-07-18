@@ -146,13 +146,13 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         [FwSqlDataField(column: "orderrecurringratetype", modeltype: FwDataTypes.Boolean)]
         public bool? IsOrderRecurringRateType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "orderrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? OrderRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderdw", modeltype: FwDataTypes.Decimal)]
         public decimal? OrderDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderdiscountpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "orderdiscountpct", modeltype: FwDataTypes.Percentage)]
         public decimal? OrderDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderqtyordered", modeltype: FwDataTypes.Decimal)]
@@ -161,16 +161,16 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         [FwSqlDataField(column: "orderqtycoefficient", modeltype: FwDataTypes.Decimal)]
         public decimal? OrderQuantityCoefficient { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderweeklyextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "orderweeklyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? OrderWeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ordermonthlyextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "ordermonthlyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? OrderMonthlyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderbillableperiods", modeltype: FwDataTypes.Decimal)]
         public decimal? OrderBillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "orderperiodextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "orderperiodextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? OrderPeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poid", modeltype: FwDataTypes.Text)]
@@ -239,13 +239,13 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         [FwSqlDataField(column: "porecurringratetype", modeltype: FwDataTypes.Boolean)]
         public bool? IsPurchaseOrderRecurringRateType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "porate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "porate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseOrderRate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "podw", modeltype: FwDataTypes.Decimal)]
         public decimal? PurchaseOrderDaysPerWeek { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "podiscountpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "podiscountpct", modeltype: FwDataTypes.Percentage)]
         public decimal? PurchaseOrderDiscountPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "poqtyordered", modeltype: FwDataTypes.Decimal)]
@@ -254,25 +254,25 @@ namespace WebApi.Modules.Reports.SubItemStatusReport
         [FwSqlDataField(column: "poqtycoefficient", modeltype: FwDataTypes.Decimal)]
         public decimal? PurchaseOrderQuantityCoefficient { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poweeklyextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "poweeklyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseOrderWeeklyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pomonthlyextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "pomonthlyextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseOrderMonthlyExtended { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pobillableperiods", modeltype: FwDataTypes.Decimal)]
         public decimal? PurchaseOrderBillablePeriods { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "poperiodextended", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "poperiodextended", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PurchaseOrderPeriodExtended { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "profit", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "profit", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Profit { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "markuppct", modeltype: FwDataTypes.Percentage)]
         public decimal? MarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "marginpct", modeltype: FwDataTypes.Percentage)]
         public decimal? MarginPercent { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "receivedate", modeltype: FwDataTypes.Date)]
