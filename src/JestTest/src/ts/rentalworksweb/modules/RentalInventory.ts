@@ -10,20 +10,29 @@ export class RentalInventory extends ModuleBase {
         this.moduleCaption = 'Rental Inventory';
     }
 
-    async populateNew(): Promise<void> {
+    async populateNew(): Promise<string> {
         //wait for the form to open and find the I-Code field
         await page.waitForSelector('.fwformfield[data-datafield="ICode"]', { visible: true });
+
         //icode and description
-        await this.populateTextField("ICode", faker.random.alphaNumeric(8));
+        const iCode = faker.random.alphaNumeric(5);
+        await this.populateTextField("ICode", iCode);
         await this.populateTextField("Description", `JEST - ${faker.commerce.productName()}`);
+
         //inventory type
         await this.populateValidationField("InventoryTypeId", "InventoryTypeValidation", 2);
+
         //category
         await this.populateValidationField("CategoryId", "RentalCategoryValidation");
+
         //unit
         await this.populateValidationField("UnitId", "UnitValidation");
         await this.populateTextField("ManufacturerPartNumber", faker.random.alphaNumeric(8));
+
         //rank
         await this.populateValidationField("Rank", "RankValidation", 3);
+
+        return iCode;
+
     }
 }

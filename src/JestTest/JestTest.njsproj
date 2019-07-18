@@ -47,6 +47,16 @@
   <ItemGroup>
     <TypeScriptCompile Include="src\ts\rentalworksweb\AddGridRow.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\CustomerDealQuote.test.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Customer.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Deal.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Order.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\PartsInventory.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\PurchaseOrder.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Quote.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\RentalInventory.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\SalesInventory.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\modules\Vendor.ts" />
+    <TypeScriptCompile Include="src\ts\rentalworksweb\RentalAvailability.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\NewRentalInventory.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\NewVendor.test.ts" />
     <TypeScriptCompile Include="src\ts\rentalworksweb\RentalWorksWeb.ts" />

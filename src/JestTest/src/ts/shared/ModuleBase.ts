@@ -172,7 +172,7 @@ export class ModuleBase {
     async addGridRow(gridController: string, className?: string, numberOfRows?: number, fieldObject?: any) {
         if (numberOfRows === undefined) {
             numberOfRows = 1;
-        } 
+        }
         // fieldobject is object of datafields and values to fill in
         let grid;
         if (className) {
@@ -180,26 +180,26 @@ export class ModuleBase {
         } else {
             grid = `div[data-grid="${gridController}"]`;
         }
-        
+
         await page.waitForSelector(`${grid} .buttonbar [data-type="NewButton"] i`);
         await page.waitFor(1000);
         await page.click(`${grid} .buttonbar [data-type="NewButton"] i`); // add new row
         await page.waitForSelector(`${grid} tbody tr`);
         async function fillValues() {
-                if (fieldObject !== null && (typeof fieldObject === 'object' && !Array.isArray(fieldObject))) {
-        
-                    for (let key in fieldObject) {
-                        //// differentiate b/w datafield inputs and validations - structure is different
-                        // console.log('selector', `${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`)
-                        page.type(`${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`, fieldObject[key])
-                    }
-                    await page.waitFor(1500); //  need better wait that all values have been assigned
+            if (fieldObject !== null && (typeof fieldObject === 'object' && !Array.isArray(fieldObject))) {
 
-                    await page.keyboard.press('Enter');
-                    await page.waitFor(1000);
-                    await page.click( `${grid} .tablewrapper table tbody tr td div.divsaverow i`);
-                    await page.waitFor(3000);
+                for (let key in fieldObject) {
+                    //// differentiate b/w datafield inputs and validations - structure is different
+                    // console.log('selector', `${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`)
+                    page.type(`${grid} .tablewrapper table tbody tr td div[data-browsedatafield="${key}"] input.text`, fieldObject[key])
                 }
+                await page.waitFor(1500); //  need better wait that all values have been assigned
+
+                await page.keyboard.press('Enter');
+                await page.waitFor(1000);
+                await page.click(`${grid} .tablewrapper table tbody tr td div.divsaverow i`);
+                await page.waitFor(3000);
+            }
         }
         await fillValues();
         //await page.waitFor(3000)
@@ -245,30 +245,30 @@ export class ModuleBase {
             buffer += chunk;
         });
         combinedLog.on('end', () => {
-         const result = buffer;
-         console.log('result:', result);
-        //  console.log('TYPEOF:', typeof result);
-        //  result = result.toString();
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-        const msg = {
-          to: 'joshpace@gmail.com',
-          from: 'jpace@4wall.com',
-          subject: 'SendGrid Sending logfile',
-          text: 'result',
-          html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-          attachments: [
-            {
-              content: 'Some base 64 encoded attachment content',
-              filename: 'some-attachment.txt',
-              type: 'plain/text',
-              disposition: 'attachment',
-              contentId: 'mytext'
-            },
-          ],
-        };
-        sgMail.send(msg)
-            .then((res)=>console.log('RES: ', res))
-            .catch((err)=>console.log('ERR: ', err))
+            const result = buffer;
+            console.log('result:', result);
+            //  console.log('TYPEOF:', typeof result);
+            //  result = result.toString();
+            sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+            const msg = {
+                to: 'joshpace@gmail.com',
+                from: 'jpace@4wall.com',
+                subject: 'SendGrid Sending logfile',
+                text: 'result',
+                html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+                attachments: [
+                    {
+                        content: 'Some base 64 encoded attachment content',
+                        filename: 'some-attachment.txt',
+                        type: 'plain/text',
+                        disposition: 'attachment',
+                        contentId: 'mytext'
+                    },
+                ],
+            };
+            sgMail.send(msg)
+                .then((res) => console.log('RES: ', res))
+                .catch((err) => console.log('ERR: ', err))
         });
     }
 }
