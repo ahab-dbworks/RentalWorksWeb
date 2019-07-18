@@ -60,16 +60,16 @@ namespace WebApi.Modules.Home.MasterWarehouse
         [FwSqlDataField(column: "qtyallocated", modeltype: FwDataTypes.Decimal)]
         public decimal? QtyAllocated { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "cost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Cost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "averagecost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "averagecost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? AverageCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "defaultcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "defaultcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? DefaultCost { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "price", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "price", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Price { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "markup", modeltype: FwDataTypes.Decimal)]
@@ -84,49 +84,49 @@ namespace WebApi.Modules.Home.MasterWarehouse
         [FwSqlDataField(column: "reorderqty", modeltype: FwDataTypes.Integer)]
         public int? ReorderQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hourlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "hourlyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? HourlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hourlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "hourlycost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? HourlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "hourlymarkup", modeltype: FwDataTypes.Decimal)]
         public decimal? HourlyMarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "dailyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? DailyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dailycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "dailycost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? DailyCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "dailymarkup", modeltype: FwDataTypes.Decimal)]
         public decimal? DailyMarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "weeklyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? WeeklyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "week2rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "week2rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Week2Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "week3rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "week3rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Week3Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "week4rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "week4rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Week4Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "week5rate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "week5rate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Week5Rate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "weeklycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "weeklycost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? WeeklyCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "weeklymarkup", modeltype: FwDataTypes.Decimal)]
         public decimal? WeeklyMarkupPercent { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "monthlyrate", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? MonthlyRate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "monthlycost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "monthlycost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? MonthlyCost { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "monthlymarkup", modeltype: FwDataTypes.Decimal)]
@@ -177,10 +177,10 @@ namespace WebApi.Modules.Home.MasterWarehouse
         [FwSqlDataField(column: "stoptime", modeltype: FwDataTypes.Text)]
         public string DefaultStopTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "manifestvalue", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? UnitValue { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "replacementcost", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? ReplacementCost { get; set; }
         //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)

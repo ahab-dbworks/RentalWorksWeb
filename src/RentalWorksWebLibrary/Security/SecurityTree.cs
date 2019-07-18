@@ -471,6 +471,7 @@ namespace WebLibrary.Security
             AddGrid("Order Type Contact Title",               "{E104C48C-2579-4674-9BD1-41069AC6968B}", lv1menuGrids.Id, "OrderTypeContactTitleGridController");
             AddGrid("Parts Inventory Compatibility",          "{97DC0D58-2968-47F4-970A-0889AEFDC63B}", lv1menuGrids.Id, "PartsInventoryCompatibilityGridController");
             AddGrid("Parts Inventory Substitute",             "{F9B0308B-EBFC-4B37-B812-27E16897B115}", lv1menuGrids.Id, "PartsInventorySubstituteGridController");
+            AddGrid("Parts Inventory Warehouse Pricing",      "{57C77B5A-D699-45A5-9B6F-FEE96DF4E141}", lv1menuGrids.Id, "PartsInventoryWarehousePricingGridController");
             AddGrid("Pick List Item",                         "{F8514841-7652-469B-AF43-3520A34EA5F0}", lv1menuGrids.Id, "PickListItemGridController");
             AddGrid("Pick List Utility",                      "{0DAED562-2319-4569-AC4E-EF89198E54BC}", lv1menuGrids.Id, "PickListUtilityGridController");
             AddGrid("Pending Items",                          "{28DA22B8-D429-4751-B97D-8210D78C9402}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
@@ -491,6 +492,7 @@ namespace WebLibrary.Security
             AddGrid("Quik Entry Items",                       "{1289FF25-5C86-43CC-8557-173E7EA69696}", lv1menuGrids.Id, "RwQuikEntryItemsGridController");
             AddGrid("Quik Entry Sub Category",                "{26576DCB-4141-477A-9A3D-4F76D862C581}", lv1menuGrids.Id, "RwQuikEntrySubCategoryGridController");
             AddGrid("Rate Location Tax",                      "{F1A613A6-FD31-4082-88CC-4F0252BF56AC}", lv1menuGrids.Id, "RateLocationTaxGridController");
+            AddGrid("Rental Inventory Warehouse Pricing",     "{B6E2330A-8116-43B7-BCDE-BD8630F4E3D8}", lv1menuGrids.Id, "RentalInventoryWarehousePricingGridController");
             AddGrid("Rental Inventory Warehouse",             "{3AC00695-4130-4A34-B4B2-BC6E3E950FB1}", lv1menuGrids.Id, "RentalInventoryWarehouseGridController");
             AddGrid("Repair Cost",                            "{38219D4D-C8F6-4C8C-B86B-D86D5F645251}", lv1menuGrids.Id, "RepairCostGridController");
             AddGrid("Repair Release",                         "{06BFFEEF-632D-4DBE-9DFC-E64309784D44}", lv1menuGrids.Id, "RepairReleaseGridController");
@@ -499,6 +501,7 @@ namespace WebLibrary.Security
             AddGrid("Report Settings",                        "{0B524E5D-0644-445D-B9FA-9E15A827F1B2}", lv1menuGrids.Id, "ReportSettingsGridController");
             AddGrid("Sales Inventory Substitute",             "{ED6DCEB4-2BB7-4B52-915A-10E1D94B083E}", lv1menuGrids.Id, "SalesInventorySubstituteGridController");
             AddGrid("Search Preview",                         "{A6C93317-0DDC-4781-9B01-2EFC78ECED40}", lv1menuGrids.Id, "SearchPreviewGridController");
+            AddGrid("Sales Inventory Warehouse Pricing",      "{9D1C2BA3-9D4F-4871-A7CD-5789D80A8E35}", lv1menuGrids.Id, "SalesInventoryWarehousePricingGridController");
             AddGrid("Sales Inventory Warehouse",              "{85ED5C98-37AF-4A68-B97B-68EE253A1FD4}", lv1menuGrids.Id, "SalesInventoryWarehouseGridController");
             AddGrid("Single Rate Warehouse",                  "{0E4E4B5D-5905-4BD5-AC57-2DE047EFEB5B}", lv1menuGrids.Id, "SingleRateWarehouseGridController");
             AddGrid("Space",                                  "{BF54AEF8-BECB-4069-A1E3-3FEA27301AE8}", lv1menuGrids.Id, "SpaceGridController");
