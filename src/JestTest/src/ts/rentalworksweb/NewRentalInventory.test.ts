@@ -34,103 +34,103 @@ try {
             .then((data) => { })
             .catch(err => logger.error('authenticate: ', err));
     }, 45000);
-    for (let i = 0; i < 5; i++) {
+    //for (let i = 0; i < 5; i++) {
 
-    //rental inventory
-    if (continueTest) {
-        const module: RentalInventory = new RentalInventory();
+        //rental inventory
+        if (continueTest) {
+            const module: RentalInventory = new RentalInventory();
 
-        describe('Create new Rental Inventory, fill out form, save record', () => {
-            test('Open module', async () => {
-                await module.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
-                    .then()
-                    .catch(err => logger.error('openModule: ', err));
-            }, 10000);
-            test('Create New record', async () => {
-                await module.createNewRecord(1)
-                    .then()
-                    .catch(err => logger.error('createNewRecord: ', err));
-            }, 10000);
-            test('Fill in form data', async () => {
-                await module.populateNew()
-                    .then()
-                    .catch(err => logger.error('populateNew: ', err))
-            }, 10000);
-            test('Save new', async () => {
-                await module.saveRecord()
-                    .then()
-                    .catch(err => logger.error('saveRecord: ', err));
-            }, 10000);
-            test('Close', async () => {
-                await module.closeRecord()
-                    .then()
-                    .catch(err => logger.error('closeRecord: ', err));
-            }, 10000);
-        });
-    }
-      //sales inventory
-      if (continueTest) {
-        const module: SalesInventory = new SalesInventory();
-        describe('Create new Sales Inventory, fill out form, save record', () => {
-            test('Open module', async () => {
-                await module.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
-                    .then()
-                    .catch(err => logger.error('openModule: ', err));
-            }, 10000);
-            test('Create New record', async () => {
-                await module.createNewRecord(1)
-                    .then()
-                    .catch(err => logger.error('createNewRecord: ', err));
-            }, 10000);
-            test('Fill in form data', async () => {
-                await module.populateNew()
-                    .then()
-                    .catch(err => logger.error('populateNew: ', err))
-            }, 10000);
-            test('Save new', async () => {
-                await module.saveRecord()
-                    .then()
-                    .catch(err => logger.error('saveRecord: ', err));
-            }, 10000);
-            test('Close', async () => {
-                await module.closeRecord()
-                    .then()
-                    .catch(err => logger.error('closeRecord: ', err));
-            }, 10000);
-        });
-    }
-     //Parts inventory
-     if (continueTest) {
-        const module: PartsInventory = new PartsInventory();
-        describe('Create new Parts Inventory, fill out form, save record', () => {
-            test('Open module', async () => {
-                await module.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
-                    .then()
-                    .catch(err => logger.error('openModule: ', err));
-            }, 10000);
-            test('Create New record', async () => {
-                await module.createNewRecord(1)
-                    .then()
-                    .catch(err => logger.error('createNewRecord: ', err));
-            }, 10000);
-            test('Fill in form data', async () => {
-                await module.populateNew()
-                    .then()
-                    .catch(err => logger.error('populateNew: ', err))
-            }, 10000);
-            test('Save new', async () => {
-                await module.saveRecord()
-                    .then()
-                    .catch(err => logger.error('saveRecord: ', err));
-            }, 10000);
-            test('Close', async () => {
-                await module.closeRecord()
-                    .then()
-                    .catch(err => logger.error('closeRecord: ', err));
-            }, 10000);
-        });
-    }
-}
+            describe('Create new Rental Inventory, fill out form, save record', () => {
+                test('Open module', async () => {
+                    await module.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
+                        .then()
+                        .catch(err => logger.error('openModule: ', err));
+                }, 10000);
+                test('Create New record', async () => {
+                    await module.createNewRecord(1)
+                        .then()
+                        .catch(err => logger.error('createNewRecord: ', err));
+                }, 10000);
+                test('Fill in form data', async () => {
+                    await module.populateNew()
+                        .then()
+                        .catch(err => logger.error('populateNew: ', err))
+                }, 10000);
+                test('Save new', async () => {
+                    await module.saveRecord()
+                        .then()
+                        .catch(err => logger.error('saveRecord: ', err));
+                }, 10000);
+                test('Close', async () => {
+                    await module.closeRecord()
+                        .then()
+                        .catch(err => logger.error('closeRecord: ', err));
+                }, 10000);
+            });
+        }
+    //    //sales inventory
+    //    if (continueTest) {
+    //        const module: SalesInventory = new SalesInventory();
+    //        describe('Create new Sales Inventory, fill out form, save record', () => {
+    //            test('Open module', async () => {
+    //                await module.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
+    //                    .then()
+    //                    .catch(err => logger.error('openModule: ', err));
+    //            }, 10000);
+    //            test('Create New record', async () => {
+    //                await module.createNewRecord(1)
+    //                    .then()
+    //                    .catch(err => logger.error('createNewRecord: ', err));
+    //            }, 10000);
+    //            test('Fill in form data', async () => {
+    //                await module.populateNew()
+    //                    .then()
+    //                    .catch(err => logger.error('populateNew: ', err))
+    //            }, 10000);
+    //            test('Save new', async () => {
+    //                await module.saveRecord()
+    //                    .then()
+    //                    .catch(err => logger.error('saveRecord: ', err));
+    //            }, 10000);
+    //            test('Close', async () => {
+    //                await module.closeRecord()
+    //                    .then()
+    //                    .catch(err => logger.error('closeRecord: ', err));
+    //            }, 10000);
+    //        });
+    //    }
+    //    //Parts inventory
+    //    if (continueTest) {
+    //        const module: PartsInventory = new PartsInventory();
+    //        describe('Create new Parts Inventory, fill out form, save record', () => {
+    //            test('Open module', async () => {
+    //                await module.openModule(5000, 1000) // wait 1 second after the module is opened to allow control query to load system defaults
+    //                    .then()
+    //                    .catch(err => logger.error('openModule: ', err));
+    //            }, 10000);
+    //            test('Create New record', async () => {
+    //                await module.createNewRecord(1)
+    //                    .then()
+    //                    .catch(err => logger.error('createNewRecord: ', err));
+    //            }, 10000);
+    //            test('Fill in form data', async () => {
+    //                await module.populateNew()
+    //                    .then()
+    //                    .catch(err => logger.error('populateNew: ', err))
+    //            }, 10000);
+    //            test('Save new', async () => {
+    //                await module.saveRecord()
+    //                    .then()
+    //                    .catch(err => logger.error('saveRecord: ', err));
+    //            }, 10000);
+    //            test('Close', async () => {
+    //                await module.closeRecord()
+    //                    .then()
+    //                    .catch(err => logger.error('closeRecord: ', err));
+    //            }, 10000);
+    //        });
+    //    }
+    //}
 
     //logoff
     test('Logoff', async () => {

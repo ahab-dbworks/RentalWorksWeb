@@ -209,7 +209,7 @@ export class ModuleBase {
         let continueTest;
         await page.click('.btn[data-type="SaveMenuBarButton"]');
         await page.waitForSelector('.advisory');
-        await page.screenshot({ path: 'PageAfterVendorSave.png', fullPage: true });
+        //await page.screenshot({ path: 'PageAfterVendorSave.png', fullPage: true });
         await page.waitForFunction(() => document.querySelector('.advisory'), { polling: 'mutation' })
             .then(async done => {
                 const afterSaveMsg = await page.evaluate(() => {
