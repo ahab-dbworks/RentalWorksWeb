@@ -102,20 +102,6 @@ class SalesTaxCanadaReport extends FwWebApiReport {
         this.loadLists($form);
     }
     //----------------------------------------------------------------------------------------------
-    beforeValidate($browse, $form, request) {
-        const validationName = request.module;
-        const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
-        request.uniqueids = {};
-
-        switch (validationName) {
-            case 'DealValidation':
-                if (customerId !== "") {
-                    request.uniqueids.CustomerId = customerId;
-                }
-                break;
-        }
-    }
-    //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [
             { value: "NEW", text: "New", selected: "T" },

@@ -171,13 +171,13 @@ namespace WebApi.Modules.Reports.SalesTaxReport
         [FwSqlDataField(column: "totaltax", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? TotalTax { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "gst", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "gst", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Gst { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "hst", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "hst", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Hst { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pst", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "pst", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? Pst { get; set; }
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(SalesTaxReportRequest request)
