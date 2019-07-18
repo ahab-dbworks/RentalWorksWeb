@@ -130,7 +130,7 @@ class SubItemStatusReport extends FwWebApiReport {
                 }
                 break;
         };
-    };
+    }
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
         FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [
@@ -144,7 +144,7 @@ class SubItemStatusReport extends FwWebApiReport {
             { value: "R", text: "Rental", selected: "T" },
             { value: "S", text: "Sales", selected: "T" },
             { value: "M", text: "Miscellaneous", selected: "T" },
-            { value: "L", text: "LAbor", selected: "T" },
+            { value: "L", text: "Labor", selected: "T" },
         ]);
     }
     //----------------------------------------------------------------------------------------------

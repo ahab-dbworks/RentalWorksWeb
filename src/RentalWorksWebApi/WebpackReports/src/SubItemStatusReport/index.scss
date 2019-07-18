@@ -26,3 +26,20 @@ thead {
         white-space: nowrap;
     }
 }
+
+.no-border {
+    border-top: none;
+    border-bottom: none;
+}
+
+.line-header {
+    font-weight:700;
+    border: none;
+    span {
+        font-weight:300;
+    }
+}
+@page {
+    size: landscape;
+    margin: 10px 10px 10px 10px; // Adds margin on the pdf
+}
