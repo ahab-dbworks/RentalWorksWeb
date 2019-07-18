@@ -388,20 +388,28 @@
 FwApplicationTree.clickEvents[Constants.Modules.Home.Exchange.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');
     const contractId = ExchangeController.ContractId;
-    try {
-        const request: any = {};
-        request.ContractId = contractId;
-        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
-            response => {
-                ExchangeController.resetForm($form);
-                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
-            },
-            ex => FwFunc.showError(ex),
-            null, $form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
+    const $confirmation = FwConfirmation.renderConfirmation('Cancel Exchange', 'Cancelling this Exchange Session will cause all transacted items to be cancelled.  Continue?');
+    FwConfirmation.addControls($confirmation, '');
+    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+    FwConfirmation.addButton($confirmation, 'No', true);
+
+    $yes.on('click', () => {
+        try {
+            const request: any = {};
+            request.ContractId = contractId;
+            FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                response => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    ExchangeController.resetForm($form);
+                    FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+                },
+                ex => FwFunc.showError(ex),
+                $confirmation.find('.fwconfirmationbox'));
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
 };
 //----------------------------------------------------------------------------------------------
 var ExchangeController = new Exchange();

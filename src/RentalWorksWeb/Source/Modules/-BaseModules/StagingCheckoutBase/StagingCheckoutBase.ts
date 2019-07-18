@@ -1435,20 +1435,28 @@
 FwApplicationTree.clickEvents[Constants.Modules.Home.StagingCheckout.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');
     const contractId = StagingCheckoutController.contractId;
-    try {
-        const request: any = {};
-        request.ContractId = contractId;
-        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
-            response => {
-                StagingCheckoutController.resetForm($form);
-                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
-            },
-            ex => FwFunc.showError(ex),
-            null, $form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
+    const $confirmation = FwConfirmation.renderConfirmation('Cancel Staging/Check-Out', 'Cancelling this Staging/Check-Out Session will cause all transacted items to be cancelled.  Continue?');
+    FwConfirmation.addControls($confirmation, '');
+    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+    FwConfirmation.addButton($confirmation, 'No', true);
+
+    $yes.on('click', () => {
+        try {
+            const request: any = {};
+            request.ContractId = contractId;
+            FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                response => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    StagingCheckoutController.resetForm($form);
+                    FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+                },
+                ex => FwFunc.showError(ex),
+                $confirmation.find('.fwconfirmationbox'));
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
 };
 //---------------------------------------------------------------------------------
 FwApplicationTree.clickEvents[Constants.Grids.StagedItemGrid.menuItems.UnstageItems.id] = function (event: JQuery.ClickEvent) {

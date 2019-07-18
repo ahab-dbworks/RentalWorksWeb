@@ -324,20 +324,28 @@ class ReturnToVendor {
 FwApplicationTree.clickEvents[Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id] = function (event: JQuery.ClickEvent) {
     const $form = jQuery(this).closest('.fwform');
     const contractId = FwFormField.getValueByDataField($form, 'ContractId');
-    try {
-        const request: any = {};
-        request.ContractId = contractId;
-        FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
-            response => {
-                ReturnToVendorController.resetForm($form);
-                FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
-            },
-            ex => FwFunc.showError(ex),
-            null, $form);
-    }
-    catch (ex) {
-        FwFunc.showError(ex);
-    }
+    const $confirmation = FwConfirmation.renderConfirmation('Cancel Return To Vendor', 'Cancelling this Return To Vendor Session will cause all transacted items to be cancelled.  Continue?');
+    FwConfirmation.addControls($confirmation, '');
+    const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+    FwConfirmation.addButton($confirmation, 'No', true);
+
+    $yes.on('click', () => {
+        try {
+            const request: any = {};
+            request.ContractId = contractId;
+            FwAppData.apiMethod(true, 'POST', `api/v1/contract/cancelcontract`, request, FwServices.defaultTimeout,
+                response => {
+                    FwConfirmation.destroyConfirmation($confirmation);
+                    ReturnToVendorController.resetForm($form);
+                    FwNotification.renderNotification('SUCCESS', 'Session succesfully cancelled.');
+                },
+                ex => FwFunc.showError(ex),
+                $confirmation.find('.fwconfirmationbox'));
+        }
+        catch (ex) {
+            FwFunc.showError(ex);
+        }
+    });
 };
 //----------------------------------------------------------------------------------------------
 var ReturnToVendorController = new ReturnToVendor();
