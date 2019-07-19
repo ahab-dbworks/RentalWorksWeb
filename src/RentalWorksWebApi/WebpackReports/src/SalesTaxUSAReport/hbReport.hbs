@@ -41,20 +41,28 @@
         <th class="number">Total Tax</th>
       </tr>
     </thead>
-    <tbody>
-      {{#each this}}
+    {{#each this}}
+    {{#ifEquals RowType "OfficeLocationheader"}}
+    <thead>
       <tr data-rowtype={{RowType}}>
-        {{#ifEquals RowType "OfficeLocationheader"}}
-        <td colspan="4" class="header-row">Office: {{OfficeLocation}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "TaxOptionheader"}}
+        <th class="header-row no-border" colspan="16">Office Location: {{OfficeLocation}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "TaxOptionheader"}}
+    <thead>
+      <tr data-rowtype={{RowType}}>
         <td colspan="3" class="lower header-row">Tax Option: {{TaxOption}}</td>
         <td colspan="1" class="tax-option">&nbsp;</td>
         <td colspan="4" class="tax-option">Rental: {{RentalRate}}</td>
         <td colspan="4" class="tax-option">Sales: {{SalesRate}}</td>
         <td colspan="3" class="tax-option">Labor: {{LaborRate}}</td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "detail"}}
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr class="detail">
         <td class="nowrap">{{InvoiceNumber}}</td>
         <td data-value="{{InvoiceDate}}"></td>
         <td class="number" data-value="{{TotalRental}}"></td>
@@ -70,57 +78,66 @@
         <td class="number" data-value="{{LaborTax}}"></td>
         <td class="number" data-value="{{NontaxableLabor}}"></td>
         <td class="number" data-value="{{TotalTax}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "OfficeLocationfooter"}}
-        <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
-        <td class="total-val" data-value="{{TotalRental}}"></td>
-        <td class="total-val" data-value="{{TaxableRental}}"></td>
-        <td class="total-val" data-value="{{RentalTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableRental}}"></td>
-        <td class="total-val" data-value="{{TotalSales}}"></td>
-        <td class="total-val" data-value="{{TaxableSales}}"></td>
-        <td class="total-val" data-value="{{SalesTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableSales}}"></td>
-        <td class="total-val" data-value="{{TotalLabor}}"></td>
-        <td class="total-val" data-value="{{TaxableLabor}}"></td>
-        <td class="total-val" data-value="{{LaborTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableLabor}}"></td>
-        <td class="total-val" data-value="{{TotalTax}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "TaxOptionfooter"}}
-        <td colspan="2" class="total-name">{{TaxOption}}&nbsp;</td>
-        <td class="total-val" data-value="{{TotalRental}}"></td>
-        <td class="total-val" data-value="{{TaxableRental}}"></td>
-        <td class="total-val" data-value="{{RentalTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableRental}}"></td>
-        <td class="total-val" data-value="{{TotalSales}}"></td>
-        <td class="total-val" data-value="{{TaxableSales}}"></td>
-        <td class="total-val" data-value="{{SalesTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableSales}}"></td>
-        <td class="total-val" data-value="{{TotalLabor}}"></td>
-        <td class="total-val" data-value="{{TaxableLabor}}"></td>
-        <td class="total-val" data-value="{{LaborTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableLabor}}"></td>
-        <td class="total-val" data-value="{{TotalTax}}"></td>
-        {{/ifEquals}}
-        {{#ifEquals RowType "grandtotal"}}
-        <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{TotalRental}}"></td>
-        <td class="total-val" data-value="{{TaxableRental}}"></td>
-        <td class="total-val" data-value="{{RentalTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableRental}}"></td>
-        <td class="total-val" data-value="{{TotalSales}}"></td>
-        <td class="total-val" data-value="{{TaxableSales}}"></td>
-        <td class="total-val" data-value="{{SalesTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableSales}}"></td>
-        <td class="total-val" data-value="{{TotalLabor}}"></td>
-        <td class="total-val" data-value="{{TaxableLabor}}"></td>
-        <td class="total-val" data-value="{{LaborTax}}"></td>
-        <td class="total-val" data-value="{{NontaxableLabor}}"></td>
-        <td class="total-val" data-value="{{TotalTax}}"></td>
-        {{/ifEquals}}
       </tr>
-      {{/each}}
     </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "OfficeLocationfooter"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="2" class="total-name">{{OfficeLocation}}&nbsp;</td>
+      <td class="total-val" data-value="{{TotalRental}}"></td>
+      <td class="total-val" data-value="{{TaxableRental}}"></td>
+      <td class="total-val" data-value="{{RentalTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableRental}}"></td>
+      <td class="total-val" data-value="{{TotalSales}}"></td>
+      <td class="total-val" data-value="{{TaxableSales}}"></td>
+      <td class="total-val" data-value="{{SalesTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableSales}}"></td>
+      <td class="total-val" data-value="{{TotalLabor}}"></td>
+      <td class="total-val" data-value="{{TaxableLabor}}"></td>
+      <td class="total-val" data-value="{{LaborTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableLabor}}"></td>
+      <td class="total-val" data-value="{{TotalTax}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "TaxOptionfooter"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="2" class="total-name">{{TaxOption}}&nbsp;</td>
+      <td class="total-val" data-value="{{TotalRental}}"></td>
+      <td class="total-val" data-value="{{TaxableRental}}"></td>
+      <td class="total-val" data-value="{{RentalTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableRental}}"></td>
+      <td class="total-val" data-value="{{TotalSales}}"></td>
+      <td class="total-val" data-value="{{TaxableSales}}"></td>
+      <td class="total-val" data-value="{{SalesTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableSales}}"></td>
+      <td class="total-val" data-value="{{TotalLabor}}"></td>
+      <td class="total-val" data-value="{{TaxableLabor}}"></td>
+      <td class="total-val" data-value="{{LaborTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableLabor}}"></td>
+      <td class="total-val" data-value="{{TotalTax}}"></td>
+    </tr>
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "grandtotal"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="2" class="total-name">Grand Total:&nbsp;</td>
+      <td class="total-val" data-value="{{TotalRental}}"></td>
+      <td class="total-val" data-value="{{TaxableRental}}"></td>
+      <td class="total-val" data-value="{{RentalTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableRental}}"></td>
+      <td class="total-val" data-value="{{TotalSales}}"></td>
+      <td class="total-val" data-value="{{TaxableSales}}"></td>
+      <td class="total-val" data-value="{{SalesTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableSales}}"></td>
+      <td class="total-val" data-value="{{TotalLabor}}"></td>
+      <td class="total-val" data-value="{{TaxableLabor}}"></td>
+      <td class="total-val" data-value="{{LaborTax}}"></td>
+      <td class="total-val" data-value="{{NontaxableLabor}}"></td>
+      <td class="total-val" data-value="{{TotalTax}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{/each}}
   </table>
 </div>
