@@ -55,7 +55,7 @@ namespace WebApi.Modules.Home.OrderItem
         //justin 03/04/2019 experimental
         //------------------------------------------------------------------------------------ 
         // POST api/v1/orderitem/many
-        [HttpPost("<OrderItemLogic>many")]
+        [HttpPost("many")]
         [FwControllerMethod(Id: "MqUlSwrmvxSAK")]
         public async Task<List<ActionResult<OrderItemLogic>>> PostAsync([FromBody]List<OrderItemLogic> l)
         {
