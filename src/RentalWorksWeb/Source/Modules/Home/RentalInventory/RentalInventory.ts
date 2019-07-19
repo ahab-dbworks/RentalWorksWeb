@@ -365,40 +365,10 @@ class RentalInventory extends InventoryBase {
     };
     //----------------------------------------------------------------------------------------------
     dynamicColumns($form: any): void {
-        //const 3weekPricing = applicationOptions.
-        //const $rentalInventoryWarehousePricingGrid = $form.find('.rentalgrid [data-name="RentalInventoryWarehousePricingGrid"]');
-        //const fields = jQuery($rentalInventoryWarehousePricingGrid).find('thead tr.fieldnames > td.column > div.field');
-        //let fieldNames: Array<string> = [];
-
-        //for (let i = 3; i < fields.length; i++) {
-        //    let name = jQuery(fields[i]).attr('data-mappedfield');
-        //    if (name !== "QuantityOrdered") {
-        //        fieldNames.push(name);
-        //    }
-        //}
-
-        //FwAppData.apiMethod(true, 'GET', `api/v1/potype/${POTYPE}`, null, FwServices.defaultTimeout, function onSuccess(response) {
-        //    let hiddenPurchase: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.PurchaseShowFields));
-        //    let hiddenMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.MiscShowFields));
-        //    let hiddenLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.LaborShowFields));
-        //    let hiddenSubRental: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubRentalShowFields));
-        //    let hiddenSubSale: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubSaleShowFields));
-        //    let hiddenSubMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubMiscShowFields));
-        //    let hiddenSubLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubLaborShowFields));
-        //    // Non-specific showfields
-        //    for (let i = 0; i < hiddenPurchase.length; i++) {
-        //        jQuery($rentalGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
-        //        jQuery($salesGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
-        //        jQuery($partsgrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
-        //    }
-        //    // Specific showfields
-        //    for (let i = 0; i < hiddenMisc.length; i++) { jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide(); }
-        //    for (let i = 0; i < hiddenLabor.length; i++) { jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide(); }
-        //    for (let i = 0; i < hiddenSubSale.length; i++) { jQuery($subSalesGrid.find(`[data-mappedfield="${hiddenSubSale[i]}"]`)).parent().hide(); }
-        //    for (let i = 0; i < hiddenSubRental.length; i++) { jQuery($subRentalGrid.find(`[data-mappedfield="${hiddenSubRental[i]}"]`)).parent().hide(); }
-        //    for (let i = 0; i < hiddenSubLabor.length; i++) { jQuery($subLaborGrid.find(`[data-mappedfield="${hiddenSubLabor[i]}"]`)).parent().hide(); }
-        //    for (let i = 0; i < hiddenSubMisc.length; i++) { jQuery($subMiscGrid.find(`[data-mappedfield="${hiddenSubMisc[i]}"]`)).parent().hide(); }
-        //}, null, null);
+        const threeWeekPricing = JSON.parse(sessionStorage.getItem('applicationOptions')).threeweekpricing;
+        const $rentalInventoryWarehousePricingGrid = $form.find('div[data-name="RentalInventoryWarehousePricingGrid"]');
+        
+        !threeWeekPricing.enabled ? jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().hide() : jQuery($rentalInventoryWarehousePricingGrid.find(`[data-mappedfield="Rate"]`)).parent().show() 
     };
     //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
