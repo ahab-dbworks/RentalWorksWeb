@@ -22,23 +22,6 @@ FwApplicationTree.clickEvents[Constants.Grids.ContractDetailGrid.menuItems.VoidI
         const contractItems: any = [];
         const $selectedCheckBoxes = $grid.find('tbody .cbselectrow:checked');
         const contractId = FwFormField.getValueByDataField($form, 'ContractId');
-        for (let i = 0; i < $selectedCheckBoxes.length; i++) {
-            const $this = jQuery($selectedCheckBoxes[i]);
-            const $tr = $this.closest('tr')
-            const orderId = $tr.find('div[data-browsedatafield="OrderId"]').attr('data-originalvalue');
-            const orderItemId = $tr.find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
-            const vendorId = $tr.find('div[data-browsedatafield="VendorId"]').attr('data-originalvalue');
-            const barCode = $tr.find('div[data-browsedatafield="BarCode"]').attr('data-originalvalue');
-            const quantity = $tr.find('div[data-browsedatafield="Quantity"]').attr('data-originalvalue');
-            const item = {
-                OrderId: orderId
-                , OrderItemId: orderItemId
-                , VendorId: vendorId
-                , BarCode: barCode
-                , Quantity: quantity
-            }
-            contractItems.push(item);
-        };
 
         if ($selectedCheckBoxes.length > 0) {
             const $confirmation = FwConfirmation.renderConfirmation('Void Contract Activity', '');
@@ -53,6 +36,24 @@ FwApplicationTree.clickEvents[Constants.Grids.ContractDetailGrid.menuItems.VoidI
             FwConfirmation.addControls($confirmation, html.join(''));
 
             $select.on('click', () => {
+                for (let i = 0; i < $selectedCheckBoxes.length; i++) {
+                    const $this = jQuery($selectedCheckBoxes[i]);
+                    const $tr = $this.closest('tr')
+                    const orderId = $tr.find('div[data-browsedatafield="OrderId"]').attr('data-originalvalue');
+                    const orderItemId = $tr.find('div[data-browsedatafield="OrderItemId"]').attr('data-originalvalue');
+                    const vendorId = $tr.find('div[data-browsedatafield="VendorId"]').attr('data-originalvalue');
+                    const barCode = $tr.find('div[data-browsedatafield="Barcode"]').attr('data-originalvalue');
+                    const quantity = $tr.find('div[data-browsedatafield="Quantity"]').attr('data-originalvalue');
+                    const item = {
+                        OrderId: orderId
+                        , OrderItemId: orderItemId
+                        , VendorId: vendorId
+                        , BarCode: barCode
+                        , Quantity: quantity
+                    }
+                    contractItems.push(item);
+                };
+
                 const request: any = {
                     Items: contractItems
                     , ContractId: contractId
@@ -63,7 +64,8 @@ FwApplicationTree.clickEvents[Constants.Grids.ContractDetailGrid.menuItems.VoidI
                     response => {
                         FwConfirmation.destroyConfirmation($confirmation);
                         FwBrowse.search($grid);
-                    }, ex => FwFunc.showError(ex), $grid);
+                    },
+                    ex => FwFunc.showError(ex), $confirmation.find('.fwconfirmationbox'));
             });
         }
     }
