@@ -471,6 +471,7 @@ namespace WebLibrary.Security
             AddGrid("Order Type Contact Title",               "{E104C48C-2579-4674-9BD1-41069AC6968B}", lv1menuGrids.Id, "OrderTypeContactTitleGridController");
             AddGrid("Parts Inventory Compatibility",          "{97DC0D58-2968-47F4-970A-0889AEFDC63B}", lv1menuGrids.Id, "PartsInventoryCompatibilityGridController");
             AddGrid("Parts Inventory Substitute",             "{F9B0308B-EBFC-4B37-B812-27E16897B115}", lv1menuGrids.Id, "PartsInventorySubstituteGridController");
+            AddGrid("Parts Inventory Warehouse",              "{162FA407-60F3-45E4-B604-AA655654CC09}", lv1menuGrids.Id, "PartsInventoryWarehouseGridController");
             AddGrid("Parts Inventory Warehouse Pricing",      "{57C77B5A-D699-45A5-9B6F-FEE96DF4E141}", lv1menuGrids.Id, "PartsInventoryWarehousePricingGridController");
             AddGrid("Pick List Item",                         "{F8514841-7652-469B-AF43-3520A34EA5F0}", lv1menuGrids.Id, "PickListItemGridController");
             AddGrid("Pick List Utility",                      "{0DAED562-2319-4569-AC4E-EF89198E54BC}", lv1menuGrids.Id, "PickListUtilityGridController");

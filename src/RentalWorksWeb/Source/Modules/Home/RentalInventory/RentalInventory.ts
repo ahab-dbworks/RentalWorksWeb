@@ -99,6 +99,21 @@ class RentalInventory extends InventoryBase {
         FwBrowse.init(containerWarehouseGridControl);
         FwBrowse.renderRuntimeHtml(containerWarehouseGridControl);
         // ----------
+        const $rentalInventoryWarehousePricingGrid: any = $form.find('div[data-grid="RentalInventoryWarehousePricingGrid"]');
+        const $rentalInventoryWarehouseGridPricingControl: any = FwBrowse.loadGridFromTemplate('RentalInventoryWarehousePricingGrid');
+        $rentalInventoryWarehousePricingGrid.empty().append($rentalInventoryWarehouseGridPricingControl);
+        $rentalInventoryWarehouseGridPricingControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+            request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
+        });
+        $rentalInventoryWarehouseGridPricingControl.data('beforesave', request => {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        FwBrowse.init($rentalInventoryWarehouseGridPricingControl);
+        FwBrowse.renderRuntimeHtml($rentalInventoryWarehouseGridPricingControl);
+        // ----------
         const $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         const $inventoryAvailabilityGridControl = FwBrowse.loadGridFromTemplate('InventoryAvailabilityGrid');
         $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
@@ -349,11 +364,47 @@ class RentalInventory extends InventoryBase {
         // ----------
     };
     //----------------------------------------------------------------------------------------------
+    dynamicColumns($form: any): void {
+        //const 3weekPricing = applicationOptions.
+        //const $rentalInventoryWarehousePricingGrid = $form.find('.rentalgrid [data-name="RentalInventoryWarehousePricingGrid"]');
+        //const fields = jQuery($rentalInventoryWarehousePricingGrid).find('thead tr.fieldnames > td.column > div.field');
+        //let fieldNames: Array<string> = [];
+
+        //for (let i = 3; i < fields.length; i++) {
+        //    let name = jQuery(fields[i]).attr('data-mappedfield');
+        //    if (name !== "QuantityOrdered") {
+        //        fieldNames.push(name);
+        //    }
+        //}
+
+        //FwAppData.apiMethod(true, 'GET', `api/v1/potype/${POTYPE}`, null, FwServices.defaultTimeout, function onSuccess(response) {
+        //    let hiddenPurchase: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.PurchaseShowFields));
+        //    let hiddenMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.MiscShowFields));
+        //    let hiddenLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.LaborShowFields));
+        //    let hiddenSubRental: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubRentalShowFields));
+        //    let hiddenSubSale: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubSaleShowFields));
+        //    let hiddenSubMisc: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubMiscShowFields));
+        //    let hiddenSubLabor: Array<string> = fieldNames.filter(function (field) { return !this.has(field) }, new Set(response.SubLaborShowFields));
+        //    // Non-specific showfields
+        //    for (let i = 0; i < hiddenPurchase.length; i++) {
+        //        jQuery($rentalGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+        //        jQuery($salesGrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+        //        jQuery($partsgrid.find(`[data-mappedfield="${hiddenPurchase[i]}"]`)).parent().hide();
+        //    }
+        //    // Specific showfields
+        //    for (let i = 0; i < hiddenMisc.length; i++) { jQuery($miscGrid.find(`[data-mappedfield="${hiddenMisc[i]}"]`)).parent().hide(); }
+        //    for (let i = 0; i < hiddenLabor.length; i++) { jQuery($laborGrid.find(`[data-mappedfield="${hiddenLabor[i]}"]`)).parent().hide(); }
+        //    for (let i = 0; i < hiddenSubSale.length; i++) { jQuery($subSalesGrid.find(`[data-mappedfield="${hiddenSubSale[i]}"]`)).parent().hide(); }
+        //    for (let i = 0; i < hiddenSubRental.length; i++) { jQuery($subRentalGrid.find(`[data-mappedfield="${hiddenSubRental[i]}"]`)).parent().hide(); }
+        //    for (let i = 0; i < hiddenSubLabor.length; i++) { jQuery($subLaborGrid.find(`[data-mappedfield="${hiddenSubLabor[i]}"]`)).parent().hide(); }
+        //    for (let i = 0; i < hiddenSubMisc.length; i++) { jQuery($subMiscGrid.find(`[data-mappedfield="${hiddenSubMisc[i]}"]`)).parent().hide(); }
+        //}, null, null);
+    };
+    //----------------------------------------------------------------------------------------------
     afterLoad($form: any) {
         super.afterLoad($form);
 
         var $itemLocationTaxGrid: any;
-        var $rentalInventoryWarehouseGrid: any;
         var $inventoryAvailabilityGrid: any;
         var $inventoryConsignmentGrid: any;
         var $inventoryCompleteKitGrid: any;
@@ -369,12 +420,14 @@ class RentalInventory extends InventoryBase {
         var $inventoryKitGrid: any;
         var $wardrobeInventoryColorGrid: any;
         var $wardrobeInventoryMaterialGrid: any;
-        let $containerWarehouseGrid: any;
 
         this.iCodeMask($form);
 
-        $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
-        $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
+        const $containerWarehouseGrid = $form.find('[data-name="ContainerWarehouseGrid"]');
+        const $rentalInventoryWarehouseGrid = $form.find('[data-name="RentalInventoryWarehouseGrid"]');
+        FwBrowse.search($rentalInventoryWarehouseGrid);
+        const $rentalInventoryWarehousePricingGrid = $form.find('[data-name="RentalInventoryWarehousePricingGrid"]');
+        FwBrowse.search($rentalInventoryWarehousePricingGrid);
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         //FwBrowse.search($itemLocationTaxGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
@@ -447,6 +500,8 @@ class RentalInventory extends InventoryBase {
 
         //enable version and effective date fields upon loading if "Enable Software Tracking" is checked
         if (FwFormField.getValueByDataField($form, 'TrackSoftware')) FwFormField.enable($form.find('.track-software'));
+
+        this.dynamicColumns($form);
     };
     //----------------------------------------------------------------------------------------------
     openContainerBrowse($form: any) {

@@ -76,6 +76,21 @@ class SalesInventory extends InventoryBase {
         FwBrowse.init($salesInventoryWarehouseGridControl);
         FwBrowse.renderRuntimeHtml($salesInventoryWarehouseGridControl);
         // ----------
+        const $salesInventoryWarehousePricingGrid: any = $form.find('div[data-grid="SalesInventoryWarehousePricingGrid"]');
+        const $salesInventoryWarehouseGridPricingControl: any = FwBrowse.loadGridFromTemplate('SalesInventoryWarehousePricingGrid');
+        $salesInventoryWarehousePricingGrid.empty().append($salesInventoryWarehouseGridPricingControl);
+        $salesInventoryWarehouseGridPricingControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+            request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
+        });
+        $salesInventoryWarehouseGridPricingControl.data('beforesave', request => {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        FwBrowse.init($salesInventoryWarehouseGridPricingControl);
+        FwBrowse.renderRuntimeHtml($salesInventoryWarehouseGridPricingControl);
+        // ----------
         const $inventoryAvailabilityGrid = $form.find('div[data-grid="InventoryAvailabilityGrid"]');
         const $inventoryAvailabilityGridControl = FwBrowse.loadGridFromTemplate('InventoryAvailabilityGrid');
         $inventoryAvailabilityGrid.empty().append($inventoryAvailabilityGridControl);
@@ -292,8 +307,10 @@ class SalesInventory extends InventoryBase {
     afterLoad($form: any) {
         super.afterLoad($form);
 
-        let $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
+        const $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
         FwBrowse.search($salesInventoryWarehouseGrid);
+        const $salesInventoryWarehousePricingGrid = $form.find('[data-name="SalesInventoryWarehousePricingGrid"]');
+        FwBrowse.search($salesInventoryWarehousePricingGrid);
 
         this.afterLoadSetClassification($form);
         this.addAssetTab($form);

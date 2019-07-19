@@ -22,20 +22,35 @@ class PartsInventory extends InventoryBase {
         FwBrowse.init($inventoryLocationTaxGridControl);
         FwBrowse.renderRuntimeHtml($inventoryLocationTaxGridControl);
         // ----------
-        const $salesInventoryWarehouseGrid: any = $form.find('div[data-grid="SalesInventoryWarehouseGrid"]');
-        const $salesInventoryWarehouseGridControl: any = FwBrowse.loadGridFromTemplate('SalesInventoryWarehouseGrid');
-        $salesInventoryWarehouseGrid.empty().append($salesInventoryWarehouseGridControl);
-        $salesInventoryWarehouseGridControl.data('ondatabind', request => {
+        const $partsInventoryWarehouseGrid: any = $form.find('div[data-grid="PartsInventoryWarehouseGrid"]');
+        const $partsInventoryWarehouseGridControl: any = FwBrowse.loadGridFromTemplate('PartsInventoryWarehouseGrid');
+        $partsInventoryWarehouseGrid.empty().append($partsInventoryWarehouseGridControl);
+        $partsInventoryWarehouseGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
             };
             request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
         });
-        $salesInventoryWarehouseGridControl.data('beforesave', request => {
+        $partsInventoryWarehouseGridControl.data('beforesave', request => {
             request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
         });
-        FwBrowse.init($salesInventoryWarehouseGridControl);
-        FwBrowse.renderRuntimeHtml($salesInventoryWarehouseGridControl);
+        FwBrowse.init($partsInventoryWarehouseGridControl);
+        FwBrowse.renderRuntimeHtml($partsInventoryWarehouseGridControl);
+        // ----------
+        const $partsInventoryWarehousePricingGrid: any = $form.find('div[data-grid="PartsInventoryWarehousePricingGrid"]');
+        const $partsInventoryWarehouseGridPricingControl: any = FwBrowse.loadGridFromTemplate('PartsInventoryWarehousePricingGrid');
+        $partsInventoryWarehousePricingGrid.empty().append($partsInventoryWarehouseGridPricingControl);
+        $partsInventoryWarehouseGridPricingControl.data('ondatabind', request => {
+            request.uniqueids = {
+                InventoryId: $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+            };
+            request.pagesize = 100;  //justin 04/01/2019 #359 show all active warehouses here
+        });
+        $partsInventoryWarehouseGridPricingControl.data('beforesave', request => {
+            request.InventoryId = $form.find('div.fwformfield[data-datafield="InventoryId"] input').val()
+        });
+        FwBrowse.init($partsInventoryWarehouseGridPricingControl);
+        FwBrowse.renderRuntimeHtml($partsInventoryWarehouseGridPricingControl);
         // ----------
         const $inventoryCompleteKitGrid: any = $form.find('div[data-grid="InventoryCompleteKitGrid"]');
         const $inventoryCompleteKitGridControl: any = FwBrowse.loadGridFromTemplate('InventoryCompleteKitGrid');
@@ -185,7 +200,6 @@ class PartsInventory extends InventoryBase {
     afterLoad($form: any) {
         super.afterLoad($form);
         let $itemLocationTaxGrid: any;
-        let $salesInventoryWarehouseGrid: any;
         let $inventoryAvailabilityGrid: any;
         let $inventoryConsignmentGrid: any;
         let $inventoryCompleteKitGrid: any;
@@ -200,10 +214,13 @@ class PartsInventory extends InventoryBase {
         let $inventoryCompleteGrid: any;
         let $inventoryKitGrid: any;
 
+        const $partsInventoryWarehouseGrid = $form.find('[data-name="PartsInventoryWarehouseGrid"]');
+        FwBrowse.search($partsInventoryWarehouseGrid);
+        const $partsInventoryWarehousePricingGrid = $form.find('[data-name="PartsInventoryWarehousePricingGrid"]');
+        FwBrowse.search($partsInventoryWarehousePricingGrid);
+
         $itemLocationTaxGrid = $form.find('[data-name="ItemLocationTaxGrid"]');
         //FwBrowse.search($itemLocationTaxGrid);
-        $salesInventoryWarehouseGrid = $form.find('[data-name="SalesInventoryWarehouseGrid"]');
-        FwBrowse.search($salesInventoryWarehouseGrid);
         $inventoryAvailabilityGrid = $form.find('[data-name="InventoryAvailabilityGrid"]');
         //FwBrowse.search($inventoryAvailabilityGrid);
         $inventoryConsignmentGrid = $form.find('[data-name="InventoryConsignmentGrid"]');
