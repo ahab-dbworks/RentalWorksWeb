@@ -34,6 +34,18 @@ namespace WebApi.Modules.Home.InventoryWarehouse
         [FwLogicProperty(Id:"MvENYHVYmOtS")]
         public decimal? WeeklyCost { get { return masterWarehouse.WeeklyCost; } set { masterWarehouse.WeeklyCost = value; } }
 
+        [FwLogicProperty(Id: "oM35O69R0YC0")]
+        public decimal? Week2Rate { get { return masterWarehouse.Week2Rate; } set { masterWarehouse.Week2Rate = value; } }
+
+        [FwLogicProperty(Id: "5JsGUV6Ck76e")]
+        public decimal? Week3Rate { get { return masterWarehouse.Week3Rate; } set { masterWarehouse.Week3Rate = value; } }
+
+        [FwLogicProperty(Id: "Guk00HL0Rh6X")]
+        public decimal? Week4Rate { get { return masterWarehouse.Week4Rate; } set { masterWarehouse.Week4Rate = value; } }
+
+        //[FwLogicProperty(Id:"X3aPlKeZzwTM")]
+        //public decimal? Week5Rate { get { return masterWarehouse.Week5Rate; } set { masterWarehouse.Week5Rate = value; } }
+
         [FwLogicProperty(Id:"KNVTpOJGY9Ul")]
         public decimal? MonthlyRate { get { return masterWarehouse.MonthlyRate; } set { masterWarehouse.MonthlyRate = value; } }
 

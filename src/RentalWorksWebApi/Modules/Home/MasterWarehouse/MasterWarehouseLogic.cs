@@ -32,6 +32,9 @@ namespace WebApi.Modules.Home.MasterWarehouse
         [FwLogicProperty(Id:"1YIBbxvSTfm0", IsReadOnly:true)]
         public string Warehouse { get; set; }
 
+        [FwLogicProperty(Id: "guLzUpMJ60Dcb", IsReadOnly: true)]
+        public int? WarehouseOrderBy { get; set; }
+
 
         //[FwLogicProperty(Id:"pVWKGqtT6FD4", IsReadOnly:true)]
         //public decimal? Qty { get; set; }
