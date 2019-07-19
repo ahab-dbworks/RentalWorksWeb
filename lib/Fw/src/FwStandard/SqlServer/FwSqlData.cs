@@ -433,6 +433,7 @@ namespace FwStandard.SqlServer
                     //decryptedOption        = await FwSqlData.DecryptAsync(conn, dbConfig, encryptedOptions[i]);
                     decryptedOption = decryptedOptions[i];
                     description            = decryptedOption.Substring(0, decryptedOption.Length - 4).ToUpper();
+                    description = description.Replace("3", "THREE");  //justin 07/19/2019 temporary 3weekpricing --> threeweekpricing  
                     key = description.Replace("-", "").Replace("_", "").ToLower();
                     enabled                = decryptedOption.Substring(decryptedOption.Length - 4, 1).Equals("T");
                     value                  = FwConvert.ToInt32(decryptedOption.Substring(decryptedOption.Length - 3, 3));                    
