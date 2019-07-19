@@ -136,6 +136,9 @@ namespace WebApi.Modules.Home.ContractItemDetail
         [FwSqlDataField(column: "consignoragreementid", modeltype: FwDataTypes.Text)]
         public string ConsignorAgreementId { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "isvoid", modeltype: FwDataTypes.Boolean)]
+        public bool? IsVoid { get; set; }
+        //------------------------------------------------------------------------------------ 
         protected override void SetBaseSelectQuery(FwSqlSelect select, FwSqlCommand qry, FwCustomFields customFields = null, BrowseRequest request = null)
         {
             useWithNoLock = false;

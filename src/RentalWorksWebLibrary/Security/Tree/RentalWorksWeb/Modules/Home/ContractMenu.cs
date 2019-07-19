@@ -25,6 +25,7 @@ namespace WebLibrary.Security.Tree.RentalWorksWeb.Modules.Settings
             var nodeFormSubMenu = tree.AddSubMenu("{1AAC6F42-ED48-45FC-981A-73EFE471ABCF}", nodeFormMenuBar.Id);
             var nodeFormOptions = tree.AddSubMenuGroup("Options", "{FB5A9DA4-90E3-4637-B29B-C20A1C891F22}", nodeFormSubMenu.Id);
             tree.AddSubMenuItem("Print Order", "{8C34754E-B27F-4FE1-93F3-8D6D84339322}", nodeFormOptions.Id);
+            tree.AddSubMenuItem("Void Entire Contract", "{426E75B4-D91E-416F-AEB2-F6B4F8BB5936}", nodeFormOptions.Id);
         }
         //---------------------------------------------------------------------------------------------
     }

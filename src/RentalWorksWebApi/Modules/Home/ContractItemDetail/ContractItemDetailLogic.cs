@@ -138,6 +138,8 @@ namespace WebApi.Modules.Home.ContractItemDetail
         [FwLogicProperty(Id:"ZxbFFiYZRgvX")]
         public string ConsignorAgreementId { get; set; }
 
+        [FwLogicProperty(Id: "fmpBihxoTwq")]
+        public bool? IsVoid { get; set; }
         //------------------------------------------------------------------------------------ 
     }
 }

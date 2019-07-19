@@ -8,6 +8,10 @@ using WebLibrary;
 
 namespace WebApi.Modules.Home.Contract
 {
+    public class VoidContractRequest
+    {
+        public string ContractId;
+    }
     public static class ContractFunc
     {
         //-------------------------------------------------------------------------------------------------------
@@ -100,6 +104,22 @@ namespace WebApi.Modules.Home.Contract
                 qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
                 await qry.ExecuteNonQueryAsync();
             }
+            return response;
+        }
+        //-------------------------------------------------------------------------------------------------------
+        public static async Task<TSpStatusResponse> VoidContract(FwApplicationConfig appConfig, FwUserSession userSession, VoidContractRequest request) 
+        {
+
+            TSpStatusResponse response = new TSpStatusResponse();
+            //using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+            //{
+            //    FwSqlCommand qry = new FwSqlCommand(conn, "voidcontract", appConfig.DatabaseSettings.QueryTimeout);
+            //    qry.AddParameter("@contractid", SqlDbType.NVarChar, ParameterDirection.Input, request.ContractId);
+            //    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+            //    await qry.ExecuteNonQueryAsync();
+            //}
+            response.msg = "Not yet programmed.";
+
             return response;
         }
         //-------------------------------------------------------------------------------------------------------

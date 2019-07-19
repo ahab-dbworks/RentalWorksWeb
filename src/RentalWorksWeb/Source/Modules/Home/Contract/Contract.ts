@@ -389,5 +389,22 @@ FwApplicationTree.clickEvents[Constants.Modules.Home.Contract.form.menuItems.Pri
     }
 };
 //----------------------------------------------------------------------------------------------
+FwApplicationTree.clickEvents[Constants.Modules.Home.Contract.form.menuItems.VoidContract.id] = function (e: JQuery.ClickEvent) {
+    const $form = jQuery(this).closest('.fwform');
+    try {
+        const request: any = {};
+        request.ContractId = FwFormField.getValueByDataField($form, 'ContractId');
+        FwAppData.apiMethod(true, 'POST', `api/v1/contract/voidcontract`, request, FwServices.defaultTimeout,
+            response => {
+                let $confirmation = FwConfirmation.renderConfirmation('Error', response.msg);
+                FwConfirmation.addButton($confirmation, 'OK', true);
+            }
+            , ex => FwFunc.showError(ex), $form);
+    }
+    catch (ex) {
+        FwFunc.showError(ex);
+    }
+};
+//----------------------------------------------------------------------------------------------
 
 var ContractController = new Contract();

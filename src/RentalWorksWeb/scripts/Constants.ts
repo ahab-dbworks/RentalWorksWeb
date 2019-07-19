@@ -42,7 +42,8 @@
             Contract: { id: '6BBB8A0A-53FA-4E1D-89B3-8B184B233DEA', caption: 'Contract', nav: 'module/contract', 
                 form: {
                     menuItems: { 
-                        PrintOrder: { id: '{8C34754E-B27F-4FE1-93F3-8D6D84339322}' } 
+                        PrintOrder: { id: '{8C34754E-B27F-4FE1-93F3-8D6D84339322}' },
+                        VoidContract: { id: '{426E75B4-D91E-416F-AEB2-F6B4F8BB5936}' }
                     } 
                 }
             },
