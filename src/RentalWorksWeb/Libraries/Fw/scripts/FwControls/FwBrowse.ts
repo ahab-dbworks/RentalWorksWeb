@@ -1186,13 +1186,20 @@ class FwBrowseClass {
                 html.push('<div class="legend" style="display:none;"></div>');
                 html.push('<div class="pager"></div>');
                 if ($control.attr('data-type') === 'Validation') {
+                    const moduleName = $control.attr('data-name').replace('Validation', '');
+                    const controller = `${moduleName}Controller`;
+                    const nodeModule = FwApplicationTree.getNodeByController(controller);
+                    const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
+                    const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
+                    const hasBrowseNew = (nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
+
                     html.push('<div class="validationbuttons">');
                     html.push('<div class="fwbrowsebutton btnSelect">Select</div>');
                     html.push('<div class="fwbrowsebutton btnSelectAll" title="The report will run faster if you Select All from this button vs selecting individual rows." style="display:none;">Select All</div>');
                     html.push('<div class="fwbrowsebutton btnClear">Clear</div>');
                     html.push('<div class="fwbrowsebutton btnViewSelection" style="display:none;">View Selection</div>');
                     html.push('<div class="fwbrowsebutton btnCancel">Cancel</div>');
-                    if ($control.attr('data-allownew') !== 'false') {
+                    if (hasBrowseNew) {
                         html.push('<div class="fwbrowsebutton btnNew">New</div>');
                     }
                     html.push(`<div class="multiSelectDisplay" style="font-size:.9em; font-weight:bold; margin:0px 10px; display:none;">
@@ -1522,12 +1529,12 @@ class FwBrowseClass {
                         }
                         if ($submenubtn !== null) {
                             const hasDeleteAction = nodeDeleteAction !== null && nodeDeleteAction.properties['visible'] === 'T';
-                            
+
                             // if there are any actions
                             if (hasDeleteAction) {
                                 const $submenucolumn = FwGridMenu.addSubMenuColumn($submenubtn);
                                 const $rowactions = FwGridMenu.addSubMenuGroup($submenucolumn, 'Actions', '');
-                                
+
                                 // Delete Action 
                                 if (hasDeleteAction) {
                                     const $submenuitem = FwGridMenu.addSubMenuBtn($rowactions, 'Delete Selected', nodeDeleteAction.id);
