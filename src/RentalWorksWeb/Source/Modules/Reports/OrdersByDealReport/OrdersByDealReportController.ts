@@ -17,7 +17,7 @@ const ordersByDealTemplate = `
             <div class="flexcolumn" style="max-width:175px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Create Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDatesOrderCreate" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
+                  <div data-datafield="FilterDatesOrderCreate" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
                   <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
                   <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
@@ -26,7 +26,7 @@ const ordersByDealTemplate = `
             <div class="flexcolumn" style="max-width:193px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Est. Start Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDates" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
+                  <div data-datafield="FilterDatesStartRange" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
                   <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
                   <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
@@ -35,7 +35,7 @@ const ordersByDealTemplate = `
             <div class="flexcolumn" style="max-width:225px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal Credit Status Through">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDates" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
+                  <div data-datafield="FilterDatesDealCredit" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
                   <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
                   <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
@@ -44,7 +44,7 @@ const ordersByDealTemplate = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal Ins. Conf. Through">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDates" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield filter-dates" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
+                  <div data-datafield="FilterDatesDealInsurance" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
                   <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
                   <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
@@ -53,7 +53,7 @@ const ordersByDealTemplate = `
              <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Type">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="RecType" style="float:left;max-width:110px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="OrderType" style="float:left;max-width:110px;"></div>
                 </div>
               </div>
             </div>
@@ -66,7 +66,7 @@ const ordersByDealTemplate = `
             </div>
             <div class="flexcolumn" style="max-width:400px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Include">
-                <div data-datafield="IsSummary" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                <div data-datafield="IncludeNoCharge" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="ALL" data-caption="All Orders"></div>
                   <div data-value="NoChargeOnly" data-caption="&quot;No Charge&quot; Orders Only"></div>
                   <div data-value="ExcludeNoCharge" data-caption="Exclude &quot;No Charge&quot; Orders"></div>
