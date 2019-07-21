@@ -13,12 +13,12 @@
 
     //----------------------------------------------------------------------------------------------
     getModuleScreen = () => {
-        let screen: any = {};
+        const screen: any = {};
         screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
         screen.viewModel = {};
         screen.properties = {};
 
-        let $form = this.openForm('EDIT');
+        const $form = this.openForm('EDIT');
 
         screen.load = () => {
             FwModule.openModuleTab($form, `${this.caption}`, false, 'FORM', true);
@@ -217,9 +217,9 @@
         $form.find('.in').on('keypress', e => {
             if (e.which === 13) {
                 try {
-                    var inRequest = {
+                    const inRequest: any = {
                         ContractId: this.ContractId,
-                        InCode: jQuery(this).find('input').val()
+                        InCode: jQuery(e.currentTarget).find('input').val()
                     }
                     FwAppData.apiMethod(true, 'POST', "api/v1/exchange/exchangeitemin", inRequest, FwServices.defaultTimeout, response => {
                         if (response.success) {
@@ -291,7 +291,7 @@
     };
     //----------------------------------------------------------------------------------------------
     beforeValidateOrder($browse, $grid, request) {
-        var $form = $grid.closest('.fwform');
+        const $form = $grid.closest('.fwform');
         const DealId: string = FwFormField.getValueByDataField($form, 'DealId');
         if (DealId.length > 0) {
             request.uniqueids = {
@@ -301,7 +301,7 @@
     };
     //----------------------------------------------------------------------------------------------
     resetForm($form) {
-        let fields = $form.find('.fwformfield');
+        const fields = $form.find('.fwformfield');
         for (let i = 0; i < fields.length; i++) {
             if (jQuery(fields[i]).attr('data-datafield') !== 'DepartmentId') {
                 FwFormField.setValue2(jQuery(fields[i]), '', '');
