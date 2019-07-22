@@ -280,9 +280,6 @@ namespace WebApi.Modules.Administrator.User
         [FwSqlDataField(column: "lockaccount", modeltype: FwDataTypes.Boolean)]
         public bool? AccountLocked { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "webusersid", modeltype: FwDataTypes.Text)]
-        public string WebUserId { get; set; }
-        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "webadministrator", modeltype: FwDataTypes.Boolean)]
         public bool? WebAdministrator { get; set; }
         //------------------------------------------------------------------------------------ 
