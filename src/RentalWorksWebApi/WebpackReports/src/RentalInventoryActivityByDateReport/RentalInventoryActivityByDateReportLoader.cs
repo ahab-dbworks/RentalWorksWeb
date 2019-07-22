@@ -8,11 +8,10 @@ using System.Data;
 using System.Reflection;
 namespace WebApi.Modules.Reports.RentalInventoryActivityByDateReport
 {
-    [FwSqlTable("tmpreporttable")]
     public class RentalInventoryActivityByDateReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "fromdate", modeltype: FwDataTypes.Date)]
@@ -65,28 +64,23 @@ namespace WebApi.Modules.Reports.RentalInventoryActivityByDateReport
         //------------------------------------------------------------------------------------ 
         public async Task<FwJsonDataTable> RunReportAsync(RentalInventoryActivityByDateReportRequest request)
         {
-            useWithNoLock = false;
             FwJsonDataTable dt = null;
-            using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
+            using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlSelect select = new FwSqlSelect();
-                select.EnablePaging = false;
-                select.UseOptionRecompile = true;
-                using (FwSqlCommand qry = new FwSqlCommand(conn, AppConfig.DatabaseSettings.ReportTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getrentalinventoryactivitybydateweb", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    SetBaseSelectQuery(select, qry);
-                    select.Parse();
-                    select.AddParameter("@fromdate", request.FromDate);
-                    select.AddParameter("@todate", request.ToDate);
-                    select.AddWhereIn("warehouseid", request.WarehouseId);
-                    select.AddWhereIn("inventorydepartmentid", request.InventoryTypeId);
-                    select.AddWhereIn("categoryid", request.CategoryId);
-                    select.AddWhereIn("subcategoryid", request.SubCategoryId);
-                    select.AddWhereIn("masterid", request.InventoryId);
-                    select.AddOrderBy("warehouse, inventorydepartment, category, subcategory, masterno");
-                    dt = await qry.QueryToFwJsonTableAsync(select, false);
+                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@warehouseid", SqlDbType.Text, ParameterDirection.Input, request.WarehouseId);
+                    qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
+                    qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
+                    qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
+                    qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
+                    AddPropertiesAsQueryColumns(qry);
+                    dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
             }
+
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "QuantityOut", "QuantityIn" };
