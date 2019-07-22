@@ -350,6 +350,7 @@ class RwMaster extends WebMaster {
         if (sessionStorage.getItem('userType') === 'USER') {
             if (sessionStorage['toolbar']) {
                 const toolbarModules = JSON.parse(sessionStorage.getItem('toolbar'));
+                const modules = jQuery(`<div style="display:flex; max-width:1300px; overflow:hidden;flex-flow:row wrap; justify-content: flex-end; height:25px;"></div>`);
                 for (let i = 0; i < toolbarModules.length; i++) {
                     const $this = toolbarModules[i];
                     const $module = jQuery(`<div class="toolbar-module dashboard" style="display:flex;"><i class="material-icons" title="${$this.text}">star</i><span>${$this.text}</span></div>`);
@@ -360,8 +361,9 @@ class RwMaster extends WebMaster {
                             FwFunc.showError(ex);
                         }
                     });
-                    FwFileMenu.UserControl_addSystemBarControl($this.text, $module, $usercontrol);
+                    modules.append($module);
                 }
+                FwFileMenu.UserControl_addSystemBarControl('favorites', modules, $usercontrol);
             }
             const $dashboard = jQuery('<i class="material-icons dashboard" title="Dashboard">insert_chart</i>');
             $dashboard.on('click', function () {
