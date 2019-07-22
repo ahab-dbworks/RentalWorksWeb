@@ -929,6 +929,7 @@
     <Content Include="Source\Modules\Settings\GlAccount\GlAccountBrowse.htm" />
     <Content Include="Source\Modules\Settings\GlAccount\GlAccountForm.htm" />
     <Content Include="Source\Modules\Settings\UserSettings\UserSettingsForm.htm" />
+    <Content Include="Source\Modules\Utilities\MigrateOrders\MigrateOrdersForm.htm" />
     <Content Include="Source\Modules\Utilities\ExportSettings\ExportSettingsBrowse.htm" />
     <Content Include="Source\Modules\Utilities\ExportSettings\ExportSettingsForm.htm" />
     <Content Include="Source\Modules\Utilities\InvoiceProcessBatch\InvoiceProcessBatchForm.htm" />
@@ -939,6 +940,7 @@
     <TypeScriptCompile Include="Source\Modules\Home\PartsInventory\PartsInventory.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketSegment\MarketSegment.ts" />
     <TypeScriptCompile Include="Source\Modules\Settings\MarketType\MarketType.ts" />
+    <TypeScriptCompile Include="Source\Modules\Utilities\MigrateOrders\MigrateOrders.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\ExportSettings\ExportSettings.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\InvoiceProcessBatch\InvoiceProcessBatchController.ts" />
     <TypeScriptCompile Include="Source\Modules\Utilities\DashboardSettings\DashboardSettings.ts" />

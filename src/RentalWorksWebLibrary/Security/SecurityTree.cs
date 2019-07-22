@@ -355,6 +355,7 @@ namespace WebLibrary.Security
             AddModule("Process Vendor Invoices",       "{4FA8A060-F2DF-4E59-8F9D-4A6A62A0D240}", lv1menuUtilities.Id, "VendorInvoiceProcessBatchController");
             AddModule("Export Settings",               "{70CEC5BB-2FD9-4C68-9BE2-F8A3C6A17BB7}", lv1menuUtilities.Id, "ExportSettingsController");
             AddModule("QuikActivity Calendar",         "{897BCF55-6CE7-412C-82CB-557B045F8C0A}", lv1menuUtilities.Id, "QuikActivityCalendarController");
+            AddModule("Migrate Orders",                "{6FAA0140-ACA2-40CA-9FDD-507EAC437F2A}", lv1menuUtilities.Id, "MigrateOrdersController");
 
             // Add Administrator 
             AddModule("Alerts",              "{6E5F47FB-1F18-443E-B464-9D2351857361}", lv1menuAdministrator.Id, "AlertController");
@@ -715,7 +716,7 @@ namespace WebLibrary.Security
             AddModule("Dashboard",                     "{E01F0032-CFAA-4556-9F24-E4C28C5B50A1}", lv1menuUtilities.Id, "DashboardController");
             AddModule("Dashboard Settings",            "{AD262A8E-A487-4786-895D-6E3DA1DB13BD}", lv1menuUtilities.Id, "DashboardSettingsController");
             AddModule("QuikActivity Calendar",         "{FB114A8F-1675-4C7C-BC9C-A4C005A405D7}", lv1menuUtilities.Id, "QuikActivityCalendarController");
-
+          
             // Administrator
             AddModule("Control",         "{044829ED-579F-4AAD-B464-B4823FDB5A35}", lv1menuAdministrator.Id, "ControlController");
             AddModule("Custom Field",    "{99D56DA6-5779-44A5-8BA6-E033F343C6D0}", lv1menuAdministrator.Id, "CustomFieldController");

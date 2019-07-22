@@ -284,6 +284,7 @@
                     }
                 }
             },
+            MigrateOrders: { id: '6FAA0140-ACA2-40CA-9FDD-507EAC437F2A', caption: 'Migrate Orders', nav: 'module/migrateorders' },
             QuikActivityCalendar: { id: '897BCF55-6CE7-412C-82CB-557B045F8C0A', caption: 'QuikActivity Calendar', nav: 'module/quikactivitycalendar' },
             ReceiptProcessBatch: { id: '0BB9B45C-57FA-47E1-BC02-39CEE720792C', caption: 'Process Receipts', nav: 'module/receiptprocessbatch',
                 form: {
