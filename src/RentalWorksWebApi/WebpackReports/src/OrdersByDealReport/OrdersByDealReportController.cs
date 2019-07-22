@@ -33,7 +33,7 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
         public string DealTypeId { get; set; }
         public string DealStatusId { get; set; }
         public string DealId { get; set; }
-        public string IncludeNoCharge { get; set; }
+        public string NoCharge { get; set; } //ALL, NoChargeOnly, ExcludeNoCharge
         public SelectedCheckBoxListItems OrderType { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems QuoteStatus { get; set; } = new SelectedCheckBoxListItems();
         public SelectedCheckBoxListItems OrderStatus { get; set; } = new SelectedCheckBoxListItems();

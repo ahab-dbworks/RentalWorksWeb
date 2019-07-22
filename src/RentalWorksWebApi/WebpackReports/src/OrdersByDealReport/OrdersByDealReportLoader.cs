@@ -6,6 +6,9 @@ using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
 using System.Reflection;
+using WebLibrary;
+using System.Text;
+
 namespace WebApi.Modules.Reports.OrdersByDealReport
 {
     [FwSqlTable("dealorderrptwebview")]
@@ -169,7 +172,6 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    // IncludeNoCharge - not sure how this should  go since everywhere else, its being used as a boolean
 
                     if (request.FilterDatesOrderCreate.GetValueOrDefault(false))
                     {
@@ -197,7 +199,85 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
                     select.AddWhereIn("dealtypeid", request.DealTypeId);
                     select.AddWhereIn("dealstatusid", request.DealStatusId);
                     select.AddWhereIn("dealid", request.DealId);
-                    // select.AddWhereIn("type", request.OrderType);  -- was causing errors
+
+                    if (!string.IsNullOrEmpty(request.NoCharge))   // ALL, NoChargeOnly, ExcludeNoCharge
+                    {
+                        if (request.NoCharge.Equals("NoChargeOnly"))
+                        {
+                            select.AddWhere("nocharge = @nocharge");
+                            select.AddParameter("@nocharge", "T");
+                        }
+                        else if (request.NoCharge.Equals("ExcludeNoCharge"))
+                        {
+                            select.AddWhere("nocharge <> @nocharge");
+                            select.AddParameter("@nocharge", "T");
+                        }
+                    }
+
+                    if (request.OrderType.Count > 0)
+                    {
+                        StringBuilder orderTypeWhere = new StringBuilder();
+
+                        foreach (SelectedCheckBoxListItem item in request.OrderType)
+                        {
+                            if (item.value.Equals(RwConstants.RECTYPE_RENTAL))
+                            {
+                                if (orderTypeWhere.Length.Equals(0))
+                                {
+                                    orderTypeWhere.Append("(");
+                                }
+                                else
+                                {
+                                    orderTypeWhere.Append(" or ");
+                                }
+                                orderTypeWhere.Append("rentalextended <> 0");
+                            }
+                            if (item.value.Equals(RwConstants.RECTYPE_SALE))
+                            {
+                                if (orderTypeWhere.Length.Equals(0))
+                                {
+                                    orderTypeWhere.Append("(");
+                                }
+                                else
+                                {
+                                    orderTypeWhere.Append(" or ");
+                                }
+                                orderTypeWhere.Append("salesextended <> 0");
+                            }
+                            if (item.value.Equals(RwConstants.RECTYPE_LABOR))
+                            {
+                                if (orderTypeWhere.Length.Equals(0))
+                                {
+                                    orderTypeWhere.Append("(");
+                                }
+                                else
+                                {
+                                    orderTypeWhere.Append(" or ");
+                                }
+                                orderTypeWhere.Append("laborextended <> 0");
+                            }
+                            if (item.value.Equals(RwConstants.RECTYPE_MISCELLANEOUS))
+                            {
+                                if (orderTypeWhere.Length.Equals(0))
+                                {
+                                    orderTypeWhere.Append("(");
+                                }
+                                else
+                                {
+                                    orderTypeWhere.Append(" or ");
+                                }
+                                orderTypeWhere.Append("miscextended <> 0");
+                            }
+                        }
+
+                        if (orderTypeWhere.Length > 0)
+                        {
+                            orderTypeWhere.Append(")");
+
+                            select.AddWhere(orderTypeWhere.ToString());
+                        }
+                    }
+
                     request.OrderStatus.Add(new SelectedCheckBoxListItem(""));
                     select.AddWhereIn("orderstatus", request.OrderStatus);
 
@@ -209,7 +289,7 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "RentalExtended", "SalesExtended", "LaborExtended", "MiscExtended" };
-                string[] headerFieldsDeal = new string[] { "Customer", "DealNumber", "DealType", "DealPrimaryContactName", "DealPrimaryContactPhone", "dealprimarycontactext", "CreditStatus", "InsuranceCertification" };
+                string[] headerFieldsDeal = new string[] { "Customer", "DealNumber", "DealType", "DealPrimaryContactName", "DealPrimaryContactPhone", "DealPrimaryContactExt", "CreditStatus", "InsuranceCertification" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);

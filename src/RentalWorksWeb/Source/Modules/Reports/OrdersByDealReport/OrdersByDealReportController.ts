@@ -66,7 +66,7 @@ const ordersByDealTemplate = `
             </div>
             <div class="flexcolumn" style="max-width:400px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Include">
-                <div data-datafield="IncludeNoCharge" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
+                <div data-datafield="NoCharge" data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="">
                   <div data-value="ALL" data-caption="All Orders"></div>
                   <div data-value="NoChargeOnly" data-caption="&quot;No Charge&quot; Orders Only"></div>
                   <div data-value="ExcludeNoCharge" data-caption="Exclude &quot;No Charge&quot; Orders"></div>
