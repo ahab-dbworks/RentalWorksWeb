@@ -18,17 +18,17 @@ const ordersByDealTemplate = `
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Create Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="FilterDatesOrderCreate" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
-                  <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
-                  <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="OrderCreateFromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="OrderCreateToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
               </div>
             </div>
             <div class="flexcolumn" style="max-width:193px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Order Est. Start Range">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-datafield="FilterDatesStartRange" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
-                  <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
-                  <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="FilterDatesOrderStart" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
+                  <div data-datafield="OrderStartFromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="OrderStartToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
               </div>
             </div>
@@ -36,8 +36,8 @@ const ordersByDealTemplate = `
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal Credit Status Through">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="FilterDatesDealCredit" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
-                  <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
-                  <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="DealCreditFromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="DealCreditToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
               </div>
             </div>
@@ -45,8 +45,8 @@ const ordersByDealTemplate = `
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Deal Ins. Conf. Through">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-datafield="FilterDatesDealInsurance" data-control="FwFormField" data-type="checkbox" class="fwcontrol fwformfield" data-caption="Filter Dates" style="float:left;max-width:110px;"></div>
-                  <div data-datafield="FromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
-                  <div data-datafield="ToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="DealInsuranceFromDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="From" data-enabled="false" style="float:left;max-width:160px;"></div>
+                  <div data-datafield="DealInsuranceToDate" data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="To" data-enabled="false" style="float:left;max-width:160px;"></div>
                 </div>
               </div>
             </div>
@@ -133,28 +133,24 @@ class OrdersByDealReport extends FwWebApiReport {
         // Expose date fields if Filter Date
         $form.on('change', '[data-datafield="FilterDatesOrderCreate"] input', e => {
             const filterDate = FwFormField.getValueByDataField($form, 'FilterDatesOrderCreate');
-            FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
-            FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
-            FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="OrderCreateFromDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="OrderCreateToDate"]'), filterDate);
         });
-        // $form.on('change', '[data-datafield="FilterDatesOrderCreate"] input', e => {
-        //    const filterDate = FwFormField.getValueByDataField($form, 'FilterDatesOrderCreate');
-        //    FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
-        //    FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
-        //    FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
-        //});
-        // $form.on('change', '[data-datafield="FilterDatesOrderCreate"] input', e => {
-        //    const filterDate = FwFormField.getValueByDataField($form, 'FilterDatesOrderCreate');
-        //    FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
-        //    FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
-        //    FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
-        //});
-        // $form.on('change', '[data-datafield="FilterDatesOrderCreate"] input', e => {
-        //    const filterDate = FwFormField.getValueByDataField($form, 'FilterDatesOrderCreate');
-        //    FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
-        //    FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
-        //    FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
-        //});
+        $form.on('change', '[data-datafield="FilterDatesOrderStart"] input', e => {
+            const filterDate = FwFormField.getValueByDataField($form, 'FilterDatesOrderStart');
+            FwFormField.toggle($form.find('div[data-datafield="OrderStartFromDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="OrderStartToDate"]'), filterDate);
+        });
+        $form.on('change', '[data-datafield="FilterDatesDealCredit"] input', e => {
+            const filterDate = FwFormField.getValueByDataField($form, 'FilterDatesDealCredit');
+            FwFormField.toggle($form.find('div[data-datafield="DealCreditFromDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="DealCreditToDate"]'), filterDate);
+        });
+        $form.on('change', '[data-datafield="FilterDatesDealInsurance"] input', e => {
+            const filterDate = FwFormField.getValueByDataField($form, 'FilterDatesDealInsurance');
+            FwFormField.toggle($form.find('div[data-datafield="DealInsuranceFromDate"]'), filterDate);
+            FwFormField.toggle($form.find('div[data-datafield="DealInsuranceToDate"]'), filterDate);
+        });
 
         return $form;
     }
@@ -192,7 +188,7 @@ class OrdersByDealReport extends FwWebApiReport {
             { value: "CLOSED", text: "Closed", selected: "T" },
             { value: "CANCELLED", text: "Cancelled", selected: "T" },
         ]);
-        FwFormField.loadItems($form.find('div[data-datafield="RecType"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="OrderType"]'), [
             { value: "R", text: "Rental", selected: "T" },
             { value: "S", text: "Sales", selected: "T" },
             { value: "M", text: "Miscellaneous", selected: "T" },
@@ -202,10 +198,18 @@ class OrdersByDealReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     afterLoad($form) {
         // Filter Dates
-        const filterDate = FwFormField.getValueByDataField($form, 'FilterDates');
-        FwFormField.toggle($form.find('div[data-datafield="DateType"]'), filterDate);
-        FwFormField.toggle($form.find('div[data-datafield="FromDate"]'), filterDate);
-        FwFormField.toggle($form.find('div[data-datafield="ToDate"]'), filterDate);
+        const filterDatesOrderCreate = FwFormField.getValueByDataField($form, 'FilterDatesOrderCreate');
+        FwFormField.toggle($form.find('div[data-datafield="OrderCreateFromDate"]'), filterDatesOrderCreate);
+        FwFormField.toggle($form.find('div[data-datafield="OrderCreateToDate"]'), filterDatesOrderCreate);
+        const filterDatesOrderStart = FwFormField.getValueByDataField($form, 'FilterDatesOrderStart');
+        FwFormField.toggle($form.find('div[data-datafield="OrderStartFromDate"]'), filterDatesOrderStart);
+        FwFormField.toggle($form.find('div[data-datafield="OrderStartToDate"]'), filterDatesOrderStart);
+        const filterDatesDealCredit = FwFormField.getValueByDataField($form, 'FilterDatesDealCredit');
+        FwFormField.toggle($form.find('div[data-datafield="DealCreditFromDate"]'), filterDatesDealCredit);
+        FwFormField.toggle($form.find('div[data-datafield="DealCreditToDate"]'), filterDatesDealCredit);
+        const filterDatesDealInsurance = FwFormField.getValueByDataField($form, 'FilterDatesDealInsurance');
+        FwFormField.toggle($form.find('div[data-datafield="DealInsuranceFromDate"]'), filterDatesDealInsurance);
+        FwFormField.toggle($form.find('div[data-datafield="DealInsuranceToDate"]'), filterDatesDealInsurance);
     }
     //----------------------------------------------------------------------------------------------
     beforeValidate($browse, $form, request) {
