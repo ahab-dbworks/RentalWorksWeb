@@ -15,10 +15,18 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
 {
     public class OrdersByDealReportRequest : AppReportRequest
     {
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
-        public string DateType { get; set; }
-        public bool? FilterDates { get; set; }
+        public bool? FilterDatesOrderCreate { get; set; }
+        public DateTime? OrderCreateFromDate { get; set; }
+        public DateTime? OrderCreateToDate { get; set; }
+        public bool? FilterDatesOrderStart { get; set; }
+        public DateTime? OrderStartFromDate { get; set; }
+        public DateTime? OrderStartToDate { get; set; }
+        public bool? FilterDatesDealCredit { get; set; }
+        public DateTime? DealCreditFromDate { get; set; }
+        public DateTime? DealCreditToDate { get; set; }
+        public bool? FilterDatesDealInsurance { get; set; }
+        public DateTime? DealInsuranceFromDate { get; set; }
+        public DateTime? DealInsuranceToDate { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public string CustomerId { get; set; }

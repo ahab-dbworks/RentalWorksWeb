@@ -11,6 +11,7 @@ const hbFooter = require("./hbFooter.hbs");
 export class OrdersByDealReport extends WebpackReport {
     renderReport(apiUrl: string, authorizationHeader: string, parameters: any): void {
         try {
+            console.log('param', parameters)
             super.renderReport(apiUrl, authorizationHeader, parameters);
 
             HandlebarsHelpers.registerHelpers();

@@ -162,8 +162,6 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                //--------------------------------------------------------------------------------- 
-                // below uses a "select" query to populate the FwJsonDataTable 
                 FwSqlSelect select = new FwSqlSelect();
                 select.EnablePaging = false;
                 select.UseOptionRecompile = true;
@@ -171,15 +169,35 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
                 {
                     SetBaseSelectQuery(select, qry);
                     select.Parse();
-                    // neeed from / to dates
-                    // include no charge
+                    // IncludeNoCharge - not sure how this should  go since everywhere else, its being used as a boolean
+
+                    if (request.FilterDatesOrderCreate.GetValueOrDefault(false))
+                    {
+                        addDateFilterToSelect("orderdate", request.OrderCreateFromDate, select, ">=", "orderdatefrom");
+                        addDateFilterToSelect("orderdate", request.OrderCreateToDate, select, "<=", "orderdateto");
+                    }
+                    if (request.FilterDatesOrderStart.GetValueOrDefault(false))
+                    {
+                        addDateFilterToSelect("estrentfrom", request.OrderStartFromDate, select, ">=", "estrentfromfrom");
+                        addDateFilterToSelect("estrentfrom", request.OrderStartToDate, select, "<=", "estrentfromto");
+                    }
+                    if (request.FilterDatesDealCredit.GetValueOrDefault(false))
+                    {
+                        addDateFilterToSelect("creditthroughdate", request.DealCreditFromDate, select, ">=", "creditthroughdatefrom");
+                        addDateFilterToSelect("creditthroughdate", request.DealCreditToDate, select, "<=", "creditthroughdateto");
+                    }
+                    if (request.FilterDatesDealInsurance.GetValueOrDefault(false))
+                    {
+                        addDateFilterToSelect("insurancevalidthroughdate", request.DealInsuranceFromDate, select, ">=", "insurancevalidthroughdatefrom");
+                        addDateFilterToSelect("insurancevalidthroughdate", request.DealInsuranceToDate, select, "<=", "insurancevalidthroughdateto");
+                    }
                     select.AddWhereIn("locationid", request.OfficeLocationId);
-                    select.AddWhereIn("agentid", request.DepartmentId);
+                    select.AddWhereIn("departmentid", request.DepartmentId);
                     select.AddWhereIn("customerid", request.CustomerId);
-                    select.AddWhereIn("agentid", request.DepartmentId);
                     select.AddWhereIn("dealtypeid", request.DealTypeId);
                     select.AddWhereIn("dealstatusid", request.DealStatusId);
-                    select.AddWhereIn("type", request.OrderType);
+                    select.AddWhereIn("dealid", request.DealId);
+                    // select.AddWhereIn("type", request.OrderType);  -- was causing errors
                     request.OrderStatus.Add(new SelectedCheckBoxListItem(""));
                     select.AddWhereIn("orderstatus", request.OrderStatus);
 
