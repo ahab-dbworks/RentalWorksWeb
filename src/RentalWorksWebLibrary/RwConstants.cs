@@ -154,6 +154,9 @@
         public const string CONTRACT_TYPE_MANIFEST = "MANIFEST";
         public const string CONTRACT_TYPE_FILL = "FILL";
 
+        //CONTRACT ITEM
+        public const int CONTRACT_ITEM_VOIDED_COLOR = 255; //red
+
         //INVOICE
         public const string INVOICE_DATE_TYPE_INPUT_DATE = "INPUT_DATE";
         public const string INVOICE_DATE_TYPE_INVOICE_DATE = "INVOICE_DATE";

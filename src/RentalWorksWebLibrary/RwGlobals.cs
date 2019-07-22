@@ -75,13 +75,11 @@ namespace WebLibrary
         public static string CONTAINER_READY_COLOR { get; set; }
         public static string CONTAINER_INCOMPLETE_COLOR { get; set; }
 
+        //CONTRACT ITEM
+        public static string CONTRACT_ITEM_VOIDED_COLOR { get; set; }
 
         //GLOBAL
         public static string NEGATIVE_VARIANCE_COLOR { get; set; }
-
-
-
-
 
         //---------------------------------------------------------------------------
         //this gets called one time at system startup
@@ -191,6 +189,9 @@ namespace WebLibrary
 
             AVAILABILITY_COLOR_RESERVED = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_RESERVED);
             AVAILABILITY_COLOR_LATE = FwConvert.OleColorToHtmlColor(RwConstants.AVAILABILITY_COLOR_LATE);
+
+            CONTRACT_ITEM_VOIDED_COLOR = FwConvert.OleColorToHtmlColor(RwConstants.CONTRACT_ITEM_VOIDED_COLOR);
+
 
 
         }

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System;
 using WebApi.Logic;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using WebLibrary;
 
 namespace WebApi.Modules.Home.ContractItemDetail
 {
@@ -24,6 +26,17 @@ namespace WebApi.Modules.Home.ContractItemDetail
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
         {
             return await DoBrowseAsync(browseRequest);
+        }
+        //------------------------------------------------------------------------------------ 
+        // GET api/v1/contractitemdetail/legend 
+        [HttpGet("legend")]
+        [FwControllerMethod(Id: "4AhDxfIX0or")]
+        public async Task<ActionResult<Dictionary<string, string>>> GetLegend()
+        {
+            Dictionary<string, string> legend = new Dictionary<string, string>();
+            legend.Add("Voided Items", RwGlobals.CONTRACT_ITEM_VOIDED_COLOR);
+            await Task.CompletedTask; 
+            return new OkObjectResult(legend);
         }
         //------------------------------------------------------------------------------------ 
         // POST api/v1/contractitemdetail/exportexcelxlsx/filedownloadname 
