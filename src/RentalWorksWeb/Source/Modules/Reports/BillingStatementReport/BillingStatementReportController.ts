@@ -111,7 +111,7 @@ class BillingStatementReport extends FwWebApiReport {
         request.uniqueids = {};
         const customerId = FwFormField.getValueByDataField($form, 'CustomerId');
         const dealTypeId = FwFormField.getValueByDataField($form, 'DealTypeId');
-        const dealCsrId = FwFormField.getValueByDataField($form, 'DealCsrId');
+        const dealStatusId = FwFormField.getValueByDataField($form, 'DealStatusId');
 
         if (customerId) {
             request.uniqueids.CustomerId = customerId;
@@ -119,8 +119,8 @@ class BillingStatementReport extends FwWebApiReport {
         if (dealTypeId) {
             request.uniqueids.DealTypeId = dealTypeId;
         }
-        if (dealCsrId) {
-            request.uniqueids.DealCsrId = dealCsrId;
+        if (dealStatusId) {
+            request.uniqueids.DealStatusId = dealStatusId;
         }
     };
     //----------------------------------------------------------------------------------------------

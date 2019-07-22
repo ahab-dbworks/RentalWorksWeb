@@ -142,7 +142,7 @@
       <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
     </tr>
     <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
-    <tr class="deal-total val"><td style="border:none;"></td><td>174.16{{placeholder}}</td><td>0.00{{placeholder}}</td><td>45.34{{placeholder}}</td><td>9.00{{placeholder}}</td><td>50.00{{placeholder}}</td></tr>
+    <tr class="deal-total val"><td style="border:none;"></td><td>{{DealTotal}}</td><td>{{DealCurrentTotal}}</td><td>{{Deal3160Total}}</td><td>{{Deal6190Total}}</td><td>{{DealOver90Total}}</td></tr>
     {{/ifEquals}}
     {{#ifEquals RowType "InvoiceNumberfooter"}}
     <tr>
@@ -248,37 +248,37 @@
       {{/ifNotEquals}}
     </tbody>
     {{/ifEquals}}
-    <tfoot data-rowtype="{{RowType}}">
-      {{#ifEquals RowType "Dealfooter"}}
-      <tr>
-        <td colspan="4" class="total-name">{{Deal}}&nbsp;</td>
-        <td class="total-val" data-value="{{Due}}"></td>
-        <td class="total-val" data-value="{{Received}}"></td>
-        <td class="total-val" data-value="{{Remaining}}"></td>
-      </tr>
-          <tr data-rowtype="{{RowType}}">
+  <tfoot data-rowtype="{{RowType}}">
+    {{#ifEquals RowType "Dealfooter"}}
+    <tr>
+      <td colspan="4" class="total-name">{{Deal}}&nbsp;</td>
+      <td class="total-val" data-value="{{Due}}"></td>
+      <td class="total-val" data-value="{{Received}}"></td>
+      <td class="total-val" data-value="{{Remaining}}"></td>
+    </tr>
+    <tr data-rowtype="{{RowType}}">
       <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
     </tr>
-      <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
-      <tr class="deal-total val"><td style="border:none;"></td><td>174.16{{placeholder}}</td><td>0.00{{placeholder}}</td><td>45.34{{placeholder}}</td><td>9.00{{placeholder}}</td><td>50.00{{placeholder}}</td></tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "InvoiceNumberfooter"}}
-      <tr>
-        <td colspan="4" class="total-name">{{InvoiceNumber}}&nbsp;</td>
-        <td class="total-val" data-value="{{Due}}"></td>
-        <td class="total-val" data-value="{{Received}}"></td>
-        <td class="total-val" data-value="{{Remaining}}"></td>
-      </tr>
-      {{/ifEquals}}
-      {{#ifEquals RowType "grandtotal"}}
-      <tr>
-        <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{Due}}"></td>
-        <td class="total-val" data-value="{{Received}}"></td>
-        <td class="total-val" data-value="{{Remaining}}"></td>
-      </tr>
-      {{/ifEquals}}
-    </tfoot>
+    <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
+    <tr class="deal-total val"><td style="border:none;"></td><td>{{DealTotal}}</td><td>{{DealCurrentTotal}}</td><td>{{Deal3160Total}}</td><td>{{Deal6190Total}}</td><td>{{DealOver90Total}}</td></tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "InvoiceNumberfooter"}}
+    <tr>
+      <td colspan="4" class="total-name">{{InvoiceNumber}}&nbsp;</td>
+      <td class="total-val" data-value="{{Due}}"></td>
+      <td class="total-val" data-value="{{Received}}"></td>
+      <td class="total-val" data-value="{{Remaining}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "grandtotal"}}
+    <tr>
+      <td colspan="4" class="total-name">Grand Total:&nbsp;</td>
+      <td class="total-val" data-value="{{Due}}"></td>
+      <td class="total-val" data-value="{{Received}}"></td>
+      <td class="total-val" data-value="{{Remaining}}"></td>
+    </tr>
+    {{/ifEquals}}
+  </tfoot>
     {{/each}}
   </table>
 </div>

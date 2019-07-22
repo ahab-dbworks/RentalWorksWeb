@@ -125,13 +125,25 @@ namespace WebApi.Modules.Reports.BillingStatementReport
         [FwSqlDataField(column: "haspayments", modeltype: FwDataTypes.Boolean)]
         public bool? HasPayments { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "pendingfinancecharge", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "pendingfinancecharge", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? PendingFinanceCharge { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "dealtotal", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "dealtotal", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? DealTotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "ytdfinancecharge", modeltype: FwDataTypes.Decimal)]
+        [FwSqlDataField(column: "deal0030", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? DealCurrentTotal { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal3160", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? Deal3160Total { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal6190", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? Deal6190Total { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "deal91x", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
+        public decimal? DealOver90Total { get; set; }
+        //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "ytdfinancecharge", modeltype: FwDataTypes.CurrencyStringNoDollarSign)]
         public decimal? YearToDateFinanceCharge { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "nonbillable", modeltype: FwDataTypes.Boolean)]
