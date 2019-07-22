@@ -107,31 +107,35 @@ class ReturnToVendor {
             //FwFormField.setValueByDataField($form, 'ReferenceNumber', $tr.find('[data-browsedatafield="ReferenceNumber"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
-            let request = {
-                PurchaseOrderId: purchaseOrderId
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId.length === 0) {
+
+                let request = {
+                    PurchaseOrderId: purchaseOrderId
+                }
+
+                FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreturncontract', request, FwServices.defaultTimeout, function onSuccess(response) {
+                    let contractId = response.ContractId,
+                        $pOReturnItemGridControl: any,
+                        max = 9999;
+
+                    FwFormField.setValueByDataField($form, 'ContractId', contractId);
+                    const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
+                    $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
+                    $pOReturnItemGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: contractId,
+                            PurchaseOrderId: purchaseOrderId
+                        }
+                        request.pagesize = max;
+                    })
+                    FwBrowse.search($pOReturnItemGridControl);
+                }, null, null);
+
+                $form.find('.suspendedsession').hide();
             }
-
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreturncontract', request, FwServices.defaultTimeout, function onSuccess(response) {
-                let contractId = response.ContractId,
-                    $pOReturnItemGridControl: any,
-                    max = 9999;
-
-                FwFormField.setValueByDataField($form, 'ContractId', contractId);
-                const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-
-                $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
-                $pOReturnItemGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        ContractId: contractId,
-                        PurchaseOrderId: purchaseOrderId
-                    }
-                    request.pagesize = max;
-                })
-                FwBrowse.search($pOReturnItemGridControl);
-            }, null, null);
-
-            $form.find('.suspendedsession').hide();
         });
     };
     //----------------------------------------------------------------------------------------------

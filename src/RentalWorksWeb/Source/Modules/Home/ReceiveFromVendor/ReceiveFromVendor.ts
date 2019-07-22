@@ -82,9 +82,10 @@ class ReceiveFromVendor {
                     let $this = jQuery(e.currentTarget);
                     let id = $this.find(`[data-browsedatafield="OrderId"]`).attr('data-originalvalue');
                     let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
+                    const contractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
+                    FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-
                     FwFormField.setValueByDataField($form, 'PurchaseOrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
@@ -104,39 +105,42 @@ class ReceiveFromVendor {
             FwFormField.setValueByDataField($form, 'ReferenceNumber', $tr.find('[data-browsedatafield="ReferenceNumber"]').attr('data-originalvalue'));
             FwFormField.setValueByDataField($form, 'Description', $tr.find('[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
-            let request = {
-                PurchaseOrderId: purchaseOrderId
-            }
-
-            FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreceivecontract', request, FwServices.defaultTimeout, function onSuccess(response) {
-                let contractId = response.ContractId,
-                    $receiveItemsGridControl: any,
-                    max = 9999;
-
-                FwFormField.setValueByDataField($form, 'ContractId', contractId);
-
-                const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
-                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-
-                $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                $receiveItemsGridControl.data('ondatabind', function (request) {
-                    request.uniqueids = {
-                        ContractId: contractId
-                        , PurchaseOrderId: purchaseOrderId
-                    }
-                    request.pagesize = max;
-                })
-                FwBrowse.search($receiveItemsGridControl);
-            }, null, null);
-
-            FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
-                if ((response.SubRent == false) && (response.SubSale == false)) {
-                    FwFormField.disable($form.find('[data-datafield="AutomaticallyCreateCheckOut"]'));
-                    $form.find('[data-datafield="AutomaticallyCreateCheckOut"] input').prop('checked', false);
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId.length === 0) {
+                let request = {
+                    PurchaseOrderId: purchaseOrderId
                 }
-            }, null, null);
 
-            $form.find('.suspendedsession').hide();
+                FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreceivecontract', request, FwServices.defaultTimeout, function onSuccess(response) {
+                    let contractId = response.ContractId,
+                        $receiveItemsGridControl: any,
+                        max = 9999;
+
+                    FwFormField.setValueByDataField($form, 'ContractId', contractId);
+
+                    const cancelMenuOptionId = Constants.Modules.Home.ReceiveFromVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+
+                    $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
+                    $receiveItemsGridControl.data('ondatabind', function (request) {
+                        request.uniqueids = {
+                            ContractId: contractId
+                            , PurchaseOrderId: purchaseOrderId
+                        }
+                        request.pagesize = max;
+                    })
+                    FwBrowse.search($receiveItemsGridControl);
+                }, null, null);
+
+                FwAppData.apiMethod(true, 'GET', `api/v1/purchaseorder/${purchaseOrderId}`, request, FwServices.defaultTimeout, function onSuccess(response) {
+                    if ((response.SubRent == false) && (response.SubSale == false)) {
+                        FwFormField.disable($form.find('[data-datafield="AutomaticallyCreateCheckOut"]'));
+                        $form.find('[data-datafield="AutomaticallyCreateCheckOut"] input').prop('checked', false);
+                    }
+                }, null, null);
+
+                $form.find('.suspendedsession').hide();
+            }
         });
     }
     //----------------------------------------------------------------------------------------------

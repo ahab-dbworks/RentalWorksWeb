@@ -83,12 +83,16 @@
                     let orderNumber = $this.find(`[data-browsedatafield="OrderNumber"]`).attr('data-originalvalue');
                     let dealId = $this.find(`[data-browsedatafield="DealId"]`).attr('data-originalvalue');
                     let dealNumber = $this.find(`[data-browsedatafield="DealNumber"]`).attr('data-originalvalue');
+                    this.ContractId = $this.find(`[data-browsedatafield="ContractId"]`).attr('data-originalvalue');
                     if (dealId !== "") {
                         FwFormField.setValueByDataField($form, 'DealId', dealId, dealNumber);
                     }
                     FwFormField.setValueByDataField($form, 'OrderId', id, orderNumber);
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="OrderId"] input').change();
+                    FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                    FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
+                    FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
                     $form.find('.suspendedsession').hide();
                 });
             });
@@ -146,21 +150,23 @@
             contractRequest['DealId'] = FwFormField.getValueByDataField($form, "DealId");
             FwFormField.setValueByDataField($form, 'Description', $tr.find('.field[data-browsedatafield="Description"]').attr('data-originalvalue'));
 
-            try {
-                FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
-                    if (this.ContractId === '') {
-                        this.ContractId = response.ContractId
-                        $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-                    }
+            if (this.ContractId === '') {
+                try {
+                    FwAppData.apiMethod(true, 'POST', "api/v1/exchange/startexchangecontract", contractRequest, FwServices.defaultTimeout, response => {
+                        if (this.ContractId === '') {
+                            this.ContractId = response.ContractId
+                            $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                        }
 
-                    FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
-                    FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
-                    FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
-                }, null, $form);
-            } catch (ex) {
-                FwFunc.showError(ex);
+                        FwFormField.disable(FwFormField.getDataField($form, 'OrderId'));
+                        FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
+                        FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
+                    }, null, $form);
+                } catch (ex) {
+                    FwFunc.showError(ex);
+                }
+                $form.find('.suspendedsession').hide();
             }
-            $form.find('.suspendedsession').hide();
         });
         // Check-Out
         $form.find('.out').on('keypress', e => {
@@ -317,7 +323,7 @@
 
         $form.find('.suspendedsession').show();
     }
-        //----------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     getFormTemplate(): string {
         let typeHTML;
         switch (this.Module) {

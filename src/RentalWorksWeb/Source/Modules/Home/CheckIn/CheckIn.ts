@@ -118,7 +118,6 @@ class CheckIn {
                     $form.find(`[data-datafield="${this.Type}Id"] input`).change();
                     $form.find('.suspendedsession').hide();
                 });
-
             });
         }
     }
@@ -236,34 +235,40 @@ class CheckIn {
                 FwFormField.disable($form.find('[data-datafield="TransferId"]'));
             }
 
-            let request: any = {};
-            request = {
-                OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
-                , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId.length === 0) {
+                let request: any = {};
+                request = {
+                    OrderId: FwFormField.getValueByDataField($form, `${type}Id`)
+                    , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+                }
+                if (this.Module === 'CheckIn') request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+                FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
+
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                    $form.find('[data-datafield="BarCode"] input').focus();
+                }, null, null);
+
+                $form.find('.suspendedsession').hide();
             }
-            if (this.Module === 'CheckIn') request.DealId = FwFormField.getValueByDataField($form, 'DealId');
-            FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
-
-                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-                $form.find('[data-datafield="BarCode"] input').focus();
-            }, null, null);
-
-            $form.find('.suspendedsession').hide();
         });
         //Deal selection
         $form.find('[data-datafield="DealId"]').data('onchange', $tr => {
-            FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
-            let request: any = {};
-            request = {
-                DealId: FwFormField.getValueByDataField($form, 'DealId')
-                , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+            const contractId = FwFormField.getValueByDataField($form, 'ContractId');
+            if (contractId.length === 0) {
+                FwFormField.disable($form.find('[data-datafield="OrderId"], [data-datafield="DealId"]'));
+                let request: any = {};
+                request = {
+                    DealId: FwFormField.getValueByDataField($form, 'DealId')
+                    , DepartmentId: FwFormField.getValueByDataField($form, 'DepartmentId')
+                }
+                FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
+                    FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
+                    $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
+                    $form.find('[data-datafield="BarCode"] input').focus();
+                }, null, null);
             }
-            FwAppData.apiMethod(true, 'POST', 'api/v1/checkin/startcheckincontract', request, FwServices.defaultTimeout, function onSuccess(response) {
-                FwFormField.setValueByDataField($form, 'ContractId', response.ContractId);
-                $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
-                $form.find('[data-datafield="BarCode"] input').focus();
-            }, null, null);
         });
         //BarCode input
         $form.find('[data-datafield="BarCode"] input').on('keydown', e => {
@@ -298,12 +303,12 @@ class CheckIn {
             if (contractId) {
                 FwAppData.apiMethod(true, 'POST', `api/v1/checkin/completecheckincontract/${contractId}`, null, FwServices.defaultTimeout,
                     response => {
-                    let contractInfo: any = {}, $contractForm;
-                    contractInfo.ContractId = response.ContractId;
-                    $contractForm = ContractController.loadForm(contractInfo);
+                        let contractInfo: any = {}, $contractForm;
+                        contractInfo.ContractId = response.ContractId;
+                        $contractForm = ContractController.loadForm(contractInfo);
                         FwModule.openSubModuleTab($form, $contractForm);
                         this.resetForm($form);
-                }, null, $form);
+                    }, null, $form);
             } else {
                 e.stopPropagation();
                 FwNotification.renderNotification('WARNING', 'Select an Order, Deal, BarCode, or I-Code.')
