@@ -90,6 +90,9 @@ class ReceiveFromVendor {
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
                     $form.find('.suspendedsession').hide();
+
+                    const $receiveItemsGrid = $form.find('div[data-name="POReceiveItemGrid"]');
+                    FwBrowse.search($receiveItemsGrid);
                 });
             });
         }
@@ -113,8 +116,7 @@ class ReceiveFromVendor {
 
                 FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreceivecontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                     let contractId = response.ContractId,
-                        $receiveItemsGridControl: any,
-                        max = 9999;
+                        $receiveItemsGridControl: any;
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
 
@@ -122,13 +124,6 @@ class ReceiveFromVendor {
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                     $receiveItemsGridControl = $form.find('div[data-name="POReceiveItemGrid"]');
-                    $receiveItemsGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: contractId
-                            , PurchaseOrderId: purchaseOrderId
-                        }
-                        request.pagesize = max;
-                    })
                     FwBrowse.search($receiveItemsGridControl);
                 }, null, null);
 
@@ -153,8 +148,14 @@ class ReceiveFromVendor {
     renderGrids($form: any) {
         const $receiveItemsGrid = $form.find('div[data-grid="POReceiveItemGrid"]');
         const $receiveItemsGridControl = FwBrowse.loadGridFromTemplate('POReceiveItemGrid');
+        const max = 9999;
         $receiveItemsGrid.empty().append($receiveItemsGridControl);
         $receiveItemsGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                , PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+            }
+            request.pagesize = max;
         })
         FwBrowse.init($receiveItemsGridControl);
         FwBrowse.renderRuntimeHtml($receiveItemsGridControl);

@@ -211,6 +211,9 @@
                     FwPopup.destroyPopup($popup);
                     $form.find(`[data-datafield="${this.Type}Id"] input`).change();
                     $form.find('.suspendedsession').hide();
+
+                    const $stagedItemGrid = $form.find('div[data-name="StagedItemGrid"]');
+                    FwBrowse.search($stagedItemGrid);
                 });
             });
         }

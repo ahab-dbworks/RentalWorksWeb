@@ -94,6 +94,9 @@
                     FwFormField.disable(FwFormField.getDataField($form, 'DealId'));
                     FwFormField.getDataField($form, 'BarCodeIn').find('input').focus();
                     $form.find('.suspendedsession').hide();
+
+                    const $exchangeItemGrid = $form.find('div[data-name="ExchangeItemGrid"]');
+                    FwBrowse.search($exchangeItemGrid);
                 });
             });
         }

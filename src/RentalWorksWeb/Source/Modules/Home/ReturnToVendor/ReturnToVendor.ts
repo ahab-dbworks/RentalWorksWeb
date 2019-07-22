@@ -90,6 +90,12 @@ class ReturnToVendor {
                     FwPopup.destroyPopup($popup);
                     $form.find('[data-datafield="PurchaseOrderId"] input').change();
                     $form.find('.suspendedsession').hide();
+
+                    const $returnItemGrid = $form.find('div[data-name="POReturnItemGrid"]');
+                    FwBrowse.search($returnItemGrid);
+
+                    const $returnBarcodeGrid = $form.find('div[data-name="POReturnBarCodeGrid"]');
+                    FwBrowse.search($returnBarcodeGrid);
                 });
             });
         }
@@ -109,28 +115,18 @@ class ReturnToVendor {
 
             const contractId = FwFormField.getValueByDataField($form, 'ContractId');
             if (contractId.length === 0) {
-
                 let request = {
                     PurchaseOrderId: purchaseOrderId
                 }
-
                 FwAppData.apiMethod(true, 'POST', 'api/v1/purchaseorder/startreturncontract', request, FwServices.defaultTimeout, function onSuccess(response) {
                     let contractId = response.ContractId,
-                        $pOReturnItemGridControl: any,
-                        max = 9999;
+                        $pOReturnItemGridControl: any;
 
                     FwFormField.setValueByDataField($form, 'ContractId', contractId);
                     const cancelMenuOptionId = Constants.Modules.Home.ReturnToVendor.form.menuItems.Cancel.id.replace('{', '').replace('}', '');
                     $form.find(`.submenu-btn[data-securityid="${cancelMenuOptionId}"]`).attr('data-enabled', 'true');
 
                     $pOReturnItemGridControl = $form.find('div[data-name="POReturnItemGrid"]');
-                    $pOReturnItemGridControl.data('ondatabind', function (request) {
-                        request.uniqueids = {
-                            ContractId: contractId,
-                            PurchaseOrderId: purchaseOrderId
-                        }
-                        request.pagesize = max;
-                    })
                     FwBrowse.search($pOReturnItemGridControl);
                 }, null, null);
 
@@ -146,11 +142,17 @@ class ReturnToVendor {
     };
     //----------------------------------------------------------------------------------------------
     renderGrids($form: any) {
+        const max = 9999;
         const $pOReturnItemGrid = $form.find('div[data-grid="POReturnItemGrid"]');
         const $pOReturnItemGridControl = FwBrowse.loadGridFromTemplate('POReturnItemGrid');
         $pOReturnItemGrid.empty().append($pOReturnItemGridControl);
         $pOReturnItemGridControl.data('ondatabind', request => {
-        })
+            request.uniqueids = {
+                ContractId: FwFormField.getValueByDataField($form, 'ContractId')
+                , PurchaseOrderId: FwFormField.getValueByDataField($form, 'PurchaseOrderId')
+            }
+            request.pagesize = max;
+        });
         FwBrowse.init($pOReturnItemGridControl);
         FwBrowse.renderRuntimeHtml($pOReturnItemGridControl);
 
