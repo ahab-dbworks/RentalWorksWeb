@@ -241,6 +241,36 @@ namespace WebApi.Modules.Home.Order
                 }
                 select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(lossAndDamageWarehouseId) ? "" : " and mi.warehouseid = @ldwhid") + ")");
             }
+            else if (GetMiscFieldAsBoolean("Migrate", request).GetValueOrDefault(false))
+            {
+                select.AddWhereIn("and", "status", RwConstants.ORDER_STATUS_ACTIVE);
+
+                //string migrateWarehouseId = GetMiscFieldAsString("MigrateWarehouseId", request);
+                //if (!string.IsNullOrEmpty(migrateWarehouseId))
+                //{
+                //    select.AddWhere(" (warehouseid = @whid)");
+                //    select.AddParameter("@whid", migrateWarehouseId);
+                //}
+
+
+                string migrateSourceDealId = GetMiscFieldAsString("MigrateSourceDealId", request);
+                string migrateSourceDepartmentId = GetMiscFieldAsString("MigrateSourceDepartmentId", request);
+                if (!string.IsNullOrEmpty(migrateSourceDealId))
+                {
+                    select.AddWhere(" (dealid = @migratesourcedealid)");
+                    select.AddParameter("@migratesourcedealid", migrateSourceDealId);
+                }
+                if (!string.IsNullOrEmpty(migrateSourceDepartmentId))
+                {
+                    select.AddWhere(" (dealid = @migratesourcedepartmentid)");
+                    select.AddParameter("@migratesourcedepartmentid", migrateSourceDepartmentId);
+                }
+                //select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(lossAndDamageWarehouseId) ? "" : " and mi.warehouseid = @ldwhid") + ")");
+                select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + " and ot.itemstauts = 'O'" + ")");  // has Rentals Out
+            }
+
+
+
 
             if ((request != null) && (request.uniqueids != null))
             {
