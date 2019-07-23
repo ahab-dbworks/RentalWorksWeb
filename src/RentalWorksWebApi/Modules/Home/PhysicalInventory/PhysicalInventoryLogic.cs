@@ -2,6 +2,7 @@ using WebApi.Logic;
 using FwStandard.AppManager;
 using FwStandard.BusinessLogic;
 using WebLibrary;
+using System.Reflection;
 
 namespace WebApi.Modules.Home.PhysicalInventory
 {
@@ -47,7 +48,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwLogicProperty(Id: "d1WfVZeKWEEf")]
         public string InitializeDate { get { return physicalInventory.InitializeDate; } set { physicalInventory.InitializeDate = value; } }
 
-        [FwLogicProperty(Id: "LW2QUasiJNXg", IsRecordTitle: true)]
+        [FwLogicProperty(Id: "LW2QUasiJNXg", IsRecordTitle: true, DisableDirectModify: true)]
         public string PhysicalInventoryNumber { get { return physicalInventory.PhysicalInventoryNumber; } set { physicalInventory.PhysicalInventoryNumber = value; } }
 
         [FwLogicProperty(Id: "NTUyUteyTQgK", IsRecordTitle: true)]
@@ -182,7 +183,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwLogicProperty(Id: "DxljnDcuVxst")]
         public int? StepPrintResults { get { return physicalInventory.StepPrintResults; } set { physicalInventory.StepPrintResults = value; } }
 
-        [FwLogicProperty(Id: "608KDO2tu1oX")]
+        [FwLogicProperty(Id: "608KDO2tu1oX", DisableDirectModify: true)]
         public string Status { get { return physicalInventory.Status; } set { physicalInventory.Status = value; } }
 
         [FwLogicProperty(Id: "AZMvRUPqBrnP")]
@@ -198,7 +199,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string CycleShelf { get { return physicalInventory.CycleShelf; } set { physicalInventory.CycleShelf = value; } }
 
         [FwLogicProperty(Id: "jINyFo9sv3ztT")]
-        public bool? CycleOnlyIncludeOwnedwned { get { return physicalInventory.CycleOnlyIncludeOwnedwned; } set { physicalInventory.CycleOnlyIncludeOwnedwned = value; } }
+        public bool? CycleOnlyIncludeInventoryWithNonZeroQuantity { get { return physicalInventory.CycleOnlyIncludeInventoryWithNonZeroQuantity; } set { physicalInventory.CycleOnlyIncludeInventoryWithNonZeroQuantity = value; } }
 
         [FwLogicProperty(Id: "AMilgeds1O8aV")]
         public bool? ApprovedPurchaseCost { get { return physicalInventory.ApprovedPurchaseCost; } set { physicalInventory.ApprovedPurchaseCost = value; } }
@@ -211,12 +212,6 @@ namespace WebApi.Modules.Home.PhysicalInventory
 
         [FwLogicProperty(Id: "aGmUOxnbGF1l")]
         public bool? PresInitializeAutomaticallyCountInventoryThatIsOut { get { return physicalInventory.PresInitializeAutomaticallyCountInventoryThatIsOut; } set { physicalInventory.PresInitializeAutomaticallyCountInventoryThatIsOut = value; } }
-
-        [FwLogicProperty(Id: "ZgBdjyqaCePU")]
-        public bool? OnlyNegativeInventory { get { return physicalInventory.OnlyNegativeInventory; } set { physicalInventory.OnlyNegativeInventory = value; } }
-
-        [FwLogicProperty(Id: "kG9gxMeZE8TM")]
-        public bool? Onlyinactivenegative_not_used { get { return physicalInventory.Onlyinactivenegative_not_used; } set { physicalInventory.Onlyinactivenegative_not_used = value; } }
 
         [FwLogicProperty(Id: "cqhjA7VhJSML")]
         public bool? CycleIncludeOwned { get { return physicalInventory.CycleIncludeOwned; } set { physicalInventory.CycleIncludeOwned = value; } }
@@ -252,12 +247,54 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string DateStamp { get { return physicalInventory.DateStamp; } set { physicalInventory.DateStamp = value; } }
 
         //------------------------------------------------------------------------------------ 
-        //protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg) 
-        //{ 
-        //    //override this method on a derived class to implement custom validation logic 
-        //    bool isValid = true; 
-        //    return isValid; 
-        //} 
+        protected bool ValidateNotChangedAFterInitialized(PropertyInfo property, PhysicalInventoryLogic orig, ref string validateMsg)
+        {
+            bool isValid = true;
+            object newValue = property.GetValue(this);
+            object oldValue = property.GetValue(orig);
+            if ((newValue != null) && (!newValue.Equals(oldValue)))
+            {
+                isValid = false;
+                validateMsg = property.Name + " cannot be changed after Physical Inventory has been initialized.";
+            }
+            return isValid;
+        }
+        //------------------------------------------------------------------------------------ 
+        protected override bool Validate(TDataRecordSaveMode saveMode, FwBusinessLogic original, ref string validateMsg)
+        {
+            //override this method on a derived class to implement custom validation logic 
+            bool isValid = true;
+            if (saveMode.Equals(TDataRecordSaveMode.smUpdate))
+            {
+                PhysicalInventoryLogic orig = (PhysicalInventoryLogic)original;
+                string status = Status ?? orig.Status;
+
+                if (!status.Equals(RwConstants.PHYSICAL_INVENTORY_STATUS_NEW))
+                {
+                    isValid = ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.RecType)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CountType)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.InventoryTypeId)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleTrackedBy)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleAisle)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleShelf)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleLastCounted)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleIncludeOwned)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleIncludeConsigned)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleOnlyIncludeInventoryWithNonZeroQuantity)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.ExcludeInventoryWithNoAvailabilityCheck)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankA)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankB)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankC)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankD)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankE)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankF)), orig, ref validateMsg) &&
+                              ValidateNotChangedAFterInitialized(this.GetType().GetProperty(nameof(PhysicalInventoryLogic.CycleRankG)), orig, ref validateMsg) &&
+                              true; // placeholder
+
+                }
+            }
+            return isValid;
+        }
         //------------------------------------------------------------------------------------ 
         public void OnBeforeSave(object sender, BeforeSaveEventArgs e)
         {

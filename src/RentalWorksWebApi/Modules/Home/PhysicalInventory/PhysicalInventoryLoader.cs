@@ -60,8 +60,8 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "inventorydepartment", modeltype: FwDataTypes.Text)]
         public string InventoryType { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Boolean)]
-        public bool? RecType { get; set; }
+        [FwSqlDataField(column: "rectype", modeltype: FwDataTypes.Text)]
+        public string RecType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rectypedisplay", modeltype: FwDataTypes.Text)]
         public string RecTypeDisplay { get; set; }
@@ -187,7 +187,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string CycleShelf { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "onlyowned", modeltype: FwDataTypes.Boolean)]
-        public bool? CycleOnlyIncludeOwnedwned { get; set; }
+        public bool? CycleOnlyIncludeInventoryWithNonZeroQuantity { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "approvedpurchasecost", modeltype: FwDataTypes.Boolean)]
         public bool? ApprovedPurchaseCost { get; set; }
@@ -200,12 +200,6 @@ namespace WebApi.Modules.Home.PhysicalInventory
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "prescanautocountout", modeltype: FwDataTypes.Boolean)]
         public bool? PresInitializeAutomaticallyCountInventoryThatIsOut { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "onlyactivenegative", modeltype: FwDataTypes.Boolean)]
-        public bool? OnlyNegativeInventory { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "onlyinactivenegative", modeltype: FwDataTypes.Boolean)]
-        public bool? Onlyinactivenegative_not_used { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "includeowned", modeltype: FwDataTypes.Boolean)]
         public bool? CycleIncludeOwned { get; set; }
