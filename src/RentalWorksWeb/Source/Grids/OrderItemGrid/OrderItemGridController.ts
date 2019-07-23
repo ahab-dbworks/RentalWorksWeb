@@ -132,9 +132,8 @@
             });
 
             $generatedtr.find('div[data-browsedatafield="InventoryId"]').data('onchange', function ($tr) {
-                var warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
                 var warehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
-                let warehouseCode = $form.find('[data-datafield="WarehouseCode"] input').val();
+                const warehouseCode = FwFormField.getValueByDataField($form, 'WarehouseCode');
                 let inventoryId = $generatedtr.find('div[data-browsedatafield="InventoryId"] input').val();
                 let officeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
                 let rateType = $form.find('[data-datafield="RateType"] input').val();
@@ -182,8 +181,6 @@
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input').val(warehouseId);
                     $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouseCode);
                     $generatedtr.find('.field[data-browsedatafield="ReturnToWarehouseId"] input.text').val(warehouseCode);
-                    // PO Form lacks a warehouseCode
-                    if ($form.attr('data-controller') === 'PurchaseOrderController') { $generatedtr.find('.field[data-browsedatafield="WarehouseId"] input.text').val(warehouse); }
                 }
             });
 
