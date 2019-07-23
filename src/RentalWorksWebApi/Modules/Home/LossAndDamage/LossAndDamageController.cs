@@ -101,7 +101,7 @@ namespace WebApi.Modules.Home.LossAndDamage
         // POST api/v1/lossanddamage/updateitem
         [HttpPost("updateitem")]
         [FwControllerMethod(Id:"ZScJnowrNcdU")]
-        public async Task<ActionResult<UpdateLossAndDamageItemResponse>> StartSession([FromBody]UpdateLossAndDamageItemRequest request)
+        public async Task<ActionResult<UpdateLossAndDamageItemResponse>> UpdateItem([FromBody]UpdateLossAndDamageItemRequest request)
         {
             if (!ModelState.IsValid)
             {

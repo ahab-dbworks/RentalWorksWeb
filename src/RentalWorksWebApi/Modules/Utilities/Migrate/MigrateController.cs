@@ -100,7 +100,7 @@ namespace WebApi.Modules.Utilities.Migrate
         // POST api/v1/migrate/updateitem
         [HttpPost("updateitem")]
         [FwControllerMethod(Id: "H3vFKzK6VTZ")]
-        public async Task<ActionResult<UpdateMigrateItemResponse>> StartSession([FromBody]UpdateMigrateItemRequest request)
+        public async Task<ActionResult<UpdateMigrateItemResponse>> UpdateItem ([FromBody]UpdateMigrateItemRequest request)
         {
             if (!ModelState.IsValid)
             {
