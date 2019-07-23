@@ -58,39 +58,20 @@
       <td data-value="{{BillingStartDate}}"></td>
       <td data-value="{{BillingStopDate}}"></td>
     </tr>
-    {{/ifEquals}}
-    {{#ifEquals RowType "InvoiceNumberheader"}}
     <thead>
       <tr data-rowtype={{RowType}}>
         <th class="no-border"></th>
-        <th>Invoice No.</th>
-        <th>Date</th>
+        <th>Inv. No.</th>
+        <th>Inv. Date</th>
+          <th>Bill Start</th>
+          <th>Bill Stop</th>
+          <th>Status</th>
+         <th>NC</th>
+         <th>Hiatus</th>
         <th class="usage-period">Usage Period</th>
         <th>Vendor Invoice No.</th>
         <th>Date</th>
         <th class="usage-period">Usage Period</th>
-      </tr>
-    </thead>
-    <tr>
-      <td class="no-border"></td>
-      <td data-value="{{InvoiceNumber}}"></td>
-      <td data-value="{{InvoiceDate}}"></td>
-      <td class="nowrap" data-value="{{InvoiceDateRange}}"></td>
-      <td data-value="{{VendorInvoiceNumber}}"></td>
-      <td data-value="{{VendorInvoiceDate}}"></td>
-      <td class="nowrap" data-value="{{VendorDateRange}}"></td>
-    </tr>
-    <thead>
-      <tr>
-        <th colspan="2" class="no-border"></th>
-        <th>I-Code</th>
-        <th>Description</th>
-        <th class="number">Qty</th>
-        <th>Usage Period</th>
-        <th>Vendor Usage Period</th>
-        <th class="number">Deal Billed</th>
-        <th class="number">Vendor Amount</th>
-        <th class="number">Variance</th>
       </tr>
     </thead>
     {{/ifEquals}}
@@ -98,8 +79,14 @@
     <tbody data-rowtype="{{RowType}}">
       <tr class="detail">
         <td colspan="2" class="no-border"></td>
-        <td class="nowrap" data-value="{{ICode}}"></td>
-        <td data-value="{{ItemDescription}}"></td>
+        <td class="nowrap" data-value="{{InvoiceNumber}}"></td>
+        <td data-value="{{InvoiceDate}}"></td>
+        <td data-value="{{BillingStartDate}}"></td>
+        <td data-value="{{BillingStopDate}}"></td>
+        <td data-value="{{Status}}"></td>
+        <td data-value="{{NC}}"></td>
+        <td data-value="{{Hiatus}}"></td>
+         <td data-value="{{Flat}}"></td>
         <td class="number" data-value="{{Quantity}}"></td>
         <td class="nowrap" data-value="{{DealItemDateRange}}"></td>
         <td class="nowrap" data-value="{{VendorItemDateRange}}"></td>
