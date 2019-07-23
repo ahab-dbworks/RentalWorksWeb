@@ -230,9 +230,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "rowstoautoupdatetotal", modeltype: FwDataTypes.Integer, sqltype: "int")]
         public int? Rowstoautoupdatetotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "migrateuseeststart", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Migrateuseeststart { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "migrateuseeststart", modeltype: FwDataTypes.Boolean, sqltype: "char")]
+        //public bool? Migrateuseeststart { get; set; }
+        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "requirecontactconfirmation", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         //public bool? Requirecontactconfirmation { get; set; }
         ////------------------------------------------------------------------------------------ 

@@ -264,9 +264,9 @@ namespace WebApi.Modules.Administrator.Control
         [FwSqlDataField(column: "rowstoautoupdatetotal", modeltype: FwDataTypes.Integer)]
         public int? Rowstoautoupdatetotal { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "migrateuseeststart", modeltype: FwDataTypes.Boolean)]
-        public bool? Migrateuseeststart { get; set; }
-        //------------------------------------------------------------------------------------ 
+        //[FwSqlDataField(column: "migrateuseeststart", modeltype: FwDataTypes.Boolean)]
+        //public bool? Migrateuseeststart { get; set; }
+        ////------------------------------------------------------------------------------------ 
         //[FwSqlDataField(column: "requirecontactconfirmation", modeltype: FwDataTypes.Boolean)]
         //public bool? Requirecontactconfirmation { get; set; }
         ////------------------------------------------------------------------------------------ 
