@@ -10,6 +10,8 @@ using WebApi.Logic;
 using System.Collections.Concurrent;
 using WebApi.Modules.Settings.AvailabilityKeepFreshLog;
 
+//#jhtodo: note, userSession is not used in this file, but is still part of many method signatures for future use
+
 namespace WebApi.Modules.Home.InventoryAvailability
 {
 
@@ -1293,7 +1295,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     }
 
                     // update the global cache of availability data
-                    await GetAvailability(appConfig, null, availRequestItems, true);
+                    await GetAvailability(appConfig, null, availRequestItems, true, true);
 
                     //Console.WriteLine(availNeedRecalcItem.Count.ToString().PadLeft(7) + " master/warehouse item/accessory records need recalc");
                 }
@@ -1320,7 +1322,7 @@ namespace WebApi.Modules.Home.InventoryAvailability
                     }
 
                     // update the static cache of availability data
-                    await GetAvailability(appConfig, null, availRequestItems, true);
+                    await GetAvailability(appConfig, null, availRequestItems, true, true);
 
                     //Console.WriteLine(availNeedRecalcPackage.Count.ToString().PadLeft(7) + " master/warehouse complete/kit records need recalc");
                 }
