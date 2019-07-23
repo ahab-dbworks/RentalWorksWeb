@@ -1026,6 +1026,24 @@ public string DateStamp { get; set; }
             return success;
         }
         //-------------------------------------------------------------------------------------------------------
+        public async Task<bool> UpdatePoStatus(FwSqlConnection conn = null)
+        {
+            bool success = false;
+            if ((OrderId != null) && (Type.Equals(RwConstants.ORDER_TYPE_PURCHASE_ORDER)))
+            {
+                if (conn == null)
+                {
+                    conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString);
+                }
+                FwSqlCommand qry = new FwSqlCommand(conn, "updatepostatus", this.AppConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@poid", SqlDbType.NVarChar, ParameterDirection.Input, OrderId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, UserSession.UsersId);
+                await qry.ExecuteNonQueryAsync();
+                success = true;
+            }
+            return success;
+        }
+        //-------------------------------------------------------------------------------------------------------
         private async Task<string> Copy(QuoteOrderCopyRequest copyRequest, string copyToType)
         {
             string newId = "";

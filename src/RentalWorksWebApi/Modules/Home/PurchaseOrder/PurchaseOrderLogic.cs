@@ -572,8 +572,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
                 //purchaseOrder.OutDeliveryId = outDelivery.DeliveryId;
                 //purchaseOrder.InDeliveryId = inDelivery.DeliveryId;
                 purchaseOrder.TaxId = tax.TaxId;
-                int i = purchaseOrder.SaveAsync(null).Result;
+                int i = purchaseOrder.SaveAsync(null, e.SqlConnection).Result;
             }
+            bool b2 = purchaseOrder.UpdatePoStatus(e.SqlConnection).Result;
         }
         //------------------------------------------------------------------------------------
         public void OnBeforeSavePurchaseOrder(object sender, BeforeSaveDataRecordEventArgs e)
