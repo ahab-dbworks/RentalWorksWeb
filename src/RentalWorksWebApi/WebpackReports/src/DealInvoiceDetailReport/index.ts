@@ -24,6 +24,7 @@ export class DealInvoiceDetailReport extends WebpackReport {
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     console.log('rpt', data)
+                    parameters.DeductVendorItemCost === 'true' ? data.DeductVendorItemCost = true : data.DeductVendorItemCost = false;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

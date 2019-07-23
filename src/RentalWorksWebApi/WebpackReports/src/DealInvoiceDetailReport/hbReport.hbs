@@ -1,4 +1,4 @@
-﻿<!--DealInvoiceDetailReport-->
+﻿<!--Sub-Rental Billing Analysis Report-->
 <div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
@@ -35,30 +35,28 @@
       </tr>
     </thead>
     {{/ifEquals}}
-    {{#ifEquals RowType "PurchaseOrderNumberheader"}}
+    {{#ifEquals RowType "OrderNumberheader"}}
     <thead>
       <tr data-rowtype={{RowType}}>
         <th>Order No.</th>
         <th>Date</th>
-        <th colspan="2">Description</th>
-        <th>PO No.</th>
-        <th>Date</th>
-        <th>PO Classification</th>
-        <th>Vendor</th>
-        <th>Received Date</th>
-        <th>Returned Date</th>
+        <th>Description</th>
+        <th>Billing Cycle</th>
+        <th>Est. Start Date</th>
+        <th>Est. Stop Date</th>
+        <th>Bill Start Date</th>
+        <th>Bill Stop Date</th>
       </tr>
     </thead>
     <tr>
       <td data-value="{{OrderNumber}}"></td>
       <td data-value="{{OrderDate}}"></td>
-      <td colspan="2" data-value="{{OrderDescription}}"></td>
-      <td data-value="{{PurchaseOrderNumber}}"></td>
-      <td data-value="{{PurchaseOrderDate}}"></td>
-      <td data-value="{{PoClassification}}"></td>
-      <td data-value="{{Vendor}}"></td>
-      <td data-value="{{ReceiveDate}}"></td>
-      <td data-value="{{ReturnDate}}"></td>
+      <td data-value="{{OrderDescription}}"></td>
+      <td data-value="{{BillingCycle}}"></td>
+      <td data-value="{{EstimatedStartDate}}"></td>
+      <td data-value="{{EstimatedStopDate}}"></td>
+      <td data-value="{{BillingStartDate}}"></td>
+      <td data-value="{{BillingStopDate}}"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "InvoiceNumberheader"}}
