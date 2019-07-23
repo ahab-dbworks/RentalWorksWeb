@@ -1,0 +1,239 @@
+﻿<!--TransferReport-->
+<!--SUMMARY VIEW TABLE-->
+{{#ifEquals IsSummary true}}
+<div class="rpt-flexrow" ">
+  <style type="text/css">
+    tr[data-rowtype="Agentfooter"]:nth-child(odd) {
+      background-color: #DCDCDC;
+    }
+  </style>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">Invoice From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table>
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Request From</th>
+        <th>Request To</th>
+        <th class="number">Total Qty</th>
+        <th class="number">Staged</th>
+        <th class="number">Out</th>
+        <th class="number">In</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each this}}
+      <tr data-rowtype={{RowType}}>
+        {{#ifEquals RowType "Departmentheader"}}
+        <td colspan="5" class="header-row">Department: {{Department}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "FromWarehouseheader"}}
+        <td colspan="5" class="lower header-row">From Warehouse: {{FromWarehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "ToWarehouseheader"}}
+        <td colspan="5" class="lower header-row">To Warehouse: {{ToWarehouse}}</td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "detail"}}
+        <td data-value="{{Agent}}"></td>
+        <td data-value="{{Agent}}"></td>
+        <td data-value="{{Agent}}"></td>
+        <td data-value="{{Agent}}"></td>
+        <td data-value="{{Agent}}"></td>
+        <td class="number" data-value="{{PartsTotal}}"></td>
+        <td class="number" data-value="{{PartsTotal}}"></td>
+        <td class="number" data-value="{{InvoiceTax}}"></td>
+        <td class="number" data-value="{{InvoiceTotal}}"></td>
+        <td data-value="{{Agent}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "Departmentfooter"}}
+        <td colspan="2" class="total-name">{{Department}}:&nbsp;</td>
+        <td class="total-val" data-value="{{QuantityOut}}"></td>
+        <td class="total-val" data-value="{{QuantityIn}}"></td>
+        {{/ifEquals}}
+        <td colspan="2" class="total-name">{{FromWarehouse}}:&nbsp;</td>
+        <td class="total-val" data-value="{{QuantityOut}}"></td>
+        <td class="total-val" data-value="{{QuantityIn}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "ToWarehousefooter"}}
+        <td colspan="2" class="total-name">{{ToWarehouse}}:&nbsp;</td>
+        <td class="total-val" data-value="{{QuantityOut}}"></td>
+        <td class="total-val" data-value="{{QuantityIn}}"></td>
+        {{/ifEquals}}
+        {{#ifEquals RowType "grandtotal"}}
+        <td class="total-name">Grand Total:&nbsp;</td>
+        <td class="total-val" data-value="{{RentalTotal}}"></td>
+        <td class="total-val" data-value="{{SalesTotal}}"></td>
+        <td class="total-val" data-value="{{FacilitiesTotal}}"></td>
+        <td class="total-val" data-value="{{LaborTotal}}"></td>
+        <td class="total-val" data-value="{{MiscellaneousTotal}}"></td>
+        <td class="total-val" data-value="{{AssetTotal}}"></td>
+        <td class="total-val" data-value="{{PartsTotal}}"></td>
+        <td class="total-val" data-value="{{InvoiceTax}}"></td>
+        <td class="total-val" data-value="{{InvoiceTotal}}"></td>
+        {{/ifEquals}}
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+{{/ifEquals}}
+<!--DETAIL VIEW TABLE-->
+{{#ifEquals IsSummary false}}
+<div class="rpt-flexrow">
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-left">{{System}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-title">{{Report}}</span>
+    <span class="rpt-header-center">From: {{FromDate}} To: {{ToDate}}</span>
+  </div>
+  <div class="rpt-flexcolumn">
+    <span class="rpt-header-right">{{Company}}</span>
+  </div>
+</div>
+<div class="rpt-flexrow" style="margin-top:40px;">
+  <table style="border-top:2px solid black;">
+    {{#each this}}
+    {{#ifEquals RowType "Departmentheader"}}
+    <thead>
+      <tr data-rowtype={{RowType}}>
+        <th class="lower header-row no-border" colspan="10">Department: {{Department}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "FromWarehouseheader"}}
+    <thead>
+      <tr data-rowtype={{RowType}}>
+        <th class="header-row no-border" colspan="10">From Warehouse: {{FromWarehouse}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "ToWarehouseheader"}}
+    <thead>
+      <tr data-rowtype={{RowType}}>
+        <th class="lower header-row no-border" colspan="10">To Warehouse: {{ToWarehouse}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "TransferOrderheader"}}
+    <thead>
+      <tr data-rowtype={{RowType}}>
+        <th class="lower header-row no-border" colspan="10">Transfer Order: {{TransferOrder}}</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "header"}}
+    <thead>
+      <tr data-rowtype={{RowType}}>
+        <th>No.</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Request From</th>
+        <th>Request To</th>
+        <th class="number">Total Qty</th>
+        <th class="number">Staged</th>
+        <th class="number">Out</th>
+        <th class="number">In</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tr>
+      <td data-value="{{Agent}}"></td>
+      <td data-value="{{Agent}}"></td>
+      <td data-value="{{Agent}}"></td>
+      <td data-value="{{Agent}}"></td>
+      <td data-value="{{Agent}}"></td>
+      <td class="number" data-value="{{PartsTotal}}"></td>
+      <td class="number" data-value="{{PartsTotal}}"></td>
+      <td class="number" data-value="{{InvoiceTax}}"></td>
+      <td class="number" data-value="{{InvoiceTotal}}"></td>
+      <td data-value="{{Agent}}"></td>
+    </tr>
+    <thead>
+      <tr data-rowtype={{RowType}}>
+        <th class="no-border"></th>
+        <th>I-Code</th>
+        <th>Description</th>
+        <th class="number">Ordered</th>
+        <th>From</th>
+        <th>To</th>
+        <th class="number">Staged</th>
+        <th class="number">Total Qty</th>
+        <th class="number">Out</th>
+        <th class="number">In</th>
+      </tr>
+    </thead>
+    {{/ifEquals}}
+    {{#ifEquals RowType "detail"}}
+    <tbody data-rowtype="{{RowType}}">
+      <tr class="detail">
+        <td colspan="2" class="no-border"></td>
+        <td class="nowrap" data-value="{{ICode}}"></td>
+        <td data-value="{{InvoiceDate}}"></td>
+        <td class="number" data-value="{{OrderedQuantity}}"></td>
+        <td data-value="{{From}}"></td>
+        <td data-value="{{To}}"></td>
+        <td class="nowrap" data-value="{{DealItemDateRange}}"></td>
+        <td class="nowrap" data-value="{{VendorItemDateRange}}"></td>
+        <td class="number" data-value="{{ItemBilled}}"></td>
+        <td class="number" data-value="{{ItemCost}}"></td>
+      </tr>
+    </tbody>
+    {{/ifEquals}}
+    {{#ifEquals RowType "Departmentfooter"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="7" class="total-name">{{Department}}:&nbsp;</td>
+      <td class="total-val" data-value="{{ItemBilled}}"></td>
+      <td class="total-val" data-value="{{ItemCost}}"></td>
+      <td class="total-val" data-value="{{ItemVariance}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "FromWarehousefooter"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="7" class="total-name">{{FromWarehouse}}:&nbsp;</td>
+      <td class="total-val" data-value="{{ItemBilled}}"></td>
+      <td class="total-val" data-value="{{ItemCost}}"></td>
+      <td class="total-val" data-value="{{ItemVariance}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "ToWarehousefooter"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="7" class="total-name">{{ToWarehouse}}:&nbsp;</td>
+      <td class="total-val" data-value="{{ItemBilled}}"></td>
+      <td class="total-val" data-value="{{ItemCost}}"></td>
+      <td class="total-val" data-value="{{ItemVariance}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "TransferOrderfooter"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="7" class="total-name">{{TransferOrder}}:&nbsp;</td>
+      <td class="total-val" data-value="{{ItemBilled}}"></td>
+      <td class="total-val" data-value="{{ItemCost}}"></td>
+      <td class="total-val" data-value="{{ItemVariance}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{#ifEquals RowType "grandtotal"}}
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="7" class="total-name">Grand Total:&nbsp;</td>
+      <td class="total-val" data-value="{{ItemBilled}}"></td>
+      <td class="total-val" data-value="{{ItemCost}}"></td>
+      <td class="total-val" data-value="{{ItemVariance}}"></td>
+    </tr>
+    {{/ifEquals}}
+    {{/each}}
+  </table>
+</div>
+{{/ifEquals}}
