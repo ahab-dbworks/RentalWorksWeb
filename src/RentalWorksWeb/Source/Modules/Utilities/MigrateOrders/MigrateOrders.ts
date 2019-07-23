@@ -119,6 +119,53 @@ class MigrateOrders {
             FwFormField.setValueByDataField($form, 'Description', description);
             FwFormField.setValueByDataField($form, 'MigrateDealId', dealId, deal);
         });
+
+        //render grid upon clicking Items tab
+        $form.find('[data-type="tab"][data-caption="Items"]').on('click', e => {
+            this.renderMigrateItemGrid($form);
+        });
+    }
+    //----------------------------------------------------------------------------------------------
+    renderMigrateItemGrid($form) {
+        const $migrateItemGrid = $form.find('div[data-grid="MigrateItemGrid"]');
+        const $migrateItemGridControl = FwBrowse.loadGridFromTemplate('MigrateItemGrid');
+        $migrateItemGrid.empty().append($migrateItemGridControl);
+        FwBrowse.init($migrateItemGridControl);
+        FwBrowse.renderRuntimeHtml($migrateItemGridControl);
+
+        const $orderBrowse = $form.find('.orderBrowse .fwbrowse');
+        const $selectedCheckboxes = $orderBrowse.find('tbody .cbselectrow:checked');
+
+        let orderIds: any = [];
+        let sessionId;
+        if ($selectedCheckboxes.length > 0) {
+            for (let i = 0; i < $selectedCheckboxes.length; i++) {
+                const orderId = $selectedCheckboxes.eq(i).closest('tr').find('[data-formdatafield="OrderId"]').attr('data-originalvalue');
+                if (orderId !== '') {
+                    orderIds.push(orderId);
+                }
+            }
+            orderIds = orderIds.join(',');
+
+            const request: any = {};
+            request.OrderIds = orderIds;
+            request.DealId = FwFormField.getValueByDataField($form, 'DealId');
+            request.DepartmentId = JSON.parse(sessionStorage.getItem('department')).departmentid;
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/startsession`, request, FwServices.defaultTimeout,
+                response => {
+                    sessionId = response.SessionId;
+                    if (sessionId) {
+                        $migrateItemGrid.data('sessionId', sessionId);
+                        $migrateItemGridControl.data('ondatabind', request => {
+                            request.uniqueids = {
+                                SessionId: sessionId
+                            };
+                        });
+                        FwBrowse.search($migrateItemGridControl);
+                    }
+                }, ex => FwFunc.showError(ex), $form);
+        }
     }
     //----------------------------------------------------------------------------------------------
     addOrderBrowse($form) {

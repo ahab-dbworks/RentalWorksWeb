@@ -1,6 +1,6 @@
-﻿class MigrateOrdersItemGrid {
-    Module: string = 'MigrateOrdersItemGrid';
-    apiurl: string = 'api/v1/migrateorders';
+﻿class MigrateItemGrid {
+    Module: string = 'MigrateItemGrid';
+    apiurl: string = 'api/v1/migrateitem';
     errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     generateRow($control, $generatedtr) {
@@ -15,7 +15,7 @@
             let quantityOutValue = +$tr.find('[data-browsedatafield="QuantityOut"]').attr('data-originalvalue');
             let $oldElement = $quantityColumn.find('div');
             let html: any = [];
-            let $grid = $tr.parents('[data-grid="MigrateItemsGrid"]');
+            let $grid = $tr.parents('[data-grid="MigrateItemGrid"]');
             let sessionId = $grid.data('sessionId');
 
             if (quantityOutValue !== 0) {
@@ -97,5 +97,5 @@
     }
 }
 
-var MigrateOrdersItemGridController = new MigrateOrdersItemGrid();
+var MigrateItemGridController = new MigrateItemGrid();
 //----------------------------------------------------------------------------------------------

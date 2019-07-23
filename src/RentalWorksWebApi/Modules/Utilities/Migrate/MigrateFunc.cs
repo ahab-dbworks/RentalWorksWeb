@@ -32,7 +32,7 @@ namespace WebApi.Modules.Utilities.Migrate
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "startmigratesession", appConfig.DatabaseSettings.QueryTimeout);
                 qry.AddParameter("@dealid", SqlDbType.NVarChar, ParameterDirection.Input, request.DealId);
-                qry.AddParameter("@department", SqlDbType.NVarChar, ParameterDirection.Input, request.DepartmentId);
+                qry.AddParameter("@departmentid", SqlDbType.NVarChar, ParameterDirection.Input, request.DepartmentId);
                 qry.AddParameter("@orderids", SqlDbType.NVarChar, ParameterDirection.Input, request.OrderIds);
                 qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Output);
                 qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
