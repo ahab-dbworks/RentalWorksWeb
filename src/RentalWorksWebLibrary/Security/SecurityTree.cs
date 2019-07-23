@@ -451,6 +451,7 @@ namespace WebLibrary.Security
             AddGrid("Lost and Damage Items",                  "{D9D02203-025E-47BD-ADF4-0436DC5593BB}", lv1menuGrids.Id, "LostAndDamageItemGridController");
             AddGrid("Master Item",                            "{F21525ED-EDAC-4627-8791-0B410C74DAAE}", lv1menuGrids.Id, "RwMasterItemGridController");
             AddGrid("Market Segment Job",                     "{6CB1FD8E-5E6E-45BC-B0E6-AC8E06A38990}", lv1menuGrids.Id, "MarketSegmentJobGridController");
+            AddGrid("Migrate Orders Item",                    "{B6709AA1-64C9-429C-BD6E-B244F03ECCC6}", lv1menuGrids.Id, "MigrateOrdersItemGridController");
             AddGrid("Order Activity Dates",                   "{E00980E5-7A1C-4438-AB06-E8B7072A7595}", lv1menuGrids.Id, "RwOrderActivityDatesGridController");
             AddGrid("Order Contact",                          "{33321573-EB0C-43BE-9C95-739A879FC81B}", lv1menuGrids.Id, "OrderContactGridController");
             AddGrid("Order Contract Note",                    "{2018FEB8-D15D-4F1C-B09D-9BCBD5491B52}", lv1menuGrids.Id, "RwOrderContractNoteGridController");
