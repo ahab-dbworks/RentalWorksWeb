@@ -14,7 +14,7 @@ namespace WebApi.Modules.Home.LossAndDamageItem
     {
         public LossAndDamageItemController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { logicType = typeof(LossAndDamageItemLogic); }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/checkedoutitem/browse 
+        // POST api/v1/lossanddamageitem/browse 
         [HttpPost("browse")]
         [FwControllerMethod(Id:"dDavaElCOQgm")]
         public async Task<ActionResult<FwJsonDataTable>> BrowseAsync([FromBody]BrowseRequest browseRequest)
@@ -22,7 +22,7 @@ namespace WebApi.Modules.Home.LossAndDamageItem
             return await DoBrowseAsync(browseRequest);
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/checkedoutitem/exportexcelxlsx/filedownloadname 
+        // POST api/v1/lossanddamageitem/exportexcelxlsx/filedownloadname 
         [HttpPost("exportexcelxlsx/{fileDownloadName}")]
         [FwControllerMethod(Id:"ZpMO62JkDN92")]
         public async Task<ActionResult<DoExportExcelXlsxExportFileAsyncResult>> ExportExcelXlsxFileAsync([FromBody]BrowseRequest browseRequest)

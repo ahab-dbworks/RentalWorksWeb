@@ -12,47 +12,47 @@ using WebApi.Modules.Home.LossAndDamage;
 namespace WebApi.Modules.Utilities.MigrateOrders
 {
 
-    //public class StartLossAndDamageSessionRequest
-    //{
-    //    public string DealId;
-    //    public string WarehouseId;
-    //    public string OrderIds;
-    //}
+    public class StartMigrateOrdersSessionRequest
+    {
+        public string DealId;
+        public string WarehouseId;
+        public string OrderIds;
+    }
 
 
-    //public class StartLossAndDamageSessionResponse : TSpStatusResponse
-    //{
-    //    public string SessionId;
-    //}
+    public class StartMigrateOrdersSessionResponse : TSpStatusResponse
+    {
+        public string SessionId;
+    }
 
 
-    //public class UpdateLossAndDamageItemRequest
-    //{
-    //    public string SessionId;
-    //    public string OrderId;
-    //    public string OrderItemId;
-    //    public string BarCode;
-    //    public int? Quantity;
-    //}
+    public class UpdateMigrateOrdersItemRequest
+    {
+        public string SessionId;
+        public string OrderId;
+        public string OrderItemId;
+        public string BarCode;
+        public int? Quantity;
+    }
 
 
-    //public class UpdateLossAndDamageItemResponse : TSpStatusResponse
-    //{
-    //    public int? NewQuantity;
-    //}
+    public class UpdateMigrateOrdersItemResponse : TSpStatusResponse
+    {
+        public int? NewQuantity;
+    }
 
 
 
-    //public class CompleteLossAndDamageSessionRequest
-    //{
-    //    public string SourceOrderId;
-    //    public string SessionId;
-    //}
+    public class CompleteMigrateOrdersSessionRequest
+    {
+        public string SourceOrderId;
+        public string SessionId;
+    }
 
 
-    //public class CompleteLossAndDamageSessionResponse : TSpStatusResponse
-    //{
-    //}
+    public class CompleteMigrateOrdersSessionResponse : TSpStatusResponse
+    {
+    }
 
 
     [Route("api/v1/[controller]")]
@@ -62,7 +62,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
     {
         public MigrateOrdersController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/lossanddamage/startsession
+        // POST api/v1/migrateorders/startsession
         [HttpPost("startsession")]
         [FwControllerMethod(Id: "vuCrJ6PMa3n")]
         public async Task<ActionResult<StartLossAndDamageSessionResponse>> StartSession([FromBody]StartLossAndDamageSessionRequest request)
@@ -99,7 +99,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
         }
         //------------------------------------------------------------------------------------ 
 
-        // POST api/v1/lossanddamage/updateitem
+        // POST api/v1/migrateorders/updateitem
         [HttpPost("updateitem")]
         [FwControllerMethod(Id: "H3vFKzK6VTZ")]
         public async Task<ActionResult<UpdateLossAndDamageItemResponse>> StartSession([FromBody]UpdateLossAndDamageItemRequest request)
@@ -140,7 +140,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/lossanddamage/selectall
+        // POST api/v1/migrateorders/selectall
         [HttpPost("selectall")]
         [FwControllerMethod(Id: "6nxMKPPccQq")]
         public async Task<ActionResult<SelectAllNoneLossAndDamageItemResponse>> SelectAll([FromBody] SelectAllNoneLossAndDamageItemRequest request)
@@ -160,7 +160,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------        
-        // POST api/v1/lossanddamage/selectnone
+        // POST api/v1/migrateorders/selectnone
         [HttpPost("selectnone")]
         [FwControllerMethod(Id: "VvtDKiyfXyh")]
         public async Task<ActionResult<SelectAllNoneLossAndDamageItemResponse>> SelectNone([FromBody] SelectAllNoneLossAndDamageItemRequest request)
@@ -180,7 +180,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------      
-        // POST api/v1/lossanddamage/completesession
+        // POST api/v1/migrateorders/completesession
         [HttpPost("completesession")]
         [FwControllerMethod(Id: "PWJiNSDvo8Z")]
         public async Task<ActionResult<CompleteLossAndDamageSessionResponse>> CompleteSession([FromBody]CompleteLossAndDamageSessionRequest request)
@@ -216,7 +216,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------     
-        // POST api/v1/lossanddamage/retire
+        // POST api/v1/migrateorders/retire
         [HttpPost("retire")]
         [FwControllerMethod(Id: "fAJpKrRhUGg")]
         public async Task<ActionResult<RetireLossAndDamageItemResponse>> Retire([FromBody] RetireLossAndDamageItemRequest request)
