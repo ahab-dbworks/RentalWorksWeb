@@ -9,9 +9,9 @@ using WebLibrary;
 using System.Threading.Tasks;
 using System.Data;
 
-namespace WebApi.Modules.Home.MigrateOrdersItem
+namespace WebApi.Modules.Utilities.MigrateItem
 {
-    public class MigrateOrdersItemLoader : AppDataLoadRecord
+    public class MigrateItemLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "orderid", modeltype: FwDataTypes.Text)]
@@ -139,7 +139,7 @@ namespace WebApi.Modules.Home.MigrateOrdersItem
 
             using (FwSqlConnection conn = new FwSqlConnection(this.AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "getlditems", this.AppConfig.DatabaseSettings.QueryTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "getmigrateitems", this.AppConfig.DatabaseSettings.QueryTimeout))
                 {
                     qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, sessionId);
                     AddPropertiesAsQueryColumns(qry);

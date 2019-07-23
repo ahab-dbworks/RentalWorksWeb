@@ -7,26 +7,25 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
-using WebApi.Modules.Home.LossAndDamage;
 
-namespace WebApi.Modules.Utilities.MigrateOrders
+namespace WebApi.Modules.Utilities.Migrate
 {
 
-    public class StartMigrateOrdersSessionRequest
+    public class StartMigrateSessionRequest
     {
-        public string DealId;
-        public string WarehouseId;
-        public string OrderIds;
+        public string DealId { get; set; }
+        public string DepartmentId { get; set; }
+        public string OrderIds { get; set; }
     }
 
 
-    public class StartMigrateOrdersSessionResponse : TSpStatusResponse
+    public class StartMigrateSessionResponse : TSpStatusResponse
     {
         public string SessionId;
     }
 
 
-    public class UpdateMigrateOrdersItemRequest
+    public class UpdateMigrateItemRequest
     {
         public string SessionId;
         public string OrderId;
@@ -36,21 +35,21 @@ namespace WebApi.Modules.Utilities.MigrateOrders
     }
 
 
-    public class UpdateMigrateOrdersItemResponse : TSpStatusResponse
+    public class UpdateMigrateItemResponse : TSpStatusResponse
     {
         public int? NewQuantity;
     }
 
 
 
-    public class CompleteMigrateOrdersSessionRequest
+    public class CompleteMigrateSessionRequest
     {
-        public string SourceOrderId;
-        public string SessionId;
+        //public string SourceOrderId;
+        //public string SessionId;
     }
 
 
-    public class CompleteMigrateOrdersSessionResponse : TSpStatusResponse
+    public class CompleteMigrateSessionResponse : TSpStatusResponse
     {
     }
 
@@ -58,14 +57,14 @@ namespace WebApi.Modules.Utilities.MigrateOrders
     [Route("api/v1/[controller]")]
     [ApiExplorerSettings(GroupName = "utilities-v1")]
     [FwController(Id: "8NYSNibMVoO")]
-    public class MigrateOrdersController : AppDataController
+    public class MigrateController : AppDataController
     {
-        public MigrateOrdersController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
+        public MigrateController(IOptions<FwApplicationConfig> appConfig) : base(appConfig) { }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/migrateorders/startsession
+        // POST api/v1/migrate/startsession
         [HttpPost("startsession")]
         [FwControllerMethod(Id: "vuCrJ6PMa3n")]
-        public async Task<ActionResult<StartLossAndDamageSessionResponse>> StartSession([FromBody]StartLossAndDamageSessionRequest request)
+        public async Task<ActionResult<StartMigrateSessionResponse>> StartSession([FromBody]StartMigrateSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -73,20 +72,20 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
             try
             {
-                StartLossAndDamageSessionResponse response = new StartLossAndDamageSessionResponse();
+                StartMigrateSessionResponse response = new StartMigrateSessionResponse();
                 if (string.IsNullOrEmpty(request.DealId))
                 {
                     response.success = false;
                     response.msg = "DealId is required.";
                 }
-                else if (string.IsNullOrEmpty(request.WarehouseId))
+                else if (string.IsNullOrEmpty(request.DepartmentId))
                 {
                     response.success = false;
-                    response.msg = "WarehouseId is required.";
+                    response.msg = "DepartmentId is required.";
                 }
                 else
                 {
-                    response = await LossAndDamageFunc.StartSession(AppConfig, UserSession, request);
+                    response = await MigrateFunc.StartSession(AppConfig, UserSession, request);
                 }
 
                 return new OkObjectResult(response);
@@ -98,11 +97,10 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------ 
-
-        // POST api/v1/migrateorders/updateitem
+        // POST api/v1/migrate/updateitem
         [HttpPost("updateitem")]
         [FwControllerMethod(Id: "H3vFKzK6VTZ")]
-        public async Task<ActionResult<UpdateLossAndDamageItemResponse>> StartSession([FromBody]UpdateLossAndDamageItemRequest request)
+        public async Task<ActionResult<UpdateMigrateItemResponse>> StartSession([FromBody]UpdateMigrateItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -110,7 +108,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
             try
             {
-                UpdateLossAndDamageItemResponse response = new UpdateLossAndDamageItemResponse();
+                UpdateMigrateItemResponse response = new UpdateMigrateItemResponse();
                 if (string.IsNullOrEmpty(request.SessionId))
                 {
                     response.success = false;
@@ -128,7 +126,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
                 }
                 else
                 {
-                    response = await LossAndDamageFunc.UpdateItem(AppConfig, UserSession, request);
+                    response = await MigrateFunc.UpdateItem(AppConfig, UserSession, request);
                 }
 
                 return new OkObjectResult(response);
@@ -140,10 +138,10 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------ 
-        // POST api/v1/migrateorders/selectall
+        // POST api/v1/migrate/selectall
         [HttpPost("selectall")]
         [FwControllerMethod(Id: "6nxMKPPccQq")]
-        public async Task<ActionResult<SelectAllNoneLossAndDamageItemResponse>> SelectAll([FromBody] SelectAllNoneLossAndDamageItemRequest request)
+        public async Task<ActionResult<SelectAllNoneMigrateItemResponse>> SelectAll([FromBody] SelectAllNoneMigrateItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -151,7 +149,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
             try
             {
-                SelectAllNoneLossAndDamageItemResponse response = await LossAndDamageFunc.SelectAllLossAndDamageItem(AppConfig, UserSession, request.SessionId);
+                SelectAllNoneMigrateItemResponse response = await MigrateFunc.SelectAllMigrateItem(AppConfig, UserSession, request.SessionId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -160,10 +158,10 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------        
-        // POST api/v1/migrateorders/selectnone
+        // POST api/v1/migrate/selectnone
         [HttpPost("selectnone")]
         [FwControllerMethod(Id: "VvtDKiyfXyh")]
-        public async Task<ActionResult<SelectAllNoneLossAndDamageItemResponse>> SelectNone([FromBody] SelectAllNoneLossAndDamageItemRequest request)
+        public async Task<ActionResult<SelectAllNoneMigrateItemResponse>> SelectNone([FromBody] SelectAllNoneMigrateItemRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -171,7 +169,7 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
             try
             {
-                SelectAllNoneLossAndDamageItemResponse response = await LossAndDamageFunc.SelectNoneLossAndDamageItem (AppConfig, UserSession, request.SessionId);
+                SelectAllNoneMigrateItemResponse response = await MigrateFunc.SelectNoneMigrateItem (AppConfig, UserSession, request.SessionId);
                 return new OkObjectResult(response);
             }
             catch (Exception ex)
@@ -180,10 +178,10 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------      
-        // POST api/v1/migrateorders/completesession
+        // POST api/v1/migrate/completesession
         [HttpPost("completesession")]
         [FwControllerMethod(Id: "PWJiNSDvo8Z")]
-        public async Task<ActionResult<CompleteLossAndDamageSessionResponse>> CompleteSession([FromBody]CompleteLossAndDamageSessionRequest request)
+        public async Task<ActionResult<CompleteMigrateSessionResponse>> CompleteSession([FromBody]CompleteMigrateSessionRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -191,21 +189,21 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
             try
             {
-                CompleteLossAndDamageSessionResponse response = new CompleteLossAndDamageSessionResponse();
-                if (string.IsNullOrEmpty(request.SourceOrderId))
-                {
-                    response.success = false;
-                    response.msg = "SourceOrderId is required.";
-                }
-                else if (string.IsNullOrEmpty(request.SessionId))
-                {
-                    response.success = false;
-                    response.msg = "SessionId is required.";
-                }
-                else
-                {
-                    response = await LossAndDamageFunc.CompleteSession(AppConfig, UserSession, request);
-                }
+                CompleteMigrateSessionResponse response = new CompleteMigrateSessionResponse();
+                //if (string.IsNullOrEmpty(request.SourceOrderId))
+                //{
+                //    response.success = false;
+                //    response.msg = "SourceOrderId is required.";
+                //}
+                //else if (string.IsNullOrEmpty(request.SessionId))
+                //{
+                //    response.success = false;
+                //    response.msg = "SessionId is required.";
+                //}
+                //else
+                //{
+                //    response = await MigrateFunc.CompleteSession(AppConfig, UserSession, request);
+                //}
 
                 return new OkObjectResult(response);
 
@@ -216,27 +214,5 @@ namespace WebApi.Modules.Utilities.MigrateOrders
             }
         }
         //------------------------------------------------------------------------------------     
-        // POST api/v1/migrateorders/retire
-        [HttpPost("retire")]
-        [FwControllerMethod(Id: "fAJpKrRhUGg")]
-        public async Task<ActionResult<RetireLossAndDamageItemResponse>> Retire([FromBody] RetireLossAndDamageItemRequest request)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            try
-            {
-                RetireLossAndDamageItemResponse response = await LossAndDamageFunc.RetireLossAndDamageItem(AppConfig, UserSession, request.OrderId);
-                return new OkObjectResult(response);
-            }
-            catch (Exception ex)
-            {
-                return GetApiExceptionResult(ex);
-            }
-        }
-        //------------------------------------------------------------------------------------      
-
-
     }
 }

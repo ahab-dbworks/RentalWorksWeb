@@ -1,13 +1,14 @@
 using FwStandard.AppManager;
 using WebApi.Logic;
-namespace WebApi.Modules.Home.MigrateOrdersItem
+
+namespace WebApi.Modules.Utilities.MigrateItem
 {
     [FwLogic(Id:"JRRae5RkdESl")]
-    public class MigrateOrdersItemLogic : AppBusinessLogic
+    public class MigrateItemLogic : AppBusinessLogic
     {
         //------------------------------------------------------------------------------------ 
-        MigrateOrdersItemLoader checkedOutItemLoader = new MigrateOrdersItemLoader();
-        public MigrateOrdersItemLogic()
+        MigrateItemLoader checkedOutItemLoader = new MigrateItemLoader();
+        public MigrateItemLogic()
         {
             dataLoader = checkedOutItemLoader;
         }
