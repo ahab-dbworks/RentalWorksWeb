@@ -86,7 +86,7 @@ namespace WebApi.Modules.Home.Contract
         public string Vendor { get; set; }
 
         [FwLogicProperty(Id:"FCu67vj1XIsA")]
-        public bool? Migrated { get { return contract.Migrated; } set { contract.Migrated = value; } }
+        public bool? IsMigrated { get { return contract.IsMigrated; } set { contract.IsMigrated = value; } }
 
         [FwLogicProperty(Id:"4nBZnSSPPAPB")]
         public bool? NeedReconcile { get { return contract.NeedReconcile; } set { contract.NeedReconcile = value; } }

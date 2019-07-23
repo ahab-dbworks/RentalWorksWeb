@@ -96,7 +96,7 @@ namespace WebApi.Modules.Home.Contract
         public int? SessionNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "migrated", modeltype: FwDataTypes.Boolean, sqltype: "char")]
-        public bool? Migrated { get; set; }
+        public bool? IsMigrated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "deliveryid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
         public string DeliveryId { get; set; }

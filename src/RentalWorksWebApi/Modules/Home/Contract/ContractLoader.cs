@@ -17,7 +17,7 @@ namespace WebApi.Modules.Home.Contract
         public string RequisitionNumber { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "migrated", modeltype: FwDataTypes.Boolean)]
-        public bool? Migrated { get; set; }
+        public bool? IsMigrated { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "needreconcile", modeltype: FwDataTypes.Boolean)]
         public bool? NeedReconcile { get; set; }
