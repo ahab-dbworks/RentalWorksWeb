@@ -112,6 +112,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwLogicProperty(Id:"8XKphJFdmXUxA", IsReadOnly:true)]
         public string Warehouse { get; set; }
 
+        [FwLogicProperty(Id: "wWkK0CLM6YpTm", IsReadOnly: true)]
+        public string WarehouseCode { get; set; }
+
         [FwLogicProperty(Id:"hk4TKLe87oH1y", IsReadOnly:true)]
         public int? QuantityHolding { get; set; }
 

@@ -51,6 +51,9 @@ namespace WebApi.Modules.Home.PurchaseOrder
         [FwSqlDataField(column: "warehouse", modeltype: FwDataTypes.Text)]
         public string Warehouse { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "whcode", modeltype: FwDataTypes.Text)]
+        public string WarehouseCode { get; set; }
+        //------------------------------------------------------------------------------------
         [FwSqlDataField(column: "subrent", modeltype: FwDataTypes.Boolean)]
         public bool? SubRent { get; set; }
         //------------------------------------------------------------------------------------ 
