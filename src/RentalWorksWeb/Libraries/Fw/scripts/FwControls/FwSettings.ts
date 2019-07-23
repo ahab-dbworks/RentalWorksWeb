@@ -604,13 +604,19 @@ class FwSettingsClass {
         html.push('        </div>');
         html.push('        </h4>');
         html.push('      </div>');
-        if (description === "") {
-            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
-            html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
-        } else {
-            html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //if (description === "") {
+        //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + moduleName + '</small>');
+        //} else {
+        //    html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        //    html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
+        //}
+
+        html.push('      <small id="searchId" style="display:none;">' + moduleName + '</small>');
+        if (description) {
             html.push('      <small style="margin:0 0 0 32px;" id="description-text">' + description + '</small>');
         }
+
         html.push('    </div>');
         html.push('    <div class="panel-collapse collapse" style="display:none; "><div class="panel-body header-content" id="' + moduleName + '"></div></div>');
         html.push('  </div>');
