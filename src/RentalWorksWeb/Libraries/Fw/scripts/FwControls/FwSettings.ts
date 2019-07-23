@@ -1174,10 +1174,10 @@ class FwSettingsClass {
                     let description = module.find('small#description-text');
                     let title = module.find('a#title');
 
-                    for (var j = 0; j < description.length; j++) {
-                        if (description[j] !== undefined) {
-                            let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
+                    for (var j = 0; j < title.length; j++) {
+                        if (title[j] !== undefined) {
                             let titleIndex = jQuery(title[j]).text().toUpperCase().indexOf(val);
+                            let descriptionIndex = jQuery(description[j]).text().toUpperCase().indexOf(val);
                             if (descriptionIndex > -1) {
                                 highlightSearch(description[j], val);
                             }
