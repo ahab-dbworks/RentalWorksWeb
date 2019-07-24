@@ -2,11 +2,11 @@
     Module: string = 'PhysicalInventory';
     apiurl: string = 'api/v1/physicalinventory';
     caption: string = Constants.Modules.Home.PhysicalInventory.caption;
-	nav: string = Constants.Modules.Home.PhysicalInventory.nav;
-	id: string = Constants.Modules.Home.PhysicalInventory.id;
+    nav: string = Constants.Modules.Home.PhysicalInventory.nav;
+    id: string = Constants.Modules.Home.PhysicalInventory.id;
     ActiveViewFields: any = {};
     ActiveViewFieldsId: string;
-
+    //---------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen, $browse;
 
@@ -28,7 +28,7 @@
 
         return screen;
     }
-
+    //---------------------------------------------------------------------------------------------
     openBrowse() {
         var $browse;
 
@@ -41,7 +41,7 @@
 
         return $browse;
     }
-
+    //---------------------------------------------------------------------------------------------
     addBrowseMenuItems($menuObject) {
         //Location Filter
         const location = JSON.parse(sessionStorage.getItem('location'));
@@ -57,7 +57,7 @@
         FwMenu.addViewBtn($menuObject, 'Location', viewLocation, true, "OfficeLocationId");
         return $menuObject;
     };
-
+    //---------------------------------------------------------------------------------------------
     openForm(mode: string) {
         var $form;
 
@@ -116,9 +116,25 @@
             }
         });
 
+        $form.find('.update-icodes').on('click', e => {
+            const $physicalInventoryGrid = $form.find('[data-name="PhysicalInventoryGrid"]');
+            const request: any = {};
+            request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            try {
+                this.saveForm($form, { closetab: false });
+                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/updateicodes', request, FwServices.defaultTimeout,
+                    response => {
+                        FwBrowse.search($physicalInventoryGrid);
+                    },
+                    ex => FwFunc.showError(ex),
+                    $form);
+            }
+            catch (ex) { FwFunc.showError(ex); };
+        });
+
         return $form;
     }
-
+    //---------------------------------------------------------------------------------------------
     loadForm(uniqueids: any) {
         var $form;
 
@@ -128,12 +144,31 @@
 
         return $form;
     }
-
+    //---------------------------------------------------------------------------------------------
     saveForm($form: any, parameters: any) {
         FwModule.saveForm(this.Module, $form, parameters);
     }
-
+    //---------------------------------------------------------------------------------------------
+    renderGrids($form) {
+        const $physicalInventoryGrid = $form.find('div[data-grid="PhysicalInventoryGrid"]');
+        const $physicalInventoryGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryGrid');
+        $physicalInventoryGrid.empty().append($physicalInventoryGridControl);
+        $physicalInventoryGridControl.data('ondatabind', request => {
+            request.uniqueids = {
+                PhysicalInventoryId: FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
+            };
+        });
+        $physicalInventoryGridControl.data('beforesave', request => {
+            request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
+        });
+        FwBrowse.init($physicalInventoryGridControl);
+        FwBrowse.renderRuntimeHtml($physicalInventoryGridControl);
+    }
+    //---------------------------------------------------------------------------------------------
     afterLoad($form: any) {
+        const $physicalInventoryGrid: any = $form.find('[data-name="PhysicalInventoryGrid"]');
+        FwBrowse.search($physicalInventoryGrid);
+
         const countType = FwFormField.getValueByDataField($form, 'CountType');
         if (countType === 'CYCLE') {
             $form.find('.count-type').show();
@@ -141,7 +176,7 @@
             $form.find('.count-type').hide();
         }
     }
-
+    //---------------------------------------------------------------------------------------------
     beforeValidateInventoryType($browse, $grid, request) {
         let validationName = request.module,
             recType = FwFormField.getValueByDataField($grid, 'RecType');
@@ -156,5 +191,5 @@
 
     }
 }
-
+//---------------------------------------------------------------------------------------------
 var PhysicalInventoryController = new PhysicalInventory();

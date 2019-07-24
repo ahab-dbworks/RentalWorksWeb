@@ -181,6 +181,7 @@
     <Content Include="packages.config" />
     <TypeScriptCompile Include="scripts\RwMaster.ts" />
     <Content Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridBrowse.htm" />
+    <Content Include="Source\Grids\PhysicalInventoryGrid\PhysicalInventoryGridBrowse.htm" />
     <Content Include="Source\Grids\MigrateItemGrid\MigrateItemGridBrowse.htm" />
     <Content Include="Source\Grids\PartsInventoryWarehouseGrid\PartsInventoryWarehouseGridBrowse.htm" />
     <Content Include="Source\Grids\SalesInventoryWarehousePricingGrid\SalesInventoryWarehousePricingGridBrowse.htm" />
@@ -331,6 +332,7 @@
     <Content Include="Source\Grids\RateLocationTaxGrid\RateLocationTaxGridBrowse.htm" />
     <Content Include="Source\Grids\SubCategoryGrid\SubCategoryGridBrowse.htm" />
     <TypeScriptCompile Include="Source\Grids\AvailabilityHistoryGrid\AvailabilityHistoryGridController.ts" />
+    <TypeScriptCompile Include="Source\Grids\PhysicalInventoryGrid\PhysicalInventoryGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\MigrateItemGrid\MigrateItemGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\PartsInventoryWarehouseGrid\PartsInventoryWarehouseGridController.ts" />
     <TypeScriptCompile Include="Source\Grids\SalesInventoryWarehousePricingGrid\SalesInventoryWarehousePricingGridController.ts" />

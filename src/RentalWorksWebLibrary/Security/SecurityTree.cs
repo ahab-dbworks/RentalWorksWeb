@@ -481,6 +481,7 @@ namespace WebLibrary.Security
             AddGrid("Pick List Item",                         "{F8514841-7652-469B-AF43-3520A34EA5F0}", lv1menuGrids.Id, "PickListItemGridController");
             AddGrid("Pick List Utility",                      "{0DAED562-2319-4569-AC4E-EF89198E54BC}", lv1menuGrids.Id, "PickListUtilityGridController");
             AddGrid("Pending Items",                          "{28DA22B8-D429-4751-B97D-8210D78C9402}", lv1menuGrids.Id, "CheckOutPendingItemGridController");
+            AddGrid("Physical Inventory",                     "{B4256DE8-60A8-4C7F-B35E-FB6971263793}", lv1menuGrids.Id, "PhysicalInventoryGridController");
             AddGrid("PO Approver",                            "{314CEEC5-6E42-4539-BD10-8F680A0F70F4}", lv1menuGrids.Id, "POApproverGridController");
             AddGrid("PO Receive Bar Code",                    "{27703F1E-8F2A-44E3-93AF-F46BADC3D4B1}", lv1menuGrids.Id, "POReceiveBarCodeGridController");
             AddGrid("PO Receive Items",                       "{EF042B8D-23B8-4253-A6E8-11603E800629}", lv1menuGrids.Id, "POReceiveItemGridController");
