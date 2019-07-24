@@ -152,45 +152,45 @@
           <div class="flexrow">
             <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Schedule">
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield prescancount" data-caption="Pre-Scan Count" data-datafield="StepPreScan" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol prescan" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Pre-Scan</div>
-                <div style="margin-top: 20px;">Physical Inventory (Pre-Scan Bar Coded Items/Pre-Print Count Sheets)</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield prescancount" data-caption="Pre-Scan Count" data-datafield="StepPreScan" style="flex:0 1 130px; display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol prescan" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Pre-Scan</div>
+                <div style="margin-top: 20px;">Pre-Scan Bar Coded Items before initiating this count process</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield initiatecount" data-caption="Initiate Count" data-datafield="StepInitiate" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol initate" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Initiate</div>
-                <div style="margin-top: 20px;">Physical Inventory Initiated On</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield initiatecount" data-caption="Initiate Count" data-datafield="StepInitiate" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol initiate" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Initiate</div>
+                <div style="margin-top: 20px;">Initiate Physical Inventory counting</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printcountsheetcount" data-caption="Count Sheet Count" data-datafield="StepPrintCountSheets" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol printcountsheet" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Print</div>
-                <div style="margin-top: 20px;">Physical Inventory (Pre-Scan Bar Coded Items/Pre-Print Count Sheets)</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printcountsheetcount" data-caption="Count Sheet Count" data-datafield="StepPrintCountSheets" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol printcountsheet" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Print Count Sheets</div>
+                <div style="margin-top: 20px;">Print worksheets for performing manual inventory counting</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield manualcount" data-caption="Perform Counts" data-datafield="StepCount" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol quantity" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Quantity</div>
-                <div class="fwformcontrol serialnos" data-type="button" style="margin:15px 0px;flex:0 1 150px;text-align:center;">Serial Numbers</div>
-                <div class="fwformcontrol barcodes" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Bar Codes</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield manualcount" data-caption="Perform Counts" data-datafield="StepCount" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol quantity" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Quantity</div>
+                <div class="fwformcontrol serialnos" data-type="button" style="margin:15px 0px;flex:0 1 170px;text-align:center;">Serial Numbers</div>
+                <div class="fwformcontrol barcodes" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Bar Codes</div>
                 <div style="margin-top: 20px;">Perform Counts</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printexceptioncount" data-caption="Exception Count" data-datafield="StepPrintExceptionReport" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol printexception" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Print</div>
-                <div style="margin-top: 20px;">Exception Report   (I-Codes not yet counted)</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printexceptioncount" data-caption="Exception Count" data-datafield="StepPrintExceptionReport" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol printexception" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Print Exception Report</div>
+                <div style="margin-top: 20px;">Print report to show all I-Codes not yet counted</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printdiscrepancycount" data-caption="Discrepancy Count" data-datafield="StepPrintDiscrepancyReport" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol printediscrepancy" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Print</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printdiscrepancycount" data-caption="Discrepancy Count" data-datafield="StepPrintDiscrepancyReport" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol printediscrepancy" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Print</div>
                 <div style="margin-top: 20px;">Discrepancy Report   (Items counted not equal to Owned count)</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield recountcount" data-caption="Recount Count" data-datafield="StepRecount" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol recount" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Recount</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield recountcount" data-caption="Recount Count" data-datafield="StepRecount" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol recount" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Recount</div>
                 <div style="margin-top: 20px;">Inventory   (Flag Items to be Recounted)</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
-                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield prescancount" data-caption="Recount Analysis Count" data-datafield="StepPrintRecountAnalysisReport" style="flex:0 1 130px;" data-enabled="false"></div>
-                <div class="fwformcontrol printrecount" data-type="button" style="margin:15px;flex:0 1 150px;text-align:center;">Print</div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield prescancount" data-caption="Recount Analysis Count" data-datafield="StepPrintRecountAnalysisReport" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
+                <div class="fwformcontrol printrecount" data-type="button" style="margin:15px;flex:0 1 170px;text-align:center;">Print</div>
                 <div style="margin-top: 20px;">Recounted Analysis Report</div>
               </div>
             </div>

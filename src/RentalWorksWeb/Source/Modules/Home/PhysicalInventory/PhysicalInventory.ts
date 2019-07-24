@@ -77,16 +77,62 @@
             FwFormField.setValueByDataField($form, 'CycleIncludeOwned', true);
         }
 
-        $form.find('.prescan').on('click', function (e) {
+        $form.find('.prescan').on('click', e => {
             const $confirmation = FwConfirmation.renderConfirmation(`Pre-Scan`, 'Pre-Initializing Physical Inventory make take several minutes! </br> Continue?');
             const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
-            var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
+            FwConfirmation.addButton($confirmation, 'Close', true);
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            const request: any = {};
+            request.PhysicalInventoryId = physicalInventoryId;
+            $yes.on('click', () => {
+                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/prescan', request, FwServices.defaultTimeout,
+                    response => {
+                        $form.empty().append(PhysicalInventoryController.loadForm(request));
+                    },
+                    ex => FwFunc.showError(ex),
+                    $form);
+            });
         });
 
-        $form.find('.initate').on('click', function (e) {
+        $form.find('.initiate').on('click', e => {
             const $confirmation = FwConfirmation.renderConfirmation(`Initiate`, 'Initializing Physical Inventory make take several minutes.');
             const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
-            var $cancel = FwConfirmation.addButton($confirmation, 'Close', true);
+            FwConfirmation.addButton($confirmation, 'Close', true);
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            const request: any = {};
+            request.PhysicalInventoryId = physicalInventoryId;
+            $yes.on('click', () => {
+                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/initiate', request, FwServices.defaultTimeout,
+                    response => {
+                        $form.empty().append(PhysicalInventoryController.loadForm(request));
+                    },
+                    ex => FwFunc.showError(ex),
+                    $form);
+            });
+        });
+        
+        $form.find('.printcountsheet').on('click', e => {
+            const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+
+            const $report = PhysicalInventoryCountSheetReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Count Sheets`);
+        });
+
+        $form.find('.printexception').on('click', e => {
+            const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
+
+            //const $report = PhysicalInventoryCountSheetReportController.openForm();
+            //FwModule.openSubModuleTab($form, $report);
+
+            //FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
+            //jQuery('.tab.submodule.active').find('.caption').html(`Print Count Sheets`);
         });
 
         $form.find('.approve').on('click', function (e) {
