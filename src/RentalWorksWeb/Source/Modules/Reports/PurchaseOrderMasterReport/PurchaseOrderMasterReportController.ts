@@ -1,11 +1,11 @@
 ﻿routes.push({
-    pattern: /^reports\/purchaseorderreport/, action: function (match: RegExpExecArray) {
+    pattern: /^reports\/purchaseordermasterreport/, action: function (match: RegExpExecArray) {
         return PurchaseOrderReportController.getModuleScreen();
     }
 });
 
-const purchaseOrderReportTemplate = `
-<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase Order Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseOrderReportController">
+const purchaseOrderMasterReportTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Purchase Order Master Report" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PurchaseOrderMasterReportController">
   <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
     <div class="tabs" style="margin-right:10px;">
       <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
@@ -27,7 +27,14 @@ const purchaseOrderReportTemplate = `
             <div class="flexcolumn" style="max-width:115px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="PO Status">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Status" style="float:left;max-width:115px;"></div>
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Statuses" style="float:left;max-width:115px;"></div>
+                </div>
+              </div>
+            </div>
+            <div class="flexcolumn" style="max-width:250px;">
+              <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Activities">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="checkboxlist" class="fwcontrol fwformfield" data-caption="" data-datafield="Activities" style="float:left;max-width:250px;"></div>
                 </div>
               </div>
             </div>
@@ -37,16 +44,10 @@ const purchaseOrderReportTemplate = `
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-validationname="WarehouseValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Project" data-datafield="ProjectId" data-displayfield="Project" data-validationname="ProjectValidation" style="float:left;min-width:400px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="float:left;min-width:400px;"></div>
-                </div>
-                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Department" data-datafield="DepartmentId" data-displayfield="Department" data-validationname="DepartmentValidation" style="float:left;min-width:400px;"></div>
                 </div>
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="PO Approval Status" data-datafield="PoApprovalStatusId" data-displayfield="PoApprovalStatus" data-validationname="POApprovalStatusValidation" data-formbeforevalidate="beforeValidate" style="float:left;min-width:400px;"></div>
+                  <div data-control="FwFormField" data-type="multiselectvalidation" class="fwcontrol fwformfield" data-caption="Vendor" data-datafield="VendorId" data-displayfield="Vendor" data-validationname="VendorValidation" style="float:left;min-width:400px;"></div>
                 </div>
               </div>
             </div>
@@ -59,10 +60,10 @@ const purchaseOrderReportTemplate = `
   </div>
 </div>`;
 //----------------------------------------------------------------------------------------------
-class PurchaseOrderReport extends FwWebApiReport {
+class PurchaseOrderMasterReport extends FwWebApiReport {
     //----------------------------------------------------------------------------------------------
     constructor() {
-        super('PurchaseOrderReport', 'api/v1/purchaseorderreport', purchaseOrderReportTemplate);
+        super('PurchaseOrderMasterReport', 'api/v1/purchaseordermasterreport', purchaseOrderMasterReportTemplate);
         this.reportOptions.HasDownloadExcel = true;
     }
     //----------------------------------------------------------------------------------------------
@@ -100,15 +101,30 @@ class PurchaseOrderReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     loadLists($form: JQuery): void {
-        FwFormField.loadItems($form.find('div[data-datafield="Status"]'), [
+        FwFormField.loadItems($form.find('div[data-datafield="Statuses"]'), [
             { value: "NEW", text: "New", selected: "T" },
             { value: "OPEN", text: "Open", selected: "T" },
             { value: "RECEIVED", text: "Received", selected: "T" },
             { value: "COMPLETE", text: "Complete", selected: "T" },
             { value: "CLOSED", text: "Closed", selected: "T" }
         ]);
+        FwFormField.loadItems($form.find('div[data-datafield="Activities"]'), [
+            { value: "SUBRENT", text: "Sub-Rent", selected: "T" },
+            { value: "SUBSALE", text: "Sub-Sale", selected: "T" },
+            { value: "SUBLABOR", text: "Sub-Labor", selected: "T" },
+            { value: "SUBMISC", text: "Sub-Misc", selected: "T" },
+            { value: "RENTAL", text: "Reantal Inventory", selected: "T" },
+            { value: "SALES", text: "Sales Inventory", selected: "T" },
+            { value: "LABOR", text: "Labor", selected: "T" },
+            { value: "MISC", text: "Miscellaneous", selected: "T" },
+            { value: "SUBVEHICLE", text: "Sub-Vehicle", selected: "T" },
+            { value: "REPAIR", text: "Repair", selected: "T" },
+            { value: "VEHICLE", text: "Vehicle", selected: "T" },
+            { value: "PARTS", text: "Parts Inventory", selected: "T" },
+            { value: "CONSIGNMENT", text: "Consignment", selected: "T" },
+        ]);
     }
     //----------------------------------------------------------------------------------------------
 };
 
-var PurchaseOrderReportController: any = new PurchaseOrderReport();
+var PurchaseOrderMasterReportController: any = new PurchaseOrderMasterReport();
