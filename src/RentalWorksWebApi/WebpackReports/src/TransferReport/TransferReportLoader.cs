@@ -105,9 +105,20 @@ namespace WebApi.Modules.Reports.TransferReport
             FwJsonDataTable dt = null;
             using (FwSqlConnection conn = new FwSqlConnection(AppConfig.DatabaseSettings.ConnectionString))
             {
-                using (FwSqlCommand qry = new FwSqlCommand(conn, "procedurename", this.AppConfig.DatabaseSettings.ReportTimeout))
+                using (FwSqlCommand qry = new FwSqlCommand(conn, "gettransferrptweb", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-
+                    qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
+                    qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
+                    qry.AddParameter("@summary", SqlDbType.Text, ParameterDirection.Input, request.IsSummary);
+                    qry.AddParameter("@transferstatus", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
+                    qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
+                    qry.AddParameter("@fromwarehouseid", SqlDbType.Text, ParameterDirection.Input, request.FromWarehouseId);
+                    qry.AddParameter("@towarehouseid", SqlDbType.Text, ParameterDirection.Input, request.ToWarehouseId);
+                    qry.AddParameter("@transferorderid", SqlDbType.Text, ParameterDirection.Input, request.TransferId);
+                    qry.AddParameter("@inventorydepartmentid", SqlDbType.Text, ParameterDirection.Input, request.InventoryTypeId);
+                    qry.AddParameter("@categoryid", SqlDbType.Text, ParameterDirection.Input, request.CategoryId);
+                    qry.AddParameter("@subcategoryid", SqlDbType.Text, ParameterDirection.Input, request.SubCategoryId);
+                    qry.AddParameter("@masterid", SqlDbType.Text, ParameterDirection.Input, request.InventoryId);
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
                 }
@@ -119,7 +130,7 @@ namespace WebApi.Modules.Reports.TransferReport
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("FromWarehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("ToWarehouse", "RowType", totalFields);
-                dt.InsertSubTotalRows("TransferOrder", "RowType", totalFields);
+                dt.InsertSubTotalRows("TransferNumber", "RowType", totalFields);
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
