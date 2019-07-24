@@ -53,6 +53,10 @@ class MigrateOrders {
         FwFormField.setValueByDataField($form, 'ToDate', today);
         FwFormField.setValueByDataField($form, 'CopyLineItemNotes', true);
         FwFormField.setValueByDataField($form, 'CopyRentalRates', true);
+        const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));
+        FwFormField.setValue($form, 'div[data-datafield="WarehouseId"]', warehouse.warehouseid, warehouse.warehouse);
+        const location = JSON.parse(sessionStorage.getItem('location'));
+        FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
 
         //add order browse
         const $orderBrowse = this.addOrderBrowse($form);
@@ -166,7 +170,7 @@ class MigrateOrders {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
                         errorSound.play();
-                        $form.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
+                        $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
                         successSound.play();
                     }
@@ -181,8 +185,8 @@ class MigrateOrders {
             request = {
                 SessionId: $migrateItemGrid.data('sessionId')
                 , MigrateToNewOrder: FwFormField.getValueByDataField($form, 'CreateNewOrder')
-                , NewOrderOfficeLocationId: '' // need user's Office Location Id here FwFormField.getValueByDataField($form, 'OfficeLocationId') // can be an invisible field
-                , NewOrderWarehouseId: '' // need user's Warehouse Id here FwFormField.getValueByDataField($form, 'WarehouseId')  // can be an invisible field
+                , NewOrderOfficeLocationId: FwFormField.getValueByDataField($form, 'OfficeLocationId')
+                , NewOrderWarehouseId: FwFormField.getValueByDataField($form, 'WarehouseId')
                 , NewOrderDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId')
                 , NewOrderDescription: FwFormField.getValueByDataField($form, 'NewOrderDescription')
                 , NewOrderRateType: FwFormField.getValueByDataField($form, 'RateType')
@@ -197,7 +201,6 @@ class MigrateOrders {
                 , NewOrderPurchaseOrderAmount: FwFormField.getValueByDataField($form, 'PurchaseOrderAmount')
                 , MigrateToExistingOrder: FwFormField.getValueByDataField($form, 'MigrateToExistingOrder')
                 , ExistingOrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                //, MigrateDealId: FwFormField.getValueByDataField($form, 'MigrateDealId')  // not used
                 , InventoryFulfillIncrement: FwFormField.getValueByDataField($form, 'InventoryFulfillIncrement')
                 , InventoryCheckedOrStaged: FwFormField.getValueByDataField($form, 'InventoryCheckedOrStaged')
                 , CopyLineItemNotes: FwFormField.getValueByDataField($form, 'CopyLineItemNotes')
@@ -211,7 +214,7 @@ class MigrateOrders {
                     $form.find('.error-msg').html('');
                     if (response.success === false) {
                         errorSound.play();
-                        $form.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
+                        $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
                         successSound.play();
                         //will produce array of contractlogic objects
