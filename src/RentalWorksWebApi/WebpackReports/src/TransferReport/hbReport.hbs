@@ -2,11 +2,6 @@
 <!--SUMMARY VIEW TABLE-->
 {{#ifEquals IsSummary true}}
 <div class="rpt-flexrow" ">
-  <style type="text/css">
-    tr[data-rowtype="Agentfooter"]:nth-child(odd) {
-      background-color: #DCDCDC;
-    }
-  </style>
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
   </div>
@@ -19,7 +14,7 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-  <table>
+  <table id="summary">
     <thead>
       <tr>
         <th>No.</th>
@@ -52,7 +47,7 @@
         <td data-value="{{TransferDescription}}"></td>
         <td data-value="{{FromWarehouseCode}}"></td>
         <td data-value="{{ToWarehouseCode}}"></td>
-        <td class="number" data-value="{{UNSURE}}"></td>
+        <td class="number" data-value="{{TotalQuantity}}"></td>
         <td class="number" data-value="{{QuantityStaged}}"></td>
         <td class="number" data-value="{{QuantityOut}}"></td>
         <td class="number" data-value="{{QuantityIn}}"></td>
@@ -65,23 +60,23 @@
         <td class="total-val" data-value="{{QuantityOut}}"></td>
         <td class="total-val" data-value="{{QuantityIn}}"></td>
         {{/ifEquals}}
-                {{#ifEquals RowType "FromWarehousefooter"}}
-        <td colspan="2" class="total-name">{{FromWarehouse}}:&nbsp;</td>
-        <td class="total-val" data-value="{{UNSURE}}"></td>
+        {{#ifEquals RowType "FromWarehousefooter"}}
+        <td colspan="5" class="total-name">{{FromWarehouse}}:&nbsp;</td>
+        <td class="total-val" data-value="{{TotalQuantity}}"></td>
         <td class="total-val" data-value="{{QuantityStaged}}"></td>
         <td class="total-val" data-value="{{QuantityOut}}"></td>
         <td class="total-val" data-value="{{QuantityIn}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "ToWarehousefooter"}}
-        <td colspan="2" class="total-name">{{ToWarehouse}}:&nbsp;</td>
-        <td class="total-val" data-value="{{UNSURE}}"></td>
+        <td colspan="5" class="total-name">{{ToWarehouse}}:&nbsp;</td>
+        <td class="total-val" data-value="{{TotalQuantity}}"></td>
         <td class="total-val" data-value="{{QuantityStaged}}"></td>
         <td class="total-val" data-value="{{QuantityOut}}"></td>
         <td class="total-val" data-value="{{QuantityIn}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
         <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
-        <td class="total-val" data-value="{{UNSURE}}"></td>
+        <td class="total-val" data-value="{{TotalQuantity}}"></td>
         <td class="total-val" data-value="{{QuantityStaged}}"></td>
         <td class="total-val" data-value="{{QuantityOut}}"></td>
         <td class="total-val" data-value="{{QuantityIn}}"></td>
@@ -107,37 +102,30 @@
   </div>
 </div>
 <div class="rpt-flexrow" style="margin-top:40px;">
-  <table style="border-top:2px solid black;">
+  <table id="detail" style="border-top:2px solid black;">
     {{#each this}}
     {{#ifEquals RowType "Departmentheader"}}
     <thead>
       <tr data-rowtype={{RowType}}>
-        <th class="lower header-row no-border" colspan="10">Department: {{Department}}</th>
+        <th class="header-row no-border" colspan="11">Department: {{Department}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "FromWarehouseheader"}}
     <thead>
       <tr data-rowtype={{RowType}}>
-        <th class="header-row no-border" colspan="10">From Warehouse: {{FromWarehouse}}</th>
+        <th class="lower header-row no-border" colspan="11">From Warehouse: {{FromWarehouse}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "ToWarehouseheader"}}
     <thead>
       <tr data-rowtype={{RowType}}>
-        <th class="lower header-row no-border" colspan="10">To Warehouse: {{ToWarehouse}}</th>
+        <th class="lower header-row no-border" colspan="11">To Warehouse: {{ToWarehouse}}</th>
       </tr>
     </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "TransferNumberheader"}}
-    <thead>
-      <tr data-rowtype={{RowType}}>
-        <th class="lower header-row no-border" colspan="10">Transfer Order: {{TransferNumber}}</th>
-      </tr>
-    </thead>
-    {{/ifEquals}}
-    {{#ifEquals RowType "header"}}
     <thead>
       <tr data-rowtype={{RowType}}>
         <th>No.</th>
@@ -145,11 +133,11 @@
         <th>Description</th>
         <th>Request From</th>
         <th>Request To</th>
+        <th>Status</th>
         <th class="number">Total Qty</th>
         <th class="number">Staged</th>
         <th class="number">Out</th>
         <th class="number">In</th>
-        <th>Status</th>
       </tr>
     </thead>
     <tr>
@@ -158,11 +146,11 @@
       <td data-value="{{TransferDescription}}"></td>
       <td data-value="{{FromWarehouseCode}}"></td>
       <td data-value="{{ToWarehouseCode}}"></td>
-      <td class="number" data-value="{{UNSURE}}"></td>
+      <td data-value="{{TransferStatus}}"></td>
+      <td class="number" data-value="{{TotalQuantity}}"></td>
       <td class="number" data-value="{{QuantityStaged}}"></td>
       <td class="number" data-value="{{QuantityOut}}"></td>
       <td class="number" data-value="{{QuantityIn}}"></td>
-      <td data-value="{{TransferStatus}}"></td>
     </tr>
     <thead>
       <tr data-rowtype={{RowType}}>
@@ -182,13 +170,13 @@
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr class="detail">
-        <td colspan="2" class="no-border"></td>
+        <td class="no-border"></td>
         <td class="nowrap" data-value="{{ICode}}"></td>
         <td data-value="{{Description}}"></td>
-        <td class="number" data-value="{{OrderedQuantity}}"></td>
+        <td class="number" data-value="{{QuantityOrdered}}"></td>
         <td data-value="{{FromWarehouseCode}}"></td>
         <td data-value="{{ToWarehouseCode}}"></td>
-        <td class="number" data-value="{{UNSURE}}"></td>
+        <td class="number" data-value="{{TotalQuantity}}"></td>
         <td class="number" data-value="{{QuantityStaged}}"></td>
         <td class="number" data-value="{{QuantityOut}}"></td>
         <td class="number" data-value="{{QuantityIn}}"></td>
@@ -197,8 +185,8 @@
     {{/ifEquals}}
     {{#ifEquals RowType "Departmentfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="7" class="total-name">{{Department}}:&nbsp;</td>
-      <td class="total-val" data-value="{{UNSURE}}"></td>
+      <td colspan="6" class="total-name">{{Department}}:&nbsp;</td>
+      <td class="total-val" data-value="{{TotalQuantity}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
       <td class="total-val" data-value="{{QuantityIn}}"></td>
@@ -207,7 +195,7 @@
     {{#ifEquals RowType "FromWarehousefooter"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="6" class="total-name">{{FromWarehouse}}:&nbsp;</td>
-      <td class="total-val" data-value="{{UNSURE}}"></td>
+      <td class="total-val" data-value="{{TotalQuantity}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
       <td class="total-val" data-value="{{QuantityIn}}"></td>
@@ -216,7 +204,7 @@
     {{#ifEquals RowType "ToWarehousefooter"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="6" class="total-name">{{ToWarehouse}}:&nbsp;</td>
-      <td class="total-val" data-value="{{UNSURE}}"></td>
+      <td class="total-val" data-value="{{TotalQuantity}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
       <td class="total-val" data-value="{{QuantityIn}}"></td>
@@ -225,16 +213,19 @@
     {{#ifEquals RowType "TransferNumberfooter"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="6" class="total-name">{{TransferNumber}}:&nbsp;</td>
-      <td class="total-val" data-value="{{UNSURE}}"></td>
+      <td class="total-val" data-value="{{TotalQuantity}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
       <td class="total-val" data-value="{{QuantityIn}}"></td>
+    </tr>
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="6" style="padding-bottom:15px;" class="total-name"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "grandtotal"}}
     <tr data-rowtype="{{RowType}}">
       <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
-      <td class="total-val" data-value="{{UNSURE}}"></td>
+      <td class="total-val" data-value="{{TotalQuantity}}"></td>
       <td class="total-val" data-value="{{QuantityStaged}}"></td>
       <td class="total-val" data-value="{{QuantityOut}}"></td>
       <td class="total-val" data-value="{{QuantityIn}}"></td>

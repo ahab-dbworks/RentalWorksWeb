@@ -123,10 +123,11 @@ namespace WebApi.Modules.Reports.TransferReport
             if (request.IncludeSubHeadingsAndSubTotals)
             {
                 string[] totalFields = new string[] { "QuantityOrdered", "QuantityStaged", "QuantityOut", "QuantityIn" };
+                string[] headerFieldsTransferNumber = new string[] { "TransferDate", "TransferNumber", "TransferDescription", "FromWarehouseCode", "ToWarehouseCode", "QuantityStaged", "QuantityOut", "QuantityIn", "TransferStatus" };
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("FromWarehouse", "RowType", totalFields);
                 dt.InsertSubTotalRows("ToWarehouse", "RowType", totalFields);
-                dt.InsertSubTotalRows("TransferNumber", "RowType", totalFields);
+                dt.InsertSubTotalRows("TransferNumber", "RowType", totalFields, headerFieldsTransferNumber, totalFor: "Total for Transfer Order");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
