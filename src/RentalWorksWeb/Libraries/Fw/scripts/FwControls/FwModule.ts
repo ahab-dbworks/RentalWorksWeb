@@ -1218,10 +1218,15 @@
         nodeModule = FwApplicationTree.getNodeByController(controller);
         if (nodeModule !== null) {
             const nodeBrowse = FwApplicationTree.getChildByType(nodeModule, 'Browse');
-            const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
-            const nodeBrowseEditButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'EditMenuBarButton');
-            const hasBrowseNew = (nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
-            const hasBrowseEdit = (nodeBrowseEditButton.length > 0) ? (nodeBrowseEditButton[0].properties.visible === 'T') : false;
+            let hasBrowseNew = false;
+            let hasBrowseEdit = false;
+            const hasBrowse = (nodeBrowse !== null);
+            if (hasBrowse) {
+                const nodeBrowseNewButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'NewMenuBarButton');
+                const nodeBrowseEditButton = FwApplicationTree.getChildrenByType(nodeBrowse, 'EditMenuBarButton');
+                hasBrowseNew = (nodeBrowseNewButton !== null && nodeBrowseNewButton.length > 0) ? (nodeBrowseNewButton[0].properties.visible === 'T') : false;
+                hasBrowseEdit = (nodeBrowseEditButton !== null && nodeBrowseEditButton.length > 0) ? (nodeBrowseEditButton[0].properties.visible === 'T') : false;
+            }
             nodeForm = FwApplicationTree.getChildByType(nodeModule, 'Form');
             if (nodeForm !== null) {
                 nodeFormMenuBar = FwApplicationTree.getChildByType(nodeForm, 'MenuBar');
@@ -1264,7 +1269,7 @@
                                         $menubarbutton.on('click', FwApplicationTree.clickEvents['{' + nodeMenuBarItem.id + '}']);
                                         break;
                                     case 'SaveMenuBarButton':
-                                        if (($form.attr('data-mode') === 'NEW' && hasBrowseNew) || ($form.attr('data-mode') === 'EDIT' && hasBrowseEdit)) {
+                                        if (($form.attr('data-mode') === 'NEW' && (hasBrowseNew || !hasBrowse)) || ($form.attr('data-mode') === 'EDIT' && (hasBrowseEdit || !hasBrowse))) {
                                             $menubarbutton = FwMenu.addStandardBtn($menu, nodeMenuBarItem.properties.caption);
                                             $menubarbutton.attr('data-type', 'SaveMenuBarButton');
                                             $menubarbutton.addClass('disabled');
