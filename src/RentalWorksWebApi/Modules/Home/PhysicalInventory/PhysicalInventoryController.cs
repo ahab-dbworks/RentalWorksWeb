@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using FwStandard.SqlServer;
 using System.Collections.Generic;
 using FwStandard.AppManager;
+using System;
+
 namespace WebApi.Modules.Home.PhysicalInventory
 {
     [Route("api/v1/[controller]")]
@@ -53,6 +55,36 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public async Task<ActionResult<PhysicalInventoryLogic>> PostAsync([FromBody]PhysicalInventoryLogic l)
         {
             return await DoPostAsync<PhysicalInventoryLogic>(l);
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/updateicodes 
+        [HttpPost("updateicodes")]
+        [FwControllerMethod(Id: "VCVEpGsZmrSWt")]
+        public async Task<ActionResult<PhysicalInventoryUpdateICodesResponse>> UpdateICodes([FromBody]PhysicalInventoryUpdateICodesRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.PhysicalInventoryId = request.PhysicalInventoryId;
+                if (await l.LoadAsync<PhysicalInventoryLogic>())
+                {
+                    PhysicalInventoryUpdateICodesResponse response = await PhysicalInventoryFunc.UpdateICodes(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
         }
         //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/physicalinventory/A0000001 
