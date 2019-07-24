@@ -19,7 +19,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
     {
         public static async Task<PhysicalInventoryUpdateICodesResponse> UpdateICodes(FwApplicationConfig appConfig, FwUserSession userSession, PhysicalInventoryUpdateICodesRequest request)
         {
-            PhysicalInventoryUpdateICodesResponse response = new PhysicalInventoryUpdateICodesResponse;
+            PhysicalInventoryUpdateICodesResponse response = new PhysicalInventoryUpdateICodesResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
                 FwSqlCommand qry = new FwSqlCommand(conn, "picycleupdateicodesweb", appConfig.DatabaseSettings.QueryTimeout);
