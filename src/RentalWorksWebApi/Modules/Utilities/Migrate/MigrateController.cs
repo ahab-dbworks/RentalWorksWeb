@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using WebApi.Logic;
 using System;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using WebApi.Modules.Home.Contract;
 
 namespace WebApi.Modules.Utilities.Migrate
 {
@@ -44,13 +46,38 @@ namespace WebApi.Modules.Utilities.Migrate
 
     public class CompleteMigrateSessionRequest
     {
-        //public string SourceOrderId;
-        //public string SessionId;
+        public string SessionId { get; set; }
+        public bool? MigrateToNewOrder { get; set; }
+        public string NewOrderOfficeLocationId { get; set; }
+        public string NewOrderWarehouseId { get; set; }
+        public string NewOrderDealId { get; set; }
+        public string NewOrderDescription { get; set; }
+        public string NewOrderRateType { get; set; }
+        public DateTime? NewOrderFromDate { get; set; }
+        public string NewOrderFromTime { get; set; }
+        public DateTime? NewOrderToDate { get; set; }
+        public string NewOrderToTime { get; set; }
+        public DateTime? NewOrderBillingStopDate { get; set; }
+        public bool? NewOrderPendingPO { get; set; }
+        public bool? NewOrderFlatPO { get; set; }
+        public string NewOrderPurchaseOrderNumber { get; set; }
+        public decimal? NewOrderPurchaseOrderAmount { get; set; }
+        public bool? MigrateToExistingOrder { get; set; }
+        public string ExistingOrderId { get; set; }
+        //public string MigrateDealId { get; set; }  // not used
+        public string InventoryFulfillIncrement { get; set; }   // FULFILL / INCREMENT
+        public string InventoryCheckedOrStaged { get; set; }    // CHECKED / STAGED
+        public bool? CopyLineItemNotes { get; set; }
+        public bool? CopyOrderNotes { get; set; }
+        public bool? CopyRentalRates { get; set; }
+        public bool? UpdateBillingStopDate { get; set; }
+        public DateTime? BillingStopDate { get; set; }
     }
 
 
     public class CompleteMigrateSessionResponse : TSpStatusResponse
     {
+        public List<ContractLogic> Contracts = new List<ContractLogic>();
     }
 
 
@@ -189,22 +216,7 @@ namespace WebApi.Modules.Utilities.Migrate
             }
             try
             {
-                CompleteMigrateSessionResponse response = new CompleteMigrateSessionResponse();
-                //if (string.IsNullOrEmpty(request.SourceOrderId))
-                //{
-                //    response.success = false;
-                //    response.msg = "SourceOrderId is required.";
-                //}
-                //else if (string.IsNullOrEmpty(request.SessionId))
-                //{
-                //    response.success = false;
-                //    response.msg = "SessionId is required.";
-                //}
-                //else
-                //{
-                //    response = await MigrateFunc.CompleteSession(AppConfig, UserSession, request);
-                //}
-
+                CompleteMigrateSessionResponse response = await MigrateFunc.CompleteSession(AppConfig, UserSession, request);
                 return new OkObjectResult(response);
 
             }

@@ -180,28 +180,31 @@ class MigrateOrders {
             let request: any = {};
             request = {
                 SessionId: $migrateItemGrid.data('sessionId')
-                , CreateNewOrder: FwFormField.getValueByDataField($form, 'CreateNewOrder')
-                , CreateNewDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId')
-                , RateType: FwFormField.getValueByDataField($form, 'RateType')
-                , FromDate: FwFormField.getValueByDataField($form, 'FromDate')
-                , FromTime: FwFormField.getValueByDataField($form, 'FromTime')
-                , ToDate: FwFormField.getValueByDataField($form, 'ToDate')
-                , ToTime: FwFormField.getValueByDataField($form, 'ToTime')
-                , BillingStopDate: FwFormField.getValueByDataField($form, 'BillingStopDate')
-                , PendingPO: FwFormField.getValueByDataField($form, 'PendingPO')
-                , FlatPO: FwFormField.getValueByDataField($form, 'FlatPO')
-                , PurchaseOrderNumber: FwFormField.getValueByDataField($form, 'PurchaseOrderNumber')
-                , PurchaseOrderAmount: FwFormField.getValueByDataField($form, 'PurchaseOrderAmount')
+                , MigrateToNewOrder: FwFormField.getValueByDataField($form, 'CreateNewOrder')
+                , NewOrderOfficeLocationId: '' // need user's Office Location Id here FwFormField.getValueByDataField($form, 'OfficeLocationId') // can be an invisible field
+                , NewOrderWarehouseId: '' // need user's Warehouse Id here FwFormField.getValueByDataField($form, 'WarehouseId')  // can be an invisible field
+                , NewOrderDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId')
+                , NewOrderDescription: FwFormField.getValueByDataField($form, 'NewOrderDescription')
+                , NewOrderRateType: FwFormField.getValueByDataField($form, 'RateType')
+                , NewOrderFromDate: FwFormField.getValueByDataField($form, 'FromDate')
+                , NewOrderFromTime: FwFormField.getValueByDataField($form, 'FromTime')
+                , NewOrderToDate: FwFormField.getValueByDataField($form, 'ToDate')
+                , NewOrderToTime: FwFormField.getValueByDataField($form, 'ToTime')
+                , NewOrderBillingStopDate: FwFormField.getValueByDataField($form, 'BillingStopDate')
+                , NewOrderPendingPO: FwFormField.getValueByDataField($form, 'PendingPO')
+                , NewOrderFlatPO: FwFormField.getValueByDataField($form, 'FlatPO')
+                , NewOrderPurchaseOrderNumber: FwFormField.getValueByDataField($form, 'PurchaseOrderNumber')
+                , NewOrderPurchaseOrderAmount: FwFormField.getValueByDataField($form, 'PurchaseOrderAmount')
                 , MigrateToExistingOrder: FwFormField.getValueByDataField($form, 'MigrateToExistingOrder')
-                , OrderId: FwFormField.getValueByDataField($form, 'OrderId')
-                , MigrateDealId: FwFormField.getValueByDataField($form, 'MigrateDealId')
+                , ExistingOrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                //, MigrateDealId: FwFormField.getValueByDataField($form, 'MigrateDealId')  // not used
                 , InventoryFulfillIncrement: FwFormField.getValueByDataField($form, 'InventoryFulfillIncrement')
                 , InventoryCheckedOrStaged: FwFormField.getValueByDataField($form, 'InventoryCheckedOrStaged')
                 , CopyLineItemNotes: FwFormField.getValueByDataField($form, 'CopyLineItemNotes')
                 , CopyOrderNotes: FwFormField.getValueByDataField($form, 'CopyOrderNotes')
                 , CopyRentalRates: FwFormField.getValueByDataField($form, 'CopyRentalRates')
                 , UpdateBillingStopDate: FwFormField.getValueByDataField($form, 'UpdateBillingStopDate')
-                , MigrateBillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate')
+                , BillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate')
             }
             FwAppData.apiMethod(true, 'POST', `api/v1/migrate/completesession`, request, FwServices.defaultTimeout,
                 response => {

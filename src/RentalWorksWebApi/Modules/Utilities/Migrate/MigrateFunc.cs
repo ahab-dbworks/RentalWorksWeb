@@ -1,9 +1,11 @@
 ﻿using FwStandard.Models;
 using FwStandard.SqlServer;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Threading.Tasks;
 using WebApi.Logic;
+using WebApi.Modules.Home.Contract;
 using WebLibrary;
 
 namespace WebApi.Modules.Utilities.Migrate
@@ -100,32 +102,78 @@ namespace WebApi.Modules.Utilities.Migrate
             return await SelectAllNoneMigrateItem(appConfig, userSession, sessionId, false);
         }
         //-------------------------------------------------------------------------------------------------------
-
-
-
         public static async Task<CompleteMigrateSessionResponse> CompleteSession(FwApplicationConfig appConfig, FwUserSession userSession, CompleteMigrateSessionRequest request)
         {
-            // consider implementing this to let the API create the new Order for the user.
-            //create procedure dbo.createldorder(@sourceorderid char (08),
-            //                           @currencyid char (08) = '',
-            //                           @usersid char (08),
-            //                           @destorderid char (08) output)
+            //#jhtodo: implement this here in the API layer for better auditing
 
             CompleteMigrateSessionResponse response = new CompleteMigrateSessionResponse();
-            //using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
-            //{
-            //    FwSqlCommand qry = new FwSqlCommand(conn, "webldcopysession", appConfig.DatabaseSettings.QueryTimeout);
-            //    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
-            //    qry.AddParameter("@destorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.SourceOrderId);
-            //    qry.AddParameter("@usevalue", SqlDbType.NVarChar, ParameterDirection.Input, "");
-            //    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
-            //    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-            //    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
-            //    await qry.ExecuteNonQueryAsync();
-            //    response.status = qry.GetParameter("@status").ToInt32();
-            //    response.success = (response.status == 0);
-            //    response.msg = qry.GetParameter("@msg").ToString();
-            //}
+
+            if (string.IsNullOrEmpty(request.SessionId))
+            {
+                response.success = false;
+                response.msg = "SessionId is required.";
+            }
+            else
+            {
+                using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
+                {
+                    FwSqlCommand qry = new FwSqlCommand(conn, "webmigrate", appConfig.DatabaseSettings.QueryTimeout);
+                    qry.AddParameter("@sessionid", SqlDbType.NVarChar, ParameterDirection.Input, request.SessionId);
+                    qry.AddParameter("@migratetoneworder", SqlDbType.NVarChar, ParameterDirection.Input, request.MigrateToNewOrder.GetValueOrDefault(false));
+                    qry.AddParameter("@neworderlocationid", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderOfficeLocationId);
+                    qry.AddParameter("@neworderwarehouseid", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderWarehouseId);
+                    qry.AddParameter("@neworderdealid", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderDealId);
+                    qry.AddParameter("@neworderdesc", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderDescription);
+                    qry.AddParameter("@neworderratetype", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderRateType);
+                    qry.AddParameter("@neworderfromdate", SqlDbType.DateTime, ParameterDirection.Input, request.NewOrderFromDate);
+                    qry.AddParameter("@neworderfromtime", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderFromTime);
+                    qry.AddParameter("@newordertodate", SqlDbType.DateTime, ParameterDirection.Input, request.NewOrderToDate);
+                    qry.AddParameter("@newordertotime", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderToTime);
+                    qry.AddParameter("@neworderbillperiodend", SqlDbType.DateTime, ParameterDirection.Input, request.NewOrderBillingStopDate);
+                    qry.AddParameter("@neworderpendingpo", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderPendingPO.GetValueOrDefault(false));
+                    qry.AddParameter("@neworderflatpo", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderFlatPO.GetValueOrDefault(false));
+                    qry.AddParameter("@neworderpono", SqlDbType.NVarChar, ParameterDirection.Input, request.NewOrderPurchaseOrderNumber);
+                    qry.AddParameter("@neworderpoamt", SqlDbType.Decimal, ParameterDirection.Input, request.NewOrderPurchaseOrderAmount);
+                    qry.AddParameter("@migratetoexistingorder", SqlDbType.NVarChar, ParameterDirection.Input, request.MigrateToExistingOrder.GetValueOrDefault(false));
+                    qry.AddParameter("@existingorderid", SqlDbType.NVarChar, ParameterDirection.Input, request.ExistingOrderId);
+                    qry.AddParameter("@inventoryfulfillincrement", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryFulfillIncrement);
+                    qry.AddParameter("@inventorycheckedorstaged", SqlDbType.NVarChar, ParameterDirection.Input, request.InventoryCheckedOrStaged);
+                    qry.AddParameter("@copylineitemnotes", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyLineItemNotes.GetValueOrDefault(false));
+                    qry.AddParameter("@copyordernotes", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyOrderNotes.GetValueOrDefault(false));
+                    qry.AddParameter("@copyrates", SqlDbType.NVarChar, ParameterDirection.Input, request.CopyRentalRates.GetValueOrDefault(false));
+                    qry.AddParameter("@updatebillperiodend", SqlDbType.NVarChar, ParameterDirection.Input, request.UpdateBillingStopDate.GetValueOrDefault(false));
+                    qry.AddParameter("@billperiodend", SqlDbType.NVarChar, ParameterDirection.Input, request.BillingStopDate);
+                    qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                    qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                    qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                    await qry.ExecuteNonQueryAsync();
+                    response.status = qry.GetParameter("@status").ToInt32();
+                    response.success = (response.status == 0);
+                    response.msg = qry.GetParameter("@msg").ToString();
+
+                    if (response.success)
+                    {
+                        response.Contracts = new List<Home.Contract.ContractLogic>();
+
+                        FwSqlCommand qryContract = new FwSqlCommand(conn, appConfig.DatabaseSettings.QueryTimeout);
+                        qryContract.Add("select c.contractid             ");
+                        qryContract.Add(" from  contract c with (nolock) ");
+                        qryContract.Add(" where c.sessionid = @sessionid ");
+                        qryContract.AddParameter("@sessionid", request.SessionId);
+                        FwJsonDataTable dt = await qryContract.QueryToFwJsonTableAsync();
+
+                        foreach (List<object> row in dt.Rows)
+                        {
+                            string contractId = row[dt.GetColumnNo("contractid")].ToString();
+                            ContractLogic l = new ContractLogic();
+                            l.SetDependencies(appConfig, userSession);
+                            l.ContractId = contractId;
+                            await l.LoadAsync<ContractLogic>();
+                            response.Contracts.Add(l);
+                        }
+                    }
+                }
+            }
             return response;
         }
         //-------------------------------------------------------------------------------------------------------
