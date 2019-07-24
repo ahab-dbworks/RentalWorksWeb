@@ -5,17 +5,15 @@ using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
-using System.Reflection;
 using WebLibrary;
 
 namespace WebApi.Modules.Reports.PurchaseOrderMasterReport
 {
-    [FwSqlTable("tmpreporttable")]
     public class PurchaseOrderMasterReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
-        public string Rowtype { get; set; }
+        public string RowType { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text)]
         public string WarehouseId { get; set; }
@@ -115,43 +113,74 @@ namespace WebApi.Modules.Reports.PurchaseOrderMasterReport
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getpomasterrpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    bool Rental = false;
-                    bool Sales = false;
-                    bool Parts = false;
-                    bool Misc = false;
-                    bool Labor = false;
-                    bool Repair = false;
-                    bool RentalSale = false;
+                    bool activityRental = false;
+                    bool activitySales = false;
+                    bool activityParts = false;
+                    bool activityMisc = false;
+                    bool activityLabor = false;
+                    bool activityRepair = false;
+                    bool activityVehicle = false;
+                    bool activityConsignment = false;
+                    bool activitySubRent = false;
+                    bool activitySubSale = false;
+                    bool activitySubMisc = false;
+                    bool activitySubLabor = false;
+                    bool activitySubVehicle = false;
+
 
                     foreach (SelectedCheckBoxListItem rt in request.Activities)
                     {
-                        if (rt.value.Equals(RwConstants.RECTYPE_RENTAL))
+                        if (rt.value.Equals("RENTAL"))
                         {
-                            Rental = true;
+                            activityRental = true;
                         }
-                        else if (rt.value.Equals(RwConstants.RECTYPE_SALE))
+                        else if (rt.value.Equals("SALES"))
                         {
-                            Sales = true;
+                            activitySales = true;
                         }
-                        else if (rt.value.Equals(RwConstants.RECTYPE_PARTS))
+                        else if (rt.value.Equals("PARTS"))
                         {
-                            Parts = true;
+                            activityParts = true;
                         }
-                        else if (rt.value.Equals(RwConstants.RECTYPE_MISCELLANEOUS))
+                        else if (rt.value.Equals("LABOR"))
                         {
-                            Misc = true;
+                            activityLabor = true;
                         }
-                        else if (rt.value.Equals(RwConstants.RECTYPE_LABOR))
+                        else if (rt.value.Equals("MISC"))
                         {
-                            Labor = true;
+                            activityMisc = true;
                         }
-                        else if (rt.value.Equals("REPAIR")) // add
+                        else if (rt.value.Equals("REPAIR"))
                         {
-                            Repair = true;
+                            activityRepair = true;
                         }
-                        else if (rt.value.Equals(RwConstants.RECTYPE_USED_SALE))
+                        else if (rt.value.Equals("VEHICLE"))
                         {
-                            RentalSale = true;
+                            activityVehicle = true;
+                        }
+                        else if (rt.value.Equals("CONSIGNMENT"))
+                        {
+                            activityConsignment = true;
+                        }
+                        else if (rt.value.Equals("SUBRENT"))
+                        {
+                            activitySubRent = true;
+                        }
+                        else if (rt.value.Equals("SUBSALE"))
+                        {
+                            activitySubSale = true;
+                        }
+                        else if (rt.value.Equals("SUBLABOR"))
+                        {
+                            activitySubLabor = true;
+                        }
+                        else if (rt.value.Equals("SUBMISC"))
+                        {
+                            activitySubMisc = true;
+                        }
+                        else if (rt.value.Equals("SUBVEHICLE"))
+                        {
+                            activitySubVehicle = true;
                         }
                     }
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
@@ -161,13 +190,19 @@ namespace WebApi.Modules.Reports.PurchaseOrderMasterReport
                     qry.AddParameter("@vendorid", SqlDbType.Text, ParameterDirection.Input, request.VendorId);
                     qry.AddParameter("@postatus", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
 
-                    qry.AddParameter("@rental", SqlDbType.Text, ParameterDirection.Input, Rental);
-                    qry.AddParameter("@sales", SqlDbType.Text, ParameterDirection.Input, Sales);
-                    qry.AddParameter("@parts", SqlDbType.Text, ParameterDirection.Input, Parts);
-                    qry.AddParameter("@misc", SqlDbType.Text, ParameterDirection.Input, Misc);
-                    qry.AddParameter("@labor", SqlDbType.Text, ParameterDirection.Input, Labor);
-                    qry.AddParameter("@repair", SqlDbType.Text, ParameterDirection.Input, Repair);
-                    qry.AddParameter("@rentalsale", SqlDbType.Text, ParameterDirection.Input, RentalSale);
+                    qry.AddParameter("@rental", SqlDbType.Text, ParameterDirection.Input, activityRental);
+                    qry.AddParameter("@sales", SqlDbType.Text, ParameterDirection.Input, activitySales);
+                    qry.AddParameter("@parts", SqlDbType.Text, ParameterDirection.Input, activityParts);
+                    qry.AddParameter("@misc", SqlDbType.Text, ParameterDirection.Input, activityMisc);
+                    qry.AddParameter("@labor", SqlDbType.Text, ParameterDirection.Input, activityLabor);
+                    qry.AddParameter("@repair", SqlDbType.Text, ParameterDirection.Input, activityRepair);
+                    qry.AddParameter("@vehicle", SqlDbType.Text, ParameterDirection.Input, activityVehicle);
+                    qry.AddParameter("@consignment", SqlDbType.Text, ParameterDirection.Input, activityConsignment);
+                    qry.AddParameter("@subrent", SqlDbType.Text, ParameterDirection.Input, activitySubRent);
+                    qry.AddParameter("@subsale", SqlDbType.Text, ParameterDirection.Input, activitySubSale);
+                    qry.AddParameter("@submisc", SqlDbType.Text, ParameterDirection.Input, activitySubMisc);
+                    qry.AddParameter("@sublabor", SqlDbType.Text, ParameterDirection.Input, activitySubLabor);
+                    qry.AddParameter("@subvehicle", SqlDbType.Text, ParameterDirection.Input, activitySubVehicle);
 
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);

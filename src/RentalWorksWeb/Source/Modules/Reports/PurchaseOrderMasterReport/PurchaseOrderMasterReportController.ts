@@ -109,18 +109,18 @@ class PurchaseOrderMasterReport extends FwWebApiReport {
             { value: "CLOSED", text: "Closed", selected: "T" }
         ]);
         FwFormField.loadItems($form.find('div[data-datafield="Activities"]'), [
+            { value: "RENTAL", text: "Rental Inventory", selected: "T" },
+            { value: "SALES", text: "Sales Inventory", selected: "T" },
+            { value: "PARTS", text: "Parts Inventory", selected: "T" },
+            { value: "LABOR", text: "Labor", selected: "T" },
+            { value: "MISC", text: "Miscellaneous", selected: "T" },
+            { value: "REPAIR", text: "Repair", selected: "T" },
+            { value: "VEHICLE", text: "Vehicle", selected: "T" },
             { value: "SUBRENT", text: "Sub-Rent", selected: "T" },
             { value: "SUBSALE", text: "Sub-Sale", selected: "T" },
             { value: "SUBLABOR", text: "Sub-Labor", selected: "T" },
             { value: "SUBMISC", text: "Sub-Misc", selected: "T" },
-            { value: "RENTAL", text: "Reantal Inventory", selected: "T" },
-            { value: "SALES", text: "Sales Inventory", selected: "T" },
-            { value: "LABOR", text: "Labor", selected: "T" },
-            { value: "MISC", text: "Miscellaneous", selected: "T" },
             { value: "SUBVEHICLE", text: "Sub-Vehicle", selected: "T" },
-            { value: "REPAIR", text: "Repair", selected: "T" },
-            { value: "VEHICLE", text: "Vehicle", selected: "T" },
-            { value: "PARTS", text: "Parts Inventory", selected: "T" },
             { value: "CONSIGNMENT", text: "Consignment", selected: "T" },
         ]);
     }
