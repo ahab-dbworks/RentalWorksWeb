@@ -73,11 +73,7 @@
 
             const location = JSON.parse(sessionStorage.getItem('location'));
             FwFormField.setValue($form, 'div[data-datafield="OfficeLocationId"]', location.locationid, location.location);
-        }
 
-        if (mode === 'NEW') {
-            const warehouse = JSON.parse(sessionStorage.getItem('warehouse'));    
-            FwFormField.setValue($form.find('.warehouse'), warehouse.warehouseid, warehouse.warehouse);
             FwFormField.setValueByDataField($form, 'CycleIncludeOwned', true);
         }
 
@@ -111,6 +107,15 @@
             var $no = FwConfirmation.addButton($confirmation, 'No', true);
         });
 
+        $form.find('[data-datafield="CountType"]').on('change', e => {
+            const countType = FwFormField.getValueByDataField($form, 'CountType');
+            if (countType === 'CYCLE') {
+                $form.find('.count-type').show();
+            } else if (countType === 'COMPLETE') {
+                $form.find('.count-type').hide();
+            }
+        });
+
         return $form;
     }
 
@@ -129,6 +134,12 @@
     }
 
     afterLoad($form: any) {
+        const countType = FwFormField.getValueByDataField($form, 'CountType');
+        if (countType === 'CYCLE') {
+            $form.find('.count-type').show();
+        } else if (countType === 'COMPLETE') {
+            $form.find('.count-type').hide();
+        }
     }
 
     beforeValidateInventoryType($browse, $grid, request) {
