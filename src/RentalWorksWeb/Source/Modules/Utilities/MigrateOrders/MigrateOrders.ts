@@ -177,10 +177,32 @@ class MigrateOrders {
 
         //finalize migration
         $form.find('.finalize-migration').on('click', e => {
-            const $migrateItemGridControl = $form.find('[data-name="MigrateItemGrid"]');
-            const request: any = {};
-            request.SessionId = $migrateItemGrid.data('sessionId');
-
+            let request: any = {};
+            request = {
+                SessionId: $migrateItemGrid.data('sessionId')
+                , CreateNewOrder: FwFormField.getValueByDataField($form, 'CreateNewOrder')
+                , CreateNewDealId: FwFormField.getValueByDataField($form, 'CreateNewDealId')
+                , RateType: FwFormField.getValueByDataField($form, 'RateType')
+                , FromDate: FwFormField.getValueByDataField($form, 'FromDate')
+                , FromTime: FwFormField.getValueByDataField($form, 'FromTime')
+                , ToDate: FwFormField.getValueByDataField($form, 'ToDate')
+                , ToTime: FwFormField.getValueByDataField($form, 'ToTime')
+                , BillingStopDate: FwFormField.getValueByDataField($form, 'BillingStopDate')
+                , PendingPO: FwFormField.getValueByDataField($form, 'PendingPO')
+                , FlatPO: FwFormField.getValueByDataField($form, 'FlatPO')
+                , PurchaseOrderNumber: FwFormField.getValueByDataField($form, 'PurchaseOrderNumber')
+                , PurchaseOrderAmount: FwFormField.getValueByDataField($form, 'PurchaseOrderAmount')
+                , MigrateToExistingOrder: FwFormField.getValueByDataField($form, 'MigrateToExistingOrder')
+                , OrderId: FwFormField.getValueByDataField($form, 'OrderId')
+                , MigrateDealId: FwFormField.getValueByDataField($form, 'MigrateDealId')
+                , InventoryFulfillIncrement: FwFormField.getValueByDataField($form, 'InventoryFulfillIncrement')
+                , InventoryCheckedOrStaged: FwFormField.getValueByDataField($form, 'InventoryCheckedOrStaged')
+                , CopyLineItemNotes: FwFormField.getValueByDataField($form, 'CopyLineItemNotes')
+                , CopyOrderNotes: FwFormField.getValueByDataField($form, 'CopyOrderNotes')
+                , CopyRentalRates: FwFormField.getValueByDataField($form, 'CopyRentalRates')
+                , UpdateBillingStopDate: FwFormField.getValueByDataField($form, 'UpdateBillingStopDate')
+                , MigrateBillingStopDate: FwFormField.getValueByDataField($form, 'MigrateBillingStopDate')
+            }
             FwAppData.apiMethod(true, 'POST', `api/v1/migrate/completesession`, request, FwServices.defaultTimeout,
                 response => {
                     $form.find('.error-msg').html('');
@@ -191,7 +213,7 @@ class MigrateOrders {
                         successSound.play();
                         //will produce array of contractlogic objects
                         //open each contract as a separate tab
-                        //reset migrate orders tab
+                        $form.empty().append(MigrateOrdersController.openForm('NEW')) //reset migrate orders tab
                     }
                 }, ex => FwFunc.showError(ex)
                 , $migrateItemGrid);

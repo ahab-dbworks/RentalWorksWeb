@@ -71,16 +71,16 @@
       <div data-type="tabpage" id="optionstabpage" class="tabpage" data-tabid="optionstab">
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Migrating Inventory to the Destination Order will">
           <div class="flexcolumn">
-            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="margin:10px 0px;">
-              <div data-caption="Fulfill the quantity ordered first, then increment the Order if necessary" data-value=""></div>
-              <div data-caption="Only increment the ordered quantities" data-value=""></div>
+            <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryFulfillIncrement" style="margin:10px 0px;">
+              <div data-caption="Fulfill the quantity ordered first, then increment the Order if necessary" data-value="FULFILL"></div>
+              <div data-caption="Only increment the ordered quantities" data-value="INCREMENT"></div>
             </div>
           </div>
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Migrated Inventory will be">
-          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="" style="margin:15px 0px;">
-            <div data-caption="Checked out to the Destination Order" data-value=""></div>
-            <div data-caption="Staged to the Destination Order" data-value=""></div>
+          <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield" data-caption="" data-datafield="InventoryCheckedOrStaged" style="margin:15px 0px;">
+            <div data-caption="Checked out to the Destination Order" data-value="CHECKED"></div>
+            <div data-caption="Staged to the Destination Order" data-value="STAGED"></div>
           </div>
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Migrate Options">
