@@ -87,6 +87,126 @@ namespace WebApi.Modules.Home.PhysicalInventory
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/prescan
+        [HttpPost("prescan")]
+        [FwControllerMethod(Id: "Pxn9KhE4LOVRv")]
+        public async Task<ActionResult<PhysicalInventoryPrescanResponse>> Prescan([FromBody]PhysicalInventoryPrescanRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.PhysicalInventoryId = request.PhysicalInventoryId;
+                if (await l.LoadAsync<PhysicalInventoryLogic>())
+                {
+                    PhysicalInventoryPrescanResponse response = await PhysicalInventoryFunc.Prescan(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/initiate
+        [HttpPost("initiate")]
+        [FwControllerMethod(Id: "CVr2bgh4JCuBL")]
+        public async Task<ActionResult<PhysicalInventoryInitiateResponse>> Initiate([FromBody]PhysicalInventoryInitiateRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.PhysicalInventoryId = request.PhysicalInventoryId;
+                if (await l.LoadAsync<PhysicalInventoryLogic>())
+                {
+                    PhysicalInventoryInitiateResponse response = await PhysicalInventoryFunc.Initiate(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/approve
+        [HttpPost("approve")]
+        [FwControllerMethod(Id: "OS4eFb7OULch4")]
+        public async Task<ActionResult<PhysicalInventoryApproveResponse>> Approve([FromBody]PhysicalInventoryApproveRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.PhysicalInventoryId = request.PhysicalInventoryId;
+                if (await l.LoadAsync<PhysicalInventoryLogic>())
+                {
+                    PhysicalInventoryApproveResponse response = await PhysicalInventoryFunc.Approve(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/close
+        [HttpPost("close")]
+        [FwControllerMethod(Id: "cwtTFcSUMUkSf")]
+        public async Task<ActionResult<PhysicalInventoryCloseResponse>> Close([FromBody]PhysicalInventoryCloseRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                l.SetDependencies(AppConfig, UserSession);
+                l.PhysicalInventoryId = request.PhysicalInventoryId;
+                if (await l.LoadAsync<PhysicalInventoryLogic>())
+                {
+                    PhysicalInventoryCloseResponse response = await PhysicalInventoryFunc.Close(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         //// DELETE api/v1/physicalinventory/A0000001 
         //[HttpDelete("{id}")]
         //[FwControllerMethod(Id: "xryKgL6RDOYa")]
