@@ -253,8 +253,8 @@ namespace WebApi.Modules.Home.Order
                 //}
 
 
-                string migrateSourceDealId = GetMiscFieldAsString("MigrateSourceDealId", request);
-                string migrateSourceDepartmentId = GetMiscFieldAsString("MigrateSourceDepartmentId", request);
+                string migrateSourceDealId = GetMiscFieldAsString("DealId", request);
+                string migrateSourceDepartmentId = GetMiscFieldAsString("DepartmentId", request);
                 if (!string.IsNullOrEmpty(migrateSourceDealId))
                 {
                     select.AddWhere(" (dealid = @migratesourcedealid)");
@@ -262,7 +262,7 @@ namespace WebApi.Modules.Home.Order
                 }
                 if (!string.IsNullOrEmpty(migrateSourceDepartmentId))
                 {
-                    select.AddWhere(" (dealid = @migratesourcedepartmentid)");
+                    select.AddWhere(" (departmentid = @migratesourcedepartmentid)");
                     select.AddParameter("@migratesourcedepartmentid", migrateSourceDepartmentId);
                 }
                 //select.AddWhere("exists (select * from masteritem mi with (nolock) join ordertran ot with (nolock) on (mi.orderid = ot.orderid and mi.masteritemid = ot.masteritemid) where mi.orderid = " + TableAlias + ".orderid and mi.rectype = '" + RwConstants.RECTYPE_RENTAL + "'" + (string.IsNullOrEmpty(lossAndDamageWarehouseId) ? "" : " and mi.warehouseid = @ldwhid") + ")");
