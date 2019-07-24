@@ -1,0 +1,72 @@
+﻿routes.push({
+    pattern: /^reports\/physicalinventorycountsheetreport/, action: function (match: RegExpExecArray) {
+        return PhysicalInventoryCountSheetReportController.getModuleScreen();
+    }
+});
+
+const physInvCountSheetTemplate = `
+<div class="fwcontrol fwcontainer fwform fwreport" data-control="FwContainer" data-type="form" data-version="1" data-caption="Print Count Sheets" data-rendermode="template" data-mode="" data-hasaudit="false" data-controller="PhysicalInventoryCountSheetReportController">
+  <div class="fwcontrol fwtabs" data-control="FwTabs" data-type="">
+    <div class="tabs" style="margin-right:10px;">
+      <div id="generaltab" class="tab" data-tabpageid="generaltabpage" data-caption="General"></div>
+    </div>
+    <div class="tabpages">
+      <div data-type="tabpage" id="generaltabpage" class="tabpage" data-tabid="generaltab">
+        <div class="formpage">
+          <div class="row" style="display:flex;flex-wrap:wrap;">
+            <div class="flexcolumn" style="max-width:300px;">
+               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Physical Inventory">
+                <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
+                  <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Physical Inventory Number" data-datafield="PhysicalInventoryId" data-displayfield="PhysicalInventoryNumber" data-savesetting="false" data-validationname="PhysicalInventoryValidation" style="float:left;max-width:300px;"></div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+//----------------------------------------------------------------------------------------------
+class PhysicalInventoryCountSheetReport extends FwWebApiReport {
+    //----------------------------------------------------------------------------------------------
+    constructor() {
+        super('PhysicalInventoryCountSheetReport', 'api/v1/physicalinventorycountsheetreport', physInvCountSheetTemplate);
+        this.reportOptions.HasDownloadExcel = false;
+    }
+    //----------------------------------------------------------------------------------------------
+    getModuleScreen() {
+        const screen: any = {};
+        screen.$view = FwModule.getModuleControl(`${this.Module}Controller`);
+        screen.viewModel = {};
+        screen.properties = {};
+
+        const $form = this.openForm();
+
+        screen.load = function () {
+            FwModule.openModuleTab($form, $form.attr('data-caption'), false, 'REPORT', true);
+        };
+        screen.unload = function () { };
+        return screen;
+    }
+    //----------------------------------------------------------------------------------------------
+    openForm() {
+        const $form = this.getFrontEnd();
+        return $form;
+    }
+    //----------------------------------------------------------------------------------------------
+    onLoadForm($form) {
+        this.load($form, this.reportOptions);
+    }
+    //----------------------------------------------------------------------------------------------
+    convertParameters(parameters: any) {
+        const convertedParams: any = {};
+        convertedParams.OrderId = parameters.QuoteId;
+        convertedParams.isQuote = true;
+        return convertedParams;
+    }
+    //----------------------------------------------------------------------------------------------
+};
+
+var PhysicalInventoryCountSheetReportController: any = new PhysicalInventoryCountSheetReport();
+//----------------------------------------------------------------------------------------------
