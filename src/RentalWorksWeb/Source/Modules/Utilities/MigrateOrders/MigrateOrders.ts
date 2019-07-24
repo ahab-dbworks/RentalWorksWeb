@@ -5,6 +5,8 @@ class MigrateOrders {
     caption: string = Constants.Modules.Utilities.MigrateOrders.caption;
     nav: string = Constants.Modules.Utilities.MigrateOrders.nav;
     id: string = Constants.Modules.Utilities.MigrateOrders.id;
+    successSoundFileName: string;
+    errorSoundFileName: string;
     //----------------------------------------------------------------------------------------------
     getModuleScreen() {
         var screen: any = {};
@@ -29,11 +31,19 @@ class MigrateOrders {
         //disables "modified" asterisk
         $form.off('change keyup', '.fwformfield[data-enabled="true"]:not([data-isuniqueid="true"][data-datafield=""])');
 
+        this.getSoundUrls($form);
         this.events($form);
         return $form;
     };
     //----------------------------------------------------------------------------------------------
+    getSoundUrls = ($form): void => {
+        this.successSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).successSoundFileName;
+        this.errorSoundFileName = JSON.parse(sessionStorage.getItem('sounds')).errorSoundFileName;
+    }
+    //----------------------------------------------------------------------------------------------
     events($form) {
+        const errorSound = new Audio(this.errorSoundFileName);
+        const successSound = new Audio(this.successSoundFileName);
         const department = JSON.parse(sessionStorage.getItem('department'));
         FwFormField.setValue($form, 'div[data-datafield="DepartmentId"]', department.departmentid, department.department);
         const rateType = JSON.parse(sessionStorage.getItem('defaultlocation')).ratetype;
@@ -48,8 +58,8 @@ class MigrateOrders {
         const $orderBrowse = this.addOrderBrowse($form);
         $form.find('.orderBrowse').append($orderBrowse);
 
-        $form.find('[data-datafield="DealId"]').data('onchange', e => {
-            const dealId = FwFormField.getValue2($form.find('[data-datafield="DealId"]'));
+        $form.find('[data-datafield="DealId"], [data-datafield="DepartmentId"]').data('onchange', e => {
+            const dealId = FwFormField.getValueByDataField($form, 'DealId');
             const departmentId = FwFormField.getValueByDataField($form, 'DepartmentId');
             const onDataBind = $orderBrowse.data('ondatabind');
             if (typeof onDataBind == 'function') {
@@ -122,7 +132,69 @@ class MigrateOrders {
 
         //render grid upon clicking Items tab
         $form.find('[data-type="tab"][data-caption="Items"]').on('click', e => {
-            this.renderMigrateItemGrid($form);
+            this.renderMigrateItemGrid($form);  //starts session
+        });
+
+
+        const $migrateItemGrid = $form.find('div[data-grid="MigrateItemGrid"]');
+        // Select All
+        $form.find('.select-all').on('click', e => {
+            const $migrateItemGridControl = $form.find('[data-name="MigrateItemGrid"]');
+            const request: any = {};
+            request.SessionId = $migrateItemGrid.data('sessionId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/selectall`, request, FwServices.defaultTimeout,
+                response => {
+                    $form.find('.error-msg').html('');
+                    if (response.success === false) {
+                        errorSound.play();
+                        $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                    } else {
+                        successSound.play();
+                        FwBrowse.search($migrateItemGridControl);
+                    }
+                },
+                ex => FwFunc.showError(ex)
+                , $migrateItemGrid);
+        });
+        // Select None
+        $form.find('.select-none').on('click', e => {
+            const $migrateItemGridControl = $form.find('[data-name="MigrateItemGrid"]');
+            const request: any = {};
+            request.SessionId = $migrateItemGrid.data('sessionId');
+            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/selectnone`, request, FwServices.defaultTimeout,
+                response => {
+                    $form.find('.error-msg').html('');
+                    if (response.success === false) {
+                        errorSound.play();
+                        $form.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
+                    } else {
+                        successSound.play();
+                    }
+                    FwBrowse.search($migrateItemGridControl);
+                }, ex => FwFunc.showError(ex) 
+                , $migrateItemGrid);
+        });
+
+        //finalize migration
+        $form.find('.finalize-migration').on('click', e => {
+            const $migrateItemGridControl = $form.find('[data-name="MigrateItemGrid"]');
+            const request: any = {};
+            request.SessionId = $migrateItemGrid.data('sessionId');
+
+            FwAppData.apiMethod(true, 'POST', `api/v1/migrate/completesession`, request, FwServices.defaultTimeout,
+                response => {
+                    $form.find('.error-msg').html('');
+                    if (response.success === false) {
+                        errorSound.play();
+                        $form.find('div.error-msg').html(`<div><span">${response.msg}</span></div>`);
+                    } else {
+                        successSound.play();
+                        //will produce array of contractlogic objects
+                        //open each contract as a separate tab
+                        //reset migrate orders tab
+                    }
+                }, ex => FwFunc.showError(ex)
+                , $migrateItemGrid);
         });
     }
     //----------------------------------------------------------------------------------------------

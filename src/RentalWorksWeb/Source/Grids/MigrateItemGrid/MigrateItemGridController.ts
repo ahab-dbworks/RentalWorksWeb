@@ -71,7 +71,7 @@
                         SessionId: sessionId
                     }
                     if (quantity != 0) {
-                        FwAppData.apiMethod(true, 'POST', "api/v1/migrateorders/updateitem", request, FwServices.defaultTimeout,
+                        FwAppData.apiMethod(true, 'POST', "api/v1/migrate/updateitem", request, FwServices.defaultTimeout,
                             function onSuccess(response) {
                                 let errorMsg = $form.find('.error-msg:not(.qty)');
                                 errorMsg.html('');
