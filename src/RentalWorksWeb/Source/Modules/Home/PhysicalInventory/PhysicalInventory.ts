@@ -78,7 +78,9 @@
         }
 
         $form.find('.prescan').on('click', e => {
-            const $confirmation = FwConfirmation.renderConfirmation(`Pre-Scan`, 'Pre-Initializing Physical Inventory make take several minutes! </br> Continue?');
+            const invNo = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const invDescription = FwFormField.getValueByDataField($form, 'Description');
+            const $confirmation = FwConfirmation.renderConfirmation(`Pre-Scan`, `Start Pre-Scan for Physical Inventory ${invNo} ${invDescription}?`);
             const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
             FwConfirmation.addButton($confirmation, 'Close', true);
             const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
@@ -95,7 +97,9 @@
         });
 
         $form.find('.initiate').on('click', e => {
-            const $confirmation = FwConfirmation.renderConfirmation(`Initiate`, 'Initializing Physical Inventory make take several minutes.');
+            const invNo = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const invDescription = FwFormField.getValueByDataField($form, 'Description');
+            const $confirmation = FwConfirmation.renderConfirmation(`Initiate`, `Initiate Physical Inventory ${invNo} ${invDescription}? This make take a few minutes depending on the number of Inventory items being counted.`);
             const $yes = FwConfirmation.addButton($confirmation, 'Continue', false);
             FwConfirmation.addButton($confirmation, 'Close', true);
             const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
@@ -110,7 +114,7 @@
                     $form);
             });
         });
-        
+
         $form.find('.printcountsheet').on('click', e => {
             const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
             const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
@@ -136,19 +140,25 @@
         });
 
         $form.find('.approve').on('click', function (e) {
-            const $confirmation = FwConfirmation.renderConfirmation(`Approve`, 'Approve Physical Inventory Counts?');
+            const invNo = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const invDescription = FwFormField.getValueByDataField($form, 'Description');
+            const $confirmation = FwConfirmation.renderConfirmation(`Approve`, `Approve all Counts for Physical Inventory ${invNo} ${invDescription}?`);
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
             var $no = FwConfirmation.addButton($confirmation, 'No', true);
         });
 
         $form.find('.closeinventorywithadj').on('click', function (e) {
-            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory`, 'Close Physical Inventory and apply adjustments to Inventory?');
+            const invNo = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const invDescription = FwFormField.getValueByDataField($form, 'Description');
+            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory`, `Close Physical Inventory ${invNo} ${invDescription} and apply adjustments to Inventory?`);
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
             var $no = FwConfirmation.addButton($confirmation, 'No', true);
         });
 
         $form.find('.closeinventorywithoutadj').on('click', function (e) {
-            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (Without Adjustments)`, 'Close Physical Inventory without adjusting any Inventory?');
+            const invNo = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const invDescription = FwFormField.getValueByDataField($form, 'Description');
+            const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (Without Adjustments)`, `Close Physical Inventory ${invNo} ${invDescription} without adjusting any Inventory?`);
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
             var $no = FwConfirmation.addButton($confirmation, 'No', true);
         });

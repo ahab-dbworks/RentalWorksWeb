@@ -15,7 +15,7 @@ const physInvCountSheetTemplate = `
         <div class="formpage">
           <div class="row" style="display:flex;flex-wrap:wrap;">
             <div class="flexcolumn" style="max-width:300px;">
-               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Physical Inventory">
+               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Physical Inventory Count Sheets">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
                   <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield" data-caption="Physical Inventory Number" data-datafield="PhysicalInventoryId" data-displayfield="PhysicalInventoryNumber" data-savesetting="false" data-validationname="PhysicalInventoryValidation" style="float:left;max-width:300px;"></div>
                 </div>

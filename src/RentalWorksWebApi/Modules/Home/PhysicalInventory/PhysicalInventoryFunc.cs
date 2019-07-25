@@ -64,10 +64,11 @@ namespace WebApi.Modules.Home.PhysicalInventory
             PhysicalInventoryPrescanResponse response = new PhysicalInventoryPrescanResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "prescan", appConfig.DatabaseSettings.QueryTimeout);
-                //qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, request.PhysicalInventoryId);
-                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                FwSqlCommand qry = new FwSqlCommand(conn, "physicalprescanweb", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, request.PhysicalInventoryId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);
@@ -81,10 +82,11 @@ namespace WebApi.Modules.Home.PhysicalInventory
             PhysicalInventoryInitiateResponse response = new PhysicalInventoryInitiateResponse();
             using (FwSqlConnection conn = new FwSqlConnection(appConfig.DatabaseSettings.ConnectionString))
             {
-                FwSqlCommand qry = new FwSqlCommand(conn, "initiate", appConfig.DatabaseSettings.QueryTimeout);
-                //qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, request.PhysicalInventoryId);
-                //qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
-                //qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
+                FwSqlCommand qry = new FwSqlCommand(conn, "physicalinitiateweb", appConfig.DatabaseSettings.QueryTimeout);
+                qry.AddParameter("@physicalid", SqlDbType.NVarChar, ParameterDirection.Input, request.PhysicalInventoryId);
+                qry.AddParameter("@usersid", SqlDbType.NVarChar, ParameterDirection.Input, userSession.UsersId);
+                qry.AddParameter("@status", SqlDbType.Int, ParameterDirection.Output);
+                qry.AddParameter("@msg", SqlDbType.NVarChar, ParameterDirection.Output);
                 await qry.ExecuteNonQueryAsync();
                 response.status = qry.GetParameter("@status").ToInt32();
                 response.success = (response.status == 0);

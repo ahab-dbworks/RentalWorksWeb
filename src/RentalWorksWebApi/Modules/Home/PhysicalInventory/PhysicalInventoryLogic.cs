@@ -43,10 +43,10 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string ScheduleDate { get { return physicalInventory.ScheduleDate; } set { physicalInventory.ScheduleDate = value; } }
 
         [FwLogicProperty(Id: "gg7XH6Gb13i0")]
-        public string PreInitializeDate { get { return physicalInventory.PreInitializeDate; } set { physicalInventory.PreInitializeDate = value; } }
+        public string PreScanDateTime { get { return physicalInventory.PreScanDateTime; } set { physicalInventory.PreScanDateTime = value; } }
 
         [FwLogicProperty(Id: "d1WfVZeKWEEf")]
-        public string InitializeDate { get { return physicalInventory.InitializeDate; } set { physicalInventory.InitializeDate = value; } }
+        public string InitiateDateTime { get { return physicalInventory.InitiateDateTime; } set { physicalInventory.InitiateDateTime = value; } }
 
         [FwLogicProperty(Id: "LW2QUasiJNXg", IsRecordTitle: true, DisableDirectModify: true)]
         public string PhysicalInventoryNumber { get { return physicalInventory.PhysicalInventoryNumber; } set { physicalInventory.PhysicalInventoryNumber = value; } }
@@ -82,7 +82,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string Rank { get { return physicalInventory.Rank; } set { physicalInventory.Rank = value; } }
 
         [FwLogicProperty(Id: "Hyey2DHxjsAx")]
-        public string CycleRankA { get { return physicalInventory.CycleRankA; } set { physicalInventory.CycleRankA = value; } }
+        public bool? CycleRankA { get { return physicalInventory.CycleRankA; } set { physicalInventory.CycleRankA = value; } }
 
         [FwLogicProperty(Id: "cQ898yrKxQ7o")]
         public bool? CycleRankB { get { return physicalInventory.CycleRankB; } set { physicalInventory.CycleRankB = value; } }
@@ -147,41 +147,80 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwLogicProperty(Id: "aXLVye28qjjK")]
         public int? StepPreScan { get { return physicalInventory.StepPreScan; } set { physicalInventory.StepPreScan = value; } }
 
+        [FwLogicProperty(Id: "HLcu7SaeFDRsB", IsReadOnly: true)]
+        public bool? AllowStepPreScan { get { return (StepPreScan == 0) && (StepInitiate == 0); } }
+
         [FwLogicProperty(Id: "cGq2QA2cfnmi")]
         public int? StepInitiate { get { return physicalInventory.StepInitiate; } set { physicalInventory.StepInitiate = value; } }
+
+        [FwLogicProperty(Id: "zDO6KDqQsK0X6", IsReadOnly: true)]
+        public bool? AllowStepInitiate { get { return (StepInitiate == 0); } }
 
         [FwLogicProperty(Id: "ktRUSnhiROBH")]
         public int? StepPrintCountSheets { get { return physicalInventory.StepPrintCountSheets; } set { physicalInventory.StepPrintCountSheets = value; } }
 
+        [FwLogicProperty(Id: "rMDZAZbsZfxXj", IsReadOnly: true)]
+        public bool? AllowStepPrintCountSheets { get { return (StepPreScan > 0) || (StepInitiate > 0); } }
+
         [FwLogicProperty(Id: "WoF5hrbrRySc")]
         public int? StepCount { get { return physicalInventory.StepCount; } set { physicalInventory.StepCount = value; } }
+
+        [FwLogicProperty(Id: "2e6sK7AoshIyH", IsReadOnly: true)]
+        public bool? AllowStepCount { get { return (StepPrintCountSheets > 0); } }
 
         [FwLogicProperty(Id: "KmC2DIMlmBgR")]
         public int? StepPrintExceptionReport { get { return physicalInventory.StepPrintExceptionReport; } set { physicalInventory.StepPrintExceptionReport = value; } }
 
+        [FwLogicProperty(Id: "fbB4fzwxvz34z", IsReadOnly: true)]
+        public bool? AllowStepPrintExceptionReport { get { return (StepPrintCountSheets > 0); } }
+
         [FwLogicProperty(Id: "zIiu12j2THefs")]
         public int? StepPrintDiscrepancyReport { get { return physicalInventory.StepPrintDiscrepancyReport; } set { physicalInventory.StepPrintDiscrepancyReport = value; } }
+
+        [FwLogicProperty(Id: "jbZZ438Obk2Jy", IsReadOnly: true)]
+        public bool? AllowStepPrintDiscrepancyReport { get { return (StepPrintCountSheets > 0); } }
 
         [FwLogicProperty(Id: "SIel2BpMN3MR")]
         public int? StepRecount { get { return physicalInventory.StepRecount; } set { physicalInventory.StepRecount = value; } }
 
+        [FwLogicProperty(Id: "GUiNP5pWeznhR", IsReadOnly: true)]
+        public bool? AllowStepRecount { get { return (StepPrintCountSheets > 0); } }
+
         [FwLogicProperty(Id: "oANRKbgDltZr")]
         public int? StepPrintRecountAnalysisReport { get { return physicalInventory.StepPrintRecountAnalysisReport; } set { physicalInventory.StepPrintRecountAnalysisReport = value; } }
+
+        [FwLogicProperty(Id: "K8mDqIiXIiUEz", IsReadOnly: true)]
+        public bool? AllowStepPrintRecountAnalysisReport { get { return (StepPrintCountSheets > 0); } }
 
         [FwLogicProperty(Id: "d82DJYvSNPkms")]
         public int? StepPrintReconciliationReport { get { return physicalInventory.StepPrintReconciliationReport; } set { physicalInventory.StepPrintReconciliationReport = value; } }
 
+        [FwLogicProperty(Id: "Dn3Upb4qsvZEn", IsReadOnly: true)]
+        public bool? AllowStepPrintReconciliationReport { get { return (StepPrintCountSheets > 0); } }
+
         [FwLogicProperty(Id: "Or5OdD4LxmFY2")]
         public int? StepApproveCounts { get { return physicalInventory.StepApproveCounts; } set { physicalInventory.StepApproveCounts = value; } }
+
+        [FwLogicProperty(Id: "GB9t9zXsITTB2", IsReadOnly: true)]
+        public bool? AllowStepApproveCounts { get { return (StepCount > 0); } }
 
         [FwLogicProperty(Id: "pkqjHbztU2NT")]
         public int? StepClose { get { return physicalInventory.StepClose; } set { physicalInventory.StepClose = value; } }
 
+        [FwLogicProperty(Id: "kwNDs1BTYfkQ3", IsReadOnly: true)]
+        public bool? AllowStepClose { get { return ((StepApproveCounts > 0) && (StepClose == 0) && (StepCloseWithoutAdjustments == 0)); } }
+
         [FwLogicProperty(Id: "cHdtMkYhr7DqA")]
         public int? StepCloseWithoutAdjustments { get { return physicalInventory.StepCloseWithoutAdjustments; } set { physicalInventory.StepCloseWithoutAdjustments = value; } }
 
+        [FwLogicProperty(Id: "YfMmg9cenmqW9", IsReadOnly: true)]
+        public bool? AllowStepCloseWithoutAdjustments { get { return ((StepApproveCounts > 0) && (StepClose == 0) && (StepCloseWithoutAdjustments == 0)); } }
+
         [FwLogicProperty(Id: "DxljnDcuVxst")]
         public int? StepPrintResults { get { return physicalInventory.StepPrintResults; } set { physicalInventory.StepPrintResults = value; } }
+
+        [FwLogicProperty(Id: "15lWMkmsIOEFB", IsReadOnly: true)]
+        public bool? AllowStepPrintResults { get { return (StepPrintCountSheets > 0); } }
 
         [FwLogicProperty(Id: "608KDO2tu1oX", DisableDirectModify: true)]
         public string Status { get { return physicalInventory.Status; } set { physicalInventory.Status = value; } }

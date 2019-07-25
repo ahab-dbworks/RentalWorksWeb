@@ -18,8 +18,8 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "scheduledate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime", required: true)]
         public string ScheduleDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "preinitdate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
-        public string PreInitializeDate { get; set; }
+        [FwSqlDataField(column: "preinitdate", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
+        public string PreScanDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "warehouseid", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8, required: true)]
         public string WarehouseId { get; set; }
@@ -81,8 +81,8 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "inputdate", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string InputDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "initdate", modeltype: FwDataTypes.Date, sqltype: "datetime")]
-        public string InitializeDate { get; set; }
+        [FwSqlDataField(column: "initdate", modeltype: FwDataTypes.DateTime, sqltype: "datetime")]
+        public string InitiateDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cyclelast", modeltype: FwDataTypes.Date, sqltype: "smalldatetime")]
         public string CycleLastCounted { get; set; }
@@ -91,7 +91,7 @@ namespace WebApi.Modules.Home.PhysicalInventory
         public string CycleTrackedBy { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cyclea", modeltype: FwDataTypes.Text, sqltype: "char", maxlength: 8)]
-        public string CycleRankA { get; set; }
+        public bool? CycleRankA { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cycleb", modeltype: FwDataTypes.Boolean, sqltype: "char")]
         public bool? CycleRankB { get; set; }

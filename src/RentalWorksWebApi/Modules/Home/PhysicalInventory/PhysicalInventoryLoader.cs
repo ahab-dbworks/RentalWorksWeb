@@ -30,11 +30,11 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "scheduledate", modeltype: FwDataTypes.Date)]
         public string ScheduleDate { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "preinitdate", modeltype: FwDataTypes.Date)]
-        public string PreInitializeDate { get; set; }
+        [FwSqlDataField(column: "preinitdate", modeltype: FwDataTypes.DateTime)]
+        public string PreScanDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "initdate", modeltype: FwDataTypes.Date)]
-        public string InitializeDate { get; set; }
+        [FwSqlDataField(column: "initdate", modeltype: FwDataTypes.DateTime)]
+        public string InitiateDateTime { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "physicalno", modeltype: FwDataTypes.Text)]
         public string PhysicalInventoryNumber { get; set; }
@@ -69,8 +69,8 @@ namespace WebApi.Modules.Home.PhysicalInventory
         [FwSqlDataField(column: "rank", modeltype: FwDataTypes.Text)]
         public string Rank { get; set; }
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "cyclea", modeltype: FwDataTypes.Text)]
-        public string CycleRankA { get; set; }
+        [FwSqlDataField(column: "cyclea", modeltype: FwDataTypes.Boolean)]
+        public bool? CycleRankA { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "cycleb", modeltype: FwDataTypes.Boolean)]
         public bool? CycleRankB { get; set; }
