@@ -21,7 +21,7 @@ export class DealInvoiceDetailReport extends WebpackReport {
                     data.PrintTime = `Printed on ${moment().format('MM/DD/YYYY')} at ${moment().format('h:mm:ss A')}`;
                     data.FromDate = parameters.FromDate;
                     data.ToDate = parameters.ToDate;
-                    data.Report = 'Sub-Rental Billing Analysis Report';
+                    data.Report = 'Deal Invoice Detail Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
                     data.DeductVendorItemCost = parameters.DeductVendorItemCost;
