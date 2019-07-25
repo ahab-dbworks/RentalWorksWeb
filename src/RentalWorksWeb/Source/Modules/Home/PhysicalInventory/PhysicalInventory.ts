@@ -172,20 +172,45 @@
             }
         });
 
-        $form.find('.update-icodes').on('click', e => {
+        $form.find('.update-icodes').on('click', () => {
             const $physicalInventoryCycleInventoryGrid = $form.find('[data-name="PhysicalInventoryCycleInventoryGrid"]');
             const request: any = {};
             request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
-            try {
-                this.saveForm($form, { closetab: false });
-                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/updateicodes', request, FwServices.defaultTimeout,
-                    response => {
-                        FwBrowse.search($physicalInventoryCycleInventoryGrid);
-                    },
-                    ex => FwFunc.showError(ex),
-                    $form);
-            }
-            catch (ex) { FwFunc.showError(ex); };
+            const $confirmation = FwConfirmation.renderConfirmation(`Delete all I-Codes?`, `Delete all I-Codes from this list and repopulate the list using these Cycle Count settings?`);
+            const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
+            FwConfirmation.addButton($confirmation, 'No', true);
+
+            $yes.on('click', (): Promise<any> => {
+                return new Promise((resolve, reject) => {
+                   promise
+                        .then(() => {
+                            FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/updateicodes', request, FwServices.defaultTimeout,
+                                response => {
+                                    $form.find('.error-msg').html('');
+                                    if (response.success) {
+                                        FwBrowse.search($physicalInventoryCycleInventoryGrid);
+                                    } else {
+                                        $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
+                                    }
+                                },
+                                ex => FwFunc.showError(ex),
+                                $form);
+                            resolve();
+                        })
+                        .catch((reason) => {
+                            reject(reason);
+                        });
+                });
+            });
+
+            var promise = new Promise((resolve, reject) => {
+                try {
+                    this.saveForm($form, { closetab: false })
+                    resolve();
+                } catch (ex) {
+                    reject(ex);
+                }
+            })
         });
 
         return $form;
