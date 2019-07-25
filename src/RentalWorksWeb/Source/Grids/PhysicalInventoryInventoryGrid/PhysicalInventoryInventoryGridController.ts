@@ -1,5 +1,5 @@
-﻿class PhysicalInventoryGrid {
-    Module: string = 'PhysicalInventoryGrid';
+﻿class PhysicalInventoryInventoryGrid {
+    Module: string = 'PhysicalInventoryInventoryGrid';
     apiurl: string = 'api/v1/physicalinventoryinventory';
 
     generateRow($control, $generatedtr) {
@@ -10,5 +10,5 @@
     }
 }
 
-var PhysicalInventoryGridController = new PhysicalInventoryGrid();
+var PhysicalInventoryInventoryGridController = new PhysicalInventoryInventoryGrid();
 //----------------------------------------------------------------------------------------------

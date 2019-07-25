@@ -2,10 +2,10 @@
 
 namespace WebLibrary.Security.Tree.RentalWorksWeb.Grids
 {
-    public class PhysicalInventoryGridMenu : FwSecurityTreeBranch
+    public class PhysicalInventoryInventoryGridMenu : FwSecurityTreeBranch
     {
         //---------------------------------------------------------------------------------------------
-        public PhysicalInventoryGridMenu() : base("{B4256DE8-60A8-4C7F-B35E-FB6971263793}") { }
+        public PhysicalInventoryInventoryGridMenu() : base("{B4256DE8-60A8-4C7F-B35E-FB6971263793}") { }
         //---------------------------------------------------------------------------------------------
         public override void BuildBranch(FwSecurityTree tree)
         {

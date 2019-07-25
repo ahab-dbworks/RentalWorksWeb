@@ -163,14 +163,14 @@
         });
 
         $form.find('.update-icodes').on('click', e => {
-            const $physicalInventoryGrid = $form.find('[data-name="PhysicalInventoryGrid"]');
+            const $physicalInventoryCycleInventoryGrid = $form.find('[data-name="PhysicalInventoryCycleInventoryGrid"]');
             const request: any = {};
             request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
             try {
                 this.saveForm($form, { closetab: false });
                 FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/updateicodes', request, FwServices.defaultTimeout,
                     response => {
-                        FwBrowse.search($physicalInventoryGrid);
+                        FwBrowse.search($physicalInventoryCycleInventoryGrid);
                     },
                     ex => FwFunc.showError(ex),
                     $form);
@@ -196,24 +196,24 @@
     }
     //---------------------------------------------------------------------------------------------
     renderGrids($form) {
-        const $physicalInventoryGrid = $form.find('div[data-grid="PhysicalInventoryGrid"]');
-        const $physicalInventoryGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryGrid');
-        $physicalInventoryGrid.empty().append($physicalInventoryGridControl);
-        $physicalInventoryGridControl.data('ondatabind', request => {
+        const $physicalInventoryCycleInventoryGrid = $form.find('div[data-grid="PhysicalInventoryCycleInventoryGrid"]');
+        const $physicalInventoryCycleInventoryGridControl = FwBrowse.loadGridFromTemplate('PhysicalInventoryCycleInventoryGrid');
+        $physicalInventoryCycleInventoryGrid.empty().append($physicalInventoryCycleInventoryGridControl);
+        $physicalInventoryCycleInventoryGridControl.data('ondatabind', request => {
             request.uniqueids = {
                 PhysicalInventoryId: FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
             };
         });
-        $physicalInventoryGridControl.data('beforesave', request => {
+        $physicalInventoryCycleInventoryGridControl.data('beforesave', request => {
             request.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId')
         });
-        FwBrowse.init($physicalInventoryGridControl);
-        FwBrowse.renderRuntimeHtml($physicalInventoryGridControl);
+        FwBrowse.init($physicalInventoryCycleInventoryGridControl);
+        FwBrowse.renderRuntimeHtml($physicalInventoryCycleInventoryGridControl);
     }
     //---------------------------------------------------------------------------------------------
     afterLoad($form: any) {
-        const $physicalInventoryGrid: any = $form.find('[data-name="PhysicalInventoryGrid"]');
-        FwBrowse.search($physicalInventoryGrid);
+        const $physicalInventoryCycleInventoryGrid: any = $form.find('[data-name="PhysicalInventoryCycleInventoryGrid"]');
+        FwBrowse.search($physicalInventoryCycleInventoryGrid);
 
         const countType = FwFormField.getValueByDataField($form, 'CountType');
         if (countType === 'CYCLE') {
