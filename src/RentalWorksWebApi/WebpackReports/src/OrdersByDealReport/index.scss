@@ -1,18 +1,20 @@
 ﻿/*OrdersByDealReport*/
-tbody {
-    tr[data-rowtype="detail"]:nth-child(odd) {
-        background-color: #DCDCDC;
-    }
+tbody[data-rowtype="detail"]:nth-child(odd) td:not(.no-border) {
+    background-color: #DCDCDC;
 }
 
 thead {
     th {
-        border-top: 2px solid #000000;
         border-bottom: 2px solid #000000;
         font-weight: bold;
         padding: 5px;
         white-space: nowrap;
     }
+}
+
+.no-border {
+    border-top: none;
+    border-bottom: none;
 }
 
 @page {

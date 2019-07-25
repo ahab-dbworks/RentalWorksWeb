@@ -1,4 +1,4 @@
-﻿<!--Sub-Rental Billing Analysis Report-->
+﻿<!--OrdersByDealReport-->
 <div class="rpt-flexrow">
   <div class="rpt-flexcolumn">
     <span class="rpt-header-left">{{System}}</span>
@@ -38,8 +38,6 @@
     {{#ifEquals RowType "Dealheader"}}
     <thead>
       <tr data-rowtype={{RowType}}>
-        <th>Customer</th>
-        <th>Deal</th>
         <th>Deal No.</th>
         <th>Deal Type</th>
         <th>Payment Terms</th>
@@ -50,8 +48,6 @@
       </tr>
     </thead>
     <tr>
-      <td data-value="{{Customer}}"></td>
-      <td data-value="{{Deal}}"></td>
       <td data-value="{{DealNumber}}"></td>
       <td data-value="{{DealType}}"></td>
       <td data-value="{{PaymentTerms}}"></td>
@@ -61,21 +57,36 @@
       <td data-value="{{InsuranceStatus}}"></td>
     </tr>
     <tr>
+      <td></td>
       <td>
         <!--need phone number too-->
         <div><span>{{Address1}}</span><span>Phone: {{Phone}}</span></div>
-        <div><span>{{Address2}}</span><span>Primary Contact/Phone</span></div>
+        <div><span>{{Address2}}</span><span>Primary Contact/Phone: </span></div>
         <div><span>{{City}}, {{State}} {{Zip}} {{Country}}</span><span>{{DealPrimaryContactName}}{{DealPrimaryContactPhone}}{{DealPrimaryContactExt}}</span></div>
       </td>
     </tr>
+    <thead>
+      <tr data-rowtype={{RowType}}>
+        <th class="no-border"></th>
+        <th>Order No.</th>
+        <th>Create Date</th>
+        <th>Est. Start Date</th>
+        <th>Description</th>
+        <th>PO No.</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>As Of</th>
+      </tr>
+    </thead>
     {{/ifEquals}}
     {{#ifEquals RowType "detail"}}
     <tbody data-rowtype="{{RowType}}">
       <tr>
+        <td class="no-border"></td>
         <td data-value="{{OrderNumber}}"></td>
         <td data-value="{{OrderDate}}"></td>
         <td data-value="{{EstimatedStartDate}}"></td>
-        <td colspan="2" data-value="{{OrderDescription}}"></td>
+        <td data-value="{{OrderDescription}}"></td>
         <td data-value="{{PurchaseOrderNumber}}"></td>
         <td class="number" data-value="{{OrderTotal}}"></td>
         <td data-value="{{OrderStatus}}"></td>
