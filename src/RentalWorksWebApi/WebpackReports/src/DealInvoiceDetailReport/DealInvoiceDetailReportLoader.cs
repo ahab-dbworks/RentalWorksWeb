@@ -218,13 +218,18 @@ namespace WebApi.Modules.Reports.DealInvoiceDetailReport
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getdealinvoicerpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
+                    qry.AddParameter("@datetype", SqlDbType.Date, ParameterDirection.Input, request.DateType);
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
                     qry.AddParameter("@customerid", SqlDbType.Text, ParameterDirection.Input, request.CustomerId);
                     qry.AddParameter("@dealid", SqlDbType.Text, ParameterDirection.Input, request.DealId);
                     qry.AddParameter("@departmentid", SqlDbType.Text, ParameterDirection.Input, request.DepartmentId);
-                    qry.AddParameter("@status", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
+                    qry.AddParameter("@invoicestatus", SqlDbType.Text, ParameterDirection.Input, request.Statuses.ToString());
+                    qry.AddParameter("@deductcosts", SqlDbType.Text, ParameterDirection.Input, request.DeductVendorItemCost);
+                    qry.AddParameter("@nocharge", SqlDbType.Text, ParameterDirection.Input, request.NoCharge);
+                    qry.AddParameter("@billedhiatus", SqlDbType.Text, ParameterDirection.Input, request.BilledHiatus);
+                    qry.AddParameter("@billableflat", SqlDbType.Text, ParameterDirection.Input, request.BillableFlat);
 
                     AddPropertiesAsQueryColumns(qry);
                     dt = await qry.QueryToFwJsonTableAsync(false, 0);
@@ -233,10 +238,9 @@ namespace WebApi.Modules.Reports.DealInvoiceDetailReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "Quantity", "PurchaseAmountExtended", "UnitValueExtended", "ReplacementCostExtended" };
+                string[] totalFields = new string[] { "RentalRevenue", "RentalCost", "RentalNet", "SalesRevenue", "SalesCost", "SalesNet", "SpaceRevenue", "SpaceCost", "SpaceNet", "VehicleRevenue", "VehicleCost", "VehicleNet", "LaborRevenue", "LaborCost", "LaborNet", "MiscRevenue", "MiscCost", "MiscNet", "RentalSaleRevenue", "RentalSaleCost", "RentalSaleNet", "PartsCost", "PartsNet", "PartsRevenue", "Tax", "TotalRevenue", "TotalCost", "TotalNet" };
                 string[] headerFieldsOrderNumber = new string[] { "OrderDate", "OrderDescription", "OrderNumber", "BillingPeriod", "EstimatedStartDate", "EstimatedStopDate", "BillingPeriodStart", "BillingPeriodEnd" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
-                dt.InsertSubTotalRows("Customer", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
                 dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields, headerFieldsOrderNumber, totalFor: "Total for");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);

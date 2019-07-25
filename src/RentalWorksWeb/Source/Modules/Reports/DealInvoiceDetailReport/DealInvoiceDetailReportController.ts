@@ -37,10 +37,10 @@ const dealInvoiceDetailTemplate = `
             <div class="flexcolumn" style="max-width:233px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="No Charge Invoices">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-datafield="DateType" style="float:left;max-width:210px;">
-                    <div data-value="INVOICE_DATE" data-caption="Include &quot;No Charge&quot; Invoices"></div>
-                    <div data-value="BILLING_START_DATE" data-caption="Exclude &quot;No Charge&quot; Invoices"></div>
-                    <div data-value="BILLING_START_DATE" data-caption="&quot;No Charge&quot; Invoices Only"></div>
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-datafield="NoCharge" style="float:left;max-width:210px;">
+                    <div data-value="I" data-caption="Include &quot;No Charge&quot; Invoices"></div>
+                    <div data-value="E" data-caption="Exclude &quot;No Charge&quot; Invoices"></div>
+                    <div data-value="O" data-caption="&quot;No Charge&quot; Invoices Only"></div>
                   </div>
                 </div>
               </div>
@@ -48,10 +48,10 @@ const dealInvoiceDetailTemplate = `
             <div class="flexcolumn" style="max-width:200px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Hiatus Invoices">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-datafield="DateType" style="float:left;max-width:200px;">
-                    <div data-value="INVOICE_DATE" data-caption="Include &quot;Hiatus&quot; Invoices"></div>
-                    <div data-value="BILLING_START_DATE" data-caption="Exclude &quot;Hiatus&quot; Invoices"></div>
-                    <div data-value="BILLING_START_DATE" data-caption="&quot;Hiatus&quot; Invoices Only"></div>
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-datafield="BilledHiatus" style="float:left;max-width:200px;">
+                    <div data-value="I" data-caption="Include &quot;Hiatus&quot; Invoices"></div>
+                    <div data-value="E" data-caption="Exclude &quot;Hiatus&quot; Invoices"></div>
+                    <div data-value="O" data-caption="&quot;Hiatus&quot; Invoices Only"></div>
                   </div>
                 </div>
               </div>
@@ -59,10 +59,10 @@ const dealInvoiceDetailTemplate = `
             <div class="flexcolumn" style="max-width:210px;">
               <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Flat PO Invoices">
                 <div class="fwcontrol fwcontainer fwform-fieldrow" data-control="FwContainer" data-type="fieldrow">
-                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-datafield="DateType" style="float:left;max-width:210px;">
-                    <div data-value="INVOICE_DATE" data-caption="Include &quot;Flat PO&quot; Invoices"></div>
-                    <div data-value="BILLING_START_DATE" data-caption="Exclude &quot;Flat PO&quot; Invoices"></div>
-                    <div data-value="BILLING_START_DATE" data-caption="&quot;Flat PO&quot; Invoices Only"></div>
+                  <div data-control="FwFormField" data-type="radio" class="fwcontrol fwformfield datatype" data-datafield="BillableFlat" style="float:left;max-width:210px;">
+                    <div data-value="I" data-caption="Include &quot;Flat PO&quot; Invoices"></div>
+                    <div data-value="E" data-caption="Exclude &quot;Flat PO&quot; Invoices"></div>
+                    <div data-value="O" data-caption="&quot;Flat PO&quot; Invoices Only"></div>
                   </div>
                 </div>
               </div>

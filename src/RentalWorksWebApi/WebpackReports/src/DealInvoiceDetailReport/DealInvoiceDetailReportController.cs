@@ -19,10 +19,14 @@ namespace WebApi.Modules.Reports.DealInvoiceDetailReport
         public DateTime ToDate { get; set; }
         public string DateType { get; set; }
         public bool? IncludeNoCharge { get; set; }
+        public bool? DeductVendorItemCost { get; set; }
         public string OfficeLocationId { get; set; }
         public string DepartmentId { get; set; }
         public string CustomerId { get; set; }
         public string DealId { get; set; }
+        public string NoCharge { get; set; }
+        public string BilledHiatus { get; set; }
+        public string BillableFlat { get; set; }
         public SelectedCheckBoxListItems Statuses { get; set; } = new SelectedCheckBoxListItems();
     }
     [Route("api/v1/[controller]")]
