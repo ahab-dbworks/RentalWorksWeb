@@ -217,9 +217,16 @@ class MigrateOrders {
                         $form.find('div.error-msg').html(`<div><span>${response.msg}</span></div>`);
                     } else {
                         successSound.play();
-                        //will produce array of contractlogic objects
-                        //open each contract as a separate tab
-                        $form.empty().append(MigrateOrdersController.openForm('NEW')) //reset migrate orders tab
+                        if (response.Contracts.length > 0) {
+                            for (let i = 0; i < response.Contracts.length; i++) {
+                                const contractId = response.Contracts[i].ContractId;
+                                const contractInfo: any = {};
+                                contractInfo.ContractId = contractId;
+                                const $contractForm = ContractController.loadForm(contractInfo);
+                                FwModule.openSubModuleTab($form, $contractForm);
+                            }
+                        }
+                        $form.empty().append(MigrateOrdersController.openForm('NEW')); //reset migrate orders tab
                     }
                 }, ex => FwFunc.showError(ex)
                 , $migrateItemGrid);
