@@ -13,6 +13,7 @@ export class DealInvoiceDetailReport extends WebpackReport {
         try {
             super.renderReport(apiUrl, authorizationHeader, parameters);
             HandlebarsHelpers.registerHelpers();
+            console.log('param', parameters)
 
             Ajax.post<DataTable>(`${apiUrl}/api/v1/dealinvoicedetailreport/runreport`, authorizationHeader, parameters)
                 .then((response: DataTable) => {
@@ -23,8 +24,8 @@ export class DealInvoiceDetailReport extends WebpackReport {
                     data.Report = 'Sub-Rental Billing Analysis Report';
                     data.System = 'RENTALWORKS';
                     data.Company = parameters.companyName;
+                    data.DeductVendorItemCost = parameters.DeductVendorItemCost;
                     console.log('rpt', data)
-                    parameters.DeductVendorItemCost === 'true' ? data.DeductVendorItemCost = true : data.DeductVendorItemCost = false;
                     this.renderFooterHtml(data);
                     if (this.action === 'Preview' || this.action === 'PrintHtml') {
                         document.getElementById('pageFooter').innerHTML = this.footerHtml;

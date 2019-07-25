@@ -1,22 +1,15 @@
-using FwStandard.DataLayer;
-using FwStandard.Models;
 using FwStandard.SqlServer;
 using FwStandard.SqlServer.Attributes;
 using WebApi.Data;
 using System.Threading.Tasks;
 using System.Data;
-using System.Reflection;
 namespace WebApi.Modules.Reports.DealInvoiceDetailReport
 {
-    [FwSqlTable("getdealinvoicerpt")]
     public class DealInvoiceDetailReportLoader : AppDataLoadRecord
     {
         //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(calculatedColumnSql: "'detail'", modeltype: FwDataTypes.Text, isVisible: false)]
+        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text, isVisible: false)]
         public string RowType { get; set; }
-        //------------------------------------------------------------------------------------ 
-        [FwSqlDataField(column: "rowtype", modeltype: FwDataTypes.Text)]
-        public string Rowtype { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "id", modeltype: FwDataTypes.Integer)]
         public int? Id { get; set; }
@@ -218,7 +211,7 @@ namespace WebApi.Modules.Reports.DealInvoiceDetailReport
             {
                 using (FwSqlCommand qry = new FwSqlCommand(conn, "getdealinvoicerpt", this.AppConfig.DatabaseSettings.ReportTimeout))
                 {
-                    qry.AddParameter("@datetype", SqlDbType.Date, ParameterDirection.Input, request.DateType);
+                    qry.AddParameter("@datetype", SqlDbType.Text, ParameterDirection.Input, request.DateType);
                     qry.AddParameter("@fromdate", SqlDbType.Date, ParameterDirection.Input, request.FromDate);
                     qry.AddParameter("@todate", SqlDbType.Date, ParameterDirection.Input, request.ToDate);
                     qry.AddParameter("@locationid", SqlDbType.Text, ParameterDirection.Input, request.OfficeLocationId);
@@ -242,7 +235,7 @@ namespace WebApi.Modules.Reports.DealInvoiceDetailReport
                 string[] headerFieldsOrderNumber = new string[] { "OrderDate", "OrderDescription", "OrderNumber", "BillingPeriod", "EstimatedStartDate", "EstimatedStopDate", "BillingPeriodStart", "BillingPeriodEnd" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Deal", "RowType", totalFields);
-                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields, headerFieldsOrderNumber, totalFor: "Total for");
+                dt.InsertSubTotalRows("OrderNumber", "RowType", totalFields, headerFieldsOrderNumber, totalFor: "Total for Order");
                 dt.InsertTotalRow("RowType", "detail", "grandtotal", totalFields);
             }
             return dt;
