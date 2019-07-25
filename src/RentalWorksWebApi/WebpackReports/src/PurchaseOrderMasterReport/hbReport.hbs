@@ -17,7 +17,6 @@
       <tr>
         <th>PO No.</th>
         <th>Date</th>
-        <th>Vendor</th>
         <th>Status</th>
         <th>As Of</th>
         <th>Bill Cycle</th>
@@ -41,7 +40,6 @@
         {{#ifEquals RowType "detail"}}
         <td data-value="{{PurchaseOrderNumber}}"></td>
         <td data-value="{{PurchaseOrderDate}}"></td>
-        <td data-value="{{Vendor}}"></td>
         <td data-value="{{PurchaseOrderStatus}}"></td>
         <td data-value="{{StatusDate}}"></td>
         <td data-value="{{BillingPeriod}}"></td>
@@ -50,25 +48,25 @@
         <td class="number" data-value="{{PurchaseOrderOpenAmount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Vendorfooter"}}
-        <td colspan="6" class="total-name">{{Vendor}}:&nbsp;</td>
+        <td colspan="5" class="total-name">{{Vendor}}:&nbsp;</td>
         <td class="total-val" data-value="{{PurchaseOrderTotal}}"></td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         <td class="total-val" data-value="{{PurchaseOrderOpenAmount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Departmentfooter"}}
-        <td colspan="6" class="total-name">{{Department}}:&nbsp;</td>
+        <td colspan="5" class="total-name">{{Department}}:&nbsp;</td>
         <td class="total-val" data-value="{{PurchaseOrderTotal}}"></td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         <td class="total-val" data-value="{{PurchaseOrderOpenAmount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "Warehousefooter"}}
-        <td colspan="6" class="total-name">{{Warehouse}}:&nbsp;</td>
+        <td colspan="5" class="total-name">{{Warehouse}}:&nbsp;</td>
         <td class="total-val" data-value="{{PurchaseOrderTotal}}"></td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         <td class="total-val" data-value="{{PurchaseOrderOpenAmount}}"></td>
         {{/ifEquals}}
         {{#ifEquals RowType "grandtotal"}}
-        <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
+        <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
         <td class="total-val" data-value="{{PurchaseOrderTotal}}"></td>
         <td class="total-val" data-value="{{InvoiceTotal}}"></td>
         <td class="total-val" data-value="{{PurchaseOrderOpenAmount}}"></td>
