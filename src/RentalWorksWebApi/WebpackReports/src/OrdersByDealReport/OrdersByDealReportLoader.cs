@@ -124,7 +124,7 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
         public string EstimatedStartDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "estrentto", modeltype: FwDataTypes.Date)]
-        public string EstimatedFromDate { get; set; }
+        public string EstimatedStopDate { get; set; }
         //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderNumber { get; set; }
@@ -288,8 +288,8 @@ namespace WebApi.Modules.Reports.OrdersByDealReport
             }
             if (request.IncludeSubHeadingsAndSubTotals)
             {
-                string[] totalFields = new string[] { "RentalExtended", "SalesExtended", "LaborExtended", "MiscExtended" };
-                string[] headerFieldsDeal = new string[] { "Customer", "DealNumber", "DealType", "DealPrimaryContactName", "DealPrimaryContactPhone", "DealPrimaryContactExt", "CreditStatus", "InsuranceCertification" };
+                string[] totalFields = new string[] { "OrderTotal" };
+                string[] headerFieldsDeal = new string[] { "Customer", "DealNumber", "DealType", "DealPrimaryContactName", "DealPrimaryContactPhone", "DealPrimaryContactExt", "CreditStatus", "InsuranceCertification", "EstimatedStopDate", "EstimatedStartDate", "DealPaymentTerms", "Address1", "Address2", "City", "State", "Zip", "Country", "Phone" };
                 dt.InsertSubTotalRows("OfficeLocation", "RowType", totalFields);
                 dt.InsertSubTotalRows("Department", "RowType", totalFields);
                 dt.InsertSubTotalRows("Customer", "RowType", totalFields);

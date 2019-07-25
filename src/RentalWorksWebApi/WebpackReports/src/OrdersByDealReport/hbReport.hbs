@@ -45,25 +45,23 @@
         <th>Close Date</th>
         <th>Credit Status</th>
         <th>Ins. Status</th>
+        <th colspan="2">Phone</th>
       </tr>
     </thead>
     <tr>
       <td data-value="{{DealNumber}}"></td>
       <td data-value="{{DealType}}"></td>
       <td data-value="{{PaymentTerms}}"></td>
-      <td data-value="{{TTTTT}}"></td>
-      <td data-value="{{TTTTT}}"></td>
+      <td data-value="{{EstimatedStartDate}}"></td>
+      <td data-value="{{EstimatedStopDate}}"></td>
       <td data-value="{{CreditStatus}}"></td>
-      <td data-value="{{InsuranceStatus}}"></td>
+      <td data-value="{{InsuranceCertification}}"></td>
+      <td colspan="2" data-value="{{Phone}}"></td>
     </tr>
     <tr>
       <td></td>
-      <td>
-        <!--need phone number too-->
-        <div><span>{{Address1}}</span><span>Phone: {{Phone}}</span></div>
-        <div><span>{{Address2}}</span><span>Primary Contact/Phone: </span></div>
-        <div><span>{{City}}, {{State}} {{Zip}} {{Country}}</span><span>{{DealPrimaryContactName}}{{DealPrimaryContactPhone}}{{DealPrimaryContactExt}}</span></div>
-      </td>
+      <td colspan="4"><div><span style="font-weight:700;">Address: </span>{{Address1}}&nbsp;{{Address2}}&nbsp;{{City}},&nbsp;{{State}}&nbsp;{{Zip}}&nbsp;{{Country}}</div></td>
+      <td colspan="4"><div><span style="font-weight:700;">Primary Contact: </span>{{DealPrimaryContactName}}&nbsp;{{DealPrimaryContactPhone}}&nbsp;{{DealPrimaryContactExt}}</div></td>
     </tr>
     <thead>
       <tr data-rowtype={{RowType}}>
@@ -73,7 +71,7 @@
         <th>Est. Start Date</th>
         <th>Description</th>
         <th>PO No.</th>
-        <th>Amount</th>
+        <th class="number">Amount</th>
         <th>Status</th>
         <th>As Of</th>
       </tr>
@@ -96,25 +94,28 @@
     {{/ifEquals}}
     {{#ifEquals RowType "OfficeLocationfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="5" class="total-name">{{OfficeLocation}}:&nbsp;</td>
+      <td colspan="6" class="total-name">{{OfficeLocation}}:&nbsp;</td>
       <td class="total-val" data-value="{{OrderTotal}}"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "Departmentfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="5" class="total-name">{{Department}}:&nbsp;</td>
+      <td colspan="6" class="total-name">{{Department}}:&nbsp;</td>
       <td class="total-val" data-value="{{OrderTotal}}"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "Dealfooter"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="5" class="total-name">{{Deal}}:&nbsp;</td>
+      <td colspan="6" class="total-name">{{Deal}}:&nbsp;</td>
       <td class="total-val" data-value="{{OrderTotal}}"></td>
+    </tr>
+    <tr data-rowtype="{{RowType}}">
+      <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
     </tr>
     {{/ifEquals}}
     {{#ifEquals RowType "grandtotal"}}
     <tr data-rowtype="{{RowType}}">
-      <td colspan="5" class="total-name">Grand Total:&nbsp;</td>
+      <td colspan="6" class="total-name">Grand Total:&nbsp;</td>
       <td class="total-val" data-value="{{OrderTotal}}"></td>
     </tr>
     {{/ifEquals}}
