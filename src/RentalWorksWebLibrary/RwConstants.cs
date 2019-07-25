@@ -463,6 +463,10 @@
         public const string TAX_COUNTRY_USA = "U";
         public const string TAX_COUNTRY_CANADA = "C";
 
+        //PHYSICAL INVENTORY
+        public const string PHYSICAL_INVENTORY_COUNT_ADD = "A";
+        public const string PHYSICAL_INVENTORY_COUNT_REPLACE = "R";
+
 
     }
 

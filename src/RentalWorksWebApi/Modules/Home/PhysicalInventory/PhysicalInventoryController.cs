@@ -147,6 +147,66 @@ namespace WebApi.Modules.Home.PhysicalInventory
             }
         }
         //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/countbarcode 
+        [HttpPost("countbarcode")]
+        [FwControllerMethod(Id: "CsBdv9lRxfqhd")]
+        public async Task<ActionResult<PhysicalInventoryCountBarCodeResponse>> CountBarCode ([FromBody]PhysicalInventoryCountBarCodeRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                //PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                //l.SetDependencies(AppConfig, UserSession);
+                //l.PhysicalInventoryId = request.PhysicalInventoryId;
+                //if (await l.LoadAsync<PhysicalInventoryLogic>())
+                //{
+                    PhysicalInventoryCountBarCodeResponse response = await PhysicalInventoryFunc.CountBarCode(AppConfig, UserSession, request);
+                    return new OkObjectResult(response);
+                //}
+                //else
+                //{
+                //    return NotFound();
+                //}
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
+        // POST api/v1/physicalinventory/countquantity 
+        [HttpPost("countquantity")]
+        [FwControllerMethod(Id: "PqV4CZyzk6jtb")]
+        public async Task<ActionResult<PhysicalInventoryCountBarCodeResponse>> CountQuantity([FromBody]PhysicalInventoryCountQuantityRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                //PhysicalInventoryLogic l = new PhysicalInventoryLogic();
+                //l.SetDependencies(AppConfig, UserSession);
+                //l.PhysicalInventoryId = request.PhysicalInventoryId;
+                //if (await l.LoadAsync<PhysicalInventoryLogic>())
+                //{
+                PhysicalInventoryCountQuantityResponse response = await PhysicalInventoryFunc.CountQuantity(AppConfig, UserSession, request);
+                return new OkObjectResult(response);
+                //}
+                //else
+                //{
+                //    return NotFound();
+                //}
+            }
+            catch (Exception ex)
+            {
+                return GetApiExceptionResult(ex);
+            }
+        }
+        //------------------------------------------------------------------------------------ 
         // POST api/v1/physicalinventory/approve
         [HttpPost("approve")]
         [FwControllerMethod(Id: "OS4eFb7OULch4")]
