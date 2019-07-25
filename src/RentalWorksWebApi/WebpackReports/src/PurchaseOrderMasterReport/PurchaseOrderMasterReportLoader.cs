@@ -36,6 +36,9 @@ namespace WebApi.Modules.Reports.PurchaseOrderMasterReport
         [FwSqlDataField(column: "pono", modeltype: FwDataTypes.Text)]
         public string PurchaseOrderNumber { get; set; }
         //------------------------------------------------------------------------------------ 
+        [FwSqlDataField(column: "podesc", modeltype: FwDataTypes.Text)]
+        public string PurchaseOrderDescription { get; set; }
+        //------------------------------------------------------------------------------------ 
         [FwSqlDataField(column: "podate", modeltype: FwDataTypes.Date)]
         public string PurchaseOrderDate { get; set; }
         //------------------------------------------------------------------------------------ 
