@@ -60,10 +60,7 @@ class PhysicalInventoryCountSheetReport extends FwWebApiReport {
     }
     //----------------------------------------------------------------------------------------------
     convertParameters(parameters: any) {
-        const convertedParams: any = {};
-        convertedParams.OrderId = parameters.QuoteId;
-        convertedParams.isQuote = true;
-        return convertedParams;
+        return parameters;
     }
     //----------------------------------------------------------------------------------------------
 };

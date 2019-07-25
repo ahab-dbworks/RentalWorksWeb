@@ -19,6 +19,23 @@
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Status" data-datafield="Status" data-enabled="false" style="flex:1"></div>
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-enabled="false" style="float:left;width:250px;"></div>
                 <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehouse" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="PreScanDateTime" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InitiateDateTime" style="display:none;"></div>
+              </div>
+              <div class="button-fields" style="display:none;">
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepPreScan" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepInitiate" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepApproveCounts" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepClose" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepCloseWithoutAdjustments" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepCount" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepPrintCountSheets" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepPrintDiscrepancyReport" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepPrintExceptionReport" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepPrintReconciliationReport" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepPrintRecountAnalysisReport" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepPrintResults" style="display:none;"></div>
+                <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-allcaps="false" data-datafield="AllowStepRecount" style="display:none;"></div>
               </div>
             </div>
           </div>
@@ -157,12 +174,12 @@
               <div class="flexrow" style="margin-top: 15px;">
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield prescancount" data-caption="Pre-Scan Count" data-datafield="StepPreScan" style="flex:0 1 130px; display:none;" data-enabled="false"></div>
                 <div class="fwformcontrol prescan" data-type="button" style="margin:15px;flex:0 1 275px;text-align:center;">Pre-Scan</div>
-                <div style="margin-top: 20px;">Pre-Scan Bar Coded Items before initiating this count process</div>
+                <div class="prescan-desc" style="margin-top: 20px;">Pre-Scan Bar Coded Items before initiating this count process</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield initiatecount" data-caption="Initiate Count" data-datafield="StepInitiate" style="flex:0 1 130px;display:none;" data-enabled="false"></div>
                 <div class="fwformcontrol initiate" data-type="button" style="margin:15px;flex:0 1 275px;text-align:center;">Initiate</div>
-                <div style="margin-top: 20px;">Initiate Physical Inventory counting</div>
+                <div class="initiate-desc" style="margin-top: 20px;">Initiate Physical Inventory counting</div>
               </div>
               <div class="flexrow" style="margin-top: 15px;">
                 <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield printcountsheetcount" data-caption="Count Sheet Count" data-datafield="StepPrintCountSheets" style="flex:0 1 130px;display:none;" data-enabled="false"></div>

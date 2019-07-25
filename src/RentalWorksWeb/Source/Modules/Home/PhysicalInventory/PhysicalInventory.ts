@@ -87,6 +87,7 @@
             const request: any = {};
             request.PhysicalInventoryId = physicalInventoryId;
             $yes.on('click', () => {
+                FwConfirmation.destroyConfirmation($confirmation);
                 FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/prescan', request, FwServices.defaultTimeout,
                     response => {
                         $form.empty().append(PhysicalInventoryController.loadForm(request));
@@ -106,6 +107,7 @@
             const request: any = {};
             request.PhysicalInventoryId = physicalInventoryId;
             $yes.on('click', () => {
+                FwConfirmation.destroyConfirmation($confirmation);
                 FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/initiate', request, FwServices.defaultTimeout,
                     response => {
                         $form.empty().append(PhysicalInventoryController.loadForm(request));
@@ -118,8 +120,6 @@
         $form.find('.printcountsheet').on('click', e => {
             const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
             const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
-            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
-
             const $report = PhysicalInventoryCountSheetReportController.openForm();
             FwModule.openSubModuleTab($form, $report);
 
@@ -130,13 +130,56 @@
         $form.find('.printexception').on('click', e => {
             const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
             const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
-            const recordTitle = jQuery('.tabs .active[data-tabtype="FORM"] .caption').text();
 
-            //const $report = PhysicalInventoryCountSheetReportController.openForm();
-            //FwModule.openSubModuleTab($form, $report);
+            const $report = PhysicalInventoryExceptionReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
 
-            //FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
-            //jQuery('.tab.submodule.active').find('.caption').html(`Print Count Sheets`);
+            FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Exception Report`);
+        });
+
+        $form.find('.printediscrepancy').on('click', e => {
+            const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+
+            const $report = PhysicalInventoryDiscrepancyReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Discrepancy Report`);
+        });
+
+        $form.find('.printrecount').on('click', e => {
+            const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+
+            const $report = PhysicalInventoryRecountAnalysisReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Recount Analysis Report`);
+        });
+
+        $form.find('.printreconciliation').on('click', e => {
+            const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+
+            const $report = PhysicalInventoryReconciliationReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Reconciliation Report`);
+        });
+
+        $form.find('.printphysicalinventory').on('click', e => {
+            const physicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+
+            const $report = PhysicalInventoryResultsReportController.openForm();
+            FwModule.openSubModuleTab($form, $report);
+
+            FwFormField.setValueByDataField($report, 'PhysicalInventoryId', physicalInventoryId, physicalInventoryNumber);
+            jQuery('.tab.submodule.active').find('.caption').html(`Print Results Report`);
         });
 
         $form.find('.approve').on('click', function (e) {
@@ -144,7 +187,20 @@
             const invDescription = FwFormField.getValueByDataField($form, 'Description');
             const $confirmation = FwConfirmation.renderConfirmation(`Approve`, `Approve all Counts for Physical Inventory ${invNo} ${invDescription}?`);
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-            var $no = FwConfirmation.addButton($confirmation, 'No', true);
+            FwConfirmation.addButton($confirmation, 'No', true);
+
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            const request: any = {};
+            request.PhysicalInventoryId = physicalInventoryId;
+            $yes.on('click', () => {
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/approve', request, FwServices.defaultTimeout,
+                    response => {
+                        $form.empty().append(PhysicalInventoryController.loadForm(request));
+                    },
+                    ex => FwFunc.showError(ex),
+                    $form);
+            });
         });
 
         $form.find('.closeinventorywithadj').on('click', function (e) {
@@ -152,7 +208,20 @@
             const invDescription = FwFormField.getValueByDataField($form, 'Description');
             const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory`, `Close Physical Inventory ${invNo} ${invDescription} and apply adjustments to Inventory?`);
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-            var $no = FwConfirmation.addButton($confirmation, 'No', true);
+            FwConfirmation.addButton($confirmation, 'No', true);
+
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            const request: any = {};
+            request.PhysicalInventoryId = physicalInventoryId;
+            $yes.on('click', () => {
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/close', request, FwServices.defaultTimeout,
+                    response => {
+                        $form.empty().append(PhysicalInventoryController.loadForm(request));
+                    },
+                    ex => FwFunc.showError(ex),
+                    $form);
+            });
         });
 
         $form.find('.closeinventorywithoutadj').on('click', function (e) {
@@ -160,7 +229,20 @@
             const invDescription = FwFormField.getValueByDataField($form, 'Description');
             const $confirmation = FwConfirmation.renderConfirmation(`Close Physical Inventory (Without Adjustments)`, `Close Physical Inventory ${invNo} ${invDescription} without adjusting any Inventory?`);
             const $yes = FwConfirmation.addButton($confirmation, 'Yes', false);
-            var $no = FwConfirmation.addButton($confirmation, 'No', true);
+            FwConfirmation.addButton($confirmation, 'No', true);
+
+            const physicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
+            const request: any = {};
+            request.PhysicalInventoryId = physicalInventoryId;
+            $yes.on('click', () => {
+                FwConfirmation.destroyConfirmation($confirmation);
+                FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/close', request, FwServices.defaultTimeout,
+                    response => {
+                        $form.empty().append(PhysicalInventoryController.loadForm(request));
+                    },
+                    ex => FwFunc.showError(ex),
+                    $form);
+            });
         });
 
         $form.find('[data-datafield="CountType"]').on('change', e => {
@@ -182,10 +264,11 @@
 
             $yes.on('click', (): Promise<any> => {
                 return new Promise((resolve, reject) => {
-                   promise
+                    promise
                         .then(() => {
                             FwAppData.apiMethod(true, 'POST', 'api/v1/physicalinventory/updateicodes', request, FwServices.defaultTimeout,
                                 response => {
+                                    FwConfirmation.destroyConfirmation($confirmation);
                                     $form.find('.error-msg').html('');
                                     if (response.success) {
                                         FwBrowse.search($physicalInventoryCycleInventoryGrid);
@@ -222,7 +305,6 @@
         $form = this.openForm('EDIT');
         $form.find('div.fwformfield[data-datafield="PhysicalInventoryId"] input').val(uniqueids.PhysicalInventoryId);
         FwModule.loadForm(this.Module, $form);
-
         return $form;
     }
     //---------------------------------------------------------------------------------------------
@@ -256,6 +338,30 @@
         } else if (countType === 'COMPLETE') {
             $form.find('.count-type').hide();
         }
+
+        const allowStepPreScan = FwFormField.getValueByDataField($form, 'AllowStepPreScan');
+        allowStepPreScan == 'false' ? FwFormField.disable($form.find('.prescan[data-type="button"]')) : FwFormField.enable($form.find('.prescan[data-type="button"]'));
+
+        const preScanDateTime = FwFormField.getValueByDataField($form, 'PreScanDateTime');
+        if (preScanDateTime.length > 0) {
+            $form.find('.prescan-desc').append(`<span style="color:red; margin-left:20px;">Pre-Scan started on ${preScanDateTime}</span>`);
+        }
+
+        const allowStepInitiate = FwFormField.getValueByDataField($form, 'AllowStepInitiate');
+        allowStepInitiate == 'false' ? FwFormField.disable($form.find('.initiate[data-type="button"]')) : FwFormField.enable($form.find('.initiate[data-type="button"]'));
+
+        const initiateDateTime = FwFormField.getValueByDataField($form, 'InitiateDateTime');
+        if (initiateDateTime.length > 0) {
+            $form.find('.initiate-desc').append(`<span style="color:red; margin-left:20px;">Initiated on ${initiateDateTime}</span>`);
+        }
+
+        const $buttonFields = $form.find('.button-fields div.fwformfield');
+        for (let i = 0; i < $buttonFields.length; i++) {
+            const field = jQuery($buttonFields[i]).attr('data-datafield');
+            const isAllowed = FwFormField.getValueByDataField($form, field);
+            const $button = $form.find(`[data-datafield="${field.substring(5)}"]`).siblings('[data-type="button"]');
+            isAllowed == 'false' ? FwFormField.disable($button) : FwFormField.enable($button);
+        }
     }
     //---------------------------------------------------------------------------------------------
     beforeValidateInventoryType($browse, $grid, request) {
@@ -269,7 +375,6 @@
                 if (recType === 'P') { request.uniqueids.Parts = true };
                 break;
         }
-
     }
 }
 //---------------------------------------------------------------------------------------------
