@@ -435,7 +435,8 @@ namespace FwStandard.SqlServer
                 for (int i = 0; i < fields.Length; i++)
                 {
                     parameterName  = "@" + column.Replace('.', '_') + i.ToString();
-                    parameterValue = fields[i];
+                    //parameterValue = fields[i];
+                    parameterValue = fields[i].Trim();
                     if (i > 0)
                     {
                         sb.Append(",");
