@@ -63,12 +63,12 @@ class ScanBarCodes {
                         if (response.success) {
                             $form.find('[data-datafield="BarCode"] input').select();
                             FwFormField.setValueByDataField($form, 'ICode', response.ICode);
-                            FwFormField.setValueByDataField($form, 'Description', response.Description);
+                            FwFormField.setValueByDataField($form, 'InventoryDescription', response.Description);
                         } else {
                             $form.find('.error-msg').html(`<div><span>${response.msg}</span></div>`);
                             $form.find('[data-datafield="BarCode"] input').select();
                             FwFormField.setValueByDataField($form, 'ICode', '');
-                            FwFormField.setValueByDataField($form, 'Description', '');
+                            FwFormField.setValueByDataField($form, 'InventoryDescription', '');
                         }
                     },
                     ex => FwFunc.showError(ex)
