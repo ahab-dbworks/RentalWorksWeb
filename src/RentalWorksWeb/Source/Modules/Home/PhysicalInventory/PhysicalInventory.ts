@@ -137,7 +137,7 @@
 
         $form.find('.countbarcode').on('click', e => {
             const inventoryInfo: any = {};
-            inventoryInfo.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            inventoryInfo.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryId');
             inventoryInfo.PhysicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
             inventoryInfo.ScheduleDate = FwFormField.getValueByDataField($form, 'ScheduleDate');
             inventoryInfo.Description = FwFormField.getValueByDataField($form, 'Description');

@@ -39,7 +39,8 @@ class ScanBarCodes {
         this.events($form);
 
         if (typeof parentmoduleinfo !== 'undefined') {
-            FwFormField.setValueByDataField($form, 'PhysicalInventoryId', parentmoduleinfo.PhysicalInventoryId, parentmoduleinfo.PhysicalInventoryNumber);
+            FwFormField.setValueByDataField($form, 'PhysicalInventoryId', parentmoduleinfo.PhysicalInventoryId);
+            FwFormField.setValueByDataField($form, 'PhysicalInventoryNumber', parentmoduleinfo.PhysicalInventoryNumber);
             FwFormField.setValueByDataField($form, 'ScheduleDate', parentmoduleinfo.ScheduleDate);
             FwFormField.setValueByDataField($form, 'Description', parentmoduleinfo.Description);
             FwFormField.setValueByDataField($form, 'OfficeLocationId', parentmoduleinfo.OfficeLocationId, parentmoduleinfo.OfficeLocation);
@@ -83,13 +84,12 @@ class ScanBarCodes {
   <div class="flexpage">
       <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Physical Inventory">
         <div class="flexrow">
-          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Physical Inventory No." data-datafield="PhysicalInventoryId" data-displayfield="PhysicalInventoryNumber" data-enabled="false" style="flex:1"></div>
-          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="ScheduleDate" style="flex:1"></div>
-          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" style="flex:3"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Physical Inventory" data-datafield="PhysicalInventoryId" style="display:none;"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Physical Inventory No." data-datafield="PhysicalInventoryNumber" style="flex:1"></div>
+          <div data-control="FwFormField" data-type="date" class="fwcontrol fwformfield" data-caption="Date" data-datafield="ScheduleDate" data-enabled="false" style="flex:1"></div>
+          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="Description" data-datafield="Description" data-enabled="false" style="flex:3"></div>
           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield officelocation" data-caption="Office Location" data-datafield="OfficeLocationId" data-displayfield="OfficeLocation" data-enabled="false" style="float:left;width:250px;"></div>
           <div data-control="FwFormField" data-type="validation" class="fwcontrol fwformfield warehouse" data-caption="Warehouse" data-datafield="WarehouseId" data-displayfield="Warehouse" data-enabled="false" style="float:left;width:250px;"></div>
-          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="PreScanDateTime" style="display:none;"></div>
-          <div data-control="FwFormField" data-type="text" class="fwcontrol fwformfield" data-caption="" data-datafield="InitiateDateTime" style="display:none;"></div>
         </div>
         </div>
         <div class="fwcontrol fwcontainer fwform-section" data-control="FwContainer" data-type="section" data-caption="Scan Bar Codes to count Inventory" style="flex:1 1 750px;">
