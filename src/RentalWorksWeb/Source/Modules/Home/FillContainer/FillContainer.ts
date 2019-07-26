@@ -46,7 +46,7 @@ class FillContainer extends StagingCheckoutBase {
                                 $errorMsg.html('');
                                 const inventoryId = response.InventoryId;
                                 const itemId = response.ItemId;
-                                const $confirmation = FwConfirmation.renderConfirmation(`Instantiate a New Container?`, '');
+                                const $confirmation = FwConfirmation.renderConfirmation(`Create a New Container?`, '');
                                 $confirmation.find('.fwconfirmationbox').css('width', '900px');
                                 const html = ` <div class="flexpage fwform" style="overflow:hidden;" data-controller="FillContainerController">
                                                 <div class="flexrow">
