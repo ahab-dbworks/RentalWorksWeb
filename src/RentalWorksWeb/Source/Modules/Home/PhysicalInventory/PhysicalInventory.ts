@@ -133,9 +133,22 @@
                 },
                 ex => FwFunc.showError(ex),
                 $form);
+        });
 
-
-
+        $form.find('.countbarcode').on('click', e => {
+            const inventoryInfo: any = {};
+            inventoryInfo.PhysicalInventoryId = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            inventoryInfo.PhysicalInventoryNumber = FwFormField.getValueByDataField($form, 'PhysicalInventoryNumber');
+            inventoryInfo.ScheduleDate = FwFormField.getValueByDataField($form, 'ScheduleDate');
+            inventoryInfo.Description = FwFormField.getValueByDataField($form, 'Description');
+            //inventoryInfo.Status = FwFormField.getValueByDataField($form, 'Status');
+            inventoryInfo.OfficeLocation = FwFormField.getTextByDataField($form, 'OfficeLocationId');
+            inventoryInfo.OfficeLocationId = FwFormField.getValueByDataField($form, 'OfficeLocationId');
+            inventoryInfo.Warehouse = FwFormField.getTextByDataField($form, 'WarehouseId');
+            inventoryInfo.WarehouseId = FwFormField.getValueByDataField($form, 'WarehouseId');
+            const $scanbarcodesForm = ScanBarCodesController.openForm('EDIT', inventoryInfo);
+            FwModule.openSubModuleTab($form, $scanbarcodesForm);
+            $scanbarcodesForm.find('[data-datafield="BarCode"] input').focus();
         });
 
         $form.find('.printexception').on('click', e => {

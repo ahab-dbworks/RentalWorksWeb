@@ -71,6 +71,7 @@ namespace WebLibrary.Security
             AddModule("Receive From Vendor", "{00539824-6489-4377-A291-EBFE26325FAD}", lv1menuWarehouse.Id, "ReceiveFromVendorController");
             AddModule("Return To Vendor",    "{D54EAA01-A710-4F78-A1EE-5FC9EE9150D8}", lv1menuWarehouse.Id, "ReturnToVendorController");
             AddModule("Assign Bar Codes",    "{4B9C17DE-7FC0-4C33-B953-26FC90F32EA0}", lv1menuWarehouse.Id, "AssignBarCodesController");
+            AddModule("Scan Bar Codes",      "{C8683D4F-70C1-40CD-967A-0891B14664E8}", lv1menuWarehouse.Id, "ScanBarCodesController");
             // Containers
             AddModule("Container",           "{28A49328-FFBD-42D5-A492-EDF540DF7011}", lv1menuContainers.Id, "ContainerController");
             AddModule("Container Status",    "{0CD07ACF-D9A4-42A3-A288-162398683F8A}", lv1menuContainers.Id, "ContainerStatusController");
