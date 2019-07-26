@@ -76,7 +76,7 @@ class CheckIn {
                     break;
                 case 'TransferIn':
                     apiUrl = `api/v1/checkin/transfersuspendedsessionsexist`;
-                    sessionType = 'MANIFEST';
+                    sessionType = 'RECEIPT';
                     orderType = 'T';
                     break;
             }
