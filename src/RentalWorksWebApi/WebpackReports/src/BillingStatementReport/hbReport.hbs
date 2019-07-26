@@ -40,19 +40,19 @@
             <tbody>
               <tr>
                 <td id="issuedTo" style="text-align:left;width:33.3%;">
-                  <div>
-                    <span style="font-weight:600;">Issued To: </span><span class="blue">{{Deal}}</span>
+                  <div class="blue">
+                    {{Deal}}
                   </div>
-                  <div class="blue" style="padding-left:68px;">
+                  <div class="blue">
                     {{BillToAttention}}
                   </div>
-                  <div class="blue" style="padding-left:68px;">
+                  <div class="blue">
                     {{BillToAddress1}}
                   </div>
-                  <div class="blue" style="padding-left:68px;">
+                  <div class="blue">
                     {{BilltoAddress2}}
                   </div>
-                  <div class="blue" style="padding-left:68px;">
+                  <div class="blue">
                     {{BillToCity}}, {{BillToState}} {{BillToZipCode}} {{BillToCountry}}
                   </div>
                 </td>
@@ -148,7 +148,7 @@
       <td class="total-val" data-value="{{Received}}"></td>
       <td class="total-val" data-value="{{Remaining}}"></td>
     </tr>
-        <tr data-rowtype="{{RowType}}">
+    <tr data-rowtype="{{RowType}}">
       <td colspan="2" style="padding-bottom:15px;" class="total-name"></td>
     </tr>
     <tr class="deal-total header"><td style="border:none;"></td><td>Total</td><td>Current</td><td>31 - 60</td><td>61 - 90</td><td>> 90</td></tr>
